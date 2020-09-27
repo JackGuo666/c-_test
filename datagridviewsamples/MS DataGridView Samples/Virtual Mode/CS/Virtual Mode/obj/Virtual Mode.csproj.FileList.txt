@@ -1,0 +1,2 @@
+obj\Debug\Virtual Mode.exe
+obj\Debug\Virtual Mode.pdb

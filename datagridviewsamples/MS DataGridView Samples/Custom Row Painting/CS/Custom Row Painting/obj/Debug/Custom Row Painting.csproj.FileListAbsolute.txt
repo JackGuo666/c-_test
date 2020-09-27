@@ -1,0 +1,8 @@
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\bin\Debug\Custom Row Painting.exe
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\bin\Debug\Custom Row Painting.pdb
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\obj\Debug\Custom Row Painting.csprojAssemblyReference.cache
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\obj\Debug\Custom_Row_Painting.Properties.Resources.resources
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\obj\Debug\Custom Row Painting.csproj.GenerateResource.cache
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\obj\Debug\Custom Row Painting.csproj.CoreCompileInputs.cache
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\obj\Debug\Custom Row Painting.exe
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Custom Row Painting\CS\Custom Row Painting\obj\Debug\Custom Row Painting.pdb

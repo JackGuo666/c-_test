@@ -1,0 +1,2 @@
+obj\Debug\Programmatic Sorting.exe
+obj\Debug\Programmatic Sorting.pdb

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 class Form1 : Form
 {
+    private Button button1;
+    private Panel panel1;
     private DataGridView dataGridView1 = new DataGridView();
 
     private class Student
@@ -34,10 +36,13 @@ class Form1 : Form
     {
         this.AutoSize = true;
         this.Load += new EventHandler(Form1_Load);
+
+        InitializeComponent();
     }
 
     public void Form1_Load(object sender, EventArgs e)
     {
+
         DataGridViewCheckBoxColumn column0 =
             new DataGridViewCheckBoxColumn();
         DataGridViewDisableButtonColumn column1 =
@@ -54,48 +59,51 @@ class Form1 : Form
         dataGridView1.Columns.Add(column0);
         dataGridView1.Columns.Add(column1);
         dataGridView1.Columns.Add(column2);
-        //dataGridView1.RowCount = 8;
+        dataGridView1.RowCount = 8;
         dataGridView1.AutoSize = true;
         dataGridView1.AllowUserToAddRows = false;
         dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
             DataGridViewContentAlignment.MiddleCenter;
 
-        //// Set the text for each button.
-        //for (int i = 0; i < dataGridView1.RowCount; i++)
-        //{
-        //    dataGridView1.Rows[i].Cells["Buttons"].Value =
-        //        "Button " + i.ToString();
+        // Set the text for each button.
+        int row = dataGridView1.RowCount;
+        for (int i = 0; i < dataGridView1.RowCount; i++)
+        {
+            dataGridView1.Rows[i].Cells["Buttons"].Value =
+                "Button " + i.ToString();
 
-        //    dataGridView1.Rows[i].Cells["Combobox"].Value = "test2";
-        //}
+            dataGridView1.Rows[i].Cells["Combobox"].Value = "test2";
+        }
 
-        dataGridView1.AutoGenerateColumns = true;
-        var source = new BindingSource();
+        this.panel1.Controls.Clear();
+        this.panel1.Controls.Add(dataGridView1);
+        //dataGridView1.AutoGenerateColumns = true;
+        //var source = new BindingSource();
 
-        //使用List<>泛型集合填充DataGridView  
-        List<Student> students = new List<Student>();
-        Student hat = new Student(true, "12", "Male");
-        Student peter = new Student(false, "14", "Male");
-        Student dell = new Student(true, "16", "Male");
-        Student anne = new Student(false, "19", "Female");
-        students.Add(hat);
-        students.Add(peter);
-        students.Add(dell);
-        students.Add(anne);
+        ////使用List<>泛型集合填充DataGridView  
+        //List<Student> students = new List<Student>();
+        //Student hat = new Student(true, "12", "Male");
+        //Student peter = new Student(false, "14", "Male");
+        //Student dell = new Student(true, "16", "Male");
+        //Student anne = new Student(false, "19", "Female");
+        //students.Add(hat);
+        //students.Add(peter);
+        //students.Add(dell);
+        //students.Add(anne);
 
-        source.DataSource = students;
+        //source.DataSource = students;
 
-        this.dataGridView1.DataSource = source;
-        this.dataGridView1.Refresh();
+        //this.dataGridView1.DataSource = source;
+        //this.dataGridView1.Refresh();
 
-        dataGridView1.CellValueChanged +=
-            new DataGridViewCellEventHandler(dataGridView1_CellValueChanged);
-        dataGridView1.CurrentCellDirtyStateChanged +=
-            new EventHandler(dataGridView1_CurrentCellDirtyStateChanged);
-        dataGridView1.CellClick +=
-            new DataGridViewCellEventHandler(dataGridView1_CellClick);
+        //dataGridView1.CellValueChanged +=
+        //    new DataGridViewCellEventHandler(dataGridView1_CellValueChanged);
+        //dataGridView1.CurrentCellDirtyStateChanged +=
+        //    new EventHandler(dataGridView1_CurrentCellDirtyStateChanged);
+        //dataGridView1.CellClick +=
+        //    new DataGridViewCellEventHandler(dataGridView1_CellClick);
 
-        this.Controls.Add(dataGridView1);
+        //this.Controls.Add(dataGridView1);
     }
 
     // This event handler manually raises the CellValueChanged event
@@ -151,19 +159,60 @@ class Form1 : Form
 
     private void InitializeComponent()
     {
+            this.button1 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(117, 36);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 104);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(757, 468);
+            this.panel1.TabIndex = 1;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(757, 572);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.ResumeLayout(false);
 
     }
 
-    private void Form1_Load_1(object sender, EventArgs e)
+    private void panel1_Paint(object sender, PaintEventArgs e)
     {
+
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        int row = dataGridView1.RowCount;
+        dataGridView1.RowCount += 1;
+
+        // Set the text for each button.
+        int i = row;
+
+       // for (int i = 0; i < dataGridView1.RowCount; i++)
+        {
+            dataGridView1.Rows[i].Cells["CheckBoxes"].Value = 1;
+
+            dataGridView1.Rows[i].Cells["Buttons"].Value = "Button " + i.ToString();
+
+            dataGridView1.Rows[i].Cells["Combobox"].Value = "test2";
+        }
 
     }
 }

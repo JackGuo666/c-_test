@@ -1,0 +1,3 @@
+obj\Debug\Custom Row Painting.exe
+obj\Debug\Custom Row Painting.xml
+obj\Debug\Custom Row Painting.pdb
