@@ -15,3 +15,4 @@ E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.cspro
 E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.csproj.CoreCompileInputs.cache
 E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.exe
 E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.pdb
+E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.csprojAssemblyReference.cache
