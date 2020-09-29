@@ -43,6 +43,7 @@ namespace demo_splitter
                 pictureBox3.Left += Convert.ToInt16(e.X - xPos);//设置x坐标.
                 pictureBox3.Top += Convert.ToInt16(e.Y - yPos);//设置y坐标.
                 //
+                //test
             }
         }
     }
