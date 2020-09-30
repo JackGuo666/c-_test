@@ -112,7 +112,8 @@ namespace demo_splitter
 
         private void label1_Click_1(object sender, EventArgs e)
         {
-
+            Form2 for2 = new Form2();
+            for2.Show();
         }
 
         private void label1_Paint(object sender, PaintEventArgs e)
