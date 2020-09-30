@@ -70,5 +70,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyLivb\MyLivb.csproj">
+      <Project>{b95513e3-68ca-4721-ba3e-dc5f1780df6b}</Project>
+      <Name>MyLivb</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
