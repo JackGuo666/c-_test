@@ -34,9 +34,10 @@
             // userControl11
             // 
             this.userControl11.BackColor = System.Drawing.Color.Transparent;
-            this.userControl11.Location = new System.Drawing.Point(100, 49);
+            this.userControl11.CheckIndex = 0;
+            this.userControl11.Location = new System.Drawing.Point(149, 120);
             this.userControl11.Name = "userControl11";
-            this.userControl11.Size = new System.Drawing.Size(154, 73);
+            this.userControl11.Size = new System.Drawing.Size(234, 92);
             this.userControl11.TabIndex = 0;
             // 
             // Form1

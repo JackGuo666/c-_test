@@ -41,6 +41,7 @@
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "男";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // checkBox2
             // 
@@ -51,6 +52,7 @@
             this.checkBox2.TabIndex = 1;
             this.checkBox2.Text = "女";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // UserControl1
             // 
