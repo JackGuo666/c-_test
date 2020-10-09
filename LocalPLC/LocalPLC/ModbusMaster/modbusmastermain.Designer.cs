@@ -56,6 +56,7 @@
             this.button_delete.TabIndex = 0;
             this.button_delete.Text = "删除";
             this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
             // 
             // dataGridView1
             // 

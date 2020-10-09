@@ -65,6 +65,12 @@
     <Compile Include="ModbusClient\modbusclient.Designer.cs">
       <DependentUpon>modbusclient.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusMaster\modbusmasterform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmasterform.Designer.cs">
+      <DependentUpon>modbusmasterform.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModbusMaster\modbusmastermain.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusClient\modbusclient.resx">
       <DependentUpon>modbusclient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusMaster\modbusmasterform.resx">
+      <DependentUpon>modbusmasterform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusMaster\modbusmastermain.resx">
       <DependentUpon>modbusmastermain.cs</DependentUpon>

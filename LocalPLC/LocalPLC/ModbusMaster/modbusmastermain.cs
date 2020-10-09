@@ -45,9 +45,12 @@ namespace LocalPLC.ModbusMaster
 
                 if (buttonCell.Enabled)
                 {
-                    MessageBox.Show(dataGridView1.Rows[e.RowIndex].
-                        Cells[e.ColumnIndex].Value.ToString() +
-                        " is enabled");
+                    //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
+                    //    Cells[e.ColumnIndex].Value.ToString() +
+                    //    " is enabled");
+
+                    modbusmasterform form = new modbusmasterform();
+                    form.ShowDialog();
                 }
             }
         }
@@ -67,19 +70,15 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
-
-            //int row = dataGridView1.RowCount;
-            //for (int i = 0; i < dataGridView1.RowCount; i++)
-            //{
-            //    dataGridView1.Rows[i].Cells["Text"].Value =
-            //         i.ToString();
-
-            //    dataGridView1.Rows[i].Cells["Buttons"].Value = "Button " + i.ToString();
-            //}
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if(e.ColumnIndex < 0)
+            {
+                return;
+            }
+
             if (dataGridView1.Columns[e.ColumnIndex].Name == columnConfig)
             {
                 DataGridViewDisableButtonCell buttonCell =
@@ -88,10 +87,27 @@ namespace LocalPLC.ModbusMaster
 
                 if (buttonCell.Enabled)
                 {
-                    MessageBox.Show(dataGridView1.Rows[e.RowIndex].
-                        Cells[e.ColumnIndex].Value.ToString() +
-                        " is enabled");
+                    //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
+                    //    Cells[e.ColumnIndex].Value.ToString() +
+                    //    " is enabled");
+
+                    modbusmasterform form = new modbusmasterform();
+                    form.ShowDialog();
                 }
+            }
+        }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            // int row = dataGridView1.SelectedRows[0];
+            if (dataGridView1.SelectedRows.Count <= 0)
+            {
+                return;
+            }
+
+            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+            {
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
             }
         }
     }
