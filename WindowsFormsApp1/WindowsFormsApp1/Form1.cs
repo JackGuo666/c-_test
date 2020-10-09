@@ -40,5 +40,10 @@ namespace WindowsFormsApp1
             cmb.Items.Add("False");
             dataGridView1.Columns.Add(cmb);
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
