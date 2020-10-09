@@ -100,5 +100,30 @@ namespace LocalPLC.ModbusMaster
 
 
         }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0)
+            {
+                return;
+            }
+
+            if (dataGridView1.Columns[e.ColumnIndex].Index == (int)COLUMNNAME.CHANNEL)
+            {
+                DataGridViewDisableButtonCell buttonCell =
+                    (DataGridViewDisableButtonCell)dataGridView1.
+                    Rows[e.RowIndex].Cells[(int)COLUMNNAME.CHANNEL];
+
+                if (buttonCell.Enabled)
+                {
+                    //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
+                    //    Cells[e.ColumnIndex].Value.ToString() +
+                    //    " is enabled");
+
+                    modbusmasterchannel form = new modbusmasterchannel();
+                    form.ShowDialog();
+                }
+            }
+        }
     }
 }
