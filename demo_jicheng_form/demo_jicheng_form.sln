@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo_jicheng_form", "demo_jicheng_form\demo_jicheng_form.csproj", "{D9D609DC-F3A9-4FE1-B1B3-5A92EF02E381}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseForm", "..\BaseForm\BaseForm\BaseForm.csproj", "{9DBB1E1F-1CA7-46AE-A323-E55F1961C683}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9D609DC-F3A9-4FE1-B1B3-5A92EF02E381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D609DC-F3A9-4FE1-B1B3-5A92EF02E381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D609DC-F3A9-4FE1-B1B3-5A92EF02E381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D609DC-F3A9-4FE1-B1B3-5A92EF02E381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DBB1E1F-1CA7-46AE-A323-E55F1961C683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBB1E1F-1CA7-46AE-A323-E55F1961C683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBB1E1F-1CA7-46AE-A323-E55F1961C683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBB1E1F-1CA7-46AE-A323-E55F1961C683}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9929311E-CF12-45C2-BDAF-07C49EEC977D}
+	EndGlobalSection
+EndGlobal

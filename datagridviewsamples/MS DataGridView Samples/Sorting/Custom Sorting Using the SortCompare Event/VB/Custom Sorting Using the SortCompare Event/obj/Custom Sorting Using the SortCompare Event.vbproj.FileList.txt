@@ -1,0 +1,3 @@
+obj\Debug\Custom Sorting Using the SortCompare Event.exe
+obj\Debug\Custom Sorting Using the SortCompare Event.xml
+obj\Debug\Custom Sorting Using the SortCompare Event.pdb

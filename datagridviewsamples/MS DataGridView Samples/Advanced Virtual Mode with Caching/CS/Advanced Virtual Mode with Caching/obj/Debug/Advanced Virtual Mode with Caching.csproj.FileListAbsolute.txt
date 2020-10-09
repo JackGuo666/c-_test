@@ -1,0 +1,8 @@
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\bin\Debug\Advanced Virtual Mode with Caching.exe
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\bin\Debug\Advanced Virtual Mode with Caching.pdb
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\obj\Debug\Advanced Virtual Mode with Caching.csprojAssemblyReference.cache
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\obj\Debug\Advanced_Virtual_Mode_with_Caching.Properties.Resources.resources
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\obj\Debug\Advanced Virtual Mode with Caching.csproj.GenerateResource.cache
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\obj\Debug\Advanced Virtual Mode with Caching.csproj.CoreCompileInputs.cache
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\obj\Debug\Advanced Virtual Mode with Caching.exe
+E:\study\c#\c-_test\datagridviewsamples\MS DataGridView Samples\Advanced Virtual Mode with Caching\CS\Advanced Virtual Mode with Caching\obj\Debug\Advanced Virtual Mode with Caching.pdb

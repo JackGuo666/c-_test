@@ -1,0 +1,2 @@
+obj\Debug\Disabled Button Cell.exe
+obj\Debug\Disabled Button Cell.pdb
