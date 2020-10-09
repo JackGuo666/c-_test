@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using System.Runtime.InteropServices;
 using ADELib;
+using LocalPLC.ModbusMaster;
 
 namespace LocalPLC
 {
@@ -26,6 +27,7 @@ namespace LocalPLC
 
         public empty e1;
         public ModbusClient.modbusclient mct;
+        
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -96,6 +98,13 @@ namespace LocalPLC
                 mct.Show();
                 ModbusWindow.Controls.Clear();
                 ModbusWindow.Controls.Add(mct);
+            }
+            else if(name == "ModbusRTU-Master")
+            {
+                modbusmastermain modmaster = new modbusmastermain();
+                modmaster.Show();
+                ModbusWindow.Controls.Clear();
+                ModbusWindow.Controls.Add(modmaster);
             }
         }
     }
