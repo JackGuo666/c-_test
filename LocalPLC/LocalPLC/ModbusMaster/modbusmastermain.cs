@@ -13,7 +13,7 @@ namespace LocalPLC.ModbusMaster
     public partial class modbusmastermain : UserControl
     {
         private string columnConfig = "配置";
-        
+        public ModbusMasterManage masterManage = new ModbusMasterManage();
         public modbusmastermain()
         {
             InitializeComponent();
@@ -27,11 +27,16 @@ namespace LocalPLC.ModbusMaster
             // Set the text for each button.
             int i = row;
 
+            ModbusMasterData data = new ModbusMasterData();
+
             // for (int i = 0; i < dataGridView1.RowCount; i++)
             {
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
-
+                data.ID = row;
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "Button " + i.ToString();
+                data.device = new DeviceData();
+
+                masterManage.modbusMastrList.Add(data);
             }
         }
 
@@ -49,7 +54,9 @@ namespace LocalPLC.ModbusMaster
                     //    Cells[e.ColumnIndex].Value.ToString() +
                     //    " is enabled");
 
-                    modbusmasterform form = new modbusmasterform();
+                    modbusmasterDeviceform form = new modbusmasterDeviceform();
+                    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(0);
+                    form.getMasterData(ref data);
                     form.ShowDialog();
                 }
             }
@@ -74,7 +81,7 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.ColumnIndex < 0)
+            if (e.ColumnIndex < 0 | e.RowIndex < 0)
             {
                 return;
             }
@@ -91,7 +98,9 @@ namespace LocalPLC.ModbusMaster
                     //    Cells[e.ColumnIndex].Value.ToString() +
                     //    " is enabled");
 
-                    modbusmasterform form = new modbusmasterform();
+                    modbusmasterDeviceform form = new modbusmasterDeviceform();
+                    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(0);
+                    form.getMasterData(ref data);
                     form.ShowDialog();
                 }
             }
@@ -111,6 +120,50 @@ namespace LocalPLC.ModbusMaster
             }
         }
     }
+
+    public class DeviceData
+    {
+        public int ID;
+        public string nameDev;
+        public string slaveAddr;
+        public int reponseTimeout;
+        public int permitTimeoutCount;
+        public int reconnectInterval;
+        public string resetVaraible;
+        public string channel;
+
+    }
+    public class ModbusMasterData
+    {
+
+        public int ID { get; set; }
+        public DeviceData device { get; set; }
+
+        public string transformMode;
+        public int responseTimeout;
+        public List<DeviceData> modbusMastrList { get; set; } = new List<DeviceData>();
+        public ModbusMasterData()
+        {
+
+        }
+    }
+
+    public class ModbusMasterManage
+    {
+        public List<ModbusMasterData> modbusMastrList { get; set; } = new List<ModbusMasterData>();
+
+        public ModbusMasterManage()
+        {
+
+        }
+
+        public void add(ModbusMasterData data)
+        {
+            modbusMastrList.Add(data);
+        }
+    }
+    
+
 }
 
 public class DataGridViewTextColumn : DataGridViewColumn

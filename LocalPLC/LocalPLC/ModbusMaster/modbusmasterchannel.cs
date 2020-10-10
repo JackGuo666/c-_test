@@ -36,7 +36,10 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            if(e.ColumnIndex < 0 | e.RowIndex < 0)
+            {
+                return;
+            }
         }
 
         private void modbusmasterchannel_Load(object sender, EventArgs e)
