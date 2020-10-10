@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using ADELib;
 
 namespace LocalPLC.ModbusMaster
 {
@@ -111,12 +112,20 @@ namespace LocalPLC.ModbusMaster
             // int row = dataGridView1.SelectedRows[0];
             if (dataGridView1.SelectedRows.Count <= 0)
             {
+                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                // show the output window and activate the "Infos" tab
+                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+
+
                 return;
             }
 
             for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
             {
+                int index = dataGridView1.SelectedRows[i].Index;
+
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                masterManage.modbusMastrList.RemoveAt(index);
             }
         }
     }
@@ -141,7 +150,7 @@ namespace LocalPLC.ModbusMaster
 
         public string transformMode;
         public int responseTimeout;
-        public List<DeviceData> modbusMastrList { get; set; } = new List<DeviceData>();
+        public List<DeviceData> modbusDeviceList { get; set; } = new List<DeviceData>();
         public ModbusMasterData()
         {
 

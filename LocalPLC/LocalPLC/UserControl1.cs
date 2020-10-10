@@ -23,7 +23,7 @@ namespace LocalPLC
             InitializeComponent();
         }
 
-        private static ADELib.Application multiprogApp = null;
+        public static ADELib.Application multiprogApp = null;
 
         public empty e1;
         public ModbusClient.modbusclient mct;

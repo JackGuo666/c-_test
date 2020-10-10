@@ -61,10 +61,10 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.Columns.Add(cellColumnResetVariable);
             dataGridView1.Columns.Add(buttonColumn);
 
-            dataGridView1.RowCount = 1 + data_.modbusMastrList.Count;
+            dataGridView1.RowCount = 1 + data_.modbusDeviceList.Count;
 
             int i = 0;
-            foreach (DeviceData devData in data_.modbusMastrList)
+            foreach (DeviceData devData in data_.modbusDeviceList)
             {
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.ID].Value = devData.ID;
 
@@ -136,7 +136,7 @@ namespace LocalPLC.ModbusMaster
 
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
 
-                data_.modbusMastrList.Add(data);
+                data_.modbusDeviceList.Add(data);
             }
         }
 
@@ -150,7 +150,10 @@ namespace LocalPLC.ModbusMaster
 
             for(int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
             {
+                int index = dataGridView1.SelectedRows[i].Index;
+
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                data_.modbusDeviceList.RemoveAt(index);
             }
 
 
