@@ -8,23 +8,33 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using ADELib;
+using System.Data.Common;
 
 namespace LocalPLC.ModbusMaster
 {
     public partial class modbusmastermain : UserControl
     {
+
+
         private string columnConfig = "配置";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
         public modbusmastermain()
         {
             InitializeComponent();
+
+           
         }
+
+        private enum COLUMNNAME : int
+        {
+            ID
+        };
 
         private void button_add_Click(object sender, EventArgs e)
         {
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
-
+            
             // Set the text for each button.
             int i = row;
 
@@ -43,24 +53,7 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name == columnConfig)
-            {
-                DataGridViewDisableButtonCell buttonCell =
-                    (DataGridViewDisableButtonCell)dataGridView1.
-                    Rows[e.RowIndex].Cells[columnConfig];
 
-                if (buttonCell.Enabled)
-                {
-                    //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
-                    //    Cells[e.ColumnIndex].Value.ToString() +
-                    //    " is enabled");
-
-                    modbusmasterDeviceform form = new modbusmasterDeviceform();
-                    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(0);
-                    form.getMasterData(ref data);
-                    form.ShowDialog();
-                }
-            }
         }
 
         private void modbusmastermain_Load(object sender, EventArgs e)
@@ -126,6 +119,27 @@ namespace LocalPLC.ModbusMaster
 
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
                 masterManage.modbusMastrList.RemoveAt(index);
+            }
+        }
+
+        private void dataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+
+        }
+
+  
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            if (str.Equals(""))
+            {
+
+            }
+
+            if (e.ColumnIndex == (int)COLUMNNAME.ID)
+            {
+                masterManage.modbusMastrList.ElementAt(e.RowIndex).ID = int.Parse(str);
             }
         }
     }

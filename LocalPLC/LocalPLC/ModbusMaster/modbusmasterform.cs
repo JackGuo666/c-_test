@@ -31,7 +31,6 @@ namespace LocalPLC.ModbusMaster
         private string[] columnName = {"ID", "name"};
         private void modbusmasterform_Load(object sender, EventArgs e)
         {
-
             DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
             cellColumnID.Name = "ID";
             DataGridViewTextBoxColumn cellColumnName = new DataGridViewTextBoxColumn();
@@ -187,6 +186,46 @@ namespace LocalPLC.ModbusMaster
             }
         }
 
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            string str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            if (str.Equals(""))
+            {
 
+            }
+
+            if (e.ColumnIndex == (int)COLUMNNAME.ID)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.NAME)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.REPONSE_TIMEOUT)
+            {   
+                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.PERMIT_TIMEOUT_COUNT)
+            {
+                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.RECONNECT_INTERVAL)
+            {
+                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.RESET_VARIABLE)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME.CHANNEL)
+            {
+
+            }
+        }
     }
 }
