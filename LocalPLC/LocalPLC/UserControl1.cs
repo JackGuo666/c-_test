@@ -27,7 +27,7 @@ namespace LocalPLC
 
         public empty e1;
         public ModbusClient.modbusclient mct;
-        
+        public modbusmastermain modmaster = new modbusmastermain();
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -101,7 +101,7 @@ namespace LocalPLC
             }
             else if(name == "ModbusRTU-Master")
             {
-                modbusmastermain modmaster = new modbusmastermain();
+                
                 modmaster.Show();
                 ModbusWindow.Controls.Clear();
                 ModbusWindow.Controls.Add(modmaster);
