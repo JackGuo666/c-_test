@@ -92,7 +92,9 @@ namespace LocalPLC.ModbusMaster
                 DataGridViewContentAlignment.MiddleCenter;
 
             this.comboBox_transform_channel.Items.Add("COM1");
-            this.textBox_reponse_timeout.Text = "1000";   //ms
+            this.comboBox_transform_channel.Text = data_.transformChannel;
+
+            this.textBox_reponse_timeout.Text = data_.responseTimeout.ToString();   //ms
         }
 
         private void button_add_Click(object sender, EventArgs e)
@@ -225,6 +227,45 @@ namespace LocalPLC.ModbusMaster
             else if(e.ColumnIndex == (int)COLUMNNAME.CHANNEL)
             {
 
+            }
+        }
+
+        private void comboBox_transform_channel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            data_.transformChannel = comboBox_transform_channel.Text;
+        }
+
+        private void textBox_reponse_timeout_TextChanged(object sender, EventArgs e)
+        {
+
+            string str = textBox_reponse_timeout.Text;
+            if(!int.TryParse(e.ToString(), out data_.responseTimeout))
+            {
+                textBox_reponse_timeout.Text = "1000";
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(radioButton1.Checked == true)
+            {
+                data_.transformMode = 0;
+            }
+            else 
+            {
+                data_.transformMode = 1;
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked == true)
+            {
+                data_.transformMode = 1;
+            }
+            else
+            {
+                data_.transformMode = 0;
             }
         }
     }

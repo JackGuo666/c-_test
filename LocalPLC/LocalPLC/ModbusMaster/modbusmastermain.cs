@@ -177,12 +177,14 @@ namespace LocalPLC.ModbusMaster
         public int ID { get; set; }
         //public DeviceData device { get; set; }
 
-        public string transformMode;
-        public int responseTimeout;
+        public string transformChannel;
+        public int responseTimeout = 1000;  //ms
+        public int transformMode;
         public List<DeviceData> modbusDeviceList { get; set; } = new List<DeviceData>();
         public ModbusMasterData()
         {
-
+            //0 RTU    1 ASCII
+            transformMode = 0;
         }
     }
 
