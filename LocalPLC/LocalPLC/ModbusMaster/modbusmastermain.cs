@@ -100,7 +100,7 @@ namespace LocalPLC.ModbusMaster
                     //    " is enabled");
 
                     modbusmasterDeviceform form = new modbusmasterDeviceform();
-                    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(0);
+                    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
                     form.getMasterData(ref data);
                     form.ShowDialog();
                 }
