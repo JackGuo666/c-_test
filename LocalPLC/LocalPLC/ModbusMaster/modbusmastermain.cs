@@ -35,7 +35,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
                 data.ID = row;
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "Button " + i.ToString();
-                data.device = new DeviceData();
+                //data.device = new DeviceData();
 
                 masterManage.modbusMastrList.Add(data);
             }
@@ -130,6 +130,21 @@ namespace LocalPLC.ModbusMaster
         }
     }
 
+
+
+    public class ChannelData
+    {
+        public int ID;
+        public string nameChannel;
+        public int msgType;
+        public int pollingTime;
+        public int readOffset;
+        public int readLength;
+        public int writeOffset;
+        public int writeLength;
+        public string note;
+    }
+
     public class DeviceData
     {
         public int ID;
@@ -140,13 +155,13 @@ namespace LocalPLC.ModbusMaster
         public int reconnectInterval;
         public string resetVaraible;
         public string channel;
-
+        public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
     }
     public class ModbusMasterData
     {
 
         public int ID { get; set; }
-        public DeviceData device { get; set; }
+        //public DeviceData device { get; set; }
 
         public string transformMode;
         public int responseTimeout;

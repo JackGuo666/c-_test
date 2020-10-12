@@ -134,6 +134,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.CHANNEL].Value = "Button " + i.ToString();
                 //data.
 
+
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
 
                 data_.modbusDeviceList.Add(data);
@@ -179,6 +180,8 @@ namespace LocalPLC.ModbusMaster
                     //    " is enabled");
 
                     modbusmasterchannel form = new modbusmasterchannel();
+                    DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
+                    form.getDeviceData(ref data);
                     form.ShowDialog();
                 }
             }

@@ -19,9 +19,15 @@ namespace LocalPLC.ModbusMaster
             WRITEOFFSET, WRITELENGTH, NOTE
         };
 
+        private DeviceData data_;
         public modbusmasterchannel()
         {
             InitializeComponent();
+        }
+
+        public void getDeviceData(ref DeviceData data)
+        {
+            data_ = data;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -97,6 +103,10 @@ namespace LocalPLC.ModbusMaster
 
             dataGridView1.Columns[(int)COLUMNNAME_CHANNLE.MSGTYPE].Width = 280;
             //dataGridView1.AllowUserToResizeColumns = true;
+
+            textBox1.Text =  data_.nameDev.ToString();
+            textBox3.Text = data_.slaveAddr.ToString();
+
         }
 
         private void button_add_Click(object sender, EventArgs e)
@@ -107,16 +117,49 @@ namespace LocalPLC.ModbusMaster
             // Set the text for each button.
             int i = row;
 
+            ChannelData data = new ChannelData();
+
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = row;
+            data.ID = row;
+
+
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = "设备" + i.ToString();
+            data.nameChannel = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value.ToString();
+
             //
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "";
+            if(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value.ToString() == "")
+            {
+                data.msgType = -1;
+            }
+            else 
+            {
+                data.msgType = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value.ToString());
+            }
+
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = "1000";    //ms
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = "";
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = "";
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = "";
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = "";
+            data.pollingTime = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value.ToString());
+
+            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = "0";
+            string str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value.ToString();
+            data.readOffset = int.Parse(str);
+
+            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = "1";
+            str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value.ToString();
+            data.readLength = int.Parse(str);
+
+            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = "0";
+            str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value.ToString();
+            data.writeOffset = int.Parse(str);
+
+            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = "1";
+            str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value.ToString();
+            data.writeLength = int.Parse(str);
+
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = "";
+            data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
+
+            data_.modbusChannelList.Add(data);
         }
 
         private void button_delete_Click(object sender, EventArgs e)
@@ -129,7 +172,10 @@ namespace LocalPLC.ModbusMaster
 
             for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
             {
+                int index = dataGridView1.SelectedRows[i].Index;
+
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                data_.modbusChannelList.RemoveAt(index);
             }
         }
     }
