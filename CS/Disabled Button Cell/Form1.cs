@@ -66,7 +66,7 @@ class Form1 : Form
         dataGridView1.Columns.Add(column0);
         dataGridView1.Columns.Add(column1);
         dataGridView1.Columns.Add(column2);
-        dataGridView1.RowCount = 8;
+        dataGridView1.RowCount = /*8*/ 1;
         dataGridView1.AutoSize = true;
         dataGridView1.AllowUserToAddRows = false;
         dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =

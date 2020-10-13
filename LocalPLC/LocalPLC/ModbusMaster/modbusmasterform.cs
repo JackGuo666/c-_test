@@ -239,7 +239,7 @@ namespace LocalPLC.ModbusMaster
         {
 
             string str = textBox_reponse_timeout.Text;
-            if(!int.TryParse(e.ToString(), out data_.responseTimeout))
+            if(!int.TryParse(str.ToString(), out data_.responseTimeout))
             {
                 textBox_reponse_timeout.Text = "1000";
             }

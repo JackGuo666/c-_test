@@ -16,3 +16,12 @@ E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.cspro
 E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.exe
 E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.pdb
 E:\study\c#\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.csprojAssemblyReference.cache
+D:\work\develop\c-_test\CS\Disabled Button Cell\bin\Debug\Disabled Button Cell.exe
+D:\work\develop\c-_test\CS\Disabled Button Cell\bin\Debug\Disabled Button Cell.pdb
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.csprojAssemblyReference.cache
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Form1.resources
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled_Button_Cell.Properties.Resources.resources
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.csproj.GenerateResource.cache
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.csproj.CoreCompileInputs.cache
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.exe
+D:\work\develop\c-_test\CS\Disabled Button Cell\obj\Debug\Disabled Button Cell.pdb
