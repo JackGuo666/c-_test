@@ -38,17 +38,17 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button_add = new System.Windows.Forms.Button();
-            this.button_delete = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button_delete = new System.Windows.Forms.Button();
+            this.button_add = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,36 +151,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "通道";
             // 
-            // button_add
-            // 
-            this.button_add.Location = new System.Drawing.Point(9, 0);
-            this.button_add.Name = "button_add";
-            this.button_add.Size = new System.Drawing.Size(114, 32);
-            this.button_add.TabIndex = 0;
-            this.button_add.Text = "添加";
-            this.button_add.UseVisualStyleBackColor = true;
-            this.button_add.Click += new System.EventHandler(this.button_add_Click);
-            // 
-            // button_delete
-            // 
-            this.button_delete.Location = new System.Drawing.Point(129, 2);
-            this.button_delete.Name = "button_delete";
-            this.button_delete.Size = new System.Drawing.Size(114, 32);
-            this.button_delete.TabIndex = 0;
-            this.button_delete.Text = "删除";
-            this.button_delete.UseVisualStyleBackColor = true;
-            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.button_delete);
-            this.panel2.Controls.Add(this.button_add);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1171, 39);
-            this.panel2.TabIndex = 1;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -200,6 +170,36 @@
             this.splitContainer1.SplitterDistance = 39;
             this.splitContainer1.TabIndex = 2;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.button_delete);
+            this.panel2.Controls.Add(this.button_add);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1171, 39);
+            this.panel2.TabIndex = 1;
+            // 
+            // button_delete
+            // 
+            this.button_delete.Location = new System.Drawing.Point(129, 2);
+            this.button_delete.Name = "button_delete";
+            this.button_delete.Size = new System.Drawing.Size(114, 32);
+            this.button_delete.TabIndex = 0;
+            this.button_delete.Text = "删除";
+            this.button_delete.UseVisualStyleBackColor = true;
+            this.button_delete.Click += new System.EventHandler(this.button_delete_Click);
+            // 
+            // button_add
+            // 
+            this.button_add.Location = new System.Drawing.Point(9, 0);
+            this.button_add.Name = "button_add";
+            this.button_add.Size = new System.Drawing.Size(114, 32);
+            this.button_add.TabIndex = 0;
+            this.button_add.Text = "添加";
+            this.button_add.UseVisualStyleBackColor = true;
+            this.button_add.Click += new System.EventHandler(this.button_add_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -211,6 +211,7 @@
             this.dataGridView1.Size = new System.Drawing.Size(1171, 538);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             // 
             // modbusmasterchannel
             // 
@@ -225,10 +226,10 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

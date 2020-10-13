@@ -20,9 +20,20 @@ namespace LocalPLC.ModbusMaster
         };
 
         private DeviceData data_;
+        Dictionary<int, String> dicMsg = new Dictionary<int, String>();
         public modbusmasterchannel()
         {
             InitializeComponent();
+
+            dicMsg.Add(0x01, "读多个位(线圈) - 0x01");
+            dicMsg.Add(0x02, "读多个位(离散输入) - 0x02");
+            dicMsg.Add(0x03, "读多个字(保持寄存器) - 0x03");
+            dicMsg.Add(0x04, "读多个字(输入寄存器) - 0x04");
+            dicMsg.Add(0x05, "写单个位(线圈) - 0x05");
+            dicMsg.Add(0x06, "写单个字(寄存器) - 0x06");
+            dicMsg.Add(0x0F, "写多个位(线圈) - 0x0F");
+            dicMsg.Add(0x10, "写多个字(寄存器) - 0x10");
+
         }
 
         public void getDeviceData(ref DeviceData data)
@@ -110,18 +121,24 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = devData.nameChannel;
 
                 ////
-                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value = devData.slaveAddr;
+                string value = dicMsg[devData.msgType];
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = value;
 
-                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = devData.reponseTimeout;
+                //POLLINGTIME, READOFFSET, READLENGTH,
+            //WRITEOFFSET, WRITELENGTH, NOTE
 
-                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value = devData.permitTimeoutCount;
 
-                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RECONNECT_INTERVAL].Value = devData.reconnectInterval;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = devData.pollingTime.ToString();
 
-                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RESET_VARIABLE].Value = devData.resetVaraible;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = devData.readOffset;
 
-                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.CHANNEL].Value = "Button " + i.ToString();
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = devData.readLength;
 
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = devData.writeOffset;
+
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = devData.writeLength;
+
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = devData.note;
                 i++;
             }
 
@@ -203,6 +220,11 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
                 data_.modbusChannelList.RemoveAt(index);
             }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
