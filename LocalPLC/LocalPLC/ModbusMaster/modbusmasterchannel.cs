@@ -21,6 +21,7 @@ namespace LocalPLC.ModbusMaster
 
         private DeviceData data_;
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
+        Dictionary<String, int> dicMsgType = new Dictionary<String, int>();
         public modbusmasterchannel()
         {
             InitializeComponent();
@@ -33,6 +34,15 @@ namespace LocalPLC.ModbusMaster
             dicMsg.Add(0x06, "写单个字(寄存器) - 0x06");
             dicMsg.Add(0x0F, "写多个位(线圈) - 0x0F");
             dicMsg.Add(0x10, "写多个字(寄存器) - 0x10");
+
+            dicMsgType.Add("读多个位(线圈) - 0x01", 0x01);
+            dicMsgType.Add("读多个位(离散输入) - 0x02", 0x02);
+            dicMsgType.Add("读多个字(保持寄存器) - 0x03", 0x03);
+            dicMsgType.Add("读多个字(输入寄存器) - 0x04", 0x04);
+            dicMsgType.Add("写单个位(线圈) - 0x05", 0x05);
+            dicMsgType.Add("写单个字(寄存器) - 0x06", 0x06);
+            dicMsgType.Add("写多个位(线圈) - 0x0F", 0x0F);
+            dicMsgType.Add("写多个字(寄存器) - 0x10", 0x10);
 
         }
 
@@ -224,7 +234,55 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            string str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            if (str.Equals(""))
+            {
 
+            }
+
+            if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.ID)
+            {
+                data_.modbusChannelList.ElementAt(e.RowIndex).ID = int.Parse(str);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NAME)
+            {
+                data_.modbusChannelList.ElementAt(e.RowIndex).nameChannel = str;
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.MSGTYPE)
+            {
+                if(dicMsgType.ContainsKey(str))
+                {
+                    data_.modbusChannelList.ElementAt(e.RowIndex).msgType = dicMsgType[str];
+                }
+                else
+                {
+                    data_.modbusChannelList.ElementAt(e.RowIndex).msgType = -1;
+                }
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.POLLINGTIME)
+            {
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READOFFSET)
+            {
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READLENGTH)
+            {
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readLength);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITEOFFSET)
+            {
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITELENGTH)
+            {
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
+            }
+            else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NOTE)
+            {
+                data_.modbusChannelList.ElementAt(e.RowIndex).note = str;
+            }
         }
     }
 }
