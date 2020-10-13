@@ -83,6 +83,12 @@
     <Compile Include="ModbusMaster\modbusmastermain.Designer.cs">
       <DependentUpon>modbusmastermain.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusSlave\modbusslavemain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusSlave\modbusslavemain.Designer.cs">
+      <DependentUpon>modbusslavemain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControl1.cs">
       <SubType>UserControl</SubType>
@@ -115,6 +121,9 @@
     <EmbeddedResource Include="ModbusMaster\modbusmastermain.resx">
       <DependentUpon>modbusmastermain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ModbusSlave\modbusslavemain.resx">
+      <DependentUpon>modbusslavemain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControl1.resx">
       <DependentUpon>UserControl1.cs</DependentUpon>
     </EmbeddedResource>
@@ -122,5 +131,6 @@
   <ItemGroup>
     <Content Include="Properties\Interop.ADELib.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

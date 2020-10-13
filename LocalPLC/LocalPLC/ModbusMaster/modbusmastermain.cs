@@ -10,6 +10,7 @@ using System.Windows.Forms.VisualStyles;
 using ADELib;
 using System.Data.Common;
 
+
 namespace LocalPLC.ModbusMaster
 {
     public partial class modbusmastermain : UserControl
@@ -141,6 +142,21 @@ namespace LocalPLC.ModbusMaster
             {
                 masterManage.modbusMastrList.ElementAt(e.RowIndex).ID = int.Parse(str);
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 
