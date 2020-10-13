@@ -95,6 +95,17 @@ namespace LocalPLC.ModbusMaster
             this.comboBox_transform_channel.Text = data_.transformChannel;
 
             this.textBox_reponse_timeout.Text = data_.responseTimeout.ToString();   //ms
+
+            if(data_.transformMode == 0)
+            {
+                radioButton1.Checked = true;
+                radioButton2.Checked = false;
+            }
+            else if(data_.transformMode == 1)
+            {
+                radioButton2.Checked = true;
+                radioButton1.Checked = false;
+            }
         }
 
         private void button_add_Click(object sender, EventArgs e)

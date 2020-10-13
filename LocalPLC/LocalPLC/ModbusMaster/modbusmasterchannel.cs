@@ -94,19 +94,45 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.Columns.Add(cellColumnWriteOffset);
             dataGridView1.Columns.Add(cellColumnWriteLength);
             dataGridView1.Columns.Add(cellColumnNote);
-            dataGridView1.RowCount = /*8*/ 1;
-            dataGridView1.AutoSize = true;
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
 
+
+
+            dataGridView1.RowCount = 1 + data_.modbusChannelList.Count;
 
             dataGridView1.Columns[(int)COLUMNNAME_CHANNLE.MSGTYPE].Width = 280;
             //dataGridView1.AllowUserToResizeColumns = true;
 
+            int i = 0;
+            foreach (ChannelData devData in data_.modbusChannelList)
+            {
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = devData.ID;
+
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = devData.nameChannel;
+
+                ////
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value = devData.slaveAddr;
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = devData.reponseTimeout;
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value = devData.permitTimeoutCount;
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RECONNECT_INTERVAL].Value = devData.reconnectInterval;
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RESET_VARIABLE].Value = devData.resetVaraible;
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.CHANNEL].Value = "Button " + i.ToString();
+
+                i++;
+            }
+
             textBox1.Text =  data_.nameDev.ToString();
             textBox3.Text = data_.slaveAddr.ToString();
 
+            //dataGridView1.RowCount = /*8*/ 1;
+            dataGridView1.AutoSize = true;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void button_add_Click(object sender, EventArgs e)
