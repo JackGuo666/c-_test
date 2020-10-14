@@ -83,6 +83,12 @@
     <Compile Include="ModbusMaster\modbusmastermain.Designer.cs">
       <DependentUpon>modbusmastermain.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusSlave\modbusslaveform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusSlave\modbusslaveform.Designer.cs">
+      <DependentUpon>modbusslaveform.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModbusSlave\modbusslavemain.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusMaster\modbusmastermain.resx">
       <DependentUpon>modbusmastermain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusSlave\modbusslaveform.resx">
+      <DependentUpon>modbusslaveform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusSlave\modbusslavemain.resx">
       <DependentUpon>modbusslavemain.cs</DependentUpon>

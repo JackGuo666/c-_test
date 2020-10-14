@@ -24,7 +24,7 @@ namespace LocalPLC.ModbusSlave
         private void modbusslavemain_Load(object sender, EventArgs e)
         {
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
-            buttonColumn.Name = "test";
+            buttonColumn.Name = "配置";
 
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
             cellColumn.Name = "ID";
@@ -50,8 +50,35 @@ namespace LocalPLC.ModbusSlave
             {
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
                 //data.ID = row;
-                dataGridView1.Rows[i].Cells["test"].Value = "Button " + i.ToString();
+                dataGridView1.Rows[i].Cells["配置"].Value = "Button " + i.ToString();
                 //data.device = new DeviceData();
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex < 0 | e.RowIndex < 0)
+            {
+                return;
+            }
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "配置")
+            {
+                DataGridViewDisableButtonCell buttonCell =
+                    (DataGridViewDisableButtonCell)dataGridView1.
+                    Rows[e.RowIndex].Cells["配置"];
+
+                if (buttonCell.Enabled)
+                {
+                    //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
+                    //    Cells[e.ColumnIndex].Value.ToString() +
+                    //    " is enabled");
+
+                    modbusslaveform form = new modbusslaveform();
+                    //ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
+                    //form.getMasterData(ref data);
+                    form.ShowDialog();
+                }
             }
         }
     }
