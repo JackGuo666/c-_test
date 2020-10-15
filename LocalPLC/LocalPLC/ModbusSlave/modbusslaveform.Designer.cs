@@ -36,33 +36,33 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox_coil = new System.Windows.Forms.TextBox();
+            this.textBox_holding = new System.Windows.Forms.TextBox();
+            this.textBox_lisan = new System.Windows.Forms.TextBox();
+            this.textBox_status = new System.Windows.Forms.TextBox();
+            this.textBox_coil_start = new System.Windows.Forms.TextBox();
+            this.textBox_coil_end = new System.Windows.Forms.TextBox();
+            this.textBox_holding_start = new System.Windows.Forms.TextBox();
+            this.textBox_holding_end = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_start = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_end = new System.Windows.Forms.TextBox();
+            this.textBox_status_start = new System.Windows.Forms.TextBox();
+            this.textBox_status_end = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
-            this.textBox17 = new System.Windows.Forms.TextBox();
-            this.textBox18 = new System.Windows.Forms.TextBox();
-            this.textBox19 = new System.Windows.Forms.TextBox();
-            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.textBox_coil_var_in = new System.Windows.Forms.TextBox();
+            this.textBox_coil_var_out = new System.Windows.Forms.TextBox();
+            this.textBox_holding_in = new System.Windows.Forms.TextBox();
+            this.textBox_holding_out = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_in = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_out = new System.Windows.Forms.TextBox();
+            this.textBox_status_in = new System.Windows.Forms.TextBox();
+            this.textBox_status_out = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox_start_total = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox_length_total = new System.Windows.Forms.TextBox();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -74,26 +74,26 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.textBox12);
-            this.panel1.Controls.Add(this.textBox10);
-            this.panel1.Controls.Add(this.textBox8);
-            this.panel1.Controls.Add(this.textBox6);
-            this.panel1.Controls.Add(this.textBox11);
-            this.panel1.Controls.Add(this.textBox9);
-            this.panel1.Controls.Add(this.textBox7);
-            this.panel1.Controls.Add(this.textBox20);
-            this.panel1.Controls.Add(this.textBox18);
-            this.panel1.Controls.Add(this.textBox16);
-            this.panel1.Controls.Add(this.textBox14);
-            this.panel1.Controls.Add(this.textBox19);
-            this.panel1.Controls.Add(this.textBox17);
-            this.panel1.Controls.Add(this.textBox15);
-            this.panel1.Controls.Add(this.textBox13);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.textBox5);
-            this.panel1.Controls.Add(this.textBox4);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.textBox_status_end);
+            this.panel1.Controls.Add(this.textBox_lisan_end);
+            this.panel1.Controls.Add(this.textBox_holding_end);
+            this.panel1.Controls.Add(this.textBox_coil_end);
+            this.panel1.Controls.Add(this.textBox_status_start);
+            this.panel1.Controls.Add(this.textBox_lisan_start);
+            this.panel1.Controls.Add(this.textBox_holding_start);
+            this.panel1.Controls.Add(this.textBox_status_out);
+            this.panel1.Controls.Add(this.textBox_lisan_out);
+            this.panel1.Controls.Add(this.textBox_holding_out);
+            this.panel1.Controls.Add(this.textBox_coil_var_out);
+            this.panel1.Controls.Add(this.textBox_status_in);
+            this.panel1.Controls.Add(this.textBox_lisan_in);
+            this.panel1.Controls.Add(this.textBox_holding_in);
+            this.panel1.Controls.Add(this.textBox_coil_var_in);
+            this.panel1.Controls.Add(this.textBox_coil_start);
+            this.panel1.Controls.Add(this.textBox_status);
+            this.panel1.Controls.Add(this.textBox_lisan);
+            this.panel1.Controls.Add(this.textBox_holding);
+            this.panel1.Controls.Add(this.textBox_coil);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label2);
@@ -169,8 +169,8 @@
             this.panel3.Controls.Add(this.radioButton1);
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Controls.Add(this.textBox22);
-            this.panel3.Controls.Add(this.textBox21);
+            this.panel3.Controls.Add(this.textBox_length_total);
+            this.panel3.Controls.Add(this.textBox_start_total);
             this.panel3.Controls.Add(this.label11);
             this.panel3.Controls.Add(this.label13);
             this.panel3.Controls.Add(this.label12);
@@ -180,89 +180,89 @@
             this.panel3.Size = new System.Drawing.Size(988, 323);
             this.panel3.TabIndex = 2;
             // 
-            // textBox2
+            // textBox_coil
             // 
-            this.textBox2.Location = new System.Drawing.Point(189, 65);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(128, 28);
-            this.textBox2.TabIndex = 2;
+            this.textBox_coil.Location = new System.Drawing.Point(189, 65);
+            this.textBox_coil.Name = "textBox_coil";
+            this.textBox_coil.Size = new System.Drawing.Size(128, 28);
+            this.textBox_coil.TabIndex = 2;
             // 
-            // textBox3
+            // textBox_holding
             // 
-            this.textBox3.Location = new System.Drawing.Point(189, 108);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(128, 28);
-            this.textBox3.TabIndex = 2;
+            this.textBox_holding.Location = new System.Drawing.Point(189, 108);
+            this.textBox_holding.Name = "textBox_holding";
+            this.textBox_holding.Size = new System.Drawing.Size(128, 28);
+            this.textBox_holding.TabIndex = 2;
             // 
-            // textBox4
+            // textBox_lisan
             // 
-            this.textBox4.Location = new System.Drawing.Point(189, 151);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(128, 28);
-            this.textBox4.TabIndex = 2;
+            this.textBox_lisan.Location = new System.Drawing.Point(189, 151);
+            this.textBox_lisan.Name = "textBox_lisan";
+            this.textBox_lisan.Size = new System.Drawing.Size(128, 28);
+            this.textBox_lisan.TabIndex = 2;
             // 
-            // textBox5
+            // textBox_status
             // 
-            this.textBox5.Location = new System.Drawing.Point(189, 194);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(128, 28);
-            this.textBox5.TabIndex = 2;
+            this.textBox_status.Location = new System.Drawing.Point(189, 194);
+            this.textBox_status.Name = "textBox_status";
+            this.textBox_status.Size = new System.Drawing.Size(128, 28);
+            this.textBox_status.TabIndex = 2;
             // 
-            // textBox1
+            // textBox_coil_start
             // 
-            this.textBox1.Location = new System.Drawing.Point(390, 65);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(75, 28);
-            this.textBox1.TabIndex = 3;
+            this.textBox_coil_start.Location = new System.Drawing.Point(390, 65);
+            this.textBox_coil_start.Name = "textBox_coil_start";
+            this.textBox_coil_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_coil_start.TabIndex = 3;
             // 
-            // textBox6
+            // textBox_coil_end
             // 
-            this.textBox6.Location = new System.Drawing.Point(483, 65);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(75, 28);
-            this.textBox6.TabIndex = 3;
+            this.textBox_coil_end.Location = new System.Drawing.Point(483, 65);
+            this.textBox_coil_end.Name = "textBox_coil_end";
+            this.textBox_coil_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_coil_end.TabIndex = 3;
             // 
-            // textBox7
+            // textBox_holding_start
             // 
-            this.textBox7.Location = new System.Drawing.Point(390, 108);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(75, 28);
-            this.textBox7.TabIndex = 3;
+            this.textBox_holding_start.Location = new System.Drawing.Point(390, 108);
+            this.textBox_holding_start.Name = "textBox_holding_start";
+            this.textBox_holding_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_holding_start.TabIndex = 3;
             // 
-            // textBox8
+            // textBox_holding_end
             // 
-            this.textBox8.Location = new System.Drawing.Point(483, 108);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(75, 28);
-            this.textBox8.TabIndex = 3;
+            this.textBox_holding_end.Location = new System.Drawing.Point(483, 108);
+            this.textBox_holding_end.Name = "textBox_holding_end";
+            this.textBox_holding_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_holding_end.TabIndex = 3;
             // 
-            // textBox9
+            // textBox_lisan_start
             // 
-            this.textBox9.Location = new System.Drawing.Point(390, 151);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(75, 28);
-            this.textBox9.TabIndex = 3;
+            this.textBox_lisan_start.Location = new System.Drawing.Point(390, 151);
+            this.textBox_lisan_start.Name = "textBox_lisan_start";
+            this.textBox_lisan_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_lisan_start.TabIndex = 3;
             // 
-            // textBox10
+            // textBox_lisan_end
             // 
-            this.textBox10.Location = new System.Drawing.Point(483, 151);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(75, 28);
-            this.textBox10.TabIndex = 3;
+            this.textBox_lisan_end.Location = new System.Drawing.Point(483, 151);
+            this.textBox_lisan_end.Name = "textBox_lisan_end";
+            this.textBox_lisan_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_lisan_end.TabIndex = 3;
             // 
-            // textBox11
+            // textBox_status_start
             // 
-            this.textBox11.Location = new System.Drawing.Point(390, 194);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(75, 28);
-            this.textBox11.TabIndex = 3;
+            this.textBox_status_start.Location = new System.Drawing.Point(390, 194);
+            this.textBox_status_start.Name = "textBox_status_start";
+            this.textBox_status_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_status_start.TabIndex = 3;
             // 
-            // textBox12
+            // textBox_status_end
             // 
-            this.textBox12.Location = new System.Drawing.Point(483, 194);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(75, 28);
-            this.textBox12.TabIndex = 3;
+            this.textBox_status_end.Location = new System.Drawing.Point(483, 194);
+            this.textBox_status_end.Name = "textBox_status_end";
+            this.textBox_status_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_status_end.TabIndex = 3;
             // 
             // label9
             // 
@@ -282,61 +282,61 @@
             this.label10.TabIndex = 1;
             this.label10.Text = "I区变量名";
             // 
-            // textBox13
+            // textBox_coil_var_in
             // 
-            this.textBox13.Location = new System.Drawing.Point(673, 68);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(95, 28);
-            this.textBox13.TabIndex = 3;
+            this.textBox_coil_var_in.Location = new System.Drawing.Point(673, 68);
+            this.textBox_coil_var_in.Name = "textBox_coil_var_in";
+            this.textBox_coil_var_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_coil_var_in.TabIndex = 3;
             // 
-            // textBox14
+            // textBox_coil_var_out
             // 
-            this.textBox14.Location = new System.Drawing.Point(807, 68);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(95, 28);
-            this.textBox14.TabIndex = 3;
+            this.textBox_coil_var_out.Location = new System.Drawing.Point(807, 68);
+            this.textBox_coil_var_out.Name = "textBox_coil_var_out";
+            this.textBox_coil_var_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_coil_var_out.TabIndex = 3;
             // 
-            // textBox15
+            // textBox_holding_in
             // 
-            this.textBox15.Location = new System.Drawing.Point(673, 108);
-            this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(95, 28);
-            this.textBox15.TabIndex = 3;
+            this.textBox_holding_in.Location = new System.Drawing.Point(673, 108);
+            this.textBox_holding_in.Name = "textBox_holding_in";
+            this.textBox_holding_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_holding_in.TabIndex = 3;
             // 
-            // textBox16
+            // textBox_holding_out
             // 
-            this.textBox16.Location = new System.Drawing.Point(807, 108);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(95, 28);
-            this.textBox16.TabIndex = 3;
+            this.textBox_holding_out.Location = new System.Drawing.Point(807, 108);
+            this.textBox_holding_out.Name = "textBox_holding_out";
+            this.textBox_holding_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_holding_out.TabIndex = 3;
             // 
-            // textBox17
+            // textBox_lisan_in
             // 
-            this.textBox17.Location = new System.Drawing.Point(673, 151);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(95, 28);
-            this.textBox17.TabIndex = 3;
+            this.textBox_lisan_in.Location = new System.Drawing.Point(673, 151);
+            this.textBox_lisan_in.Name = "textBox_lisan_in";
+            this.textBox_lisan_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_lisan_in.TabIndex = 3;
             // 
-            // textBox18
+            // textBox_lisan_out
             // 
-            this.textBox18.Location = new System.Drawing.Point(807, 151);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(95, 28);
-            this.textBox18.TabIndex = 3;
+            this.textBox_lisan_out.Location = new System.Drawing.Point(807, 151);
+            this.textBox_lisan_out.Name = "textBox_lisan_out";
+            this.textBox_lisan_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_lisan_out.TabIndex = 3;
             // 
-            // textBox19
+            // textBox_status_in
             // 
-            this.textBox19.Location = new System.Drawing.Point(673, 194);
-            this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(95, 28);
-            this.textBox19.TabIndex = 3;
+            this.textBox_status_in.Location = new System.Drawing.Point(673, 194);
+            this.textBox_status_in.Name = "textBox_status_in";
+            this.textBox_status_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_status_in.TabIndex = 3;
             // 
-            // textBox20
+            // textBox_status_out
             // 
-            this.textBox20.Location = new System.Drawing.Point(807, 194);
-            this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(95, 28);
-            this.textBox20.TabIndex = 3;
+            this.textBox_status_out.Location = new System.Drawing.Point(807, 194);
+            this.textBox_status_out.Name = "textBox_status_out";
+            this.textBox_status_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_status_out.TabIndex = 3;
             // 
             // label11
             // 
@@ -347,22 +347,22 @@
             this.label11.TabIndex = 0;
             this.label11.Text = "IO映射分配总地址";
             // 
-            // textBox21
+            // textBox_start_total
             // 
-            this.textBox21.Location = new System.Drawing.Point(189, 76);
-            this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(88, 28);
-            this.textBox21.TabIndex = 1;
-            this.textBox21.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
+            this.textBox_start_total.Location = new System.Drawing.Point(189, 76);
+            this.textBox_start_total.Name = "textBox_start_total";
+            this.textBox_start_total.Size = new System.Drawing.Size(88, 28);
+            this.textBox_start_total.TabIndex = 1;
+            this.textBox_start_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(53, 79);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(98, 18);
+            this.label12.Size = new System.Drawing.Size(80, 18);
             this.label12.TabIndex = 0;
-            this.label12.Text = "线圈寄存器";
+            this.label12.Text = "起始地址";
             // 
             // label13
             // 
@@ -373,13 +373,13 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "长度";
             // 
-            // textBox22
+            // textBox_length_total
             // 
-            this.textBox22.Location = new System.Drawing.Point(189, 119);
-            this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(88, 28);
-            this.textBox22.TabIndex = 1;
-            this.textBox22.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
+            this.textBox_length_total.Location = new System.Drawing.Point(189, 119);
+            this.textBox_length_total.Name = "textBox_length_total";
+            this.textBox_length_total.Size = new System.Drawing.Size(88, 28);
+            this.textBox_length_total.TabIndex = 1;
+            this.textBox_length_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
             // 
             // textBox23
             // 
@@ -450,26 +450,26 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox20;
-        private System.Windows.Forms.TextBox textBox18;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox19;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.TextBox textBox13;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox_status_end;
+        private System.Windows.Forms.TextBox textBox_lisan_end;
+        private System.Windows.Forms.TextBox textBox_holding_end;
+        private System.Windows.Forms.TextBox textBox_coil_end;
+        private System.Windows.Forms.TextBox textBox_status_start;
+        private System.Windows.Forms.TextBox textBox_lisan_start;
+        private System.Windows.Forms.TextBox textBox_holding_start;
+        private System.Windows.Forms.TextBox textBox_status_out;
+        private System.Windows.Forms.TextBox textBox_lisan_out;
+        private System.Windows.Forms.TextBox textBox_holding_out;
+        private System.Windows.Forms.TextBox textBox_coil_var_out;
+        private System.Windows.Forms.TextBox textBox_status_in;
+        private System.Windows.Forms.TextBox textBox_lisan_in;
+        private System.Windows.Forms.TextBox textBox_holding_in;
+        private System.Windows.Forms.TextBox textBox_coil_var_in;
+        private System.Windows.Forms.TextBox textBox_coil_start;
+        private System.Windows.Forms.TextBox textBox_status;
+        private System.Windows.Forms.TextBox textBox_lisan;
+        private System.Windows.Forms.TextBox textBox_holding;
+        private System.Windows.Forms.TextBox textBox_coil;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
@@ -477,10 +477,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.TextBox textBox_start_total;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.TextBox textBox_length_total;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textBox23;
         private System.Windows.Forms.RadioButton radioButton2;
