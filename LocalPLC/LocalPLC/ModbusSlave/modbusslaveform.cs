@@ -82,5 +82,24 @@ namespace LocalPLC.ModbusSlave
         {
             int.TryParse(textBox23.Text, out data_.dataDevice_.deviceAddr);
         }
+
+        private void modbusslaveform_Load(object sender, EventArgs e)
+        {
+            textBox_coil.Text = data_.dataDevice_.coilCount.ToString();
+            textBox_holding.Text = data_.dataDevice_.holdingCount.ToString();
+            textBox_lisan.Text = data_.dataDevice_.decreteCount.ToString();
+            textBox_status.Text = data_.dataDevice_.statusCount.ToString();
+
+            if(data_.dataDevice_.transformMode == false)
+            {
+                radioButton1.Checked = true;
+            }
+            else
+            {
+                radioButton2.Checked = true;
+            }
+
+            textBox23.Text = data_.dataDevice_.deviceAddr.ToString();
+        }
     }
 }

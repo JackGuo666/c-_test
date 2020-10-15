@@ -445,6 +445,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "modbusslaveform";
             this.Text = "modbusslaveform";
+            this.Load += new System.EventHandler(this.modbusslaveform_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel3.ResumeLayout(false);

@@ -95,5 +95,25 @@ namespace LocalPLC.ModbusSlave
                 }
             }
         }
+
+        private void button_delete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count <= 0)
+            {
+                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                // show the output window and activate the "Infos" tab
+                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+
+                return;
+            }
+
+            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+            {
+                int index = dataGridView1.SelectedRows[i].Index;
+
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                dataManager.listSlave.RemoveAt(index);
+            }
+        }
     }
 }
