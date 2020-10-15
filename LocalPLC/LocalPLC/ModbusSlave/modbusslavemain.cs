@@ -6,14 +6,23 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LocalPLC.ModbusMaster;
+using LocalPLC.ModbusSlave;
 
 namespace LocalPLC.ModbusSlave
 {
     public partial class modbusslavemain : UserControl
     {
+
+        private DataManager dataManager = null;
+
+        
+
         public modbusslavemain()
         {
             InitializeComponent();
+
+            dataManager = DataManager.GetInstance();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -46,12 +55,17 @@ namespace LocalPLC.ModbusSlave
             // Set the text for each button.
             int i = row;
 
+
+            ModbusSlaveData data = new ModbusSlaveData();
+
             // for (int i = 0; i < dataGridView1.RowCount; i++)
             {
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
-                //data.ID = row;
+                data.ID = row;
                 dataGridView1.Rows[i].Cells["配置"].Value = "Button " + i.ToString();
                 //data.device = new DeviceData();
+
+                dataManager.listSlave.Add(data);
             }
         }
 
@@ -74,9 +88,9 @@ namespace LocalPLC.ModbusSlave
                     //    Cells[e.ColumnIndex].Value.ToString() +
                     //    " is enabled");
 
-                    modbusslaveform form = new modbusslaveform();
-                    //ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
-                    //form.getMasterData(ref data);
+                    modbusslaveform form = new modbusslaveform(e.RowIndex);
+                    ModbusSlaveData data = dataManager.listSlave.ElementAt(e.RowIndex);
+                    form.getSlaveData(ref data);
                     form.ShowDialog();
                 }
             }

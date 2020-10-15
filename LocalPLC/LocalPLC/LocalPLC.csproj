@@ -83,6 +83,7 @@
     <Compile Include="ModbusMaster\modbusmastermain.Designer.cs">
       <DependentUpon>modbusmastermain.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusSlave\DataManager.cs" />
     <Compile Include="ModbusSlave\modbusslaveform.cs">
       <SubType>Form</SubType>
     </Compile>

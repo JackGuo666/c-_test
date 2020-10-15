@@ -29,45 +29,45 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.textBox_coil = new System.Windows.Forms.TextBox();
-            this.textBox_holding = new System.Windows.Forms.TextBox();
-            this.textBox_lisan = new System.Windows.Forms.TextBox();
-            this.textBox_status = new System.Windows.Forms.TextBox();
-            this.textBox_coil_start = new System.Windows.Forms.TextBox();
-            this.textBox_coil_end = new System.Windows.Forms.TextBox();
-            this.textBox_holding_start = new System.Windows.Forms.TextBox();
-            this.textBox_holding_end = new System.Windows.Forms.TextBox();
-            this.textBox_lisan_start = new System.Windows.Forms.TextBox();
-            this.textBox_lisan_end = new System.Windows.Forms.TextBox();
-            this.textBox_status_start = new System.Windows.Forms.TextBox();
             this.textBox_status_end = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox_coil_var_in = new System.Windows.Forms.TextBox();
-            this.textBox_coil_var_out = new System.Windows.Forms.TextBox();
-            this.textBox_holding_in = new System.Windows.Forms.TextBox();
-            this.textBox_holding_out = new System.Windows.Forms.TextBox();
-            this.textBox_lisan_in = new System.Windows.Forms.TextBox();
-            this.textBox_lisan_out = new System.Windows.Forms.TextBox();
-            this.textBox_status_in = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_end = new System.Windows.Forms.TextBox();
+            this.textBox_holding_end = new System.Windows.Forms.TextBox();
+            this.textBox_coil_end = new System.Windows.Forms.TextBox();
+            this.textBox_status_start = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_start = new System.Windows.Forms.TextBox();
+            this.textBox_holding_start = new System.Windows.Forms.TextBox();
             this.textBox_status_out = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox_start_total = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.textBox_length_total = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_out = new System.Windows.Forms.TextBox();
+            this.textBox_holding_out = new System.Windows.Forms.TextBox();
+            this.textBox_coil_var_out = new System.Windows.Forms.TextBox();
+            this.textBox_status_in = new System.Windows.Forms.TextBox();
+            this.textBox_lisan_in = new System.Windows.Forms.TextBox();
+            this.textBox_holding_in = new System.Windows.Forms.TextBox();
+            this.textBox_coil_var_in = new System.Windows.Forms.TextBox();
+            this.textBox_coil_start = new System.Windows.Forms.TextBox();
+            this.textBox_status = new System.Windows.Forms.TextBox();
+            this.textBox_lisan = new System.Windows.Forms.TextBox();
+            this.textBox_holding = new System.Windows.Forms.TextBox();
+            this.textBox_coil = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.textBox_length_total = new System.Windows.Forms.TextBox();
+            this.textBox_start_total = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
@@ -108,14 +108,168 @@
             this.panel1.Size = new System.Drawing.Size(988, 234);
             this.panel1.TabIndex = 0;
             // 
-            // label1
+            // textBox_status_end
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "寄存器个数";
+            this.textBox_status_end.Location = new System.Drawing.Point(483, 194);
+            this.textBox_status_end.Name = "textBox_status_end";
+            this.textBox_status_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_status_end.TabIndex = 3;
+            // 
+            // textBox_lisan_end
+            // 
+            this.textBox_lisan_end.Location = new System.Drawing.Point(483, 151);
+            this.textBox_lisan_end.Name = "textBox_lisan_end";
+            this.textBox_lisan_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_lisan_end.TabIndex = 3;
+            // 
+            // textBox_holding_end
+            // 
+            this.textBox_holding_end.Location = new System.Drawing.Point(483, 108);
+            this.textBox_holding_end.Name = "textBox_holding_end";
+            this.textBox_holding_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_holding_end.TabIndex = 3;
+            // 
+            // textBox_coil_end
+            // 
+            this.textBox_coil_end.Location = new System.Drawing.Point(483, 65);
+            this.textBox_coil_end.Name = "textBox_coil_end";
+            this.textBox_coil_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_coil_end.TabIndex = 3;
+            // 
+            // textBox_status_start
+            // 
+            this.textBox_status_start.Location = new System.Drawing.Point(390, 194);
+            this.textBox_status_start.Name = "textBox_status_start";
+            this.textBox_status_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_status_start.TabIndex = 3;
+            // 
+            // textBox_lisan_start
+            // 
+            this.textBox_lisan_start.Location = new System.Drawing.Point(390, 151);
+            this.textBox_lisan_start.Name = "textBox_lisan_start";
+            this.textBox_lisan_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_lisan_start.TabIndex = 3;
+            // 
+            // textBox_holding_start
+            // 
+            this.textBox_holding_start.Location = new System.Drawing.Point(390, 108);
+            this.textBox_holding_start.Name = "textBox_holding_start";
+            this.textBox_holding_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_holding_start.TabIndex = 3;
+            // 
+            // textBox_status_out
+            // 
+            this.textBox_status_out.Location = new System.Drawing.Point(807, 194);
+            this.textBox_status_out.Name = "textBox_status_out";
+            this.textBox_status_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_status_out.TabIndex = 3;
+            // 
+            // textBox_lisan_out
+            // 
+            this.textBox_lisan_out.Location = new System.Drawing.Point(807, 151);
+            this.textBox_lisan_out.Name = "textBox_lisan_out";
+            this.textBox_lisan_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_lisan_out.TabIndex = 3;
+            // 
+            // textBox_holding_out
+            // 
+            this.textBox_holding_out.Location = new System.Drawing.Point(807, 108);
+            this.textBox_holding_out.Name = "textBox_holding_out";
+            this.textBox_holding_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_holding_out.TabIndex = 3;
+            // 
+            // textBox_coil_var_out
+            // 
+            this.textBox_coil_var_out.Location = new System.Drawing.Point(807, 68);
+            this.textBox_coil_var_out.Name = "textBox_coil_var_out";
+            this.textBox_coil_var_out.Size = new System.Drawing.Size(95, 28);
+            this.textBox_coil_var_out.TabIndex = 3;
+            // 
+            // textBox_status_in
+            // 
+            this.textBox_status_in.Location = new System.Drawing.Point(673, 194);
+            this.textBox_status_in.Name = "textBox_status_in";
+            this.textBox_status_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_status_in.TabIndex = 3;
+            // 
+            // textBox_lisan_in
+            // 
+            this.textBox_lisan_in.Location = new System.Drawing.Point(673, 151);
+            this.textBox_lisan_in.Name = "textBox_lisan_in";
+            this.textBox_lisan_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_lisan_in.TabIndex = 3;
+            // 
+            // textBox_holding_in
+            // 
+            this.textBox_holding_in.Location = new System.Drawing.Point(673, 108);
+            this.textBox_holding_in.Name = "textBox_holding_in";
+            this.textBox_holding_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_holding_in.TabIndex = 3;
+            // 
+            // textBox_coil_var_in
+            // 
+            this.textBox_coil_var_in.Location = new System.Drawing.Point(673, 68);
+            this.textBox_coil_var_in.Name = "textBox_coil_var_in";
+            this.textBox_coil_var_in.Size = new System.Drawing.Size(95, 28);
+            this.textBox_coil_var_in.TabIndex = 3;
+            // 
+            // textBox_coil_start
+            // 
+            this.textBox_coil_start.Location = new System.Drawing.Point(390, 65);
+            this.textBox_coil_start.Name = "textBox_coil_start";
+            this.textBox_coil_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_coil_start.TabIndex = 3;
+            this.textBox_coil_start.TextChanged += new System.EventHandler(this.textBox_coil_start_TextChanged);
+            // 
+            // textBox_status
+            // 
+            this.textBox_status.Location = new System.Drawing.Point(189, 194);
+            this.textBox_status.Name = "textBox_status";
+            this.textBox_status.Size = new System.Drawing.Size(128, 28);
+            this.textBox_status.TabIndex = 2;
+            this.textBox_status.TextChanged += new System.EventHandler(this.textBox_status_TextChanged);
+            // 
+            // textBox_lisan
+            // 
+            this.textBox_lisan.Location = new System.Drawing.Point(189, 151);
+            this.textBox_lisan.Name = "textBox_lisan";
+            this.textBox_lisan.Size = new System.Drawing.Size(128, 28);
+            this.textBox_lisan.TabIndex = 2;
+            this.textBox_lisan.TextChanged += new System.EventHandler(this.textBox_lisan_TextChanged);
+            // 
+            // textBox_holding
+            // 
+            this.textBox_holding.Location = new System.Drawing.Point(189, 108);
+            this.textBox_holding.Name = "textBox_holding";
+            this.textBox_holding.Size = new System.Drawing.Size(128, 28);
+            this.textBox_holding.TabIndex = 2;
+            this.textBox_holding.TextChanged += new System.EventHandler(this.textBox_holding_TextChanged);
+            // 
+            // textBox_coil
+            // 
+            this.textBox_coil.Location = new System.Drawing.Point(189, 65);
+            this.textBox_coil.Name = "textBox_coil";
+            this.textBox_coil.Size = new System.Drawing.Size(128, 28);
+            this.textBox_coil.TabIndex = 2;
+            this.textBox_coil.TextChanged += new System.EventHandler(this.textBox_coil_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(670, 25);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(89, 18);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "I区变量名";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(804, 25);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(89, 18);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "O区变量名";
             // 
             // label2
             // 
@@ -126,23 +280,14 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "IO映射地址";
             // 
-            // label5
+            // label8
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(53, 68);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 18);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "线圈寄存器";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(53, 111);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(98, 18);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "保持寄存器";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(53, 197);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(98, 18);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "状态寄存器";
             // 
             // label7
             // 
@@ -153,14 +298,32 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "离散输入寄存器";
             // 
-            // label8
+            // label6
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(53, 197);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(98, 18);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "状态寄存器";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(53, 111);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(98, 18);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "保持寄存器";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(53, 68);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(98, 18);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "线圈寄存器";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(53, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(98, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "寄存器个数";
             // 
             // panel3
             // 
@@ -180,213 +343,13 @@
             this.panel3.Size = new System.Drawing.Size(988, 323);
             this.panel3.TabIndex = 2;
             // 
-            // textBox_coil
-            // 
-            this.textBox_coil.Location = new System.Drawing.Point(189, 65);
-            this.textBox_coil.Name = "textBox_coil";
-            this.textBox_coil.Size = new System.Drawing.Size(128, 28);
-            this.textBox_coil.TabIndex = 2;
-            // 
-            // textBox_holding
-            // 
-            this.textBox_holding.Location = new System.Drawing.Point(189, 108);
-            this.textBox_holding.Name = "textBox_holding";
-            this.textBox_holding.Size = new System.Drawing.Size(128, 28);
-            this.textBox_holding.TabIndex = 2;
-            // 
-            // textBox_lisan
-            // 
-            this.textBox_lisan.Location = new System.Drawing.Point(189, 151);
-            this.textBox_lisan.Name = "textBox_lisan";
-            this.textBox_lisan.Size = new System.Drawing.Size(128, 28);
-            this.textBox_lisan.TabIndex = 2;
-            // 
-            // textBox_status
-            // 
-            this.textBox_status.Location = new System.Drawing.Point(189, 194);
-            this.textBox_status.Name = "textBox_status";
-            this.textBox_status.Size = new System.Drawing.Size(128, 28);
-            this.textBox_status.TabIndex = 2;
-            // 
-            // textBox_coil_start
-            // 
-            this.textBox_coil_start.Location = new System.Drawing.Point(390, 65);
-            this.textBox_coil_start.Name = "textBox_coil_start";
-            this.textBox_coil_start.Size = new System.Drawing.Size(75, 28);
-            this.textBox_coil_start.TabIndex = 3;
-            // 
-            // textBox_coil_end
-            // 
-            this.textBox_coil_end.Location = new System.Drawing.Point(483, 65);
-            this.textBox_coil_end.Name = "textBox_coil_end";
-            this.textBox_coil_end.Size = new System.Drawing.Size(75, 28);
-            this.textBox_coil_end.TabIndex = 3;
-            // 
-            // textBox_holding_start
-            // 
-            this.textBox_holding_start.Location = new System.Drawing.Point(390, 108);
-            this.textBox_holding_start.Name = "textBox_holding_start";
-            this.textBox_holding_start.Size = new System.Drawing.Size(75, 28);
-            this.textBox_holding_start.TabIndex = 3;
-            // 
-            // textBox_holding_end
-            // 
-            this.textBox_holding_end.Location = new System.Drawing.Point(483, 108);
-            this.textBox_holding_end.Name = "textBox_holding_end";
-            this.textBox_holding_end.Size = new System.Drawing.Size(75, 28);
-            this.textBox_holding_end.TabIndex = 3;
-            // 
-            // textBox_lisan_start
-            // 
-            this.textBox_lisan_start.Location = new System.Drawing.Point(390, 151);
-            this.textBox_lisan_start.Name = "textBox_lisan_start";
-            this.textBox_lisan_start.Size = new System.Drawing.Size(75, 28);
-            this.textBox_lisan_start.TabIndex = 3;
-            // 
-            // textBox_lisan_end
-            // 
-            this.textBox_lisan_end.Location = new System.Drawing.Point(483, 151);
-            this.textBox_lisan_end.Name = "textBox_lisan_end";
-            this.textBox_lisan_end.Size = new System.Drawing.Size(75, 28);
-            this.textBox_lisan_end.TabIndex = 3;
-            // 
-            // textBox_status_start
-            // 
-            this.textBox_status_start.Location = new System.Drawing.Point(390, 194);
-            this.textBox_status_start.Name = "textBox_status_start";
-            this.textBox_status_start.Size = new System.Drawing.Size(75, 28);
-            this.textBox_status_start.TabIndex = 3;
-            // 
-            // textBox_status_end
-            // 
-            this.textBox_status_end.Location = new System.Drawing.Point(483, 194);
-            this.textBox_status_end.Name = "textBox_status_end";
-            this.textBox_status_end.Size = new System.Drawing.Size(75, 28);
-            this.textBox_status_end.TabIndex = 3;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(804, 25);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 18);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "O区变量名";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(670, 25);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(89, 18);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "I区变量名";
-            // 
-            // textBox_coil_var_in
-            // 
-            this.textBox_coil_var_in.Location = new System.Drawing.Point(673, 68);
-            this.textBox_coil_var_in.Name = "textBox_coil_var_in";
-            this.textBox_coil_var_in.Size = new System.Drawing.Size(95, 28);
-            this.textBox_coil_var_in.TabIndex = 3;
-            // 
-            // textBox_coil_var_out
-            // 
-            this.textBox_coil_var_out.Location = new System.Drawing.Point(807, 68);
-            this.textBox_coil_var_out.Name = "textBox_coil_var_out";
-            this.textBox_coil_var_out.Size = new System.Drawing.Size(95, 28);
-            this.textBox_coil_var_out.TabIndex = 3;
-            // 
-            // textBox_holding_in
-            // 
-            this.textBox_holding_in.Location = new System.Drawing.Point(673, 108);
-            this.textBox_holding_in.Name = "textBox_holding_in";
-            this.textBox_holding_in.Size = new System.Drawing.Size(95, 28);
-            this.textBox_holding_in.TabIndex = 3;
-            // 
-            // textBox_holding_out
-            // 
-            this.textBox_holding_out.Location = new System.Drawing.Point(807, 108);
-            this.textBox_holding_out.Name = "textBox_holding_out";
-            this.textBox_holding_out.Size = new System.Drawing.Size(95, 28);
-            this.textBox_holding_out.TabIndex = 3;
-            // 
-            // textBox_lisan_in
-            // 
-            this.textBox_lisan_in.Location = new System.Drawing.Point(673, 151);
-            this.textBox_lisan_in.Name = "textBox_lisan_in";
-            this.textBox_lisan_in.Size = new System.Drawing.Size(95, 28);
-            this.textBox_lisan_in.TabIndex = 3;
-            // 
-            // textBox_lisan_out
-            // 
-            this.textBox_lisan_out.Location = new System.Drawing.Point(807, 151);
-            this.textBox_lisan_out.Name = "textBox_lisan_out";
-            this.textBox_lisan_out.Size = new System.Drawing.Size(95, 28);
-            this.textBox_lisan_out.TabIndex = 3;
-            // 
-            // textBox_status_in
-            // 
-            this.textBox_status_in.Location = new System.Drawing.Point(673, 194);
-            this.textBox_status_in.Name = "textBox_status_in";
-            this.textBox_status_in.Size = new System.Drawing.Size(95, 28);
-            this.textBox_status_in.TabIndex = 3;
-            // 
-            // textBox_status_out
-            // 
-            this.textBox_status_out.Location = new System.Drawing.Point(807, 194);
-            this.textBox_status_out.Name = "textBox_status_out";
-            this.textBox_status_out.Size = new System.Drawing.Size(95, 28);
-            this.textBox_status_out.TabIndex = 3;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(59, 32);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(152, 18);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "IO映射分配总地址";
-            // 
-            // textBox_start_total
-            // 
-            this.textBox_start_total.Location = new System.Drawing.Point(189, 76);
-            this.textBox_start_total.Name = "textBox_start_total";
-            this.textBox_start_total.Size = new System.Drawing.Size(88, 28);
-            this.textBox_start_total.TabIndex = 1;
-            this.textBox_start_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(53, 79);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(80, 18);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "起始地址";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(53, 129);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(44, 18);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "长度";
-            // 
-            // textBox_length_total
-            // 
-            this.textBox_length_total.Location = new System.Drawing.Point(189, 119);
-            this.textBox_length_total.Name = "textBox_length_total";
-            this.textBox_length_total.Size = new System.Drawing.Size(88, 28);
-            this.textBox_length_total.TabIndex = 1;
-            this.textBox_length_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
-            // 
             // textBox23
             // 
             this.textBox23.Location = new System.Drawing.Point(189, 238);
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(88, 28);
             this.textBox23.TabIndex = 4;
+            this.textBox23.TextChanged += new System.EventHandler(this.textBox23_TextChanged);
             // 
             // radioButton2
             // 
@@ -398,6 +361,7 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "ASCII";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -409,6 +373,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "RTU";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // label4
             // 
@@ -427,6 +392,49 @@
             this.label3.Size = new System.Drawing.Size(80, 18);
             this.label3.TabIndex = 3;
             this.label3.Text = "传输模式";
+            // 
+            // textBox_length_total
+            // 
+            this.textBox_length_total.Location = new System.Drawing.Point(189, 119);
+            this.textBox_length_total.Name = "textBox_length_total";
+            this.textBox_length_total.Size = new System.Drawing.Size(88, 28);
+            this.textBox_length_total.TabIndex = 1;
+            this.textBox_length_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
+            // 
+            // textBox_start_total
+            // 
+            this.textBox_start_total.Location = new System.Drawing.Point(189, 76);
+            this.textBox_start_total.Name = "textBox_start_total";
+            this.textBox_start_total.Size = new System.Drawing.Size(88, 28);
+            this.textBox_start_total.TabIndex = 1;
+            this.textBox_start_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(59, 32);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(152, 18);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "IO映射分配总地址";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(53, 129);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(44, 18);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "长度";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(53, 79);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(80, 18);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "起始地址";
             // 
             // modbusslaveform
             // 
