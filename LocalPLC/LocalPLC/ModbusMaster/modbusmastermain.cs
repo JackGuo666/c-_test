@@ -9,13 +9,14 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using ADELib;
 using System.Data.Common;
-
+using System.Xml;
+using LocalPLC;
 
 namespace LocalPLC.ModbusMaster
 {
     public partial class modbusmastermain : UserControl
     {
-
+        
 
         private string columnConfig = "配置";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
@@ -24,6 +25,53 @@ namespace LocalPLC.ModbusMaster
             InitializeComponent();
 
            
+        }
+
+        public void saveXml(ref XmlElement elem, ref XmlDocument doc)
+        {
+            XmlElement elem1 = doc.CreateElement("modbusmaster");
+            elem1.SetAttribute("name", "张三");
+            elem1.SetAttribute("class", "三年一班");
+            elem1.SetAttribute("sex", "性别");
+            elem.AppendChild(elem1);
+
+            //master项
+            for(int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            {
+                ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
+                XmlElement elem1_m = doc.CreateElement("m");
+                elem1_m.SetAttribute("id", data.ID.ToString());
+                //transformChannel com1 com2 com3
+                elem1_m.SetAttribute("transformChannel", data.transformChannel);
+                //0 RTU    1 ASCII
+                elem1_m.SetAttribute("transformMode", data.transformMode.ToString());
+                elem1_m.SetAttribute("responseTimeout", data.responseTimeout.ToString());
+
+                //create devices
+                for(int j = 0; j < data.modbusDeviceList.Count; j ++)
+                {
+                    DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
+                    XmlElement elem1_m_d = doc.CreateElement("device");
+                    elem1_m_d.SetAttribute("ID", dataDev.ID.ToString());
+                    elem1_m_d.SetAttribute("namedev", dataDev.nameDev.ToString());
+                    elem1_m_d.SetAttribute("slaveaddr", dataDev.slaveAddr.ToString());
+                    elem1_m_d.SetAttribute("responsetimeout", dataDev.reponseTimeout.ToString());
+                    elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
+                    elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
+                    elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible);
+
+                    //通道
+
+                    elem1_m.AppendChild(elem1_m_d);
+                }
+                
+
+                //XmlElement elem1_d = doc.CreateElement("device");
+                //elem1_m.SetAttribute("id", data.ID.ToString());
+
+                elem1.AppendChild(elem1_m);
+            }
+
         }
 
         private enum COLUMNNAME : int

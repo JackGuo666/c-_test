@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using LocalPLC.ModbusMaster;
 using LocalPLC.ModbusSlave;
 using ADELib;
+using System.Xml;
 
 namespace LocalPLC.ModbusSlave
 {
@@ -25,6 +26,22 @@ namespace LocalPLC.ModbusSlave
 
             dataManager = DataManager.GetInstance();
         }
+
+        public void saveXml(ref System.Xml.XmlElement elem, ref System.Xml.XmlDocument doc)
+        {
+            XmlElement elem1 = doc.CreateElement("modbusslave");
+            elem1.SetAttribute("tt", "张三");
+            elem1.SetAttribute("ttt", "三年一班");
+            elem1.SetAttribute("tttt", "性别");
+            elem.AppendChild(elem1);
+
+            XmlElement elem1_1 = doc.CreateElement("c");
+            elem1_1.SetAttribute("tt", "张三");
+            elem1_1.SetAttribute("ttt", "三年一班");
+            elem1_1.SetAttribute("tttt", "性别");
+            elem1.AppendChild(elem1_1);
+        }
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

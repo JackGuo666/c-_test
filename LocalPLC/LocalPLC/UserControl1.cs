@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 using System.Runtime.InteropServices;
 using ADELib;
@@ -22,9 +23,14 @@ namespace LocalPLC
         public UserControl1()
         {
             InitializeComponent();
+
+
         }
 
         public static ADELib.Application multiprogApp = null;
+
+
+  
 
         public empty e1;
         public ModbusClient.modbusclient mct;
@@ -42,11 +48,13 @@ namespace LocalPLC
         {
             multiprogApp = Application as ADELib.Application;
             adviceProjectCookie = multiprogApp.AdviseProjectObserver(this);
+
+            
         }
 
         void IAdeAddIn.OnDisconnection(AdeDisconnectMode RemoveMode, ref Array Custom)
         {
-           
+            
         }
 
         void IAdeAddIn.OnAddInsUpdate(ref Array Custom)
@@ -113,7 +121,31 @@ namespace LocalPLC
                 modslave.Show();
                 ModbusWindow.Controls.Clear();
                 ModbusWindow.Controls.Add(modslave);
+
+
+                saveXml();
             }
+        }
+
+
+        private void saveXml()
+        {
+            Random rd = new Random();
+
+            XmlDocument xDoc = new XmlDocument();
+            XmlDeclaration declaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            xDoc.AppendChild(declaration);
+
+            //创建根节点
+            XmlElement elem = xDoc.CreateElement("modbus");
+            xDoc.AppendChild(elem);
+
+            modmaster.saveXml(ref elem, ref xDoc);
+            modslave.saveXml(ref elem, ref xDoc);
+
+            xDoc.Save("students.xml");
+            int 您好 = 5;
+            int b = 您好;
         }
     }
 }
