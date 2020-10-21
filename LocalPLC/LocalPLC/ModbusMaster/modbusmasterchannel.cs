@@ -234,11 +234,22 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            if (str.Equals(""))
+            Object obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            string str = "";
+            if (obj == null)
             {
 
             }
+            else 
+            {
+                str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                if (str.Equals(""))
+                {
+
+                }
+            }
+
+
 
             if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.ID)
             {

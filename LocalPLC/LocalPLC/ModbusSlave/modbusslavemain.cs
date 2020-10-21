@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using LocalPLC.ModbusMaster;
 using LocalPLC.ModbusSlave;
+using ADELib;
 
 namespace LocalPLC.ModbusSlave
 {
@@ -62,7 +63,7 @@ namespace LocalPLC.ModbusSlave
             {
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
                 data.ID = row;
-                dataGridView1.Rows[i].Cells["配置"].Value = "Button " + i.ToString();
+                dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
 
                 dataManager.listSlave.Add(data);

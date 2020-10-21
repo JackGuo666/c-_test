@@ -45,7 +45,7 @@ namespace LocalPLC.ModbusMaster
             {
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
                 data.ID = row;
-                dataGridView1.Rows[i].Cells[columnConfig].Value = "Button " + i.ToString();
+                dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
 
                 masterManage.modbusMastrList.Add(data);
@@ -132,11 +132,22 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            string str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-            if (str.Equals(""))
+            Object obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            string str = "";
+            if (obj == null)
             {
 
             }
+            else
+            {
+                str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                if (str.Equals(""))
+                {
+
+                }
+            }
+
+
 
             if (e.ColumnIndex == (int)COLUMNNAME.ID)
             {
