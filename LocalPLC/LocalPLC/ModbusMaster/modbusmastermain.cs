@@ -31,6 +31,7 @@ namespace LocalPLC.ModbusMaster
             ID
         };
         //ttttttttttttttttttttttttttttttt
+        //ttest
         private void button_add_Click(object sender, EventArgs e)
         {
             int row = dataGridView1.RowCount;
