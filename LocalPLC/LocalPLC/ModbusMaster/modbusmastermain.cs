@@ -30,7 +30,7 @@ namespace LocalPLC.ModbusMaster
         {
             ID
         };
-
+        //ttttttttttttttttttttttttttttttt
         private void button_add_Click(object sender, EventArgs e)
         {
             int row = dataGridView1.RowCount;
