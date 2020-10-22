@@ -142,8 +142,8 @@ namespace LocalPLC
 
             modmaster.saveXml(ref elem, ref xDoc);
             modslave.saveXml(ref elem, ref xDoc);
-
             xDoc.Save("students.xml");
+            //xDoc.Save("C:\\Users\\Public\\Documents\\MULTIPROG\\Projects\\students.xml");
             int 您好 = 5;
             int b = 您好;
         }

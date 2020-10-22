@@ -124,31 +124,39 @@ namespace LocalPLC.ModbusMaster
             //dataGridView1.AllowUserToResizeColumns = true;
 
             int i = 0;
-            foreach (ChannelData devData in data_.modbusChannelList)
+            foreach (ChannelData channelData in data_.modbusChannelList)
             {
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = devData.ID;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = channelData.ID;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = devData.nameChannel;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = channelData.nameChannel;
 
                 ////
-                string value = dicMsg[devData.msgType];
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = value;
+                if (!dicMsg.ContainsKey(channelData.msgType))
+                { 
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "";
+                }
+                else
+                {
+                    string value = dicMsg[channelData.msgType];
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = value;
+                }
+                
 
                 //POLLINGTIME, READOFFSET, READLENGTH,
             //WRITEOFFSET, WRITELENGTH, NOTE
 
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = devData.pollingTime.ToString();
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = channelData.pollingTime.ToString();
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = devData.readOffset;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = channelData.readOffset;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = devData.readLength;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = channelData.readLength;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = devData.writeOffset;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = channelData.writeOffset;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = devData.writeLength;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = channelData.writeLength;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = devData.note;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = channelData.note;
                 i++;
             }
 

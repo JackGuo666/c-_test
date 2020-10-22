@@ -27,6 +27,11 @@ namespace LocalPLC.ModbusMaster
            
         }
 
+        public void loadXml(ref XmlDocument doc)
+        {
+
+        }
+
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elem1 = doc.CreateElement("modbusmaster");
@@ -61,6 +66,22 @@ namespace LocalPLC.ModbusMaster
                     elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible);
 
                     //通道
+                    for(int k = 0; k < dataDev.modbusChannelList.Count; k++)
+                    {
+                        ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(i);
+                        XmlElement elem1_m_d_c = doc.CreateElement("channel");
+                        elem1_m_d_c.SetAttribute("ID", dataChannel.ID.ToString());
+                        elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
+                        elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
+                        elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
+                        elem1_m_d_c.SetAttribute("readoffset", dataChannel.readOffset.ToString());
+                        elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());
+                        elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
+                        elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
+                        elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
+
+                        elem1_m_d.AppendChild(elem1_m_d_c);
+                    }
 
                     elem1_m.AppendChild(elem1_m_d);
                 }
