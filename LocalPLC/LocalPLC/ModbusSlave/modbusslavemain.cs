@@ -35,11 +35,32 @@ namespace LocalPLC.ModbusSlave
             elem1.SetAttribute("tttt", "性别");
             elem.AppendChild(elem1);
 
-            XmlElement elem1_1 = doc.CreateElement("c");
-            elem1_1.SetAttribute("tt", "张三");
-            elem1_1.SetAttribute("ttt", "三年一班");
-            elem1_1.SetAttribute("tttt", "性别");
-            elem1.AppendChild(elem1_1);
+            
+            for(int i = 0; i < dataManager.listSlave.Count; i++)
+            {
+                ModbusSlaveData data = dataManager.listSlave.ElementAt(i);
+                XmlElement elem1_s = doc.CreateElement("s");
+                elem1_s.SetAttribute("ID", data.ID.ToString());
+
+                //slave详细信息
+                //data.dataDevice_;
+                XmlElement elem1_s_data = doc.CreateElement("data");
+                elem1_s.SetAttribute("coilcount", data.dataDevice_.coilCount.ToString());
+                elem1_s.SetAttribute("holdingcount", data.dataDevice_.holdingCount.ToString());
+                elem1_s.SetAttribute("decretecount", data.dataDevice_.decreteCount.ToString());
+                elem1_s.SetAttribute("statuscount", data.dataDevice_.statusCount.ToString());
+
+                elem1_s.SetAttribute("transformmode", data.dataDevice_.transformMode.ToString());
+                elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
+
+                //elem1_s.AppendChild(elem1_s_data);
+
+                elem1.AppendChild(elem1_s);
+            }
+            
+
+
+            
         }
 
 

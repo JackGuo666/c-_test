@@ -14,6 +14,8 @@ namespace LocalPLC.ModbusSlave
 
         private DataManager dataManager = null;
         ModbusSlaveData data_;
+        enum TRANSFORMMODE : int
+        { RTU, ASCII}
         public modbusslaveform(int index)
         {
             InitializeComponent();
@@ -66,7 +68,7 @@ namespace LocalPLC.ModbusSlave
         {
             if(radioButton1.Checked == true)
             {
-                data_.dataDevice_.transformMode = false;
+                data_.dataDevice_.transformMode = (int)TRANSFORMMODE.RTU;
             }
         }
 
@@ -74,7 +76,7 @@ namespace LocalPLC.ModbusSlave
         {
             if(radioButton2.Checked == true)
             {
-                data_.dataDevice_.transformMode = true;
+                data_.dataDevice_.transformMode = (int)TRANSFORMMODE.ASCII;
             }
         }
 
@@ -90,7 +92,7 @@ namespace LocalPLC.ModbusSlave
             textBox_lisan.Text = data_.dataDevice_.decreteCount.ToString();
             textBox_status.Text = data_.dataDevice_.statusCount.ToString();
 
-            if(data_.dataDevice_.transformMode == false)
+            if(data_.dataDevice_.transformMode == (int)TRANSFORMMODE.RTU)
             {
                 radioButton1.Checked = true;
             }

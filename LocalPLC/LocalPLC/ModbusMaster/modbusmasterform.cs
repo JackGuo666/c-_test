@@ -22,7 +22,7 @@ namespace LocalPLC.ModbusMaster
         public void getMasterData(ref ModbusMasterData data)
         {
             data_ = data;
-            data_.ID = 222;
+            data_.ID = data.ID;
         }
 
         public enum COLUMNNAME :  int

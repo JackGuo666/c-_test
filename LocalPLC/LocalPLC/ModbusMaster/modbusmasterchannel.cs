@@ -26,6 +26,7 @@ namespace LocalPLC.ModbusMaster
         {
             InitializeComponent();
 
+            //功能码
             dicMsg.Add(0x01, "读多个位(线圈) - 0x01");
             dicMsg.Add(0x02, "读多个位(离散输入) - 0x02");
             dicMsg.Add(0x03, "读多个字(保持寄存器) - 0x03");

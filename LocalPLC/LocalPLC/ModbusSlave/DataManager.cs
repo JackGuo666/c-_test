@@ -40,7 +40,7 @@ namespace LocalPLC.ModbusSlave
         public string IOAddrRange;
         public int IOAddrLength;
 
-        public bool transformMode;  //0 RTU 1 ASCII
+        public int transformMode;  //0 RTU 1 ASCII
         public int deviceAddr;
     }
 
