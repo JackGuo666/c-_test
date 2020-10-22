@@ -27,9 +27,32 @@ namespace LocalPLC.ModbusMaster
            
         }
 
-        public void loadXml(ref XmlDocument doc)
+        public void loadXml(XmlNode xn)
         {
+            XmlNodeList nodeList = xn.ChildNodes;
+            foreach (XmlNode childNode in nodeList)
+            {
+                XmlElement e = (XmlElement)childNode;
+                string name = e.Name;
+                string test = e.GetAttribute("name");
+                Console.WriteLine(name);
 
+                ModbusMasterData data = new ModbusMasterData();
+
+                int.TryParse(e.GetAttribute("id"), out data.ID);
+                data.transformChannel = e.GetAttribute("transformchannel");
+                int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
+                int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
+
+                //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
+
+                masterManage.add(data);
+
+
+
+                
+
+            }
         }
 
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
@@ -47,10 +70,10 @@ namespace LocalPLC.ModbusMaster
                 XmlElement elem1_m = doc.CreateElement("m");
                 elem1_m.SetAttribute("id", data.ID.ToString());
                 //transformChannel com1 com2 com3
-                elem1_m.SetAttribute("transformChannel", data.transformChannel);
+                elem1_m.SetAttribute("transformchannel", data.transformChannel);
                 //0 RTU    1 ASCII
-                elem1_m.SetAttribute("transformMode", data.transformMode.ToString());
-                elem1_m.SetAttribute("responseTimeout", data.responseTimeout.ToString());
+                elem1_m.SetAttribute("transformmode", data.transformMode.ToString());
+                elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
 
                 //create devices
                 for(int j = 0; j < data.modbusDeviceList.Count; j ++)
@@ -137,11 +160,19 @@ namespace LocalPLC.ModbusMaster
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
-            dataGridView1.RowCount = /*8*/ 1;
+            dataGridView1.RowCount = /*8*/ 1 + masterManage.modbusMastrList.Count;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
+
+            for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            {
+                ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
+                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+            }
+
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -271,7 +302,7 @@ namespace LocalPLC.ModbusMaster
     public class ModbusMasterData
     {
 
-        public int ID { get; set; }
+        public int ID;
         //public DeviceData device { get; set; }
 
         public string transformChannel;

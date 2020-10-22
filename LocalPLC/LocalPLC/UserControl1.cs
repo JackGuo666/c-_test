@@ -34,13 +34,70 @@ namespace LocalPLC
 
         public empty e1;
         public ModbusClient.modbusclient mct;
-        public modbusmastermain modmaster = new modbusmastermain();
+        public modbusmastermain modmaster = null;
         public modbusslavemain modslave = new modbusslavemain();
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
             mct = new ModbusClient.modbusclient();
-        }
+
+
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load("students.xml");
+
+
+            //根节点
+            XmlNode node = xDoc.SelectSingleNode("root");
+            XmlNodeList nodeList = node.ChildNodes;
+            foreach (XmlNode xn in nodeList)
+            {
+                XmlElement elem = (XmlElement)xn;
+                //根节点下面分支
+                string name = xn.Name;
+                Console.WriteLine(name);
+
+                if(name == "modbus")
+                {
+                    XmlNodeList childList = xn.ChildNodes;
+                    foreach (XmlNode nChild in childList)
+                    {
+                        //student子节点
+                        XmlElement eChild = (XmlElement)nChild;
+                        string childname = eChild.Name;
+                        if (childname == "modbusmaster")
+                        {
+
+                            //语文成绩结构
+                            //StudentData st = new StudentData();
+                            //st.test2 = eChild.InnerText;
+                            modmaster = new modbusmastermain();
+
+                            modmaster.loadXml(nChild);
+                        }
+                        else if (childname == "modbusslave")
+                        {
+                            //数学成绩结构
+                        }
+                        else if (childname == "modbusclient")
+                        {
+                            //
+                        }
+                        else if(childname == "modbusserver")
+                        {
+
+                        }
+                    }
+
+
+                
+                }
+            }
+
+            
+    }
+
+        //void loadXml(ref )
+
 
         private static int adviceProjectCookie = 0;
 
@@ -137,8 +194,10 @@ namespace LocalPLC
             xDoc.AppendChild(declaration);
 
             //创建根节点
+            XmlElement elemRoot = xDoc.CreateElement("root");
+            xDoc.AppendChild(elemRoot);
             XmlElement elem = xDoc.CreateElement("modbus");
-            xDoc.AppendChild(elem);
+            elemRoot.AppendChild(elem);
 
             modmaster.saveXml(ref elem, ref xDoc);
             modslave.saveXml(ref elem, ref xDoc);
