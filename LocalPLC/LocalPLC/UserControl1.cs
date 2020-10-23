@@ -255,13 +255,9 @@ namespace LocalPLC
             }
             else if(name == "ModbusRTU-Slave")
             {
-                modmaster.deleteTableRow();
-                
-                return;
-                
-                modslave.Show();
-                ModbusWindow.Controls.Clear();
-                ModbusWindow.Controls.Add(modslave);
+                //modslave.Show();
+                //ModbusWindow.Controls.Clear();
+                //ModbusWindow.Controls.Add(modslave);
 
                 
                 //测试函数 暂定位置

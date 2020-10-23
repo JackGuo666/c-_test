@@ -164,12 +164,14 @@ namespace LocalPLC.ModbusMaster
         bool init = false;
         public void initForm()
         {
+            //load 事件只加载一次，工程重新加载需清空之前函数
+            //init是load加载后，initForm才可以加载
             if(init == false)
             {
                 return;
             }
             
-            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
             {
                 dataGridView1.Rows.RemoveAt(i);
             }
