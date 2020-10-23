@@ -24,25 +24,28 @@ namespace LocalPLC
         {
             InitializeComponent();
 
-
+            i++;
         }
 
         public static ADELib.Application multiprogApp = null;
-
+        public static string projectPath = "test";
+        private static string projectName = null;
+        public int test = 5;
+        static int i = 0; 
 
   
 
         public empty e1;
         public ModbusClient.modbusclient mct;
-        public modbusmastermain modmaster = null;
-        public modbusslavemain modslave = new modbusslavemain();
+        public static modbusmastermain modmaster = new modbusmastermain();
+        public static modbusslavemain modslave = new modbusslavemain();
         private void UserControl1_Load(object sender, EventArgs e)
         {
-            e1 = new empty();
-            mct = new ModbusClient.modbusclient();
-
-
+            return;
+            
             XmlDocument xDoc = new XmlDocument();
+            //string projectPath = multiprogApp.ActiveProject.Path;
+            //string projectName = multiprogApp.ActiveProject.Name;
             xDoc.Load("students.xml");
 
 
@@ -70,7 +73,11 @@ namespace LocalPLC
                             //语文成绩结构
                             //StudentData st = new StudentData();
                             //st.test2 = eChild.InnerText;
-                            modmaster = new modbusmastermain();
+                            if(modmaster == null)
+                            {
+                                modmaster = new modbusmastermain();
+                            }
+                            
 
                             modmaster.loadXml(nChild);
                         }
@@ -92,8 +99,6 @@ namespace LocalPLC
                 
                 }
             }
-
-            
     }
 
         //void loadXml(ref )
@@ -127,7 +132,6 @@ namespace LocalPLC
         void IAdeAddIn.OnBeginShutdown(ref Array Custom)
         {
             multiprogApp.UnadviseProjectObserver(adviceProjectCookie);
-
         }
 
         void IAdeProjectObserver.BeforeProjectOpen(string Name, ref bool Cancel)
@@ -137,7 +141,76 @@ namespace LocalPLC
 
         void IAdeProjectObserver.AfterProjectOpen(string Name)
         {
-            MessageBox.Show(Name + "has opened");
+            //获得当前工程路径
+            XmlDocument xDoc = new XmlDocument();
+            string projectPath = multiprogApp.ActiveProject.Path;
+            string projectName = multiprogApp.ActiveProject.Name;
+            string path = projectPath + "\\" + projectName + "\\" + "config_project.xml";
+
+
+            clean();
+
+            try
+            {
+                xDoc.Load(path);
+
+                //根节点
+                XmlNode node = xDoc.SelectSingleNode("root");
+                XmlNodeList nodeList = node.ChildNodes;
+                foreach (XmlNode xn in nodeList)
+                {
+                    XmlElement elem = (XmlElement)xn;
+                    //根节点下面分支
+                    string name = xn.Name;
+                    Console.WriteLine(name);
+
+                    if (name == "modbus")
+                    {
+                        XmlNodeList childList = xn.ChildNodes;
+                        foreach (XmlNode nChild in childList)
+                        {
+                            //student子节点
+                            XmlElement eChild = (XmlElement)nChild;
+                            string childname = eChild.Name;
+                            if (childname == "modbusmaster")
+                            {
+                                //语文成绩结构
+                                //StudentData st = new StudentData();
+                                //st.test2 = eChild.InnerText;
+                                //modmaster = new modbusmastermain();
+
+
+                                modmaster.loadXml(nChild);
+                            }
+                            else if (childname == "modbusslave")
+                            {
+                                //数学成绩结构
+                            }
+                            else if (childname == "modbusclient")
+                            {
+                                //
+                            }
+                            else if (childname == "modbusserver")
+                            {
+
+                            }
+                        }
+
+
+
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.Out.WriteLine(e.Message);
+                return;
+            }
+
+
+
+            
+
         }
 
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
@@ -152,12 +225,13 @@ namespace LocalPLC
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            
             string name = e.Node.Text.ToString();
             if (name == "Modbus")
             {
-                e1.Show();
-                ModbusWindow.Controls.Clear();
-                ModbusWindow.Controls.Add(e1);
+                //e1.Show();
+                //ModbusWindow.Controls.Clear();
+                //ModbusWindow.Controls.Add(e1);
 
             }
             else if (name == "MobusTCP-Client")
@@ -168,18 +242,29 @@ namespace LocalPLC
             }
             else if(name == "ModbusRTU-Master")
             {
-                
+                if(modmaster == null)
+                {
+                    return;
+                }
+                modmaster.initForm();
                 modmaster.Show();
                 ModbusWindow.Controls.Clear();
+
+
                 ModbusWindow.Controls.Add(modmaster);
             }
             else if(name == "ModbusRTU-Slave")
             {
+                modmaster.deleteTableRow();
+                
+                return;
+                
                 modslave.Show();
                 ModbusWindow.Controls.Clear();
                 ModbusWindow.Controls.Add(modslave);
 
-
+                
+                //测试函数 暂定位置
                 saveXml();
             }
         }
@@ -187,7 +272,15 @@ namespace LocalPLC
 
         private void saveXml()
         {
-            Random rd = new Random();
+            try 
+            {
+                string name = multiprogApp.ActiveProject.Name;
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+
 
             XmlDocument xDoc = new XmlDocument();
             XmlDeclaration declaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
@@ -201,10 +294,30 @@ namespace LocalPLC
 
             modmaster.saveXml(ref elem, ref xDoc);
             modslave.saveXml(ref elem, ref xDoc);
-            xDoc.Save("students.xml");
-            //xDoc.Save("C:\\Users\\Public\\Documents\\MULTIPROG\\Projects\\students.xml");
+
+            //xDoc.Save("students.xml");
+
+            string projectPath = multiprogApp.ActiveProject.Path;
+            string projectName = multiprogApp.ActiveProject.Name;
+
+            xDoc.Save(projectPath + "\\" + projectName + "\\config_project.xml");
             int 您好 = 5;
             int b = 您好;
+        }
+
+
+        void clean()
+        {
+            if(modmaster != null)
+            {
+                modmaster.deleteTableRow();
+                modmaster.masterManage.modbusMastrList.Clear();
+            }
+            
+            
+            modslave.dataManager.listSlave.Clear();
+
+            //client server clean
         }
     }
 }

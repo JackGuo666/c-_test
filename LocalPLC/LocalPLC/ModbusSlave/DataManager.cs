@@ -64,7 +64,7 @@ namespace LocalPLC.ModbusSlave
 
 namespace LocalPLC.ModbusSlave
 {
-    class DataManager
+    public class DataManager
     {
         private static DataManager instance = null;
         public List<ModbusSlave.ModbusSlaveData> listSlave = new List<ModbusSlave.ModbusSlaveData>();

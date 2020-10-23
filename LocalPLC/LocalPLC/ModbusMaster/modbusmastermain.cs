@@ -27,6 +27,17 @@ namespace LocalPLC.ModbusMaster
            
         }
 
+        public void deleteTableRow()
+        {
+            for (int i = dataGridView1.RowCount - 1; i >= 0; i--)
+            {
+                //int index = dataGridView1.SelectedRows[i].Index;
+
+                dataGridView1.Rows.RemoveAt(i);
+                masterManage.modbusMastrList.RemoveAt(i);
+            }
+        }
+
         public void loadXml(XmlNode xn)
         {
             XmlNodeList nodeList = xn.ChildNodes;
@@ -150,8 +161,60 @@ namespace LocalPLC.ModbusMaster
 
         }
 
-        private void modbusmastermain_Load(object sender, EventArgs e)
+        bool init = false;
+        public void initForm()
         {
+            if(init == false)
+            {
+                return;
+            }
+            
+            for (int i = 0; i < dataGridView1.Rows.Count - 1; i++)
+            {
+                dataGridView1.Rows.RemoveAt(i);
+            }
+
+
+
+            //DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
+            //buttonColumn.Name = columnConfig;
+
+            //DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            //cellColumn.Name = "ID";
+
+            //dataGridView1.Columns.Add(cellColumn);
+            //dataGridView1.Columns.Add(buttonColumn);
+
+            dataGridView1.RowCount += /*8*/  masterManage.modbusMastrList.Count;
+            //dataGridView1.AutoSize = true;
+            //dataGridView1.AllowUserToAddRows = false;
+            //dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+            //    DataGridViewContentAlignment.MiddleCenter;
+
+            for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            {
+                ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
+                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+            }
+        }
+
+        public void modbusmastermain_Load(object sender, EventArgs e)
+        {
+            init = true;
+            
+            for(int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                dataGridView1.Rows.RemoveAt(i);
+            }
+
+            //for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            //{
+            //    dataGridView1.Columns.RemoveAt(i);
+            //}
+
+
+
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = columnConfig;
 
@@ -166,12 +229,12 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
 
-            for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
-            {
-                ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
-                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
-                dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
-            }
+            //for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            //{
+            //    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
+            //    dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+            //    dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+            //}
 
         }
 

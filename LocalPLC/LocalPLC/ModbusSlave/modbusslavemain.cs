@@ -16,7 +16,7 @@ namespace LocalPLC.ModbusSlave
     public partial class modbusslavemain : UserControl
     {
 
-        private DataManager dataManager = null;
+        public DataManager dataManager = null;
 
         
 
