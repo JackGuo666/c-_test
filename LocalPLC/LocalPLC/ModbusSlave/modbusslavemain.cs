@@ -16,16 +16,46 @@ namespace LocalPLC.ModbusSlave
     public partial class modbusslavemain : UserControl
     {
 
-        public DataManager dataManager = null;
-
-        
+        public DataManager slaveDataManager = null;
 
         public modbusslavemain()
         {
             InitializeComponent();
 
-            dataManager = DataManager.GetInstance();
+            slaveDataManager = DataManager.GetInstance();
         }
+
+        public void deleteTableRow()
+        {
+            for(int i = dataGridView1.Rows.Count - 1; i>= 0; i--)
+            {
+                dataGridView1.Rows.RemoveAt(i);
+            }
+        }
+
+        bool init = false;
+        public void initForm()
+        {
+            if(init == false)
+            {
+                return;
+            }
+
+            for(int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                dataGridView1.Rows.RemoveAt(i);
+            }
+
+            dataGridView1.RowCount += slaveDataManager.listSlave.Count;
+            for (int i = 0; i < slaveDataManager.listSlave.Count; i++)
+            {
+                ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(i);
+                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
+            }
+        }
+
+
 
         public void saveXml(ref System.Xml.XmlElement elem, ref System.Xml.XmlDocument doc)
         {
@@ -36,9 +66,9 @@ namespace LocalPLC.ModbusSlave
             elem.AppendChild(elem1);
 
             
-            for(int i = 0; i < dataManager.listSlave.Count; i++)
+            for(int i = 0; i < slaveDataManager.listSlave.Count; i++)
             {
-                ModbusSlaveData data = dataManager.listSlave.ElementAt(i);
+                ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(i);
                 XmlElement elem1_s = doc.CreateElement("s");
                 elem1_s.SetAttribute("ID", data.ID.ToString());
 
@@ -79,11 +109,18 @@ namespace LocalPLC.ModbusSlave
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
-            dataGridView1.RowCount = /*8*/ 1;
+            dataGridView1.RowCount = /*8*/ 1 + slaveDataManager.listSlave.Count; ;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
+
+            for (int i = 0; i < slaveDataManager.listSlave.Count; i++)
+            {
+                ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(i);
+                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
+            }
         }
 
         private void button_add_Click(object sender, EventArgs e)
@@ -104,7 +141,7 @@ namespace LocalPLC.ModbusSlave
                 dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
 
-                dataManager.listSlave.Add(data);
+                slaveDataManager.listSlave.Add(data);
             }
         }
 
@@ -128,7 +165,7 @@ namespace LocalPLC.ModbusSlave
                     //    " is enabled");
 
                     modbusslaveform form = new modbusslaveform(e.RowIndex);
-                    ModbusSlaveData data = dataManager.listSlave.ElementAt(e.RowIndex);
+                    ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(e.RowIndex);
                     form.getSlaveData(ref data);
                     form.ShowDialog();
                 }
@@ -151,8 +188,39 @@ namespace LocalPLC.ModbusSlave
                 int index = dataGridView1.SelectedRows[i].Index;
 
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                dataManager.listSlave.RemoveAt(index);
+                slaveDataManager.listSlave.RemoveAt(index);
             }
+        }
+
+        public void loadXml(XmlNode xn)
+        {
+            init = true;
+
+            XmlNodeList nodeList = xn.ChildNodes;
+            foreach(XmlNode childNode in nodeList)
+            {
+                XmlElement e = (XmlElement)childNode;
+                string name = e.Name;
+
+                ModbusSlaveData data = new ModbusSlaveData();
+                
+                int.TryParse(e.GetAttribute("ID"), out data.ID);
+                //线圈个数
+                int.TryParse(e.GetAttribute("coilcount"), out data.dataDevice_.coilCount);
+                //保持
+                int.TryParse(e.GetAttribute("holdingcount"), out data.dataDevice_.holdingCount);
+                //离散输入
+                int.TryParse(e.GetAttribute("decretecount"), out data.dataDevice_.decreteCount);
+                //状态
+                int.TryParse(e.GetAttribute("statuscount"), out data.dataDevice_.statusCount);
+                //传输方式
+                int.TryParse(e.GetAttribute("transformmode"), out data.dataDevice_.transformMode);
+                //设备地址
+                int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
+
+                slaveDataManager.listSlave.Add(data);
+            }
+
         }
     }
 }

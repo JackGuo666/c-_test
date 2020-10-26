@@ -150,7 +150,6 @@ namespace LocalPLC
             string projectName = multiprogApp.ActiveProject.Name;
             string path = projectPath + "\\" + projectName + "\\" + "config_project.xml";
 
-
             clean();
 
             try
@@ -188,6 +187,7 @@ namespace LocalPLC
                             else if (childname == "modbusslave")
                             {
                                 //数学成绩结构
+                                modslave.loadXml(nChild);
                             }
                             else if (childname == "modbusclient")
                             {
@@ -241,8 +241,13 @@ namespace LocalPLC
             {
                 if(mct == null)
                 {
+                    //测试函数 暂定位置
+                    saveXml();
                     return;
                 }
+
+
+                saveXml();
 
                 mct.Show();
                 ModbusWindow.Controls.Clear();
@@ -263,13 +268,10 @@ namespace LocalPLC
             }
             else if(name == "ModbusRTU-Slave")
             {
-                //modslave.Show();
-                //ModbusWindow.Controls.Clear();
-                //ModbusWindow.Controls.Add(modslave);
-
-                
-                //测试函数 暂定位置
-                saveXml();
+                modslave.initForm();
+                modslave.Show();
+                ModbusWindow.Controls.Clear();
+                ModbusWindow.Controls.Add(modslave);
             }
         }
 
@@ -318,8 +320,12 @@ namespace LocalPLC
                 modmaster.masterManage.modbusMastrList.Clear();
             }
             
+            if(modslave != null)
+            {
+                modslave.deleteTableRow();
+                modslave.slaveDataManager.listSlave.Clear();
+            }
             
-            modslave.dataManager.listSlave.Clear();
 
             //client server clean
         }
