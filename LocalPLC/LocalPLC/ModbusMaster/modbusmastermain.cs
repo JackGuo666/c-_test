@@ -56,6 +56,43 @@ namespace LocalPLC.ModbusMaster
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
 
                 //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
+                //读取device数据
+                XmlNodeList nodeDeviceList = childNode.ChildNodes;
+                foreach(XmlNode childDeviceNode in nodeDeviceList)
+                {
+                    e = (XmlElement)childDeviceNode;
+                    DeviceData deviceData = new DeviceData();
+                    int.TryParse(e.GetAttribute("ID"), out deviceData.ID);
+                    deviceData.nameDev = e.GetAttribute("namedev");
+                    deviceData.slaveAddr = e.GetAttribute("slaveaddr");
+                    int.TryParse(e.GetAttribute("responsetimeout"), out deviceData.reponseTimeout);
+                    int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
+                    int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
+                    deviceData.resetVaraible = e.GetAttribute("resetvaraible");
+
+                    //读取channel数据
+                    XmlNodeList nodeChannelList = childDeviceNode.ChildNodes;
+                    foreach(XmlNode childChannelNode in nodeChannelList)
+                    {
+                        e = (XmlElement)childChannelNode;
+                        ChannelData channelData = new ChannelData();
+
+                        int.TryParse(e.GetAttribute("ID"), out channelData.ID);
+                        channelData.nameChannel = e.GetAttribute("namechannel");
+                        int.TryParse(e.GetAttribute("msgtype"), out channelData.msgType);
+                        int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
+                        int.TryParse(e.GetAttribute("readoffset"), out channelData.readOffset);
+                        int.TryParse(e.GetAttribute("readlength"), out channelData.readLength);
+                        int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
+                        int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+                        channelData.note = e.GetAttribute("note");
+
+                        deviceData.modbusChannelList.Add(channelData);
+                    }
+
+
+                    data.modbusDeviceList.Add(deviceData);
+                }
 
                 masterManage.add(data);
 
@@ -102,7 +139,7 @@ namespace LocalPLC.ModbusMaster
                     //通道
                     for(int k = 0; k < dataDev.modbusChannelList.Count; k++)
                     {
-                        ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(i);
+                        ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
                         XmlElement elem1_m_d_c = doc.CreateElement("channel");
                         elem1_m_d_c.SetAttribute("ID", dataChannel.ID.ToString());
                         elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
@@ -231,12 +268,12 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
 
-            //for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
-            //{
-            //    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
-            //    dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
-            //    dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
-            //}
+            for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            {
+                ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
+                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+            }
 
         }
 

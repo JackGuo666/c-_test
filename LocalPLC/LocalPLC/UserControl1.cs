@@ -30,17 +30,20 @@ namespace LocalPLC
         public static ADELib.Application multiprogApp = null;
         public static string projectPath = "test";
         private static string projectName = null;
-        public int test = 5;
         static int i = 0; 
 
   
 
         public empty e1;
         public ModbusClient.modbusclient mct;
-        public static modbusmastermain modmaster = new modbusmastermain();
-        public static modbusslavemain modslave = new modbusslavemain();
+        public  static modbusmastermain modmaster = new modbusmastermain();
+        public  static modbusslavemain modslave = new modbusslavemain();
         private void UserControl1_Load(object sender, EventArgs e)
         {
+            e1 = new empty();
+            mct = new ModbusClient.modbusclient();
+
+
             return;
             
             XmlDocument xDoc = new XmlDocument();
@@ -236,6 +239,11 @@ namespace LocalPLC
             }
             else if (name == "MobusTCP-Client")
             {
+                if(mct == null)
+                {
+                    return;
+                }
+
                 mct.Show();
                 ModbusWindow.Controls.Clear();
                 ModbusWindow.Controls.Add(mct);
