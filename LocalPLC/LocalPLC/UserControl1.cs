@@ -13,6 +13,10 @@ using ADELib;
 using LocalPLC.ModbusMaster;
 using LocalPLC.ModbusSlave;
 
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 namespace LocalPLC
 {
     [ComVisible(true)]
@@ -276,6 +280,62 @@ namespace LocalPLC
         }
 
 
+        private void saveJson()
+        {
+            try
+            {
+                string name = multiprogApp.ActiveProject.Name;
+            }
+            catch (Exception e)
+            {
+                utility.PrintError("请先打开工程!");
+                return;
+            }
+
+            StringWriter sw = new StringWriter();
+            JsonTextWriter writer = new JsonTextWriter(sw);
+
+            writer.WriteStartObject();  //   {  （Json数据的大括号左边 ）
+             //=====================================
+             //第一级节点
+            writer.WritePropertyName("test_key");
+            writer.WriteValue("1");
+
+            //============================
+            //第一级节点
+            writer.WritePropertyName("img");
+
+            writer.WriteStartObject();//{
+
+            writer.WritePropertyName("ig1");
+
+            writer.WriteValue("3");
+
+            writer.WritePropertyName("ig2");
+
+            writer.WriteValue("3");
+
+            writer.WritePropertyName("ig3");
+
+            writer.WriteValue("3");
+
+            writer.WritePropertyName("ig4");
+
+            writer.WriteValue("3");
+
+            writer.WriteEndObject();//} 
+
+
+            //=====================================
+            writer.WriteEndObject();//}
+
+            string str = "test.json";
+            StreamWriter wtyeu = new StreamWriter(str);
+            wtyeu.Write(sw);
+            wtyeu.Flush();
+            wtyeu.Close();
+        }
+
         private void saveXml()
         {
             try 
@@ -284,6 +344,7 @@ namespace LocalPLC
             }
             catch (Exception e)
             {
+                utility.PrintError("请先打开工程!");
                 return;
             }
 
@@ -328,6 +389,33 @@ namespace LocalPLC
             
 
             //client server clean
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+
+            if(e.Node.Text == "Modbus")
+            {
+                Point ClickPoint = new Point(e.X, e.Y);
+                TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+                if (CurrentNode != null)//判断你点的是不是一个节点
+                {
+                    CurrentNode.ContextMenuStrip = contextMenuStrip1;
+                    string name = treeView1.SelectedNode.Text.ToString();//存储节点的文本
+                    treeView1.SelectedNode = CurrentNode;//选中这个节点
+                }
+            }
+
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveXml();
+            saveJson();
         }
     }
 }
