@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.51 Express Build 653\</OutputPath>
+    <OutputPath>..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.50 Build 10216\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,8 +39,9 @@
       <HintPath>..\..\..\OneDrive_1_2020-4-7\Automation Toolkit M5.50\AutomationInterface\Interop.ADELib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -65,11 +66,35 @@
     <Compile Include="ModbusClient\ClientChannel.Designer.cs">
       <DependentUpon>ClientChannel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusClient\Clientindex.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusClient\Clientindex.Designer.cs">
+      <DependentUpon>Clientindex.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModbusClient\modbusclient.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ModbusClient\modbusclient.Designer.cs">
       <DependentUpon>modbusclient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusClient\modbusclient1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusClient\modbusclient1.Designer.cs">
+      <DependentUpon>modbusclient1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusServer\modbusserver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusServer\modbusserver.Designer.cs">
+      <DependentUpon>modbusserver.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusServer\ServerIndex.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusServer\ServerIndex.Designer.cs">
+      <DependentUpon>ServerIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="ModbusMaster\modbusmasterchannel.cs">
       <SubType>Form</SubType>
@@ -124,8 +149,20 @@
     <EmbeddedResource Include="ModbusClient\ClientChannel.resx">
       <DependentUpon>ClientChannel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ModbusClient\Clientindex.resx">
+      <DependentUpon>Clientindex.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ModbusClient\modbusclient.resx">
       <DependentUpon>modbusclient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusClient\modbusclient1.resx">
+      <DependentUpon>modbusclient1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusServer\modbusserver.resx">
+      <DependentUpon>modbusserver.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusServer\ServerIndex.resx">
+      <DependentUpon>ServerIndex.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusMaster\modbusmasterchannel.resx">
       <DependentUpon>modbusmasterchannel.cs</DependentUpon>

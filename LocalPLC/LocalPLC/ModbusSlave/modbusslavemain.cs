@@ -23,6 +23,8 @@ namespace LocalPLC.ModbusSlave
             InitializeComponent();
 
             slaveDataManager = DataManager.GetInstance();
+
+            init = false;
         }
 
         public void deleteTableRow()
@@ -41,7 +43,7 @@ namespace LocalPLC.ModbusSlave
                 return;
             }
 
-            for(int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            for(int i = dataGridView1.Rows.Count-1 ; i >= 0; i--)
             {
                 dataGridView1.Rows.RemoveAt(i);
             }

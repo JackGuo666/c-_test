@@ -27,7 +27,6 @@ namespace LocalPLC
         public UserControl1()
         {
             InitializeComponent();
-
             i++;
         }
 
@@ -36,29 +35,32 @@ namespace LocalPLC
         private static string projectName = null;
         static int i = 0; 
 
-  
-
         public empty e1;
+        public ModbusClient.Clientindex mci;
         public ModbusClient.modbusclient mct;
         public  static modbusmastermain modmaster = new modbusmastermain();
-        public  static modbusslavemain modslave = new modbusslavemain();
+		public  static modbusslavemain modslave = new modbusslavemain();
+		
+		public ModbusServer.ServerIndex msi;
+        
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
+            mci = new ModbusClient.Clientindex();
             mct = new ModbusClient.modbusclient();
-
+            msi = new ModbusServer.ServerIndex();
 
             return;
             
             XmlDocument xDoc = new XmlDocument();
             //string projectPath = multiprogApp.ActiveProject.Path;
             //string projectName = multiprogApp.ActiveProject.Name;
-            xDoc.Load("students.xml");
+            xDoc.Load("students.xml");//加载xml文件
 
 
             //根节点
-            XmlNode node = xDoc.SelectSingleNode("root");
-            XmlNodeList nodeList = node.ChildNodes;
+            XmlNode node = xDoc.SelectSingleNode("root");  //选择单个节点root
+            XmlNodeList nodeList = node.ChildNodes;  
             foreach (XmlNode xn in nodeList)
             {
                 XmlElement elem = (XmlElement)xn;
@@ -109,21 +111,17 @@ namespace LocalPLC
     }
 
         //void loadXml(ref )
-
-
         private static int adviceProjectCookie = 0;
 
         void IAdeAddIn.OnConnection(object Application, AdeConnectMode ConnectMode, object AddInInst, ref Array Custom)
         {
             multiprogApp = Application as ADELib.Application;
             adviceProjectCookie = multiprogApp.AdviseProjectObserver(this);
-
-            
         }
 
         void IAdeAddIn.OnDisconnection(AdeDisconnectMode RemoveMode, ref Array Custom)
         {
-            
+           
         }
 
         void IAdeAddIn.OnAddInsUpdate(ref Array Custom)
@@ -139,6 +137,7 @@ namespace LocalPLC
         void IAdeAddIn.OnBeginShutdown(ref Array Custom)
         {
             multiprogApp.UnadviseProjectObserver(adviceProjectCookie);
+
         }
 
         void IAdeProjectObserver.BeforeProjectOpen(string Name, ref bool Cancel)
@@ -148,14 +147,14 @@ namespace LocalPLC
 
         void IAdeProjectObserver.AfterProjectOpen(string Name)
         {
-            //获得当前工程路径
+            MessageBox.Show(Name + "has opened");
+			//获得当前工程路径
             XmlDocument xDoc = new XmlDocument();
             string projectPath = multiprogApp.ActiveProject.Path;
             string projectName = multiprogApp.ActiveProject.Name;
             string path = projectPath + "\\" + projectName + "\\" + "config_project.xml";
 
             clean();
-
             try
             {
                 xDoc.Load(path);
@@ -213,11 +212,6 @@ namespace LocalPLC
                 Console.Out.WriteLine(e.Message);
                 return;
             }
-
-
-
-            
-
         }
 
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
@@ -232,7 +226,6 @@ namespace LocalPLC
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            
             string name = e.Node.Text.ToString();
             if (name == "Modbus")
             {
@@ -240,10 +233,28 @@ namespace LocalPLC
                 //ModbusWindow.Controls.Clear();
                 //ModbusWindow.Controls.Add(e1);
 
+
             }
-            else if (name == "MobusTCP-Client")
-            {
-                if(mct == null)
+            //else if (name == "MobusTCP-Client")
+            //{
+            //    if(mct == null)
+            //    {
+            //        //测试函数 暂定位置
+            //        saveXml();
+            //        return;
+            //    }
+
+
+            //    saveXml();
+
+            //    e1.Show();
+            //    ModbusWindow.Controls.Clear();
+            //    ModbusWindow.Controls.Add(e1);
+
+            //}
+            else if (name == "ModbusTCP-Client")
+			{
+                if (mct == null)
                 {
                     //测试函数 暂定位置
                     saveXml();
@@ -252,13 +263,13 @@ namespace LocalPLC
 
 
                 saveXml();
-
-                mct.Show();
-                ModbusWindow.Controls.Clear();
-                ModbusWindow.Controls.Add(mct);
-            }
-            else if(name == "ModbusRTU-Master")
+                mci.Show();			
+				ModbusWindow.Controls.Clear();
+				ModbusWindow.Controls.Add(mci);
+			}
+			else if(name == "ModbusRTU-Master")
             {
+                
                 if(modmaster == null)
                 {
                     return;
@@ -270,15 +281,21 @@ namespace LocalPLC
 
                 ModbusWindow.Controls.Add(modmaster);
             }
-            else if(name == "ModbusRTU-Slave")
-            {
-                modslave.initForm();
-                modslave.Show();
-                ModbusWindow.Controls.Clear();
-                ModbusWindow.Controls.Add(modslave);
-            }
-        }
-
+            else if (name == "ModbusTCP-Server")
+		{ 
+		               msi.Show();
+					   ModbusWindow.Controls.Clear();
+		               ModbusWindow.Controls.Add(msi);
+		}
+			
+			else if(name == "ModbusRTU-Slave")
+		{
+		                modslave.initForm();
+						modslave.Show(); 
+						ModbusWindow.Controls.Clear(); 
+						ModbusWindow.Controls.Add(modslave);
+		}
+    }
 
         private void saveJson()
         {
@@ -335,7 +352,6 @@ namespace LocalPLC
             wtyeu.Flush();
             wtyeu.Close();
         }
-
         private void saveXml()
         {
             try 
@@ -390,8 +406,10 @@ namespace LocalPLC
 
             //client server clean
         }
-
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void ModbusWindow_Enter(object sender, EventArgs e)
+        {        
+		}
+private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right)
             {
@@ -411,7 +429,6 @@ namespace LocalPLC
             }
 
         }
-
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             saveXml();

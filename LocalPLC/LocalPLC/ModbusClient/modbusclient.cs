@@ -13,6 +13,8 @@ namespace LocalPLC.ModbusClient
     {
         private Button channel = new Button();
         ModbusClient.ClientChannel CCl;
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
 
         public modbusclient()
         {
@@ -26,6 +28,9 @@ namespace LocalPLC.ModbusClient
         private void modbusclient_Load(object sender, EventArgs e)
         {
             this.textBox1.Text = "1000";
+            dt.Columns.Add("姓名", typeof(string));
+            dt.Columns.Add("年龄", typeof(int));
+            ds.Tables.Add(dt);
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -61,8 +66,22 @@ namespace LocalPLC.ModbusClient
             //说明点击的列是DataGridViewButtonColumn列
             DataGridViewColumn column = dataGridView1.Columns[e.ColumnIndex];
             int currentrow = dataGridView1.CurrentRow.Index;
-            CCl = new ModbusClient.ClientChannel(currentrow);
+            //CCl = new ModbusClient.ClientChannel(currentrow);
             CCl.ShowDialog();
+        }
+
+        private void ClientSettings_Enter(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DataRow row = dt.NewRow();
+
+            dt.Rows.Add(row);
+            this.dataGridView1.DataSource = ds.Tables[0];
+
         }
     }
 }

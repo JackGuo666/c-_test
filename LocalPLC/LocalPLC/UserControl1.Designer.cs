@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("MobusTCP-Client");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("ModbusTCP-Client");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("ModbusTCP-Server");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ModbusRTU-Master");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("ModbusRTU-Slave");
@@ -53,7 +53,7 @@
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
             treeNode1.Name = "节点00";
-            treeNode1.Text = "MobusTCP-Client";
+            treeNode1.Text = "ModbusTCP-Client";
             treeNode2.Name = "节点01";
             treeNode2.Text = "ModbusTCP-Server";
             treeNode3.Name = "节点02";
@@ -76,7 +76,7 @@
             this.ModbusWindow.Margin = new System.Windows.Forms.Padding(4);
             this.ModbusWindow.Name = "ModbusWindow";
             this.ModbusWindow.Padding = new System.Windows.Forms.Padding(4);
-            this.ModbusWindow.Size = new System.Drawing.Size(1276, 750);
+            this.ModbusWindow.Size = new System.Drawing.Size(1147, 545);
             this.ModbusWindow.TabIndex = 7;
             this.ModbusWindow.TabStop = false;
             this.ModbusWindow.Text = "配置";
