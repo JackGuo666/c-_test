@@ -434,5 +434,10 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveXml();
             saveJson();
         }
+
+        private void ModbusWindow_Enter_1(object sender, EventArgs e)
+        {
+            int a;
+        }
     }
 }
