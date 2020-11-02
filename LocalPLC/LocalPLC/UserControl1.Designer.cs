@@ -39,9 +39,9 @@
             treeNode3,
             treeNode4});
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.ModbusWindow = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ModbusWindow = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,21 +69,6 @@
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 34);
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
-            this.testToolStripMenuItem.Text = "生成配置文件";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
-            // 
             // ModbusWindow
             // 
             this.ModbusWindow.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -91,11 +76,25 @@
             this.ModbusWindow.Margin = new System.Windows.Forms.Padding(4);
             this.ModbusWindow.Name = "ModbusWindow";
             this.ModbusWindow.Padding = new System.Windows.Forms.Padding(4);
-            this.ModbusWindow.Size = new System.Drawing.Size(1276, 750);
+            this.ModbusWindow.Size = new System.Drawing.Size(1147, 545);
             this.ModbusWindow.TabIndex = 7;
             this.ModbusWindow.TabStop = false;
             this.ModbusWindow.Text = "配置";
-            this.ModbusWindow.Enter += new System.EventHandler(this.ModbusWindow_Enter_1);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 67);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(240, 30);
+            this.testToolStripMenuItem.Text = "生成配置文件";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // UserControl1
             // 

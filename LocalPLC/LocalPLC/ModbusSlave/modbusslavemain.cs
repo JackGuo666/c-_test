@@ -105,7 +105,7 @@ namespace LocalPLC.ModbusSlave
         {
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
-
+              
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
             cellColumn.Name = "ID";
 
