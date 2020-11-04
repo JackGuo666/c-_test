@@ -127,6 +127,7 @@ namespace ModbusMaster
         private void BtnReadCoilsClick(object sender, EventArgs e)
         {
             ExecuteReadCommand(ModbusCommand.FuncReadCoils);
+
         }
 
         private void BtnReadDisInpClick(object sender, EventArgs e)
@@ -226,7 +227,8 @@ namespace ModbusMaster
 
         private void BtnWriteSingleRegClick(object sender, EventArgs e)
         {
-            ExecuteWriteCommand(ModbusCommand.FuncWriteSingleRegister);
+            //ExecuteWriteCommand(ModbusCommand.FuncWriteSingleRegister);
+            ExecuteWriteCommand(ModbusCommand.FuncReboot);
         }
 
         private void BtnWriteMultipleCoilsClick(object sender, EventArgs e)
