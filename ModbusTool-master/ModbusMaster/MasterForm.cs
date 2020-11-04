@@ -228,7 +228,8 @@ namespace ModbusMaster
         private void BtnWriteSingleRegClick(object sender, EventArgs e)
         {
             //ExecuteWriteCommand(ModbusCommand.FuncWriteSingleRegister);
-            ExecuteWriteCommand(ModbusCommand.FuncReboot);
+            //ExecuteWriteCommand(ModbusCommand.FuncReboot);
+            ExecuteWriteCommand(ModbusCommand.FuncSetTime);
         }
 
         private void BtnWriteMultipleCoilsClick(object sender, EventArgs e)

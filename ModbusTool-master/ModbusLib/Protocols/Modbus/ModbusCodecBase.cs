@@ -54,6 +54,7 @@ namespace ModbusLib.Protocols
 
             //添加reboot
             CommandCodecs[ModbusCommand.FuncReboot] = new ModbusCodecReboot();
+            CommandCodecs[ModbusCommand.FuncSetTime] = new ModbusCodecSetTime();
         }
 
 
