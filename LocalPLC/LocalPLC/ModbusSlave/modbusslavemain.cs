@@ -103,6 +103,7 @@ namespace LocalPLC.ModbusSlave
 
         private void modbusslavemain_Load(object sender, EventArgs e)
         {
+            //界面初始化
             init = true;
 
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
