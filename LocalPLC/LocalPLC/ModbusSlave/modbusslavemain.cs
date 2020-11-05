@@ -103,6 +103,8 @@ namespace LocalPLC.ModbusSlave
 
         private void modbusslavemain_Load(object sender, EventArgs e)
         {
+            init = true;
+
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
               
@@ -196,7 +198,7 @@ namespace LocalPLC.ModbusSlave
 
         public void loadXml(XmlNode xn)
         {
-            init = true;
+            //init = true;
 
             XmlNodeList nodeList = xn.ChildNodes;
             foreach(XmlNode childNode in nodeList)
