@@ -104,7 +104,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 43);
+            this.label2.Location = new System.Drawing.Point(3, 60);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(116, 18);
             this.label2.TabIndex = 1;
@@ -113,7 +113,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 122);
+            this.label3.Location = new System.Drawing.Point(3, 191);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(242, 18);
             this.label3.TabIndex = 2;
@@ -130,7 +130,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(258, 40);
+            this.textBox1.Location = new System.Drawing.Point(258, 57);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(115, 28);
             this.textBox1.TabIndex = 4;
@@ -138,7 +138,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(258, 76);
+            this.textBox2.Location = new System.Drawing.Point(258, 122);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(115, 28);
             this.textBox2.TabIndex = 4;
@@ -146,7 +146,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(258, 119);
+            this.textBox3.Location = new System.Drawing.Point(258, 188);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(115, 28);
             this.textBox3.TabIndex = 4;
@@ -154,7 +154,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(258, 157);
+            this.textBox4.Location = new System.Drawing.Point(258, 249);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(115, 28);
             this.textBox4.TabIndex = 4;
@@ -163,7 +163,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 79);
+            this.label5.Location = new System.Drawing.Point(3, 125);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(116, 18);
             this.label5.TabIndex = 5;
@@ -504,14 +504,14 @@
             this.panel1.Controls.Add(this.textBox4);
             this.panel1.Location = new System.Drawing.Point(28, 59);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(373, 195);
+            this.panel1.Size = new System.Drawing.Size(373, 289);
             this.panel1.TabIndex = 19;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 160);
+            this.label15.Location = new System.Drawing.Point(3, 252);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(116, 18);
             this.label15.TabIndex = 6;
@@ -524,16 +524,16 @@
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.textBox21);
             this.panel2.Controls.Add(this.textBox22);
-            this.panel2.Location = new System.Drawing.Point(28, 283);
+            this.panel2.Location = new System.Drawing.Point(28, 350);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(373, 199);
+            this.panel2.Size = new System.Drawing.Size(373, 192);
             this.panel2.TabIndex = 20;
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.label13);
             this.panel3.Controls.Add(this.groupBox1);
-            this.panel3.Location = new System.Drawing.Point(28, 517);
+            this.panel3.Location = new System.Drawing.Point(28, 548);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(373, 108);
             this.panel3.TabIndex = 21;
@@ -583,7 +583,7 @@
             this.panel6.Controls.Add(this.textBox26);
             this.panel6.Controls.Add(this.textBox28);
             this.panel6.Controls.Add(this.textBox27);
-            this.panel6.Location = new System.Drawing.Point(590, 397);
+            this.panel6.Location = new System.Drawing.Point(590, 429);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(553, 228);
             this.panel6.TabIndex = 24;

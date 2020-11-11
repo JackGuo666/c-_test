@@ -55,6 +55,7 @@ namespace LocalPLC.ModbusClient
             dicMsg.Add(0x06, "6");
             dicMsg.Add(0x0F, "15");
             dicMsg.Add(0x10, "16");
+            dicMsg.Add(0x00, "0");
 
             dicMsgType.Add("1", 0x01);
             dicMsgType.Add("2", 0x02);
@@ -64,6 +65,7 @@ namespace LocalPLC.ModbusClient
             dicMsgType.Add("6", 0x06);
             dicMsgType.Add("15", 0x0F);
             dicMsgType.Add("16", 0x10);
+            dicMsgType.Add("0", 0);
             //this.rownumber = datagrid1cr;
 
 
