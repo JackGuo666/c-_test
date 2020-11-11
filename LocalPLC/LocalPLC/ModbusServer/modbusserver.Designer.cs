@@ -134,6 +134,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(115, 28);
             this.textBox1.TabIndex = 4;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox2
             // 
@@ -141,6 +142,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(115, 28);
             this.textBox2.TabIndex = 4;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox3
             // 
@@ -148,6 +150,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(115, 28);
             this.textBox3.TabIndex = 4;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // textBox4
             // 
@@ -155,6 +158,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(115, 28);
             this.textBox4.TabIndex = 4;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label5
             // 
@@ -352,6 +356,7 @@
             this.textBox23.Size = new System.Drawing.Size(100, 28);
             this.textBox23.TabIndex = 11;
             this.textBox23.Text = "502";
+            this.textBox23.TextChanged += new System.EventHandler(this.textBox23_TextChanged);
             // 
             // label12
             // 
@@ -368,6 +373,7 @@
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(100, 28);
             this.textBox24.TabIndex = 13;
+            this.textBox24.TextChanged += new System.EventHandler(this.textBox24_TextChanged);
             // 
             // label13
             // 
@@ -399,6 +405,7 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "UDP";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -410,6 +417,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "TCP";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // radioButton3
             // 
@@ -438,6 +446,7 @@
             this.textBox25.Name = "textBox25";
             this.textBox25.Size = new System.Drawing.Size(84, 28);
             this.textBox25.TabIndex = 7;
+            this.textBox25.TextChanged += new System.EventHandler(this.textBox25_TextChanged);
             // 
             // textBox26
             // 
@@ -445,6 +454,7 @@
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new System.Drawing.Size(84, 28);
             this.textBox26.TabIndex = 7;
+            this.textBox26.TextChanged += new System.EventHandler(this.textBox26_TextChanged);
             // 
             // textBox27
             // 
@@ -452,6 +462,7 @@
             this.textBox27.Name = "textBox27";
             this.textBox27.Size = new System.Drawing.Size(84, 28);
             this.textBox27.TabIndex = 7;
+            this.textBox27.TextChanged += new System.EventHandler(this.textBox27_TextChanged);
             // 
             // textBox28
             // 
@@ -459,6 +470,7 @@
             this.textBox28.Name = "textBox28";
             this.textBox28.Size = new System.Drawing.Size(84, 28);
             this.textBox28.TabIndex = 7;
+            this.textBox28.TextChanged += new System.EventHandler(this.textBox28_TextChanged);
             // 
             // button1
             // 

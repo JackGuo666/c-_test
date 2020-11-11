@@ -40,29 +40,29 @@ namespace LocalPLC.ModbusMaster
 
         public void loadXml(XmlNode xn)
         {
-            XmlNodeList nodeList = xn.ChildNodes;
-            foreach (XmlNode childNode in nodeList)
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
             {
                 XmlElement e = (XmlElement)childNode;
                 string name = e.Name;
-                string test = e.GetAttribute("name");
+                string test = e.GetAttribute("name");//获取该节点中所有name属性的值
                 Console.WriteLine(name);
 
                 ModbusMasterData data = new ModbusMasterData();
 
-                int.TryParse(e.GetAttribute("id"), out data.ID);
+                int.TryParse(e.GetAttribute("id"), out data.ID);//将所有id属性的值（字符串）,转换成int32类型，输出变量为data.ID
                 data.transformChannel = e.GetAttribute("transformchannel");
                 int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
 
                 //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
                 //读取device数据
-                XmlNodeList nodeDeviceList = childNode.ChildNodes;
+                XmlNodeList nodeDeviceList = childNode.ChildNodes;//创建当前子设备节点下的所有子节点集合
                 foreach(XmlNode childDeviceNode in nodeDeviceList)
                 {
-                    e = (XmlElement)childDeviceNode;
+                    e = (XmlElement)childDeviceNode;//子设备节点
                     DeviceData deviceData = new DeviceData();
-                    int.TryParse(e.GetAttribute("ID"), out deviceData.ID);
+                    int.TryParse(e.GetAttribute("ID"), out deviceData.ID);//为各子节点赋值
                     deviceData.nameDev = e.GetAttribute("namedev");
                     deviceData.slaveAddr = e.GetAttribute("slaveaddr");
                     int.TryParse(e.GetAttribute("responsetimeout"), out deviceData.reponseTimeout);
@@ -94,7 +94,7 @@ namespace LocalPLC.ModbusMaster
                     data.modbusDeviceList.Add(deviceData);
                 }
 
-                masterManage.add(data);
+                masterManage.add(data);//添加进xml
 
 
 
@@ -102,21 +102,23 @@ namespace LocalPLC.ModbusMaster
 
             }
         }
-
+        modbusmasterDeviceform mmdf = new modbusmasterDeviceform();
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elem1 = doc.CreateElement("modbusmaster");
-            elem1.SetAttribute("name", "张三");
-            elem1.SetAttribute("class", "三年一班");
-            elem1.SetAttribute("sex", "性别");
+            
+            elem1.SetAttribute("number", dataGridView1.RowCount.ToString());
+            elem1.SetAttribute("time_unit", "ms");
+            
             elem.AppendChild(elem1);
-
+            //XmlElement elemc = doc.CreateElement("conf");
+            //elemc.SetAttribute("mode",);
             //master项
-            for(int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            for(int i = 0; i < masterManage.modbusMastrList.Count; i++)//遍历所有的modbusmaster集合
             {
                 ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
-                XmlElement elem1_m = doc.CreateElement("m");
-                elem1_m.SetAttribute("id", data.ID.ToString());
+                XmlElement elem1_m = doc.CreateElement("m");//创建m节点
+                elem1_m.SetAttribute("id", data.ID.ToString());//给id节点赋值，值为data.ID
                 //transformChannel com1 com2 com3
                 elem1_m.SetAttribute("transformchannel", data.transformChannel);
                 //0 RTU    1 ASCII
@@ -124,7 +126,7 @@ namespace LocalPLC.ModbusMaster
                 elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
 
                 //create devices
-                for(int j = 0; j < data.modbusDeviceList.Count; j ++)
+                for(int j = 0; j < data.modbusDeviceList.Count; j ++)//循环添加每个设备的各参数值至xml
                 {
                     DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
                     XmlElement elem1_m_d = doc.CreateElement("device");
@@ -137,7 +139,7 @@ namespace LocalPLC.ModbusMaster
                     elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible);
 
                     //通道
-                    for(int k = 0; k < dataDev.modbusChannelList.Count; k++)
+                    for(int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
                     {
                         ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
                         XmlElement elem1_m_d_c = doc.CreateElement("channel");
@@ -151,7 +153,7 @@ namespace LocalPLC.ModbusMaster
                         elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
 
-                        elem1_m_d.AppendChild(elem1_m_d_c);
+                        elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
                     }
 
                     elem1_m.AppendChild(elem1_m_d);

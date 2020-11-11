@@ -6,50 +6,231 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
+using ADELib;
 
 namespace LocalPLC.ModbusClient
 {
     public partial class Clientindex : UserControl
     {
+        public ModbusClientManage clientManage = new ModbusClientManage();
         public Clientindex()
         {
             InitializeComponent();
-            dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            //dataGridView1.AllowUserToAddRows = false;
+            //this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
-        
+
+        public void deleteTableRow()
+        {
+            for (int i = dataGridView1.RowCount - 1; i >= 0; i--)
+            {
+                //int index = dataGridView1.SelectedRows[i].Index;
+
+                dataGridView1.Rows.RemoveAt(i);
+                clientManage.modbusClientList.RemoveAt(i);
+            }
+        }
+
         private void Clientindex_Load(object sender, EventArgs e)
         {
-
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                dataGridView1.Rows.RemoveAt(i);
+            }
+            DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+            DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            btn.Name = "config";
+            btn.HeaderText = "配置";
+            btn.DefaultCellStyle.NullValue = ". . .";
+            cellColumn.Name = "Client编号";
+            dataGridView1.Columns.Add(cellColumn);
+            dataGridView1.Columns.Add(btn);
+            dataGridView1.RowCount = /*8*/ 1 + clientManage.modbusClientList.Count;
+            dataGridView1.AutoSize = true;
+            dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+            for (int i = 0; i < clientManage.modbusClientList.Count; i++)
+            {
+                ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
+                dataGridView1.Rows[i].Cells["Client编号"].Value = data.ID;
+                dataGridView1.Rows[i].Cells["config"].Value = "..."/* + i.ToString()*/;
+            }
         }
-        DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+       
 
         //public int clientnumber;
 
-       
+        public void loadXml(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                string name = e.Name;
+                string test = e.GetAttribute("name");//获取该节点中所有name属性的值
+                Console.WriteLine(name);
+
+                ModbusClientData data = new ModbusClientData();
+
+                int.TryParse(e.GetAttribute("id"), out data.ID);//将所有id属性的值（字符串）,转换成int32类型，输出变量为data.ID
+                data.transformChannel = e.GetAttribute("transformchannel");
+                int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
+                int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
+
+                //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
+                //读取device数据
+                XmlNodeList nodeDeviceList = childNode.ChildNodes;//创建当前子设备节点下的所有子节点集合
+                foreach (XmlNode childDeviceNode in nodeDeviceList)
+                {
+                    e = (XmlElement)childDeviceNode;//子设备节点
+                    DeviceData deviceData = new DeviceData();
+                    int.TryParse(e.GetAttribute("ID"), out deviceData.ID);//为各子节点赋值
+                    deviceData.nameDev = e.GetAttribute("namedev");
+                    deviceData.ipaddr = e.GetAttribute("ipaddr");
+                    deviceData.serverAddr = e.GetAttribute("serverAddr");
+                    int.TryParse(e.GetAttribute("responsetimeout"), out deviceData.reponseTimeout);
+                    int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
+                    int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
+                    //int.TryParse(e.GetAttribute("resetVaraible"), out deviceData.resetVaraible);
+                    deviceData.resetVaraible = e.GetAttribute("resetvaraible");
+                    //读取channel数据
+                    XmlNodeList nodeChannelList = childDeviceNode.ChildNodes;
+                    foreach (XmlNode childChannelNode in nodeChannelList)
+                    {
+                        e = (XmlElement)childChannelNode;
+                        ChannelData channelData = new ChannelData();
+
+                        int.TryParse(e.GetAttribute("ID"), out channelData.ID);
+                        channelData.nameChannel = e.GetAttribute("namechannel");
+                        int.TryParse(e.GetAttribute("msgtype"), out channelData.msgType);
+                        int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
+                        int.TryParse(e.GetAttribute("readoffset"), out channelData.readOffset);
+                        int.TryParse(e.GetAttribute("readlength"), out channelData.readLength);
+                        int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
+                        int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+                        channelData.note = e.GetAttribute("note");
+
+                        deviceData.modbusChannelList.Add(channelData);
+                    }
+
+
+                    data.modbusDeviceList.Add(deviceData);
+                }
+
+                clientManage.add(data);//添加进xml
+
+
+
+
+
+            }
+        }
+
+        public void saveXml(ref XmlElement elem, ref XmlDocument doc)
+        {
+            XmlElement elem1 = doc.CreateElement("modbusclient");
+            elem1.SetAttribute("number", dataGridView1.RowCount.ToString());
+            elem1.SetAttribute("time_unit", "ms");
+            elem.AppendChild(elem1);
+            for (int i = 0; i < clientManage.modbusClientList.Count; i++)//遍历所有的modbusmaster集合
+            {
+                ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
+                XmlElement elem1_m = doc.CreateElement("modbusclient");//创建m节点
+                elem1_m.SetAttribute("id", data.ID.ToString());//给id节点赋值，值为data.ID
+                //transformChannel com1 com2 com3
+                elem1_m.SetAttribute("transformchannel", data.transformChannel);
+                //0 TCP    1 UDP
+                elem1_m.SetAttribute("transformmode", data.transformMode.ToString());
+                elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
+                //create devices
+                for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数值至xml
+                {
+                    DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
+                    XmlElement elem1_m_d = doc.CreateElement("device");
+                    elem1_m_d.SetAttribute("ID", dataDev.ID.ToString());
+                    elem1_m_d.SetAttribute("namedev", dataDev.nameDev.ToString());
+                    elem1_m_d.SetAttribute("ipaddr", dataDev.ipaddr.ToString());
+                    elem1_m_d.SetAttribute("serveraddr", dataDev.serverAddr.ToString());
+                    elem1_m_d.SetAttribute("responsetimeout", dataDev.reponseTimeout.ToString());
+                    elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
+                    elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
+                    elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible.ToString());
+                    //通道
+                    for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
+                    {
+                        ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
+                        XmlElement elem1_m_d_c = doc.CreateElement("channel");
+                        elem1_m_d_c.SetAttribute("ID", dataChannel.ID.ToString());
+                        elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
+                        elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
+                        elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
+                        elem1_m_d_c.SetAttribute("readoffset", dataChannel.readOffset.ToString());
+                        elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());
+                        elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
+                        elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
+                        elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
+
+                        elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
+                    }
+                    elem1_m.AppendChild(elem1_m_d);
+                }
+                //XmlElement elem1_d = doc.CreateElement("device");
+                //elem1_m.SetAttribute("id", data.ID.ToString());
+
+                elem1.AppendChild(elem1_m);
+            }
+        }
+
+        private enum COLUMNNAME : int
+        {
+            ID
+        };
         private void button1_Click(object sender, EventArgs e)
         {
             int rowcount = dataGridView1.RowCount;
-            this.dataGridView1.Rows.Add(1);
-            btn.Name = "Goto";
-            btn.HeaderText = "跳转";
-            btn.DefaultCellStyle.NullValue = ". . .";
-            if (dataGridView1.RowCount == 1)
-            {
-                dataGridView1.Columns.Add(btn);
 
+            dataGridView1.RowCount += 1;
+            int i = rowcount;
+            ModbusClientData data = new ModbusClientData();
+            {
+                dataGridView1.Rows[i].Cells["Client编号"].Value = rowcount;
+                data.ID = rowcount;
+                //dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+                //data.device = new DeviceData();
+
+                clientManage.modbusClientList.Add(data);
             }
-            dataGridView1.Rows[rowcount].Cells[0].Value = rowcount;
+            
             
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+            // int row = dataGridView1.SelectedRows[0];
+            if (dataGridView1.SelectedRows.Count <= 0)
+            {
+                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                // show the output window and activate the "Infos" tab
+                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+
+
+                return;
+            }
+
+            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+            {
+                int index = dataGridView1.SelectedRows[i].Index;
+
+                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                clientManage.modbusClientList.RemoveAt(index);
+            }
         }
 
         UserControl1 user1 = new UserControl1();
-        ModbusClient.modbusclient1 mct1 = new modbusclient1();
+        
         public int a;
         public string clientnumber
         {
@@ -63,10 +244,111 @@ namespace LocalPLC.ModbusClient
         //}
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            this.label1.Text = this.dataGridView1.SelectedRows[0].Index.ToString();
-            mct1.ClientNumber(this.label1.Text);
-            mct1.ShowDialog(this);
+            
+
+            
             //a = dataGridView1.SelectedRows[0].Index;
         }
+        bool init = false;
+        public void initForm()
+        {
+            //load 事件只加载一次，工程重新加载需清空之前函数
+            //init是load加载后，initForm才可以加载
+            if (init == false)
+            {
+                return;
+            }
+
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            {
+                dataGridView1.Rows.RemoveAt(i);
+            }
+
+
+
+            //DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
+            //buttonColumn.Name = columnConfig;
+
+            //DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            //cellColumn.Name = "ID";
+
+            //dataGridView1.Columns.Add(cellColumn);
+            //dataGridView1.Columns.Add(buttonColumn);
+
+            dataGridView1.RowCount += /*8*/  clientManage.modbusClientList.Count;
+            //dataGridView1.AutoSize = true;
+            //dataGridView1.AllowUserToAddRows = false;
+            //dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+            //    DataGridViewContentAlignment.MiddleCenter;
+
+            for (int i = 0; i < clientManage.modbusClientList.Count; i++)
+            {
+                ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
+                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                //dataGridView1.Rows[i].Cells[""].Value = "..."/* + i.ToString()*/;
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.ColumnIndex < 0 | e.RowIndex < 0)
+            {
+                return;
+            }
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "config")
+            {
+                //DataGridViewDisableButtonCell buttonCell =
+                //    (DataGridViewDisableButtonCell)dataGridView1.
+                //    Rows[e.RowIndex].Cells["config"];
+
+                //if (buttonCell.Enabled)
+                {
+                    //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
+                    //    Cells[e.ColumnIndex].Value.ToString() +
+                    //    " is enabled");
+
+                    ModbusClient.modbusclient1 mct1 = new modbusclient1();
+                    //modbusclientDeviceform form = new modbusmasterDeviceform();
+                    ModbusClientData data = clientManage.modbusClientList.ElementAt(e.RowIndex);
+                    this.label1.Text = this.dataGridView1.SelectedRows[0].Index.ToString();
+                    
+                    mct1.ClientNumber(this.label1.Text);
+                    mct1.getMasterData(ref data);
+                    mct1.ShowDialog();
+                }
+            }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            Object obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            string str = "";
+            if (obj == null)
+            {
+
+            }
+            else
+            {
+                str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                if (str.Equals(""))
+                {
+
+                }
+            }
+
+
+
+            if (e.ColumnIndex == (int)COLUMNNAME.ID)
+            {
+                clientManage.modbusClientList.ElementAt(e.RowIndex).ID = int.Parse(str);
+            }
+        }
     }
-}
+
+    
+    
+ }
+    
+

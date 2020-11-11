@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LocalPLC</RootNamespace>
     <AssemblyName>LocalPLC</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -72,6 +72,7 @@
     <Compile Include="ModbusClient\Clientindex.Designer.cs">
       <DependentUpon>Clientindex.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusClient\DataManager.cs" />
     <Compile Include="ModbusClient\modbusclient.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,6 +85,7 @@
     <Compile Include="ModbusClient\modbusclient1.Designer.cs">
       <DependentUpon>modbusclient1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusServer\DataManager.cs" />
     <Compile Include="ModbusServer\modbusserver.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.ClientSettings = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -43,7 +44,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.ClientSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -65,6 +65,15 @@
             this.ClientSettings.TabIndex = 22;
             this.ClientSettings.TabStop = false;
             this.ClientSettings.Text = "设备设置：";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1159, 368);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 18);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "label5";
             // 
             // button2
             // 
@@ -98,7 +107,10 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(1160, 219);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit_1);
+            this.dataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dataGridView1_DataError);
             // 
             // textBox1
             // 
@@ -107,6 +119,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(148, 28);
             this.textBox1.TabIndex = 21;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // groupBox1
             // 
@@ -145,6 +158,7 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "UDP";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // comboBox1
             // 
@@ -220,15 +234,6 @@
             this.panel2.Size = new System.Drawing.Size(834, 98);
             this.panel2.TabIndex = 24;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1159, 368);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(62, 18);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "label5";
-            // 
             // modbusclient1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -241,6 +246,7 @@
             this.Name = "modbusclient1";
             this.Text = "modbusclient1";
             this.Load += new System.EventHandler(this.modbusclient1_Load);
+            this.Shown += new System.EventHandler(this.modbusclient1_Shown);
             this.ClientSettings.ResumeLayout(false);
             this.ClientSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

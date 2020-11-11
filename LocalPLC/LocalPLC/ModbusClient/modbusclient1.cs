@@ -18,8 +18,7 @@ namespace LocalPLC.ModbusClient
         public modbusclient1()
         {
             InitializeComponent();
-            dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            
             //this.Controls.Add(channel);
             channel.Text = ". . .";
             
@@ -38,14 +37,28 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("ID", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("名称", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("IP地址", Type.GetType("System.String"));
-                ds.Tables[i].Columns.Add("响应超时（ms）", Type.GetType("System.Int32"));
+                ds.Tables[i].Columns.Add("从站地址", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("响应超时", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("重连间隔", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("允许超时的次数", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("复位变量", Type.GetType("System.Int32"));
-
+                //ds.Tables[i].Columns.Add("通道", Type.GetType("System.String"));
             }
-
+            
         }
+        private ModbusClientData data_ { get; set; }
+
+        public void getMasterData(ref ModbusClientData data)
+        {
+            data_ = data;
+            data_.ID = data.ID;
+        }
+
+        public enum COLUMNNAME : int
+        {
+            ID, 名称, IP地址,从站地址, 响应超时, 重连间隔, 允许超时的次数
+                                        , 复位变量, 通道
+        };
 
         public string cn = null;
         public void ClientNumber(string a)
@@ -60,6 +73,7 @@ namespace LocalPLC.ModbusClient
         DataGridViewButtonColumn mcg = new DataGridViewButtonColumn();
         public int channelnumber
         {
+            
             get { return this.dataGridView1.SelectedRows[0].Index; }
         }
         private void modbusclient1_Load(object sender, EventArgs e)
@@ -68,17 +82,99 @@ namespace LocalPLC.ModbusClient
             
             this.label5.Text = cn;
             // this.dataGridView1.DataSource = dt;
-            this.dataGridView1.BeginInvoke(new Action(() => { this.dataGridView1.DataSource = ds.Tables[Convert.ToInt32(cn)]; }));
+             this.dataGridView1.BeginInvoke(new Action(() => { this.dataGridView1.DataSource = ds.Tables[Convert.ToInt32(cn)]; }));
             //this.dataGridView1.DataSource = ds.Tables[form1.clientnumber];
-            mcg.Name = "Goto";
-            mcg.HeaderText = "跳转";
-            mcg.DefaultCellStyle.NullValue = ". . .";
+            //mcg.Name = "通道";
+            //mcg.HeaderText = "通道";
+            //mcg.DefaultCellStyle.NullValue = ". . .";
+            //if(dataGridView1.ColumnCount == 8)
+            //{
+            //    dataGridView1.Columns.Add(mcg);
+            //}
+            
+            
+            //列标题自适应
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             //dataGridView1.Columns.Add(btn);
+            //dataGridView1.RowCount = 1 + data_.modbusDeviceList.Count;
+            //ds.Tables[Convert.ToInt32(cn)].Rows.Count = 1 + data_.modbusDeviceList.Count;
+            if (ds.Tables[Convert.ToInt32(cn)].Rows.Count < data_.modbusDeviceList.Count)
+            {
+                int c = data_.modbusDeviceList.Count - ds.Tables[Convert.ToInt32(cn)].Rows.Count;
+                for (int j = 0; j < c; j++)
+                {
+                    DataRow dr1 = ds.Tables[Convert.ToInt32(cn)].NewRow();
+                    ds.Tables[Convert.ToInt32(cn)].Rows.Add(dr1);
+                }
+            }
+
+            int i = 0;
+            foreach (DeviceData devData in data_.modbusDeviceList)
+            {
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.ID].Value = devData.ID;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.ID] = devData.ID;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.名称].Value = devData.nameDev;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.名称] = devData.nameDev;
+                //
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.IP地址].Value = devData.serverAddr;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.IP地址] = devData.ipaddr;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.从站地址] = devData.serverAddr;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.响应超时].Value = devData.reponseTimeout;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.响应超时] = devData.reponseTimeout;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.允许超时的次数].Value = devData.permitTimeoutCount;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.允许超时的次数] = devData.permitTimeoutCount;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.重连间隔].Value = devData.reconnectInterval;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.重连间隔] = devData.reconnectInterval;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.复位变量].Value = devData.resetVaraible;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.复位变量] = devData.resetVaraible;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.通道].Value = "..."/* + i.ToString()*/;
+                //ds.Tables[channelnumber].Rows[i][(int)COLUMNNAME.通道] = "...";
+                i++;
+            }
+            dataGridView1.AutoSize = true;
+            dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+                DataGridViewContentAlignment.MiddleCenter;
+            this.comboBox1.Items.Add("网口1");
+            this.comboBox1.Items.Add("网口2");
+            this.comboBox1.Items.Add("网口3");
+            this.comboBox1.Text = data_.transformChannel;
+            this.textBox1.Text = data_.responseTimeout.ToString();   //ms
+            if (data_.transformMode == 0)
+            {
+                radioButton1.Checked = true;
+                radioButton2.Checked = false;
+            }
+            else if (data_.transformMode == 1)
+            {
+                radioButton2.Checked = true;
+                radioButton1.Checked = false;
+            }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            if (radioButton1.Checked == true)
+            {
+                data_.transformMode = 0;
+            }
+            else
+            {
+                data_.transformMode = 1;
+            }
+        }
 
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked == true)
+            {
+                data_.transformMode = 1;
+            }
+            else
+            {
+                data_.transformMode = 0;
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -94,6 +190,7 @@ namespace LocalPLC.ModbusClient
         private void button1_Click(object sender, EventArgs e)
         {
             int rowcount = dataGridView1.RowCount;
+            
             //this.dataGridView1.Rows.Add(rowcount, "设备" + rowcount.ToString(), "", "", "", "", "", "");
             //btn.Name = "Beginbtn";
             //btn.HeaderText = "通道";
@@ -103,6 +200,23 @@ namespace LocalPLC.ModbusClient
             //    dataGridView1.Columns.Add(btn);
             //}
             DataRow dr = ds.Tables[0].NewRow();
+            DeviceData data = new DeviceData();
+            dr[(int)COLUMNNAME.ID] = rowcount;
+            data.ID = rowcount;
+            dr[(int)COLUMNNAME.名称] = "设备" + rowcount.ToString();
+            data.nameDev = dr[(int)COLUMNNAME.名称].ToString();
+            dr[(int)COLUMNNAME.IP地址] = "";
+            data.ipaddr = dr[(int)COLUMNNAME.IP地址].ToString();
+            dr[(int)COLUMNNAME.IP地址] = "";
+            data.serverAddr = dr[(int)COLUMNNAME.从站地址].ToString();
+            dr[(int)COLUMNNAME.响应超时] = 1000;
+            data.reponseTimeout = Convert.ToInt32(dr[(int)COLUMNNAME.响应超时]);
+            dr[(int)COLUMNNAME.允许超时的次数] = 5;
+            data.permitTimeoutCount = Convert.ToInt32(dr[(int)COLUMNNAME.允许超时的次数]);
+            dr[(int)COLUMNNAME.重连间隔] = 1000;
+            data.reconnectInterval = Convert.ToInt32(dr[(int)COLUMNNAME.重连间隔]);
+            dr[(int)COLUMNNAME.复位变量] = 0;
+            data.resetVaraible = dr[(int)COLUMNNAME.复位变量].ToString();
             //Button add = new Button();
             //add.Text = ". . .";
 
@@ -117,16 +231,54 @@ namespace LocalPLC.ModbusClient
             //dt.Rows.Add(row);
             ds.Tables[n].Rows.Add(dr.ItemArray);
             int a = ds.Tables[n].Rows.Count;
-            if (dataGridView1.ColumnCount == 7)
+            //if (dataGridView1.ColumnCount == 7)
+            //{
+            //    dataGridView1.Columns.Add(mcg);
+            //}
+            
+            int i = rowcount;
+            // for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-                dataGridView1.Columns.Add(mcg);
+                //dataGridView1.Rows[i].Cells["ID"].Value = row;
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.ID].Value = rowcount;
+                //data.ID = rowcount;
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.名称].Value = "设备" + i.ToString();
+                //data.nameDev = dataGridView1.Rows[i].Cells[(int)COLUMNNAME.名称].Value.ToString();
+
+                ////
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.IP地址].Value = "";
+                //data.serverAddr = dataGridView1.Rows[i].Cells[(int)COLUMNNAME.IP地址].Value.ToString();
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.响应超时].Value = 1000;
+                //data.reponseTimeout = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME.响应超时].Value.ToString());
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.允许超时的次数].Value = 5;
+                //data.permitTimeoutCount = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME.允许超时的次数].Value.ToString());
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.重连间隔].Value = 1000;
+                //data.reconnectInterval = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME.重连间隔].Value.ToString());
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.复位变量].Value = "";
+                //data.resetVaraible = dataGridView1.Rows[i].Cells[(int)COLUMNNAME.复位变量].Value.ToString(); 
+                
+
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.通道].Value = "..."/* + i.ToString()*/;
+                //data.
+
+
+                //dataGridView1.Cell.Value = "Button " + i.ToString();
+
+                data_.modbusDeviceList.Add(data);
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             this.dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
+            
             int n = Convert.ToInt32(dataGridView1.SelectedRows[0].Index);
+            data_.modbusDeviceList.RemoveAt(n);
             //ds.Tables[n].Clear();
         }
         ModbusClient.ClientChannel CCl = new ClientChannel();
@@ -134,22 +286,106 @@ namespace LocalPLC.ModbusClient
         //ClientChannel1 CC1 = new ClientChannel1();
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //说明点击的列是DataGridViewButtonColumn列
-            //DataGridViewColumn column = dataGridView1.Columns[e.ColumnIndex];
-            //int currentrow = dataGridView1.SelectedRows[0].Index;
-            //CCl = new ModbusClient.ClientChannel();
-            //CC = new ClientChannel();
+            ////说明点击的列是DataGridViewButtonColumn列
+            ////DataGridViewColumn column = dataGridView1.Columns[e.ColumnIndex];
+            ////int currentrow = dataGridView1.SelectedRows[0].Index;
+            ////CCl = new ModbusClient.ClientChannel();
+            ////CC = new ClientChannel();
+            DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
+            CCl.getDeviceData(ref data);
             CCl.ShowDialog(this);
         }
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
+            //CCl.getDeviceData(ref data);
+            //CCl.ShowDialog(this);
+        }
+        private void dataGridView1_CellEndEdit_1(object sender, DataGridViewCellEventArgs e)
+        {
+            object obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            string str = "";
+            if (obj == null)
+            {
 
+            }
+            else
+            {
+                str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                if (str.Equals(""))
+                {
+
+                }
+            }
+
+
+
+            if (e.ColumnIndex == (int)COLUMNNAME.ID)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.名称)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.IP地址)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.从站地址)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).serverAddr = str;
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.响应超时)
+            {
+                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.重连间隔)
+            {
+                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.允许超时的次数)
+            {
+                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME.复位变量)
+            {
+                data_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
+
+
+            }
+        }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            data_.transformChannel = comboBox1.Text;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
 
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            string str = textBox1.Text;
+            if (!int.TryParse(str.ToString(), out data_.responseTimeout))
+            {
+                textBox1.Text = "1000";
+            }
+        }
+
+        private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
+
+        private void modbusclient1_Shown(object sender, EventArgs e)
+        {
+            mcg.Name = "通道";
+            mcg.DefaultCellStyle.NullValue = ". . .";
+            dataGridView1.Columns.Add(mcg);
+        }
+
+        
     }
 }

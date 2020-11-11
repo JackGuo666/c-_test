@@ -12,7 +12,8 @@ using System.Runtime.InteropServices;
 using ADELib;
 using LocalPLC.ModbusMaster;
 using LocalPLC.ModbusSlave;
-
+using LocalPLC.ModbusServer;
+using LocalPLC.ModbusClient;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -36,12 +37,12 @@ namespace LocalPLC
         static int i = 0; 
 
         public empty e1;
-        public ModbusClient.Clientindex mci;
-        public ModbusClient.modbusclient mct;
+        public static ModbusClient.Clientindex mci = new Clientindex();
+        public static ModbusClient.modbusclient mct = new modbusclient();
         public  static modbusmastermain modmaster = new modbusmastermain();
 		public  static modbusslavemain modslave = new modbusslavemain();
-		
-		public ModbusServer.ServerIndex msi;
+	
+		public static ModbusServer.ServerIndex msi = new ServerIndex();
         
         private void UserControl1_Load(object sender, EventArgs e)
         {
@@ -59,19 +60,19 @@ namespace LocalPLC
 
 
             //根节点
-            XmlNode node = xDoc.SelectSingleNode("root");  //选择单个节点root
-            XmlNodeList nodeList = node.ChildNodes;  
-            foreach (XmlNode xn in nodeList)
+            XmlNode node = xDoc.SelectSingleNode("root");  //获得根节点root，SelectSingleNode表示获得第一个姓名匹配的节点，此处为根节点
+            XmlNodeList nodeList = node.ChildNodes; //获取根节点下所有的子节点 
+            foreach (XmlNode xn in nodeList)//遍历各个子节点
             {
                 XmlElement elem = (XmlElement)xn;
                 //根节点下面分支
                 string name = xn.Name;
                 Console.WriteLine(name);
 
-                if(name == "modbus")
+                if(name == "modbus")                //modbus节点下
                 {
-                    XmlNodeList childList = xn.ChildNodes;
-                    foreach (XmlNode nChild in childList)
+                    XmlNodeList childList = xn.ChildNodes;//读取modbus节点下所有子节点
+                    foreach (XmlNode nChild in childList) //遍历modbus下全部子节点
                     {
                         //student子节点
                         XmlElement eChild = (XmlElement)nChild;
@@ -194,11 +195,11 @@ namespace LocalPLC
                             }
                             else if (childname == "modbusclient")
                             {
-                                //
+                                mci.loadXml(nChild);
                             }
                             else if (childname == "modbusserver")
                             {
-
+                                msi.loadXml(nChild);
                             }
                         }
 
@@ -275,6 +276,7 @@ namespace LocalPLC
                     return;
                 }
                 modmaster.initForm();
+                saveXml();
                 modmaster.Show();
                 ModbusWindow.Controls.Clear();
 
@@ -282,7 +284,8 @@ namespace LocalPLC
                 ModbusWindow.Controls.Add(modmaster);
             }
             else if (name == "ModbusTCP-Server")
-		{ 
+		{
+                       msi.initForm(); 
 		               msi.Show();
 					   ModbusWindow.Controls.Clear();
 		               ModbusWindow.Controls.Add(msi);
@@ -310,7 +313,7 @@ namespace LocalPLC
             }
 
             StringWriter sw = new StringWriter();
-            JsonTextWriter writer = new JsonTextWriter(sw);
+            JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
             writer.WriteStartObject();  //   {  （Json数据的大括号左边 ）
              //=====================================
@@ -366,7 +369,7 @@ namespace LocalPLC
 
 
             XmlDocument xDoc = new XmlDocument();
-            XmlDeclaration declaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            XmlDeclaration declaration = xDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");//xml文件抬头节点
             xDoc.AppendChild(declaration);
 
             //创建根节点
@@ -377,6 +380,10 @@ namespace LocalPLC
 
             modmaster.saveXml(ref elem, ref xDoc);
             modslave.saveXml(ref elem, ref xDoc);
+            mci.saveXml(ref elem, ref xDoc);
+            msi.saveXml(ref elem, ref xDoc);
+            //
+            //
 
             //xDoc.Save("students.xml");
 
@@ -403,7 +410,11 @@ namespace LocalPLC
                 modslave.slaveDataManager.listSlave.Clear();
             }
             
-
+            if (msi != null)
+            {
+                msi.deleteTableRow();
+                msi.serverDataManager.listServer.Clear();
+            }
             //client server clean
         }
         private void ModbusWindow_Enter(object sender, EventArgs e)
@@ -434,5 +445,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveXml();
             saveJson();
         }
+
+        
     }
 }

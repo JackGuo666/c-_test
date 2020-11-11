@@ -47,7 +47,10 @@ namespace LocalPLC.ModbusSlave
             {
                 dataGridView1.Rows.RemoveAt(i);
             }
-
+            if (dataGridView1.RowCount < 1)
+            {
+                return;
+            }
             dataGridView1.RowCount += slaveDataManager.listSlave.Count;
             for (int i = 0; i < slaveDataManager.listSlave.Count; i++)
             {
@@ -62,9 +65,9 @@ namespace LocalPLC.ModbusSlave
         public void saveXml(ref System.Xml.XmlElement elem, ref System.Xml.XmlDocument doc)
         {
             XmlElement elem1 = doc.CreateElement("modbusslave");
-            elem1.SetAttribute("tt", "张三");
-            elem1.SetAttribute("ttt", "三年一班");
-            elem1.SetAttribute("tttt", "性别");
+            //elem1.SetAttribute("tt", "张三");
+            //elem1.SetAttribute("ttt", "三年一班");
+            //elem1.SetAttribute("tttt", "性别");
             elem.AppendChild(elem1);
 
             
@@ -84,7 +87,7 @@ namespace LocalPLC.ModbusSlave
 
                 elem1_s.SetAttribute("transformmode", data.dataDevice_.transformMode.ToString());
                 elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
-
+                
                 //elem1_s.AppendChild(elem1_s_data);
 
                 elem1.AppendChild(elem1_s);
@@ -103,9 +106,6 @@ namespace LocalPLC.ModbusSlave
 
         private void modbusslavemain_Load(object sender, EventArgs e)
         {
-            //界面初始化
-            init = true;
-
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
               
@@ -168,7 +168,7 @@ namespace LocalPLC.ModbusSlave
                     //MessageBox.Show(dataGridView1.Rows[e.RowIndex].
                     //    Cells[e.ColumnIndex].Value.ToString() +
                     //    " is enabled");
-
+                    int a = e.RowIndex;
                     modbusslaveform form = new modbusslaveform(e.RowIndex);
                     ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(e.RowIndex);
                     form.getSlaveData(ref data);
@@ -199,7 +199,7 @@ namespace LocalPLC.ModbusSlave
 
         public void loadXml(XmlNode xn)
         {
-            //init = true;
+            init = true;
 
             XmlNodeList nodeList = xn.ChildNodes;
             foreach(XmlNode childNode in nodeList)
