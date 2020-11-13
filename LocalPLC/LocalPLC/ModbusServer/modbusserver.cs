@@ -50,7 +50,7 @@ namespace LocalPLC.ModbusServer
         enum TRANSFORMMODE : int
         { TCP, UDP }
         enum IPCONNECT:int
-        { TRUE,FALSE}
+        { FALSE,TRUE}
         public modbusserver(int index)
         {
             InitializeComponent();
@@ -65,10 +65,10 @@ namespace LocalPLC.ModbusServer
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton3.Checked)
-            {
+            
                 
-
+            if(radioButton3.Checked == true)
+            { 
                 textBox25.ReadOnly = false;
                 textBox25.Enabled = true;
                 textBox26.ReadOnly = false;
@@ -79,10 +79,12 @@ namespace LocalPLC.ModbusServer
                 textBox28.Enabled = true;
                 data_.dataDevice_.ipconnect = (int)IPCONNECT.TRUE;
             }
-            else if(radioButton3.Checked = false)
-            {
-                
+        }
 
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton4.Checked == true)
+            { 
                 textBox25.ReadOnly = true;
                 textBox25.Enabled = false;
                 textBox26.ReadOnly = true;
@@ -92,9 +94,11 @@ namespace LocalPLC.ModbusServer
                 textBox28.ReadOnly = true;
                 textBox28.Enabled = false;
                 data_.dataDevice_.ipconnect = (int)IPCONNECT.FALSE;
+            
             }
         }
-       // serversettings ss1;
+
+        // serversettings ss1;
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -164,8 +168,38 @@ namespace LocalPLC.ModbusServer
             textBox26.Text = data_.dataDevice_.ip1.ToString();
             textBox27.Text = data_.dataDevice_.ip2.ToString();
             textBox28.Text = data_.dataDevice_.ip3.ToString();
+            textBox5.Text = data_.dataDevice_.coilIoAddrStart;
+            textBox6.Text = data_.dataDevice_.holdingIoAddrStart;
+            textBox7.Text = data_.dataDevice_.decreteIoAddrStart;
+            textBox8.Text = data_.dataDevice_.statusIoAddrStart;
+            textBox21.Text = data_.dataDevice_.IOAddrRange;
+            textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
+            if(data_.dataDevice_.ipconnect == (int)IPCONNECT.TRUE)
+            {
+                radioButton3.Checked = true;
+                textBox25.ReadOnly = false;
+                textBox25.Enabled = true;
+                textBox26.ReadOnly = false;
+                textBox26.Enabled = true;
+                textBox27.ReadOnly = false;
+                textBox27.Enabled = true;
+                textBox28.ReadOnly = false;
+                textBox28.Enabled = true;
+            }
+            else
+            {
+                radioButton4.Checked = true;
+                textBox25.ReadOnly = true;
+                textBox25.Enabled = false;
+                textBox26.ReadOnly = true;
+                textBox26.Enabled = false;
+                textBox27.ReadOnly = true;
+                textBox27.Enabled = false;
+                textBox28.ReadOnly = true;
+                textBox28.Enabled = false;
+            }
         }
-
+       
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -237,5 +271,38 @@ namespace LocalPLC.ModbusServer
         {
             int.TryParse(textBox28.Text, out data_.dataDevice_.ip3);
         }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.coilIoAddrStart = textBox5.Text;
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.holdingIoAddrStart = textBox6.Text;
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.decreteIoAddrStart = textBox7.Text;
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.statusIoAddrStart = textBox8.Text;
+        }
+
+        private void textBox21_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.IOAddrRange = textBox21.Text;
+        }
+
+        private void textBox22_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.IOAddrLength = Convert.ToInt32( textBox22.Text);
+            
+        }
+
+        
     }
 }

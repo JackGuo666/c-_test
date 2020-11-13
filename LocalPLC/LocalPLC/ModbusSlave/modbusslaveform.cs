@@ -29,10 +29,7 @@ namespace LocalPLC.ModbusSlave
             data_ = data;
         }
 
-        private void textBox21_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void textBox_coil_TextChanged(object sender, EventArgs e)
         {
@@ -61,7 +58,22 @@ namespace LocalPLC.ModbusSlave
 
         private void textBox_coil_start_TextChanged(object sender, EventArgs e)
         {
-            
+                data_.dataDevice_.coilIoAddrStart = textBox_coil_start.Text  ;
+        }
+
+        private void textBox_holding_start_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.holdingIoAddrStart = textBox_holding_start.Text ;
+        }
+
+        private void textBox_lisan_start_TextChanged(object sender, EventArgs e)
+        {
+                data_.dataDevice_.decreteIoAddrStart = textBox_lisan_start.Text;
+        }
+
+        private void textBox_status_start_TextChanged(object sender, EventArgs e)
+        {
+                data_.dataDevice_.statusIoAddrStart =  textBox_status_start.Text;
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -84,15 +96,29 @@ namespace LocalPLC.ModbusSlave
         {
             int.TryParse(textBox23.Text, out data_.dataDevice_.deviceAddr);
         }
+        private void textBox_start_total_TextChanged(object sender, EventArgs e)
+        {
+            data_.dataDevice_.IOAddrRange = textBox_start_total.Text;
+        }
 
+        private void textBox_length_total_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox_length_total.Text, out data_.dataDevice_.IOAddrLength);
+        }
         private void modbusslaveform_Load(object sender, EventArgs e)
         {
             textBox_coil.Text = data_.dataDevice_.coilCount.ToString();
             textBox_holding.Text = data_.dataDevice_.holdingCount.ToString();
             textBox_lisan.Text = data_.dataDevice_.decreteCount.ToString();
             textBox_status.Text = data_.dataDevice_.statusCount.ToString();
+            textBox_coil_start.Text = data_.dataDevice_.coilIoAddrStart;
+            textBox_holding_start.Text = data_.dataDevice_.holdingIoAddrStart;
+            textBox_lisan_start.Text = data_.dataDevice_.decreteIoAddrStart;
+            textBox_status_start.Text = data_.dataDevice_.statusIoAddrStart;
+            textBox_start_total.Text = data_.dataDevice_.IOAddrRange;
+            textBox_length_total.Text = data_.dataDevice_.IOAddrLength.ToString();
 
-            if(data_.dataDevice_.transformMode == (int)TRANSFORMMODE.RTU)
+            if (data_.dataDevice_.transformMode == (int)TRANSFORMMODE.RTU)
             {
                 radioButton1.Checked = true;
             }
@@ -103,5 +129,7 @@ namespace LocalPLC.ModbusSlave
 
             textBox23.Text = data_.dataDevice_.deviceAddr.ToString();
         }
+
+        
     }
 }

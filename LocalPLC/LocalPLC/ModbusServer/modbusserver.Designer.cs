@@ -83,6 +83,8 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -90,6 +92,7 @@
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -184,6 +187,7 @@
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(84, 28);
             this.textBox5.TabIndex = 7;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
             // textBox6
             // 
@@ -191,6 +195,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(84, 28);
             this.textBox6.TabIndex = 7;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // textBox7
             // 
@@ -198,6 +203,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(84, 28);
             this.textBox7.TabIndex = 7;
+            this.textBox7.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
             // 
             // textBox8
             // 
@@ -205,6 +211,7 @@
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(84, 28);
             this.textBox8.TabIndex = 7;
+            this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             // 
             // textBox9
             // 
@@ -332,6 +339,7 @@
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(115, 28);
             this.textBox21.TabIndex = 4;
+            this.textBox21.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
             // 
             // textBox22
             // 
@@ -339,6 +347,7 @@
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(115, 28);
             this.textBox22.TabIndex = 4;
+            this.textBox22.TextChanged += new System.EventHandler(this.textBox22_TextChanged);
             // 
             // label11
             // 
@@ -422,7 +431,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 130);
+            this.radioButton3.Location = new System.Drawing.Point(12, 21);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(159, 22);
             this.radioButton3.TabIndex = 16;
@@ -573,11 +582,11 @@
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.groupBox2);
             this.panel6.Controls.Add(this.label11);
             this.panel6.Controls.Add(this.textBox23);
             this.panel6.Controls.Add(this.label12);
             this.panel6.Controls.Add(this.textBox24);
-            this.panel6.Controls.Add(this.radioButton3);
             this.panel6.Controls.Add(this.label14);
             this.panel6.Controls.Add(this.textBox25);
             this.panel6.Controls.Add(this.textBox26);
@@ -587,6 +596,29 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(553, 228);
             this.panel6.TabIndex = 24;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.radioButton4);
+            this.groupBox2.Controls.Add(this.radioButton3);
+            this.groupBox2.Location = new System.Drawing.Point(11, 119);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(381, 49);
+            this.groupBox2.TabIndex = 18;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "groupBox2";
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Location = new System.Drawing.Point(208, 21);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(87, 22);
+            this.radioButton4.TabIndex = 17;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "不启用";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
             // modbusserver
             // 
@@ -618,6 +650,8 @@
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -679,5 +713,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton radioButton4;
     }
 }

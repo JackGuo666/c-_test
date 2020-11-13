@@ -142,6 +142,7 @@
             this.textBox_status_start.Name = "textBox_status_start";
             this.textBox_status_start.Size = new System.Drawing.Size(75, 28);
             this.textBox_status_start.TabIndex = 3;
+            this.textBox_status_start.TextChanged += new System.EventHandler(this.textBox_status_start_TextChanged);
             // 
             // textBox_lisan_start
             // 
@@ -149,6 +150,7 @@
             this.textBox_lisan_start.Name = "textBox_lisan_start";
             this.textBox_lisan_start.Size = new System.Drawing.Size(75, 28);
             this.textBox_lisan_start.TabIndex = 3;
+            this.textBox_lisan_start.TextChanged += new System.EventHandler(this.textBox_lisan_start_TextChanged);
             // 
             // textBox_holding_start
             // 
@@ -156,6 +158,7 @@
             this.textBox_holding_start.Name = "textBox_holding_start";
             this.textBox_holding_start.Size = new System.Drawing.Size(75, 28);
             this.textBox_holding_start.TabIndex = 3;
+            this.textBox_holding_start.TextChanged += new System.EventHandler(this.textBox_holding_start_TextChanged);
             // 
             // textBox_status_out
             // 
@@ -399,7 +402,7 @@
             this.textBox_length_total.Name = "textBox_length_total";
             this.textBox_length_total.Size = new System.Drawing.Size(88, 28);
             this.textBox_length_total.TabIndex = 1;
-            this.textBox_length_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
+            this.textBox_length_total.TextChanged += new System.EventHandler(this.textBox_length_total_TextChanged);
             // 
             // textBox_start_total
             // 
@@ -407,7 +410,7 @@
             this.textBox_start_total.Name = "textBox_start_total";
             this.textBox_start_total.Size = new System.Drawing.Size(88, 28);
             this.textBox_start_total.TabIndex = 1;
-            this.textBox_start_total.TextChanged += new System.EventHandler(this.textBox21_TextChanged);
+            this.textBox_start_total.TextChanged += new System.EventHandler(this.textBox_start_total_TextChanged);
             // 
             // label11
             // 

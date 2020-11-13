@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace LocalPLC.ModbusClient
 {
@@ -207,7 +209,7 @@ namespace LocalPLC.ModbusClient
             data.nameDev = dr[(int)COLUMNNAME.名称].ToString();
             dr[(int)COLUMNNAME.IP地址] = "";
             data.ipaddr = dr[(int)COLUMNNAME.IP地址].ToString();
-            dr[(int)COLUMNNAME.IP地址] = "";
+            dr[(int)COLUMNNAME.从站地址] = "";
             data.serverAddr = dr[(int)COLUMNNAME.从站地址].ToString();
             dr[(int)COLUMNNAME.响应超时] = 1000;
             data.reponseTimeout = Convert.ToInt32(dr[(int)COLUMNNAME.响应超时]);

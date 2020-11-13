@@ -311,49 +311,60 @@ namespace LocalPLC
                 utility.PrintError("请先打开工程!");
                 return;
             }
+            string projectPath = multiprogApp.ActiveProject.Path;
+            string projectName = multiprogApp.ActiveProject.Name;
+            string path = projectPath + "\\" + projectName + "\\" + "myconfig.json";
 
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
-            writer.WriteStartObject();  //   {  （Json数据的大括号左边 ）
-             //=====================================
-             //第一级节点
-            writer.WritePropertyName("test_key");
-            writer.WriteValue("1");
-
-            //============================
+            // writer.WriteStartObject();  //   {  （Json数据的大括号左边 ）
+            //=====================================
             //第一级节点
-            writer.WritePropertyName("img");
+            writer.WriteStartObject();
+            writer.WritePropertyName("modbus");
+            writer.WriteStartObject();
+            //writer.WriteValue("1");
+            modslave.saveJson(writer);
+            msi.saveJson(writer);
+            modmaster.saveJson(writer);
+            mci.saveJson(writer);
+            //============================
+            ////第一级节点
+            //writer.WritePropertyName("img");
 
-            writer.WriteStartObject();//{
+            //writer.WriteStartObject();//{
 
-            writer.WritePropertyName("ig1");
+            //writer.WritePropertyName("ig1");
 
-            writer.WriteValue("3");
+            //writer.WriteValue("3");
 
-            writer.WritePropertyName("ig2");
+            //writer.WritePropertyName("ig2");
 
-            writer.WriteValue("3");
+            //writer.WriteValue("3");
 
-            writer.WritePropertyName("ig3");
+            //writer.WritePropertyName("ig3");
 
-            writer.WriteValue("3");
+            //writer.WriteValue("3");
 
-            writer.WritePropertyName("ig4");
+            //writer.WritePropertyName("ig4");
 
-            writer.WriteValue("3");
+            //writer.WriteValue("3");
 
-            writer.WriteEndObject();//} 
+            //writer.WriteEndObject();//} 
 
 
             //=====================================
             writer.WriteEndObject();//}
-
-            string str = "test.json";
-            StreamWriter wtyeu = new StreamWriter(str);
+            writer.WriteEndObject();//}
+            string str = "myconfig.json";
+            string strpath = projectPath + @"\" + str;//System.IO.Directory.GetCurrentDirectory() + @"\" + Name;
+            StreamWriter wtyeu = new StreamWriter(path);
             wtyeu.Write(sw);
             wtyeu.Flush();
             wtyeu.Close();
+            
+            
         }
         private void saveXml()
         {

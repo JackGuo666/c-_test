@@ -45,7 +45,7 @@ namespace LocalPLC.ModbusServer
 
         public int port = 502;
         public int maxconnectnumber;
-        public int ipconnect;
+        public int ipconnect; //0 false 1true
         public int ip0, ip1, ip2, ip3;
     }
 

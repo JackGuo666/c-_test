@@ -10,6 +10,8 @@ using LocalPLC.ModbusMaster;
 using LocalPLC.ModbusSlave;
 using ADELib;
 using System.Xml;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace LocalPLC.ModbusSlave
 {
@@ -84,6 +86,12 @@ namespace LocalPLC.ModbusSlave
                 elem1_s.SetAttribute("holdingcount", data.dataDevice_.holdingCount.ToString());
                 elem1_s.SetAttribute("decretecount", data.dataDevice_.decreteCount.ToString());
                 elem1_s.SetAttribute("statuscount", data.dataDevice_.statusCount.ToString());
+                elem1_s.SetAttribute("IOAddrRange", data.dataDevice_.IOAddrRange);
+                elem1_s.SetAttribute("IOAddrLength", data.dataDevice_.IOAddrLength.ToString ());
+                elem1_s.SetAttribute("coilstart", data.dataDevice_.coilIoAddrStart);
+                elem1_s.SetAttribute("holdingstart", data.dataDevice_.holdingIoAddrStart);
+                elem1_s.SetAttribute("decretestart", data.dataDevice_.decreteIoAddrStart);
+                elem1_s.SetAttribute("statusstart", data.dataDevice_.statusIoAddrStart);
 
                 elem1_s.SetAttribute("transformmode", data.dataDevice_.transformMode.ToString());
                 elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
@@ -91,13 +99,93 @@ namespace LocalPLC.ModbusSlave
                 //elem1_s.AppendChild(elem1_s_data);
 
                 elem1.AppendChild(elem1_s);
-            }
-            
-
-
-            
+            }        
         }
 
+        public void saveJson(JsonTextWriter writer)
+        {
+            //添加modbusslave节点
+            writer.WritePropertyName("mbserial_slave");
+            writer.WriteStartObject();//添加{  slave节点
+            writer.WritePropertyName("number");
+            writer.WriteValue(slaveDataManager.listSlave.Count);//number
+                writer.WritePropertyName("conf");
+                writer.WriteStartArray();//[  slave节点下conf数组
+            for (int i = 0; i < slaveDataManager.listSlave.Count; i++)
+            {
+                ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(i);
+                
+                writer.WriteStartObject();//{ slave下conf数组的配置信息
+                writer.WritePropertyName("port");
+                writer.WriteValue("ser_port"+ data.ID.ToString());
+                string mode =null;
+                if(data.dataDevice_.transformMode == 0)
+                {
+                    mode = "rtu";
+                }
+                else if (data.dataDevice_.transformMode == 1)
+                {
+                    mode = "ASCII";
+                }
+                writer.WritePropertyName("mode");
+                writer.WriteValue(mode);
+                writer.WritePropertyName("dev_id");
+                writer.WriteValue(data.ID);
+                writer.WritePropertyName("dev_namestr");
+                writer.WriteValue("mb"+mode+"_slave"+data.ID.ToString());
+                writer.WritePropertyName("io_range");
+                writer.WriteStartObject();
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.IOAddrRange);
+                writer.WritePropertyName("bytes");
+                writer.WriteValue(data.dataDevice_.IOAddrLength);
+                writer.WriteEndObject();
+                //离散
+                writer.WritePropertyName("discrete");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INPUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.decreteIoAddrStart);
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.decreteCount);
+                writer.WriteEndObject();
+                //线圈
+                writer.WritePropertyName("coils");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INOUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.coilIoAddrStart);
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.coilCount);
+                writer.WriteEndObject();
+                //状态
+                writer.WritePropertyName("regs");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INPUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.statusIoAddrStart);
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.statusCount);
+                writer.WriteEndObject();
+                //保持
+                writer.WritePropertyName("holding");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INOUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.holdingIoAddrStart);
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.holdingCount);
+                writer.WriteEndObject();//}  
+                writer.WriteEndObject();//}   slave下conf数组的配置信息
+                
+            }
+            writer.WriteEndArray();//]    slave节点下conf数组
+            writer.WriteEndObject();//} slave节点
+        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -222,6 +310,12 @@ namespace LocalPLC.ModbusSlave
                 int.TryParse(e.GetAttribute("transformmode"), out data.dataDevice_.transformMode);
                 //设备地址
                 int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
+                data.dataDevice_.IOAddrRange = e.GetAttribute("IOAddrRange");
+                int.TryParse(e.GetAttribute("IOAddrLength"), out data.dataDevice_.IOAddrLength);
+                data.dataDevice_.coilIoAddrStart = e.GetAttribute("coilstart");
+                data.dataDevice_.holdingIoAddrStart = e.GetAttribute("holdingstart");
+                data.dataDevice_.decreteIoAddrStart = e.GetAttribute("decretestart");
+                data.dataDevice_.statusIoAddrStart = e.GetAttribute("statusstart");
 
                 slaveDataManager.listSlave.Add(data);
             }
