@@ -36,6 +36,8 @@ namespace LocalPLC.ModbusClient
 
         private void Clientindex_Load(object sender, EventArgs e)
         {
+            init = true;
+
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 dataGridView1.Rows.RemoveAt(i);
@@ -397,7 +399,7 @@ namespace LocalPLC.ModbusClient
             for (int i = 0; i < clientManage.modbusClientList.Count; i++)
             {
                 ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
-                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                dataGridView1.Rows[i].Cells[0].Value = data.ID;
                 //dataGridView1.Rows[i].Cells[""].Value = "..."/* + i.ToString()*/;
             }
         }

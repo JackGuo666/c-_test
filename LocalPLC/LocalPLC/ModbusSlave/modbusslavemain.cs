@@ -44,21 +44,33 @@ namespace LocalPLC.ModbusSlave
             {
                 return;
             }
-
-            for(int i = dataGridView1.Rows.Count-1 ; i >= 0; i--)
+            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
             {
                 dataGridView1.Rows.RemoveAt(i);
             }
-            if (dataGridView1.RowCount < 1)
-            {
-                return;
-            }
+
+            //if (dataGridView1.RowCount < 1)
+            //{
+            //    return;
+            //}
             dataGridView1.RowCount += slaveDataManager.listSlave.Count;
+            //DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
+            //buttonColumn.Name = "配置";
+
+            //DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            //cellColumn.Name = "ID";
+
+            //dataGridView1.Columns.Add(cellColumn);
+            //dataGridView1.Columns.Add(buttonColumn);
             for (int i = 0; i < slaveDataManager.listSlave.Count; i++)
             {
                 ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(i);
-                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
-                dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
+                dataGridView1.Rows[i].Cells[0].Value = data.ID;
+                dataGridView1.Rows[i].Cells[1].Value = "..."/* + i.ToString()*/;
+            }
+            if (dataGridView1.Columns.Count > 2)
+            {
+                dataGridView1.Columns.RemoveAt(0);
             }
         }
 
@@ -194,6 +206,7 @@ namespace LocalPLC.ModbusSlave
 
         private void modbusslavemain_Load(object sender, EventArgs e)
         {
+            init = true;
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
               
@@ -202,6 +215,10 @@ namespace LocalPLC.ModbusSlave
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
+            if (dataGridView1.Columns.Count > 2)
+            {
+                dataGridView1.Columns.RemoveAt(0);
+            }
             dataGridView1.RowCount = /*8*/ 1 + slaveDataManager.listSlave.Count; ;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;

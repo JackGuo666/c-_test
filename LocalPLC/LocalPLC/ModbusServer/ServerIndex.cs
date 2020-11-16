@@ -21,11 +21,10 @@ namespace LocalPLC.ModbusServer
         public ServerIndex()
         {
             InitializeComponent();
-            dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            
 
             serverDataManager = DataManager.GetInstance();
-            init = false;
+            
         }
 
         public void deleteTableRow()
@@ -38,6 +37,7 @@ namespace LocalPLC.ModbusServer
 
         private void ServerIndex_Load(object sender, EventArgs e)
         {
+            init = true;
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
 
@@ -51,9 +51,14 @@ namespace LocalPLC.ModbusServer
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
-            dataGridView1.RowCount = /*8*/ 1 + serverDataManager.listServer.Count; ;
+            if (dataGridView1.Columns.Count > 2)
+            {
+                dataGridView1.Columns.RemoveAt(0);
+            }
+            dataGridView1.RowCount = /*8*/ serverDataManager.listServer.Count;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
 
@@ -72,21 +77,27 @@ namespace LocalPLC.ModbusServer
             {
                 return;
             }
-
+            //if (dataGridView1.RowCount < 1)
+            //{
+            //    return;
+            //}
             for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
             {
                 dataGridView1.Rows.RemoveAt(i);
             }
-            if (dataGridView1.RowCount < 1)
-            {
-                return;
-            }
+            
             dataGridView1.RowCount += serverDataManager.listServer.Count;
+            int a = serverDataManager.listServer.Count;
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
             {
                 ModbusServerData data = serverDataManager.listServer.ElementAt(i);
-                dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
-                dataGridView1.Rows[i].Cells["跳转"].Value = "..."/* + i.ToString()*/;
+                
+                dataGridView1.Rows[i].Cells[0].Value = data.ID;
+                //dataGridView1.Rows[i].Cells["跳转"].Value = "..."/* + i.ToString()*/;
+            }
+            if (dataGridView1.Columns.Count > 2)
+            {
+                dataGridView1.Columns.RemoveAt(0);
             }
         }
 
