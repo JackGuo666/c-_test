@@ -314,6 +314,18 @@ namespace LocalPLC.ModbusMaster
 
         }
 
+        private void createColumn()
+        {
+            DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
+            buttonColumn.Name = "配置";
+
+            DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            cellColumn.Name = "ID";
+
+            dataGridView1.Columns.Add(cellColumn);
+            dataGridView1.Columns.Add(buttonColumn);
+        }
+
         bool init = false;
         public void initForm()
         {
@@ -323,12 +335,15 @@ namespace LocalPLC.ModbusMaster
             {
                 return;
             }
-            
-            for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
-            {
-                dataGridView1.Rows.RemoveAt(i);
-            }
 
+            //for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
+            //{
+            //    dataGridView1.Rows.RemoveAt(i);
+            //}
+
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            createColumn();
 
 
             //DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
@@ -357,11 +372,12 @@ namespace LocalPLC.ModbusMaster
         public void modbusmastermain_Load(object sender, EventArgs e)
         {
             init = true;
-            
-            for(int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                dataGridView1.Rows.RemoveAt(i);
-            }
+
+            //for(int i = 0; i < dataGridView1.Rows.Count; i++)
+            //{
+            //    dataGridView1.Rows.RemoveAt(i);
+            //}
+            dataGridView1.Rows.Clear();
 
             //for (int i = 0; i < dataGridView1.Columns.Count; i++)
             //{
@@ -370,14 +386,7 @@ namespace LocalPLC.ModbusMaster
 
 
 
-            DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
-            buttonColumn.Name = columnConfig;
-
-            DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
-            cellColumn.Name = "ID";
-
-            dataGridView1.Columns.Add(cellColumn);
-            dataGridView1.Columns.Add(buttonColumn);
+            createColumn();
             dataGridView1.RowCount = /*8*/ 1 + masterManage.modbusMastrList.Count;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;

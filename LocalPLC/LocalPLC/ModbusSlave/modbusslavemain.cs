@@ -37,6 +37,19 @@ namespace LocalPLC.ModbusSlave
             }
         }
 
+
+        private void createColumn()
+        {
+            DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
+            buttonColumn.Name = "配置";
+
+            DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            cellColumn.Name = "ID";
+
+            dataGridView1.Columns.Add(cellColumn);
+            dataGridView1.Columns.Add(buttonColumn);
+        }
+
         bool init = false;
         public void initForm()
         {
@@ -47,32 +60,19 @@ namespace LocalPLC.ModbusSlave
 
 
 
-            if(dataGridView1.RowCount > 0)
-            {
-                for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
-                {
-                    dataGridView1.Rows.RemoveAt(i);
-                }
-            }
-
-            dataGridView1.Columns.Clear();
-            //if (dataGridView1.ColumnCount > 0)
+            //if(dataGridView1.RowCount > 0)
             //{
-            //    for (int j = dataGridView1.ColumnCount - 1; j >= 0; j--)
+            //    for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
             //    {
-            //        dataGridView1.Columns.RemoveAt(j);
+            //        dataGridView1.Rows.RemoveAt(i);
             //    }
             //}
+            dataGridView1.Rows.Clear();
+
+            dataGridView1.Columns.Clear();
 
 
-            DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
-            buttonColumn.Name = "配置";
-
-            DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
-            cellColumn.Name = "ID";
-
-            dataGridView1.Columns.Add(cellColumn);
-            dataGridView1.Columns.Add(buttonColumn);
+            createColumn();
 
 
             //if (dataGridView1.RowCount < 1)
@@ -240,15 +240,8 @@ namespace LocalPLC.ModbusSlave
 
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
-
-            DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
-            buttonColumn.Name = "配置";
-             
-            DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
-            cellColumn.Name = "ID";
-
-            dataGridView1.Columns.Add(cellColumn);
-            dataGridView1.Columns.Add(buttonColumn);
+            createColumn();
+    
             //if (dataGridView1.Columns.Count > 2)
             //{
             //    dataGridView1.Columns.RemoveAt(0);
