@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.ComponentModel;
 
 namespace LocalPLC.ModbusMaster
 {
@@ -110,6 +109,13 @@ namespace LocalPLC.ModbusMaster
 
         private void button_add_Click(object sender, EventArgs e)
         {
+            if (utility.masterDeviceCountMax <= dataGridView1.RowCount)
+            {
+                string err = string.Format("设备最大个数是{0}", utility.masterDeviceCountMax);
+                utility.PrintError(err);
+                return;
+            }
+
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
 

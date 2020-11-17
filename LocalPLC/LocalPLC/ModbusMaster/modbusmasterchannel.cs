@@ -94,13 +94,15 @@ namespace LocalPLC.ModbusMaster
             DataGridViewTextBoxColumn cellColumnPolling = new DataGridViewTextBoxColumn();
             cellColumnPolling.Name = "循环触发事件";
             DataGridViewTextBoxColumn cellColumnReadOffset = new DataGridViewTextBoxColumn();
-            cellColumnReadOffset.Name = "读偏移";
+            cellColumnReadOffset.Name = "偏移";
             DataGridViewTextBoxColumn cellColumnReadLength = new DataGridViewTextBoxColumn();
-            cellColumnReadLength.Name = "读长度";
-            DataGridViewTextBoxColumn cellColumnWriteOffset = new DataGridViewTextBoxColumn();
-            cellColumnWriteOffset.Name = "写偏移";
-            DataGridViewTextBoxColumn cellColumnWriteLength = new DataGridViewTextBoxColumn();
-            cellColumnWriteLength.Name = "写长度";
+            cellColumnReadLength.Name = "长度";
+            DataGridViewTextBoxColumn cellColumnTriggerVar = new DataGridViewTextBoxColumn();
+            cellColumnTriggerVar.ReadOnly = true;
+            cellColumnTriggerVar.Name = "触发变量";
+            DataGridViewTextBoxColumn cellColumnErrorVar = new DataGridViewTextBoxColumn();
+            cellColumnErrorVar.ReadOnly = true;
+            cellColumnErrorVar.Name = "错误变量";
             DataGridViewTextBoxColumn cellColumnNote = new DataGridViewTextBoxColumn();
             cellColumnNote.Name = "注释";
             //列标题自适应
@@ -113,8 +115,8 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.Columns.Add(cellColumnPolling);
             dataGridView1.Columns.Add(cellColumnReadOffset);
             dataGridView1.Columns.Add(cellColumnReadLength);
-            dataGridView1.Columns.Add(cellColumnWriteOffset);
-            dataGridView1.Columns.Add(cellColumnWriteLength);
+            dataGridView1.Columns.Add(cellColumnTriggerVar);
+            dataGridView1.Columns.Add(cellColumnErrorVar);
             dataGridView1.Columns.Add(cellColumnNote);
 
 
@@ -173,6 +175,13 @@ namespace LocalPLC.ModbusMaster
 
         private void button_add_Click(object sender, EventArgs e)
         {
+            if (utility.masterDeviceChannleCountMax <= dataGridView1.RowCount)
+            {
+                string err = string.Format("通道最大个数是{0}", utility.masterDeviceCountMax);
+                utility.PrintError(err);
+                return;
+            }
+            
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
 

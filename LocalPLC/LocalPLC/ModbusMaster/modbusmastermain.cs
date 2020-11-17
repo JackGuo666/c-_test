@@ -290,6 +290,14 @@ namespace LocalPLC.ModbusMaster
         //ttest
         private void button_add_Click(object sender, EventArgs e)
         {
+            if(dataGridView1.RowCount >= utility.masterCount)
+            {
+                string err = string.Format("master最大个数是{0}", utility.masterCount);
+                utility.PrintError(err);
+                return;
+            }
+
+
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
             
