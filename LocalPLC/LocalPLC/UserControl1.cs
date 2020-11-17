@@ -47,9 +47,9 @@ namespace LocalPLC
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
-            mci = new ModbusClient.Clientindex();
-            mct = new ModbusClient.modbusclient();
-            msi = new ModbusServer.ServerIndex();
+            //mci = new ModbusClient.Clientindex();
+            //mct = new ModbusClient.modbusclient();
+            //msi = new ModbusServer.ServerIndex();
 
             return;
            
