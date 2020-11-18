@@ -8,6 +8,11 @@ namespace LocalPLC
 {
     class utility
     {
+        //根据串口个数确定master个数，一个master有8个device，一个device有8个channel
+        public static int masterCount = 5;
+        //modbus master的设备最大个数
+        public static int masterDeviceCountMax = 8;
+        public static int masterDeviceChannleCountMax = 8;
         public static void PrintError(string str)
         {
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
