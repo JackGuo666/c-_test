@@ -432,7 +432,9 @@ namespace LocalPLC.ModbusMaster
 
                     modbusmasterDeviceform form = new modbusmasterDeviceform();
                     ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
-                    form.getMasterData(ref data);
+
+                    int masterStartAddr = masterManage.getMasterStartAddr();
+                    form.getMasterData(ref data, masterStartAddr);
                     form.ShowDialog();
                 }
             }
@@ -525,6 +527,8 @@ namespace LocalPLC.ModbusMaster
 
     public class DeviceData
     {
+        public int curDeviceAddr = 0;
+        public int curDeviceLength = 0;
         public int ID;
         public string nameDev;
         public string slaveAddr;
@@ -550,6 +554,17 @@ namespace LocalPLC.ModbusMaster
             //0 RTU    1 ASCII
             transformMode = 0;
         }
+
+        public void addDevice(ref DeviceData data)
+        {
+            data.curDeviceAddr = curMasterStartAddr;
+            foreach(var device in modbusDeviceList)
+            {
+                data.curDeviceAddr += device.curDeviceLength;
+            }
+
+            modbusDeviceList.Add(data);
+        }
     }
 
     public class ModbusMasterManage
@@ -563,12 +578,14 @@ namespace LocalPLC.ModbusMaster
 
         }
 
-        public void getMasterStartAddr()
+        public int getMasterStartAddr()
         {
             int clientCount = UserControl1.mci.clientManage.modbusClientList.Count;
             int serverCount = UserControl1.msi.serverDataManager.listServer.Count;
 
             masterStartAddr = (clientCount + serverCount) * utility.modbusMudule + utility.modbusAddr;
+
+            return masterStartAddr;
         }
 
         public void add(ModbusMasterData data)
@@ -584,6 +601,7 @@ namespace LocalPLC.ModbusMaster
             }
             
             modbusMastrList.Add(data);
+
         }
     }
     

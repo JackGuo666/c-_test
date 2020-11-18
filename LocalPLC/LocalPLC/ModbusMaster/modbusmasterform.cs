@@ -17,11 +17,13 @@ namespace LocalPLC.ModbusMaster
         }
 
         private ModbusMasterData data_ { get; set; }
+        private int masterStartAddr_ = 0;
 
-        public void getMasterData(ref ModbusMasterData data)
+        public void getMasterData(ref ModbusMasterData data, int masterStartAddr)
         {
             data_ = data;
             data_.ID = data.ID;
+            masterStartAddr_ = masterStartAddr;
         }
 
         public enum COLUMNNAME :  int
@@ -155,7 +157,10 @@ namespace LocalPLC.ModbusMaster
 
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
 
-                data_.modbusDeviceList.Add(data);
+                //data_.modbusDeviceList.Add(data);
+                data_.addDevice(ref data);
+
+
             }
         }
 
