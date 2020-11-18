@@ -15,6 +15,8 @@ namespace LocalPLC
         public static int masterDeviceChannleCountMax = 8;
         //modbus总起始地址
         public static int modbusAddr = 1000;
+        //每个单位间隔1000字节
+        public static int modbusMudule= 1000;
         public static void PrintError(string str)
         {
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
