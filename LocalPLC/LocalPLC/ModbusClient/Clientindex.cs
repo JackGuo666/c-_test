@@ -44,12 +44,17 @@ namespace LocalPLC.ModbusClient
             }
             DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
+            DataGridViewButtonColumn btn1 = new DataGridViewButtonColumn();
             btn.Name = "config";
             btn.HeaderText = "配置";
             btn.DefaultCellStyle.NullValue = ". . .";
             cellColumn.Name = "Client编号";
+            btn1.Name = "info";
+            btn1.HeaderText = "详细信息";
+            btn1.DefaultCellStyle.NullValue = ". . .";
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(btn);
+            dataGridView1.Columns.Add(btn1);
             dataGridView1.RowCount = /*8*/ 1 + clientManage.modbusClientList.Count;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
@@ -60,7 +65,8 @@ namespace LocalPLC.ModbusClient
             {
                 ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
                 dataGridView1.Rows[i].Cells["Client编号"].Value = data.ID;
-                dataGridView1.Rows[i].Cells["config"].Value = "..."/* + i.ToString()*/;
+                //dataGridView1.Rows[i].Cells["config"].Value = "..."/* + i.ToString()*/;
+
             }
         }
        
@@ -94,7 +100,7 @@ namespace LocalPLC.ModbusClient
                     int.TryParse(e.GetAttribute("ID"), out deviceData.ID);//为各子节点赋值
                     deviceData.nameDev = e.GetAttribute("namedev");
                     deviceData.ipaddr = e.GetAttribute("ipaddr");
-                    deviceData.serverAddr = e.GetAttribute("serverAddr");
+                    deviceData.serverAddr = e.GetAttribute("serveraddr");
                     int.TryParse(e.GetAttribute("responsetimeout"), out deviceData.reponseTimeout);
                     int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
                     int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
@@ -110,13 +116,16 @@ namespace LocalPLC.ModbusClient
                         int.TryParse(e.GetAttribute("ID"), out channelData.ID);
                         channelData.nameChannel = e.GetAttribute("namechannel");
                         int.TryParse(e.GetAttribute("msgtype"), out channelData.msgType);
+                        channelData.msgdiscrib = e.GetAttribute("msgdiscrib");
                         int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
-                        int.TryParse(e.GetAttribute("readoffset"), out channelData.readOffset);
-                        int.TryParse(e.GetAttribute("readlength"), out channelData.readLength);
-                        int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
-                        int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+                        int.TryParse(e.GetAttribute("offset"), out channelData.Offset);
+                        int.TryParse(e.GetAttribute("length"), out channelData.Length);
+                        //int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
+                        channelData.trigger_offset = e.GetAttribute("trigger_offset");
+                        //int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+                        channelData.error_offset = e.GetAttribute("error_offset");
                         channelData.note = e.GetAttribute("note");
-
+                        
                         deviceData.modbusChannelList.Add(channelData);
                     }
 
@@ -170,12 +179,13 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("ID", dataChannel.ID.ToString());
                         elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
                         elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
+                        elem1_m_d_c.SetAttribute("msgdiscrib", dataChannel.msgdiscrib);
                         elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
-                        elem1_m_d_c.SetAttribute("readoffset", dataChannel.readOffset.ToString());
-                        elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());
-                        elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
-                        elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
-                        elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
+                        elem1_m_d_c.SetAttribute("offset", dataChannel.Offset.ToString());
+                        elem1_m_d_c.SetAttribute("length", dataChannel.Length.ToString());
+                        elem1_m_d_c.SetAttribute("trigger_offset", dataChannel.trigger_offset);
+                        elem1_m_d_c.SetAttribute("error_offset", dataChannel.error_offset);
+                        elem1_m_d_c.SetAttribute("note", dataChannel.note);
 
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
                     }
@@ -271,17 +281,17 @@ namespace LocalPLC.ModbusClient
                         writer.WritePropertyName("polling_time");
                         writer.WriteValue(dataChannel.pollingTime);
                         writer.WritePropertyName("offset");
-                        writer.WriteValue(dataChannel.readOffset);
+                        writer.WriteValue(dataChannel.Offset);
                         writer.WritePropertyName("quantity");
-                        writer.WriteValue(dataChannel.readLength);
+                        writer.WriteValue(dataChannel.Length);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.writeOffset);
+                        writer.WriteValue(2);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.writeLength);
+                        writer.WriteValue(2);
                         writer.WritePropertyName("trigger_offset");
-                        writer.WriteValue(101);
+                        writer.WriteValue(dataChannel.trigger_offset);
                         writer.WritePropertyName("error_offset");
-                        writer.WriteValue(102);
+                        writer.WriteValue(dataChannel.error_offset);
                         writer.WritePropertyName("direction");
                         writer.WriteValue("in");
                         writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
@@ -389,7 +399,7 @@ namespace LocalPLC.ModbusClient
 
             //dataGridView1.Columns.Add(cellColumn);
             //dataGridView1.Columns.Add(buttonColumn);
-
+            if (clientManage.modbusClientList.Count > 0)
             dataGridView1.RowCount += /*8*/  clientManage.modbusClientList.Count;
             //dataGridView1.AutoSize = true;
             //dataGridView1.AllowUserToAddRows = false;
@@ -432,6 +442,34 @@ namespace LocalPLC.ModbusClient
                     mct1.ClientNumber(this.label1.Text);
                     mct1.getMasterData(ref data);
                     mct1.ShowDialog();
+                }
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "info")
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                ModbusClientData data = clientManage.modbusClientList[index];
+                int devcount = data.modbusDeviceList.Count;
+                int channelcount = 0;
+                for (int i = 0; i<devcount;i++)
+                {
+                    channelcount += data.modbusDeviceList[i].modbusChannelList.Count;
+                }
+                dataGridView2.RowCount = channelcount;
+                for (int m = 0; m < devcount; m++)
+                {
+                    for (int n =0;n< data.modbusDeviceList[m].modbusChannelList.Count;n++)
+                    {
+                        dataGridView2.Rows[m].Cells[0].Value = data.modbusDeviceList[m].nameDev;
+                        dataGridView2.Rows[m].Cells[1].Value = data.modbusDeviceList[m].modbusChannelList[n].nameChannel;
+                        dataGridView2.Rows[m].Cells[2].Value = data.modbusDeviceList[m].modbusChannelList[n].msgdiscrib;
+                        dataGridView2.Rows[m].Cells[3].Value = data.modbusDeviceList[m].modbusChannelList[n].pollingTime;
+                        dataGridView2.Rows[m].Cells[4].Value = data.modbusDeviceList[m].modbusChannelList[n].Offset;
+                        dataGridView2.Rows[m].Cells[5].Value = data.modbusDeviceList[m].modbusChannelList[n].Length;
+                        dataGridView2.Rows[m].Cells[6].Value = data.modbusDeviceList[m].modbusChannelList[n].trigger_offset;
+                        dataGridView2.Rows[m].Cells[7].Value = data.modbusDeviceList[m].modbusChannelList[n].error_offset;
+                        dataGridView2.Rows[m].Cells[8].Value = data.modbusDeviceList[m].modbusChannelList[n].note;
+
+                    }
                 }
             }
         }

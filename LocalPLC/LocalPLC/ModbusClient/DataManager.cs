@@ -19,11 +19,12 @@ namespace LocalPLC.ModbusClient
         public int ID;
         public string nameChannel;
         public int msgType;
+        public string msgdiscrib;
         public int pollingTime;
-        public int readOffset;
-        public int readLength;
-        public int writeOffset;
-        public int writeLength;
+        public int Offset;
+        public int Length;
+        public string trigger_offset;
+        public string error_offset;
         public string note;
     }
     public class DeviceData

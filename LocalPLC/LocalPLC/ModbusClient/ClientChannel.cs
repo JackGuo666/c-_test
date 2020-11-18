@@ -36,8 +36,7 @@ namespace LocalPLC.ModbusClient
 
         public enum COLUMNNAME_CHANNLE : int
         {
-            ID, 名称,功能码,循环触发时间,读偏移, 读长度,
-            写偏移, 写长度, 注释
+            ID, 名称,功能码,循环触发时间,偏移,长度,触发变量,错误偏移,注释
         };
         private DeviceData data_;
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
@@ -76,10 +75,10 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("名称", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("消息类型（功能码）", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("循环触发时间", Type.GetType("System.Int32"));
-                ds.Tables[i].Columns.Add("读偏移", Type.GetType("System.Int32"));
-                ds.Tables[i].Columns.Add("读长度", Type.GetType("System.Int32"));
-                ds.Tables[i].Columns.Add("写偏移", Type.GetType("System.Int32"));
-                ds.Tables[i].Columns.Add("写长度", Type.GetType("System.Int32"));
+                ds.Tables[i].Columns.Add("偏移", Type.GetType("System.Int32"));
+                ds.Tables[i].Columns.Add("长度", Type.GetType("System.Int32"));
+                ds.Tables[i].Columns.Add("触发变量", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("错误偏移", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("注释", Type.GetType("System.String"));
             }
             dc.Tables.Add(new DataTable());
@@ -158,13 +157,13 @@ namespace LocalPLC.ModbusClient
                 //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = channelData.pollingTime.ToString();
                 ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.循环触发时间] = channelData.pollingTime.ToString();
                 //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = channelData.readOffset;
-                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.读偏移] = channelData.readOffset.ToString();
+                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.偏移] = channelData.Offset.ToString();
                 //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.读长度].Value = channelData.readLength;
-                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.读长度] = channelData.readLength.ToString();
+                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.长度] = channelData.Length.ToString();
                 //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.写偏移].Value = channelData.writeOffset;
-                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.写偏移] = channelData.writeOffset.ToString();
+                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.触发变量] = channelData.trigger_offset.ToString();
                 //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.写长度].Value = channelData.writeLength;
-                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.写长度] = channelData.writeLength.ToString();
+                ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.错误偏移] = channelData.error_offset.ToString();
                 //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.注释].Value = channelData.note;
                 ds.Tables[mc1.channelnumber].Rows[i][(int)COLUMNNAME_CHANNLE.注释] = channelData.note.ToString();
                 i++;
@@ -186,20 +185,20 @@ namespace LocalPLC.ModbusClient
             int n = Convert.ToInt32(this.label3.Text);
             dr[(int)COLUMNNAME_CHANNLE.ID] = dataGridView2.RowCount;
             data.ID = dataGridView2.RowCount;
-            dr[(int)COLUMNNAME_CHANNLE.名称] = "设备" + dataGridView2.RowCount;
+            dr[(int)COLUMNNAME_CHANNLE.名称] = "通道" + dataGridView2.RowCount;
             data.nameChannel = dr[(int)COLUMNNAME_CHANNLE.名称].ToString();
             dr[(int)COLUMNNAME_CHANNLE.功能码] = 0;
             data.msgType = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.功能码]);
             dr[(int)COLUMNNAME_CHANNLE.循环触发时间] = 1000;
             data.pollingTime =Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.循环触发时间]);
-            dr[(int)COLUMNNAME_CHANNLE.读偏移] = 0;
-            data.readOffset = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.读偏移]);
-            dr[(int)COLUMNNAME_CHANNLE.读长度] = 1;
-            data.readLength = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.读长度]);
-            dr[(int)COLUMNNAME_CHANNLE.写偏移] = 0;
-            data.writeOffset = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.写偏移]);
-            dr[(int)COLUMNNAME_CHANNLE.写长度] = 1;
-            data.writeLength = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.写长度]);
+            dr[(int)COLUMNNAME_CHANNLE.偏移] = 0;
+            data.Offset = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.偏移]);
+            dr[(int)COLUMNNAME_CHANNLE.长度] = 1;
+            data.Length = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.长度]);
+            dr[(int)COLUMNNAME_CHANNLE.偏移] = 0;
+            data.Offset = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.偏移]);
+            dr[(int)COLUMNNAME_CHANNLE.长度] = 1;
+            data.Length = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.长度]);
             dr[(int)COLUMNNAME_CHANNLE.注释] = "";
             data.note = dr[(int)COLUMNNAME_CHANNLE.注释].ToString();
             ds.Tables[n].Rows.Add(dr.ItemArray);
@@ -326,26 +325,36 @@ namespace LocalPLC.ModbusClient
                 //    data_.modbusChannelList.ElementAt(e.RowIndex).msgType = -1;
                 //}
                 data_.modbusChannelList.ElementAt(e.RowIndex).msgType = dicMsgType[str];
+                int a = Convert.ToInt32(str)-1;
+                if(a == 14)
+                {
+                    a = 6;
+                }
+                else if (a == 15)
+                {
+                    a = 7;
+                }
+                data_.modbusChannelList.ElementAt(e.RowIndex).msgdiscrib = dc.Tables[0].Rows[a][0].ToString();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.循环触发时间)
             {
                 int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
             }
-            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.读偏移)
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.偏移)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).Offset);
             }
-            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.读长度)
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.长度)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readLength);
+                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).Length);
             }
-            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.写偏移)
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.触发变量)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
+                data_.modbusChannelList.ElementAt(e.RowIndex).trigger_offset = str;
             }
-            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.写长度)
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.错误偏移)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
+                data_.modbusChannelList.ElementAt(e.RowIndex).error_offset = str;
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.注释)
             {
