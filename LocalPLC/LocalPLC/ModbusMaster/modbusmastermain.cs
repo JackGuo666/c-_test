@@ -18,8 +18,8 @@ namespace LocalPLC.ModbusMaster
 {
     public partial class modbusmastermain : UserControl
     {
-        
 
+        private int masterStartAddr = 0;
         private string columnConfig = "配置";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
         public modbusmastermain()
@@ -297,7 +297,6 @@ namespace LocalPLC.ModbusMaster
                 return;
             }
 
-
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
             
@@ -313,7 +312,9 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
 
-                masterManage.modbusMastrList.Add(data);
+                //masterManage.modbusMastrList.Add(data);
+                
+                masterManage.add(data);
             }
         }
 
@@ -536,7 +537,7 @@ namespace LocalPLC.ModbusMaster
     }
     public class ModbusMasterData
     {
-
+        public int curMasterStartAddr = 0;
         public int ID;
         //public DeviceData device { get; set; }
 
@@ -553,6 +554,8 @@ namespace LocalPLC.ModbusMaster
 
     public class ModbusMasterManage
     {
+        public int masterStartAddr = 0;
+
         public List<ModbusMasterData> modbusMastrList { get; set; } = new List<ModbusMasterData>();
 
         public ModbusMasterManage()
@@ -560,8 +563,26 @@ namespace LocalPLC.ModbusMaster
 
         }
 
+        public void getMasterStartAddr()
+        {
+            int clientCount = UserControl1.mci.clientManage.modbusClientList.Count;
+            int serverCount = UserControl1.msi.serverDataManager.listServer.Count;
+
+            masterStartAddr = (clientCount + serverCount) * utility.modbusMudule + utility.modbusAddr;
+        }
+
         public void add(ModbusMasterData data)
         {
+            getMasterStartAddr();
+            
+            data.curMasterStartAddr = masterStartAddr;
+
+
+            for (int i = 0; i < modbusMastrList.Count; i++)
+            {
+                data.curMasterStartAddr += utility.modbusMudule * 1000;
+            }
+            
             modbusMastrList.Add(data);
         }
     }
