@@ -68,6 +68,8 @@ namespace LocalPLC.ModbusClient
                 //dataGridView1.Rows[i].Cells["config"].Value = "..."/* + i.ToString()*/;
 
             }
+            dataGridView2.AllowUserToAddRows = false;
+
         }
        
 
@@ -450,24 +452,34 @@ namespace LocalPLC.ModbusClient
                 ModbusClientData data = clientManage.modbusClientList[index];
                 int devcount = data.modbusDeviceList.Count;
                 int channelcount = 0;
+                int [] devchannelnum = new int[8];
                 for (int i = 0; i<devcount;i++)
                 {
                     channelcount += data.modbusDeviceList[i].modbusChannelList.Count;
+                    devchannelnum[i] = data.modbusDeviceList[i].modbusChannelList.Count;
                 }
+                int a = 0;
+                if(channelcount > 0)
                 dataGridView2.RowCount = channelcount;
                 for (int m = 0; m < devcount; m++)
                 {
+                    if(m>0)
+                    {
+                        a  = a+devchannelnum[m-1];
+                    }
+ 
                     for (int n =0;n< data.modbusDeviceList[m].modbusChannelList.Count;n++)
                     {
-                        dataGridView2.Rows[m].Cells[0].Value = data.modbusDeviceList[m].nameDev;
-                        dataGridView2.Rows[m].Cells[1].Value = data.modbusDeviceList[m].modbusChannelList[n].nameChannel;
-                        dataGridView2.Rows[m].Cells[2].Value = data.modbusDeviceList[m].modbusChannelList[n].msgdiscrib;
-                        dataGridView2.Rows[m].Cells[3].Value = data.modbusDeviceList[m].modbusChannelList[n].pollingTime;
-                        dataGridView2.Rows[m].Cells[4].Value = data.modbusDeviceList[m].modbusChannelList[n].Offset;
-                        dataGridView2.Rows[m].Cells[5].Value = data.modbusDeviceList[m].modbusChannelList[n].Length;
-                        dataGridView2.Rows[m].Cells[6].Value = data.modbusDeviceList[m].modbusChannelList[n].trigger_offset;
-                        dataGridView2.Rows[m].Cells[7].Value = data.modbusDeviceList[m].modbusChannelList[n].error_offset;
-                        dataGridView2.Rows[m].Cells[8].Value = data.modbusDeviceList[m].modbusChannelList[n].note;
+                        
+                        dataGridView2.Rows[a + n].Cells[0].Value = data.modbusDeviceList[m].nameDev;
+                        dataGridView2.Rows[a + n].Cells[1].Value = data.modbusDeviceList[m].modbusChannelList[n].nameChannel;
+                        dataGridView2.Rows[a + n].Cells[2].Value = data.modbusDeviceList[m].modbusChannelList[n].msgdiscrib;
+                        dataGridView2.Rows[a + n].Cells[3].Value = data.modbusDeviceList[m].modbusChannelList[n].pollingTime;
+                        dataGridView2.Rows[a + n].Cells[4].Value = data.modbusDeviceList[m].modbusChannelList[n].Offset;
+                        dataGridView2.Rows[a + n].Cells[5].Value = data.modbusDeviceList[m].modbusChannelList[n].Length;
+                        dataGridView2.Rows[a + n].Cells[6].Value = data.modbusDeviceList[m].modbusChannelList[n].trigger_offset;
+                        dataGridView2.Rows[a + n].Cells[7].Value = data.modbusDeviceList[m].modbusChannelList[n].error_offset;
+                        dataGridView2.Rows[a + n].Cells[8].Value = data.modbusDeviceList[m].modbusChannelList[n].note;
 
                     }
                 }

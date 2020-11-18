@@ -66,7 +66,7 @@ namespace LocalPLC.ModbusServer
             {
                 ModbusServerData data = serverDataManager.listServer.ElementAt(i);
                 dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
-                dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
+                //dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
             }
         }
 
@@ -85,7 +85,7 @@ namespace LocalPLC.ModbusServer
             {
                 dataGridView1.Rows.RemoveAt(i);
             }
-            
+            if (serverDataManager.listServer.Count > 0)
             dataGridView1.RowCount += serverDataManager.listServer.Count;
             int a = serverDataManager.listServer.Count;
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
