@@ -20,6 +20,8 @@ namespace LocalPLC.ModbusMaster
         };
 
         private DeviceData data_;
+        private int masterStartAddr_ = 0;
+
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
         Dictionary<String, int> dicMsgType = new Dictionary<String, int>();
         public modbusmasterchannel()
@@ -47,9 +49,10 @@ namespace LocalPLC.ModbusMaster
 
         }
 
-        public void getDeviceData(ref DeviceData data)
+        public void getDeviceData(ref DeviceData data, int masterStartAddr)
         {
             data_ = data;
+            masterStartAddr_ = masterStartAddr;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -230,7 +233,8 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = "";
             data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
 
-            data_.modbusChannelList.Add(data);
+            //data_.modbusChannelList.Add(data);
+            data_.addChannel(data);
         }
 
         private void button_delete_Click(object sender, EventArgs e)

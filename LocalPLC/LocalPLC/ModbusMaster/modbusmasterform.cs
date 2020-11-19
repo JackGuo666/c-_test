@@ -204,7 +204,7 @@ namespace LocalPLC.ModbusMaster
 
                     modbusmasterchannel form = new modbusmasterchannel();
                     DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
-                    form.getDeviceData(ref data);
+                    form.getDeviceData(ref data, masterStartAddr_);
                     form.ShowDialog();
                 }
             }

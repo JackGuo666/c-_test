@@ -514,6 +514,9 @@ namespace LocalPLC.ModbusMaster
 
     public class ChannelData
     {
+        public int curChannelAddr;
+        public int curChannelLength;
+        
         public int ID;
         public string nameChannel;
         public int msgType;
@@ -538,6 +541,17 @@ namespace LocalPLC.ModbusMaster
         public string resetVaraible;
         public string channel;
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
+
+        public void addChannel(ChannelData data)
+        {
+            data.curChannelAddr = curDeviceAddr;
+            foreach(var channel in modbusChannelList)
+            {
+                data.curChannelAddr += channel.curChannelLength;
+            }
+
+            modbusChannelList.Add(data);
+        }
     }
     public class ModbusMasterData
     {
