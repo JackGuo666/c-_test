@@ -437,12 +437,14 @@ namespace LocalPLC.ModbusClient
                     //    " is enabled");
 
                     ModbusClient.modbusclient1 mct1 = new modbusclient1();
+                    ModbusClient.ClientChannel cc1 = new ClientChannel();
                     //modbusclientDeviceform form = new modbusmasterDeviceform();
                     ModbusClientData data = clientManage.modbusClientList.ElementAt(e.RowIndex);
                     this.label1.Text = this.dataGridView1.SelectedRows[0].Index.ToString();
                     
                     mct1.ClientNumber(this.label1.Text);
-                    mct1.getMasterData(ref data);
+                    mct1.getClientData(ref data);
+                   // cc1.getClientData(ref data);
                     mct1.ShowDialog();
                 }
             }

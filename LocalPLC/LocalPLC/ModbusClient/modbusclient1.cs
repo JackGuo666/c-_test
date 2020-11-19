@@ -50,11 +50,12 @@ namespace LocalPLC.ModbusClient
         }
         private ModbusClientData data_ { get; set; }
 
-        public void getMasterData(ref ModbusClientData data)
+        public void getClientData(ref ModbusClientData data)
         {
             data_ = data;
             data_.ID = data.ID;
         }
+
 
         public enum COLUMNNAME : int
         {
@@ -277,9 +278,10 @@ namespace LocalPLC.ModbusClient
 
         private void button2_Click(object sender, EventArgs e)
         {
+            int n = Convert.ToInt32(dataGridView1.SelectedRows[0].Index);
             this.dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             
-            int n = Convert.ToInt32(dataGridView1.SelectedRows[0].Index);
+            
             data_.modbusDeviceList.RemoveAt(n);
             //ds.Tables[n].Clear();
         }
@@ -294,7 +296,10 @@ namespace LocalPLC.ModbusClient
             ////CCl = new ModbusClient.ClientChannel();
             ////CC = new ClientChannel();
             DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
+            ModbusClientData datac = data_;
+           // ModbusClientData data1 = 
             CCl.getDeviceData(ref data);
+            CCl.getModbusClientData(ref datac);
             CCl.ShowDialog(this);
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
