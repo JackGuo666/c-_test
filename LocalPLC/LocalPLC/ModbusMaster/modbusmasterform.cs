@@ -186,7 +186,10 @@ namespace LocalPLC.ModbusMaster
                 int index = dataGridView1.SelectedRows[i].Index;
 
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                masterData_.modbusDeviceList.RemoveAt(index);
+                //masterData_.modbusDeviceList.RemoveAt(index);
+                var device = masterData_.modbusDeviceList[index];
+                masterData_.removeDevice(ref device);
+
             }
 
 

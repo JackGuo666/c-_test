@@ -624,7 +624,7 @@ namespace LocalPLC.ModbusMaster
         public string transformChannel;
         public int responseTimeout = 1000;  //ms
         public int transformMode;
-        public List<DeviceData> modbusDeviceList { get; set; } = new List<DeviceData>();
+        public List<DeviceData> modbusDeviceList = new List<DeviceData>();
         public ModbusMasterData()
         {
             //0 RTU    1 ASCII
@@ -664,6 +664,13 @@ namespace LocalPLC.ModbusMaster
                 modbusDeviceList[i].curDeviceAddr = tmpMasterAddr;
                 tmpMasterAddr += modbusDeviceList[i].curDeviceLength;
             }
+        }
+
+        public void removeDevice(ref DeviceData data)
+        {
+            modbusDeviceList.Remove(data);
+
+            refreshAddr();
         }
 
     }
