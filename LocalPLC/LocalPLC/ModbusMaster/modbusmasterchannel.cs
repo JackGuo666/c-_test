@@ -24,9 +24,27 @@ namespace LocalPLC.ModbusMaster
 
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
         Dictionary<String, int> dicMsgType = new Dictionary<String, int>();
+        HashSet<int> bitMsgTypeSet = new HashSet<int>();
+        HashSet<int> byteMsgTypeSet = new HashSet<int>();
+
         public modbusmasterchannel()
         {
             InitializeComponent();
+
+            bitMsgTypeSet.Clear();
+            byteMsgTypeSet.Clear();
+            dicMsg.Clear();
+            dicMsgType.Clear();
+
+            bitMsgTypeSet.Add(0x01);
+            bitMsgTypeSet.Add(0x02);
+            bitMsgTypeSet.Add(0x05);
+            bitMsgTypeSet.Add(0x0F);
+
+            byteMsgTypeSet.Add(0x03);
+            byteMsgTypeSet.Add(0x04);
+            byteMsgTypeSet.Add(0x06);
+            byteMsgTypeSet.Add(0x10);
 
             //功能码
             dicMsg.Add(0x01, "读多个位(线圈) - 0x01");
@@ -201,14 +219,14 @@ namespace LocalPLC.ModbusMaster
             data.nameChannel = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value.ToString();
 
             //
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "";
+            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "读多个位(线圈) - 0x01";
             if(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value.ToString() == "")
             {
                 data.msgType = -1;
             }
             else 
             {
-                data.msgType = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value.ToString());
+                data.msgType = 0x01;
             }
 
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = "1000";    //ms
