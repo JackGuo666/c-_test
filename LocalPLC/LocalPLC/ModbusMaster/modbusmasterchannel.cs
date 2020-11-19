@@ -227,6 +227,8 @@ namespace LocalPLC.ModbusMaster
             else 
             {
                 data.msgType = 0x01;
+                //0x01 单bit
+                data.curChannelLength = 1;
             }
 
             dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = "1000";    //ms
@@ -309,6 +311,18 @@ namespace LocalPLC.ModbusMaster
                 {
                     data_.modbusChannelList.ElementAt(e.RowIndex).msgType = -1;
                 }
+
+                //通道长度
+                var channel = data_.modbusChannelList.ElementAt(e.RowIndex);
+                if (bitMsgTypeSet.Contains(channel.msgType))
+                {
+                    channel.setChannelLengthBit(channel.readLength);
+                }
+                else if (byteMsgTypeSet.Contains(channel.msgType))
+                {
+                    channel.setChannelLengthByte(channel.readLength);
+                }
+
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.POLLINGTIME)
             {
@@ -321,6 +335,16 @@ namespace LocalPLC.ModbusMaster
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READLENGTH)
             {
                 int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readLength);
+                //通道长度
+                var channel = data_.modbusChannelList.ElementAt(e.RowIndex);
+                if(bitMsgTypeSet.Contains(channel.msgType))
+                {
+                    channel.setChannelLengthBit(channel.readLength);
+                }
+                else if(byteMsgTypeSet.Contains(channel.msgType))
+                {
+                    channel.setChannelLengthByte(channel.readLength);
+                }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITEOFFSET)
             {

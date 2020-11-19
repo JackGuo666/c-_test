@@ -526,6 +526,22 @@ namespace LocalPLC.ModbusMaster
         public int writeOffset;
         public int writeLength;
         public string note;
+
+        public void setChannelLengthBit(int length)
+        {
+            curChannelLength = length / 8;
+            if(length % 8 != 0)
+            {
+                length++;
+            }
+
+            curChannelLength = length + 2;
+        }
+
+        public void setChannelLengthByte(int length)
+        {
+            curChannelLength = length + 2;
+        }
     }
 
     public class DeviceData
@@ -549,6 +565,9 @@ namespace LocalPLC.ModbusMaster
             {
                 data.curChannelAddr += channel.curChannelLength;
             }
+
+            data.writeOffset = data.curChannelAddr;
+            data.writeLength = data.curChannelAddr + 1;
 
             modbusChannelList.Add(data);
         }
