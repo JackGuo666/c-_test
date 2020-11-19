@@ -16,13 +16,13 @@ namespace LocalPLC.ModbusMaster
             InitializeComponent();
         }
 
-        private ModbusMasterData data_ { get; set; }
+        private ModbusMasterData masterData_;
         private int masterStartAddr_ = 0;
 
         public void getMasterData(ref ModbusMasterData data, int masterStartAddr)
         {
-            data_ = data;
-            data_.ID = data.ID;
+            masterData_ = data;
+            masterData_.ID = data.ID;
             masterStartAddr_ = masterStartAddr;
         }
 
@@ -61,10 +61,10 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.Columns.Add(cellColumnResetVariable);
             dataGridView1.Columns.Add(buttonColumn);
 
-            dataGridView1.RowCount = 1 + data_.modbusDeviceList.Count;
+            dataGridView1.RowCount = 1 + masterData_.modbusDeviceList.Count;
 
             int i = 0;
-            foreach (DeviceData devData in data_.modbusDeviceList)
+            foreach (DeviceData devData in masterData_.modbusDeviceList)
             {
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.ID].Value = devData.ID;
 
@@ -93,16 +93,16 @@ namespace LocalPLC.ModbusMaster
                 DataGridViewContentAlignment.MiddleCenter;
 
             this.comboBox_transform_channel.Items.Add("COM1");
-            this.comboBox_transform_channel.Text = data_.transformChannel;
+            this.comboBox_transform_channel.Text = masterData_.transformChannel;
 
-            this.textBox_reponse_timeout.Text = data_.responseTimeout.ToString();   //ms
+            this.textBox_reponse_timeout.Text = masterData_.responseTimeout.ToString();   //ms
 
-            if(data_.transformMode == 0)
+            if(masterData_.transformMode == 0)
             {
                 radioButton1.Checked = true;
                 radioButton2.Checked = false;
             }
-            else if(data_.transformMode == 1)
+            else if(masterData_.transformMode == 1)
             {
                 radioButton2.Checked = true;
                 radioButton1.Checked = false;
@@ -158,7 +158,7 @@ namespace LocalPLC.ModbusMaster
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
 
                 //data_.modbusDeviceList.Add(data);
-                data_.addDevice(ref data);
+                masterData_.addDevice(ref data);
 
 
             }
@@ -177,7 +177,7 @@ namespace LocalPLC.ModbusMaster
                 int index = dataGridView1.SelectedRows[i].Index;
 
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                data_.modbusDeviceList.RemoveAt(index);
+                masterData_.modbusDeviceList.RemoveAt(index);
             }
 
 
@@ -203,8 +203,8 @@ namespace LocalPLC.ModbusMaster
                     //    " is enabled");
 
                     modbusmasterchannel form = new modbusmasterchannel();
-                    DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
-                    form.getDeviceData(ref data, masterStartAddr_);
+                    DeviceData data = masterData_.modbusDeviceList.ElementAt(e.RowIndex);
+                    form.getDeviceData(ref data, masterStartAddr_, ref masterData_);
                     form.ShowDialog();
                 }
             }
@@ -231,31 +231,31 @@ namespace LocalPLC.ModbusMaster
 
             if (e.ColumnIndex == (int)COLUMNNAME.ID)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
+                masterData_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.NAME)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
+                masterData_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.REPONSE_TIMEOUT)
             {   
-                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
+                int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.PERMIT_TIMEOUT_COUNT)
             {
-                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+                int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.RECONNECT_INTERVAL)
             {
-                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+                int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.RESET_VARIABLE)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
+                masterData_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.CHANNEL)
             {
@@ -265,14 +265,14 @@ namespace LocalPLC.ModbusMaster
 
         private void comboBox_transform_channel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            data_.transformChannel = comboBox_transform_channel.Text;
+            masterData_.transformChannel = comboBox_transform_channel.Text;
         }
 
         private void textBox_reponse_timeout_TextChanged(object sender, EventArgs e)
         {
 
             string str = textBox_reponse_timeout.Text;
-            if(!int.TryParse(str.ToString(), out data_.responseTimeout))
+            if(!int.TryParse(str.ToString(), out masterData_.responseTimeout))
             {
                 textBox_reponse_timeout.Text = "1000";
             }
@@ -282,11 +282,11 @@ namespace LocalPLC.ModbusMaster
         {
             if(radioButton1.Checked == true)
             {
-                data_.transformMode = 0;
+                masterData_.transformMode = 0;
             }
             else 
             {
-                data_.transformMode = 1;
+                masterData_.transformMode = 1;
             }
         }
 
@@ -294,11 +294,11 @@ namespace LocalPLC.ModbusMaster
         {
             if (radioButton2.Checked == true)
             {
-                data_.transformMode = 1;
+                masterData_.transformMode = 1;
             }
             else
             {
-                data_.transformMode = 0;
+                masterData_.transformMode = 0;
             }
         }
     }

@@ -19,8 +19,23 @@ namespace LocalPLC.ModbusMaster
             WRITEOFFSET, WRITELENGTH, NOTE
         };
 
-        private DeviceData data_;
+        private DeviceData deviceData_ = null;
+        private ModbusMasterData masterData_ = null;
+
         private int masterStartAddr_ = 0;
+        private bool checkMasterLenthValid()
+        {
+            var length = masterData_.checkMasterLength();
+            if(length > utility.modbusMudule)
+            {
+                string str = string.Format("整个{0}超过最大长度{1}限制!", length, utility.modbusMudule);
+                MessageBox.Show(str);
+                
+                return false;
+            }
+
+            return true;
+        }
 
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
         Dictionary<String, int> dicMsgType = new Dictionary<String, int>();
@@ -67,10 +82,11 @@ namespace LocalPLC.ModbusMaster
 
         }
 
-        public void getDeviceData(ref DeviceData data, int masterStartAddr)
+        public void getDeviceData(ref DeviceData data, int masterStartAddr, ref ModbusMasterData masterData)
         {
-            data_ = data;
+            deviceData_ = data;
             masterStartAddr_ = masterStartAddr;
+            masterData_ = masterData;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -142,13 +158,13 @@ namespace LocalPLC.ModbusMaster
 
 
 
-            dataGridView1.RowCount = 1 + data_.modbusChannelList.Count;
+            dataGridView1.RowCount = 1 + deviceData_.modbusChannelList.Count;
 
             dataGridView1.Columns[(int)COLUMNNAME_CHANNLE.MSGTYPE].Width = 280;
             //dataGridView1.AllowUserToResizeColumns = true;
 
             int i = 0;
-            foreach (ChannelData channelData in data_.modbusChannelList)
+            foreach (ChannelData channelData in deviceData_.modbusChannelList)
             {
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = channelData.ID;
 
@@ -184,8 +200,8 @@ namespace LocalPLC.ModbusMaster
                 i++;
             }
 
-            textBox1.Text =  data_.nameDev.ToString();
-            textBox3.Text = data_.slaveAddr.ToString();
+            textBox1.Text =  deviceData_.nameDev.ToString();
+            textBox3.Text = deviceData_.slaveAddr.ToString();
 
             //dataGridView1.RowCount = /*8*/ 1;
             dataGridView1.AutoSize = true;
@@ -204,57 +220,52 @@ namespace LocalPLC.ModbusMaster
             }
             
             int row = dataGridView1.RowCount;
-            dataGridView1.RowCount += 1;
+            
 
             // Set the text for each button.
             int i = row;
 
             ChannelData data = new ChannelData();
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = row;
-            data.ID = row;
-
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = "设备" + i.ToString();
-            data.nameChannel = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value.ToString();
+            deviceData_.addChannel(data);
 
             //
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "读多个位(线圈) - 0x01";
-            if(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value.ToString() == "")
-            {
-                data.msgType = -1;
-            }
-            else 
-            {
-                data.msgType = 0x01;
-                //0x01 单bit
-                data.curChannelLength = 1;
-            }
+            data.ID = row;
+            data.nameChannel = "通道" + i.ToString();
+            data.msgType = 0x01;
+            //0x01 单bit
+            data.curChannelLength = 1 + 2;
 
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = "1000";    //ms
-            data.pollingTime = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value.ToString());
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = "0";
-            string str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value.ToString();
-            data.readOffset = int.Parse(str);
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = "1";
-            str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value.ToString();
-            data.readLength = int.Parse(str);
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = "0";
-            str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value.ToString();
-            data.writeOffset = int.Parse(str);
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = "1";
-            str = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value.ToString();
-            data.writeLength = int.Parse(str);
-
-            dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = "";
-            data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
+            data.pollingTime = 1000;
+            data.readOffset = 0;
+            data.readLength = 1;
+            data.note = "";
+            //
 
             //data_.modbusChannelList.Add(data);
-            data_.addChannel(data);
+            if (!checkMasterLenthValid())
+            {
+                deviceData_.removeChannel(data);
+            }
+            else
+            {
+                dataGridView1.RowCount += 1;
+
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.ID].Value = data.ID;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = data.nameChannel;
+                //
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "读多个位(线圈) - 0x01";
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = data.pollingTime;    //ms
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = data.readOffset;
+
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = data.readLength;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = data.writeOffset.ToString();
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = data.writeLength.ToString();
+
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = "";
+                data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
+
+            }
+
         }
 
         private void button_delete_Click(object sender, EventArgs e)
@@ -270,13 +281,23 @@ namespace LocalPLC.ModbusMaster
                 int index = dataGridView1.SelectedRows[i].Index;
 
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                data_.modbusChannelList.RemoveAt(index);
+                //deviceData_.modbusChannelList.RemoveAt(index);
+                deviceData_.removeChannel(deviceData_.modbusChannelList[index]);
+            }
+        }
+
+        private void refreshGridTableTwoVarAddr()
+        {
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = deviceData_.modbusChannelList[i].writeOffset.ToString();
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = deviceData_.modbusChannelList[i].writeLength.ToString();
             }
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            Object obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            var obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             string str = "";
             if (obj == null)
             {
@@ -295,25 +316,28 @@ namespace LocalPLC.ModbusMaster
 
             if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.ID)
             {
-                data_.modbusChannelList.ElementAt(e.RowIndex).ID = int.Parse(str);
+                deviceData_.modbusChannelList.ElementAt(e.RowIndex).ID = int.Parse(str);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NAME)
             {
-                data_.modbusChannelList.ElementAt(e.RowIndex).nameChannel = str;
+                deviceData_.modbusChannelList.ElementAt(e.RowIndex).nameChannel = str;
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.MSGTYPE)
             {
-                if(dicMsgType.ContainsKey(str))
+                //上一次消息类型值
+                int lastMsgType = deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType;
+
+                if (dicMsgType.ContainsKey(str))
                 {
-                    data_.modbusChannelList.ElementAt(e.RowIndex).msgType = dicMsgType[str];
+                    deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType = dicMsgType[str];
                 }
                 else
                 {
-                    data_.modbusChannelList.ElementAt(e.RowIndex).msgType = -1;
+                    deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType = -1;
                 }
 
                 //通道长度
-                var channel = data_.modbusChannelList.ElementAt(e.RowIndex);
+                var channel = deviceData_.modbusChannelList.ElementAt(e.RowIndex);
                 if (bitMsgTypeSet.Contains(channel.msgType))
                 {
                     channel.setChannelLengthBit(channel.readLength);
@@ -323,20 +347,39 @@ namespace LocalPLC.ModbusMaster
                     channel.setChannelLengthByte(channel.readLength);
                 }
 
+                if(!checkMasterLenthValid())
+                {
+                    //还原回上一次数值
+                    if (bitMsgTypeSet.Contains(channel.msgType))
+                    {
+                        channel.setChannelLengthBit(channel.readLength);
+                    }
+                    else if (byteMsgTypeSet.Contains(channel.msgType))
+                    {
+                        channel.setChannelLengthByte(channel.readLength);
+                    }
+                }
+
+                //通道地址刷新
+                deviceData_.refreshAddr();
+                //变量地址 错误变量 界面刷新
+                refreshGridTableTwoVarAddr();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.POLLINGTIME)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
+                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READOFFSET)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
+                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READLENGTH)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).readLength);
+                int lastLength = deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength;
+                
+                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength);
                 //通道长度
-                var channel = data_.modbusChannelList.ElementAt(e.RowIndex);
+                var channel = deviceData_.modbusChannelList.ElementAt(e.RowIndex);
                 if(bitMsgTypeSet.Contains(channel.msgType))
                 {
                     channel.setChannelLengthBit(channel.readLength);
@@ -345,18 +388,43 @@ namespace LocalPLC.ModbusMaster
                 {
                     channel.setChannelLengthByte(channel.readLength);
                 }
+
+                if(!checkMasterLenthValid())
+                {
+                    //还原回上一次数值
+                    if (bitMsgTypeSet.Contains(channel.msgType))
+                    {
+                        channel.setChannelLengthBit(lastLength);
+                    }
+                    else if (byteMsgTypeSet.Contains(channel.msgType))
+                    {
+                        channel.setChannelLengthByte(lastLength);
+                    }
+
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = lastLength.ToString();
+
+                }
+                else
+                {
+
+                }
+
+                //通道地址刷新
+                deviceData_.refreshAddr();
+                //变量地址 错误变量 界面刷新
+                refreshGridTableTwoVarAddr();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITEOFFSET)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
+                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITELENGTH)
             {
-                int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
+                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NOTE)
             {
-                data_.modbusChannelList.ElementAt(e.RowIndex).note = str;
+                deviceData_.modbusChannelList.ElementAt(e.RowIndex).note = str;
             }
         }
     }

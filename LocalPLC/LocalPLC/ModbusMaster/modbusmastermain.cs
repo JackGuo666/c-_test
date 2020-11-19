@@ -532,10 +532,10 @@ namespace LocalPLC.ModbusMaster
             curChannelLength = length / 8;
             if(length % 8 != 0)
             {
-                length++;
+                curChannelLength++;
             }
 
-            curChannelLength = length + 2;
+            curChannelLength = curChannelLength + 2;
         }
 
         public void setChannelLengthByte(int length)
@@ -570,11 +570,50 @@ namespace LocalPLC.ModbusMaster
             data.writeLength = data.curChannelAddr + 1;
 
             modbusChannelList.Add(data);
+            curDeviceLength = checkDeviceLength();
+        }
+
+        public void removeChannel(ChannelData data)
+        {
+            modbusChannelList.Remove(data);
+            curDeviceLength = checkDeviceLength();
+
+            //删除通道，通道内的地址重新分配
+            refreshAddr();
+        }
+
+        public void refreshAddr()
+        {
+            //删除通道，通道内的地址重新分配
+            int tmpAddr = curDeviceAddr;
+            for (int i = 0; i < modbusChannelList.Count; i++)
+            {
+                modbusChannelList[i].curChannelAddr = tmpAddr;
+                modbusChannelList[i].writeOffset = tmpAddr;
+                modbusChannelList[i].writeLength = tmpAddr + 1;
+
+                tmpAddr += modbusChannelList[i].curChannelLength;
+            }
+        }
+
+        public int checkDeviceLength()
+        {
+            int deviceLength = 0;
+            foreach(var channel in modbusChannelList)
+            {
+                deviceLength += channel.curChannelLength;
+            }
+
+
+            curDeviceLength = deviceLength;
+
+            return deviceLength;
         }
     }
     public class ModbusMasterData
     {
         public int curMasterStartAddr = 0;
+        public int curMasterLength = 0;
         public int ID;
         //public DeviceData device { get; set; }
 
@@ -598,12 +637,24 @@ namespace LocalPLC.ModbusMaster
 
             modbusDeviceList.Add(data);
         }
+
+        public int checkMasterLength()
+        {
+            curMasterLength = 0;
+
+            foreach (var  device in modbusDeviceList)
+            {
+                curMasterLength += device.checkDeviceLength();
+            }
+
+            return curMasterLength;
+        }
     }
 
     public class ModbusMasterManage
     {
         public int masterStartAddr = 0;
-
+        public ModbusMasterData curMasterData = null;
         public List<ModbusMasterData> modbusMastrList { get; set; } = new List<ModbusMasterData>();
 
         public ModbusMasterManage()
@@ -618,6 +669,11 @@ namespace LocalPLC.ModbusMaster
 
             masterStartAddr = (clientCount + serverCount) * utility.modbusMudule + utility.modbusAddr;
 
+            for (int i = 0; i < modbusMastrList.Count; i++)
+            {
+                modbusMastrList[i].curMasterStartAddr = utility.modbusMudule * i + masterStartAddr;
+            }
+
             return masterStartAddr;
         }
 
@@ -630,7 +686,7 @@ namespace LocalPLC.ModbusMaster
 
             for (int i = 0; i < modbusMastrList.Count; i++)
             {
-                data.curMasterStartAddr += utility.modbusMudule * 1000;
+                data.curMasterStartAddr += utility.modbusMudule * i;
             }
             
             modbusMastrList.Add(data);
