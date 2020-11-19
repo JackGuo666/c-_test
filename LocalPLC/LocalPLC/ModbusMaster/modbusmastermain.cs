@@ -18,8 +18,8 @@ namespace LocalPLC.ModbusMaster
 {
     public partial class modbusmastermain : UserControl
     {
-        
 
+        private int masterStartAddr = 0;
         private string columnConfig = "配置";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
         public modbusmastermain()
@@ -297,7 +297,6 @@ namespace LocalPLC.ModbusMaster
                 return;
             }
 
-
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
             
@@ -313,7 +312,9 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
 
-                masterManage.modbusMastrList.Add(data);
+                //masterManage.modbusMastrList.Add(data);
+                
+                masterManage.add(data);
             }
         }
 
@@ -431,7 +432,9 @@ namespace LocalPLC.ModbusMaster
 
                     modbusmasterDeviceform form = new modbusmasterDeviceform();
                     ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
-                    form.getMasterData(ref data);
+
+                    int masterStartAddr = masterManage.getMasterStartAddr();
+                    form.getMasterData(ref data, masterStartAddr);
                     form.ShowDialog();
                 }
             }
@@ -511,6 +514,9 @@ namespace LocalPLC.ModbusMaster
 
     public class ChannelData
     {
+        public int curChannelAddr;
+        public int curChannelLength;
+        
         public int ID;
         public string nameChannel;
         public int msgType;
@@ -524,6 +530,8 @@ namespace LocalPLC.ModbusMaster
 
     public class DeviceData
     {
+        public int curDeviceAddr = 0;
+        public int curDeviceLength = 0;
         public int ID;
         public string nameDev;
         public string slaveAddr;
@@ -533,10 +541,21 @@ namespace LocalPLC.ModbusMaster
         public string resetVaraible;
         public string channel;
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
+
+        public void addChannel(ChannelData data)
+        {
+            data.curChannelAddr = curDeviceAddr;
+            foreach(var channel in modbusChannelList)
+            {
+                data.curChannelAddr += channel.curChannelLength;
+            }
+
+            modbusChannelList.Add(data);
+        }
     }
     public class ModbusMasterData
     {
-
+        public int curMasterStartAddr = 0;
         public int ID;
         //public DeviceData device { get; set; }
 
@@ -549,10 +568,23 @@ namespace LocalPLC.ModbusMaster
             //0 RTU    1 ASCII
             transformMode = 0;
         }
+
+        public void addDevice(ref DeviceData data)
+        {
+            data.curDeviceAddr = curMasterStartAddr;
+            foreach(var device in modbusDeviceList)
+            {
+                data.curDeviceAddr += device.curDeviceLength;
+            }
+
+            modbusDeviceList.Add(data);
+        }
     }
 
     public class ModbusMasterManage
     {
+        public int masterStartAddr = 0;
+
         public List<ModbusMasterData> modbusMastrList { get; set; } = new List<ModbusMasterData>();
 
         public ModbusMasterManage()
@@ -560,9 +592,30 @@ namespace LocalPLC.ModbusMaster
 
         }
 
+        public int getMasterStartAddr()
+        {
+            int clientCount = UserControl1.mci.clientManage.modbusClientList.Count;
+            int serverCount = UserControl1.msi.serverDataManager.listServer.Count;
+
+            masterStartAddr = (clientCount + serverCount) * utility.modbusMudule + utility.modbusAddr;
+
+            return masterStartAddr;
+        }
+
         public void add(ModbusMasterData data)
         {
+            getMasterStartAddr();
+            
+            data.curMasterStartAddr = masterStartAddr;
+
+
+            for (int i = 0; i < modbusMastrList.Count; i++)
+            {
+                data.curMasterStartAddr += utility.modbusMudule * 1000;
+            }
+            
             modbusMastrList.Add(data);
+
         }
     }
     
