@@ -285,7 +285,7 @@ namespace LocalPLC.ModbusMaster
                 deviceData_.removeChannel(deviceData_.modbusChannelList[index]);
             }
 
-            deviceData_.refreshAddr();
+            deviceData_.refreshAddr(deviceData_.curDeviceAddr);
             refreshGridTableTwoVarAddr();
         }
 
@@ -364,7 +364,7 @@ namespace LocalPLC.ModbusMaster
                 }
 
                 //通道地址刷新
-                deviceData_.refreshAddr();
+                deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                 //变量地址 错误变量 界面刷新
                 refreshGridTableTwoVarAddr();
             }
@@ -413,7 +413,7 @@ namespace LocalPLC.ModbusMaster
                 }
 
                 //通道地址刷新
-                deviceData_.refreshAddr();
+                deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                 //变量地址 错误变量 界面刷新
                 refreshGridTableTwoVarAddr();
             }

@@ -32,80 +32,89 @@ namespace LocalPLC.ModbusMaster
         private string[] columnName = {"ID", "name"};
         private void modbusmasterform_Load(object sender, EventArgs e)
         {
-            DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
-            cellColumnID.Name = "ID";
-            DataGridViewTextBoxColumn cellColumnName = new DataGridViewTextBoxColumn();
-            cellColumnName.Name = "名称";
-            DataGridViewTextBoxColumn cellColumnSlaveAddr = new DataGridViewTextBoxColumn();
-            cellColumnSlaveAddr.Name = "从站地址";
-            DataGridViewTextBoxColumn cellColumnTimeout = new DataGridViewTextBoxColumn();
-            cellColumnTimeout.Name = "响应超时(ms)";
-            DataGridViewTextBoxColumn cellColumnTimeoutCount = new DataGridViewTextBoxColumn();
-            cellColumnTimeoutCount.Name = "允许的超时次数";
-            DataGridViewTextBoxColumn cellColumnReconnectInvertal = new DataGridViewTextBoxColumn();
-            cellColumnReconnectInvertal.Name = "重连间隔";
-            DataGridViewTextBoxColumn cellColumnResetVariable = new DataGridViewTextBoxColumn();
-            cellColumnResetVariable.Name = "复位变量";
-            DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
-            buttonColumn.Name = "通道";
-            //列标题自适应
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-
-
-            dataGridView1.Columns.Add(cellColumnID);
-            dataGridView1.Columns.Add(cellColumnName);
-            dataGridView1.Columns.Add(cellColumnSlaveAddr);
-            dataGridView1.Columns.Add(cellColumnTimeout);
-            dataGridView1.Columns.Add(cellColumnTimeoutCount);
-            dataGridView1.Columns.Add(cellColumnReconnectInvertal);
-            dataGridView1.Columns.Add(cellColumnResetVariable);
-            dataGridView1.Columns.Add(buttonColumn);
-
-            dataGridView1.RowCount = 1 + masterData_.modbusDeviceList.Count;
-
-            int i = 0;
-            foreach (DeviceData devData in masterData_.modbusDeviceList)
+            try
             {
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.ID].Value = devData.ID;
+                DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
+                cellColumnID.Name = "ID";
+                DataGridViewTextBoxColumn cellColumnName = new DataGridViewTextBoxColumn();
+                cellColumnName.Name = "名称";
+                DataGridViewTextBoxColumn cellColumnSlaveAddr = new DataGridViewTextBoxColumn();
+                cellColumnSlaveAddr.Name = "从站地址";
+                DataGridViewTextBoxColumn cellColumnTimeout = new DataGridViewTextBoxColumn();
+                cellColumnTimeout.Name = "响应超时(ms)";
+                DataGridViewTextBoxColumn cellColumnTimeoutCount = new DataGridViewTextBoxColumn();
+                cellColumnTimeoutCount.Name = "允许的超时次数";
+                DataGridViewTextBoxColumn cellColumnReconnectInvertal = new DataGridViewTextBoxColumn();
+                cellColumnReconnectInvertal.Name = "重连间隔";
+                DataGridViewTextBoxColumn cellColumnResetVariable = new DataGridViewTextBoxColumn();
+                cellColumnResetVariable.Name = "复位变量";
+                DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
+                buttonColumn.Name = "通道";
+                //列标题自适应
+                dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.NAME].Value = devData.nameDev;
 
-                //
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value = devData.slaveAddr;
+                dataGridView1.Columns.Add(cellColumnID);
+                dataGridView1.Columns.Add(cellColumnName);
+                dataGridView1.Columns.Add(cellColumnSlaveAddr);
+                dataGridView1.Columns.Add(cellColumnTimeout);
+                dataGridView1.Columns.Add(cellColumnTimeoutCount);
+                dataGridView1.Columns.Add(cellColumnReconnectInvertal);
+                dataGridView1.Columns.Add(cellColumnResetVariable);
+                dataGridView1.Columns.Add(buttonColumn);
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = devData.reponseTimeout;
+                dataGridView1.RowCount = 1 + masterData_.modbusDeviceList.Count;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value = devData.permitTimeoutCount;
-    
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RECONNECT_INTERVAL].Value = devData.reconnectInterval;
-                 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RESET_VARIABLE].Value = devData.resetVaraible;
+                int i = 0;
+                foreach (DeviceData devData in masterData_.modbusDeviceList)
+                {
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.ID].Value = devData.ID;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.CHANNEL].Value = "..."/* + i.ToString()*/;
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.NAME].Value = devData.nameDev;
 
-                i++;
+                    //
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value = devData.slaveAddr;
+
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = devData.reponseTimeout;
+
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value = devData.permitTimeoutCount;
+
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RECONNECT_INTERVAL].Value = devData.reconnectInterval;
+
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RESET_VARIABLE].Value = devData.resetVaraible;
+
+                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.CHANNEL].Value = "..."/* + i.ToString()*/;
+
+                    i++;
+                }
+
+                //dataGridView1.RowCount = /*8*/ 1;
+                dataGridView1.AutoSize = true;
+                dataGridView1.AllowUserToAddRows = false;
+                dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+                    DataGridViewContentAlignment.MiddleCenter;
+
+                this.comboBox_transform_channel.Items.Add("COM1");
+                this.comboBox_transform_channel.Text = masterData_.transformChannel;
+
+                this.textBox_reponse_timeout.Text = masterData_.responseTimeout.ToString();   //ms
+
+                if (masterData_.transformMode == 0)
+                {
+                    radioButton1.Checked = true;
+                    radioButton2.Checked = false;
+                }
+                else if (masterData_.transformMode == 1)
+                {
+                    radioButton2.Checked = true;
+                    radioButton1.Checked = false;
+                }
             }
 
-            //dataGridView1.RowCount = /*8*/ 1;
-            dataGridView1.AutoSize = true;
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
-                DataGridViewContentAlignment.MiddleCenter;
-
-            this.comboBox_transform_channel.Items.Add("COM1");
-            this.comboBox_transform_channel.Text = masterData_.transformChannel;
-
-            this.textBox_reponse_timeout.Text = masterData_.responseTimeout.ToString();   //ms
-
-            if(masterData_.transformMode == 0)
+            catch (Exception t)
             {
-                radioButton1.Checked = true;
-                radioButton2.Checked = false;
-            }
-            else if(masterData_.transformMode == 1)
-            {
-                radioButton2.Checked = true;
-                radioButton1.Checked = false;
+                MessageBox.Show(t.Message);
+                return;
             }
         }
 
@@ -202,6 +211,8 @@ namespace LocalPLC.ModbusMaster
                     //    Cells[e.ColumnIndex].Value.ToString() +
                     //    " is enabled");
 
+                    //刷新地址
+                    masterData_.refreshAddr();
                     modbusmasterchannel form = new modbusmasterchannel();
                     DeviceData data = masterData_.modbusDeviceList.ElementAt(e.RowIndex);
                     form.getDeviceData(ref data, masterStartAddr_, ref masterData_);

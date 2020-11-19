@@ -579,12 +579,13 @@ namespace LocalPLC.ModbusMaster
             curDeviceLength = checkDeviceLength();
 
             //删除通道，通道内的地址重新分配
-            refreshAddr();
+            refreshAddr(curDeviceAddr);
         }
 
-        public void refreshAddr()
+        public void refreshAddr(int newDeviceAddr)
         {
             //删除通道，通道内的地址重新分配
+            curDeviceAddr = newDeviceAddr;
             int tmpAddr = curDeviceAddr;
             for (int i = 0; i < modbusChannelList.Count; i++)
             {
@@ -594,6 +595,9 @@ namespace LocalPLC.ModbusMaster
 
                 tmpAddr += modbusChannelList[i].curChannelLength;
             }
+
+            //刷新device长度
+            checkDeviceLength();
         }
 
         public int checkDeviceLength()
@@ -649,6 +653,19 @@ namespace LocalPLC.ModbusMaster
 
             return curMasterLength;
         }
+
+        public void refreshAddr()
+        {
+            int tmpMasterAddr = curMasterStartAddr;
+            for(int i = 0; i < modbusDeviceList.Count; i++)
+            {
+                modbusDeviceList[i].refreshAddr(tmpMasterAddr);
+
+                modbusDeviceList[i].curDeviceAddr = tmpMasterAddr;
+                tmpMasterAddr += modbusDeviceList[i].curDeviceLength;
+            }
+        }
+
     }
 
     public class ModbusMasterManage
