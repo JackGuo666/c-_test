@@ -284,6 +284,9 @@ namespace LocalPLC.ModbusMaster
                 //deviceData_.modbusChannelList.RemoveAt(index);
                 deviceData_.removeChannel(deviceData_.modbusChannelList[index]);
             }
+
+            deviceData_.refreshAddr();
+            refreshGridTableTwoVarAddr();
         }
 
         private void refreshGridTableTwoVarAddr()
@@ -344,7 +347,7 @@ namespace LocalPLC.ModbusMaster
                 }
                 else if (byteMsgTypeSet.Contains(channel.msgType))
                 {
-                    channel.setChannelLengthByte(channel.readLength);
+                    channel.setChannelLengthWord(channel.readLength);
                 }
 
                 if(!checkMasterLenthValid())
@@ -356,7 +359,7 @@ namespace LocalPLC.ModbusMaster
                     }
                     else if (byteMsgTypeSet.Contains(channel.msgType))
                     {
-                        channel.setChannelLengthByte(channel.readLength);
+                        channel.setChannelLengthWord(channel.readLength);
                     }
                 }
 
@@ -386,7 +389,7 @@ namespace LocalPLC.ModbusMaster
                 }
                 else if(byteMsgTypeSet.Contains(channel.msgType))
                 {
-                    channel.setChannelLengthByte(channel.readLength);
+                    channel.setChannelLengthWord(channel.readLength);
                 }
 
                 if(!checkMasterLenthValid())
@@ -398,7 +401,7 @@ namespace LocalPLC.ModbusMaster
                     }
                     else if (byteMsgTypeSet.Contains(channel.msgType))
                     {
-                        channel.setChannelLengthByte(lastLength);
+                        channel.setChannelLengthWord(lastLength);
                     }
 
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = lastLength.ToString();

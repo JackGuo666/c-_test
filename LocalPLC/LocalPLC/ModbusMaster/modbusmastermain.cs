@@ -538,9 +538,9 @@ namespace LocalPLC.ModbusMaster
             curChannelLength = curChannelLength + 2;
         }
 
-        public void setChannelLengthByte(int length)
+        public void setChannelLengthWord(int length)
         {
-            curChannelLength = length + 2;
+            curChannelLength = length * 2 + 2;
         }
     }
 
