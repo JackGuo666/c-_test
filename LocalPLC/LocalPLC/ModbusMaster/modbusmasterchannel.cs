@@ -155,7 +155,10 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.Columns.Add(cellColumnTriggerVar);
             dataGridView1.Columns.Add(cellColumnErrorVar);
             dataGridView1.Columns.Add(cellColumnNote);
-
+            for (int j = 0; j < this.dataGridView1.Columns.Count; j++)
+            {
+                dataGridView1.Columns[j].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
 
             dataGridView1.RowCount = 1 + deviceData_.modbusChannelList.Count;
