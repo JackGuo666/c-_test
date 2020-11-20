@@ -40,18 +40,23 @@ namespace LocalPLC.ModbusServer
             init = true;
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
-
+            buttonColumn.HeaderText = "配置";
+            DataGridViewDisableButtonColumn btn = new DataGridViewDisableButtonColumn();
+            btn.Name = "info";
+            btn.HeaderText = "详细信息";
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
             cellColumn.Name = "ID";
-
+            cellColumn.HeaderText = "ID";
             buttonColumn.DefaultCellStyle.NullValue = ". . .";
-            
+            btn.DefaultCellStyle.NullValue = ". . .";
 
             dataGridView1.AllowUserToAddRows = false;
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
-            if (dataGridView1.Columns.Count > 2)
+            dataGridView1.Columns.Add(btn);
+
+            if (dataGridView1.Columns.Count > 3)
             {
                 dataGridView1.Columns.RemoveAt(0);
             }
@@ -95,7 +100,7 @@ namespace LocalPLC.ModbusServer
                 dataGridView1.Rows[i].Cells[0].Value = data.ID;
                 //dataGridView1.Rows[i].Cells["跳转"].Value = "..."/* + i.ToString()*/;
             }
-            if (dataGridView1.Columns.Count > 2)
+            if (dataGridView1.Columns.Count > 3)
             {
                 dataGridView1.Columns.RemoveAt(0);
             }
@@ -313,6 +318,24 @@ namespace LocalPLC.ModbusServer
                     mss.getServerData(ref data);
                     mss.ShowDialog();
                 }
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "info")
+            {
+                int index = dataGridView1.SelectedRows[0].Index;
+                ModbusServerData data = serverDataManager.listServer[index];
+                dataGridView2.RowCount = 4;
+                dataGridView2.Rows[0].Cells[0].Value = "线圈寄存器";
+                dataGridView2.Rows[0].Cells[1].Value = data.dataDevice_.coilCount;
+                dataGridView2.Rows[0].Cells[2].Value = data.dataDevice_.coilIoAddrStart;
+                dataGridView2.Rows[1].Cells[0].Value = "保持寄存器";
+                dataGridView2.Rows[1].Cells[1].Value = data.dataDevice_.holdingCount;
+                dataGridView2.Rows[1].Cells[2].Value = data.dataDevice_.holdingIoAddrStart;
+                dataGridView2.Rows[2].Cells[0].Value = "离散输入寄存器";
+                dataGridView2.Rows[2].Cells[1].Value = data.dataDevice_.decreteCount;
+                dataGridView2.Rows[2].Cells[2].Value = data.dataDevice_.decreteIoAddrStart;
+                dataGridView2.Rows[3].Cells[0].Value = "状态寄存器";
+                dataGridView2.Rows[3].Cells[1].Value = data.dataDevice_.statusCount;
+                dataGridView2.Rows[3].Cells[2].Value = data.dataDevice_.statusIoAddrStart;
             }
         }
 
