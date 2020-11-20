@@ -339,12 +339,16 @@ namespace LocalPLC.ModbusMaster
         {
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
+            buttonColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
+
             DataGridViewDisableButtonColumn buttonColumnDetail = new DataGridViewDisableButtonColumn();
             buttonColumnDetail.Name = "详细信息";
+            buttonColumnDetail.SortMode = DataGridViewColumnSortMode.NotSortable;
             //buttonColumnDetail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
             cellColumn.Name = "ID";
+            cellColumn.SortMode = DataGridViewColumnSortMode.NotSortable;
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
@@ -375,7 +379,11 @@ namespace LocalPLC.ModbusMaster
             dataGridView2.Columns.Add(cellColumnChannelLength);
             dataGridView2.Columns.Add(cellColumnChannelTrigVarAddr);
             dataGridView2.Columns.Add(cellColumnChannelErrVarAddr);
-            
+            for (int i = 0; i < this.dataGridView2.Columns.Count; i++)
+             {
+                    dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+             }
+
         }
 
         bool init = false;
@@ -497,6 +505,7 @@ namespace LocalPLC.ModbusMaster
 
                     int masterStartAddr = masterManage.getMasterStartAddr();
                     form.getMasterData(ref data, masterStartAddr);
+                    form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
                 }
             }
