@@ -72,7 +72,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(363, 488);
+            this.dataGridView1.Size = new System.Drawing.Size(332, 488);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick_1);
@@ -97,14 +97,13 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(536, 488);
+            this.dataGridView2.Size = new System.Drawing.Size(567, 488);
             this.dataGridView2.TabIndex = 3;
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 60);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -116,7 +115,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView2);
             this.splitContainer1.Size = new System.Drawing.Size(903, 488);
-            this.splitContainer1.SplitterDistance = 363;
+            this.splitContainer1.SplitterDistance = 332;
             this.splitContainer1.TabIndex = 4;
             // 
             // modbusmastermain

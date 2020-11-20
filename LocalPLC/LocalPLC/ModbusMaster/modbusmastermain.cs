@@ -322,10 +322,11 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells["ID"].Value = row;
                 data.ID = row;
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+                dataGridView1.Rows[i].Cells[columnDetail].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
 
                 //masterManage.modbusMastrList.Add(data);
-                
+
                 masterManage.add(data);
             }
         }
@@ -454,7 +455,7 @@ namespace LocalPLC.ModbusMaster
             createColumn();
             createDetailColumn();
             dataGridView1.RowCount = /*8*/ 1 + masterManage.modbusMastrList.Count;
-            dataGridView1.AutoSize = true;
+            //dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
@@ -467,7 +468,7 @@ namespace LocalPLC.ModbusMaster
             //dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridView2.ColumnHeadersHeight = dataGridView1.ColumnHeadersHeight;
-            dataGridView2.Columns[2].Width = 250;
+            dataGridView2.Columns[2].Width = 255;
 
             for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
             {
