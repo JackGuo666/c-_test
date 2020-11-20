@@ -444,6 +444,7 @@ namespace LocalPLC.ModbusClient
                     
                     mct1.ClientNumber(this.label1.Text);
                     mct1.getClientData(ref data);
+                    //cc1.ClientNumber(this.label1.Text);
                    // cc1.getClientData(ref data);
                     mct1.ShowDialog();
                 }

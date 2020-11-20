@@ -12,7 +12,7 @@ namespace LocalPLC.ModbusClient
     public partial class ClientChannel : Form
     {
         private ComboBox functioncode1 = new ComboBox();
-        modbusclient mct;
+        modbusclient1 mct;
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
         DataSet dc = new DataSet();
@@ -33,7 +33,7 @@ namespace LocalPLC.ModbusClient
         //public channeldate[] CD = new channeldate[16];
 
         public int a;
-
+        public int devnumber;
         public enum COLUMNNAME_CHANNLE : int
         {
             ID, 名称,功能码,循环触发时间,偏移,长度,触发变量,错误变量,注释
@@ -124,8 +124,7 @@ namespace LocalPLC.ModbusClient
             this.dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             //列标题自适应
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            //dataGridView2.Columns["错误变量"].ReadOnly = true;
-            //dataGridView2.Columns["触发变量"].ReadOnly = true;
+           
             //dataGridView2.RowCount = 1 + data_.modbusChannelList.Count;
 
             //if (ds.Tables[Convert.ToInt32(mc1.channelnumber)].Rows.Count < data_.modbusChannelList.Count)
@@ -205,6 +204,33 @@ namespace LocalPLC.ModbusClient
             //i = 0;
             //int j = 0;
                 //foreach (DeviceData devicedata in data2.modbusDeviceList)
+                for (int m = 1 ; m< data2.modbusDeviceList.Count;m++)
+            {
+                int channelcount = data2.modbusDeviceList[m-1].modbusChannelList.Count;
+                if(data2.modbusDeviceList[m].modbusChannelList.Count>0)
+                {
+                    if (Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
+                        Convert.ToInt32(data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].trigger_offset) != 
+                        data2.modbusDeviceList[m].modbusChannelList[channelcount - 1].Channellength)
+                    {
+                       int diff = Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
+                        Convert.ToInt32(data2.modbusDeviceList[m - 1].modbusChannelList[channelcount - 1].trigger_offset) -
+                        data2.modbusDeviceList[m].modbusChannelList[channelcount - 1].Channellength;
+                        int n = 0; ;
+                        for (n=m;n< data2.modbusDeviceList.Count;n++)
+                            for(int o = 0;o<data2.modbusDeviceList[n].modbusChannelList.Count;o++)
+                            {
+                                data2.modbusDeviceList[n].modbusChannelList[o].trigger_offset = 
+                                    (Convert.ToInt32( data2.modbusDeviceList[n].modbusChannelList[o].trigger_offset)-diff).ToString();
+                                data2.modbusDeviceList[n].modbusChannelList[o].error_offset =
+                                    (Convert.ToInt32(data2.modbusDeviceList[n].modbusChannelList[o].error_offset) - diff).ToString();
+                                data2.modbusDeviceList[n].modbusChannelList[o].channelstartaddr =
+                                    data2.modbusDeviceList[n].modbusChannelList[o].channelstartaddr - diff;
+                            }
+                    }
+                }
+                
+            }
                 for (int j =0;j<data2.modbusDeviceList.Count;j++)
             {
                     //foreach (ChannelData channelData in data2.modbusDeviceList[j].modbusChannelList)
@@ -254,34 +280,53 @@ namespace LocalPLC.ModbusClient
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
+            
+            //dataGridView2.Columns[6].ReadOnly = true;
+            //dataGridView2.Columns[7].ReadOnly = true;
+            devnumber = Convert.ToInt32(mc1.clientnumber);
         }
-
+        public int clientstartaddr;
+        public int devstartaddr;
+        public int channelstartaddr;
+        
         private void add_Click(object sender, EventArgs e)
         {
             //int rowcount = dataGridView2.RowCount;
             //this.dataGridView2.Rows.Add(rowcount, "设备" + rowcount.ToString(), functioncode1, "", "", "", "", "");
             //int z = ds.Tables[0].Rows.Count;
-            int lastendaddr = 1000;
-            
+            //modbusclient1 mct1 = new modbusclient1();
+            //int l = Convert.ToInt32(mct1.clientnumber);
+            clientstartaddr = 1000*(devnumber+1);
+            //int lastendaddr = 1000*(Convert.ToInt32( mci.clientnumber)+1);
+
             int n = Convert.ToInt32(this.label3.Text);
+
             if(n > 0)
             {
                 int b = ds.Tables[n - 1].Rows.Count;
-                int c = Convert.ToInt32(ds.Tables[0].Rows[b-1]["错误变量"]);
-                lastendaddr = Convert.ToInt32(ds.Tables[n - 1].Rows[b-1]["错误变量"]);
+                int c = Convert.ToInt32(ds.Tables[n-1].Rows[b-1]["错误变量"]);
+                devstartaddr = c+1;
                 //data_.modbusChannelList
             }
-
+            else if(n == 0)
+            {
+                devstartaddr = clientstartaddr;
+            }
+            channelstartaddr = devstartaddr;
             //for (int i=0;i<n+1;i++)
             //{
+           
 
             for (int j = 0; j < ds.Tables[n].Rows.Count; j++)
             {
-                lastendaddr += 2 + Convert.ToInt32(ds.Tables[n].Rows[j]["长度"]) / 8 + 1;
+                //int d = data2.modbusDeviceList[n].modbusChannelList[j].Channellength;
+                channelstartaddr += data2.modbusDeviceList[n].modbusChannelList[j].Channellength;
+
             }
             //}
             DataRow dr = ds.Tables[0].NewRow();
             ChannelData data = new ChannelData();
+            int type = 0;
             dr[(int)COLUMNNAME_CHANNLE.ID] = dataGridView2.RowCount;
             data.ID = dataGridView2.RowCount;
             dr[(int)COLUMNNAME_CHANNLE.名称] = "通道" + dataGridView2.RowCount;
@@ -294,13 +339,26 @@ namespace LocalPLC.ModbusClient
             data.Offset = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.偏移]);
             dr[(int)COLUMNNAME_CHANNLE.长度] = 1;
             data.Length = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.长度]);
-            dr[(int)COLUMNNAME_CHANNLE.触发变量] = lastendaddr+1;
+            dr[(int)COLUMNNAME_CHANNLE.触发变量] = channelstartaddr;
             data.trigger_offset = (dr[(int)COLUMNNAME_CHANNLE.触发变量].ToString());
-            dr[(int)COLUMNNAME_CHANNLE.错误变量] = lastendaddr+2;
+            dr[(int)COLUMNNAME_CHANNLE.错误变量] = channelstartaddr+1;
             data.error_offset = (dr[(int)COLUMNNAME_CHANNLE.错误变量].ToString());
             dr[(int)COLUMNNAME_CHANNLE.注释] = "";
             data.note = dr[(int)COLUMNNAME_CHANNLE.注释].ToString();
             ds.Tables[n].Rows.Add(dr.ItemArray);
+            data.channelstartaddr = channelstartaddr+2;
+
+            if (data.msgType ==1 || data.msgType == 2 || data.msgType == 5 || data.msgType == 15)
+            {
+                type = 0;
+                data.Channellength = 2 + data.Length / 8 + 1;
+            }
+            else //if(data.msgType == 3 || data.msgType == 4 || data.msgType == 6 || data.msgType == 16)
+            {
+                type = 1;
+                data.Channellength = 2 + data.Length * 2;
+            }
+
             //data_.modbusChannelList.Add(data);
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Add(data);
             for (int i = 0; i < dataGridView2.RowCount; i++)
@@ -325,10 +383,26 @@ namespace LocalPLC.ModbusClient
         {
             int n = Convert.ToInt32(dataGridView2.SelectedRows[0].Index);
             //this.dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
-            
+            if (n<0)
+            {
+                return;
+            }
             ds.Tables[Convert.ToInt32( this.label3.Text)].Rows[n].Delete();
             //data_.modbusChannelList.RemoveAt(n);
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(n);
+            if(n>0)
+            {
+                for (int i = n ; i < dataGridView2.Rows.Count; i++)
+                {
+                    ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"] =
+                      Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i - 1]["触发变量"]) +
+                       data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i-1].Channellength;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].channelstartaddr =
+                        Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"]) + 2;
+
+                }
+            }
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -378,7 +452,8 @@ namespace LocalPLC.ModbusClient
                 dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
                 
             }
-
+            dataGridView2.Columns[6].ReadOnly = true;
+            dataGridView2.Columns[7].ReadOnly = true;
         }
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -431,6 +506,35 @@ namespace LocalPLC.ModbusClient
                 //}
                 //data_.modbusChannelList.ElementAt(e.RowIndex).msgType = dicMsgType[str];
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).msgType = dicMsgType[str];
+                int type = 0;
+                if (dicMsgType[str] == 1 || dicMsgType[str] == 2 || dicMsgType[str] == 5 || dicMsgType[str] == 15)
+                {
+                    type = 0;
+                    int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength = 
+                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length / 8 + 1;
+                }
+                else //if (dicMsgType[str] == 3 || dicMsgType[str] == 4 || dicMsgType[str] == 6 || dicMsgType[str] == 16)
+                {
+                    type = 1;
+                    int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength = 
+                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
+                }
+                for (int i = e.RowIndex+1; i<dataGridView2.Rows.Count;i++)
+                {
+                    int a1 = Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i - 1]["触发变量"]);
+                    int b = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i-1].Channellength;
+                    ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"] = 
+                       Convert.ToInt32( ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i-1]["触发变量"] )+ 
+                        data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i-1].Channellength;
+                    ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["错误变量"] =
+                         Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"]) + 1;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].channelstartaddr =
+                         Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"]) + 2;
+                }
+                
+
                 int a = Convert.ToInt32(str)-1;
                 if(a == 14)
                 {
@@ -457,6 +561,34 @@ namespace LocalPLC.ModbusClient
             {
                 //int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).Length);
                 int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Length);
+                int type = 0;
+                int msg = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].msgType;
+                if (msg == 1 || msg == 2 || msg == 5 || msg == 15)
+                {
+                    type = 0;
+                    int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
+                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length / 8 + 1;
+                }
+                else //if (dicMsgType[str] == 3 || dicMsgType[str] == 4 || dicMsgType[str] == 6 || dicMsgType[str] == 16)
+                {
+                    type = 1;
+                    int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
+                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
+                }
+                for (int i = e.RowIndex + 1; i < dataGridView2.Rows.Count; i++)
+                {
+                    int a1 = Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i - 1]["触发变量"]);
+                    int b = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i - 1].Channellength;
+                    ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"] =
+                       Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i - 1]["触发变量"]) +
+                        data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i - 1].Channellength;
+                    ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["错误变量"] =
+                         Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"]) + 1;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].channelstartaddr =
+                         Convert.ToInt32(ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"]) + 2;
+                }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.触发变量)
             {

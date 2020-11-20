@@ -79,6 +79,7 @@ namespace LocalPLC.ModbusClient
             
             get { return this.dataGridView1.SelectedRows[0].Index; }
         }
+        
         private void modbusclient1_Load(object sender, EventArgs e)
         {
             Clientindex mci = new Clientindex();
@@ -155,7 +156,10 @@ namespace LocalPLC.ModbusClient
                 radioButton1.Checked = false;
             }
         }
-
+        public string clientnumber
+        {
+            get { return this.label5.Text; }
+        }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton1.Checked == true)
@@ -279,6 +283,10 @@ namespace LocalPLC.ModbusClient
         private void button2_Click(object sender, EventArgs e)
         {
             int n = Convert.ToInt32(dataGridView1.SelectedRows[0].Index);
+            if (n < 0)
+            {
+                return;
+            }
             this.dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
             
             

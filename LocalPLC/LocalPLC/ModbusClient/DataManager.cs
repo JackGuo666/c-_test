@@ -25,6 +25,8 @@ namespace LocalPLC.ModbusClient
         public int Length;
         public string trigger_offset;
         public string error_offset;
+        public int Channellength;
+        public int channelstartaddr;
         public string note;
     }
     public class DeviceData
@@ -38,6 +40,7 @@ namespace LocalPLC.ModbusClient
         public int reconnectInterval;
         public string resetVaraible;
         public string channel;
+        public int devstartaddr;
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
     }
     public class ModbusClientData

@@ -38,7 +38,7 @@
             this.channelname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.msg_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pollingtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startaddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.length = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.trigger_offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.error_offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,7 +108,7 @@
             this.channelname,
             this.msg_type,
             this.pollingtime,
-            this.offset,
+            this.startaddr,
             this.length,
             this.trigger_offset,
             this.error_offset,
@@ -125,21 +125,21 @@
             this.Devname.HeaderText = "设备名";
             this.Devname.MinimumWidth = 8;
             this.Devname.Name = "Devname";
-            this.Devname.Width = 91;
+            this.Devname.Width = 98;
             // 
             // channelname
             // 
             this.channelname.HeaderText = "通道名";
             this.channelname.MinimumWidth = 8;
             this.channelname.Name = "channelname";
-            this.channelname.Width = 91;
+            this.channelname.Width = 98;
             // 
             // msg_type
             // 
             this.msg_type.HeaderText = "功能码";
             this.msg_type.MinimumWidth = 8;
             this.msg_type.Name = "msg_type";
-            this.msg_type.Width = 91;
+            this.msg_type.Width = 98;
             // 
             // pollingtime
             // 
@@ -149,13 +149,13 @@
             this.pollingtime.Name = "pollingtime";
             this.pollingtime.Width = 107;
             // 
-            // offset
+            // startaddr
             // 
-            this.offset.FillWeight = 70F;
-            this.offset.HeaderText = "偏移";
-            this.offset.MinimumWidth = 8;
-            this.offset.Name = "offset";
-            this.offset.Width = 75;
+            this.startaddr.FillWeight = 70F;
+            this.startaddr.HeaderText = "起始地址";
+            this.startaddr.MinimumWidth = 8;
+            this.startaddr.Name = "startaddr";
+            this.startaddr.Width = 91;
             // 
             // length
             // 
@@ -219,7 +219,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn channelname;
         private System.Windows.Forms.DataGridViewTextBoxColumn msg_type;
         private System.Windows.Forms.DataGridViewTextBoxColumn pollingtime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn offset;
+        private System.Windows.Forms.DataGridViewTextBoxColumn startaddr;
         private System.Windows.Forms.DataGridViewTextBoxColumn length;
         private System.Windows.Forms.DataGridViewTextBoxColumn trigger_offset;
         private System.Windows.Forms.DataGridViewTextBoxColumn error_offset;
