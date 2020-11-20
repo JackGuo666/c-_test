@@ -224,6 +224,7 @@ namespace LocalPLC
                 saveXml();
                 modmaster.Show();
                 ModbusWindow.Controls.Clear();
+                modmaster.Dock = DockStyle.Fill;
                 ModbusWindow.Controls.Add(modmaster);
             }
             else if (name == "ModbusTCP-Server")
