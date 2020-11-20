@@ -23,11 +23,22 @@ namespace LocalPLC.ModbusMaster
         private string columnConfig = "配置";
         private string columnDetail = "详细信息";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
+        private Dictionary<int, string> dicMsg = new Dictionary<int, string>();
         public modbusmastermain()
         {
             InitializeComponent();
 
-           
+            dicMsg.Clear();
+
+            //功能码
+            dicMsg.Add(0x01, "读多个位(线圈) - 0x01");
+            dicMsg.Add(0x02, "读多个位(离散输入) - 0x02");
+            dicMsg.Add(0x03, "读多个字(保持寄存器) - 0x03");
+            dicMsg.Add(0x04, "读多个字(输入寄存器) - 0x04");
+            dicMsg.Add(0x05, "写单个位(线圈) - 0x05");
+            dicMsg.Add(0x06, "写单个字(寄存器) - 0x06");
+            dicMsg.Add(0x0F, "写多个位(线圈) - 0x0F");
+            dicMsg.Add(0x10, "写多个字(寄存器) - 0x10");
         }
 
         public void deleteTableRow()
@@ -443,9 +454,12 @@ namespace LocalPLC.ModbusMaster
 
             dataGridView2.RowCount = 1;
             dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
+            DataGridViewContentAlignment.MiddleCenter;
+            //dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridView2.ColumnHeadersHeight = dataGridView1.ColumnHeadersHeight; ;
+            dataGridView2.ColumnHeadersHeight = dataGridView1.ColumnHeadersHeight;
+            dataGridView2.Columns[2].Width = 250;
 
             for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
             {
@@ -518,8 +532,8 @@ namespace LocalPLC.ModbusMaster
                             string channelName = channel.nameChannel; 
                             dataGridView2.Rows[j].Cells["设备名"].Value = deviceName;
                             dataGridView2.Rows[j].Cells["通道名"].Value = channelName;
-                            dataGridView2.Rows[j].Cells["功能码"].Value = channel.msgType;
-                            dataGridView2.Rows[j].Cells["通道起始地址"].Value = channel.curChannelAddr;
+                            dataGridView2.Rows[j].Cells["功能码"].Value = dicMsg[channel.msgType];
+                            dataGridView2.Rows[j].Cells["通道起始地址"].Value = channel.curChannelAddr + 2;
                             dataGridView2.Rows[j].Cells["长度"].Value = channel.readLength;
                             dataGridView2.Rows[j].Cells["触发变量地址"].Value = channel.writeOffset;
                             dataGridView2.Rows[j].Cells["错误变量地址"].Value = channel.writeLength;
@@ -606,7 +620,7 @@ namespace LocalPLC.ModbusMaster
 
 
     public class ChannelData
-    {
+    {        
         public int curChannelAddr;
         public int curChannelLength;
         

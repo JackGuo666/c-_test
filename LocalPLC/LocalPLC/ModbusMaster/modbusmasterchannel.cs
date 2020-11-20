@@ -353,6 +353,8 @@ namespace LocalPLC.ModbusMaster
                 if(!checkMasterLenthValid())
                 {
                     //还原回上一次数值
+                    channel.msgType = lastMsgType;
+
                     if (bitMsgTypeSet.Contains(channel.msgType))
                     {
                         channel.setChannelLengthBit(channel.readLength);
@@ -395,6 +397,8 @@ namespace LocalPLC.ModbusMaster
                 if(!checkMasterLenthValid())
                 {
                     //还原回上一次数值
+                    channel.readLength = lastLength;
+
                     if (bitMsgTypeSet.Contains(channel.msgType))
                     {
                         channel.setChannelLengthBit(lastLength);
