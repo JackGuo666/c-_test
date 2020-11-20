@@ -211,11 +211,11 @@ namespace LocalPLC.ModbusClient
                 {
                     if (Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
                         Convert.ToInt32(data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].trigger_offset) != 
-                        data2.modbusDeviceList[m].modbusChannelList[channelcount - 1].Channellength)
+                        data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].Channellength)
                     {
                        int diff = Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
                         Convert.ToInt32(data2.modbusDeviceList[m - 1].modbusChannelList[channelcount - 1].trigger_offset) -
-                        data2.modbusDeviceList[m].modbusChannelList[channelcount - 1].Channellength;
+                        data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].Channellength;
                         int n = 0; ;
                         for (n=m;n< data2.modbusDeviceList.Count;n++)
                             for(int o = 0;o<data2.modbusDeviceList[n].modbusChannelList.Count;o++)
@@ -481,7 +481,10 @@ namespace LocalPLC.ModbusClient
 
                 }
             }
-
+            if (e.RowIndex <0)
+            {
+                return;
+            }
 
 
             if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.ID)
