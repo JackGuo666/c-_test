@@ -220,6 +220,11 @@ namespace LocalPLC
                 {
                     return;
                 }
+
+                //刷新master地址
+                modmaster.masterManage.getMasterStartAddr();
+                modmaster.masterManage.refresh();
+
                 modmaster.initForm();
                 saveXml();
                 modmaster.Show();
