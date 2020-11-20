@@ -21,6 +21,7 @@ namespace LocalPLC.ModbusMaster
 
         private int masterStartAddr = 0;
         private string columnConfig = "配置";
+        private string columnDetail = "详细信息";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
         public modbusmastermain()
         {
@@ -327,12 +328,43 @@ namespace LocalPLC.ModbusMaster
         {
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
+            DataGridViewDisableButtonColumn buttonColumnDetail = new DataGridViewDisableButtonColumn();
+            buttonColumnDetail.Name = "详细信息";
+            //buttonColumnDetail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
             cellColumn.Name = "ID";
 
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
+            dataGridView1.Columns.Add(buttonColumnDetail);
+        }
+
+        void createDetailColumn()
+        {
+            DataGridViewTextBoxColumn cellColumnDevice = new DataGridViewTextBoxColumn();
+            cellColumnDevice.Name = "设备名";
+            DataGridViewTextBoxColumn cellColumnChannel = new DataGridViewTextBoxColumn();
+            cellColumnChannel.Name = "通道名";
+            DataGridViewTextBoxColumn cellColumnFunc = new DataGridViewTextBoxColumn();
+            cellColumnFunc.Name = "功能码";
+            DataGridViewTextBoxColumn cellColumnChannelStartAddr = new DataGridViewTextBoxColumn();
+            cellColumnChannelStartAddr.Name = "通道起始地址";
+            DataGridViewTextBoxColumn cellColumnChannelLength = new DataGridViewTextBoxColumn();
+            cellColumnChannelLength.Name = "长度";
+            DataGridViewTextBoxColumn cellColumnChannelTrigVarAddr = new DataGridViewTextBoxColumn();
+            cellColumnChannelTrigVarAddr.Name = "触发变量地址";
+            DataGridViewTextBoxColumn cellColumnChannelErrVarAddr = new DataGridViewTextBoxColumn();
+            cellColumnChannelErrVarAddr.Name = "错误变量地址";
+
+            dataGridView2.Columns.Add(cellColumnDevice);
+            dataGridView2.Columns.Add(cellColumnChannel);
+            dataGridView2.Columns.Add(cellColumnFunc);
+            dataGridView2.Columns.Add(cellColumnChannelStartAddr);
+            dataGridView2.Columns.Add(cellColumnChannelLength);
+            dataGridView2.Columns.Add(cellColumnChannelTrigVarAddr);
+            dataGridView2.Columns.Add(cellColumnChannelErrVarAddr);
+            
         }
 
         bool init = false;
@@ -352,7 +384,11 @@ namespace LocalPLC.ModbusMaster
 
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
+
+            dataGridView2.Rows.Clear();
+            dataGridView2.Columns.Clear();
             createColumn();
+            createDetailColumn();
 
 
             //DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
@@ -375,6 +411,7 @@ namespace LocalPLC.ModbusMaster
                 ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
                 dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+                dataGridView1.Rows[i].Cells["详细信息"].Value = "..."/* + i.ToString()*/;
             }
         }
 
@@ -396,18 +433,29 @@ namespace LocalPLC.ModbusMaster
 
 
             createColumn();
+            createDetailColumn();
             dataGridView1.RowCount = /*8*/ 1 + masterManage.modbusMastrList.Count;
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersHeight = 20;
+
+            dataGridView2.RowCount = 1;
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridView2.ColumnHeadersHeight = dataGridView1.ColumnHeadersHeight; ;
 
             for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
             {
                 ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
                 dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
                 dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
+                dataGridView1.Rows[i].Cells[columnDetail].Value = "..."/* + i.ToString()*/;
             }
+
+
 
         }
 
@@ -436,6 +484,51 @@ namespace LocalPLC.ModbusMaster
                     int masterStartAddr = masterManage.getMasterStartAddr();
                     form.getMasterData(ref data, masterStartAddr);
                     form.ShowDialog();
+                }
+            }
+            else if(dataGridView1.Columns[e.ColumnIndex].Name == columnDetail)
+            {
+                DataGridViewDisableButtonCell buttonCell =
+                    (DataGridViewDisableButtonCell)dataGridView1.
+                    Rows[e.RowIndex].Cells[columnConfig];
+                if (buttonCell.Enabled)
+                {
+                    var modbusDeviceList = masterManage.modbusMastrList[e.RowIndex].modbusDeviceList;
+                    var count = 0;
+
+                    dataGridView2.Rows.Clear();
+
+                    for(int i = 0; i < modbusDeviceList.Count; i++)
+                    {
+                        count += modbusDeviceList[i].modbusChannelList.Count;
+                    }
+
+                    dataGridView2.RowCount += count;
+                    //dataGridView2.AutoSize = true;
+                    //dataGridView2.AllowUserToAddRows = false;
+                    //dataGridView2.ColumnHeadersDefaultCellStyle.Alignment =
+                    //    DataGridViewContentAlignment.MiddleCenter;
+
+                    int j = 0;
+                    foreach(var device in modbusDeviceList)
+                    {
+                        string deviceName = device.nameDev;
+                        foreach(var channel in device.modbusChannelList)
+                        {
+                            string channelName = channel.nameChannel; 
+                            dataGridView2.Rows[j].Cells["设备名"].Value = deviceName;
+                            dataGridView2.Rows[j].Cells["通道名"].Value = channelName;
+                            dataGridView2.Rows[j].Cells["功能码"].Value = channel.msgType;
+                            dataGridView2.Rows[j].Cells["通道起始地址"].Value = channel.curChannelAddr;
+                            dataGridView2.Rows[j].Cells["长度"].Value = channel.readLength;
+                            dataGridView2.Rows[j].Cells["触发变量地址"].Value = channel.writeOffset;
+                            dataGridView2.Rows[j].Cells["错误变量地址"].Value = channel.writeLength;
+
+                            j++;
+                        }
+                    }
+
+
                 }
             }
         }
@@ -715,6 +808,14 @@ namespace LocalPLC.ModbusMaster
             
             modbusMastrList.Add(data);
 
+        }
+
+        public void refresh()
+        {
+            for (int i = 0; i < modbusMastrList.Count; i++)
+            {
+                modbusMastrList[i].refreshAddr();
+            }
         }
     }
     
