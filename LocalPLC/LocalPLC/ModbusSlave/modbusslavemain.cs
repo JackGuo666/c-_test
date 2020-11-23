@@ -304,6 +304,7 @@ namespace LocalPLC.ModbusSlave
                     modbusslaveform form = new modbusslaveform(e.RowIndex);
                     ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(e.RowIndex);
                     form.getSlaveData(ref data);
+                    form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
                 }
             }

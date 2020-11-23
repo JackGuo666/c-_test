@@ -105,42 +105,42 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(988, 234);
+            this.panel1.Size = new System.Drawing.Size(702, 234);
             this.panel1.TabIndex = 0;
             // 
             // textBox_status_end
             // 
-            this.textBox_status_end.Location = new System.Drawing.Point(483, 194);
+            this.textBox_status_end.Location = new System.Drawing.Point(515, 194);
             this.textBox_status_end.Name = "textBox_status_end";
-            this.textBox_status_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_status_end.Size = new System.Drawing.Size(112, 28);
             this.textBox_status_end.TabIndex = 3;
             // 
             // textBox_lisan_end
             // 
-            this.textBox_lisan_end.Location = new System.Drawing.Point(483, 151);
+            this.textBox_lisan_end.Location = new System.Drawing.Point(515, 151);
             this.textBox_lisan_end.Name = "textBox_lisan_end";
-            this.textBox_lisan_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_lisan_end.Size = new System.Drawing.Size(112, 28);
             this.textBox_lisan_end.TabIndex = 3;
             // 
             // textBox_holding_end
             // 
-            this.textBox_holding_end.Location = new System.Drawing.Point(483, 108);
+            this.textBox_holding_end.Location = new System.Drawing.Point(515, 108);
             this.textBox_holding_end.Name = "textBox_holding_end";
-            this.textBox_holding_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_holding_end.Size = new System.Drawing.Size(112, 28);
             this.textBox_holding_end.TabIndex = 3;
             // 
             // textBox_coil_end
             // 
-            this.textBox_coil_end.Location = new System.Drawing.Point(483, 65);
+            this.textBox_coil_end.Location = new System.Drawing.Point(515, 65);
             this.textBox_coil_end.Name = "textBox_coil_end";
-            this.textBox_coil_end.Size = new System.Drawing.Size(75, 28);
+            this.textBox_coil_end.Size = new System.Drawing.Size(112, 28);
             this.textBox_coil_end.TabIndex = 3;
             // 
             // textBox_status_start
             // 
             this.textBox_status_start.Location = new System.Drawing.Point(390, 194);
             this.textBox_status_start.Name = "textBox_status_start";
-            this.textBox_status_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_status_start.Size = new System.Drawing.Size(119, 28);
             this.textBox_status_start.TabIndex = 3;
             this.textBox_status_start.TextChanged += new System.EventHandler(this.textBox_status_start_TextChanged);
             // 
@@ -148,7 +148,7 @@
             // 
             this.textBox_lisan_start.Location = new System.Drawing.Point(390, 151);
             this.textBox_lisan_start.Name = "textBox_lisan_start";
-            this.textBox_lisan_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_lisan_start.Size = new System.Drawing.Size(119, 28);
             this.textBox_lisan_start.TabIndex = 3;
             this.textBox_lisan_start.TextChanged += new System.EventHandler(this.textBox_lisan_start_TextChanged);
             // 
@@ -156,7 +156,7 @@
             // 
             this.textBox_holding_start.Location = new System.Drawing.Point(390, 108);
             this.textBox_holding_start.Name = "textBox_holding_start";
-            this.textBox_holding_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_holding_start.Size = new System.Drawing.Size(119, 28);
             this.textBox_holding_start.TabIndex = 3;
             this.textBox_holding_start.TextChanged += new System.EventHandler(this.textBox_holding_start_TextChanged);
             // 
@@ -166,6 +166,7 @@
             this.textBox_status_out.Name = "textBox_status_out";
             this.textBox_status_out.Size = new System.Drawing.Size(95, 28);
             this.textBox_status_out.TabIndex = 3;
+            this.textBox_status_out.Visible = false;
             // 
             // textBox_lisan_out
             // 
@@ -173,6 +174,7 @@
             this.textBox_lisan_out.Name = "textBox_lisan_out";
             this.textBox_lisan_out.Size = new System.Drawing.Size(95, 28);
             this.textBox_lisan_out.TabIndex = 3;
+            this.textBox_lisan_out.Visible = false;
             // 
             // textBox_holding_out
             // 
@@ -180,6 +182,7 @@
             this.textBox_holding_out.Name = "textBox_holding_out";
             this.textBox_holding_out.Size = new System.Drawing.Size(95, 28);
             this.textBox_holding_out.TabIndex = 3;
+            this.textBox_holding_out.Visible = false;
             // 
             // textBox_coil_var_out
             // 
@@ -187,6 +190,7 @@
             this.textBox_coil_var_out.Name = "textBox_coil_var_out";
             this.textBox_coil_var_out.Size = new System.Drawing.Size(95, 28);
             this.textBox_coil_var_out.TabIndex = 3;
+            this.textBox_coil_var_out.Visible = false;
             // 
             // textBox_status_in
             // 
@@ -194,6 +198,7 @@
             this.textBox_status_in.Name = "textBox_status_in";
             this.textBox_status_in.Size = new System.Drawing.Size(95, 28);
             this.textBox_status_in.TabIndex = 3;
+            this.textBox_status_in.Visible = false;
             // 
             // textBox_lisan_in
             // 
@@ -201,6 +206,7 @@
             this.textBox_lisan_in.Name = "textBox_lisan_in";
             this.textBox_lisan_in.Size = new System.Drawing.Size(95, 28);
             this.textBox_lisan_in.TabIndex = 3;
+            this.textBox_lisan_in.Visible = false;
             // 
             // textBox_holding_in
             // 
@@ -208,6 +214,7 @@
             this.textBox_holding_in.Name = "textBox_holding_in";
             this.textBox_holding_in.Size = new System.Drawing.Size(95, 28);
             this.textBox_holding_in.TabIndex = 3;
+            this.textBox_holding_in.Visible = false;
             // 
             // textBox_coil_var_in
             // 
@@ -215,12 +222,13 @@
             this.textBox_coil_var_in.Name = "textBox_coil_var_in";
             this.textBox_coil_var_in.Size = new System.Drawing.Size(95, 28);
             this.textBox_coil_var_in.TabIndex = 3;
+            this.textBox_coil_var_in.Visible = false;
             // 
             // textBox_coil_start
             // 
             this.textBox_coil_start.Location = new System.Drawing.Point(390, 65);
             this.textBox_coil_start.Name = "textBox_coil_start";
-            this.textBox_coil_start.Size = new System.Drawing.Size(75, 28);
+            this.textBox_coil_start.Size = new System.Drawing.Size(119, 28);
             this.textBox_coil_start.TabIndex = 3;
             this.textBox_coil_start.TextChanged += new System.EventHandler(this.textBox_coil_start_TextChanged);
             // 
@@ -264,6 +272,7 @@
             this.label10.Size = new System.Drawing.Size(89, 18);
             this.label10.TabIndex = 1;
             this.label10.Text = "I区变量名";
+            this.label10.Visible = false;
             // 
             // label9
             // 
@@ -273,6 +282,7 @@
             this.label9.Size = new System.Drawing.Size(89, 18);
             this.label9.TabIndex = 1;
             this.label9.Text = "O区变量名";
+            this.label9.Visible = false;
             // 
             // label2
             // 
@@ -343,7 +353,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 234);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(988, 323);
+            this.panel3.Size = new System.Drawing.Size(702, 323);
             this.panel3.TabIndex = 2;
             // 
             // textBox23
@@ -443,7 +453,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(988, 557);
+            this.ClientSize = new System.Drawing.Size(702, 557);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Name = "modbusslaveform";
