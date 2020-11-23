@@ -304,7 +304,7 @@ namespace LocalPLC.ModbusClient
             ////int currentrow = dataGridView1.SelectedRows[0].Index;
             ////CCl = new ModbusClient.ClientChannel();
             ////CC = new ClientChannel();
-            if (e.ColumnIndex == (int)COLUMNNAME.通道) ;
+            if (e.ColumnIndex == (int)COLUMNNAME.通道)
             {
                 DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
                 ModbusClientData datac = data_;
@@ -321,6 +321,7 @@ namespace LocalPLC.ModbusClient
             //DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
             //CCl.getDeviceData(ref data);
             //CCl.ShowDialog(this);
+
         }
         private void dataGridView1_CellEndEdit_1(object sender, DataGridViewCellEventArgs e)
         {
