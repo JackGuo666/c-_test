@@ -364,6 +364,8 @@ namespace LocalPLC.ModbusMaster
             cellColumnChannel.Name = "通道名";
             DataGridViewTextBoxColumn cellColumnFunc = new DataGridViewTextBoxColumn();
             cellColumnFunc.Name = "功能码";
+            cellColumnFunc.Width = 260;
+
             DataGridViewTextBoxColumn cellColumnChannelStartAddr = new DataGridViewTextBoxColumn();
             cellColumnChannelStartAddr.Name = "通道起始地址";
             DataGridViewTextBoxColumn cellColumnChannelLength = new DataGridViewTextBoxColumn();
