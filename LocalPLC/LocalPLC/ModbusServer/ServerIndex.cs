@@ -161,7 +161,10 @@ namespace LocalPLC.ModbusServer
         
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+            if      (e.RowIndex == -1)
+            {
+                return;
+            }
 
         }
 
