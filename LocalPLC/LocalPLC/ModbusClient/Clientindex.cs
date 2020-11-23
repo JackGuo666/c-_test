@@ -371,7 +371,10 @@ namespace LocalPLC.ModbusClient
         //}
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
 
             
             //a = dataGridView1.SelectedRows[0].Index;

@@ -464,7 +464,11 @@ namespace LocalPLC.ModbusClient
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+
             DataRowView row1 = (DataRowView)dataGridView2.Rows[e.RowIndex].DataBoundItem;
             if (row1.Row.RowState == DataRowState.Unchanged)
                 return;
