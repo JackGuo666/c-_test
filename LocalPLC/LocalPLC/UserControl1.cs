@@ -254,8 +254,9 @@ namespace LocalPLC
                 modslave.initForm();
                 saveXml();
                 modslave.Show(); 
-						ModbusWindow.Controls.Clear(); 
-						ModbusWindow.Controls.Add(modslave);
+						ModbusWindow.Controls.Clear();
+                modslave.Dock = DockStyle.Fill;
+                ModbusWindow.Controls.Add(modslave);
 		}
     }
         private void defaultjson(JsonTextWriter writer)//基础配置

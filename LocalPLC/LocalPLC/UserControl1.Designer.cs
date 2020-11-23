@@ -38,6 +38,16 @@
             treeNode2,
             treeNode3,
             treeNode4});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("基本配置");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("扩展");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("canopen");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("运动控制");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("配置", new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,8 +72,18 @@
             treeNode4.Text = "ModbusRTU-Slave";
             treeNode5.Name = "节点0";
             treeNode5.Text = "Modbus";
+            treeNode6.Name = "基本配置";
+            treeNode6.Text = "基本配置";
+            treeNode7.Name = "扩展";
+            treeNode7.Text = "扩展";
+            treeNode8.Name = "canopen";
+            treeNode8.Text = "canopen";
+            treeNode9.Name = "运动控制";
+            treeNode9.Text = "运动控制";
+            treeNode10.Name = "配置";
+            treeNode10.Text = "配置";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode10});
             this.treeView1.Size = new System.Drawing.Size(227, 750);
             this.treeView1.TabIndex = 6;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
@@ -75,12 +95,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(241, 67);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 34);
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(240, 30);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.testToolStripMenuItem.Text = "生成配置文件";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
