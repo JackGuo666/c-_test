@@ -57,11 +57,11 @@
             this.ClientSettings.Controls.Add(this.button2);
             this.ClientSettings.Controls.Add(this.button1);
             this.ClientSettings.Controls.Add(this.dataGridView1);
-            this.ClientSettings.Location = new System.Drawing.Point(13, 246);
+            this.ClientSettings.Location = new System.Drawing.Point(13, 196);
             this.ClientSettings.Margin = new System.Windows.Forms.Padding(4);
             this.ClientSettings.Name = "ClientSettings";
             this.ClientSettings.Padding = new System.Windows.Forms.Padding(4);
-            this.ClientSettings.Size = new System.Drawing.Size(1228, 390);
+            this.ClientSettings.Size = new System.Drawing.Size(1202, 367);
             this.ClientSettings.TabIndex = 22;
             this.ClientSettings.TabStop = false;
             this.ClientSettings.Text = "设备设置：";
@@ -69,7 +69,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1159, 368);
+            this.label5.Location = new System.Drawing.Point(1213, 373);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 18);
             this.label5.TabIndex = 2;
@@ -105,7 +105,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1160, 219);
+            this.dataGridView1.Size = new System.Drawing.Size(1202, 261);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -182,7 +182,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 18);
             this.label3.TabIndex = 15;
-            this.label3.Text = "通讯配置：";
+            this.label3.Text = "传输方式：";
             // 
             // label2
             // 
@@ -192,7 +192,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 18);
             this.label2.TabIndex = 16;
-            this.label2.Text = "通讯配置：";
+            this.label2.Text = "传输通道：";
             // 
             // label4
             // 
@@ -207,7 +207,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 21);
+            this.label1.Location = new System.Drawing.Point(10, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 18);
@@ -220,7 +220,7 @@
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(12, 80);
+            this.panel1.Location = new System.Drawing.Point(12, 30);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(834, 55);
             this.panel1.TabIndex = 23;
@@ -229,7 +229,7 @@
             // 
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Location = new System.Drawing.Point(12, 141);
+            this.panel2.Location = new System.Drawing.Point(12, 91);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(834, 98);
             this.panel2.TabIndex = 24;
@@ -238,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1286, 649);
+            this.ClientSize = new System.Drawing.Size(1260, 606);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ClientSettings);

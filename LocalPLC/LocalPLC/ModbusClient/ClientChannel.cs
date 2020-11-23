@@ -206,28 +206,51 @@ namespace LocalPLC.ModbusClient
                 //foreach (DeviceData devicedata in data2.modbusDeviceList)
                 for (int m = 1 ; m< data2.modbusDeviceList.Count;m++)
             {
-                int channelcount = data2.modbusDeviceList[m-1].modbusChannelList.Count;
-                if(data2.modbusDeviceList[m].modbusChannelList.Count>0)
+               
+                int number = 1;
+                while (m >= number && data2.modbusDeviceList[m - number].modbusChannelList.Count == 0)
                 {
-                    if (Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
-                        Convert.ToInt32(data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].trigger_offset) != 
-                        data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].Channellength)
-                    {
-                       int diff = Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
-                        Convert.ToInt32(data2.modbusDeviceList[m - 1].modbusChannelList[channelcount - 1].trigger_offset) -
-                        data2.modbusDeviceList[m-1].modbusChannelList[channelcount - 1].Channellength;
-                        int n = 0; ;
-                        for (n=m;n< data2.modbusDeviceList.Count;n++)
-                            for(int o = 0;o<data2.modbusDeviceList[n].modbusChannelList.Count;o++)
+                    number++;
+                }
+
+                if (number > m && this.label3.Text != 0.ToString())
+                {
+
+                    MessageBox.Show("请先在该设备前任一设备中添加一条通道");
+                    this.Close();
+                    //number = 1;
+                    return;
+
+                }
+
+                else
+                {
+                    if (this.label3.Text == 0.ToString())
+                    {       number = 1;}
+                        int channelcount = data2.modbusDeviceList[m - number].modbusChannelList.Count;
+                        if (data2.modbusDeviceList[m].modbusChannelList.Count > 0)
+                        {
+                            if (Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
+                                Convert.ToInt32(data2.modbusDeviceList[m - number].modbusChannelList[channelcount - 1].trigger_offset) !=
+                                data2.modbusDeviceList[m - number].modbusChannelList[channelcount - 1].Channellength)
                             {
-                                data2.modbusDeviceList[n].modbusChannelList[o].trigger_offset = 
-                                    (Convert.ToInt32( data2.modbusDeviceList[n].modbusChannelList[o].trigger_offset)-diff).ToString();
-                                data2.modbusDeviceList[n].modbusChannelList[o].error_offset =
-                                    (Convert.ToInt32(data2.modbusDeviceList[n].modbusChannelList[o].error_offset) - diff).ToString();
-                                data2.modbusDeviceList[n].modbusChannelList[o].channelstartaddr =
-                                    data2.modbusDeviceList[n].modbusChannelList[o].channelstartaddr - diff;
+                                int diff = Convert.ToInt32(data2.modbusDeviceList[m].modbusChannelList[0].trigger_offset) -
+                                 Convert.ToInt32(data2.modbusDeviceList[m - number].modbusChannelList[channelcount - 1].trigger_offset) -
+                                 data2.modbusDeviceList[m - number].modbusChannelList[channelcount - 1].Channellength;
+                                int n = 0; ;
+                                for (n = m; n < data2.modbusDeviceList.Count; n++)
+                                    for (int o = 0; o < data2.modbusDeviceList[n].modbusChannelList.Count; o++)
+                                    {
+                                        data2.modbusDeviceList[n].modbusChannelList[o].trigger_offset =
+                                            (Convert.ToInt32(data2.modbusDeviceList[n].modbusChannelList[o].trigger_offset) - diff).ToString();
+                                        data2.modbusDeviceList[n].modbusChannelList[o].error_offset =
+                                            (Convert.ToInt32(data2.modbusDeviceList[n].modbusChannelList[o].error_offset) - diff).ToString();
+                                        data2.modbusDeviceList[n].modbusChannelList[o].channelstartaddr =
+                                            data2.modbusDeviceList[n].modbusChannelList[o].channelstartaddr - diff;
+                                    }
                             }
-                    }
+                        }
+                    
                 }
                 
             }
@@ -304,6 +327,12 @@ namespace LocalPLC.ModbusClient
             if(n > 0)
             {
                 int b = ds.Tables[n - 1].Rows.Count;
+                if(b == 0)
+                {
+                    MessageBox.Show("请先在上一设备中添加一条通道");
+                    this.Close();
+                    return;                    
+                }
                 int c = Convert.ToInt32(ds.Tables[n-1].Rows[b-1]["错误变量"]);
                 devstartaddr = c+1;
                 //data_.modbusChannelList
@@ -360,6 +389,7 @@ namespace LocalPLC.ModbusClient
             }
 
             //data_.modbusChannelList.Add(data);
+            //data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)]
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Add(data);
             for (int i = 0; i < dataGridView2.RowCount; i++)
             {
@@ -434,6 +464,7 @@ namespace LocalPLC.ModbusClient
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            
             DataRowView row1 = (DataRowView)dataGridView2.Rows[e.RowIndex].DataBoundItem;
             if (row1.Row.RowState == DataRowState.Unchanged)
                 return;

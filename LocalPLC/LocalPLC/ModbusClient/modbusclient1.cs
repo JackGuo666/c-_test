@@ -277,6 +277,7 @@ namespace LocalPLC.ModbusClient
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
 
                 data_.modbusDeviceList.Add(data);
+                //data_.modbusDeviceList.Insert(1, data);
             }
         }
 
@@ -303,12 +304,17 @@ namespace LocalPLC.ModbusClient
             ////int currentrow = dataGridView1.SelectedRows[0].Index;
             ////CCl = new ModbusClient.ClientChannel();
             ////CC = new ClientChannel();
-            DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
-            ModbusClientData datac = data_;
-           // ModbusClientData data1 = 
-            CCl.getDeviceData(ref data);
-            CCl.getModbusClientData(ref datac);
-            CCl.ShowDialog(this);
+            if (e.ColumnIndex == (int)COLUMNNAME.通道) ;
+            {
+                DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
+                ModbusClientData datac = data_;
+               // ModbusClientData data1 = 
+                CCl.getDeviceData(ref data);
+                CCl.getModbusClientData(ref datac);
+                CCl.StartPosition = FormStartPosition.CenterScreen;
+                CCl.ShowDialog(this);
+            }
+            
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {

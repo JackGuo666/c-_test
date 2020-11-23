@@ -53,7 +53,7 @@
             this.groupchannel.Controls.Add(this.delete);
             this.groupchannel.Controls.Add(this.add);
             this.groupchannel.Controls.Add(this.dataGridView2);
-            this.groupchannel.Location = new System.Drawing.Point(75, 360);
+            this.groupchannel.Location = new System.Drawing.Point(16, 117);
             this.groupchannel.Name = "groupchannel";
             this.groupchannel.Size = new System.Drawing.Size(1350, 366);
             this.groupchannel.TabIndex = 9;
@@ -159,7 +159,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(72, 37);
+            this.label1.Location = new System.Drawing.Point(13, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 18);
@@ -172,7 +172,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Location = new System.Drawing.Point(75, 115);
+            this.panel1.Location = new System.Drawing.Point(16, 30);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(520, 81);
             this.panel1.TabIndex = 10;
@@ -180,7 +180,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1412, 771);
+            this.label6.Location = new System.Drawing.Point(1396, 485);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 18);
             this.label6.TabIndex = 11;
@@ -190,7 +190,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1494, 801);
+            this.ClientSize = new System.Drawing.Size(1372, 496);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupchannel);

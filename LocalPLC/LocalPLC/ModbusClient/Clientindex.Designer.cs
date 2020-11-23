@@ -33,6 +33,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Devname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.channelname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,17 +46,21 @@
             this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(9, 93);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(395, 355);
+            this.dataGridView1.Size = new System.Drawing.Size(399, 401);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -87,17 +92,33 @@
             this.panel1.Controls.Add(this.button2);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(401, 248);
+            this.panel1.Size = new System.Drawing.Size(401, 72);
             this.panel1.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1220, 427);
+            this.label1.Location = new System.Drawing.Point(1009, 93);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 18);
             this.label1.TabIndex = 4;
             this.label1.Text = "label1";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(3, 43);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dataGridView2);
+            this.splitContainer1.Size = new System.Drawing.Size(1267, 403);
+            this.splitContainer1.SplitterDistance = 401;
+            this.splitContainer1.TabIndex = 6;
             // 
             // dataGridView2
             // 
@@ -113,15 +134,16 @@
             this.trigger_offset,
             this.error_offset,
             this.note});
-            this.dataGridView2.Location = new System.Drawing.Point(410, 93);
+            this.dataGridView2.Location = new System.Drawing.Point(3, 3);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(804, 352);
-            this.dataGridView2.TabIndex = 5;
+            this.dataGridView2.Size = new System.Drawing.Size(856, 400);
+            this.dataGridView2.TabIndex = 7;
             // 
             // Devname
             // 
+            this.Devname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Devname.HeaderText = "设备名";
             this.Devname.MinimumWidth = 8;
             this.Devname.Name = "Devname";
@@ -129,6 +151,7 @@
             // 
             // channelname
             // 
+            this.channelname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.channelname.HeaderText = "通道名";
             this.channelname.MinimumWidth = 8;
             this.channelname.Name = "channelname";
@@ -136,6 +159,7 @@
             // 
             // msg_type
             // 
+            this.msg_type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.msg_type.HeaderText = "功能码";
             this.msg_type.MinimumWidth = 8;
             this.msg_type.Name = "msg_type";
@@ -143,42 +167,46 @@
             // 
             // pollingtime
             // 
+            this.pollingtime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.pollingtime.FillWeight = 150F;
             this.pollingtime.HeaderText = "循环触发时间";
             this.pollingtime.MinimumWidth = 8;
             this.pollingtime.Name = "pollingtime";
-            this.pollingtime.Width = 107;
+            this.pollingtime.Width = 150;
             // 
             // startaddr
             // 
+            this.startaddr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.startaddr.FillWeight = 70F;
-            this.startaddr.HeaderText = "起始地址";
+            this.startaddr.HeaderText = "通道起始";
             this.startaddr.MinimumWidth = 8;
             this.startaddr.Name = "startaddr";
-            this.startaddr.Width = 91;
+            this.startaddr.Width = 116;
             // 
             // length
             // 
+            this.length.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.length.FillWeight = 70F;
             this.length.HeaderText = "长度";
             this.length.MinimumWidth = 8;
             this.length.Name = "length";
-            this.length.Width = 75;
+            this.length.Width = 80;
             // 
             // trigger_offset
             // 
+            this.trigger_offset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.trigger_offset.HeaderText = "触发变量";
             this.trigger_offset.MinimumWidth = 8;
             this.trigger_offset.Name = "trigger_offset";
-            this.trigger_offset.Width = 91;
+            this.trigger_offset.Width = 116;
             // 
             // error_offset
             // 
             this.error_offset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.error_offset.HeaderText = "错误偏移";
+            this.error_offset.HeaderText = "错误变量";
             this.error_offset.MinimumWidth = 8;
             this.error_offset.Name = "error_offset";
-            this.error_offset.Width = 91;
+            this.error_offset.Width = 116;
             // 
             // note
             // 
@@ -186,21 +214,24 @@
             this.note.HeaderText = "注释";
             this.note.MinimumWidth = 8;
             this.note.Name = "note";
-            this.note.Width = 75;
+            this.note.Width = 80;
             // 
             // Clientindex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
             this.Name = "Clientindex";
-            this.Size = new System.Drawing.Size(1282, 448);
+            this.Size = new System.Drawing.Size(1271, 449);
             this.Load += new System.EventHandler(this.Clientindex_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -214,6 +245,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Devname;
         private System.Windows.Forms.DataGridViewTextBoxColumn channelname;
