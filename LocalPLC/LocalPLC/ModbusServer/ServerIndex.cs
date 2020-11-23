@@ -316,6 +316,7 @@ namespace LocalPLC.ModbusServer
                     ModbusServer.modbusserver mss = new modbusserver(e.RowIndex);
                     ModbusServerData data = serverDataManager.listServer.ElementAt(e.RowIndex);
                     mss.getServerData(ref data);
+                    mss.StartPosition = FormStartPosition.CenterScreen;
                     mss.ShowDialog();
                 }
             }
