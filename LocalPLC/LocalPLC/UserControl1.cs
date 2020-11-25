@@ -23,7 +23,8 @@ namespace LocalPLC
     [ComVisible(true)]
     [Guid("4D23925D-E5C1-40A8-9D69-AAD815FDCECE")]
     [ProgId("LocalPLC.CONTROLBAR.PROGID")]
-    public partial class UserControl1 : UserControl,IAdeAddIn,IAdeProjectObserver
+    public partial class UserControl1 : UserControl, IAdeAddIn, IAdeProjectObserver, IAdeCompileExtension,
+        IAdeVariableObserver2, IAdeSaveObserver
     {
         public UserControl1()
         {
@@ -34,16 +35,16 @@ namespace LocalPLC
         public static ADELib.Application multiprogApp = null;
         public static string projectPath = "test";
         private static string projectName = null;
-        static int i = 0; 
+        static int i = 0;
 
         public empty e1;
         public static ModbusClient.Clientindex mci = new Clientindex();
         public static ModbusClient.modbusclient mct = new modbusclient();
-        public  static modbusmastermain modmaster = new modbusmastermain();
-		public  static modbusslavemain modslave = new modbusslavemain();
-	
-		public static ModbusServer.ServerIndex msi = new ServerIndex();
-        
+        public static modbusmastermain modmaster = new modbusmastermain();
+        public static modbusslavemain modslave = new modbusslavemain();
+
+        public static ModbusServer.ServerIndex msi = new ServerIndex();
+
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -52,7 +53,7 @@ namespace LocalPLC
             //msi = new ModbusServer.ServerIndex();
 
             return;
-    }
+        }
 
         //void loadXml(ref )
         private static int adviceProjectCookie = 0;
@@ -61,21 +62,22 @@ namespace LocalPLC
         {
             multiprogApp = Application as ADELib.Application;
             adviceProjectCookie = multiprogApp.AdviseProjectObserver(this);
+            multiprogApp.AdviseCompileExtension(this, AdeObjectType.adeOtProject);
         }
 
         void IAdeAddIn.OnDisconnection(AdeDisconnectMode RemoveMode, ref Array Custom)
         {
-           
+
         }
 
         void IAdeAddIn.OnAddInsUpdate(ref Array Custom)
         {
-            
+
         }
 
         void IAdeAddIn.OnStartupComplete(ref Array Custom)
         {
-          
+
         }
 
         void IAdeAddIn.OnBeginShutdown(ref Array Custom)
@@ -86,14 +88,14 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectOpen(string Name, ref bool Cancel)
         {
-            
+
         }
 
         void IAdeProjectObserver.AfterProjectOpen(string Name)
         {
             MessageBox.Show(Name + "has opened");
-            
-			//获得当前工程路径
+
+            //获得当前工程路径
             XmlDocument xDoc = new XmlDocument();
             string projectPath = multiprogApp.ActiveProject.Path;
             string projectName = multiprogApp.ActiveProject.Name;
@@ -139,7 +141,7 @@ namespace LocalPLC
                             }
                             else if (childname == "modbusclient")
                             {
-                                
+
                                 mci.loadXml(nChild);
                             }
                             else if (childname == "modbusserver")
@@ -153,7 +155,7 @@ namespace LocalPLC
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.Out.WriteLine(e.Message);
                 return;
@@ -162,12 +164,83 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
         {
-            
+
         }
 
         void IAdeProjectObserver.AfterProjectClose(string Name)
         {
-            
+
+        }
+
+
+
+        void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
+        {
+            var configurations = multiprogApp.ActiveProject.Hardware.Configurations;
+            // create the configuration tree items for all configurations
+            foreach (Configuration configuration in configurations)
+            {
+                foreach (Resource resource in configuration.Resources)
+                {
+                    // get the variables collection with the specified logical name
+                    AdeObjectType objectType = AdeObjectType.adeOtVariables;
+                    object variablesObject =
+                        multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
+                    // is the returned object really of type "Variables"?
+                    if (objectType == AdeObjectType.adeOtVariables)
+                    {
+                        Variables variables = variablesObject as Variables;
+
+                        
+                        foreach (ADELib.Variable variable in variables)
+                        {
+                            //地址修改
+                            //variable.IecAddress = "ttt";
+                            //modbus地址修改
+                             //variable.SetAttribute(20, 1);
+
+                            
+                            
+                        }
+                    }
+
+                    //// add only the PG instance if there are variables available or FB instances with variables
+                    //foreach (Task task in resource.Tasks)
+                    //{
+                    //    foreach (ProgramInstance programInstance in task.ProgramInstances)
+                    //    {
+                    //        // get the variables of this PG instance
+                    //        Variables programInstanceVariables = programInstance.Variables;
+                    //        // variables available? (variables at program instances are optional!)
+                    //        if (programInstanceVariables != null)
+                    //        {
+                    //            object variablesObject =
+                    //                mpApplication.ActiveProject.GetObjectByLogicalName(programInstanceVariables.LogicalName, ref objectType);
+                    //        }
+
+                    //        // add only FB instances if there are variables available
+                    //        foreach (FbInstance fbInstance in programInstance.FbInstances)
+                    //        {
+                    //            // get the variables of this FB instance
+                    //            Variables fbInstanceVariables = fbInstance.Variables;
+                    //            // variables available? (variables at FB instances are optional!)
+                    //            if (fbInstanceVariables != null)
+                    //            {
+                    //                object variablesObject =
+                    //                    mpApplication.ActiveProject.GetObjectByLogicalName(fbInstanceVariables.LogicalName, ref objectType);
+                    //            }
+                    //        }
+
+                    //        // add the program instance tree item (and its sub items) only if there are any sub items
+                    //        ICollection<ITreeItem> programInstanceSubItems = programInstanceItem.SubItems as ICollection<ITreeItem>;
+                    //        if ((programInstanceSubItems != null) && (programInstanceSubItems.Count > 0))
+                    //        {
+                    //            resourceItem.AddSubItem(programInstanceItem);
+                    //        }
+                    //    }
+                    //}
+                }
+            }
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -695,6 +768,57 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveJson();
         }
 
-        
+        public void BeforeInsert(AdeObjectType ObjectType, ref Variable Variable, ref bool Cancel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AfterInsert(AdeObjectType ObjectType, ref Variable Variable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeforeDelete(AdeObjectType ObjectType, Variable Variable, ref bool Cancel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AfterDelete(AdeObjectType ObjectType, Variable Variable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeforeChange(AdeObjectType ObjectType, Variable OldVariable, ref Variable NewVariable, ref bool Cancel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AfterChange(AdeObjectType ObjectType, Variable OldVariable, ref Variable NewVariable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnErrorCodeChanged(AdeObjectType ObjectType, ref Variable Variable)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeforeMove(AdeObjectType ObjectType, Variable OldVariable, VariableGroup NewVariableGroup, ref bool Cancel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AfterMove(AdeObjectType ObjectType, Variable NewVariable, VariableGroup OldVariableGroup)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+        public void OnSaveSubtree(object Object, AdeObjectType ObjectType, AdeConfirmRule ConfirmSave, ref bool Saved)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
