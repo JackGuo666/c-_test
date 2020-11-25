@@ -61,7 +61,7 @@
             this.ClientSettings.Margin = new System.Windows.Forms.Padding(4);
             this.ClientSettings.Name = "ClientSettings";
             this.ClientSettings.Padding = new System.Windows.Forms.Padding(4);
-            this.ClientSettings.Size = new System.Drawing.Size(1202, 367);
+            this.ClientSettings.Size = new System.Drawing.Size(1202, 371);
             this.ClientSettings.TabIndex = 22;
             this.ClientSettings.TabStop = false;
             this.ClientSettings.Text = "设备设置：";
@@ -105,7 +105,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1202, 261);
+            this.dataGridView1.Size = new System.Drawing.Size(1198, 262);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -238,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1260, 606);
+            this.ClientSize = new System.Drawing.Size(1234, 578);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ClientSettings);

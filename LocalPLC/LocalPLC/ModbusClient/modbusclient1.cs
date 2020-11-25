@@ -288,10 +288,28 @@ namespace LocalPLC.ModbusClient
             {
                 return;
             }
-            this.dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
-            
-            
+            //this.dataGridView1.Rows.RemoveAt(n);
+            ds.Tables[Convert.ToInt32(cn)].Rows[n].Delete();
             data_.modbusDeviceList.RemoveAt(n);
+            //if (n > 1)
+            //{
+            //    for (int i = n; i<dataGridView1.RowCount;i++)
+            //    {
+            //        ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = data_.modbusDeviceList[i - 1].ID + 1;
+            //        data_.modbusDeviceList[i].ID = data_.modbusDeviceList[i - 1].ID + 1;
+            //    }
+                
+            //}
+            //else if (n == 1)
+            //{
+            //    ds.Tables[Convert.ToInt32(cn)].Rows[n][0] = 0;
+            //    data_.modbusDeviceList[n].ID = 0;
+            //}
+            for (int i =0;i<ds.Tables[Convert.ToInt32(cn)].Rows.Count;i++)
+            {
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = i;
+                data_.modbusDeviceList[i].ID = i;
+            }
             //ds.Tables[n].Clear();
         }
         ModbusClient.ClientChannel CCl = new ClientChannel();
@@ -311,9 +329,10 @@ namespace LocalPLC.ModbusClient
             if (e.ColumnIndex == (int)COLUMNNAME.通道)
             {
                 DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
+                
                 ModbusClientData datac = data_;
                 // ModbusClientData data1 = 
-                CCl.getDeviceData(ref data);
+                //CCl.getDeviceData(ref data);
                 CCl.getModbusClientData(ref datac);
                 CCl.StartPosition = FormStartPosition.CenterScreen;
                 CCl.ShowDialog(this);
