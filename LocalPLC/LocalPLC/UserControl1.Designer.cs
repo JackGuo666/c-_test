@@ -38,70 +38,16 @@
             treeNode2,
             treeNode3,
             treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("DI");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("DO");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("正交编码器");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("双向脉冲计数");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("单向脉冲计数");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("高速计数器", new System.Windows.Forms.TreeNode[] {
-            treeNode8,
-            treeNode9,
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("PTO");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("PWM");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("高速输出", new System.Windows.Forms.TreeNode[] {
-            treeNode12,
-            treeNode13});
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("本体COM1");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("本体ETH1");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("通信线路", new System.Windows.Forms.TreeNode[] {
-            treeNode15,
-            treeNode16});
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("基本配置", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("基本配置");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("扩展");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("canopen");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("运动控制");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("配置", new System.Windows.Forms.TreeNode[] {
+            treeNode5,
             treeNode6,
             treeNode7,
-            treeNode11,
-            treeNode14,
-            treeNode17});
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("AI");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("AO");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("面板扩展", new System.Windows.Forms.TreeNode[] {
-            treeNode19,
-            treeNode20});
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("扩展串口模块1(型号)");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("扩展网口模块1(型号)");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("左模块", new System.Windows.Forms.TreeNode[] {
-            treeNode22,
-            treeNode23});
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("AI");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("模块1(型号)", new System.Windows.Forms.TreeNode[] {
-            treeNode25});
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("AO");
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("模块2(型号)", new System.Windows.Forms.TreeNode[] {
-            treeNode27});
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("DO");
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("模块3(型号)", new System.Windows.Forms.TreeNode[] {
-            treeNode29});
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("DI");
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("模块4(型号)", new System.Windows.Forms.TreeNode[] {
-            treeNode31});
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("右模块", new System.Windows.Forms.TreeNode[] {
-            treeNode26,
-            treeNode28,
-            treeNode30,
-            treeNode32});
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("扩展模块", new System.Windows.Forms.TreeNode[] {
-            treeNode21,
-            treeNode24,
-            treeNode33});
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("canopen");
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("运动控制");
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("配置", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode18,
-            treeNode34,
-            treeNode35,
-            treeNode36});
+            treeNode8,
+            treeNode9});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,72 +72,18 @@
             treeNode4.Text = "ModbusRTU-Slave";
             treeNode5.Name = "节点0";
             treeNode5.Text = "Modbus";
-            treeNode6.Name = "DI";
-            treeNode6.Text = "DI";
-            treeNode7.Name = "DO";
-            treeNode7.Text = "DO";
-            treeNode8.Name = "正交编码器";
-            treeNode8.Text = "正交编码器";
-            treeNode9.Name = "双向脉冲计数";
-            treeNode9.Text = "双向脉冲计数";
-            treeNode10.Name = "单向脉冲计数";
-            treeNode10.Text = "单向脉冲计数";
-            treeNode11.Name = "高速计数器";
-            treeNode11.Text = "高速计数器";
-            treeNode12.Name = "PTO";
-            treeNode12.Text = "PTO";
-            treeNode13.Name = "PWM";
-            treeNode13.Text = "PWM";
-            treeNode14.Name = "高速输出";
-            treeNode14.Text = "高速输出";
-            treeNode15.Name = "本体COM1";
-            treeNode15.Text = "本体COM1";
-            treeNode16.Name = "本体ETH1";
-            treeNode16.Text = "本体ETH1";
-            treeNode17.Name = "通信线路";
-            treeNode17.Text = "通信线路";
-            treeNode18.Name = "基本配置";
-            treeNode18.Text = "基本配置";
-            treeNode19.Name = "AI";
-            treeNode19.Text = "AI";
-            treeNode20.Name = "AO";
-            treeNode20.Text = "AO";
-            treeNode21.Name = "面板扩展";
-            treeNode21.Text = "面板扩展";
-            treeNode22.Name = "扩展串口模块1(型号)";
-            treeNode22.Text = "扩展串口模块1(型号)";
-            treeNode23.Name = "扩展网口模块1(型号)";
-            treeNode23.Text = "扩展网口模块1(型号)";
-            treeNode24.Name = "左模块";
-            treeNode24.Text = "左模块";
-            treeNode25.Name = "AI";
-            treeNode25.Text = "AI";
-            treeNode26.Name = "模块1(型号)";
-            treeNode26.Text = "模块1(型号)";
-            treeNode27.Name = "AO";
-            treeNode27.Text = "AO";
-            treeNode28.Name = "模块2(型号)";
-            treeNode28.Text = "模块2(型号)";
-            treeNode29.Name = "DI";
-            treeNode29.Text = "DO";
-            treeNode30.Name = "模块3(型号)";
-            treeNode30.Text = "模块3(型号)";
-            treeNode31.Name = "DI";
-            treeNode31.Text = "DI";
-            treeNode32.Name = "模块4(型号)";
-            treeNode32.Text = "模块4(型号)";
-            treeNode33.Name = "右模块";
-            treeNode33.Text = "右模块";
-            treeNode34.Name = "扩展模块";
-            treeNode34.Text = "扩展模块";
-            treeNode35.Name = "canopen";
-            treeNode35.Text = "canopen";
-            treeNode36.Name = "运动控制";
-            treeNode36.Text = "运动控制";
-            treeNode37.Name = "配置";
-            treeNode37.Text = "配置";
+            treeNode6.Name = "基本配置";
+            treeNode6.Text = "基本配置";
+            treeNode7.Name = "扩展";
+            treeNode7.Text = "扩展";
+            treeNode8.Name = "canopen";
+            treeNode8.Text = "canopen";
+            treeNode9.Name = "运动控制";
+            treeNode9.Text = "运动控制";
+            treeNode10.Name = "配置";
+            treeNode10.Text = "配置";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode37});
+            treeNode10});
             this.treeView1.Size = new System.Drawing.Size(227, 750);
             this.treeView1.TabIndex = 6;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
