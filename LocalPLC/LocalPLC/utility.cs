@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ADELib;
+using LocalPLC.ModbusMaster;
 
 namespace LocalPLC
 {
@@ -22,6 +23,32 @@ namespace LocalPLC
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
             // show the output window and activate the "Infos" tab
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+        }
+
+        /*
+         IOGroups添加IOGroup
+         */
+        public static void addIOGroups()
+        {
+            IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
+
+
+            var list = UserControl1.modmaster.masterManage.modbusMastrList;
+            foreach(var master in list)
+            {
+                string str = string.Format("master_in{0}", master.ID);
+
+                iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+            modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            1, 1, 1, 1);
+                str = string.Format("master_out{0}", master.ID);
+                iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                            modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            1, 1, 1, 1);
+            }
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+            //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
         }
     }
 }
