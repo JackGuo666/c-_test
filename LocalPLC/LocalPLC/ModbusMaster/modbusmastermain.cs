@@ -825,13 +825,8 @@ namespace LocalPLC.ModbusMaster
             getMasterStartAddr();
             
             data.curMasterStartAddr = masterStartAddr;
-
-
-            for (int i = 0; i < modbusMastrList.Count; i++)
-            {
-                data.curMasterStartAddr += utility.modbusMudule * i;
-            }
-            
+            data.curMasterStartAddr += utility.modbusMudule * modbusMastrList.Count;
+    
             modbusMastrList.Add(data);
 
         }
