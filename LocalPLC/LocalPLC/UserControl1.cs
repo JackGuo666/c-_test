@@ -705,6 +705,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         {
             utility.addIOGroups();
 
+            utility.addVariables();
             //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
             //iog.Create("master1_in", AdeIoGroupAccessType.adeIgatInput,
@@ -721,7 +722,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             //var text = modmaster.masterManage.modbusMastrList[0].modbusDeviceList[0].modbusChannelList[0].nameChannel;
             //variables_.Create(text, "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
             //                         "Inserted from AIFDemo", "12", "%MW1.1003", false);
-            
+
             //modmaster.masterManage.modbusMastrList[0].modbusDeviceList[0].modbusChannelList[0].
 
             return;

@@ -32,6 +32,20 @@ namespace LocalPLC
         {
             IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
+            int Count = iog.Count;
+
+
+            List<IoGroup> ll = new List<IoGroup>();
+            foreach (IoGroup ttt in iog)
+            {
+                var name = ttt.Name;
+                ll.Add(ttt);
+            }
+
+            foreach(var l in ll)
+            {
+                l.Delete();
+            }
 
             var list = UserControl1.modmaster.masterManage.modbusMastrList;
             foreach(var master in list)
@@ -48,7 +62,32 @@ namespace LocalPLC
             }
 
             System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
-            //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+        }
+
+        public static void addVariables()
+        {
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+                Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
+
+                // Because of VB all indices are starting with 1 !!!!!
+                Resource resource = physicalHardware.Configurations.Item(1).Resources.Item(1);
+
+                // get the variables collection with the specified logical name
+                AdeObjectType objectType = AdeObjectType.adeOtVariables;
+                object variablesObject =
+                    LocalPLC.UserControl1.multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
+                // is the returned object really of type "Variables"?
+                if (objectType == AdeObjectType.adeOtVariables)
+                {
+                    Variables variables = variablesObject as Variables;
+                    var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                     "Inserted from AIFDemo", "12", "%MW3.1000", false);
+
+                    variable.SetAttribute(20, 1);
+                }
+            }
         }
     }
 }
