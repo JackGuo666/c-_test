@@ -30,6 +30,10 @@ namespace LocalPLC
          */
         public static void addIOGroups()
         {
+            Variables vars = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).Variables;
+            var name = vars.Item(1).Name;
+
+
             IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
             int Count = iog.Count;
@@ -62,12 +66,44 @@ namespace LocalPLC
             System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
         }
 
-        public static void addVariables()
+        /* 动态添加创建数组刷新
+         //C: \Users\Public\Documents\MULTIPROG\Projects\ttt13579\DT\datatype
+            // 从文件中读取并显示每行
+            string fullName = UserControl1.multiprogApp.ActiveProject.Path + "\\" + UserControl1.multiprogApp.ActiveProject.Name + "\\DT\\datatype\\datatype.TYB";
+            ;
+            string path = UserControl1.multiprogApp.ActiveProject.FullName;
+            FileStream fs = new FileStream(fullName, FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
+            
+            sw.WriteLine("TYPE\r\nnimade: ARRAY[0..20] OF BYTE;\r\nEND_TYPE");
+            sw.Close();
+            fs.Close();
+
+            //UserControl1.multiprogApp.ActiveProject.Close();
+            //UserControl1.multiprogApp.OpenProject(path, AdeConfirmRule.adeCrConfirm);
+            UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+         */
+
+
+        /* master变量组里添加变量
+        var groups = resource.Variables.Groups;
+                        foreach(VariableGroup ttt in groups)
+                        {
+                            var name = ttt.Name;
+                            if(name == "master")
+                            {
+                                ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                     "Inserted from AIFDemo", "12", "%IX0.0", false);
+                            }
+}
+        */
+
+public static void addVariables()
         {
             if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
             {
                 Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
-
+                
                 // Because of VB all indices are starting with 1 !!!!!
                 Resource resource = physicalHardware.Configurations.Item(1).Resources.Item(1);
 
@@ -80,13 +116,33 @@ namespace LocalPLC
                 {
                     Variables variables = variablesObject as Variables;
                     
-                    var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                     "Inserted from AIFDemo", "12", "%MW3.100", false);
-                    variable = variables.Create("test1", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                     "Inserted from AIFDemo", "12", "%IW1000", false);
+                    foreach(Variable var in variables)
+                    {
+                        //var.Delete();
+                    }
 
-                    variable.SetAttribute(20, 1);
+                    var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                     "Inserted from AIFDemo", "12", "", false);
+                    //variable = variables.Create("test1", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                    //              "Inserted from AIFDemo", "12", "%IW1000", false);
+                    variable.SetAttribute(90, "1");
+
+                    object t = variable.GetAttribute(90);
+                    string strTemp = t.ToString();
+
+
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(variable);
+
                 }
+
+
+                string str = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path;
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(variablesObject);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(resource);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(physicalHardware);
+
+
             }
         }
     }
