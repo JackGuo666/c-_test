@@ -534,6 +534,7 @@ namespace LocalPLC
             writer.WriteEndObject(); //} DO节点
             writer.WriteEndObject(); //} hardware节点
             writer.WriteEndObject(); //} general节点
+            writer.WriteEndObject(); //} 总节点
         }
 
         private void saveJson()
@@ -700,13 +701,13 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveXml();
             saveJson();
         }
-
+        public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
 
   
 
-
+            
             utility.addIOGroups();
 
             //utility.addVariables();

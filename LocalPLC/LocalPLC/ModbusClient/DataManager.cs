@@ -28,6 +28,7 @@ namespace LocalPLC.ModbusClient
         public int Channellength;
         public int channelstartaddr;
         public string note;
+        
     }
     public class DeviceData
     {
@@ -52,6 +53,7 @@ namespace LocalPLC.ModbusClient
         public string transformChannel;
         public int responseTimeout = 1000;  //ms
         public int transformMode;
+        public int clientstartaddr ;
         public List<DeviceData> modbusDeviceList { get; set; } = new List<DeviceData>();
         public ModbusClientData()
         {
