@@ -30,10 +30,6 @@ namespace LocalPLC
          */
         public static void addIOGroups()
         {
-            Variables vars = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).Variables;
-            var name = vars.Item(1).Name;
-
-
             IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
             int Count = iog.Count;
