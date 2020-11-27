@@ -534,7 +534,7 @@ namespace LocalPLC
             writer.WriteEndObject(); //} DO节点
             writer.WriteEndObject(); //} hardware节点
             writer.WriteEndObject(); //} general节点
-            writer.WriteEndObject(); //} 总节点
+            //writer.WriteEndObject(); //} 总节点
         }
 
         private void saveJson()
@@ -555,14 +555,14 @@ namespace LocalPLC
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
-            // writer.WriteStartObject();  //   {  （Json数据的大括号左边 ）
+            // writer.WriteStartObject();  
             //=====================================
             //第一级节点
             
-            writer.WriteStartObject();
+            writer.WriteStartObject();//   {  （Json数据的大括号左边 ）
             defaultjson(writer);
             writer.WritePropertyName("modbus");
-            writer.WriteStartObject();
+            writer.WriteStartObject();// { modbus大括号左边
             //writer.WriteValue("1");
             modslave.saveJson(writer);
             msi.saveJson(writer);
@@ -594,8 +594,9 @@ namespace LocalPLC
 
 
             //=====================================
-            writer.WriteEndObject();//}
-            writer.WriteEndObject();//}
+            writer.WriteEndObject();//} modbus大括号右边
+            writer.WriteEndObject();//}json数据大括号右边
+            writer.WriteEndObject(); //} 总节点
             string str = "myconfig.json";
             string strpath = projectPath + @"\" + str;//System.IO.Directory.GetCurrentDirectory() + @"\" + Name;
             StreamWriter wtyeu = new StreamWriter(path);
@@ -701,7 +702,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveXml();
             saveJson();
 
-            utility.addVarType();
+            //utility.addVarType();
         }
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
