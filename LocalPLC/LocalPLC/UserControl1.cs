@@ -97,7 +97,7 @@ namespace LocalPLC
 
         void IAdeProjectObserver.AfterProjectOpen(string Name)
         {
-            MessageBox.Show(Name + "has opened");
+            //MessageBox.Show(Name + "has opened");
             
 			//获得当前工程路径
             XmlDocument xDoc = new XmlDocument();
@@ -699,13 +699,16 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         {
             saveXml();
             saveJson();
+
+            utility.addVarType();
         }
 
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
-
-  
-
+            if(!multiprogApp.IsProjectOpen())
+            {
+                return;
+            }
 
             utility.addIOGroups();
 
@@ -856,7 +859,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
 
         void IAdeVariableObserver2.OnErrorCodeChanged(AdeObjectType ObjectType, ref Variable Variable)
         {
-            
+            string name = Variable.Name;
         }
 
         void IAdeVariableObserver2.BeforeMove(AdeObjectType ObjectType, Variable OldVariable, VariableGroup NewVariableGroup, ref bool Cancel)

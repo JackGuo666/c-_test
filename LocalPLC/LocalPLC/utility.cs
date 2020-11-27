@@ -4,9 +4,32 @@ using System.Linq;
 using System.Text;
 using ADELib;
 using LocalPLC.ModbusMaster;
+using System.IO;
 
 namespace LocalPLC
 {
+
+    enum ArrayDataType{ DataBit, DataWord}
+
+    class SplicedDataType
+    {
+        public static string splicedDataTypeArray(string name, ArrayDataType type, int count)
+        {
+            string strArray = "";
+            if (type == ArrayDataType.DataBit)
+            {
+                //for(int i = 0; i < 6; i++)
+                {
+                    strArray += "\r\nTYPE\r\n" + name + " : ARRAY[0.." + count.ToString() + "] OF BYTE;";
+                    strArray += "\r\nEND_TYPE\r\n";
+                }
+
+            }
+
+            return strArray;
+        }
+    }
+
     class utility
     {
         //根据串口个数确定master个数，一个master有8个device，一个device有8个channel
@@ -94,7 +117,7 @@ namespace LocalPLC
 }
         */
 
-public static void addVariables()
+        public static void addVariables()
         {
             if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
             {
@@ -141,5 +164,111 @@ public static void addVariables()
 
             }
         }
+
+        static public void addVarType()
+        {
+
+
+            if(!UserControl1.multiprogApp.IsProjectOpen())
+            {
+                return;
+            }
+            string fullName = UserControl1.multiprogApp.ActiveProject.Path + "\\" + UserControl1.multiprogApp.ActiveProject.Name + "\\DT\\datatype\\datatype.TYB";
+            ;
+            string path = UserControl1.multiprogApp.ActiveProject.FullName;
+
+            FileStream fs1 = new FileStream(fullName, FileMode.Open, FileAccess.Read);
+            StreamReader sr1 = new StreamReader(fs1, Encoding.Default);
+            string s;
+            s = sr1.ReadLine();
+            string strSave = "";
+
+            string compare1 = "TYPE";
+            string compare2 = "Task_Info_eCLR :";
+            string compare3 = "STRUCT";
+            string compare4 = "TaskStack : INT;";
+            string compare5 = "END_STRUCT;";
+            string compare6 = "END_TYPE";
+
+            int count = 0;
+            while (s != null)
+            {
+                strSave += s + "\r\n";
+
+
+
+                s = s.Trim();
+                if (compare1 == s)
+                {
+                    count = 0;
+                    count++;
+                }
+                else if (compare2 == s)
+                {
+                    count++;
+                }
+                else if (compare3 == s)
+                {
+                    count++;
+                }
+                else if (compare4 == s)
+                {
+                    count++;
+                }
+                else if (compare5 == s)
+                {
+                    count++;
+                }
+                else if (compare6 == s)
+                {
+                    count++;
+
+                    if (count == 6)
+                    {
+                        int a = 5;
+                        a = 6;
+                        break;
+                    }
+                }
+
+
+
+                s = sr1.ReadLine();
+            }
+
+            fs1.Dispose();
+            fs1.Close();
+            sr1.Close();
+
+
+            FileStream fs = new FileStream(fullName, FileMode.OpenOrCreate);
+            fs.SetLength(0);
+            StreamWriter sw = new StreamWriter(fs, Encoding.Default);
+
+            //sw.WriteLine("TYPE\r\nnimade: ARRAY[0..20] OF BYTE;\r\nEND_TYPE");
+            foreach (var master in LocalPLC.UserControl1.modmaster.masterManage.modbusMastrList)
+            {
+                foreach (var device in master.modbusDeviceList)
+                {
+                    foreach (var channel in device.modbusChannelList)
+                    {
+                        strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataBit, channel.readLength);
+                    }
+                }
+            }
+            sw.WriteLine(strSave);
+            sw.Close();
+            fs.Dispose();
+            fs.Close();
+
+
+            
+
+            //UserControl1.multiprogApp.ActiveProject.Close();
+            //UserControl1.multiprogApp.OpenProject(path, AdeConfirmRule.adeCrConfirm);
+
+            UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+        }
+
     }
 }
