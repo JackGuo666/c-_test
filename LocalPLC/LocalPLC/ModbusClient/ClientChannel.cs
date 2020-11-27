@@ -420,8 +420,10 @@ namespace LocalPLC.ModbusClient
             ds.Tables[Convert.ToInt32( this.label3.Text)].Rows[n].Delete();
             //data_.modbusChannelList.RemoveAt(n);
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(n);
-            if(n>0)
+           
+            if (n>0)
             {
+                 
                 for (int i = n ; i < dataGridView2.Rows.Count; i++)
                 {
                     ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["触发变量"] =
@@ -464,6 +466,15 @@ namespace LocalPLC.ModbusClient
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            for (int i = 0; i < dataGridView2.RowCount; i++)
+            {
+                DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
+                cell.DataSource = dc.Tables[0];
+                cell.DisplayMember = "functioncode";
+                cell.ValueMember = "displayvalue";
+                cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
+            }
             if (e.RowIndex == -1)
             {
                 return;
@@ -493,8 +504,18 @@ namespace LocalPLC.ModbusClient
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex < 0 | e.RowIndex < 0)
+            
+            if (e.ColumnIndex < 0 || e.RowIndex < 0)
             {
+                for (int i = 0; i < dataGridView2.RowCount; i++)
+                {
+                    DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
+                    cell.DataSource = dc.Tables[0];
+                    cell.DisplayMember = "functioncode";
+                    cell.ValueMember = "displayvalue";
+                    cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                    dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
+                }
                 return;
             }
         }
