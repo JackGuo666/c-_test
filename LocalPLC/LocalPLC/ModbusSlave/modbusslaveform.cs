@@ -111,10 +111,18 @@ namespace LocalPLC.ModbusSlave
             {
                 textBox_lisan_start.Text = modbusDiscreteStartAddr.ToString();
             }
+            else
+            {
+                textBox_lisan_start.Text = data_.dataDevice_.decreteIoAddrStart;
+            }
 
             if (textBox_lisan_end.Text == "")
             {
                 textBox_lisan_end.Text = modbusDiscreteStartAddr.ToString();
+            }
+            else
+            {
+                textBox_lisan_end.Text = data_.dataDevice_.decreteIoAddrEnd;
             }
 
 
