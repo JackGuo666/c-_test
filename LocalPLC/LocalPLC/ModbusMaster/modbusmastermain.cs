@@ -13,6 +13,7 @@ using System.Xml;
 using LocalPLC;
 using Newtonsoft.Json;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace LocalPLC.ModbusMaster
 {
@@ -302,7 +303,96 @@ namespace LocalPLC.ModbusMaster
         //ttest
         private void button_add_Click(object sender, EventArgs e)
         {
-            if(dataGridView1.RowCount >= utility.masterCount)
+            // 动态添加创建数组刷新
+            //C: \Users\Public\Documents\MULTIPROG\Projects\ttt13579\DT\datatype
+            // 从文件中读取并显示每行
+
+            //string fullName = UserControl1.multiprogApp.ActiveProject.Path + "\\" + UserControl1.multiprogApp.ActiveProject.Name + "\\DT\\datatype\\datatype.TYB";
+            //;
+            //string path = UserControl1.multiprogApp.ActiveProject.FullName;
+
+            //FileStream fs1 = new FileStream(fullName, FileMode.Open, FileAccess.Read);
+            //StreamReader sr1 = new StreamReader(fs1, Encoding.Default);
+            //string s;
+            //s = sr1.ReadLine();
+            //string strSave = "";
+
+            //string compare1 = "TYPE";
+            //string compare2 = "Task_Info_eCLR :";
+            //string compare3 = "STRUCT";
+            //string compare4 = "TaskStack : INT;";
+            //string compare5 = "END_STRUCT;";
+            //string compare6 = "END_TYPE";
+
+            //int count = 0;
+            //while (s != null)
+            //{
+            //    strSave += s + "\r\n";
+
+
+
+            //    s = s.Trim();
+            //    if (compare1 == s)
+            //    {
+            //        count = 0;
+            //        count++;
+            //    }
+            //    else if (compare2 == s)
+            //    {
+            //        count++;
+            //    }
+            //    else if (compare3 == s)
+            //    {
+            //        count++;
+            //    }
+            //    else if (compare4 == s)
+            //    {
+            //        count++;
+            //    }
+            //    else if (compare5 == s)
+            //    {
+            //        count++;
+            //    }
+            //    else if (compare6 == s)
+            //    {
+            //        count++;
+
+            //        if(count == 6)
+            //        {
+            //            int a = 5;
+            //            a = 6;
+            //            break;
+            //        }
+            //    }
+
+
+
+            //    s = sr1.ReadLine();
+            //}
+
+            //fs1.Close();
+            //sr1.Close();
+
+            //FileStream fs = new FileStream(fullName, FileMode.OpenOrCreate);
+            //fs.SetLength(0);
+            //StreamWriter sw = new StreamWriter(fs, Encoding.Default);
+
+            ////sw.WriteLine("TYPE\r\nnimade: ARRAY[0..20] OF BYTE;\r\nEND_TYPE");
+            //sw.WriteLine(strSave);
+            //sw.Close();
+            //fs.Close();
+
+            ////UserControl1.multiprogApp.ActiveProject.Close();
+            ////UserControl1.multiprogApp.OpenProject(path, AdeConfirmRule.adeCrConfirm);
+            //UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtMake);
+
+
+
+
+
+            //UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+
+            if (dataGridView1.RowCount >= utility.masterCount)
             {
                 string err = string.Format("master最大个数是{0}", utility.masterCount);
                 utility.PrintError(err);
@@ -328,6 +418,8 @@ namespace LocalPLC.ModbusMaster
                 //masterManage.modbusMastrList.Add(data);
 
                 masterManage.add(data);
+
+                //utility.addIOGroups();
             }
         }
 
@@ -645,6 +737,7 @@ namespace LocalPLC.ModbusMaster
         public int writeOffset;
         public int writeLength;
         public string note;
+        
 
         public void setChannelLengthBit(int length)
         {

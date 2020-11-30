@@ -233,9 +233,9 @@ namespace LocalPLC.ModbusMaster
 
             //
             data.ID = row;
-            data.nameChannel = "通道" + i.ToString();
+            data.nameChannel = "master_" + masterData_.ID.ToString() + "_" + deviceData_.nameDev + "_通道" + i.ToString();
             data.msgType = 0x01;
-            //0x01 单bit
+            //0x01 单bit 默认生成
             data.curChannelLength = 1 + 2;
 
             data.pollingTime = 1000;

@@ -13,17 +13,37 @@ namespace LocalPLC
 
     class SplicedDataType
     {
+        public static HashSet<int> hashSetBit = new HashSet<int>() { 0x01, 0x02, 0x05,
+        0x0F};
+        public static HashSet<int> hashSetWord = new HashSet<int>() { 0x03, 0x04, 0x06,
+        0x10};
+        
         public static string splicedDataTypeArray(string name, ArrayDataType type, int count)
         {
             string strArray = "";
             if (type == ArrayDataType.DataBit)
             {
-                //for(int i = 0; i < 6; i++)
+                if (!utility.varTypeDicBit.ContainsKey(count))
                 {
-                    strArray += "\r\nTYPE\r\n" + name + " : ARRAY[0.." + count.ToString() + "] OF BYTE;";
+                    string varTypeName = string.Format("ARRAY_bit_{0}", count);
+                    strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF BOOL;";
                     strArray += "\r\nEND_TYPE\r\n";
+                    
+                    {
+                        
+                        utility.varTypeDicBit.Add(count, varTypeName);
+                    }
                 }
 
+            }
+            else if(type == ArrayDataType.DataWord)
+            {
+                string varTypeName = string.Format("ARRAY_word_{0}", count);
+
+                strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF WORD;";
+                strArray += "\r\nEND_TYPE\r\n";
+
+                utility.varTypeDicWord.Add(count, varTypeName);
             }
 
             return strArray;
@@ -140,17 +160,54 @@ namespace LocalPLC
                         //var.Delete();
                     }
 
-                    var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                     "Inserted from AIFDemo", "12", "", false);
-                    //variable = variables.Create("test1", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                    //              "Inserted from AIFDemo", "12", "%IW1000", false);
-                    variable.SetAttribute(90, "1");
+                    //master组添加变量
+                    var groups = resource.Variables.Groups;
+                    foreach (VariableGroup ttt in groups)
+                    {
+                        var name = ttt.Name;
+                        if (name == "master")
+                        {
+                            foreach(var master in UserControl1.modmaster.masterManage.modbusMastrList)
+                            {
+                                foreach(var device in master.modbusDeviceList)
+                                {
+                                    foreach(var channel in device.modbusChannelList)
+                                    {
+                                        if(utility.varTypeDicBit.ContainsKey(channel.readLength))
+                                        {
+                                            string varType = utility.varTypeDicBit[channel.readLength];
+                                            string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                "Inserted from AIFDemo", "", adress, false);
+                                        }
+                                        else if(utility.varTypeDicWord.ContainsKey(channel.readLength))
+                                        {
+                                            string varType = utility.varTypeDicWord[channel.readLength];
+                                            string adress = string.Format("%IW{0}", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                "Inserted from AIFDemo", "", adress, false);
+                                        }
 
-                    object t = variable.GetAttribute(90);
-                    string strTemp = t.ToString();
+                                    }
+                                }
+                            }
+                            
+                            //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                            //     "Inserted from AIFDemo", "12", "%IX0.0", false);
+                        }
+                    }
+
+                    //var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                    //                 "Inserted from AIFDemo", "12", "", false);
+                    ////variable = variables.Create("test1", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                    ////              "Inserted from AIFDemo", "12", "%IW1000", false);
+                    //variable.SetAttribute(90, "1");
+
+                    //object t = variable.GetAttribute(90);
+                    //string strTemp = t.ToString();
 
 
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(variable);
+                    //System.Runtime.InteropServices.Marshal.ReleaseComObject(variable);
 
                 }
 
@@ -165,11 +222,15 @@ namespace LocalPLC
             }
         }
 
+
+        public static Dictionary<int, string> varTypeDicBit = new Dictionary<int, string>();
+        public static Dictionary<int, string> varTypeDicWord = new Dictionary<int, string>();
         static public void addVarType()
         {
+            varTypeDicBit.Clear();
+            varTypeDicWord.Clear();
 
-
-            if(!UserControl1.multiprogApp.IsProjectOpen())
+            if (!UserControl1.multiprogApp.IsProjectOpen())
             {
                 return;
             }
@@ -252,7 +313,15 @@ namespace LocalPLC
                 {
                     foreach (var channel in device.modbusChannelList)
                     {
-                        strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataBit, channel.readLength);
+                        if(SplicedDataType.hashSetBit.Contains(channel.msgType))
+                        {
+                            strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataBit, channel.readLength);
+                        }
+                        else if(SplicedDataType.hashSetWord.Contains(channel.msgType))
+                        {
+                            strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataWord, channel.readLength);
+                        }
+                                        
                     }
                 }
             }

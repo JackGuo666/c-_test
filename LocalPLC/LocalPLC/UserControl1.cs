@@ -702,7 +702,9 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveXml();
             saveJson();
 
-            //utility.addVarType();
+            utility.addIOGroups();
+            utility.addVarType();
+            utility.addVariables();
         }
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
@@ -713,7 +715,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 return;
             }
 
-            utility.addIOGroups();
+            //utility.addIOGroups();
 
             //utility.addVariables();
             //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
