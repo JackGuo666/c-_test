@@ -212,7 +212,7 @@ namespace LocalPLC.ModbusServer
 
         public void saveJson(JsonTextWriter writer)
         {
-            //添加modbusslave节点
+            //添加modbusserver节点
             writer.WritePropertyName("mbtcp_server");
             writer.WriteStartObject();//添加{  server节点
             writer.WritePropertyName("number");
@@ -221,19 +221,19 @@ namespace LocalPLC.ModbusServer
                 writer.WriteStartArray();//[ server节点下conf数组
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
             {
-                ModbusServerData data = serverDataManager.listServer.ElementAt(i);
+                ModbusServerData data = serverDataManager.listServer[i];
                 
                 writer.WriteStartObject();//{ server节点下conf数组中配置信息
-                writer.WritePropertyName("port");
-                writer.WriteValue("ethif_"+ data.ID.ToString());
-                string ipfixed = null;
+                writer.WritePropertyName("port");                
+                writer.WriteValue("ethif_"+ data.ID.ToString());                
+                bool ipfixed = false;
                 if (data.dataDevice_.ipconnect == 0)
                 {
-                    ipfixed = "false";
+                    ipfixed = false;
                 }
                 else if (data.dataDevice_.ipconnect == 1)
                 {
-                    ipfixed = "true";
+                    ipfixed = true;
                 }
                 writer.WritePropertyName("remote_ip_fixed");
                 writer.WriteValue(ipfixed);
