@@ -9,7 +9,8 @@ using System.Windows.Forms;
 
 namespace LocalPLC.ModbusSlave
 {
-
+    //coil decrete holding status(input)
+    //比例 1 1 4 4
 
     public partial class modbusslaveform : Form
     {
@@ -32,7 +33,8 @@ namespace LocalPLC.ModbusSlave
 
 
         private DataManager dataManager = null;
-        ModbusSlaveData data_;
+        private ModbusSlaveData data_;
+        private int slaveStartAddr_ = 0;
         enum TRANSFORMMODE : int
         { RTU, ASCII}
         public modbusslaveform(int index)
@@ -43,9 +45,10 @@ namespace LocalPLC.ModbusSlave
         }
 
 
-        public void getSlaveData(ref ModbusSlaveData data)
+        public void getSlaveData(ref ModbusSlaveData data, int slaveStartAddr)
         {
             data_ = data;
+            slaveStartAddr_ = slaveStartAddr;
         }
 
         
@@ -65,11 +68,11 @@ namespace LocalPLC.ModbusSlave
             }
             else 
             {
-                textBox_coil_start.Text = data_.dataDevice_.coilIoAddrStart.ToString();
+                textBox_coil_start.Text = data_.dataDevice_.coilModbusAddrStart.ToString();
             }
 
             int startAddr = 0;
-            int.TryParse(data_.dataDevice_.coilIoAddrStart, out startAddr);
+            int.TryParse(data_.dataDevice_.coilModbusAddrStart, out startAddr);
             if(data_.dataDevice_.coilCount + startAddr - 1 < modbusCoilStartAddr)
             {
                 textBox_coil_end.Text = modbusCoilStartAddr.ToString();
@@ -78,7 +81,8 @@ namespace LocalPLC.ModbusSlave
             {
                 textBox_coil_end.Text = (data_.dataDevice_.coilCount + startAddr - 1).ToString();
             }
-            
+
+            data_.dataDevice_.coilIoAddrEnd = textBox_coil_end.Text;
         }
 
 
@@ -198,10 +202,10 @@ namespace LocalPLC.ModbusSlave
                 return;
             }
 
-            data_.dataDevice_.coilIoAddrStart = textBox_coil_start.Text;
+            data_.dataDevice_.coilModbusAddrStart = textBox_coil_start.Text;
 
             int startAddr = 0;
-            int.TryParse(data_.dataDevice_.coilIoAddrStart, out startAddr);
+            int.TryParse(data_.dataDevice_.coilModbusAddrStart, out startAddr);
             int.TryParse(textBox_coil.Text, out data_.dataDevice_.coilCount);
             data_.dataDevice_.coilIoAddrEnd = (startAddr + data_.dataDevice_.coilCount - 1).ToString();
             textBox_coil_end.Text = data_.dataDevice_.coilIoAddrEnd;
@@ -357,15 +361,15 @@ namespace LocalPLC.ModbusSlave
         {
             loadFlag = false;
             textBox_coil.Text = data_.dataDevice_.coilCount.ToString();
-            if(data_.dataDevice_.coilIoAddrStart == "")
+            if(data_.dataDevice_.coilModbusAddrStart == "")
             {
-                data_.dataDevice_.coilIoAddrStart = modbusDiscreteStartAddr.ToString();
+                data_.dataDevice_.coilModbusAddrStart = modbusDiscreteStartAddr.ToString();
             }
             if (data_.dataDevice_.coilIoAddrEnd == "")
             {
                 data_.dataDevice_.coilIoAddrEnd = modbusDiscreteEndAddr.ToString();
             }
-            textBox_coil_start.Text = data_.dataDevice_.coilIoAddrStart;
+            textBox_coil_start.Text = data_.dataDevice_.coilModbusAddrStart;
             textBox_coil_end.Text = data_.dataDevice_.coilIoAddrEnd;
             
 
@@ -431,6 +435,11 @@ namespace LocalPLC.ModbusSlave
             {
                 return;
             }
+
+        }
+
+        private void modbusslaveform_FormClosing(object sender, FormClosingEventArgs e)
+        {
 
         }
     }

@@ -459,6 +459,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "modbusslaveform";
             this.Text = "modbusslaveform";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.modbusslaveform_FormClosing);
             this.Load += new System.EventHandler(this.modbusslaveform_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

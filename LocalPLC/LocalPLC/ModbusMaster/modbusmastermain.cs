@@ -905,6 +905,7 @@ namespace LocalPLC.ModbusMaster
 
             masterStartAddr = (clientCount + serverCount) * utility.modbusMudule + utility.modbusAddr;
 
+            //刷新list每项的首地址
             for (int i = 0; i < modbusMastrList.Count; i++)
             {
                 modbusMastrList[i].curMasterStartAddr = utility.modbusMudule * i + masterStartAddr;

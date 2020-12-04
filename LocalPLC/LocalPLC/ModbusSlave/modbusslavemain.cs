@@ -130,7 +130,7 @@ namespace LocalPLC.ModbusSlave
                 elem1_s.SetAttribute("statuscount", data.dataDevice_.statusCount.ToString());
                 elem1_s.SetAttribute("IOAddrRange", data.dataDevice_.IOAddrRange);
                 elem1_s.SetAttribute("IOAddrLength", data.dataDevice_.IOAddrLength.ToString ());
-                elem1_s.SetAttribute("coilstart", data.dataDevice_.coilIoAddrStart);
+                elem1_s.SetAttribute("coilstart", data.dataDevice_.coilModbusAddrStart);
                 elem1_s.SetAttribute("holdingstart", data.dataDevice_.holdingIoAddrStart);
                 elem1_s.SetAttribute("decretestart", data.dataDevice_.decreteIoAddrStart);
                 elem1_s.SetAttribute("statusstart", data.dataDevice_.statusIoAddrStart);
@@ -198,7 +198,7 @@ namespace LocalPLC.ModbusSlave
                 writer.WritePropertyName("addr_type");
                 writer.WriteValue("IO_INOUT");
                 writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.coilIoAddrStart);
+                writer.WriteValue(data.dataDevice_.coilModbusAddrStart);
                 writer.WritePropertyName("num");
                 writer.WriteValue(data.dataDevice_.coilCount);
                 writer.WriteEndObject();
@@ -302,8 +302,10 @@ namespace LocalPLC.ModbusSlave
                     //    " is enabled");
                     int a = e.RowIndex;
                     modbusslaveform form = new modbusslaveform(e.RowIndex);
+                    int slaveStartAddr = slaveDataManager.getSlaveStartAddr();
+
                     ModbusSlaveData data = slaveDataManager.listSlave.ElementAt(e.RowIndex);
-                    form.getSlaveData(ref data);
+                    form.getSlaveData(ref data, slaveStartAddr);
                     form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
                 }
@@ -357,7 +359,7 @@ namespace LocalPLC.ModbusSlave
                 int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
                 data.dataDevice_.IOAddrRange = e.GetAttribute("IOAddrRange");
                 int.TryParse(e.GetAttribute("IOAddrLength"), out data.dataDevice_.IOAddrLength);
-                data.dataDevice_.coilIoAddrStart = e.GetAttribute("coilstart");
+                data.dataDevice_.coilModbusAddrStart = e.GetAttribute("coilstart");
                 data.dataDevice_.holdingIoAddrStart = e.GetAttribute("holdingstart");
                 data.dataDevice_.decreteIoAddrStart = e.GetAttribute("decretestart");
                 data.dataDevice_.statusIoAddrStart = e.GetAttribute("statusstart");
