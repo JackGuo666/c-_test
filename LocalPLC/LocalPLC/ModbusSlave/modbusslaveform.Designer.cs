@@ -143,6 +143,7 @@
             this.textBox_status_start.Size = new System.Drawing.Size(119, 28);
             this.textBox_status_start.TabIndex = 3;
             this.textBox_status_start.TextChanged += new System.EventHandler(this.textBox_status_start_TextChanged);
+            this.textBox_status_start.Validated += new System.EventHandler(this.textBox_status_start_Validated);
             // 
             // textBox_lisan_start
             // 

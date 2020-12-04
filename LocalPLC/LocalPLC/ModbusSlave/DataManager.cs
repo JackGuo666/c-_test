@@ -14,26 +14,26 @@ namespace LocalPLC.ModbusSlave
 
         public int coilCount;
         public string coilIoAddrStart = "";
-        public string coilIoAddrEnd;
+        public string coilIoAddrEnd = "";
         public string coilIoVarNameIn;
         public string coilIoVarNameOut;
 
 
         public int holdingCount;
-        public string holdingIoAddrStart;
-        public string holdingIoAddrEnd;
+        public string holdingIoAddrStart = "";
+        public string holdingIoAddrEnd = "";
         public string holdingVarNameIn;
         public string holdingVarNameOut;
 
         public int decreteCount;
-        public string decreteIoAddrStart;
-        public string decreteIoAddrEnd;
+        public string decreteIoAddrStart = "";
+        public string decreteIoAddrEnd = "";
         public string decreteVarNameIn;
         public string decreteVarNameOut;
 
         public int statusCount;
-        public string statusIoAddrStart;
-        public string statusIoAddrEnd;
+        public string statusIoAddrStart = "";
+        public string statusIoAddrEnd = "";
         public string statusVarNameIn;
         public string statusVarNameOut;
 
