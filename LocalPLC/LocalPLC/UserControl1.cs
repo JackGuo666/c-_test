@@ -702,9 +702,10 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveXml();
             saveJson();
 
-            utility.addIOGroups();
-            utility.addVarType();
-            utility.addVariables();
+            //utility.addIOGroups();
+            //utility.addVarType();
+            //utility.addVariables();
+            utility.addserverVariables();
         }
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)

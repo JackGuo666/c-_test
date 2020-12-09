@@ -101,7 +101,17 @@ namespace LocalPLC
                             utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
-
+            var listClient = UserControl1.mci.clientManage.modbusClientList;
+            foreach(var client in list)
+            {
+                string str = string.Format("client_in{0}", client.ID);
+                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "driver1", "<默认>", "", client.curMasterLength, "test", AdeIoGroupDataType.adeIgdtByte
+                    , 1, 1, 1, 1);
+                str = string.Format("client_out{0}", client.ID);
+                iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                            utility.modbusMudule, "driver1", "<默认>", "", client.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            1, 1, 1, 1);
+            }
             System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
         }
 
@@ -221,7 +231,73 @@ namespace LocalPLC
 
             }
         }
+        public static void addserverVariables()
+        {
+            //VariableGroup variablegroup;
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+                Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
+                // Because of VB all indices are starting with 1 !!!!!
+                Resource resource = physicalHardware.Configurations.Item(1).Resources.Item(1);
 
+                // get the variables collection with the specified logical name
+                AdeObjectType objectType = AdeObjectType.adeOtVariables;
+                object variablesObject =
+                    LocalPLC.UserControl1.multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
+                // is the returned object really of type "Variables"?
+                if (objectType == AdeObjectType.adeOtVariables)
+                {
+                    Variables variables = variablesObject as Variables;
+                    //server组添加变量
+                    var groups = resource.Variables.Groups;
+                    foreach(VariableGroup ttt in groups)
+                    {
+                        if (ttt.Name == "Server" )
+                        {
+                            foreach (Variable var in ttt.Variables)
+                            {
+                                var.Delete();
+                            }
+                            for (int i =0;i< UserControl1.msi.serverDataManager.listServer.Count;i++)
+                            {
+                                for (int j =0;j< UserControl1.msi.serverDataManager.listServer[i].dataDevice_.coilCount;j++)
+                                {
+                                    int a = 0;int b = 0;
+                                    b = j / 8; 
+                                    a = j % 8;
+                                    ttt.Variables.Create("Server" + i + "_coil" + j, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal, "modbus server 变量", "0", 
+                                        "%MX"+ (Convert.ToInt32(UserControl1.msi.serverDataManager.listServer[i].dataDevice_.coilIoAddrStart)+b).ToString()+"."+a.ToString(), false);
+                                }
+                                for (int k = 0; k < UserControl1.msi.serverDataManager.listServer[i].dataDevice_.holdingCount; k++)
+                                {
+                                    int c = 0;
+                                    c = k * 2;
+                                    ttt.Variables.Create("Server" + i + "_holding" + k, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal, "modbus server 变量", "0",
+                                        "%MB" + (Convert.ToInt32(UserControl1.msi.serverDataManager.listServer[i].dataDevice_.holdingIoAddrStart)+c).ToString(), false);
+                                }
+                                for(int l = 0;l < UserControl1.msi.serverDataManager.listServer[i].dataDevice_.decreteCount;l++)
+                                {
+                                    int d = 0;int e = 0;
+                                    e = l / 8;
+                                    d = l % 8;
+                                    ttt.Variables.Create("Server" + i + "_decrete" + l, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal, "modbus server 变量", "0",
+                                        "%IX" + (Convert.ToInt32(UserControl1.msi.serverDataManager.listServer[i].dataDevice_.coilIoAddrStart) + e).ToString() + "." + d.ToString(), false);
+                                }
+                                for (int m = 0; m < UserControl1.msi.serverDataManager.listServer[i].dataDevice_.statusCount; m++)
+                                {
+                                    int f = 0;
+                                    f = m * 2;
+                                    ttt.Variables.Create("Server" + i + "_status" + m, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal, "modbus server 变量", "0",
+                                        "%IB" + (Convert.ToInt32(UserControl1.msi.serverDataManager.listServer[i].dataDevice_.statusIoAddrStart) + m).ToString(), false);
+                                }
+                            }
+                        }
+                        
+                    }
+
+                }
+            }
+        }
 
         public static Dictionary<int, string> varTypeDicBit = new Dictionary<int, string>();
         public static Dictionary<int, string> varTypeDicWord = new Dictionary<int, string>();
