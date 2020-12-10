@@ -74,6 +74,9 @@ namespace LocalPLC.Base
 
             //存在标志
             pic3Selected = false;
+
+            //显示设备信息
+            //picHighLighted(pictureBox1, 2);
         }
 
         private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
