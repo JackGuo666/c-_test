@@ -242,7 +242,10 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("remote_ip_num");
                 writer.WriteValue(1);
                 writer.WritePropertyName("remote_ip");
+                writer.WriteStartArray();//[ remote_ip节点下数组
                 writer.WriteValue(data.dataDevice_.ip0+"."+data.dataDevice_.ip1+"."+data.dataDevice_.ip2+"."+data.dataDevice_.ip3);
+                writer.WriteValue("192.168.1.11");
+                writer.WriteEndArray();//] remote_ip节点下数组
                 writer.WritePropertyName("ip_port");
                 writer.WriteValue(data.dataDevice_.port);
                 writer.WritePropertyName("time_uint");
@@ -252,7 +255,7 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("io_range");
                 writer.WriteStartObject();
                 writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.IOAddrRange);
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.IOAddrRange));
                 writer.WritePropertyName("bytes");
                 writer.WriteValue(data.dataDevice_.IOAddrLength);
                 writer.WriteEndObject();
@@ -262,7 +265,7 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("addr_type");
                 writer.WriteValue("IO_INPUT");
                 writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.decreteIoAddrStart);
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
                 writer.WritePropertyName("num");
                 writer.WriteValue(data.dataDevice_.decreteCount);
                 writer.WriteEndObject();
@@ -272,7 +275,7 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("addr_type");
                 writer.WriteValue("IO_INOUT");
                 writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.coilIoAddrStart);
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.coilIoAddrStart));
                 writer.WritePropertyName("num");
                 writer.WriteValue(data.dataDevice_.coilCount);
                 writer.WriteEndObject();
@@ -282,7 +285,7 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("addr_type");
                 writer.WriteValue("IO_INPUT");
                 writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.statusIoAddrStart);
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
                 writer.WritePropertyName("num");
                 writer.WriteValue(data.dataDevice_.statusCount);
                 writer.WriteEndObject();
@@ -292,7 +295,7 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("addr_type");
                 writer.WriteValue("IO_INOUT");
                 writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.holdingIoAddrStart);
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
                 writer.WritePropertyName("num");
                 writer.WriteValue(data.dataDevice_.holdingCount);
                 writer.WriteEndObject();//}
