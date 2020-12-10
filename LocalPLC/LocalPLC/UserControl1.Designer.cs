@@ -29,39 +29,39 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("ModbusTCP-Client");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("ModbusTCP-Server");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ModbusRTU-Master");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("ModbusRTU-Slave");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Modbus", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("DI");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("DO");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("正交编码器");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("双向脉冲计数");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("单向脉冲计数");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("高速计数器", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode4,
+            treeNode5});
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("PTO");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("PWM");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("高速输出", new System.Windows.Forms.TreeNode[] {
+            treeNode7,
+            treeNode8});
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("本体COM1");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("本体ETH1");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("通信线路", new System.Windows.Forms.TreeNode[] {
+            treeNode10,
+            treeNode11});
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("基本配置", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
-            treeNode3,
-            treeNode4});
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("DI");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("DO");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("正交编码器");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("双向脉冲计数");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("单向脉冲计数");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("高速计数器", new System.Windows.Forms.TreeNode[] {
-            treeNode8,
-            treeNode9,
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("PTO");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("PWM");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("高速输出", new System.Windows.Forms.TreeNode[] {
-            treeNode12,
-            treeNode13});
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("本体COM1");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("本体ETH1");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("通信线路", new System.Windows.Forms.TreeNode[] {
-            treeNode15,
-            treeNode16});
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("基本配置", new System.Windows.Forms.TreeNode[] {
             treeNode6,
-            treeNode7,
-            treeNode11,
+            treeNode9,
+            treeNode12});
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("ModbusTCP-Client");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ModbusTCP-Server");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("ModbusRTU-Master");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("ModbusRTU-Slave");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Modbus", new System.Windows.Forms.TreeNode[] {
             treeNode14,
+            treeNode15,
+            treeNode16,
             treeNode17});
             System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("AI");
             System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("AO");
@@ -96,12 +96,18 @@
             treeNode33});
             System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("canopen");
             System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("运动控制");
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("配置", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
+            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("modbus工具");
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("canopen工具");
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("shell工具", new System.Windows.Forms.TreeNode[] {
+            treeNode37,
+            treeNode38});
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("配置", new System.Windows.Forms.TreeNode[] {
+            treeNode13,
             treeNode18,
             treeNode34,
             treeNode35,
-            treeNode36});
+            treeNode36,
+            treeNode39});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,42 +122,42 @@
             this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Margin = new System.Windows.Forms.Padding(4);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "节点00";
-            treeNode1.Text = "ModbusTCP-Client";
-            treeNode2.Name = "节点01";
-            treeNode2.Text = "ModbusTCP-Server";
-            treeNode3.Name = "节点02";
-            treeNode3.Text = "ModbusRTU-Master";
-            treeNode4.Name = "节点03";
-            treeNode4.Text = "ModbusRTU-Slave";
-            treeNode5.Name = "节点0";
-            treeNode5.Text = "Modbus";
-            treeNode6.Name = "DI";
-            treeNode6.Text = "DI";
-            treeNode7.Name = "DO";
-            treeNode7.Text = "DO";
-            treeNode8.Name = "正交编码器";
-            treeNode8.Text = "正交编码器";
-            treeNode9.Name = "双向脉冲计数";
-            treeNode9.Text = "双向脉冲计数";
-            treeNode10.Name = "单向脉冲计数";
-            treeNode10.Text = "单向脉冲计数";
-            treeNode11.Name = "高速计数器";
-            treeNode11.Text = "高速计数器";
-            treeNode12.Name = "PTO";
-            treeNode12.Text = "PTO";
-            treeNode13.Name = "PWM";
-            treeNode13.Text = "PWM";
-            treeNode14.Name = "高速输出";
-            treeNode14.Text = "高速输出";
-            treeNode15.Name = "本体COM1";
-            treeNode15.Text = "本体COM1";
-            treeNode16.Name = "本体ETH1";
-            treeNode16.Text = "本体ETH1";
-            treeNode17.Name = "通信线路";
-            treeNode17.Text = "通信线路";
-            treeNode18.Name = "基本配置";
-            treeNode18.Text = "基本配置";
+            treeNode1.Name = "DI";
+            treeNode1.Text = "DI";
+            treeNode2.Name = "DO";
+            treeNode2.Text = "DO";
+            treeNode3.Name = "正交编码器";
+            treeNode3.Text = "正交编码器";
+            treeNode4.Name = "双向脉冲计数";
+            treeNode4.Text = "双向脉冲计数";
+            treeNode5.Name = "单向脉冲计数";
+            treeNode5.Text = "单向脉冲计数";
+            treeNode6.Name = "高速计数器";
+            treeNode6.Text = "高速计数器";
+            treeNode7.Name = "PTO";
+            treeNode7.Text = "PTO";
+            treeNode8.Name = "PWM";
+            treeNode8.Text = "PWM";
+            treeNode9.Name = "高速输出";
+            treeNode9.Text = "高速输出";
+            treeNode10.Name = "本体COM1";
+            treeNode10.Text = "本体COM1";
+            treeNode11.Name = "本体ETH1";
+            treeNode11.Text = "本体ETH1";
+            treeNode12.Name = "通信线路";
+            treeNode12.Text = "通信线路";
+            treeNode13.Name = "基本配置";
+            treeNode13.Text = "基本配置";
+            treeNode14.Name = "节点00";
+            treeNode14.Text = "ModbusTCP-Client";
+            treeNode15.Name = "节点01";
+            treeNode15.Text = "ModbusTCP-Server";
+            treeNode16.Name = "节点02";
+            treeNode16.Text = "ModbusRTU-Master";
+            treeNode17.Name = "节点03";
+            treeNode17.Text = "ModbusRTU-Slave";
+            treeNode18.Name = "节点0";
+            treeNode18.Text = "Modbus";
             treeNode19.Name = "AI";
             treeNode19.Text = "AI";
             treeNode20.Name = "AO";
@@ -188,10 +194,16 @@
             treeNode35.Text = "canopen";
             treeNode36.Name = "运动控制";
             treeNode36.Text = "运动控制";
-            treeNode37.Name = "配置";
-            treeNode37.Text = "配置";
+            treeNode37.Name = "节点1";
+            treeNode37.Text = "modbus工具";
+            treeNode38.Name = "节点2";
+            treeNode38.Text = "canopen工具";
+            treeNode39.Name = "节点0";
+            treeNode39.Text = "shell工具";
+            treeNode40.Name = "配置";
+            treeNode40.Text = "配置";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode37});
+            treeNode40});
             this.treeView1.Size = new System.Drawing.Size(227, 750);
             this.treeView1.TabIndex = 6;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);

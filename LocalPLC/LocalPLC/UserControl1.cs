@@ -17,6 +17,7 @@ using LocalPLC.ModbusClient;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using LocalPLC.Base;
 
 namespace LocalPLC
 {
@@ -43,7 +44,8 @@ namespace LocalPLC
 		public  static modbusslavemain modslave = new modbusslavemain();
 	
 		public static ModbusServer.ServerIndex msi = new ServerIndex();
-        
+
+        static UserControlBase UC = new UserControlBase();
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -264,6 +266,14 @@ namespace LocalPLC
                 modslave.Dock = DockStyle.Fill;
                 ModbusWindow.Controls.Add(modslave);
 		}
+        else if(name == "基本配置")
+            {
+                UC.Show();
+                ModbusWindow.Controls.Clear();
+                UC.Dock = DockStyle.Fill;
+                ////UC.Size = new Size(472, 336);
+                ModbusWindow.Controls.Add(UC);
+            }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
         {
