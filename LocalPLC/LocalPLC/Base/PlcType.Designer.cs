@@ -38,7 +38,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(109, 1);
+            this.pictureBox3.Location = new System.Drawing.Point(108, 3);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(254, 33);
             this.pictureBox3.TabIndex = 2;
@@ -52,7 +52,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Location = new System.Drawing.Point(168, 246);
+            this.pictureBox2.Location = new System.Drawing.Point(166, 244);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(196, 33);
             this.pictureBox2.TabIndex = 1;
@@ -74,6 +74,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(365, 280);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // PlcType

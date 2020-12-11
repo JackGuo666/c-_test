@@ -47,12 +47,13 @@ namespace LocalPLC.Base
                 Graphics gc = pictureBox3.CreateGraphics();
                 //gc.DrawLine(new Pen(Color.Red, 5), 0, 0, 500, 500);
 
-                Pen pen = new Pen(Color.DodgerBlue, 3);
+                Pen pen = new Pen(Color.DodgerBlue, 8);
                 gc.DrawRectangle(pen, 0, 0, pictureBox3.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
 
                 gc.Dispose();
                 base.OnPaint(e);
             }
+
 
             if (pic2Selected)
             {
@@ -63,6 +64,7 @@ namespace LocalPLC.Base
                 gc.DrawRectangle(pen, 0, 0, pictureBox2.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
 
                 gc.Dispose();
+
                 base.OnPaint(e);
             }
 
@@ -71,7 +73,7 @@ namespace LocalPLC.Base
         private void picHighLighted(PictureBox pic, int borderWidth)
         {
             //int borderWidth = 5;
-            //pic.Refresh();
+            pic.Refresh();
             Graphics g = pic.CreateGraphics();
 
             Pen pen = new Pen(Color.DodgerBlue, borderWidth);
@@ -127,10 +129,7 @@ namespace LocalPLC.Base
                 Refresh();
             }
 
-
-
-
-            myDelegate("DO");
+            myDelegate(ConstVariable.DO);
 
         }
 
@@ -140,6 +139,14 @@ namespace LocalPLC.Base
             pic3Selected = false;
 
             pictureBox2_MouseDoubleClick(null, null);
+        }
+
+        public void setDIInfo()
+        {
+            pic2Selected = true;
+            pic3Selected = false;
+
+            pictureBox3_MouseDoubleClick(null, null);
         }
 
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
@@ -177,11 +184,32 @@ namespace LocalPLC.Base
             pic3Selected = true;
             pic2Selected = false;
 
-            split.Panel2.Controls.Clear();
-            di.Dock = DockStyle.Fill;
-            split.Panel2.Controls.Add(di);
+            if (!split.Panel2.Controls.Contains(di))
+            {
+                split.Panel2.Controls.Clear();
+                di.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(di);
+
+                Refresh();
+                //有下面一行就刷新，没有就不刷新
+                picHighLighted(pictureBox3, 3);
+            }
+
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
 
+            pic2Selected = false;
+            pic3Selected = false;
+            //pictureBox2.Invalidate();
+            //pictureBox3.Invalidate();
+
+            pictureBox1.Refresh();
+            //显示设备信息
+            picHighLighted(pictureBox1, 2);
+
+
+        }
     }
 }

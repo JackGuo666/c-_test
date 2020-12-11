@@ -62,6 +62,7 @@ namespace LocalPLC.Base
             user1.TabIndex = 0;
         }
 
+        //树节点选中DO，PLC显示DO信息
         public void setDOShow()
         {
             if(curPlcType == null)
@@ -71,6 +72,19 @@ namespace LocalPLC.Base
             else
             {
                 curPlcType.setDOInfo();
+            }
+        }
+
+        //树节点选中DO，PLC显示DO信息
+        public void setDIShow()
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setDIInfo();
             }
         }
     }
