@@ -55,6 +55,7 @@ namespace LocalPLC.ModbusServer
     public class ModbusServerData
     {
         public int ID;
+        public int serverstartaddr;
         //public DeviceData device { get; set; }
         public DataServer dataDevice_ = new DataServer();
         public ModbusServerData()
@@ -69,6 +70,7 @@ namespace LocalPLC.ModbusServer
     public class DataManager
     {
         private static DataManager instance = null;
+        //public int serverstartaddr;
         public List<ModbusServer.ModbusServerData> listServer = new List<ModbusServer.ModbusServerData>();
 
         //public ModbusSlave.DataSlave data_ = new ModbusSlave.DataSlave();

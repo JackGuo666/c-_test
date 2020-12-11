@@ -713,8 +713,11 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             saveJson();
 
             utility.addIOGroups();
+
+            //utility.addServerIOGroups();
             utility.addVarType();
             utility.addVariables();
+            multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
@@ -724,6 +727,44 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             {
                 return;
             }
+            int coillength = msi.serverDataManager.listServer[0].dataDevice_.coilCount;
+            int coilstart =Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
+            if (multiprogApp != null && multiprogApp.IsProjectOpen())
+            {
+                Hardware physicalHardware = multiprogApp.ActiveProject.Hardware;
+                foreach (Configuration configuration in physicalHardware.Configurations)
+                {
+                    foreach (Resource resource in configuration.Resources)
+                    {
+                        var groups = resource.Variables.Groups;
+                       
+                        foreach (VariableGroup servergroup in groups)
+                        {
+                            if (servergroup.Name == "Server")
+                            {
+                                foreach(ADELib.Variable variable in servergroup.Variables)
+                                {
+                                    object mda = variable.GetAttribute(19);
+                                    int modbusaddr = Convert.ToInt32(mda);
+
+                                    for (int i = 0; i < coillength; i++)
+                                    {
+                                        if (modbusaddr == coilstart + i)
+                                        {
+                                            int a = i / 8;
+                                            int b = i % 8;
+                                            variable.IecAddress ="%MX" +(coilstart+a).ToString()+"."+b.ToString();
+                                            
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
 
             //utility.addIOGroups();
 
