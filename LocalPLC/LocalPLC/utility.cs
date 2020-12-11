@@ -112,9 +112,44 @@ namespace LocalPLC
                             utility.modbusMudule, "driver1", "<默认>", "", client.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
+            string str1 = "server_in";
+            iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
+            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            1, 1, 1, 1);
+            str1 = "server_out";
+            iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
+            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            1, 1, 1, 1);
+            
             System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+            
         }
+        public static void addServerIOGroups()
+        {
+            IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
+            int Count = iog.Count;
+
+            List<IoGroup> ll = new List<IoGroup>();
+            foreach (IoGroup io in iog)
+            {
+                ll.Add(io);
+            }
+
+            for (int i = 0; i < ll.Count; i++)
+            {
+                ll[i].Delete();
+            }
+
+            string str = "server_in";
+            iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            1, 1, 1, 1);
+            str = "server_out";
+            iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            1, 1, 1, 1);
+        }
         /* 动态添加创建数组刷新
          //C: \Users\Public\Documents\MULTIPROG\Projects\ttt13579\DT\datatype
             // 从文件中读取并显示每行

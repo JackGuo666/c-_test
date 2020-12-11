@@ -172,7 +172,9 @@ namespace LocalPLC.ModbusServer
             textBox6.Text = data_.dataDevice_.holdingIoAddrStart;
             textBox7.Text = data_.dataDevice_.decreteIoAddrStart;
             textBox8.Text = data_.dataDevice_.statusIoAddrStart;
-            textBox21.Text = data_.dataDevice_.IOAddrRange;
+
+            textBox21.Text = data_.serverstartaddr.ToString();
+            textBox21.ReadOnly = true;
             textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
             if(data_.dataDevice_.ipconnect == (int)IPCONNECT.TRUE)
             {
@@ -216,7 +218,7 @@ namespace LocalPLC.ModbusServer
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
-            textBox5.Text = textBox1.Text;
+            //textBox5.Text = textBox1.Text;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
@@ -300,10 +302,7 @@ namespace LocalPLC.ModbusServer
             data_.dataDevice_.statusIoAddrStart = textBox8.Text;
         }
 
-        private void textBox21_TextChanged(object sender, EventArgs e)
-        {
-            data_.dataDevice_.IOAddrRange = textBox21.Text;
-        }
+        
 
         private void textBox22_TextChanged(object sender, EventArgs e)
         {

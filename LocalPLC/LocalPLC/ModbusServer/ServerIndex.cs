@@ -38,6 +38,7 @@ namespace LocalPLC.ModbusServer
         private void ServerIndex_Load(object sender, EventArgs e)
         {
             init = true;
+            
             DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
             buttonColumn.Name = "配置";
             buttonColumn.HeaderText = "配置";
@@ -172,6 +173,7 @@ namespace LocalPLC.ModbusServer
         {
             XmlElement elem1 = doc.CreateElement("modbusserver");
             elem.AppendChild(elem1);
+            //elem1.SetAttribute("start");
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
             {
                 ModbusServerData data = serverDataManager.listServer.ElementAt(i);
@@ -194,7 +196,8 @@ namespace LocalPLC.ModbusServer
                 elem1_s.SetAttribute("ip1", data.dataDevice_.ip1.ToString());
                 elem1_s.SetAttribute("ip2", data.dataDevice_.ip2.ToString());
                 elem1_s.SetAttribute("ip3", data.dataDevice_.ip3.ToString());
-                elem1_s.SetAttribute("IOAddrRange", data.dataDevice_.IOAddrRange);
+                
+                elem1_s.SetAttribute("IOAddrRange", data.serverstartaddr.ToString());
                 elem1_s.SetAttribute("IOAddrLength", data.dataDevice_.IOAddrLength.ToString());
                 elem1_s.SetAttribute("coilstart", data.dataDevice_.coilIoAddrStart);
                 elem1_s.SetAttribute("holdingstart", data.dataDevice_.holdingIoAddrStart);
@@ -255,7 +258,7 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("io_range");
                 writer.WriteStartObject();
                 writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.IOAddrRange));
+                writer.WriteValue(Convert.ToInt32(data.serverstartaddr));
                 writer.WritePropertyName("bytes");
                 writer.WriteValue(data.dataDevice_.IOAddrLength);
                 writer.WriteEndObject();
@@ -321,8 +324,10 @@ namespace LocalPLC.ModbusServer
                 {
                     ModbusServer.modbusserver mss = new modbusserver(e.RowIndex);
                     ModbusServerData data = serverDataManager.listServer.ElementAt(e.RowIndex);
+                    data.serverstartaddr = utility.modbusAddr + UserControl1.mci.clientManage.modbusClientList.Count * utility.modbusMudule;
                     mss.getServerData(ref data);
                     mss.StartPosition = FormStartPosition.CenterScreen;
+                   
                     mss.ShowDialog();
                 }
             }
@@ -381,6 +386,7 @@ namespace LocalPLC.ModbusServer
                 int.TryParse(e.GetAttribute("ip2"), out data.dataDevice_.ip2);
                 int.TryParse(e.GetAttribute("ip3"), out data.dataDevice_.ip3);
                 data.dataDevice_.IOAddrRange = e.GetAttribute("IOAddrRange");
+                int.TryParse(e.GetAttribute("IOAddrRange"), out data.serverstartaddr);
                 int.TryParse(e.GetAttribute("IOAddrLength"), out data.dataDevice_.IOAddrLength);
                 data.dataDevice_.coilIoAddrStart = e.GetAttribute("coilstart");
                 data.dataDevice_.holdingIoAddrStart = e.GetAttribute("holdingstart");
