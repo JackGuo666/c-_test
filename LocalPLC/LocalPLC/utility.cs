@@ -8,6 +8,16 @@ using System.IO;
 
 namespace LocalPLC
 {
+    class ConstVariable
+    {
+        public static string DO = "DO";
+        public static string DI = "DI";
+    }
+
+}
+
+namespace LocalPLC
+{
 
     enum ArrayDataType{ DataBit, DataWord}
 
