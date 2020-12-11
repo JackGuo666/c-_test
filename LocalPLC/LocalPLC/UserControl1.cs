@@ -53,8 +53,43 @@ namespace LocalPLC
             //mct = new ModbusClient.modbusclient();
             //msi = new ModbusServer.ServerIndex();
 
+            UC.Parent = this;
+
             return;
-    }
+         }
+
+
+        /// <summary>
+        /// 设置TreeView选中节点
+        /// </summary>
+        /// <param name="treeView"></param>
+        /// <param name="selectStr">选中节点文本</param>
+        private void SelectTreeView(TreeView treeView, string selectStr)
+        {
+            treeView.Focus();
+            for (int i = 0; i < treeView.Nodes.Count; i++)
+            {
+                for (int j = 0; j < treeView.Nodes[i].Nodes.Count; j++)
+                {
+                    for(int k = 0; k < treeView.Nodes[i].Nodes.Count; k++)
+                    { 
+                        if (treeView.Nodes[i].Nodes[j].Nodes[k].Text == selectStr)
+                        {
+                            treeView1.SelectedNode = treeView.Nodes[i].Nodes[j].Nodes[k];//选中
+                                                                                //treeView.Nodes[i].Nodes[j].Checked = true;
+                            treeView.Nodes[i].Nodes[j].Expand();//展开父级
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        //接受代理传来参数的方法
+        public void DoSomething(string s1)
+        {
+            SelectTreeView(treeView1, s1);
+        }
 
         //void loadXml(ref )
         private static int adviceProjectCookie = 0;
@@ -725,117 +760,143 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 return;
             }
 
-            //utility.addIOGroups();
-
-            //utility.addVariables();
-            //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
-
-            //iog.Create("master1_in", AdeIoGroupAccessType.adeIgatInput,
-            //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte, 
-            //            1, 1, 1, 1);
-            //iog.Create("master1_out", AdeIoGroupAccessType.adeIgatOutput,
-            //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte,
-            //            1, 1, 1, 1);
-
-            //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
-            //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
-
-            //var variables_ = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).Variables;
-            //var text = modmaster.masterManage.modbusMastrList[0].modbusDeviceList[0].modbusChannelList[0].nameChannel;
-            //variables_.Create(text, "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-            //                         "Inserted from AIFDemo", "12", "%MW1.1003", false);
-
-            //modmaster.masterManage.modbusMastrList[0].modbusDeviceList[0].modbusChannelList[0].
-
-            return;
-            //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
-            //var count = iog.Count;
-            //foreach (IoGroup io in iog)
-            //{
-
-            //    var name = io.Name;
-
-            //    //io.Delete();
-            //}
-
-            //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
-
-            //return;
 
             //var configurations = multiprogApp.ActiveProject.Hardware.Configurations;
             //// create the configuration tree items for all configurations
             //foreach (Configuration configuration in configurations)
             //{
-                
+
             //    foreach (Resource resource in configuration.Resources)
             //    {
-                    
-            //        resource.IoGroups.Create("master1", AdeIoGroupAccessType.adeIgatInput,
-            //            1000, "driver1", "");
-
-            //        System.Runtime.InteropServices.Marshal.ReleaseComObject(resource.IoGroups);
-
-            //        return;
-            //        // get the variables collection with the specified logical name
-            //        AdeObjectType objectType = AdeObjectType.adeOtVariables;
-            //        object variablesObject =
-            //            multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
-            //        // is the returned object really of type "Variables"?
-            //        if (objectType == AdeObjectType.adeOtVariables)
+            //        Variables variables = resource.Variables;
+            //        foreach (ADELib.Variable variable in variables)
             //        {
-            //            Variables variables = variablesObject as Variables;
-
-
-            //            foreach (ADELib.Variable variable in variables)
+            //            //地址修改
+            //            //variable.IecAddress = "%IX1000.0";
+            //            //modbus地址修改
+            //            object var = variable.GetAttribute(19);
+            //            if(var != null)
             //            {
-            //                //地址修改
-            //                //variable.IecAddress = "%IX1000.0";
-            //                //modbus地址修改
-            //                variable.SetAttribute(89, 40001);
-
-
-
+            //                string str = var.ToString();
             //            }
+                        
+            //            variable.IecAddress = "%IX1000.0";
+
+
             //        }
-
-            //        //// add only the PG instance if there are variables available or FB instances with variables
-            //        //foreach (Task task in resource.Tasks)
-            //        //{
-            //        //    foreach (ProgramInstance programInstance in task.ProgramInstances)
-            //        //    {
-            //        //        // get the variables of this PG instance
-            //        //        Variables programInstanceVariables = programInstance.Variables;
-            //        //        // variables available? (variables at program instances are optional!)
-            //        //        if (programInstanceVariables != null)
-            //        //        {
-            //        //            object variablesObject =
-            //        //                mpApplication.ActiveProject.GetObjectByLogicalName(programInstanceVariables.LogicalName, ref objectType);
-            //        //        }
-
-            //        //        // add only FB instances if there are variables available
-            //        //        foreach (FbInstance fbInstance in programInstance.FbInstances)
-            //        //        {
-            //        //            // get the variables of this FB instance
-            //        //            Variables fbInstanceVariables = fbInstance.Variables;
-            //        //            // variables available? (variables at FB instances are optional!)
-            //        //            if (fbInstanceVariables != null)
-            //        //            {
-            //        //                object variablesObject =
-            //        //                    mpApplication.ActiveProject.GetObjectByLogicalName(fbInstanceVariables.LogicalName, ref objectType);
-            //        //            }
-            //        //        }
-
-            //        //        // add the program instance tree item (and its sub items) only if there are any sub items
-            //        //        ICollection<ITreeItem> programInstanceSubItems = programInstanceItem.SubItems as ICollection<ITreeItem>;
-            //        //        if ((programInstanceSubItems != null) && (programInstanceSubItems.Count > 0))
-            //        //        {
-            //        //            resourceItem.AddSubItem(programInstanceItem);
-            //        //        }
-            //        //    }
-            //        //}
             //    }
             //}
-        }
+
+
+                    //utility.addIOGroups();
+
+                    //utility.addVariables();
+                    //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
+
+                    //iog.Create("master1_in", AdeIoGroupAccessType.adeIgatInput,
+                    //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte, 
+                    //            1, 1, 1, 1);
+                    //iog.Create("master1_out", AdeIoGroupAccessType.adeIgatOutput,
+                    //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte,
+                    //            1, 1, 1, 1);
+
+                    //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+                    //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+
+                    //var variables_ = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).Variables;
+                    //var text = modmaster.masterManage.modbusMastrList[0].modbusDeviceList[0].modbusChannelList[0].nameChannel;
+                    //variables_.Create(text, "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                    //                         "Inserted from AIFDemo", "12", "%MW1.1003", false);
+
+                    //modmaster.masterManage.modbusMastrList[0].modbusDeviceList[0].modbusChannelList[0].
+
+                    //return;
+                    //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
+                    //var count = iog.Count;
+                    //foreach (IoGroup io in iog)
+                    //{
+
+                    //    var name = io.Name;
+
+                    //    //io.Delete();
+                    //}
+
+                    //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+
+                    //var configurations = multiprogApp.ActiveProject.Hardware.Configurations;
+                    //// create the configuration tree items for all configurations
+                    //foreach (Configuration configuration in configurations)
+                    //{
+
+                    //    foreach (Resource resource in configuration.Resources)
+                    //    {
+
+                    //        resource.IoGroups.Create("master1", AdeIoGroupAccessType.adeIgatInput,
+                    //            1000, "driver1", "");
+
+                    //        System.Runtime.InteropServices.Marshal.ReleaseComObject(resource.IoGroups);
+
+                    //        return;
+                    //        // get the variables collection with the specified logical name
+                    //        AdeObjectType objectType = AdeObjectType.adeOtVariables;
+                    //        object variablesObject =
+                    //            multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
+                    //        // is the returned object really of type "Variables"?
+                    //        if (objectType == AdeObjectType.adeOtVariables)
+                    //        {
+                    //            Variables variables = variablesObject as Variables;
+
+
+                    //            foreach (ADELib.Variable variable in variables)
+                    //            {
+                    //                //地址修改
+                    //                //variable.IecAddress = "%IX1000.0";
+                    //                //modbus地址修改
+                    //                variable.SetAttribute(89, 40001);
+
+
+
+                    //            }
+                    //        }
+
+                    //        //// add only the PG instance if there are variables available or FB instances with variables
+                    //        //foreach (Task task in resource.Tasks)
+                    //        //{
+                    //        //    foreach (ProgramInstance programInstance in task.ProgramInstances)
+                    //        //    {
+                    //        //        // get the variables of this PG instance
+                    //        //        Variables programInstanceVariables = programInstance.Variables;
+                    //        //        // variables available? (variables at program instances are optional!)
+                    //        //        if (programInstanceVariables != null)
+                    //        //        {
+                    //        //            object variablesObject =
+                    //        //                mpApplication.ActiveProject.GetObjectByLogicalName(programInstanceVariables.LogicalName, ref objectType);
+                    //        //        }
+
+                    //        //        // add only FB instances if there are variables available
+                    //        //        foreach (FbInstance fbInstance in programInstance.FbInstances)
+                    //        //        {
+                    //        //            // get the variables of this FB instance
+                    //        //            Variables fbInstanceVariables = fbInstance.Variables;
+                    //        //            // variables available? (variables at FB instances are optional!)
+                    //        //            if (fbInstanceVariables != null)
+                    //        //            {
+                    //        //                object variablesObject =
+                    //        //                    mpApplication.ActiveProject.GetObjectByLogicalName(fbInstanceVariables.LogicalName, ref objectType);
+                    //        //            }
+                    //        //        }
+
+                    //        //        // add the program instance tree item (and its sub items) only if there are any sub items
+                    //        //        ICollection<ITreeItem> programInstanceSubItems = programInstanceItem.SubItems as ICollection<ITreeItem>;
+                    //        //        if ((programInstanceSubItems != null) && (programInstanceSubItems.Count > 0))
+                    //        //        {
+                    //        //            resourceItem.AddSubItem(programInstanceItem);
+                    //        //        }
+                    //        //    }
+                    //        //}
+                    //    }
+                    //}
+                }
 
         void IAdeVariableObserver2.BeforeInsert(AdeObjectType ObjectType, ref Variable Variable, ref bool Cancel)
         {

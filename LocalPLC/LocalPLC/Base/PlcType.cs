@@ -16,11 +16,15 @@ namespace LocalPLC.Base
         bool pic3Selected = false;
 
         private SplitContainer split = null;
-        public PlcType(SplitContainer splitContainer)
+        public delegate void DoSomethingEventHandler(string s1);
+        DoSomethingEventHandler myDelegate = null;
+        public PlcType(SplitContainer splitContainer, UserControlBase userBase) 
         {
             InitializeComponent();
             split = splitContainer;
 
+            UserControl1 us1 = (UserControl1)userBase.Parent.Parent;
+            myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
             pictureBox2.Parent = pictureBox1;
             pictureBox3.Parent = pictureBox1;
@@ -117,6 +121,10 @@ namespace LocalPLC.Base
             split.Panel2.Controls.Clear();
             dout.Dock = DockStyle.Fill;
             split.Panel2.Controls.Add(dout);
+
+
+
+            myDelegate("DO");
         }
 
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)

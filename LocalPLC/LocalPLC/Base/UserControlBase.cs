@@ -41,7 +41,8 @@ namespace LocalPLC.Base
 
             TreeNode node = (TreeNode)item;
             
-            PlcType user1 = new PlcType(splitContainer2);
+            PlcType user1 = new PlcType(splitContainer2, this);
+            user1.Parent = this;
             PlcTypeArr.Add(user1);
             splitContainer2.Panel1.Controls.Add(user1);
             user1.Location = new System.Drawing.Point(PlcTypeArr.Count * user1.Width, 0);
