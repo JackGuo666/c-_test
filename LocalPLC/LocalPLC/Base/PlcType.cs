@@ -26,6 +26,15 @@ namespace LocalPLC.Base
             pictureBox3.Parent = pictureBox1;
         }
 
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            Graphics gc = pictureBox1.CreateGraphics();
+            Pen pen = new Pen(Color.DodgerBlue, 3);
+            gc.DrawRectangle(pen, 0, 0, pictureBox1.Width /*- borderWidth*/, pictureBox1.Height /*- borderWidth*/);
+
+            gc.Dispose();
+        }
+
         //最小化刷新重写函数
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -149,5 +158,7 @@ namespace LocalPLC.Base
             di.Dock = DockStyle.Fill;
             split.Panel2.Controls.Add(di);
         }
+
+
     }
 }
