@@ -309,6 +309,10 @@ namespace LocalPLC
                 ////UC.Size = new Size(472, 336);
                 ModbusWindow.Controls.Add(UC);
             }
+            else if(name == "DO")
+            {
+                UC.setDOShow();
+            }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
         {

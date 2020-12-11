@@ -12,10 +12,19 @@ namespace LocalPLC.Base
 {
     public partial class UserControlBase : UserControl
     {
+        List<PlcType> PlcTypeArr = new List<PlcType>();
+        PlcType curPlcType = null;
+
         public UserControlBase()
         {
             InitializeComponent();
         }
+
+        private void UserControlBase_Load(object sender, EventArgs e)
+        {
+            //加载工程信息
+        }
+
 
         private void treeView1_ItemDrag(object sender, ItemDragEventArgs e)
         {
@@ -34,7 +43,7 @@ namespace LocalPLC.Base
                 e.Effect = DragDropEffects.None;
         }
 
-        List<PlcType> PlcTypeArr = new List<PlcType>();
+
         private void splitContainer1_Panel1_DragDrop(object sender, DragEventArgs e)
         {
             object item = e.Data.GetData("Test");
@@ -42,6 +51,7 @@ namespace LocalPLC.Base
             TreeNode node = (TreeNode)item;
             
             PlcType user1 = new PlcType(splitContainer2, this);
+            curPlcType = user1;
             user1.Parent = this;
             PlcTypeArr.Add(user1);
             splitContainer2.Panel1.Controls.Add(user1);
@@ -50,6 +60,18 @@ namespace LocalPLC.Base
             //user1.Dock = DockStyle.Fill;
             //user1.Size = new System.Drawing.Size(41, 12);
             user1.TabIndex = 0;
+        }
+
+        public void setDOShow()
+        {
+            if(curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setDOInfo();
+            }
         }
     }
 }

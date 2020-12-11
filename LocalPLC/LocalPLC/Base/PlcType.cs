@@ -71,7 +71,7 @@ namespace LocalPLC.Base
         private void picHighLighted(PictureBox pic, int borderWidth)
         {
             //int borderWidth = 5;
-            pic.Refresh();
+            //pic.Refresh();
             Graphics g = pic.CreateGraphics();
 
             Pen pen = new Pen(Color.DodgerBlue, borderWidth);
@@ -118,13 +118,28 @@ namespace LocalPLC.Base
             pic2Selected = true;
             pic3Selected = false;
 
-            split.Panel2.Controls.Clear();
-            dout.Dock = DockStyle.Fill;
-            split.Panel2.Controls.Add(dout);
+            if(!split.Panel2.Controls.Contains(dout))
+            {
+                split.Panel2.Controls.Clear();
+                dout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(dout);
+
+                Refresh();
+            }
+
 
 
 
             myDelegate("DO");
+
+        }
+
+        public void setDOInfo()
+        {
+            pic2Selected = true;
+            pic3Selected = false;
+
+            pictureBox2_MouseDoubleClick(null, null);
         }
 
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
