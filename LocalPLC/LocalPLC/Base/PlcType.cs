@@ -28,6 +28,9 @@ namespace LocalPLC.Base
 
             pictureBox2.Parent = pictureBox1;
             pictureBox3.Parent = pictureBox1;
+
+            pictest1.Parent = pictureBox1;
+            pictest2.Parent = pictureBox1;
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -199,8 +202,18 @@ namespace LocalPLC.Base
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            var v = pictureBox1;
+            foreach (Control ct in v.Controls)
+            {
+                if (ct is pictest)
+                {
+                    ((pictest)ct).SetAllFlagFalse();
+                    ((pictest)ct).Refresh();
+                }   
+             }
 
-            pic2Selected = false;
+
+                    pic2Selected = false;
             pic3Selected = false;
             //pictureBox2.Invalidate();
             //pictureBox3.Invalidate();
