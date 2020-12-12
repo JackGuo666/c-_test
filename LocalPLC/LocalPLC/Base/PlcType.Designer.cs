@@ -31,18 +31,18 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictest1 = new LocalPLC.Base.pictest();
             this.pictest2 = new LocalPLC.Base.pictest();
+            this.pictest1 = new LocalPLC.Base.pictest();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictest1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictest1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(13, 75);
+            this.pictureBox3.Location = new System.Drawing.Point(13, 29);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(254, 33);
             this.pictureBox3.TabIndex = 2;
@@ -56,7 +56,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Location = new System.Drawing.Point(71, 158);
+            this.pictureBox2.Location = new System.Drawing.Point(71, 191);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(196, 33);
             this.pictureBox2.TabIndex = 1;
@@ -81,16 +81,6 @@
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
-            // pictest1
-            // 
-            this.pictest1.BackColor = System.Drawing.Color.Transparent;
-            this.pictest1.Location = new System.Drawing.Point(168, 245);
-            this.pictest1.MValue = false;
-            this.pictest1.Name = "pictest1";
-            this.pictest1.Size = new System.Drawing.Size(193, 34);
-            this.pictest1.TabIndex = 3;
-            this.pictest1.TabStop = false;
-            // 
             // pictest2
             // 
             this.pictest2.BackColor = System.Drawing.Color.Transparent;
@@ -100,6 +90,16 @@
             this.pictest2.Size = new System.Drawing.Size(255, 30);
             this.pictest2.TabIndex = 4;
             this.pictest2.TabStop = false;
+            // 
+            // pictest1
+            // 
+            this.pictest1.BackColor = System.Drawing.Color.Transparent;
+            this.pictest1.Location = new System.Drawing.Point(168, 245);
+            this.pictest1.MValue = false;
+            this.pictest1.Name = "pictest1";
+            this.pictest1.Size = new System.Drawing.Size(193, 34);
+            this.pictest1.TabIndex = 3;
+            this.pictest1.TabStop = false;
             // 
             // PlcType
             // 
@@ -116,8 +116,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictest1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictest1)).EndInit();
             this.ResumeLayout(false);
 
         }
