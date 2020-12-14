@@ -84,7 +84,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.treeView2);
             this.splitContainer2.Size = new System.Drawing.Size(783, 546);
-            this.splitContainer2.SplitterDistance = 291;
+            this.splitContainer2.SplitterDistance = 213;
             this.splitContainer2.TabIndex = 0;
             // 
             // treeView2
@@ -96,7 +96,7 @@
             treeNode1.Text = "节点0";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeView2.Size = new System.Drawing.Size(783, 251);
+            this.treeView2.Size = new System.Drawing.Size(783, 329);
             this.treeView2.TabIndex = 0;
             // 
             // treeView1

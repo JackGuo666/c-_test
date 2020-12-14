@@ -70,6 +70,12 @@
     <Compile Include="Base\UserControlBase.Designer.cs">
       <DependentUpon>UserControlBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\UserControlCom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlCom.Designer.cs">
+      <DependentUpon>UserControlCom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\UserControlDevice.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -190,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlBase.resx">
       <DependentUpon>UserControlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlCom.resx">
+      <DependentUpon>UserControlCom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlDevice.resx">
       <DependentUpon>UserControlDevice.cs</DependentUpon>

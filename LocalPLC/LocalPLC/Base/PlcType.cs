@@ -263,9 +263,15 @@ namespace LocalPLC.Base
         }
 
         //显示串口信息
+        UserControlCom com = new UserControlCom();
         private void pictest3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
+            if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                com.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(com);
+            }
         }
     }
 }
