@@ -167,7 +167,7 @@ namespace LocalPLC.Base
 
                 pic3Selected = true;
             this.Image = null;
-            this.Refresh();
+            this.Invalidate();
             //OnPaint(new PaintEventArgs(CreateGraphics(), ClientRectangle));
         }
 
@@ -177,7 +177,7 @@ namespace LocalPLC.Base
             pic3Down = false;
             pic3Up = false;
             this.Image = null;
-            this.Refresh();
+            this.Invalidate();
 
 
             //OnPaint(new PaintEventArgs(CreateGraphics(), ClientRectangle));
@@ -187,7 +187,7 @@ namespace LocalPLC.Base
         {
             pic3Enter = true;
             this.Image = null;
-            this.Refresh();
+            this.Invalidate();
             //OnPaint(new PaintEventArgs(CreateGraphics(), ClientRectangle));
         }
 
@@ -207,14 +207,14 @@ namespace LocalPLC.Base
                     {
                         tmp.pic3Down = true;
                         tmp.pic3Up = false;
-                        Refresh();
+                        Invalidate();
                     }
                     else
                     {
                         tmp.MValue = false;
                         tmp.pic3Down = false;
                         tmp.pic3Up = false;
-                        tmp.Refresh();
+                        tmp.Invalidate();
                     }
                 }
             }
@@ -230,7 +230,7 @@ namespace LocalPLC.Base
             pic3Up = true;
             pic3Down = false;
             this.Image = null;
-            this.Refresh();
+            this.Invalidate();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace LocalPLC.Base
 
             pictest1.Parent = pictureBox1;
             pictest2.Parent = pictureBox1;
+            pictest3.Parent = pictureBox1;
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -117,7 +118,7 @@ namespace LocalPLC.Base
         }
 
 
-        private UserControlDO dout = new UserControlDO();
+
         private void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             pic2Selected = true;
@@ -181,7 +182,7 @@ namespace LocalPLC.Base
             }
         }
 
-        private UserControlDI di = new UserControlDI();
+
         private void pictureBox3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             pic3Selected = true;
@@ -200,6 +201,9 @@ namespace LocalPLC.Base
 
         }
 
+
+        //显示设备信息
+        private UserControlDevice device = new UserControlDevice();
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             var v = pictureBox1;
@@ -208,20 +212,59 @@ namespace LocalPLC.Base
                 if (ct is pictest)
                 {
                     ((pictest)ct).SetAllFlagFalse();
-                    ((pictest)ct).Refresh();
+                    ((pictest)ct).Invalidate();
                 }   
              }
 
+            if (!split.Panel2.Controls.Contains(device))
+            {
+                split.Panel2.Controls.Clear();
+                device.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(device);
+            }
 
-                    pic2Selected = false;
-            pic3Selected = false;
-            //pictureBox2.Invalidate();
-            //pictureBox3.Invalidate();
 
-            pictureBox1.Refresh();
-            //显示设备信息
-            picHighLighted(pictureBox1, 2);
+            //        pic2Selected = false;
+            //pic3Selected = false;
+            ////pictureBox2.Invalidate();
+            ////pictureBox3.Invalidate();
 
+            //pictureBox1.Refresh();
+            ////显示设备信息
+            //picHighLighted(pictureBox1, 2);
+
+
+        }
+
+        //显示DO信息
+        private UserControlDO dout = new UserControlDO();
+        private void pictest1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+            if (!split.Panel2.Controls.Contains(dout))
+            {
+                split.Panel2.Controls.Clear();
+                dout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(dout);
+            }
+
+            myDelegate(ConstVariable.DO);
+        }
+
+        private UserControlDI di = new UserControlDI();
+        private void pictest2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(di))
+            {
+                split.Panel2.Controls.Clear();
+                di.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(di);
+            }
+        }
+
+        //显示串口信息
+        private void pictest3_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
 
         }
     }
