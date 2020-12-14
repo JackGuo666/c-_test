@@ -39,6 +39,9 @@
       <HintPath>..\..\..\OneDrive_1_2020-4-7\Automation Toolkit M5.50\AutomationInterface\Interop.ADELib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="IPAddressControlLib">
+      <HintPath>..\packages\IPAddressControlLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -93,6 +96,12 @@
     </Compile>
     <Compile Include="Base\UserControlDO.Designer.cs">
       <DependentUpon>UserControlDO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlEth.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlEth.Designer.cs">
+      <DependentUpon>UserControlEth.cs</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="empty.cs">
@@ -208,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlDO.resx">
       <DependentUpon>UserControlDO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlEth.resx">
+      <DependentUpon>UserControlEth.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="empty.resx">
       <DependentUpon>empty.cs</DependentUpon>

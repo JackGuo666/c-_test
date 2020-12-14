@@ -32,6 +32,7 @@ namespace LocalPLC.Base
             pictest1.Parent = pictureBox1;
             pictest2.Parent = pictureBox1;
             pictest3.Parent = pictureBox1;
+            pictest4.Parent = pictureBox1;
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -271,6 +272,18 @@ namespace LocalPLC.Base
                 split.Panel2.Controls.Clear();
                 com.Dock = DockStyle.Fill;
                 split.Panel2.Controls.Add(com);
+            }
+        }
+
+        //网口信息
+        UserControlEth eth = new UserControlEth();
+        private void pictest4_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(eth))
+            {
+                split.Panel2.Controls.Clear();
+                eth.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(eth);
             }
         }
     }
