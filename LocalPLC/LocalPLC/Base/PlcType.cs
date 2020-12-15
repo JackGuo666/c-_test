@@ -28,6 +28,11 @@ namespace LocalPLC.Base
 
             pictureBox2.Parent = pictureBox1;
             pictureBox3.Parent = pictureBox1;
+
+            pictest1.Parent = pictureBox1;
+            pictest2.Parent = pictureBox1;
+            pictest3.Parent = pictureBox1;
+            pictest4.Parent = pictureBox1;
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -47,12 +52,13 @@ namespace LocalPLC.Base
                 Graphics gc = pictureBox3.CreateGraphics();
                 //gc.DrawLine(new Pen(Color.Red, 5), 0, 0, 500, 500);
 
-                Pen pen = new Pen(Color.DodgerBlue, 3);
+                Pen pen = new Pen(Color.DodgerBlue, 8);
                 gc.DrawRectangle(pen, 0, 0, pictureBox3.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
 
                 gc.Dispose();
                 base.OnPaint(e);
             }
+
 
             if (pic2Selected)
             {
@@ -63,6 +69,7 @@ namespace LocalPLC.Base
                 gc.DrawRectangle(pen, 0, 0, pictureBox2.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
 
                 gc.Dispose();
+
                 base.OnPaint(e);
             }
 
@@ -112,19 +119,39 @@ namespace LocalPLC.Base
         }
 
 
-        private UserControlDO dout = new UserControlDO();
+
         private void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             pic2Selected = true;
             pic3Selected = false;
 
-            split.Panel2.Controls.Clear();
-            dout.Dock = DockStyle.Fill;
-            split.Panel2.Controls.Add(dout);
+            if(!split.Panel2.Controls.Contains(dout))
+            {
+                split.Panel2.Controls.Clear();
+                dout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(dout);
 
+                Refresh();
+            }
 
+            myDelegate(ConstVariable.DO);
 
-            myDelegate("DO");
+        }
+
+        public void setDOInfo()
+        {
+            pic2Selected = true;
+            pic3Selected = false;
+
+            pictureBox2_MouseDoubleClick(null, null);
+        }
+
+        public void setDIInfo()
+        {
+            pic2Selected = true;
+            pic3Selected = false;
+
+            pictureBox3_MouseDoubleClick(null, null);
         }
 
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
@@ -156,17 +183,108 @@ namespace LocalPLC.Base
             }
         }
 
-        private UserControlDI di = new UserControlDI();
+
         private void pictureBox3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             pic3Selected = true;
             pic2Selected = false;
 
-            split.Panel2.Controls.Clear();
-            di.Dock = DockStyle.Fill;
-            split.Panel2.Controls.Add(di);
+            if (!split.Panel2.Controls.Contains(di))
+            {
+                split.Panel2.Controls.Clear();
+                di.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(di);
+
+                Refresh();
+                //有下面一行就刷新，没有就不刷新
+                picHighLighted(pictureBox3, 3);
+            }
+
         }
 
 
+        //显示设备信息
+        private UserControlDevice device = new UserControlDevice();
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            var v = pictureBox1;
+            foreach (Control ct in v.Controls)
+            {
+                if (ct is pictest)
+                {
+                    ((pictest)ct).SetAllFlagFalse();
+                    ((pictest)ct).Invalidate();
+                }   
+             }
+
+            if (!split.Panel2.Controls.Contains(device))
+            {
+                split.Panel2.Controls.Clear();
+                device.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(device);
+            }
+
+
+            //        pic2Selected = false;
+            //pic3Selected = false;
+            ////pictureBox2.Invalidate();
+            ////pictureBox3.Invalidate();
+
+            //pictureBox1.Refresh();
+            ////显示设备信息
+            //picHighLighted(pictureBox1, 2);
+
+
+        }
+
+        //显示DO信息
+        private UserControlDO dout = new UserControlDO();
+        private void pictest1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+            if (!split.Panel2.Controls.Contains(dout))
+            {
+                split.Panel2.Controls.Clear();
+                dout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(dout);
+            }
+
+            myDelegate(ConstVariable.DO);
+        }
+
+        private UserControlDI di = new UserControlDI();
+        private void pictest2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(di))
+            {
+                split.Panel2.Controls.Clear();
+                di.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(di);
+            }
+        }
+
+        //显示串口信息
+        UserControlCom com = new UserControlCom();
+        private void pictest3_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                com.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(com);
+            }
+        }
+
+        //网口信息
+        UserControlEth eth = new UserControlEth();
+        private void pictest4_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(eth))
+            {
+                split.Panel2.Controls.Clear();
+                eth.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(eth);
+            }
+        }
     }
 }

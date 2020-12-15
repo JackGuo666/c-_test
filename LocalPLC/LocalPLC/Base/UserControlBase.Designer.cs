@@ -50,6 +50,7 @@
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BackColor = System.Drawing.Color.White;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
@@ -83,7 +84,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.treeView2);
             this.splitContainer2.Size = new System.Drawing.Size(783, 546);
-            this.splitContainer2.SplitterDistance = 291;
+            this.splitContainer2.SplitterDistance = 213;
             this.splitContainer2.TabIndex = 0;
             // 
             // treeView2
@@ -95,7 +96,7 @@
             treeNode1.Text = "节点0";
             this.treeView2.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.treeView2.Size = new System.Drawing.Size(783, 251);
+            this.treeView2.Size = new System.Drawing.Size(783, 329);
             this.treeView2.TabIndex = 0;
             // 
             // treeView1
@@ -133,6 +134,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "UserControlBase";
             this.Size = new System.Drawing.Size(989, 546);
+            this.Load += new System.EventHandler(this.UserControlBase_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

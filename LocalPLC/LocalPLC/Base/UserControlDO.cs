@@ -15,6 +15,11 @@ namespace LocalPLC.Base
         public UserControlDO()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+            this.DoubleBuffered = true;//设置本窗体
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
+            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
         }
     }
 }
