@@ -12,7 +12,7 @@ namespace LocalPLC.Base
 {
     public partial class UserControlDI : UserControl
     {
-        public UserControlDI()
+        public UserControlDI(string name)
         {
             InitializeComponent();
         }

@@ -15,6 +15,7 @@ namespace LocalPLC.Base
         bool pic2Selected = false;
         bool pic3Selected = false;
 
+        Dictionary<string, pictest> picArray = new Dictionary<string, pictest>();
         private SplitContainer split = null;
         public delegate void DoSomethingEventHandler(string s1);
         DoSomethingEventHandler myDelegate = null;
@@ -33,6 +34,15 @@ namespace LocalPLC.Base
             pictest2.Parent = pictureBox1;
             pictest3.Parent = pictureBox1;
             pictest4.Parent = pictureBox1;
+
+            //key value
+            //com1 comobject 从配置文件读
+            picArray.Add("本体COM1", pictest3);
+            picArray.Add("本体ETH1", pictest4);
+            picArray.Add("DO", pictest1);
+            picArray.Add("DI", pictest2);
+
+
         }
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
@@ -138,20 +148,104 @@ namespace LocalPLC.Base
 
         }
 
-        public void setDOInfo()
+        public void setDOInfo(string name)
         {
-            pic2Selected = true;
-            pic3Selected = false;
+            //pic2Selected = true;
+            //pic3Selected = false;
 
-            pictureBox2_MouseDoubleClick(null, null);
+            //pictureBox2_MouseDoubleClick(null, null);
+
+            UserControlDO dout = new UserControlDO(name);
+            //if (!split.Panel2.Controls.Contains(dout))
+            {
+                split.Panel2.Controls.Clear();
+                dout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(dout);
+
+                setShow(name, picArray);
+            }
         }
 
-        public void setDIInfo()
+        private UserControlDI di = new UserControlDI(null);
+        public void setDIInfo(string name)
         {
-            pic2Selected = true;
-            pic3Selected = false;
+            //pic2Selected = true;
+            //pic3Selected = false;
 
-            pictureBox3_MouseDoubleClick(null, null);
+            //pictureBox3_MouseDoubleClick(null, null);
+
+            UserControlDI di = new UserControlDI(name);
+
+            split.Panel2.Controls.Clear();
+            di.Dock = DockStyle.Fill;
+            split.Panel2.Controls.Add(di);
+
+            setShow(name, picArray);
+        }
+
+        //name就是key，本体COM1，本体COM2等
+        public void setCOMInfo(string name)
+        {
+            UserControlCom com = new UserControlCom(name);
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                com.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(com);
+
+                setShow(name, picArray);
+
+                //if(picArray.ContainsKey(name))
+                //{
+                //    picArray[name].SetAllFlagFalse();
+                //    picArray[name].SetSelectedFlag(true);
+                //    picArray[name].Refresh();
+                //}
+            }
+        }
+
+
+        bool setShow(string name, Dictionary<string, pictest> picArray)
+        {
+            bool show = false;
+            foreach (var pic in picArray)
+            {
+                if(pic.Key == name)
+                {
+                    picArray[name].SetAllFlagFalse();
+                    picArray[name].SetSelectedFlag(true);
+                    picArray[name].Invalidate();
+
+                    show = true;
+                }
+                else
+                {
+                    picArray[pic.Key].SetAllFlagFalse();
+                    picArray[pic.Key].Invalidate();
+                }
+            }
+
+            return show;
+        }
+
+        public void setETHInfo(string name)
+        {
+            UserControlEth eth = new UserControlEth(name);
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                eth.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(eth);
+
+                setShow(name, picArray);
+
+                //if (picArray.ContainsKey(name))
+                //{
+                //    picArray[name].SetAllFlagFalse();
+                //    picArray[name].SetSelectedFlag(true);
+                //    picArray[name].Invalidate();
+                //}
+            }
         }
 
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
@@ -238,7 +332,7 @@ namespace LocalPLC.Base
         }
 
         //显示DO信息
-        private UserControlDO dout = new UserControlDO();
+        private UserControlDO dout = new UserControlDO(null);
         private void pictest1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
 
@@ -252,7 +346,7 @@ namespace LocalPLC.Base
             myDelegate(ConstVariable.DO);
         }
 
-        private UserControlDI di = new UserControlDI();
+
         private void pictest2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (!split.Panel2.Controls.Contains(di))
@@ -261,10 +355,12 @@ namespace LocalPLC.Base
                 di.Dock = DockStyle.Fill;
                 split.Panel2.Controls.Add(di);
             }
+
+            myDelegate(ConstVariable.DI);
         }
 
         //显示串口信息
-        UserControlCom com = new UserControlCom();
+        UserControlCom com = new UserControlCom(null);
         private void pictest3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (!split.Panel2.Controls.Contains(com))
@@ -273,10 +369,13 @@ namespace LocalPLC.Base
                 com.Dock = DockStyle.Fill;
                 split.Panel2.Controls.Add(com);
             }
+
+            //从配置文件读取的值
+            myDelegate("本体COM1");
         }
 
         //网口信息
-        UserControlEth eth = new UserControlEth();
+        UserControlEth eth = new UserControlEth(null);
         private void pictest4_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (!split.Panel2.Controls.Contains(eth))
@@ -285,6 +384,9 @@ namespace LocalPLC.Base
                 eth.Dock = DockStyle.Fill;
                 split.Panel2.Controls.Add(eth);
             }
+
+            //从配置文件读取的值
+            myDelegate("本体ETH1");
         }
     }
 }

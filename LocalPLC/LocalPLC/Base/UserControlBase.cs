@@ -63,7 +63,7 @@ namespace LocalPLC.Base
         }
 
         //树节点选中DO，PLC显示DO信息
-        public void setDOShow()
+        public void setDOShow(string name)
         {
             if(curPlcType == null)
             {
@@ -71,12 +71,12 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setDOInfo();
+                curPlcType.setDOInfo(name);
             }
         }
 
         //树节点选中DO，PLC显示DO信息
-        public void setDIShow()
+        public void setDIShow(string name)
         {
             if (curPlcType == null)
             {
@@ -84,8 +84,18 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setDIInfo();
+                curPlcType.setDIInfo(name);
             }
+        }
+
+        public void setCOMShow(string com)
+        {
+            curPlcType.setCOMInfo(com);
+        }
+
+        public void setETHShow(string eth)
+        {
+            curPlcType.setETHInfo(eth);
         }
     }
 }
