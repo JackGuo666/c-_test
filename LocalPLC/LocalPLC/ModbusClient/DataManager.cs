@@ -48,7 +48,7 @@ namespace LocalPLC.ModbusClient
 
         public int ID;
         //public DeviceData device { get; set; }
-
+        public int clientstartaddr;
         public string transformChannel;
         public int responseTimeout = 1000;  //ms
         public int transformMode;

@@ -88,6 +88,7 @@ namespace LocalPLC.ModbusClient
                 ModbusClientData data = new ModbusClientData();
 
                 int.TryParse(e.GetAttribute("id"), out data.ID);//将所有id属性的值（字符串）,转换成int32类型，输出变量为data.ID
+                int.TryParse(e.GetAttribute("clientstartaddr"), out data.clientstartaddr);
                 data.transformChannel = e.GetAttribute("transformchannel");
                 int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
@@ -155,6 +156,7 @@ namespace LocalPLC.ModbusClient
                 ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
                 XmlElement elem1_m = doc.CreateElement("modbusclient");//创建m节点
                 elem1_m.SetAttribute("id", data.ID.ToString());//给id节点赋值，值为data.ID
+                elem1_m.SetAttribute("clientstartaddr", data.clientstartaddr.ToString());
                 //transformChannel com1 com2 com3
                 elem1_m.SetAttribute("transformchannel", data.transformChannel);
                 //0 TCP    1 UDP
@@ -327,7 +329,7 @@ namespace LocalPLC.ModbusClient
                 data.ID = rowcount;
                 //dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
-
+                data.clientstartaddr = 1000 + 1000 * i;
                 clientManage.modbusClientList.Add(data);
             }
             

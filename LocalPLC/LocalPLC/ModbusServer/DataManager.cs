@@ -13,7 +13,7 @@ namespace LocalPLC.ModbusServer
         }
 
         public int coilCount;
-        public string coilIoAddrStart = "";
+        public string coilIoAddrStart ;
         public string coilIoAddrEnd;
         public string coilIoVarNameIn;
         public string coilIoVarNameOut;

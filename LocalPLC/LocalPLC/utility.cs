@@ -8,18 +8,15 @@ using System.IO;
 
 namespace LocalPLC
 {
-    class ConstVariable
+   class ConstVariable
     {
         public static string DO = "DO";
         public static string DI = "DI";
     }
-
 }
 
 namespace LocalPLC
-{
-
-    enum ArrayDataType{ DataBit, DataWord}
+{    enum ArrayDataType{ DataBit, DataWord}
 
     class SplicedDataType
     {
@@ -111,15 +108,15 @@ namespace LocalPLC
                             utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
-            var listClient = UserControl1.mci.clientManage.modbusClientList;
-            foreach(var client in list)
+            List< LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
+            foreach(LocalPLC.ModbusClient.ModbusClientData client in listClient)
             {
                 string str = string.Format("client_in{0}", client.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "driver1", "<默认>", "", client.curMasterLength, "test", AdeIoGroupDataType.adeIgdtByte
+                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "driver1", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
                     , 1, 1, 1, 1);
                 str = string.Format("client_out{0}", client.ID);
                 iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", client.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            utility.modbusMudule, "driver1", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
             string str1 = "server_in";
