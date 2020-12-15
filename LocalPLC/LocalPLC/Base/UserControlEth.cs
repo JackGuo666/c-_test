@@ -12,7 +12,7 @@ namespace LocalPLC.Base
 {
     public partial class UserControlEth : UserControl
     {
-        public UserControlEth()
+        public UserControlEth(string name)
         {
             InitializeComponent();
 

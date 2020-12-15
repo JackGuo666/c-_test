@@ -12,14 +12,14 @@ namespace LocalPLC.Base
 {
     public partial class UserControlDO : UserControl
     {
-        public UserControlDO()
+        public UserControlDO(string name)
         {
             InitializeComponent();
-            this.DoubleBuffered = true;
-            this.DoubleBuffered = true;//设置本窗体
-            SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
+            //this.DoubleBuffered = true;
+            //this.DoubleBuffered = true;//设置本窗体
+            //SetStyle(ControlStyles.UserPaint, true);
+            //SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.
+            //SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
         }
     }
 }

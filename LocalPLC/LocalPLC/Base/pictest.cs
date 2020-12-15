@@ -139,6 +139,12 @@ namespace LocalPLC.Base
             pic3Down = false;
             pic3Up = false;
         }
+
+        public void SetSelectedFlag(bool flag)
+        {
+            pic3Selected = flag;
+        }
+
         private void TMouseDoubleClick(object sender, MouseEventArgs e)
         {
             var v = (PictureBox)this.Parent;

@@ -85,10 +85,66 @@ namespace LocalPLC
             }
         }
 
+        /// <summary>
+        /// 遍历所有节点
+        /// </summary>
+        /// <param name="tv">TreeView</param>
+        /// <param name="tnc">tc=tv.Nodes</param>
+        /// <param name="nds">node.Text</param>
+        private void FindEvery(TreeView tv, TreeNodeCollection tnc, string nds)
+        {
+            if (tnc.Count != 0)
+            {
+                for (int i = 0; i < tnc.Count; i++)
+                {
+                    if (tnc[i].Text == nds)
+                    {
+                        tv.SelectedNode = tnc[i];
+                        tv.SelectedNode.Expand();//展开找到的节点
+                        //tv.SelectedNode.BackColor = System.Drawing.Color.LightGray;//谁知道在Node失去选中状态时，如何取消掉这个BackColor的，请留言评论
+                        return;//找到一个就返回，没有return则继续查找 直到遍历所有节点
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(tnc[i].Text);
+
+                    FindEvery(tv, tnc[i].Nodes, nds);
+                }
+            }
+        }
+
+        private TreeNode FindNode(TreeNode tnParent, string strValue)
+        {
+            if (tnParent == null) return null;
+            if (tnParent.Text == strValue) return tnParent;
+
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in tnParent.Nodes)
+            {
+                tnRet = FindNode(tn, strValue);
+                if (tnRet != null)
+                {
+                    treeView1.SelectedNode = tnRet;
+                    treeView1.SelectedNode.Expand();//展开找到的节点
+                    break;
+                }
+            }
+            return tnRet;
+        }
+
+
         //接受代理传来参数的方法
         public void DoSomething(string s1)
         {
-            SelectTreeView(treeView1, s1);
+            //SelectTreeView(treeView1, s1);
+            treeView1.Focus();
+            //FindEvery(treeView1, treeView1.Nodes, s1);
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in treeView1.Nodes)
+            {
+                tnRet = FindNode(tn, s1);
+                if (tnRet != null)
+                    return;
+            }
         }
 
         //void loadXml(ref )
@@ -311,11 +367,19 @@ namespace LocalPLC
             }
 			else if(name == ConstVariable.DO)
             {
-                UC.setDOShow();
+                UC.setDOShow(name);
             }
             else if(name == ConstVariable.DI)
             {
-                UC.setDIShow();
+                UC.setDIShow(name);
+            }
+            else if(name == "本体COM1")
+            {
+                UC.setCOMShow(name);
+            }
+            else if(name == "本体ETH1")
+            {
+                UC.setETHShow(name);
             }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
@@ -741,6 +805,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             {
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+
                 if (CurrentNode != null)//判断你点的是不是一个节点
                 {
                     CurrentNode.ContextMenuStrip = contextMenuStrip1;

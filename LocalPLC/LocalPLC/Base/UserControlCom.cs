@@ -13,13 +13,16 @@ namespace LocalPLC.Base
 {
     public partial class UserControlCom : UserControl
     {
-        public UserControlCom()
+        public UserControlCom(string com)
         {
             InitializeComponent();
 
             Init();
+
+            com_ = com;
         }
 
+        public string com_;
         private ArrayList baudList = new ArrayList();
         private ArrayList parityList = new ArrayList();
         private ArrayList databitList = new ArrayList();
