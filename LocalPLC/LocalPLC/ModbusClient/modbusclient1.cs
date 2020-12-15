@@ -85,6 +85,7 @@ namespace LocalPLC.ModbusClient
             Clientindex mci = new Clientindex();
             
             this.label5.Text = cn;
+            
             // this.dataGridView1.DataSource = dt;
              this.dataGridView1.BeginInvoke(new Action(() => { this.dataGridView1.DataSource = ds.Tables[Convert.ToInt32(cn)]; }));
             //this.dataGridView1.DataSource = ds.Tables[form1.clientnumber];
@@ -197,7 +198,7 @@ namespace LocalPLC.ModbusClient
         private void button1_Click(object sender, EventArgs e)
         {
             int rowcount = dataGridView1.RowCount;
-            
+
             //this.dataGridView1.Rows.Add(rowcount, "设备" + rowcount.ToString(), "", "", "", "", "", "");
             //btn.Name = "Beginbtn";
             //btn.HeaderText = "通道";
@@ -206,6 +207,12 @@ namespace LocalPLC.ModbusClient
             //{
             //    dataGridView1.Columns.Add(btn);
             //}
+            if (utility.masterDeviceCountMax <= dataGridView1.RowCount)
+            {
+                string err = string.Format("设备最大个数是{0}", utility.masterDeviceCountMax);
+                utility.PrintError(err);
+                return;
+            }
             DataRow dr = ds.Tables[0].NewRow();
             DeviceData data = new DeviceData();
             dr[(int)COLUMNNAME.ID] = rowcount;
@@ -334,6 +341,7 @@ namespace LocalPLC.ModbusClient
                 // ModbusClientData data1 = 
                 //CCl.getDeviceData(ref data);
                 CCl.getModbusClientData(ref datac);
+                CCl.ClientNumber(cn);
                 CCl.StartPosition = FormStartPosition.CenterScreen;
                 CCl.ShowDialog(this);
             }

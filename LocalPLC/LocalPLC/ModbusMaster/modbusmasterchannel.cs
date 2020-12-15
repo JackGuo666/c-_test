@@ -15,8 +15,8 @@ namespace LocalPLC.ModbusMaster
     {
         public enum COLUMNNAME_CHANNLE : int
         {
-            ID, NAME, MSGTYPE, POLLINGTIME, READOFFSET, READLENGTH,
-            WRITEOFFSET, WRITELENGTH, NOTE
+            ID, MSGTYPE, POLLINGTIME, READOFFSET, READLENGTH,
+            WRITEOFFSET, WRITELENGTH, NAME, NOTE
         };
 
         private DeviceData deviceData_ = null;
@@ -111,13 +111,12 @@ namespace LocalPLC.ModbusMaster
         {
             DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
             cellColumnID.Name = "ID";
-            DataGridViewTextBoxColumn cellColumnName = new DataGridViewTextBoxColumn();
-            cellColumnName.Name = "名称";
+
 
 
 
             DataGridViewComboBoxColumn columnMsgType = new DataGridViewComboBoxColumn();
-            columnMsgType.Name = "消息类型";
+            columnMsgType.Name = "功能码";
             columnMsgType.Items.Add("读多个位(线圈) - 0x01");
             columnMsgType.Items.Add("读多个位(离散输入) - 0x02");
             columnMsgType.Items.Add("读多个字(保持寄存器) - 0x03");
@@ -140,6 +139,9 @@ namespace LocalPLC.ModbusMaster
             DataGridViewTextBoxColumn cellColumnErrorVar = new DataGridViewTextBoxColumn();
             cellColumnErrorVar.ReadOnly = true;
             cellColumnErrorVar.Name = "错误变量";
+            
+            DataGridViewTextBoxColumn cellColumnName = new DataGridViewTextBoxColumn();
+            cellColumnName.Name = "名称";
             DataGridViewTextBoxColumn cellColumnNote = new DataGridViewTextBoxColumn();
             cellColumnNote.Name = "注释";
             //列标题自适应
@@ -147,13 +149,13 @@ namespace LocalPLC.ModbusMaster
 
 
             dataGridView1.Columns.Add(cellColumnID);
-            dataGridView1.Columns.Add(cellColumnName);
             dataGridView1.Columns.Add(columnMsgType);
             dataGridView1.Columns.Add(cellColumnPolling);
             dataGridView1.Columns.Add(cellColumnReadOffset);
             dataGridView1.Columns.Add(cellColumnReadLength);
             dataGridView1.Columns.Add(cellColumnTriggerVar);
             dataGridView1.Columns.Add(cellColumnErrorVar);
+            dataGridView1.Columns.Add(cellColumnName);
             dataGridView1.Columns.Add(cellColumnNote);
             for (int j = 0; j < this.dataGridView1.Columns.Count; j++)
             {
@@ -195,9 +197,9 @@ namespace LocalPLC.ModbusMaster
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = channelData.readLength;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = channelData.writeOffset;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = channelData.trigger;
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = channelData.writeLength;
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = channelData.error;
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = channelData.note;
                 i++;
@@ -212,7 +214,11 @@ namespace LocalPLC.ModbusMaster
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
         }
-
+        int dn = 0;
+        public void devicenumber(int a)
+        {
+            dn = a;
+        }
         private void button_add_Click(object sender, EventArgs e)
         {
             if (utility.masterDeviceChannleCountMax <= dataGridView1.RowCount)
@@ -233,7 +239,7 @@ namespace LocalPLC.ModbusMaster
 
             //
             data.ID = row;
-            data.nameChannel = "master_" + masterData_.ID.ToString() + "_" + deviceData_.nameDev + "_通道" + i.ToString();
+            data.nameChannel = "master" + masterData_.ID.ToString() + "_device" + dn + "_channel" + i.ToString();
             data.msgType = 0x01;
             //0x01 单bit 默认生成
             data.curChannelLength = 1 + 2;
@@ -261,8 +267,8 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = data.readOffset;
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READLENGTH].Value = data.readLength;
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = data.writeOffset.ToString();
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = data.writeLength.ToString();
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITEOFFSET].Value = "";
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = "";
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = "";
                 data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
@@ -371,10 +377,17 @@ namespace LocalPLC.ModbusMaster
                 //通道地址刷新
                 deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                 //变量地址 错误变量 界面刷新
-                refreshGridTableTwoVarAddr();
+                //refreshGridTableTwoVarAddr();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.POLLINGTIME)
             {
+                if(Convert.ToInt32(str) <= 50)
+                {
+                    MessageBox.Show("循环触发时间最小为50ms");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
+                    return;
+                }
+                else
                 int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READOFFSET)
@@ -422,15 +435,17 @@ namespace LocalPLC.ModbusMaster
                 //通道地址刷新
                 deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                 //变量地址 错误变量 界面刷新
-                refreshGridTableTwoVarAddr();
+                //refreshGridTableTwoVarAddr();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITEOFFSET)
             {
                 int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
+                deviceData_.modbusChannelList[e.RowIndex].trigger = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITELENGTH)
             {
                 int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
+                deviceData_.modbusChannelList[e.RowIndex].error = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NOTE)
             {

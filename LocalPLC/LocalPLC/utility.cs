@@ -59,11 +59,12 @@ namespace LocalPLC
 
     class utility
     {
-        //根据串口个数确定master个数，一个master有8个device，一个device有8个channel
+        //根据串口个数确定master个数，一个master有16个device，一个device有16个channel
         public static int masterCount = 5;
+        public static int clientCount = 5;
         //modbus master的设备最大个数
-        public static int masterDeviceCountMax = 8;
-        public static int masterDeviceChannleCountMax = 8;
+        public static int masterDeviceCountMax = 16;
+        public static int masterDeviceChannleCountMax = 16;
         //modbus总起始地址
         public static int modbusAddr = 1000;
         //每个单位间隔1000字节

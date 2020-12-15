@@ -166,6 +166,8 @@ namespace LocalPLC.ModbusMaster
                         elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());
                         elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
                         elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
+                        elem1_m_d_c.SetAttribute("trigger", dataChannel.trigger.ToString());
+                        elem1_m_d_c.SetAttribute("error", dataChannel.error.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
 
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
@@ -736,6 +738,8 @@ namespace LocalPLC.ModbusMaster
         public int readLength;
         public int writeOffset;
         public int writeLength;
+        public string trigger;
+        public string error;
         public string note;
         
 

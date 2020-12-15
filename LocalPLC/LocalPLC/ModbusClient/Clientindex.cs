@@ -320,7 +320,12 @@ namespace LocalPLC.ModbusClient
         private void button1_Click(object sender, EventArgs e)
         {
             int rowcount = dataGridView1.RowCount;
-
+            if (dataGridView1.RowCount >= utility.clientCount)
+            {
+                string err = string.Format("client最大个数是{0}", utility.clientCount);
+                utility.PrintError(err);
+                return;
+            }
             dataGridView1.RowCount += 1;
             int i = rowcount;
             ModbusClientData data = new ModbusClientData();
@@ -448,6 +453,7 @@ namespace LocalPLC.ModbusClient
                     this.label1.Text = this.dataGridView1.SelectedRows[0].Index.ToString();
                     
                     mct1.ClientNumber(this.label1.Text);
+                    
                     mct1.getClientData(ref data);
                     //cc1.ClientNumber(this.label1.Text);
                     // cc1.getClientData(ref data);
