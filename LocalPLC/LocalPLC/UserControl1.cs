@@ -744,6 +744,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         }
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             saveXml();
             saveJson();
 
@@ -763,7 +764,11 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 return;
             }
             int coillength = msi.serverDataManager.listServer[0].dataDevice_.coilCount;
-            int coilstart =Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
+            int coilstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
+            int coilIOstart = msi.serverDataManager.listServer[0].serverstartaddr;
+            int holdinglength = msi.serverDataManager.listServer[0].dataDevice_.holdingCount;
+            int holdingstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.holdingIoAddrStart);
+            int holdingIOstart = msi.serverDataManager.listServer[0].serverstartaddr+100;
             if (multiprogApp != null && multiprogApp.IsProjectOpen())
             {
                 Hardware physicalHardware = multiprogApp.ActiveProject.Hardware;
@@ -775,9 +780,9 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                        
                         foreach (VariableGroup servergroup in groups)
                         {
-                            if (servergroup.Name == "Server")
+                            if (servergroup.Name == "Server")//变量组是否为Server组
                             {
-                                foreach(ADELib.Variable variable in servergroup.Variables)
+                                foreach(ADELib.Variable variable in servergroup.Variables)//遍历组中变量，根据变量在modbus地址这一项中的值，修改IO地址
                                 {
                                     object mda = variable.GetAttribute(19);
                                     int modbusaddr = Convert.ToInt32(mda);
@@ -788,8 +793,16 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         {
                                             int a = i / 8;
                                             int b = i % 8;
-                                            variable.IecAddress ="%MX" +(coilstart+a).ToString()+"."+b.ToString();
+                                            variable.IecAddress ="%MX" +(coilIOstart+a).ToString()+"."+b.ToString();
                                             
+                                        }
+                                    }
+                                    for (int j = 0;j < holdinglength;j++)
+                                    {
+                                        if (modbusaddr == holdingstart + j)
+                                        {
+
+                                            variable.IecAddress = "%MW" + (holdingIOstart + j).ToString();
                                         }
                                     }
                                 }
