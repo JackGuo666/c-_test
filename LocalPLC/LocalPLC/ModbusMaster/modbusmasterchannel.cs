@@ -134,10 +134,10 @@ namespace LocalPLC.ModbusMaster
             DataGridViewTextBoxColumn cellColumnReadLength = new DataGridViewTextBoxColumn();
             cellColumnReadLength.Name = "长度";
             DataGridViewTextBoxColumn cellColumnTriggerVar = new DataGridViewTextBoxColumn();
-            cellColumnTriggerVar.ReadOnly = true;
+            //cellColumnTriggerVar.ReadOnly = true;
             cellColumnTriggerVar.Name = "触发变量";
             DataGridViewTextBoxColumn cellColumnErrorVar = new DataGridViewTextBoxColumn();
-            cellColumnErrorVar.ReadOnly = true;
+            //cellColumnErrorVar.ReadOnly = true;
             cellColumnErrorVar.Name = "错误变量";
             
             DataGridViewTextBoxColumn cellColumnName = new DataGridViewTextBoxColumn();
@@ -239,7 +239,7 @@ namespace LocalPLC.ModbusMaster
 
             //
             data.ID = row;
-            data.nameChannel = "master" + masterData_.ID.ToString() + "_device" + dn + "_channel" + i.ToString();
+            data.nameChannel = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
             data.msgType = 0x01;
             //0x01 单bit 默认生成
             data.curChannelLength = 1 + 2;

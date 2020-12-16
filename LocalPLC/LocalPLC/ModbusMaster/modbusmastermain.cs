@@ -98,6 +98,10 @@ namespace LocalPLC.ModbusMaster
                         int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
                         int.TryParse(e.GetAttribute("readoffset"), out channelData.readOffset);
                         int.TryParse(e.GetAttribute("readlength"), out channelData.readLength);
+                        
+                        channelData.trigger = e.GetAttribute("trigger");
+                        channelData.error = e.GetAttribute("error");
+                        int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.curChannelAddr);
                         int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
                         int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
                         channelData.note = e.GetAttribute("note");
@@ -163,11 +167,12 @@ namespace LocalPLC.ModbusMaster
                         elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
                         elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
                         elem1_m_d_c.SetAttribute("readoffset", dataChannel.readOffset.ToString());
-                        elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());
-                        elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
-                        elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
+                        elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());                       
                         elem1_m_d_c.SetAttribute("trigger", dataChannel.trigger.ToString());
                         elem1_m_d_c.SetAttribute("error", dataChannel.error.ToString());
+                        elem1_m_d_c.SetAttribute("channelstartaddr", dataChannel.curChannelAddr.ToString());
+                        elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
+                        elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
 
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点

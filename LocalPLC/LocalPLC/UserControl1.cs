@@ -824,7 +824,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             utility.addIOGroups();
 
             //utility.addServerIOGroups();
-            utility.addVarType();
+            //utility.addVarType();
+            utility.addVarType1();
             utility.addVariables();
             multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }

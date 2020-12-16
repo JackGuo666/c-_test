@@ -32,7 +32,7 @@ namespace LocalPLC
             {
                 if (!utility.varTypeDicBit.ContainsKey(count))
                 {
-                    string varTypeName = string.Format("ARRAY_bit_{0}", count);
+                    string varTypeName = string.Format("ARRAY_bit_{0}", name);
                     strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF BOOL;";
                     strArray += "\r\nEND_TYPE\r\n";
                     
@@ -45,7 +45,7 @@ namespace LocalPLC
             }
             else if(type == ArrayDataType.DataWord)
             {
-                string varTypeName = string.Format("ARRAY_word_{0}", count);
+                string varTypeName = string.Format("ARRAY_word_{0}", name);
 
                 strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF WORD;";
                 strArray += "\r\nEND_TYPE\r\n";
@@ -218,7 +218,7 @@ namespace LocalPLC
                     foreach (VariableGroup ttt in groups)
                     {
                         var name = ttt.Name;
-                        if (name == "master")
+                        if (name == "Master")
                         {
                             foreach(var master in UserControl1.modmaster.masterManage.modbusMastrList)
                             {
@@ -230,6 +230,7 @@ namespace LocalPLC
                                         {
                                             string varType = utility.varTypeDicBit[channel.readLength];
                                             string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                            ttt.Variables.Create("trigger_"+ channel.nameChannel, );
                                             ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
                                                 "Inserted from AIFDemo", "", adress, false);
                                         }
@@ -344,6 +345,108 @@ namespace LocalPLC
 
         public static Dictionary<int, string> varTypeDicBit = new Dictionary<int, string>();
         public static Dictionary<int, string> varTypeDicWord = new Dictionary<int, string>();
+        static public void addVarType1()
+        {
+            varTypeDicBit.Clear();
+            varTypeDicWord.Clear();
+            if (!UserControl1.multiprogApp.IsProjectOpen())
+            {
+                return;
+            }
+            string fullName1 = UserControl1.multiprogApp.ActiveProject.Path + "\\" + UserControl1.multiprogApp.ActiveProject.Name + "\\dt\\Task_Info\\Task_Info.TYB";
+            string path = UserControl1.multiprogApp.ActiveProject.FullName;
+            FileStream fs2 = new FileStream(fullName1, FileMode.Open, FileAccess.Read);
+            StreamReader sr2 = new StreamReader(fs2, Encoding.Default);
+            string s2;
+            s2 = sr2.ReadLine();
+            
+            string strSave2 = "";
+            string compare1 = "TYPE";
+            string compare2 = "Task_Info_eCLR :";
+            string compare3 = "STRUCT";
+            string compare4 = "TaskStack : INT;";
+            string compare5 = "END_STRUCT;";
+            string compare6 = "END_TYPE";
+
+            int count2 = 0;
+
+            while (s2 != null)
+            {
+                strSave2 += s2 + "\r\n";
+
+
+
+                s2 = s2.Trim();
+                if (compare1 == s2)
+                {
+                    count2 = 0;
+                    count2++;
+                }
+                else if (compare2 == s2)
+                {
+                    count2++;
+                }
+                else if (compare3 == s2)
+                {
+                    count2++;
+                }
+                else if (compare4 == s2)
+                {
+                    count2++;
+                }
+                else if (compare5 == s2)
+                {
+                    count2++;
+                }
+                else if (compare6 == s2)
+                {
+                    count2++;
+
+                    if (count2 == 6)
+                    {
+                        int b = 5;
+                        b = 6;
+                        break;
+                    }
+                }
+
+
+
+                s2 = sr2.ReadLine();
+            }
+            fs2.Dispose();
+            fs2.Close();
+            sr2.Close();
+
+
+            FileStream fs3 = new FileStream(fullName1, FileMode.OpenOrCreate);
+            fs3.SetLength(0);
+            StreamWriter sw2 = new StreamWriter(fs3, Encoding.Default);
+
+            foreach (var master in LocalPLC.UserControl1.modmaster.masterManage.modbusMastrList)
+            {
+                foreach (var device in master.modbusDeviceList)
+                {
+                    foreach (var channel in device.modbusChannelList)
+                    {
+                        if (SplicedDataType.hashSetBit.Contains(channel.msgType))
+                        {
+                            strSave2 += SplicedDataType.splicedDataTypeArray("master"+master.ID.ToString()+"dev"+device.ID.ToString()+"cha"+channel.ID.ToString(), ArrayDataType.DataBit, channel.readLength);
+                        }
+                        else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
+                        {
+                            strSave2 += SplicedDataType.splicedDataTypeArray("master" + master.ID.ToString() + "dev" + device.ID.ToString() + "cha" + channel.ID.ToString(), ArrayDataType.DataWord, channel.readLength);
+                        }
+
+                    }
+                }
+            }
+            sw2.WriteLine(strSave2);
+            sw2.Close();
+            fs3.Dispose();
+            fs3.Close();
+            UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+        }
         static public void addVarType()
         {
             varTypeDicBit.Clear();
@@ -354,15 +457,21 @@ namespace LocalPLC
                 return;
             }
             string fullName = UserControl1.multiprogApp.ActiveProject.Path + "\\" + UserControl1.multiprogApp.ActiveProject.Name + "\\DT\\datatype\\datatype.TYB";
-            ;
+            
+            
             string path = UserControl1.multiprogApp.ActiveProject.FullName;
+            
 
             FileStream fs1 = new FileStream(fullName, FileMode.Open, FileAccess.Read);
             StreamReader sr1 = new StreamReader(fs1, Encoding.Default);
-            string s;
-            s = sr1.ReadLine();
-            string strSave = "";
+            
 
+            string s;
+            
+            s = sr1.ReadLine();
+           
+            string strSave = "";
+           
             string compare1 = "TYPE";
             string compare2 = "Task_Info_eCLR :";
             string compare3 = "STRUCT";
@@ -371,6 +480,7 @@ namespace LocalPLC
             string compare6 = "END_TYPE";
 
             int count = 0;
+           
             while (s != null)
             {
                 strSave += s + "\r\n";
@@ -415,32 +525,34 @@ namespace LocalPLC
 
                 s = sr1.ReadLine();
             }
-
+            
             fs1.Dispose();
             fs1.Close();
             sr1.Close();
-
+            
 
             FileStream fs = new FileStream(fullName, FileMode.OpenOrCreate);
             fs.SetLength(0);
             StreamWriter sw = new StreamWriter(fs, Encoding.Default);
 
+
             //sw.WriteLine("TYPE\r\nnimade: ARRAY[0..20] OF BYTE;\r\nEND_TYPE");
+
             foreach (var master in LocalPLC.UserControl1.modmaster.masterManage.modbusMastrList)
             {
                 foreach (var device in master.modbusDeviceList)
                 {
                     foreach (var channel in device.modbusChannelList)
                     {
-                        if(SplicedDataType.hashSetBit.Contains(channel.msgType))
+                        if (SplicedDataType.hashSetBit.Contains(channel.msgType))
                         {
                             strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataBit, channel.readLength);
                         }
-                        else if(SplicedDataType.hashSetWord.Contains(channel.msgType))
+                        else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
                         {
                             strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataWord, channel.readLength);
                         }
-                                        
+
                     }
                 }
             }
@@ -449,8 +561,8 @@ namespace LocalPLC
             fs.Dispose();
             fs.Close();
 
-
             
+
 
             //UserControl1.multiprogApp.ActiveProject.Close();
             //UserControl1.multiprogApp.OpenProject(path, AdeConfirmRule.adeCrConfirm);
