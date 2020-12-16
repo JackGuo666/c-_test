@@ -36,7 +36,7 @@ namespace LocalPLC.ModbusClient
         public int devnumber;
         public enum COLUMNNAME_CHANNLE : int
         {
-            ID, 名称,功能码,循环触发时间,偏移,长度,触发变量,错误变量,注释
+            ID,功能码,循环触发时间,偏移,长度,触发变量,错误变量,名称,注释
         };
         private DeviceData data_;
         private ModbusClientData data2 { get; set; }
@@ -73,13 +73,14 @@ namespace LocalPLC.ModbusClient
             {
                 ds.Tables.Add(new DataTable());
                 ds.Tables[i].Columns.Add("ID", Type.GetType("System.Int32"));
-                ds.Tables[i].Columns.Add("名称", Type.GetType("System.String"));
-                ds.Tables[i].Columns.Add("消息类型（功能码）", Type.GetType("System.String"));
+               
+                ds.Tables[i].Columns.Add("功能码", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("循环触发时间", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("偏移", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("长度", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("触发变量", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("错误变量", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("名称", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("注释", Type.GetType("System.String"));
             }
             dc.Tables.Add(new DataTable());
@@ -100,7 +101,16 @@ namespace LocalPLC.ModbusClient
             //}
 
         }
-
+        public string cn = null;
+        public void ClientNumber(string a)
+        {
+            cn = a;
+           
+        }
+        public string get()
+        {
+            return cn;
+        }
         public void getModbusClientData(ref ModbusClientData data)
         {
             data2 = data;
@@ -115,6 +125,7 @@ namespace LocalPLC.ModbusClient
         //DataGridViewComboBoxColumn dc = new DataGridViewComboBoxColumn();
         private void ClientChannel_Load(object sender, EventArgs e)
         {
+            
             ModbusClient.modbusclient1 mc1 = (modbusclient1)this.Owner;
             this.label3.Text = mc1.channelnumber.ToString();
             this.label5.Text = mc1.channelnumber.ToString();
@@ -311,9 +322,18 @@ namespace LocalPLC.ModbusClient
         public int clientstartaddr;
         public int devstartaddr;
         public int channelstartaddr;
+
+       
         
         private void add_Click(object sender, EventArgs e)
         {
+            if (utility.masterDeviceChannleCountMax <= dataGridView2.RowCount)
+            {
+                string err = string.Format("通道最大个数是{0}", utility.masterDeviceChannleCountMax);
+                utility.PrintError(err);
+                return;
+            }
+
             //int rowcount = dataGridView2.RowCount;
             //this.dataGridView2.Rows.Add(rowcount, "设备" + rowcount.ToString(), functioncode1, "", "", "", "", "");
             //int z = ds.Tables[0].Rows.Count;
@@ -321,6 +341,7 @@ namespace LocalPLC.ModbusClient
             //int l = Convert.ToInt32(mct1.clientnumber);
             clientstartaddr = 1000*(devnumber+1);
             //int lastendaddr = 1000*(Convert.ToInt32( mci.clientnumber)+1);
+
 
             int n = Convert.ToInt32(this.label3.Text);
 
@@ -357,10 +378,8 @@ namespace LocalPLC.ModbusClient
             ChannelData data = new ChannelData();
             int type = 0;
             dr[(int)COLUMNNAME_CHANNLE.ID] = dataGridView2.RowCount;
-            data.ID = dataGridView2.RowCount;
-            dr[(int)COLUMNNAME_CHANNLE.名称] = "通道" + dataGridView2.RowCount;
-            data.nameChannel = dr[(int)COLUMNNAME_CHANNLE.名称].ToString();
-            dr[(int)COLUMNNAME_CHANNLE.功能码] = 0;
+            data.ID = dataGridView2.RowCount;         
+            dr[(int)COLUMNNAME_CHANNLE.功能码] = 1;
             data.msgType = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.功能码]);
             dr[(int)COLUMNNAME_CHANNLE.循环触发时间] = 1000;
             data.pollingTime =Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.循环触发时间]);
@@ -368,10 +387,14 @@ namespace LocalPLC.ModbusClient
             data.Offset = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.偏移]);
             dr[(int)COLUMNNAME_CHANNLE.长度] = 1;
             data.Length = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.长度]);
-            dr[(int)COLUMNNAME_CHANNLE.触发变量] = channelstartaddr;
+            dr[(int)COLUMNNAME_CHANNLE.触发变量] = null;
             data.trigger_offset = (dr[(int)COLUMNNAME_CHANNLE.触发变量].ToString());
-            dr[(int)COLUMNNAME_CHANNLE.错误变量] = channelstartaddr+1;
+            dr[(int)COLUMNNAME_CHANNLE.错误变量] = null;
             data.error_offset = (dr[(int)COLUMNNAME_CHANNLE.错误变量].ToString());
+            
+            dr[(int)COLUMNNAME_CHANNLE.名称] = "client_" + cn + "_device_" + label3.Text + "_channel_" + data.ID;
+            //"通道" + dataGridView2.RowCount;
+            data.nameChannel = dr[(int)COLUMNNAME_CHANNLE.名称].ToString();
             dr[(int)COLUMNNAME_CHANNLE.注释] = "";
             data.note = dr[(int)COLUMNNAME_CHANNLE.注释].ToString();
             ds.Tables[n].Rows.Add(dr.ItemArray);
@@ -398,7 +421,7 @@ namespace LocalPLC.ModbusClient
                 cell.DisplayMember = "functioncode";
                 cell.ValueMember = "displayvalue";
                 cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
+                dataGridView2.Rows[i].Cells["功能码"] = cell;
             }
             
 
@@ -473,7 +496,7 @@ namespace LocalPLC.ModbusClient
                 cell.DisplayMember = "functioncode";
                 cell.ValueMember = "displayvalue";
                 cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
+                dataGridView2.Rows[i].Cells["功能码"] = cell;
             }
             if (e.RowIndex == -1)
             {
@@ -495,7 +518,7 @@ namespace LocalPLC.ModbusClient
                 cell.DisplayMember = "functioncode" ;
                 cell.ValueMember = "displayvalue";
                 cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
+                dataGridView2.Rows[i].Cells["功能码"] = cell;
                 
             }
             dataGridView2.Columns[6].ReadOnly = true;
@@ -514,7 +537,7 @@ namespace LocalPLC.ModbusClient
                     cell.DisplayMember = "functioncode";
                     cell.ValueMember = "displayvalue";
                     cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                    dataGridView2.Rows[i].Cells["消息类型（功能码）"] = cell;
+                    dataGridView2.Rows[i].Cells["功能码"] = cell;
                 }
                 return;
             }
@@ -609,6 +632,13 @@ namespace LocalPLC.ModbusClient
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.循环触发时间)
             {
                 //int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
+                if (Convert.ToInt32(str) <= 50)
+                {
+                    MessageBox.Show("循环触发时间最小为50ms");
+                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
+                    return;
+                }
+                else
                 int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).pollingTime);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.偏移)

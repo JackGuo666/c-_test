@@ -824,7 +824,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             utility.addIOGroups();
 
             //utility.addServerIOGroups();
-            utility.addVarType();
+            //utility.addVarType();
+            utility.addVarType1();
             utility.addVariables();
             multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
@@ -842,6 +843,12 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             int holdinglength = msi.serverDataManager.listServer[0].dataDevice_.holdingCount;
             int holdingstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.holdingIoAddrStart);
             int holdingIOstart = msi.serverDataManager.listServer[0].serverstartaddr+100;
+            int decretelength = msi.serverDataManager.listServer[0].dataDevice_.decreteCount;
+            int decretestart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.decreteIoAddrStart);
+            int decreteIOstart = msi.serverDataManager.listServer[0].serverstartaddr+500;
+            int statuslength = msi.serverDataManager.listServer[0].dataDevice_.statusCount;
+            int statusstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.statusIoAddrStart);
+            int statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + 600;
             if (multiprogApp != null && multiprogApp.IsProjectOpen())
             {
                 Hardware physicalHardware = multiprogApp.ActiveProject.Hardware;
@@ -876,6 +883,23 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         {
 
                                             variable.IecAddress = "%MW" + (holdingIOstart + j).ToString();
+                                        }
+                                    }
+                                    for (int k = 0; k < decretelength; k++)
+                                    {
+                                        if (modbusaddr == decretestart + k)
+                                        {
+                                            int c = k / 8;
+                                            int d = k % 8;
+                                            variable.IecAddress = "%IX" + (decreteIOstart + c).ToString()+"."+d.ToString();
+                                        }
+                                    }
+                                    for (int l = 0; l < statuslength; l++)
+                                    {
+                                        if (modbusaddr == statusstart + l)
+                                        {
+
+                                            variable.IecAddress = "%IW" + (statusIOstart + l).ToString();
                                         }
                                     }
                                 }
