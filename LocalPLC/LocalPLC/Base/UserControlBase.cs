@@ -90,12 +90,28 @@ namespace LocalPLC.Base
 
         public void setCOMShow(string com)
         {
-            curPlcType.setCOMInfo(com);
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setCOMInfo(com);
+            }
+
         }
 
         public void setETHShow(string eth)
         {
-            curPlcType.setETHInfo(eth);
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setETHInfo(eth);
+            }
+
         }
     }
 }
