@@ -51,7 +51,7 @@ namespace LocalPLC.Base
         {
             //view绑定datatable
             DataTable dtData = new DataTable();
-            dtData.Columns.Add("ID");
+            dtData.Columns.Add("ID", typeof(bool));
             dtData.Columns.Add("Name");
             dtData.Columns.Add("Sex");
             DataRow drData;
@@ -164,7 +164,7 @@ namespace LocalPLC.Base
 
             //将下拉列表框加入到DataGridView控件中
             this.dataGridView1.Controls.Add(cmb_Temp);
-            //this.dataGridView1.Columns[2].DisplayIndex = 0;
+            this.dataGridView1.Columns[2].DisplayIndex = 1;
         }
 
         private void cmb_Temp_SelectedIndexChanged(object sender, EventArgs e)
@@ -273,6 +273,33 @@ namespace LocalPLC.Base
             }
 
 
+        }
+
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (this.dataGridView1.CurrentCell.ColumnIndex == 2)
+            {
+                string str = this.dataGridView1.CurrentCell.Tag.ToString();
+                int value = 0;
+                int.TryParse(str, out value);
+                if (sexDic.ContainsKey(value))
+                {
+                    this.dataGridView1.CurrentCell.Value = sexDic[value];
+                }
+            }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
+
+        private void dataGridView1_DataSourceChanged(object sender, EventArgs e)
+        {
+            //绑定事件DataBindingComplete 之后设置才有效果
+            dataGridView1.Columns[0].ReadOnly = true;
+            //背景设置灰色只读
+            dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
         }
     }
 }
