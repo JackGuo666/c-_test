@@ -220,17 +220,36 @@ namespace LocalPLC
                         var name = ttt.Name;
                         if (name == "Master")
                         {
+                            foreach(Variable variable in ttt.Variables)
+                            {
+                                variable.Delete();
+                            }
                             foreach(var master in UserControl1.modmaster.masterManage.modbusMastrList)
                             {
                                 foreach(var device in master.modbusDeviceList)
                                 {
+                                    if (device.resetVaraible != "")
+                                    {
+                                        ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "复位变量", "", "%IB" + device.curDeviceAddr.ToString());
+                                    }
                                     foreach(var channel in device.modbusChannelList)
                                     {
                                         if(utility.varTypeDicBit.ContainsKey(channel.readLength))
                                         {
                                             string varType = utility.varTypeDicBit[channel.readLength];
                                             string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
-                                            ttt.Variables.Create("trigger_"+ channel.nameChannel, );
+                                            if (channel.trigger !="")
+                                            {
+                                                ttt.Variables.Create(channel.trigger,"BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "触发变量","","%IB"+ channel.curChannelAddr.ToString());
+                                            }
+                                            if (channel.error != "")
+                                            {
+                                                ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString() );
+                                            }
+                                            
                                             ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
                                                 "Inserted from AIFDemo", "", adress, false);
                                         }
@@ -238,6 +257,16 @@ namespace LocalPLC
                                         {
                                             string varType = utility.varTypeDicWord[channel.readLength];
                                             string adress = string.Format("%IW{0}", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                            if (channel.trigger != "")
+                                            {
+                                                ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "触发变量", "", "%IB" + channel.curChannelAddr.ToString());
+                                            }
+                                            if (channel.error != "")
+                                            {
+                                                ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString());
+                                            }
                                             ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
                                                 "Inserted from AIFDemo", "", adress, false);
                                         }
