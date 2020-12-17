@@ -84,7 +84,8 @@ namespace LocalPLC.ModbusMaster
                     int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
                     int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
                     deviceData.resetVaraible = e.GetAttribute("resetvaraible");
-
+                    int.TryParse(e.GetAttribute("devstartaddr"), out deviceData.curDeviceAddr);
+                    int.TryParse(e.GetAttribute("devlength"), out deviceData.curDeviceLength);
                     //读取channel数据
                     XmlNodeList nodeChannelList = childDeviceNode.ChildNodes;
                     foreach(XmlNode childChannelNode in nodeChannelList)
@@ -102,6 +103,7 @@ namespace LocalPLC.ModbusMaster
                         channelData.trigger = e.GetAttribute("trigger");
                         channelData.error = e.GetAttribute("error");
                         int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.curChannelAddr);
+                        int.TryParse(e.GetAttribute("channellength"), out channelData.curChannelLength);
                         int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
                         int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
                         channelData.note = e.GetAttribute("note");
@@ -156,9 +158,12 @@ namespace LocalPLC.ModbusMaster
                     elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
                     elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
                     elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible);
+                    elem1_m_d.SetAttribute("devstartaddr", dataDev.curDeviceAddr.ToString());
+                    elem1_m_d.SetAttribute("devlength", dataDev.curDeviceLength.ToString());
+
 
                     //通道
-                    for(int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
+                    for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
                     {
                         ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
                         XmlElement elem1_m_d_c = doc.CreateElement("channel");
@@ -171,6 +176,7 @@ namespace LocalPLC.ModbusMaster
                         elem1_m_d_c.SetAttribute("trigger", dataChannel.trigger.ToString());
                         elem1_m_d_c.SetAttribute("error", dataChannel.error.ToString());
                         elem1_m_d_c.SetAttribute("channelstartaddr", dataChannel.curChannelAddr.ToString());
+                        elem1_m_d_c.SetAttribute("channellength", dataChannel.curChannelLength.ToString());
                         elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
                         elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
@@ -743,8 +749,8 @@ namespace LocalPLC.ModbusMaster
         public int readLength;
         public int writeOffset;
         public int writeLength;
-        public string trigger;
-        public string error;
+        public string trigger = "";
+        public string error = "";
         public string note;
         
 
@@ -775,13 +781,13 @@ namespace LocalPLC.ModbusMaster
         public int reponseTimeout;
         public int permitTimeoutCount;
         public int reconnectInterval;
-        public string resetVaraible;
+        public string resetVaraible = "";
         public string channel;
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
 
         public void addChannel(ChannelData data)
         {
-            data.curChannelAddr = curDeviceAddr;
+            data.curChannelAddr = curDeviceAddr + 1;
             foreach(var channel in modbusChannelList)
             {
                 data.curChannelAddr += channel.curChannelLength;
@@ -810,7 +816,7 @@ namespace LocalPLC.ModbusMaster
             int tmpAddr = curDeviceAddr;
             for (int i = 0; i < modbusChannelList.Count; i++)
             {
-                modbusChannelList[i].curChannelAddr = tmpAddr;
+                modbusChannelList[i].curChannelAddr = tmpAddr+1;
                 modbusChannelList[i].writeOffset = tmpAddr;
                 modbusChannelList[i].writeLength = tmpAddr + 1;
 
@@ -823,7 +829,7 @@ namespace LocalPLC.ModbusMaster
 
         public int checkDeviceLength()
         {
-            int deviceLength = 0;
+            int deviceLength = 1;
             foreach(var channel in modbusChannelList)
             {
                 deviceLength += channel.curChannelLength;
@@ -859,7 +865,8 @@ namespace LocalPLC.ModbusMaster
             {
                 data.curDeviceAddr += device.curDeviceLength;
             }
-
+            //data.curDeviceAddr += 1;
+            int t = data.curDeviceAddr;
             modbusDeviceList.Add(data);
         }
 
