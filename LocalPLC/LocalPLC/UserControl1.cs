@@ -367,6 +367,15 @@ namespace LocalPLC
             }
 			else if(name == ConstVariable.DO)
             {
+                if(!ModbusWindow.Controls.Contains(UC))
+                {
+                    UC.Show();
+                    ModbusWindow.Controls.Clear();
+                    UC.Dock = DockStyle.Fill;
+                    ////UC.Size = new Size(472, 336);
+                    ModbusWindow.Controls.Add(UC);
+                }
+
                 UC.setDOShow(name);
             }
             else if(name == ConstVariable.DI)
