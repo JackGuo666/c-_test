@@ -275,14 +275,19 @@ namespace LocalPLC.ModbusClient
 
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.复位变量].Value = "";
                 //data.resetVaraible = dataGridView1.Rows[i].Cells[(int)COLUMNNAME.复位变量].Value.ToString(); 
-                
+
 
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.通道].Value = "..."/* + i.ToString()*/;
                 //data.
 
 
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
-
+                if (rowcount > 0)
+                {
+                    data.devstartaddr = data_.clientstartaddr + data_.modbusDeviceList[rowcount - 1].devlength;
+                }
+                else
+                    data.devstartaddr = data_.clientstartaddr;
                 data_.modbusDeviceList.Add(data);
                 //data_.modbusDeviceList.Insert(1, data);
             }

@@ -317,6 +317,7 @@ namespace LocalPLC.ModbusClient
         {
             ID
         };
+        ModbusClientData data = new ModbusClientData();
         private void button1_Click(object sender, EventArgs e)
         {
             int rowcount = dataGridView1.RowCount;
@@ -327,20 +328,29 @@ namespace LocalPLC.ModbusClient
                 return;
             }
             dataGridView1.RowCount += 1;
+            
             int i = rowcount;
-            ModbusClientData data = new ModbusClientData();
+            //ModbusClientData data = new ModbusClientData();
             {
                 dataGridView1.Rows[i].Cells["Client编号"].Value = rowcount;
                 data.ID = rowcount;
                 //dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
                 data.clientstartaddr = 1000 + 1000 * i;
+                data.clientlength = 1000;
                 clientManage.modbusClientList.Add(data);
             }
             
             
         }
-
+        public void refreshID()
+        {
+            for (int i =0;i< clientManage.modbusClientList.Count;i++)
+            {
+                clientManage.modbusClientList[i].ID = i;
+                clientManage.modbusClientList[i].clientstartaddr = 1000 + 1000 * i;
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             // int row = dataGridView1.SelectedRows[0];
@@ -361,6 +371,7 @@ namespace LocalPLC.ModbusClient
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
                 clientManage.modbusClientList.RemoveAt(index);
             }
+            refreshID();
         }
 
         UserControl1 user1 = new UserControl1();
