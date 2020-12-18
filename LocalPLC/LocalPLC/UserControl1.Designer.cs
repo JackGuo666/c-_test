@@ -114,7 +114,9 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ModbusWindow = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1.SuspendLayout();
+            this.ModbusWindow.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
@@ -346,6 +348,7 @@
             // 
             // ModbusWindow
             // 
+            this.ModbusWindow.Controls.Add(this.textBox1);
             this.ModbusWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ModbusWindow.Location = new System.Drawing.Point(358, 0);
             this.ModbusWindow.Margin = new System.Windows.Forms.Padding(4);
@@ -355,6 +358,13 @@
             this.ModbusWindow.TabIndex = 7;
             this.ModbusWindow.TabStop = false;
             this.ModbusWindow.Text = "配置";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(292, 372);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(140, 28);
+            this.textBox1.TabIndex = 0;
             // 
             // UserControl1
             // 
@@ -366,6 +376,8 @@
             this.Size = new System.Drawing.Size(1503, 750);
             this.Load += new System.EventHandler(this.UserControl1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
+            this.ModbusWindow.ResumeLayout(false);
+            this.ModbusWindow.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -377,5 +389,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

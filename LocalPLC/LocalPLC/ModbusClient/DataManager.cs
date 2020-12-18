@@ -41,8 +41,6 @@ namespace LocalPLC.ModbusClient
         public string resetVaraible;
         public string channel;
         public int devstartaddr;
-        public int devlength = 0;
-        public int resetaddr;
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
     }
     public class ModbusClientData
@@ -51,7 +49,6 @@ namespace LocalPLC.ModbusClient
         public int ID;
         //public DeviceData device { get; set; }
         public int clientstartaddr;
-        public int clientlength;
         public string transformChannel;
         public int responseTimeout = 1000;  //ms
         public int transformMode;

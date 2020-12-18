@@ -264,7 +264,6 @@ namespace LocalPLC.ModbusClient
                     
                 }
                 
-                
             }
                 for (int j =0;j<data2.modbusDeviceList.Count;j++)
             {
@@ -501,15 +500,6 @@ namespace LocalPLC.ModbusClient
             }
             if (e.RowIndex == -1)
             {
-                for (int i = 0; i < dataGridView2.RowCount; i++)
-                {
-                    DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
-                    cell.DataSource = dc.Tables[0];
-                    cell.DisplayMember = "functioncode";
-                    cell.ValueMember = "displayvalue";
-                    cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                    dataGridView2.Rows[i].Cells["功能码"] = cell;
-                }
                 return;
             }
 
@@ -531,30 +521,24 @@ namespace LocalPLC.ModbusClient
                 dataGridView2.Rows[i].Cells["功能码"] = cell;
                 
             }
-            
+            dataGridView2.Columns[6].ReadOnly = true;
+            dataGridView2.Columns[7].ReadOnly = true;
         }
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             
-            this.dataGridView2.Sort(dataGridView2.Columns[e.ColumnIndex], ListSortDirection.Descending);
             if (e.ColumnIndex < 0 || e.RowIndex < 0)
             {
-
-                //    for (int i = 0; i < dataGridView2.RowCount; i++)
-                //    {
-                //        DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
-                //        cell.DataSource = dc.Tables[0];
-                //        cell.DisplayMember = "functioncode";
-                //        cell.ValueMember = "displayvalue";
-                //        cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                //        dataGridView2.Rows[i].Cells["功能码"] = cell;
-
-                //    }
-                //    for (int i = 0; i < this.dataGridView2.Columns.Count; i++)
-                //{
-                //    this.dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                //}
+                for (int i = 0; i < dataGridView2.RowCount; i++)
+                {
+                    DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
+                    cell.DataSource = dc.Tables[0];
+                    cell.DisplayMember = "functioncode";
+                    cell.ValueMember = "displayvalue";
+                    cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                    dataGridView2.Rows[i].Cells["功能码"] = cell;
+                }
                 return;
             }
         }
