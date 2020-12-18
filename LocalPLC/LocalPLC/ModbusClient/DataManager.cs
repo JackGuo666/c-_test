@@ -23,8 +23,8 @@ namespace LocalPLC.ModbusClient
         public int pollingTime;
         public int Offset;
         public int Length;
-        public string trigger_offset;
-        public string error_offset;
+        public string trigger_offset = "";
+        public string error_offset = "";
         public int Channellength;
         public int channelstartaddr;
         public string note;
@@ -41,6 +41,7 @@ namespace LocalPLC.ModbusClient
         public string resetVaraible;
         public string channel;
         public int devstartaddr;
+        public int devlength = 1;
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
     }
     public class ModbusClientData
