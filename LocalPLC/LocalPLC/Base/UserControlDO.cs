@@ -102,6 +102,8 @@ namespace LocalPLC.Base
                     text_Temp.Width = rect.Width;
                     text_Temp.Height = rect.Height;
                     text_Temp.Visible = true;
+                    text_Temp.Focus();
+                    text_Temp.Select(text_Temp.SelectionStart, 0);
                 }
                 else
                 {
@@ -143,6 +145,11 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].ReadOnly = true;
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+
+
+
+            //绑定事件DataBindingComplete 之后设置才有效果
+            dataGridView1.Columns[columnVarName].ReadOnly = true;
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
