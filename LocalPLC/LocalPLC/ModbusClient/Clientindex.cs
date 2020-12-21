@@ -92,7 +92,7 @@ namespace LocalPLC.ModbusClient
                 data.transformChannel = e.GetAttribute("transformchannel");
                 int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
-
+                int.TryParse(e.GetAttribute("clientstartaddr"), out data.clientstartaddr);
                 //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
                 //读取device数据
                 XmlNodeList nodeDeviceList = childNode.ChildNodes;//创建当前子设备节点下的所有子节点集合
@@ -109,6 +109,8 @@ namespace LocalPLC.ModbusClient
                     int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
                     //int.TryParse(e.GetAttribute("resetVaraible"), out deviceData.resetVaraible);
                     deviceData.resetVaraible = e.GetAttribute("resetvaraible");
+                    int.TryParse(e.GetAttribute("devstartaddr"), out deviceData.devstartaddr);
+                    int.TryParse(e.GetAttribute("devlength"), out deviceData.devlength);
                     //读取channel数据
                     XmlNodeList nodeChannelList = childDeviceNode.ChildNodes;
                     foreach (XmlNode childChannelNode in nodeChannelList)
@@ -127,6 +129,8 @@ namespace LocalPLC.ModbusClient
                         channelData.trigger_offset = e.GetAttribute("trigger_offset");
                         //int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
                         channelData.error_offset = e.GetAttribute("error_offset");
+                        int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.channelstartaddr);
+                        int.TryParse(e.GetAttribute("Channellength"), out channelData.Channellength);
                         channelData.note = e.GetAttribute("note");
                         
                         deviceData.modbusChannelList.Add(channelData);
@@ -162,6 +166,7 @@ namespace LocalPLC.ModbusClient
                 //0 TCP    1 UDP
                 elem1_m.SetAttribute("transformmode", data.transformMode.ToString());
                 elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
+                elem1_m.SetAttribute("clientstartaddr", data.clientstartaddr.ToString());
                 //create devices
                 for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数值至xml
                 {
@@ -175,6 +180,9 @@ namespace LocalPLC.ModbusClient
                     elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
                     elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
                     elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible.ToString());
+                    elem1_m_d.SetAttribute("devstartaddr", dataDev.devstartaddr.ToString());
+                    elem1_m_d.SetAttribute("devlength", dataDev.devlength.ToString());
+
                     //通道
                     for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
                     {
@@ -189,6 +197,8 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("length", dataChannel.Length.ToString());
                         elem1_m_d_c.SetAttribute("trigger_offset", dataChannel.trigger_offset);
                         elem1_m_d_c.SetAttribute("error_offset", dataChannel.error_offset);
+                        elem1_m_d_c.SetAttribute("channelstartaddr", dataChannel.channelstartaddr.ToString());
+                        elem1_m_d_c.SetAttribute("Channellength", dataChannel.Channellength.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note);
 
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
@@ -340,7 +350,14 @@ namespace LocalPLC.ModbusClient
             
             
         }
-
+        public void refreshID()
+        {
+            for (int i = 0; i < clientManage.modbusClientList.Count; i++)
+            {
+                clientManage.modbusClientList[i].ID = i;
+                clientManage.modbusClientList[i].clientstartaddr = 1000 + 1000 * i;
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             // int row = dataGridView1.SelectedRows[0];
@@ -361,6 +378,7 @@ namespace LocalPLC.ModbusClient
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
                 clientManage.modbusClientList.RemoveAt(index);
             }
+            refreshID();
         }
 
         UserControl1 user1 = new UserControl1();

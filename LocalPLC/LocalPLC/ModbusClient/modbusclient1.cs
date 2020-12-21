@@ -43,7 +43,7 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("响应超时", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("重连间隔", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("允许超时的次数", Type.GetType("System.Int32"));
-                ds.Tables[i].Columns.Add("复位变量", Type.GetType("System.Int32"));
+                ds.Tables[i].Columns.Add("复位变量", Type.GetType("System.String"));
                 //ds.Tables[i].Columns.Add("通道", Type.GetType("System.String"));
             }
             
@@ -229,7 +229,7 @@ namespace LocalPLC.ModbusClient
             data.permitTimeoutCount = Convert.ToInt32(dr[(int)COLUMNNAME.允许超时的次数]);
             dr[(int)COLUMNNAME.重连间隔] = 1000;
             data.reconnectInterval = Convert.ToInt32(dr[(int)COLUMNNAME.重连间隔]);
-            dr[(int)COLUMNNAME.复位变量] = 0;
+            dr[(int)COLUMNNAME.复位变量] = "";
             data.resetVaraible = dr[(int)COLUMNNAME.复位变量].ToString();
             //Button add = new Button();
             //add.Text = ". . .";
@@ -241,8 +241,16 @@ namespace LocalPLC.ModbusClient
             //btn.HeaderText = "通道";
             //btn.DefaultCellStyle.NullValue = ". . .";
             int n = Convert.ToInt32(this.label5.Text);
-
+            int i = rowcount;
             //dt.Rows.Add(row);
+            if (i>0)
+            {
+                data.devstartaddr = data_.modbusDeviceList[i - 1].devstartaddr + data_.modbusDeviceList[i - 1].devlength;
+            }
+            else if (i == 0)
+            {
+                data.devstartaddr = data_.clientstartaddr;
+            }
             ds.Tables[n].Rows.Add(dr.ItemArray);
             int a = ds.Tables[n].Rows.Count;
             //if (dataGridView1.ColumnCount == 7)
@@ -250,7 +258,7 @@ namespace LocalPLC.ModbusClient
             //    dataGridView1.Columns.Add(mcg);
             //}
             
-            int i = rowcount;
+            
             // for (int i = 0; i < dataGridView1.RowCount; i++)
             {
                 //dataGridView1.Rows[i].Cells["ID"].Value = row;
@@ -282,12 +290,27 @@ namespace LocalPLC.ModbusClient
 
 
                 //dataGridView1.Cell.Value = "Button " + i.ToString();
-
+                
                 data_.modbusDeviceList.Add(data);
                 //data_.modbusDeviceList.Insert(1, data);
             }
         }
 
+        public void refresh()
+        {
+            for (int i = 0; i<data_.modbusDeviceList.Count ; i++)
+            {
+                data_.modbusDeviceList[i].ID = i;
+                if (i > 0)
+                {
+                    data_.modbusDeviceList[i].devstartaddr = data_.modbusDeviceList[i - 1].devstartaddr + data_.modbusDeviceList[i - 1].devlength;
+                }
+                else if (i == 0)
+                {
+                    data_.modbusDeviceList[i].devstartaddr = data_.clientstartaddr;
+                }
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             int n = Convert.ToInt32(dataGridView1.SelectedRows[0].Index);
@@ -318,6 +341,7 @@ namespace LocalPLC.ModbusClient
                 data_.modbusDeviceList[i].ID = i;
             }
             //ds.Tables[n].Clear();
+            refresh();
         }
         ModbusClient.ClientChannel CCl = new ClientChannel();
         //ClientChannel CC ;

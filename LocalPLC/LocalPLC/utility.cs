@@ -278,6 +278,66 @@ namespace LocalPLC
                             //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
                             //     "Inserted from AIFDemo", "12", "%IX0.0", false);
                         }
+                        if (name == "Client")
+                        {
+                            foreach (Variable variable in ttt.Variables)
+                            {
+                                variable.Delete();
+                            }
+                            foreach (var client in UserControl1.mci.clientManage.modbusClientList)
+                            {
+                                foreach (var device in client.modbusDeviceList)
+                                {
+                                    if (device.resetVaraible != "")
+                                    {
+                                        ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "复位变量", "", "%IB" + device.devstartaddr.ToString());
+                                    }
+                                    foreach (var channel in device.modbusChannelList)
+                                    {
+                                        if (utility.varTypeDicBit.ContainsKey(channel.Length))
+                                        {
+                                            string varType = utility.varTypeDicBit[channel.Length];
+                                            string adress = string.Format("%IX{0}.0", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
+                                            if (channel.trigger_offset != "")
+                                            {
+                                                ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "触发变量", "", "%IB" + channel.channelstartaddr.ToString());
+                                            }
+                                            if (channel.error_offset != "")
+                                            {
+                                                ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
+                                            }
+
+                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                "Inserted from AIFDemo", "", adress, false);
+                                        }
+                                        else if (utility.varTypeDicWord.ContainsKey(channel.Length))
+                                        {
+                                            string varType = utility.varTypeDicWord[channel.Length];
+                                            string adress = string.Format("%IW{0}", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
+                                            if (channel.trigger_offset != "")
+                                            {
+                                                ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "触发变量", "", "%IB" + channel.channelstartaddr.ToString());
+                                            }
+                                            if (channel.error_offset != "")
+                                            {
+                                                ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
+                                            }
+                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                "Inserted from AIFDemo", "", adress, false);
+                                        }
+
+                                    }
+                                }
+                            }
+
+                            //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                            //     "Inserted from AIFDemo", "12", "%IX0.0", false);
+                        }
                     }
 
                     //var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,

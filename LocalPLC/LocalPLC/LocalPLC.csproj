@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.51 Express Build 653\</OutputPath>
+    <OutputPath>..\..\..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.50 Build 10216\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -60,7 +60,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\pictest.cs" />
+    <Compile Include="Base\pictest.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Base\PlcType.cs">
       <SubType>UserControl</SubType>
     </Compile>
