@@ -222,6 +222,9 @@ namespace LocalPLC.Base
                     text_Temp.Width = rect.Width;
                     text_Temp.Height = rect.Height;
                     text_Temp.Visible = true;
+                    text_Temp.Focus();
+                    text_Temp.Select(text_Temp.SelectionStart, 0);
+
                 }
                 else
                 {
@@ -321,6 +324,7 @@ namespace LocalPLC.Base
                 str = table.Rows[i][1].ToString();
                 str = table.Rows[i][2].ToString();
 
+                str = table.Rows[i][3].ToString();
                 str = table.Rows[i][4].ToString();
 
                 int value = sexReverseDic[str];
@@ -366,15 +370,16 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].ReadOnly = true;
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+
+            //绑定事件DataBindingComplete 之后设置才有效果
+            dataGridView1.Columns[columnVarName].ReadOnly = true;
+            //背景设置灰色只读
+            //dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            if (e.Control is TextBox && dataGridView1.CurrentCell.ColumnIndex == 4)
-            {
-                var text = e.Control as TextBox;
-                dataGridView1.ImeMode = ImeMode.OnHalf;
-            }
+
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)

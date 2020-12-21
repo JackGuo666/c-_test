@@ -28,63 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("DO0");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("DO1");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("DO2");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("DO3");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("DO4");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("DO5");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("DO6");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("DO7");
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // treeView1
+            // dataGridView1
             // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            treeNode1.Name = "节点0";
-            treeNode1.Text = "DO0";
-            treeNode2.Name = "节点1";
-            treeNode2.Text = "DO1";
-            treeNode3.Name = "节点2";
-            treeNode3.Text = "DO2";
-            treeNode4.Name = "节点3";
-            treeNode4.Text = "DO3";
-            treeNode5.Name = "节点4";
-            treeNode5.Text = "DO4";
-            treeNode6.Name = "节点5";
-            treeNode6.Text = "DO5";
-            treeNode7.Name = "节点6";
-            treeNode7.Text = "DO6";
-            treeNode8.Name = "节点7";
-            treeNode8.Text = "DO7";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
-            this.treeView1.Size = new System.Drawing.Size(703, 508);
-            this.treeView1.TabIndex = 0;
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 62;
+            this.dataGridView1.RowTemplate.Height = 30;
+            this.dataGridView1.Size = new System.Drawing.Size(695, 391);
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.DataSourceChanged += new System.EventHandler(this.dataGridView1_DataSourceChanged_1);
+            this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
+            this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
+            this.dataGridView1.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dataGridView1_ColumnWidthChanged);
+            this.dataGridView1.CurrentCellChanged += new System.EventHandler(this.dataGridView1_CurrentCellChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dataGridView1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(701, 418);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "DO";
             // 
             // UserControlDO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.groupBox1);
             this.Name = "UserControlDO";
-            this.Size = new System.Drawing.Size(703, 508);
+            this.Size = new System.Drawing.Size(701, 418);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
