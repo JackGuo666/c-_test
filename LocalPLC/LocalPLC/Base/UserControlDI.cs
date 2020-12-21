@@ -17,6 +17,9 @@ namespace LocalPLC.Base
         Dictionary<string, int> sexReverseDic = new Dictionary<string, int>();
         // 定义下拉列表框
         private ComboBox cmb_Temp = new ComboBox();
+        //
+        private RichTextBox text_Temp = new RichTextBox();
+
         /// <summary>
         /// 绑定性别下拉列表框
         /// </summary>
@@ -27,18 +30,25 @@ namespace LocalPLC.Base
             dtSex.Columns.Add("Name");
             DataRow drSex;
             drSex = dtSex.NewRow();
-            drSex[0] = "1";
-            drSex[1] = "男";
+            drSex[0] = "0";
+            drSex[1] = "无滤波器";
 
-            sexDic.Add(1, "男");
-            sexReverseDic.Add("男", 1);
+            sexDic.Add(0, "无滤波器");
+            sexReverseDic.Add("无滤波器", 0);
 
             dtSex.Rows.Add(drSex);
             drSex = dtSex.NewRow();
-            drSex[0] = "0";
-            drSex[1] = "女";
-            sexDic.Add(0, "女");
-            sexReverseDic.Add("女", 0);
+            drSex[0] = "3";
+            drSex[1] = "3ms";
+            sexDic.Add(3, "3ms");
+            sexReverseDic.Add("3ms", 3);
+
+            dtSex.Rows.Add(drSex);
+            drSex = dtSex.NewRow();
+            drSex[0] = "12";
+            drSex[1] = "12ms";
+            sexDic.Add(12, "12ms");
+            sexReverseDic.Add("12ms", 12);
 
             dtSex.Rows.Add(drSex);
             cmb_Temp.ValueMember = "Value";
@@ -47,101 +57,102 @@ namespace LocalPLC.Base
             cmb_Temp.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        const int columnVarName = 3;
         private void BindData()
         {
             //view绑定datatable
             DataTable dtData = new DataTable();
-            dtData.Columns.Add("ID", typeof(bool));
-            dtData.Columns.Add("Name");
-            dtData.Columns.Add("Sex");
+            dtData.Columns.Add("已使用", typeof(bool));
+            dtData.Columns.Add("通道名");
+            dtData.Columns.Add("地址");
+            dtData.Columns.Add("变量名");
+            dtData.Columns.Add("滤波");
+            //dtData.Columns.Add("注释");
+
+
             DataRow drData;
             drData = dtData.NewRow();
             drData[0] = 1;
-            drData[1] = "张三";
-            drData[2] = "1";
+            drData[1] = "DI0";
+            drData[2] = "%IX0.0";
+            drData[3] = "";
+            drData[4] = "0";    //滤波
+            //drData[5] = "注释1";
             dtData.Rows.Add(drData);
             drData = dtData.NewRow();
             drData[0] = 2;
-            drData[1] = "李四";
-            drData[2] = "1";
+            drData[1] = "DI1";
+            drData[2] = "%IX0.1";
+            drData[3] = "";
+            drData[4] = "3";
+            //drData[5] = "注释2";
             dtData.Rows.Add(drData);
             drData = dtData.NewRow();
-            drData[0] = 3;
-            drData[1] = "王五";
-            drData[2] = "1";
+            drData[0] = 1;
+            drData[1] = "DI2";
+            drData[2] = "%IX0.2";
+            drData[3] = "";
+            drData[4] = "12";
+            //drData[5] = "注释3";
             dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 4;
-            drData[1] = "小芳";
-            drData[2] = "0";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 5;
-            drData[1] = "小娟";
-            drData[2] = "0";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 6;
-            drData[1] = "赵六";
-            drData[2] = "1";
-            dtData.Rows.Add(drData);
+            
             this.dataGridView1.DataSource = dtData;
         }
 
 
-        private DataTable dt = new DataTable();
-        private void InitDatable()
-        {
-            //新建列
-            DataColumn col1 = new DataColumn("已使用", typeof(bool));
-            DataColumn col2 = new DataColumn("通道名", typeof(string));
-            DataColumn col3 = new DataColumn("地址", typeof(string));
-            DataColumn col4 = new DataColumn("变量名", typeof(string));
-            DataColumn col5 = new DataColumn("滤波", typeof(string));
-            DataColumn col6 = new DataColumn("注释", typeof(string));
-            DataGridViewComboBoxColumn col7 = new DataGridViewComboBoxColumn();
-            col7.Items.Add("Admin");
-            col7.Items.Add("Normal");
-            col7.HeaderText = "test";
+        //private DataTable dt = new DataTable();
+        //private void InitDatable()
+        //{
+        //    //新建列
+        //    DataColumn col1 = new DataColumn("已使用", typeof(bool));
+        //    DataColumn col2 = new DataColumn("通道名", typeof(string));
+        //    DataColumn col3 = new DataColumn("地址", typeof(string));
+        //    DataColumn col4 = new DataColumn("变量名", typeof(string));
+        //    DataColumn col5 = new DataColumn("滤波", typeof(string));
+        //    DataColumn col6 = new DataColumn("注释", typeof(string));
+        //    DataGridViewComboBoxColumn col7 = new DataGridViewComboBoxColumn();
+        //    col7.Items.Add("Admin");
+        //    col7.Items.Add("Normal");
+        //    col7.HeaderText = "test";
 
-            //添加列
-            dt.Columns.Add(col1);
-            dt.Columns.Add(col2);
-            dt.Columns.Add(col3);
-            dt.Columns.Add(col4);
-            dt.Columns.Add(col5);
-            dt.Columns.Add(col6);
+        //    //添加列
+        //    dt.Columns.Add(col1);
+        //    dt.Columns.Add(col2);
+        //    dt.Columns.Add(col3);
+        //    dt.Columns.Add(col4);
+        //    dt.Columns.Add(col5);
+        //    dt.Columns.Add(col6);
 
-            this.dataGridView1.DataSource = dt.DefaultView;
+        //    this.dataGridView1.DataSource = dt.DefaultView;
 
-            this.dataGridView1.Columns.Add(col7);
-            this.dataGridView1.Columns[6].DisplayIndex = 2;
+        //    this.dataGridView1.Columns.Add(col7);
+        //    this.dataGridView1.Columns[6].DisplayIndex = 2;
 
 
 
-        }
+        //}
 
-        void InitTableData()
-        {
+        //void InitTableData()
+        //{
 
-            dt.Rows.Clear();//清空数据
+        //    dt.Rows.Clear();//清空数据
 
-            //foreach (HumanInfo hi in list)
-            {
-                DataRow dr = dt.NewRow();//新增行
-                dr[0] = true;
-                dr[1] = "DI0";
-                dr[2] = "%I0.0";
-                dr[3] = "test";
-                dr[4] = "3ms";
-                dr[5] = "test";
+        //    //foreach (HumanInfo hi in list)
+        //    {
+        //        DataRow dr = dt.NewRow();//新增行
+        //        dr[0] = true;
+        //        dr[1] = "DI0";
+        //        dr[2] = "%I0.0";
+        //        dr[3] = "test";
+        //        dr[4] = "3ms";
+        //        dr[5] = "test";
 
-                this.dt.Rows.Add(dr);//增加行
+        //        this.dt.Rows.Add(dr);//增加行
 
-            }
+        //    }
 
-            dataGridView1.DataSource = dt;
-        }
+        //    dataGridView1.DataSource = dt;
+        //}
 
         public UserControlDI(string name)
         {
@@ -162,24 +173,32 @@ namespace LocalPLC.Base
             //添加下拉列表框事件
             cmb_Temp.SelectedIndexChanged += new EventHandler(cmb_Temp_SelectedIndexChanged);
 
+            text_Temp.TextChanged += new System.EventHandler(textBox1_TextChanged);
+
+            text_Temp.Visible = false;
+            text_Temp.WordWrap = false;
+
+
             //将下拉列表框加入到DataGridView控件中
             this.dataGridView1.Controls.Add(cmb_Temp);
-            this.dataGridView1.Columns[2].DisplayIndex = 1;
+            this.dataGridView1.Controls.Add(text_Temp);
+            //this.dataGridView1.Columns[2].DisplayIndex = 1;
         }
 
         private void cmb_Temp_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (((ComboBox)sender).Text == "男")
+            if(sexReverseDic.ContainsKey(((ComboBox)sender).Text))
             {
-                dataGridView1.CurrentCell.Value = "男";
-                dataGridView1.CurrentCell.Tag = "1";
-            }
-            else
-            {
-                dataGridView1.CurrentCell.Value = "女";
-                dataGridView1.CurrentCell.Tag = "0";
+                dataGridView1.CurrentCell.Value = ((ComboBox)sender).Text;
+                dataGridView1.CurrentCell.Tag = sexReverseDic[((ComboBox)sender).Text];
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+           dataGridView1.CurrentCell.Value = text_Temp.Text;
+        }
+
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
@@ -190,11 +209,30 @@ namespace LocalPLC.Base
 
             try
             {
-                if (this.dataGridView1.CurrentCell.ColumnIndex == 2)
+                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                {
+                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                    string varName = dataGridView1.CurrentCell.Value.ToString();
+
+                    text_Temp.Text = this.dataGridView1.CurrentCell.Value.ToString();
+
+
+                    text_Temp.Left = rect.Left;
+                    text_Temp.Top = rect.Top;
+                    text_Temp.Width = rect.Width;
+                    text_Temp.Height = rect.Height;
+                    text_Temp.Visible = true;
+                }
+                else
+                {
+                    text_Temp.Visible = false;
+                }
+
+
+                if (this.dataGridView1.CurrentCell.ColumnIndex == 4)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string sexValue = dataGridView1.CurrentCell.Value.ToString();
-                    sexValue = dataGridView1.CurrentCell.Tag.ToString();
 
                     if(sexReverseDic.ContainsKey(sexValue))
                     {
@@ -235,26 +273,39 @@ namespace LocalPLC.Base
         {
             for (int i = 0; i < this.dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[2].Value != null && dataGridView1.Rows[i].Cells[2].Tag == null
-                    && dataGridView1.Rows[i].Cells[2].ColumnIndex == 2)
+                if (dataGridView1.Rows[i].Cells[4].Value != null && dataGridView1.Rows[i].Cells[4].Tag == null
+                    && dataGridView1.Rows[i].Cells[4].ColumnIndex == 4)
                 {
-                    if(sexReverseDic.ContainsKey(dataGridView1.Rows[i].Cells[2].Value.ToString()))
+                    string value = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                    if (sexReverseDic.ContainsKey(dataGridView1.Rows[i].Cells[4].Value.ToString()))
                     {
-                        dataGridView1.Rows[i].Cells[2].Tag = sexReverseDic[dataGridView1.Rows[i].Cells[2].Value.ToString()];
+                        dataGridView1.Rows[i].Cells[4].Tag = sexReverseDic[dataGridView1.Rows[i].Cells[4].Value.ToString()];
                     }
-                    else
+                    //else
+                    //{
+                    //    dataGridView1.Rows[i].Cells[4].Tag = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                    //}
+
+                    int index = -1;
+                    bool isNum = int.TryParse(value, out index);
+                    if(isNum)
                     {
-                        dataGridView1.Rows[i].Cells[2].Tag = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                        if (sexDic.ContainsKey(index))
+                        {
+                            dataGridView1.Rows[i].Cells[4].Value = sexDic[index];
+                            dataGridView1.Rows[i].Cells[4].Tag = index.ToString();
+                        }
                     }
 
-                    if (dataGridView1.Rows[i].Cells[2].Value.ToString() == "1")
-                    {
-                        dataGridView1.Rows[i].Cells[2].Value = "男";
-                    }
-                    else if (dataGridView1.Rows[i].Cells[2].Value.ToString() == "0")
-                    {
-                        dataGridView1.Rows[i].Cells[2].Value = "女";
-                    }
+
+                    //if (dataGridView1.Rows[i].Cells[4].Value.ToString() == "1")
+                    //{
+                    //    dataGridView1.Rows[i].Cells[4].Value = "男";
+                    //}
+                    //else if (dataGridView1.Rows[i].Cells[4].Value.ToString() == "0")
+                    //{
+                    //    dataGridView1.Rows[i].Cells[4].Value = "女";
+                    //}
                 }
             }
         }
@@ -270,6 +321,10 @@ namespace LocalPLC.Base
                 str = table.Rows[i][1].ToString();
                 str = table.Rows[i][2].ToString();
 
+                str = table.Rows[i][4].ToString();
+
+                int value = sexReverseDic[str];
+
             }
 
 
@@ -277,21 +332,32 @@ namespace LocalPLC.Base
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (this.dataGridView1.CurrentCell.ColumnIndex == 2)
-            {
-                string str = this.dataGridView1.CurrentCell.Tag.ToString();
-                int value = 0;
-                int.TryParse(str, out value);
-                if (sexDic.ContainsKey(value))
-                {
-                    this.dataGridView1.CurrentCell.Value = sexDic[value];
-                }
-            }
+            //if (this.dataGridView1.CurrentCell.ColumnIndex == 4)
+            //{
+            //    string str = this.dataGridView1.CurrentCell.Value.ToString();
+            //    int value = 0;
+            //    int.TryParse(str, out value);
+            //    if (sexDic.ContainsKey(value))
+            //    {
+            //        this.dataGridView1.CurrentCell.Value = sexDic[value];
+            //    }
+            //}
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            
+            if (this.dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
+
+            if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+            {
+                Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                string varName = dataGridView1.CurrentCell.Value.ToString();
+
+                text_Temp.Text = this.dataGridView1.CurrentCell.Value.ToString();
+            }
         }
 
         private void dataGridView1_DataSourceChanged(object sender, EventArgs e)
@@ -301,5 +367,21 @@ namespace LocalPLC.Base
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
         }
+
+        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (e.Control is TextBox && dataGridView1.CurrentCell.ColumnIndex == 4)
+            {
+                var text = e.Control as TextBox;
+                dataGridView1.ImeMode = ImeMode.OnHalf;
+            }
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }
