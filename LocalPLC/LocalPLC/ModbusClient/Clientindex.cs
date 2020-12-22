@@ -299,9 +299,9 @@ namespace LocalPLC.ModbusClient
                         writer.WritePropertyName("quantity");
                         writer.WriteValue(dataChannel.Length);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(2);
+                        writer.WriteValue(dataChannel.Offset);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(2);
+                        writer.WriteValue(dataChannel.Length);
                         writer.WritePropertyName("trigger_offset");
                         writer.WriteValue(dataChannel.channelstartaddr-dataDev.devstartaddr);
                         writer.WritePropertyName("error_offset");

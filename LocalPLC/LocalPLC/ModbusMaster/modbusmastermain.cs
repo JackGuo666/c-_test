@@ -284,9 +284,9 @@ namespace LocalPLC.ModbusMaster
                         writer.WritePropertyName("quantity");
                         writer.WriteValue(dataChannel.readLength);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.writeOffset);
+                        writer.WriteValue(dataChannel.readOffset);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.writeLength);
+                        writer.WriteValue(dataChannel.readLength);
                         writer.WritePropertyName("trigger_offset");
                         writer.WriteValue(dataChannel.curChannelAddr-dataDev.curDeviceAddr);
                         writer.WritePropertyName("error_offset");

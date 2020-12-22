@@ -417,7 +417,7 @@ namespace LocalPLC
             writer.WritePropertyName("baudrate");
             writer.WriteValue(115200);
             writer.WritePropertyName("parity");
-            writer.WriteValue(0);
+            writer.WriteValue("none");
             writer.WritePropertyName("data_bits");
             writer.WriteValue(8);
             writer.WritePropertyName("stop_bits");
@@ -431,7 +431,7 @@ namespace LocalPLC
             writer.WritePropertyName("baudrate");
             writer.WriteValue(115200);
             writer.WritePropertyName("parity");
-            writer.WriteValue(0);
+            writer.WriteValue("none");
             writer.WritePropertyName("data_bits");
             writer.WriteValue(8);
             writer.WritePropertyName("stop_bits");
