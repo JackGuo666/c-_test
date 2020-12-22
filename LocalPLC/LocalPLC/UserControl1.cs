@@ -402,6 +402,14 @@ namespace LocalPLC
             {
                 UC.setSinglePulseShow(name);
             }
+            else if(name == "PTO")
+            {
+                UC.setPTOShow(name);
+            }
+            else if(name == "PWM")
+            {
+                UC.setPWMShow(name);
+            }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
         {

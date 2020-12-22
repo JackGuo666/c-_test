@@ -69,6 +69,12 @@
     <Compile Include="Base\PlcType.Designer.cs">
       <DependentUpon>PlcType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\UserControl1Pwm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControl1Pwm.Designer.cs">
+      <DependentUpon>UserControl1Pwm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\UserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -110,6 +116,12 @@
     </Compile>
     <Compile Include="Base\UserControlEth.Designer.cs">
       <DependentUpon>UserControlEth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlPto.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlPto.Designer.cs">
+      <DependentUpon>UserControlPto.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\UserControlquad.cs">
       <SubType>UserControl</SubType>
@@ -223,6 +235,9 @@
     <EmbeddedResource Include="Base\PlcType.resx">
       <DependentUpon>PlcType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControl1Pwm.resx">
+      <DependentUpon>UserControl1Pwm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlBase.resx">
       <DependentUpon>UserControlBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlEth.resx">
       <DependentUpon>UserControlEth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlPto.resx">
+      <DependentUpon>UserControlPto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlquad.resx">
       <DependentUpon>UserControlquad.cs</DependentUpon>

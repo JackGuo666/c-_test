@@ -149,5 +149,29 @@ namespace LocalPLC.Base
                 curPlcType.setSinglePulseInfo(pulse);
             }
         }
+
+        public void setPTOShow(string pulse)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setPTOInfo(pulse);
+            }
+        }
+
+        public void setPWMShow(string pulse)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setPWMInfo(pulse);
+            }
+        }
     }
 }
