@@ -271,9 +271,9 @@ namespace LocalPLC.ModbusClient
                     writer.WritePropertyName("io_range");
                     writer.WriteStartObject();//{  conf数组下 iorange                
                     writer.WritePropertyName("start");
-                    writer.WriteValue(6000+1024*(index+j));
+                    writer.WriteValue(dataDev.devstartaddr);
                     writer.WritePropertyName("bytes");
-                    writer.WriteValue(1024);
+                    writer.WriteValue(dataDev.devlength);
                     writer.WriteEndObject();//}    conf数组下 iorange    
                     writer.WritePropertyName("channel_cfg");
                     writer.WriteStartObject();//{  channel_cfg节点
@@ -299,13 +299,13 @@ namespace LocalPLC.ModbusClient
                         writer.WritePropertyName("quantity");
                         writer.WriteValue(dataChannel.Length);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(2);
+                        writer.WriteValue(dataChannel.Offset);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(2);
+                        writer.WriteValue(dataChannel.Length);
                         writer.WritePropertyName("trigger_offset");
-                        writer.WriteValue(dataChannel.trigger_offset);
+                        writer.WriteValue(dataChannel.channelstartaddr-dataDev.devstartaddr);
                         writer.WritePropertyName("error_offset");
-                        writer.WriteValue(dataChannel.error_offset);
+                        writer.WriteValue(dataChannel.channelstartaddr + 1 - dataDev.devstartaddr);
                         writer.WritePropertyName("direction");
                         writer.WriteValue("in");
                         writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息

@@ -254,9 +254,9 @@ namespace LocalPLC.ModbusMaster
                     writer.WritePropertyName("io_range");
                     writer.WriteStartObject();//{  conf数组下 iorange                
                     writer.WritePropertyName("start");
-                    writer.WriteValue(3000 + 1024 * (index+j));//io范围这块上位机设计方案中在master和client中并没有提到，需要确认
+                    writer.WriteValue(dataDev.curDeviceAddr);//io范围这块上位机设计方案中在master和client中并没有提到，需要确认
                     writer.WritePropertyName("bytes");
-                    writer.WriteValue(1024);
+                    writer.WriteValue(dataDev.curDeviceLength);
                     writer.WriteEndObject();//}    conf数组下 iorange    
                     writer.WritePropertyName("channel_cfg");
                     writer.WriteStartObject();//{  channel_cfg节点
@@ -284,13 +284,13 @@ namespace LocalPLC.ModbusMaster
                         writer.WritePropertyName("quantity");
                         writer.WriteValue(dataChannel.readLength);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.writeOffset);
+                        writer.WriteValue(dataChannel.readOffset);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.writeLength);
+                        writer.WriteValue(dataChannel.readLength);
                         writer.WritePropertyName("trigger_offset");
-                        writer.WriteValue(101);
+                        writer.WriteValue(dataChannel.curChannelAddr-dataDev.curDeviceAddr);
                         writer.WritePropertyName("error_offset");
-                        writer.WriteValue(102);
+                        writer.WriteValue(dataChannel.curChannelAddr+1-dataDev.curDeviceAddr);
                         writer.WritePropertyName("direction");//direction参数的含义？？
                         writer.WriteValue("in");
                         writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
