@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.50 Build 10216\</OutputPath>
+    <OutputPath>..\..\..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.51 Express Build 653\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -75,6 +75,12 @@
     <Compile Include="Base\UserControlBase.Designer.cs">
       <DependentUpon>UserControlBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\UserControlBidirPulse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlBidirPulse.Designer.cs">
+      <DependentUpon>UserControlBidirPulse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\UserControlCom.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -104,6 +110,18 @@
     </Compile>
     <Compile Include="Base\UserControlEth.Designer.cs">
       <DependentUpon>UserControlEth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlquad.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlquad.Designer.cs">
+      <DependentUpon>UserControlquad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlSinglePulse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlSinglePulse.Designer.cs">
+      <DependentUpon>UserControlSinglePulse.cs</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="empty.cs">
@@ -208,6 +226,9 @@
     <EmbeddedResource Include="Base\UserControlBase.resx">
       <DependentUpon>UserControlBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlBidirPulse.resx">
+      <DependentUpon>UserControlBidirPulse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlCom.resx">
       <DependentUpon>UserControlCom.cs</DependentUpon>
     </EmbeddedResource>
@@ -222,6 +243,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlEth.resx">
       <DependentUpon>UserControlEth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlquad.resx">
+      <DependentUpon>UserControlquad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlSinglePulse.resx">
+      <DependentUpon>UserControlSinglePulse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="empty.resx">
       <DependentUpon>empty.cs</DependentUpon>

@@ -30,17 +30,17 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.ipAddressControl4 = new IPAddressControlLib.IPAddressControl();
             this.ipAddressControl3 = new IPAddressControlLib.IPAddressControl();
             this.ipAddressControl2 = new IPAddressControlLib.IPAddressControl();
             this.ipAddressControl1 = new IPAddressControlLib.IPAddressControl();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ipAddressControl4 = new IPAddressControlLib.IPAddressControl();
-            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +73,15 @@
             this.label4.Size = new System.Drawing.Size(134, 18);
             this.label4.TabIndex = 9;
             this.label4.Text = "SNTP_server_ip";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(187, 276);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(80, 18);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "网关地址";
             // 
             // label3
             // 
@@ -113,6 +122,22 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "DHCP分配IP地址";
             this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // ipAddressControl4
+            // 
+            this.ipAddressControl4.AllowInternalTab = false;
+            this.ipAddressControl4.AutoHeight = true;
+            this.ipAddressControl4.BackColor = System.Drawing.SystemColors.Window;
+            this.ipAddressControl4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ipAddressControl4.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ipAddressControl4.Location = new System.Drawing.Point(329, 369);
+            this.ipAddressControl4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ipAddressControl4.MinimumSize = new System.Drawing.Size(141, 28);
+            this.ipAddressControl4.Name = "ipAddressControl4";
+            this.ipAddressControl4.ReadOnly = false;
+            this.ipAddressControl4.Size = new System.Drawing.Size(246, 28);
+            this.ipAddressControl4.TabIndex = 6;
+            this.ipAddressControl4.Text = "...";
             // 
             // ipAddressControl3
             // 
@@ -168,6 +193,8 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(95, 28);
             this.textBox1.TabIndex = 5;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
             // label1
             // 
@@ -177,31 +204,6 @@
             this.label1.Size = new System.Drawing.Size(53, 18);
             this.label1.TabIndex = 4;
             this.label1.Text = "网口1";
-            // 
-            // ipAddressControl4
-            // 
-            this.ipAddressControl4.AllowInternalTab = false;
-            this.ipAddressControl4.AutoHeight = true;
-            this.ipAddressControl4.BackColor = System.Drawing.SystemColors.Window;
-            this.ipAddressControl4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ipAddressControl4.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ipAddressControl4.Location = new System.Drawing.Point(329, 369);
-            this.ipAddressControl4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ipAddressControl4.MinimumSize = new System.Drawing.Size(141, 28);
-            this.ipAddressControl4.Name = "ipAddressControl4";
-            this.ipAddressControl4.ReadOnly = false;
-            this.ipAddressControl4.Size = new System.Drawing.Size(246, 28);
-            this.ipAddressControl4.TabIndex = 6;
-            this.ipAddressControl4.Text = "...";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(187, 276);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(80, 18);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "网关地址";
             // 
             // UserControlEth
             // 

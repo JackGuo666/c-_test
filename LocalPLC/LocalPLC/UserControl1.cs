@@ -390,6 +390,18 @@ namespace LocalPLC
             {
                 UC.setETHShow(name);
             }
+            else if(name == "正交编码器")
+            {
+                UC.setQuadShow(name);
+            }
+            else if(name == "双相脉冲计数")
+            {
+                UC.setBiDirPulseShow(name);
+            }
+            else if(name == "单脉冲计数")
+            {
+                UC.setSinglePulseShow(name);
+            }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
         {

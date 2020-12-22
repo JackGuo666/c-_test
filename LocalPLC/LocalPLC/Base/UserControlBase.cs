@@ -113,5 +113,41 @@ namespace LocalPLC.Base
             }
 
         }
+
+        public void setQuadShow(string eth)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setQuadInfo(eth);
+            }
+        }
+
+        public void setBiDirPulseShow(string bi)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setBiDirPulseInfo(bi);
+            }
+        }
+
+        public void setSinglePulseShow(string pulse)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setSinglePulseInfo(pulse);
+            }
+        }
     }
 }

@@ -248,6 +248,45 @@ namespace LocalPLC.Base
             }
         }
 
+        public void setQuadInfo(string name)
+        {
+            UserControlQuad eth = new UserControlQuad(name);
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                eth.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(eth);
+
+                setShow(name, picArray);
+            }
+        }
+
+        public void setBiDirPulseInfo(string name)
+        {
+            UserControlBidirPulse bi = new UserControlBidirPulse(name);
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                bi.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(bi);
+
+                setShow(name, picArray);
+            }
+        }
+
+        public void setSinglePulseInfo(string name)
+        {
+            UserControlSinglePulse pulse = new UserControlSinglePulse(name);
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                pulse.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(pulse);
+
+                setShow(name, picArray);
+            }
+        }
+
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
         {
             picHighLighted(pictureBox3, 6);
