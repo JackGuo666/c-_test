@@ -313,6 +313,19 @@ namespace LocalPLC.Base
             }
         }
 
+        public void setExtendAIInfo(string name)
+        {
+            UserControlExtendAI ai = new UserControlExtendAI();
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                ai.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(ai);
+
+                setShow(name, picArray);
+            }
+        }
+
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
         {
             picHighLighted(pictureBox3, 6);

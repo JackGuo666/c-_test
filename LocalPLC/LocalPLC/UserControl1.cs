@@ -410,6 +410,11 @@ namespace LocalPLC
             {
                 UC.setPWMShow(name);
             }
+            else if(name == "AI")
+            {
+                //暂时
+                UC.setExtendAIShow(name);
+            }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
         {
