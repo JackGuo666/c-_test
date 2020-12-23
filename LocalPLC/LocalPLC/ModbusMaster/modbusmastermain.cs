@@ -257,11 +257,13 @@ namespace LocalPLC.ModbusMaster
                     writer.WriteValue(dataDev.curDeviceAddr);//io范围这块上位机设计方案中在master和client中并没有提到，需要确认
                     writer.WritePropertyName("bytes");
                     writer.WriteValue(dataDev.curDeviceLength);
-                    writer.WriteEndObject();//}    conf数组下 iorange    
+                    writer.WriteEndObject();//}    conf数组下 iorange   
+                    writer.WritePropertyName("restart_offset");
+                    writer.WriteValue(0);
                     writer.WritePropertyName("channel_cfg");
                     writer.WriteStartObject();//{  channel_cfg节点
                     writer.WritePropertyName("num");
-                    writer.WriteValue(data.modbusDeviceList.Count);
+                    writer.WriteValue(dataDev.modbusChannelList.Count);
                     writer.WritePropertyName("conf");
                     writer.WriteStartArray();//[  channel_cfg节点下conf数组
 
@@ -284,9 +286,9 @@ namespace LocalPLC.ModbusMaster
                         writer.WritePropertyName("quantity");
                         writer.WriteValue(dataChannel.readLength);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.readOffset);
+                        writer.WriteValue(dataChannel.curChannelAddr + 2 - dataDev.curDeviceAddr);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.readLength);
+                        writer.WriteValue(dataChannel.curChannelLength-2);
                         writer.WritePropertyName("trigger_offset");
                         writer.WriteValue(dataChannel.curChannelAddr-dataDev.curDeviceAddr);
                         writer.WritePropertyName("error_offset");

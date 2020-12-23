@@ -39,6 +39,7 @@ namespace LocalPLC
                     {
                         
                         utility.varTypeDicBit.Add(count, varTypeName);
+                        //utility.varTypeDicBit1.Add(count, varTypeName);
                     }
                 }
 
@@ -51,6 +52,39 @@ namespace LocalPLC
                 strArray += "\r\nEND_TYPE\r\n";
 
                 utility.varTypeDicWord.Add(count, varTypeName);
+                //utility.varTypeDicWord2.Add(count, varTypeName);
+            }
+
+            return strArray;
+        }
+        public static string splicedDataTypeArray1(string name, ArrayDataType type, int count)
+        {
+            string strArray = "";
+            if (type == ArrayDataType.DataBit)
+            {
+                if (!utility.varTypeDicBit.ContainsKey(count))
+                {
+                    string varTypeName = string.Format("ARRAY_bit_{0}", name);
+                    strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF BOOL;";
+                    strArray += "\r\nEND_TYPE\r\n";
+
+                    {
+
+                        
+                        utility.varTypeDicBit1.Add(count, varTypeName);
+                    }
+                }
+
+            }
+            else if (type == ArrayDataType.DataWord)
+            {
+                string varTypeName = string.Format("ARRAY_word_{0}", name);
+
+                strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF WORD;";
+                strArray += "\r\nEND_TYPE\r\n";
+
+               
+                utility.varTypeDicWord2.Add(count, varTypeName);
             }
 
             return strArray;
@@ -121,13 +155,17 @@ namespace LocalPLC
                             1, 1, 1, 1);
             }
             string str1 = "server_in";
-            iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
-            1, 1, 1, 1);
-            str1 = "server_out";
-            iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
-            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
-            1, 1, 1, 1);
+            if(UserControl1.msi.serverDataManager.listServer.Count > 0)
+            {
+                iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
+                utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                1, 1, 1, 1);
+                    str1 = "server_out";
+                    iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
+                    utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                    1, 1, 1, 1);
+            }
+            
             
             System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
             
@@ -295,9 +333,10 @@ namespace LocalPLC
                                     }
                                     foreach (var channel in device.modbusChannelList)
                                     {
-                                        if (utility.varTypeDicBit.ContainsKey(channel.Length))
+                                        
+                                        if (utility.varTypeDicBit1.ContainsKey(channel.Length))
                                         {
-                                            string varType = utility.varTypeDicBit[channel.Length];
+                                            string varType = utility.varTypeDicBit1[channel.Length];
                                             string adress = string.Format("%IX{0}.0", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
                                             if (channel.trigger_offset != "")
                                             {
@@ -313,9 +352,9 @@ namespace LocalPLC
                                             ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
                                                 "Inserted from AIFDemo", "", adress, false);
                                         }
-                                        else if (utility.varTypeDicWord.ContainsKey(channel.Length))
+                                        else if (utility.varTypeDicWord2.ContainsKey(channel.Length))
                                         {
-                                            string varType = utility.varTypeDicWord[channel.Length];
+                                            string varType = utility.varTypeDicWord2[channel.Length];
                                             string adress = string.Format("%IW{0}", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
                                             if (channel.trigger_offset != "")
                                             {
@@ -433,11 +472,15 @@ namespace LocalPLC
         }
 
         public static Dictionary<int, string> varTypeDicBit = new Dictionary<int, string>();
+        public static Dictionary<int, string> varTypeDicBit1 = new Dictionary<int, string>();
         public static Dictionary<int, string> varTypeDicWord = new Dictionary<int, string>();
+        public static Dictionary<int, string> varTypeDicWord2 = new Dictionary<int, string>();
         static public void addVarType1()
         {
             varTypeDicBit.Clear();
+            varTypeDicBit1.Clear();
             varTypeDicWord.Clear();
+            varTypeDicWord2.Clear();
             if (!UserControl1.multiprogApp.IsProjectOpen())
             {
                 return;
@@ -450,6 +493,7 @@ namespace LocalPLC
             s2 = sr2.ReadLine();
             
             string strSave2 = "";
+            string strSave3 = "";
             string compare1 = "TYPE";
             string compare2 = "Task_Info_eCLR :";
             string compare3 = "STRUCT";
@@ -530,7 +574,26 @@ namespace LocalPLC
                     }
                 }
             }
+            foreach (var client in LocalPLC.UserControl1.mci.clientManage.modbusClientList)
+            {
+                foreach (var device in client.modbusDeviceList)
+                {
+                    foreach (var channel in device.modbusChannelList)
+                    {
+                        if (SplicedDataType.hashSetBit.Contains(channel.msgType))
+                        {
+                            strSave3 += SplicedDataType.splicedDataTypeArray1("client" + client.ID.ToString() + "dev" + device.ID.ToString() + "cha" + channel.ID.ToString(), ArrayDataType.DataBit, channel.Length);
+                        }
+                        else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
+                        {
+                            strSave3 += SplicedDataType.splicedDataTypeArray1("client" + client.ID.ToString() + "dev" + device.ID.ToString() + "cha" + channel.ID.ToString(), ArrayDataType.DataWord, channel.Length);
+                        }
+
+                    }
+                }
+            }
             sw2.WriteLine(strSave2);
+            sw2.WriteLine(strSave3);
             sw2.Close();
             fs3.Dispose();
             fs3.Close();
