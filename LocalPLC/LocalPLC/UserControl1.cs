@@ -415,6 +415,10 @@ namespace LocalPLC
                 //暂时
                 UC.setExtendAIShow(name);
             }
+            else if(name == "AO")
+            {
+                UC.setExtendAOShow(name);
+            }
     }
         private void defaultjson(JsonTextWriter writer)//基础配置
         {

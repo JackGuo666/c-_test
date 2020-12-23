@@ -326,6 +326,19 @@ namespace LocalPLC.Base
             }
         }
 
+        public void setExtendAOInfo(string name)
+        {
+            UserControlExtendAO ao = new UserControlExtendAO();
+            //if (!split.Panel2.Controls.Contains(com))
+            {
+                split.Panel2.Controls.Clear();
+                ao.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(ao);
+
+                setShow(name, picArray);
+            }
+        }
+
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
         {
             picHighLighted(pictureBox3, 6);

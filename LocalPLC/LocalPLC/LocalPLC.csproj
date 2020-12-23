@@ -123,6 +123,12 @@
     <Compile Include="Base\UserControlExtendAI.Designer.cs">
       <DependentUpon>UserControlExtendAI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\UserControlExtendAO.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlExtendAO.Designer.cs">
+      <DependentUpon>UserControlExtendAO.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\UserControlPto.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -267,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlExtendAI.resx">
       <DependentUpon>UserControlExtendAI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlExtendAO.resx">
+      <DependentUpon>UserControlExtendAO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlPto.resx">
       <DependentUpon>UserControlPto.cs</DependentUpon>

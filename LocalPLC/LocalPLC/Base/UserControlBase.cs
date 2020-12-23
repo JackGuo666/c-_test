@@ -185,5 +185,17 @@ namespace LocalPLC.Base
                 curPlcType.setExtendAIInfo(ai);
             }
         }
+
+        public void setExtendAOShow(string ao)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setExtendAOInfo(ao);
+            }
+        }
     }
 }
