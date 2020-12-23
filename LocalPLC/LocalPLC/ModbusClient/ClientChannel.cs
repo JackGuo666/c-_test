@@ -425,6 +425,7 @@ namespace LocalPLC.ModbusClient
                 type = 1;
                 data.Channellength = 2 + data.Length * 2;
             }
+            data.type = type;
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Add(data);
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].devlength = 1;
             for (int j =0;j<data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count;j++)
@@ -704,6 +705,7 @@ namespace LocalPLC.ModbusClient
                     int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
                         2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length / 8 + 1;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 0;
                 }
                 else if(msg == 3 || msg == 4 || msg == 6 || msg == 16)
                 {
@@ -711,6 +713,7 @@ namespace LocalPLC.ModbusClient
                     int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
                         2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
+                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 1;
                 }
                 refresh();
             }

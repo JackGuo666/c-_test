@@ -20,6 +20,7 @@ namespace LocalPLC.ModbusClient
         public string nameChannel;
         public int msgType;
         public string msgdiscrib;
+        public int type;
         public int pollingTime;
         public int Offset;
         public int Length;

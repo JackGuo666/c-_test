@@ -131,6 +131,7 @@ namespace LocalPLC.ModbusClient
                         channelData.error_offset = e.GetAttribute("error_offset");
                         int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.channelstartaddr);
                         int.TryParse(e.GetAttribute("Channellength"), out channelData.Channellength);
+                        int.TryParse(e.GetAttribute("type"), out channelData.type);
                         channelData.note = e.GetAttribute("note");
                         
                         deviceData.modbusChannelList.Add(channelData);
@@ -199,6 +200,7 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("error_offset", dataChannel.error_offset);
                         elem1_m_d_c.SetAttribute("channelstartaddr", dataChannel.channelstartaddr.ToString());
                         elem1_m_d_c.SetAttribute("Channellength", dataChannel.Channellength.ToString());
+                        elem1_m_d_c.SetAttribute("type", dataChannel.type.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note);
 
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
@@ -275,10 +277,12 @@ namespace LocalPLC.ModbusClient
                     writer.WritePropertyName("bytes");
                     writer.WriteValue(dataDev.devlength);
                     writer.WriteEndObject();//}    conf数组下 iorange    
+                    writer.WritePropertyName("restart_offset");
+                    writer.WriteValue(0);
                     writer.WritePropertyName("channel_cfg");
                     writer.WriteStartObject();//{  channel_cfg节点
                     writer.WritePropertyName("num");
-                    writer.WriteValue(data.modbusDeviceList.Count);
+                    writer.WriteValue(dataDev.modbusChannelList.Count);
                         writer.WritePropertyName("conf");
                         writer.WriteStartArray();//[  channel_cfg节点下conf数组
 
@@ -299,13 +303,13 @@ namespace LocalPLC.ModbusClient
                         writer.WritePropertyName("quantity");
                         writer.WriteValue(dataChannel.Length);
                         writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.Offset);
+                        writer.WriteValue(dataChannel.channelstartaddr + 2 - data.clientstartaddr);
                         writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.Length);
+                        writer.WriteValue(dataChannel.Channellength - 2);
                         writer.WritePropertyName("trigger_offset");
-                        writer.WriteValue(dataChannel.channelstartaddr-dataDev.devstartaddr);
+                        writer.WriteValue(dataChannel.channelstartaddr-data.clientstartaddr);
                         writer.WritePropertyName("error_offset");
-                        writer.WriteValue(dataChannel.channelstartaddr + 1 - dataDev.devstartaddr);
+                        writer.WriteValue(dataChannel.channelstartaddr + 1 - data.clientstartaddr);
                         writer.WritePropertyName("direction");
                         writer.WriteValue("in");
                         writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
