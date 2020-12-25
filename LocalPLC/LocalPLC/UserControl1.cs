@@ -680,7 +680,7 @@ namespace LocalPLC
             writer.WriteEndObject(); //} DO节点
             writer.WriteEndObject(); //} hardware节点
             writer.WriteEndObject(); //} general节点
-            //writer.WriteEndObject(); //} 总节点
+            writer.WriteEndObject(); //} 总节点
         }
 
         private void saveJson()
@@ -742,7 +742,7 @@ namespace LocalPLC
             //=====================================
             writer.WriteEndObject();//} modbus大括号右边
             writer.WriteEndObject();//}json数据大括号右边
-            writer.WriteEndObject(); //} 总节点
+            //writer.WriteEndObject(); //} 总节点
             string str = "myconfig.json";
             string strpath = projectPath + @"\" + str;//System.IO.Directory.GetCurrentDirectory() + @"\" + Name;
             StreamWriter wtyeu = new StreamWriter(path);
@@ -862,7 +862,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
 
-            if(!multiprogApp.IsProjectOpen())
+            if(!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;
             }

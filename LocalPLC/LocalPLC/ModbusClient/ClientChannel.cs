@@ -389,6 +389,7 @@ namespace LocalPLC.ModbusClient
             data.ID = dataGridView2.RowCount;         
             dr[(int)COLUMNNAME_CHANNLE.功能码] = 1;
             data.msgType = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.功能码]);
+            data.msgdiscrib = "读多个位(线圈)-0x01";
             dr[(int)COLUMNNAME_CHANNLE.循环触发时间] = 1000;
             data.pollingTime =Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.循环触发时间]);
             dr[(int)COLUMNNAME_CHANNLE.偏移] = 0;

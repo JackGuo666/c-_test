@@ -38,12 +38,10 @@
             this.Devname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.channelname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.msg_type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pollingtime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startaddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.length = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.trigger_offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.error_offset = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.note = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -55,12 +53,14 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.GridColor = System.Drawing.SystemColors.ButtonShadow;
             this.dataGridView1.Location = new System.Drawing.Point(0, 3);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(399, 401);
+            this.dataGridView1.Size = new System.Drawing.Size(368, 401);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -78,7 +78,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(295, -3);
+            this.button2.Location = new System.Drawing.Point(262, -3);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 37);
             this.button2.TabIndex = 2;
@@ -116,29 +116,29 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView2);
-            this.splitContainer1.Size = new System.Drawing.Size(1267, 403);
-            this.splitContainer1.SplitterDistance = 401;
+            this.splitContainer1.Size = new System.Drawing.Size(1408, 403);
+            this.splitContainer1.SplitterDistance = 372;
             this.splitContainer1.TabIndex = 6;
             // 
             // dataGridView2
             // 
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Devname,
             this.channelname,
             this.msg_type,
-            this.pollingtime,
             this.startaddr,
             this.length,
             this.trigger_offset,
-            this.error_offset,
-            this.note});
-            this.dataGridView2.Location = new System.Drawing.Point(3, 3);
+            this.error_offset});
+            this.dataGridView2.GridColor = System.Drawing.SystemColors.ButtonShadow;
+            this.dataGridView2.Location = new System.Drawing.Point(3, 6);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(856, 400);
+            this.dataGridView2.Size = new System.Drawing.Size(1026, 394);
             this.dataGridView2.TabIndex = 7;
             // 
             // Devname
@@ -165,20 +165,11 @@
             this.msg_type.Name = "msg_type";
             this.msg_type.Width = 98;
             // 
-            // pollingtime
-            // 
-            this.pollingtime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.pollingtime.FillWeight = 150F;
-            this.pollingtime.HeaderText = "循环触发时间";
-            this.pollingtime.MinimumWidth = 8;
-            this.pollingtime.Name = "pollingtime";
-            this.pollingtime.Width = 150;
-            // 
             // startaddr
             // 
             this.startaddr.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.startaddr.FillWeight = 70F;
-            this.startaddr.HeaderText = "通道起始";
+            this.startaddr.HeaderText = "通道起始地址";
             this.startaddr.MinimumWidth = 8;
             this.startaddr.Name = "startaddr";
             this.startaddr.Width = 116;
@@ -195,7 +186,7 @@
             // trigger_offset
             // 
             this.trigger_offset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.trigger_offset.HeaderText = "触发变量";
+            this.trigger_offset.HeaderText = "触发变量地址";
             this.trigger_offset.MinimumWidth = 8;
             this.trigger_offset.Name = "trigger_offset";
             this.trigger_offset.Width = 116;
@@ -203,18 +194,10 @@
             // error_offset
             // 
             this.error_offset.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.error_offset.HeaderText = "错误变量";
+            this.error_offset.HeaderText = "错误变量地址";
             this.error_offset.MinimumWidth = 8;
             this.error_offset.Name = "error_offset";
-            this.error_offset.Width = 116;
-            // 
-            // note
-            // 
-            this.note.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.note.HeaderText = "注释";
-            this.note.MinimumWidth = 8;
-            this.note.Name = "note";
-            this.note.Width = 80;
+            this.error_offset.Width = 107;
             // 
             // Clientindex
             // 
@@ -224,7 +207,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Name = "Clientindex";
-            this.Size = new System.Drawing.Size(1271, 449);
+            this.Size = new System.Drawing.Size(1414, 449);
             this.Load += new System.EventHandler(this.Clientindex_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -250,11 +233,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Devname;
         private System.Windows.Forms.DataGridViewTextBoxColumn channelname;
         private System.Windows.Forms.DataGridViewTextBoxColumn msg_type;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pollingtime;
         private System.Windows.Forms.DataGridViewTextBoxColumn startaddr;
         private System.Windows.Forms.DataGridViewTextBoxColumn length;
         private System.Windows.Forms.DataGridViewTextBoxColumn trigger_offset;
         private System.Windows.Forms.DataGridViewTextBoxColumn error_offset;
-        private System.Windows.Forms.DataGridViewTextBoxColumn note;
     }
 }
