@@ -173,5 +173,29 @@ namespace LocalPLC.Base
                 curPlcType.setPWMInfo(pulse);
             }
         }
+
+        public void setExtendAIShow(string ai)
+        {
+            if (curPlcType == null)
+            {
+                
+            }
+            else
+            {
+                curPlcType.setExtendAIInfo(ai);
+            }
+        }
+
+        public void setExtendAOShow(string ao)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setExtendAOInfo(ao);
+            }
+        }
     }
 }
