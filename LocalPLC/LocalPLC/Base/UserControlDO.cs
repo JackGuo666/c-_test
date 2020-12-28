@@ -104,6 +104,8 @@ namespace LocalPLC.Base
                     text_Temp.Visible = true;
                     text_Temp.Focus();
                     text_Temp.Select(text_Temp.SelectionStart, 0);
+                    text_Temp.SelectionStart = text_Temp.TextLength;
+                    text_Temp.ScrollToCaret();
                 }
                 else
                 {
