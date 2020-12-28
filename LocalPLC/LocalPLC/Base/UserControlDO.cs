@@ -29,21 +29,36 @@ namespace LocalPLC.Base
             text_Temp.WordWrap = false;
 
             this.dataGridView1.Controls.Add(text_Temp);
+
+            //禁止用户改变DataGridView1の所有行的行高  
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.Columns[columnVarIndex].Width = 200;
+            //dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
+            {
+                this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
+        //MyRichTextBox和RichTextBox都可以
         private RichTextBox text_Temp = new RichTextBox();
-        const int columnVarName = 3;
+        const int columnVarIndex = 1;
+        const int columnChannelIndex = 2;
+        const int columnAddressIndex = 3;
+        const int columnNoteIndex = 4;
+        const int columnUsedIndex = 0;
 
         private void BindData()
         {
             //view绑定datatable
             DataTable dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
+            dtData.Columns.Add("变量名");
             dtData.Columns.Add("通道名");
             dtData.Columns.Add("地址");
-            dtData.Columns.Add("变量名");
-            //dtData.Columns.Add("滤波");
-            //dtData.Columns.Add("注释");
+            dtData.Columns.Add("注释");
 
 
             DataRow drData;
@@ -89,7 +104,8 @@ namespace LocalPLC.Base
 
             try
             {
-                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex
+                    || this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -144,14 +160,15 @@ namespace LocalPLC.Base
         private void dataGridView1_DataSourceChanged_1(object sender, EventArgs e)
         {
             //绑定事件DataBindingComplete 之后设置才有效果
-            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[columnUsedIndex].ReadOnly = true;
             //背景设置灰色只读
-            dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+            dataGridView1.Columns[columnUsedIndex].DefaultCellStyle.BackColor = Color.Lavender;
 
 
 
             //绑定事件DataBindingComplete 之后设置才有效果
-            dataGridView1.Columns[columnVarName].ReadOnly = true;
+            dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -168,7 +185,8 @@ namespace LocalPLC.Base
 
             try
             {
-                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex
+                    || this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
 
@@ -189,6 +207,14 @@ namespace LocalPLC.Base
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (e.ColumnIndex == 2)  // 2代表第二列
+            {
+                //e.Cancel = true;
+            }
         }
     }
 }
