@@ -165,7 +165,7 @@ namespace LocalPLC.Base
             //InitTableData();
 
             // 绑定性别下拉列表框
-            BindSex();
+            //BindSex();
 
             ////绑定数据表
             BindData();
@@ -253,39 +253,39 @@ namespace LocalPLC.Base
                 }
 
 
-                if (this.dataGridView1.CurrentCell.ColumnIndex == columnFilterIndex)
-                {
-                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
-                    string sexValue = dataGridView1.CurrentCell.Value.ToString();
+                //if (this.dataGridView1.CurrentCell.ColumnIndex == columnFilterIndex)
+                //{
+                //    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                //    string sexValue = dataGridView1.CurrentCell.Value.ToString();
 
-                    if(sexReverseDic.ContainsKey(sexValue))
-                    {
-                        cmb_Temp.Text = sexValue;
-                    }
-                    else
-                    {
-                        int index = 0;
-                        int.TryParse(sexValue, out index);
-                        if(sexDic.ContainsKey(index))
-                        {
-                            cmb_Temp.Text = sexDic[index];
-                            var table = (DataTable)dataGridView1.DataSource;
-                            table.Rows[this.dataGridView1.CurrentCell.RowIndex][this.dataGridView1.CurrentCell.ColumnIndex] = index;
-                        }
-                    }
+                //    if(sexReverseDic.ContainsKey(sexValue))
+                //    {
+                //        cmb_Temp.Text = sexValue;
+                //    }
+                //    else
+                //    {
+                //        int index = 0;
+                //        int.TryParse(sexValue, out index);
+                //        if(sexDic.ContainsKey(index))
+                //        {
+                //            cmb_Temp.Text = sexDic[index];
+                //            var table = (DataTable)dataGridView1.DataSource;
+                //            table.Rows[this.dataGridView1.CurrentCell.RowIndex][this.dataGridView1.CurrentCell.ColumnIndex] = index;
+                //        }
+                //    }
 
-                    cmb_Temp.Left = rect.Left;
-                    cmb_Temp.Top = rect.Top;
-                    cmb_Temp.Width = rect.Width;
-                    cmb_Temp.Height = rect.Height;
-                    cmb_Temp.Visible = true;
+                //    cmb_Temp.Left = rect.Left;
+                //    cmb_Temp.Top = rect.Top;
+                //    cmb_Temp.Width = rect.Width;
+                //    cmb_Temp.Height = rect.Height;
+                //    cmb_Temp.Visible = true;
 
-                    cmb_Temp.FlatStyle = FlatStyle.Popup;
-                }
-                else
-                {
-                    cmb_Temp.Visible = false;
-                }
+                //    cmb_Temp.FlatStyle = FlatStyle.Popup;
+                //}
+                //else
+                //{
+                //    cmb_Temp.Visible = false;
+                //}
             }
             catch
             {
