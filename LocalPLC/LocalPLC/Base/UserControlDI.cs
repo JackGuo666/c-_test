@@ -19,7 +19,9 @@ namespace LocalPLC.Base
         private ComboBox cmb_Temp = new ComboBox();
         //
         private MyRichTextBox text_Temp = new MyRichTextBox();
-        const int columnVar = 3;
+        const int columnVarIndex = 1;
+        const int columnNoteIndex = 5;
+        const int columnFilterIndex = 2;
 
         /// <summary>
         /// 绑定性别下拉列表框
@@ -58,18 +60,16 @@ namespace LocalPLC.Base
             cmb_Temp.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        const int columnVarName = 3;
         private void BindData()
         {
             //view绑定datatable
             DataTable dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
-            dtData.Columns.Add("通道名");
-            dtData.Columns.Add("地址");
             dtData.Columns.Add("变量名");
             dtData.Columns.Add("滤波");
-            //dtData.Columns.Add("注释");
-
+            dtData.Columns.Add("通道名");
+            dtData.Columns.Add("地址");
+            dtData.Columns.Add("注释");
 
             DataRow drData;
             drData = dtData.NewRow();
@@ -185,7 +185,11 @@ namespace LocalPLC.Base
             this.dataGridView1.Controls.Add(cmb_Temp);
             this.dataGridView1.Controls.Add(text_Temp);
 
-            dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            //最后一列自动填充表格
+            dataGridView1.Columns[columnVarIndex].Width = 200;
+
+
+            dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             //this.dataGridView1.Columns[2].DisplayIndex = 1;
         }
 
@@ -213,7 +217,8 @@ namespace LocalPLC.Base
 
             try
             {
-                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
+                    this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -227,6 +232,7 @@ namespace LocalPLC.Base
                     text_Temp.Height = rect.Height;
                     text_Temp.Visible = true;
                     text_Temp.Focus();
+                    text_Temp.AutoSize = false;
                     this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
                     //this.text_Temp.ScrollToCaret();
 
@@ -237,7 +243,7 @@ namespace LocalPLC.Base
                 }
 
 
-                if (this.dataGridView1.CurrentCell.ColumnIndex == 4)
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnFilterIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string sexValue = dataGridView1.CurrentCell.Value.ToString();
@@ -360,7 +366,7 @@ namespace LocalPLC.Base
                 return;
             }
 
-            if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+            if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
                 Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                 string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -375,11 +381,6 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].ReadOnly = true;
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
-
-            //绑定事件DataBindingComplete 之后设置才有效果
-            dataGridView1.Columns[columnVarName].ReadOnly = true;
-            //背景设置灰色只读
-            //dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
         }
 
         MyRichTextBox btn = new MyRichTextBox();
@@ -397,7 +398,8 @@ namespace LocalPLC.Base
 
             try
             {
-                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex 
+                    || this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
 
