@@ -19,6 +19,7 @@ namespace LocalPLC.Base
         private ComboBox cmb_Temp = new ComboBox();
         //
         private MyRichTextBox text_Temp = new MyRichTextBox();
+        const int columnVar = 3;
 
         /// <summary>
         /// 绑定性别下拉列表框
@@ -387,6 +388,32 @@ namespace LocalPLC.Base
 
         }
 
+        private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            if (this.dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
 
+            try
+            {
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                {
+                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+
+
+                    text_Temp.Left = rect.Left;
+                    text_Temp.Top = rect.Top;
+                    text_Temp.Width = rect.Width;
+                    text_Temp.Height = rect.Height;
+                    text_Temp.Visible = true;
+                }
+
+            }
+            catch
+            {
+
+            }
+        }
     }
 }
