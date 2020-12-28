@@ -18,7 +18,7 @@ namespace LocalPLC.Base
         // 定义下拉列表框
         private ComboBox cmb_Temp = new ComboBox();
         //
-        private RichTextBox text_Temp = new RichTextBox();
+        private MyRichTextBox text_Temp = new MyRichTextBox();
 
         /// <summary>
         /// 绑定性别下拉列表框
@@ -177,11 +177,14 @@ namespace LocalPLC.Base
 
             text_Temp.Visible = false;
             text_Temp.WordWrap = false;
+            text_Temp.setParent(dataGridView1);
 
 
             //将下拉列表框加入到DataGridView控件中
             this.dataGridView1.Controls.Add(cmb_Temp);
             this.dataGridView1.Controls.Add(text_Temp);
+
+            dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             //this.dataGridView1.Columns[2].DisplayIndex = 1;
         }
 
@@ -223,7 +226,8 @@ namespace LocalPLC.Base
                     text_Temp.Height = rect.Height;
                     text_Temp.Visible = true;
                     text_Temp.Focus();
-                    text_Temp.Select(text_Temp.SelectionStart, 0);
+                    this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
+                    //this.text_Temp.ScrollToCaret();
 
                 }
                 else
@@ -377,12 +381,8 @@ namespace LocalPLC.Base
             //dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
         }
 
+        MyRichTextBox btn = new MyRichTextBox();
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
