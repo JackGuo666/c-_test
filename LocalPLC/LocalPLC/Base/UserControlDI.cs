@@ -18,10 +18,12 @@ namespace LocalPLC.Base
         // 定义下拉列表框
         private ComboBox cmb_Temp = new ComboBox();
         //
-        private MyRichTextBox text_Temp = new MyRichTextBox();
+        private RichTextBox text_Temp = new RichTextBox();
         const int columnVarIndex = 1;
         const int columnNoteIndex = 5;
         const int columnFilterIndex = 2;
+        const int columnChannelIndex = 3;
+        const int columnAddressIndex = 4;
 
         /// <summary>
         /// 绑定性别下拉列表框
@@ -178,7 +180,7 @@ namespace LocalPLC.Base
 
             text_Temp.Visible = false;
             text_Temp.WordWrap = false;
-            text_Temp.setParent(dataGridView1);
+            //text_Temp.setParent(dataGridView1);
 
 
             //将下拉列表框加入到DataGridView控件中
@@ -189,8 +191,16 @@ namespace LocalPLC.Base
             dataGridView1.Columns[columnVarIndex].Width = 200;
 
 
+
+            //禁止用户改变DataGridView1の所有行的行高  
+            dataGridView1.AllowUserToResizeRows = false;
+            //最后一列填充表格
             dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             //this.dataGridView1.Columns[2].DisplayIndex = 1;
+            for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
+            {
+                this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void cmb_Temp_SelectedIndexChanged(object sender, EventArgs e)
@@ -232,9 +242,9 @@ namespace LocalPLC.Base
                     text_Temp.Height = rect.Height;
                     text_Temp.Visible = true;
                     text_Temp.Focus();
-                    text_Temp.AutoSize = false;
+                    //text_Temp.AutoSize = false;
                     this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
-                    //this.text_Temp.ScrollToCaret();
+                    this.text_Temp.ScrollToCaret();
 
                 }
                 else
@@ -381,6 +391,9 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].ReadOnly = true;
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+
+            dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
         }
 
         MyRichTextBox btn = new MyRichTextBox();
