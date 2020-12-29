@@ -307,7 +307,7 @@ namespace LocalPLC.Base
 
             if(dataGridView1.CurrentCell != null)
             {
-                dataGridView1.CurrentCell.Selected = false;
+                //dataGridView1.CurrentCell.Selected = false;
             }
             
 
@@ -324,6 +324,12 @@ namespace LocalPLC.Base
 
             dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
             dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
+        }
+
+        private void dataGridView1_Resize(object sender, EventArgs e)
+        {
+            combo.Visible = false;
+            text_Temp.Visible = false;
         }
 
         private void setComboBoxItemType(int cIndex, int rIndex)
