@@ -390,6 +390,10 @@ namespace LocalPLC
             {
                 UC.setETHShow(name);
             }
+            else if(name == "高速计数器")
+            {
+                UC.setHighInput(name);
+            }
             else if(name == "正交编码器")
             {
                 UC.setQuadShow(name);
