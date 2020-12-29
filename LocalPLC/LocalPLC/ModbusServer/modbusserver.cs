@@ -200,14 +200,14 @@ namespace LocalPLC.ModbusServer
                 textBox28.ReadOnly = true;
                 textBox28.Enabled = false;
             }
-            textBox13.ReadOnly = true;
-            textBox13.Enabled = false;
-            textBox14.ReadOnly = true;
-            textBox14.Enabled = false;
-            textBox15.ReadOnly = true;
-            textBox15.Enabled = false;
-            textBox16.ReadOnly = true;
-            textBox16.Enabled = false;
+            //textBox13.ReadOnly = true;
+            //textBox13.Enabled = false;
+            //textBox14.ReadOnly = true;
+            //textBox14.Enabled = false;
+            //textBox15.ReadOnly = true;
+            //textBox15.Enabled = false;
+            //textBox16.ReadOnly = true;
+            //textBox16.Enabled = false;
         }
        
         private void panel1_Paint(object sender, PaintEventArgs e)
