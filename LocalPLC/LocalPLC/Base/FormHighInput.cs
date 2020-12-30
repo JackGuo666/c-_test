@@ -27,8 +27,51 @@ namespace LocalPLC.Base
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int iCurrentIndex = this.comboBox3.SelectedIndex;
-            if (iCurrentIndex < 0) return;
+            int currentIndex = this.comboBox3.SelectedIndex;
+            if (currentIndex < 0) return;
+
+            if(currentIndex == 0)
+            {
+                label3.Visible = false;
+                label4.Visible = false;
+                comboBox1.Visible = false;
+                comboBox2.Visible = false;
+                label2.Visible = false;
+                textBox2.Visible = false;
+            }
+            else
+            {
+
+                label3.Visible = true;
+                label4.Visible = true;
+                comboBox1.Visible = true;
+                comboBox2.Visible = true;
+                label2.Visible = true;
+                textBox2.Visible = true;
+
+                if (currentIndex == 1)
+                {
+                    //单脉冲计数
+                    label3.Text = "脉冲输入:";
+                    label4.Text = "方向输入:";
+                    textBox2.Text = "脉冲/方向";
+                }
+                else if (currentIndex == 2)
+                {
+                    //双向
+                    label3.Text = "脉冲输入:";
+                    label4.Text = "脉冲输入:";
+                    textBox2.Text = "脉冲/脉冲";
+                }
+                else if (currentIndex == 3)
+                {
+                    //正交
+                    label3.Text = "脉冲输入:";
+                    label4.Text = "脉冲输入:";
+                    textBox2.Text = "脉冲/脉冲";
+                }
+            }
+            
 
 
         }

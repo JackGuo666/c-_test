@@ -63,7 +63,7 @@
             // 
             this.comboBox2.BackColor = System.Drawing.Color.White;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(322, 231);
+            this.comboBox2.Location = new System.Drawing.Point(335, 210);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(113, 26);
             this.comboBox2.TabIndex = 2;
@@ -71,7 +71,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(322, 147);
+            this.comboBox1.Location = new System.Drawing.Point(335, 126);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(113, 26);
             this.comboBox1.TabIndex = 2;
@@ -97,7 +97,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(179, 234);
+            this.label4.Location = new System.Drawing.Point(192, 213);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(89, 18);
             this.label4.TabIndex = 0;
@@ -106,7 +106,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(179, 147);
+            this.label3.Location = new System.Drawing.Point(192, 126);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(89, 18);
             this.label3.TabIndex = 0;
@@ -131,6 +131,7 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.comboBox3);
             this.panel1.Controls.Add(this.textBox2);
             this.panel1.Controls.Add(this.label1);
