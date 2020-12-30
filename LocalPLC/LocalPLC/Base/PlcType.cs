@@ -351,6 +351,19 @@ namespace LocalPLC.Base
             }
         }
 
+
+        public void setHighOutputInfo(string name)
+        {
+            UserControlHighOutput hout = new UserControlHighOutput();
+            {
+                split.Panel2.Controls.Clear();
+                hout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(hout);
+
+                setShow(name, picArray);
+            }
+        }
+
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
         {
             picHighLighted(pictureBox3, 6);

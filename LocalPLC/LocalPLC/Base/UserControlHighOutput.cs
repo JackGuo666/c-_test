@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlHighIn : UserControl
+    public partial class UserControlHighOutput : UserControl
     {
-        public UserControlHighIn()
+        public UserControlHighOutput()
         {
             InitializeComponent();
 
@@ -32,9 +32,10 @@ namespace LocalPLC.Base
             {
                 this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+
         }
 
-        # region
+        #region
         DataTable dtData = null;
         const int columnUsedIndex = 0;
         const int columnVarIndex = 1;
@@ -42,9 +43,7 @@ namespace LocalPLC.Base
         const int columnNoteIndex = 4;
 
         private RichTextBox text_Temp = new RichTextBox();
-
         #endregion
-
 
         private void BindData()
         {
@@ -60,7 +59,7 @@ namespace LocalPLC.Base
             DataRow drData;
             drData = dtData.NewRow();
             drData[0] = 1;
-            drData[1] = "HSC0";
+            drData[1] = "HSP0";
             drData[2] = "%IW20";
             drData[3] = "0-10mA";  //类型
             //drData[4] = 0; //
@@ -70,7 +69,7 @@ namespace LocalPLC.Base
             dtData.Rows.Add(drData);
             drData = dtData.NewRow();
             drData[0] = 2;
-            drData[1] = "HSC1";
+            drData[1] = "HSP1";
             drData[2] = "%IW24";
             drData[3] = "0-20mA";
             //drData[4] = 0;
@@ -80,7 +79,7 @@ namespace LocalPLC.Base
             dtData.Rows.Add(drData);
             drData = dtData.NewRow();
             drData[0] = 1;
-            drData[1] = "HSC2";
+            drData[1] = "HSP2";
             drData[2] = "%IW28";
             drData[3] = "0-20mA";
             //drData[4] = 0;
@@ -89,7 +88,7 @@ namespace LocalPLC.Base
 
             drData = dtData.NewRow();
             drData[0] = 1;
-            drData[1] = "HSC3";
+            drData[1] = "HSP3";
             drData[2] = "%IW28";
             drData[3] = "0-20mA";
             //drData[4] = 0;
@@ -127,31 +126,19 @@ namespace LocalPLC.Base
         }
 
         #region
-        private void dataGridView1_Paint(object sender, PaintEventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            dataGridView1.CurrentCell.Value = text_Temp.Text;
         }
 
-        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            //if (e.ColumnIndex == 2)
-            //{
-            //    e.Handled = true;
-
-            //    using (SolidBrush brush = new SolidBrush(Color.Red))
-            //    {
-            //        e.Graphics.FillRectangle(brush, e.CellBounds);
-            //    }
-            //    ControlPaint.DrawBorder(e.Graphics, e.CellBounds, Color.Yellow, ButtonBorderStyle.Outset);
-            //}
-        }
+        #endregion
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridView1.Columns["配置"].Index)
+            if (e.ColumnIndex == dataGridView1.Columns["配置"].Index && e.RowIndex >= 0)
             {
                 //Do something with your button.
-                FormHighInput color = new FormHighInput();
+                FormHighOutput color = new FormHighOutput();
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();
 
@@ -160,12 +147,6 @@ namespace LocalPLC.Base
                 var col = e.ColumnIndex;
             }
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            dataGridView1.CurrentCell.Value = text_Temp.Text;
-        }
-        #endregion
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
@@ -239,7 +220,7 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
 
-            dataGridView1.Columns[columnVarIndex].ReadOnly = true; 
+            dataGridView1.Columns[columnVarIndex].ReadOnly = true;
             dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
         }
     }

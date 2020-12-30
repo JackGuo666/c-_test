@@ -394,6 +394,10 @@ namespace LocalPLC
             {
                 UC.setHighInput(name);
             }
+            else if(name == "高速输出")
+            {
+                UC.setHighOutput(name);
+            }
             else if(name == "正交编码器")
             {
                 UC.setQuadShow(name);

@@ -66,6 +66,12 @@
     <Compile Include="Base\FormHighInput.Designer.cs">
       <DependentUpon>FormHighInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\FormHighOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\FormHighOutput.Designer.cs">
+      <DependentUpon>FormHighOutput.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\pictest.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -135,11 +141,23 @@
     <Compile Include="Base\UserControlExtendAO.Designer.cs">
       <DependentUpon>UserControlExtendAO.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\UserControlFreaGen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlFreaGen.Designer.cs">
+      <DependentUpon>UserControlFreaGen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\UserControlHighIn.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Base\UserControlHighIn.Designer.cs">
       <DependentUpon>UserControlHighIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlHighOutput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlHighOutput.Designer.cs">
+      <DependentUpon>UserControlHighOutput.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\UserControlPto.cs">
       <SubType>UserControl</SubType>
@@ -268,6 +286,9 @@
     <EmbeddedResource Include="Base\FormHighInput.resx">
       <DependentUpon>FormHighInput.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Base\FormHighOutput.resx">
+      <DependentUpon>FormHighOutput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\PlcType.resx">
       <DependentUpon>PlcType.cs</DependentUpon>
     </EmbeddedResource>
@@ -301,8 +322,14 @@
     <EmbeddedResource Include="Base\UserControlExtendAO.resx">
       <DependentUpon>UserControlExtendAO.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlFreaGen.resx">
+      <DependentUpon>UserControlFreaGen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlHighIn.resx">
       <DependentUpon>UserControlHighIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlHighOutput.resx">
+      <DependentUpon>UserControlHighOutput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlPto.resx">
       <DependentUpon>UserControlPto.cs</DependentUpon>

@@ -209,5 +209,17 @@ namespace LocalPLC.Base
                 curPlcType.setHighInputInfo(hi);
             }
         }
+
+         public void setHighOutput(string hout)
+        {
+            if (curPlcType == null)
+            {
+
+            }
+            else
+            {
+                curPlcType.setHighOutputInfo(hout);
+            }
+        }
     }
 }
