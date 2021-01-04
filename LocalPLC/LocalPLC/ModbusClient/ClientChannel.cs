@@ -427,6 +427,20 @@ namespace LocalPLC.ModbusClient
                 data.Channellength = 2 + data.Length * 2;
             }
             data.type = type;
+            data.offsetkey[0] = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].resetkey[0];
+            data.offsetkey[1] = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].resetkey[1];
+            data.offsetkey[2] = data.ID.ToString();
+            data.offsetkey1 = "0";
+            data.offsetkey2 = "1";
+            //if (Convert.ToInt32(this.label3.Text) > 9)
+            //{
+            //    data.offsetkey[1] = this.label3.Text;
+            //}
+            //else if (Convert.ToInt32(this.label3.Text) < 10 && Convert.ToInt32(this.label3.Text)>=0)
+            //{
+            //    data.offsetkey[1] = 
+            //}
+            //data.offsetkey[1] = 
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Add(data);
             data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].devlength = 1;
             for (int j =0;j<data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count;j++)
@@ -435,6 +449,7 @@ namespace LocalPLC.ModbusClient
             }
             //data_.modbusChannelList.Add(data);
             //data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)]
+            
             ds.Tables[n].Rows.Add(dr.ItemArray);
             
             for (int i = 0; i < dataGridView2.RowCount; i++)

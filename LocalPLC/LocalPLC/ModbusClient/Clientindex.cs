@@ -109,6 +109,9 @@ namespace LocalPLC.ModbusClient
                     int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
                     //int.TryParse(e.GetAttribute("resetVaraible"), out deviceData.resetVaraible);
                     deviceData.resetVaraible = e.GetAttribute("resetvaraible");
+                    string [] resetkey = e.GetAttribute("resetkey").Split('c');
+                    deviceData.resetkey[0] = resetkey[0];
+                    deviceData.resetkey[1] = resetkey[1];
                     int.TryParse(e.GetAttribute("devstartaddr"), out deviceData.devstartaddr);
                     int.TryParse(e.GetAttribute("devlength"), out deviceData.devlength);
                     //读取channel数据
@@ -128,7 +131,14 @@ namespace LocalPLC.ModbusClient
                         //int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
                         channelData.trigger_offset = e.GetAttribute("trigger_offset");
                         //int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+                        string [] trigoffset = e.GetAttribute("triggeroffsetkey").Split('c');
+                        channelData.offsetkey[0] = trigoffset[0];
+                        trigoffset[1].Substring(0, 2);
+                        channelData.offsetkey[1] = trigoffset[1].Substring(0, 2); 
+                        channelData.offsetkey[2] = trigoffset[1].Substring(2);
+                        
                         channelData.error_offset = e.GetAttribute("error_offset");
+
                         int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.channelstartaddr);
                         int.TryParse(e.GetAttribute("Channellength"), out channelData.Channellength);
                         int.TryParse(e.GetAttribute("type"), out channelData.type);
@@ -181,6 +191,7 @@ namespace LocalPLC.ModbusClient
                     elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
                     elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
                     elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible.ToString());
+                    elem1_m_d.SetAttribute("resetkey", dataDev.resetkey[0]+ "c"+dataDev.resetkey[1]);
                     elem1_m_d.SetAttribute("devstartaddr", dataDev.devstartaddr.ToString());
                     elem1_m_d.SetAttribute("devlength", dataDev.devlength.ToString());
 
@@ -197,7 +208,9 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("offset", dataChannel.Offset.ToString());
                         elem1_m_d_c.SetAttribute("length", dataChannel.Length.ToString());
                         elem1_m_d_c.SetAttribute("trigger_offset", dataChannel.trigger_offset);
+                        elem1_m_d_c.SetAttribute("triggeroffsetkey", dataChannel.offsetkey[0]+"c"+ dataChannel.offsetkey[1]+ dataChannel.offsetkey[2]+ "c"+ dataChannel.offsetkey1);
                         elem1_m_d_c.SetAttribute("error_offset", dataChannel.error_offset);
+                        elem1_m_d_c.SetAttribute("erroroffsetkey", dataChannel.offsetkey[0] + "c" + dataChannel.offsetkey[1] + dataChannel.offsetkey[2] +"c"+ dataChannel.offsetkey2);
                         elem1_m_d_c.SetAttribute("channelstartaddr", dataChannel.channelstartaddr.ToString());
                         elem1_m_d_c.SetAttribute("Channellength", dataChannel.Channellength.ToString());
                         elem1_m_d_c.SetAttribute("type", dataChannel.type.ToString());

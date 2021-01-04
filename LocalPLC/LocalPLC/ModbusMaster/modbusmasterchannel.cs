@@ -247,6 +247,11 @@ namespace LocalPLC.ModbusMaster
             data.pollingTime = 1000;
             data.readOffset = 0;
             data.readLength = 1;
+            data.offsetkey[0] = deviceData_.resetkey[0];
+            data.offsetkey[1] = deviceData_.resetkey[1];
+            data.offsetkey[2] = data.ID.ToString();
+            data.offsetkey1 = "0";
+            data.offsetkey2 = "1";
             data.note = "";
             //
 

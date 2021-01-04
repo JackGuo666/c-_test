@@ -231,6 +231,17 @@ namespace LocalPLC.ModbusClient
             data.reconnectInterval = Convert.ToInt32(dr[(int)COLUMNNAME.重连间隔]);
             dr[(int)COLUMNNAME.复位变量] = "";
             data.resetVaraible = dr[(int)COLUMNNAME.复位变量].ToString();
+            string devkey = null;
+            if(rowcount < 10)
+            {
+                devkey = 0 + rowcount.ToString();
+            }
+            else if (rowcount >= 10 && rowcount <= 16)
+            {
+                devkey = rowcount.ToString();
+            }
+            data.resetkey[0] = this.label5.Text;
+            data.resetkey[1] = devkey;
             //Button add = new Button();
             //add.Text = ". . .";
 
@@ -426,7 +437,7 @@ namespace LocalPLC.ModbusClient
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.复位变量)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
+                data_.modbusDeviceList[e.RowIndex].resetVaraible = str;
 
 
             }
