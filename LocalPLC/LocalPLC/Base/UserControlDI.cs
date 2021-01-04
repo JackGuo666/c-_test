@@ -19,6 +19,11 @@ namespace LocalPLC.Base
         private ComboBox cmb_Temp = new ComboBox();
         //
         private RichTextBox text_Temp = new RichTextBox();
+        const int columnVarIndex = 1;
+        const int columnNoteIndex = 5;
+        const int columnFilterIndex = 2;
+        const int columnChannelIndex = 3;
+        const int columnAddressIndex = 4;
 
         /// <summary>
         /// 绑定性别下拉列表框
@@ -57,18 +62,16 @@ namespace LocalPLC.Base
             cmb_Temp.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        const int columnVarName = 3;
         private void BindData()
         {
             //view绑定datatable
             DataTable dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
-            dtData.Columns.Add("通道名");
-            dtData.Columns.Add("地址");
             dtData.Columns.Add("变量名");
             dtData.Columns.Add("滤波");
-            //dtData.Columns.Add("注释");
-
+            dtData.Columns.Add("通道名");
+            dtData.Columns.Add("地址");
+            dtData.Columns.Add("注释");
 
             DataRow drData;
             drData = dtData.NewRow();
@@ -162,7 +165,7 @@ namespace LocalPLC.Base
             //InitTableData();
 
             // 绑定性别下拉列表框
-            BindSex();
+            //BindSex();
 
             ////绑定数据表
             BindData();
@@ -177,12 +180,27 @@ namespace LocalPLC.Base
 
             text_Temp.Visible = false;
             text_Temp.WordWrap = false;
+            //text_Temp.setParent(dataGridView1);
 
 
             //将下拉列表框加入到DataGridView控件中
             this.dataGridView1.Controls.Add(cmb_Temp);
             this.dataGridView1.Controls.Add(text_Temp);
+
+            //最后一列自动填充表格
+            dataGridView1.Columns[columnVarIndex].Width = 200;
+
+
+
+            //禁止用户改变DataGridView1の所有行的行高  
+            dataGridView1.AllowUserToResizeRows = false;
+            //最后一列填充表格
+            dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             //this.dataGridView1.Columns[2].DisplayIndex = 1;
+            for (int i = 0; i < this.dataGridView1.Columns.Count; i++)
+            {
+                this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
         private void cmb_Temp_SelectedIndexChanged(object sender, EventArgs e)
@@ -209,7 +227,8 @@ namespace LocalPLC.Base
 
             try
             {
-                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
+                    this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -223,7 +242,9 @@ namespace LocalPLC.Base
                     text_Temp.Height = rect.Height;
                     text_Temp.Visible = true;
                     text_Temp.Focus();
-                    text_Temp.Select(text_Temp.SelectionStart, 0);
+                    //text_Temp.AutoSize = false;
+                    this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
+                    this.text_Temp.ScrollToCaret();
 
                 }
                 else
@@ -232,39 +253,39 @@ namespace LocalPLC.Base
                 }
 
 
-                if (this.dataGridView1.CurrentCell.ColumnIndex == 4)
-                {
-                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
-                    string sexValue = dataGridView1.CurrentCell.Value.ToString();
+                //if (this.dataGridView1.CurrentCell.ColumnIndex == columnFilterIndex)
+                //{
+                //    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                //    string sexValue = dataGridView1.CurrentCell.Value.ToString();
 
-                    if(sexReverseDic.ContainsKey(sexValue))
-                    {
-                        cmb_Temp.Text = sexValue;
-                    }
-                    else
-                    {
-                        int index = 0;
-                        int.TryParse(sexValue, out index);
-                        if(sexDic.ContainsKey(index))
-                        {
-                            cmb_Temp.Text = sexDic[index];
-                            var table = (DataTable)dataGridView1.DataSource;
-                            table.Rows[this.dataGridView1.CurrentCell.RowIndex][this.dataGridView1.CurrentCell.ColumnIndex] = index;
-                        }
-                    }
+                //    if(sexReverseDic.ContainsKey(sexValue))
+                //    {
+                //        cmb_Temp.Text = sexValue;
+                //    }
+                //    else
+                //    {
+                //        int index = 0;
+                //        int.TryParse(sexValue, out index);
+                //        if(sexDic.ContainsKey(index))
+                //        {
+                //            cmb_Temp.Text = sexDic[index];
+                //            var table = (DataTable)dataGridView1.DataSource;
+                //            table.Rows[this.dataGridView1.CurrentCell.RowIndex][this.dataGridView1.CurrentCell.ColumnIndex] = index;
+                //        }
+                //    }
 
-                    cmb_Temp.Left = rect.Left;
-                    cmb_Temp.Top = rect.Top;
-                    cmb_Temp.Width = rect.Width;
-                    cmb_Temp.Height = rect.Height;
-                    cmb_Temp.Visible = true;
+                //    cmb_Temp.Left = rect.Left;
+                //    cmb_Temp.Top = rect.Top;
+                //    cmb_Temp.Width = rect.Width;
+                //    cmb_Temp.Height = rect.Height;
+                //    cmb_Temp.Visible = true;
 
-                    cmb_Temp.FlatStyle = FlatStyle.Popup;
-                }
-                else
-                {
-                    cmb_Temp.Visible = false;
-                }
+                //    cmb_Temp.FlatStyle = FlatStyle.Popup;
+                //}
+                //else
+                //{
+                //    cmb_Temp.Visible = false;
+                //}
             }
             catch
             {
@@ -355,7 +376,7 @@ namespace LocalPLC.Base
                 return;
             }
 
-            if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarName)
+            if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
                 Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                 string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -371,22 +392,43 @@ namespace LocalPLC.Base
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
-            //绑定事件DataBindingComplete 之后设置才有效果
-            dataGridView1.Columns[columnVarName].ReadOnly = true;
-            //背景设置灰色只读
-            //dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+            dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
         }
 
+        MyRichTextBox btn = new MyRichTextBox();
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
 
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
+            if (this.dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
 
+            try
+            {
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex 
+                    || this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+                {
+                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+
+
+                    text_Temp.Left = rect.Left;
+                    text_Temp.Top = rect.Top;
+                    text_Temp.Width = rect.Width;
+                    text_Temp.Height = rect.Height;
+                    text_Temp.Visible = true;
+                }
+
+            }
+            catch
+            {
+
+            }
         }
-
-
     }
 }

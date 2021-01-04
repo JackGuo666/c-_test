@@ -26,6 +26,13 @@ namespace LocalPLC.Base
             pulseList.Add("DI6");
             pulseList.Add("DI7");
 
+            comboBox7.Items.Add("正交输出");
+            comboBox7.Items.Add("双相输出");
+            comboBox7.Items.Add("单路输出");
+
+            comboBox7.SelectedIndex = 1;
+
+
             init();
         }
 
@@ -35,18 +42,32 @@ namespace LocalPLC.Base
             {
                 comboBox1.Items.Add(str);
                 comboBox2.Items.Add(str);
-                comboBox3.Items.Add(str);
-                comboBox4.Items.Add(str);
-                comboBox5.Items.Add(str);
-                comboBox6.Items.Add(str);
             }
 
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 1;
-            comboBox3.SelectedIndex = 2;
-            comboBox4.SelectedIndex = 3;
-            comboBox5.SelectedIndex = 4;
-            comboBox6.SelectedIndex = 5;
+        }
+
+        private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int currentIndex = this.comboBox7.SelectedIndex;
+            if (currentIndex < 0) return;
+
+            if(comboBox7.Text == "正交输出")
+            {
+                label2.Text = "输出模式:脉冲/脉冲";
+                label6.Text = "脉冲输入";
+            }
+            else if(comboBox7.Text == "双相输出")
+            {
+                label2.Text = "输出模式:脉冲/脉冲";
+                label6.Text = "脉冲输入";
+            }
+            else if(comboBox7.Text == "单路输出")
+            {
+                label2.Text = "输出模式:脉冲/方向";
+                label6.Text = "方向输入";
+            }
         }
     }
 }

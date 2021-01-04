@@ -339,6 +339,31 @@ namespace LocalPLC.Base
             }
         }
 
+        public void setHighInputInfo(string name)
+        {
+            UserControlHighIn hi = new UserControlHighIn();
+            {
+                split.Panel2.Controls.Clear();
+                hi.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(hi);
+
+                setShow(name, picArray);
+            }
+        }
+
+
+        public void setHighOutputInfo(string name)
+        {
+            UserControlHighOutput hout = new UserControlHighOutput();
+            {
+                split.Panel2.Controls.Clear();
+                hout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(hout);
+
+                setShow(name, picArray);
+            }
+        }
+
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
         {
             picHighLighted(pictureBox3, 6);

@@ -33,20 +33,8 @@ namespace LocalPLC.Base
         {
             foreach (string str in pulseList)
             {
-                comboBox1.Items.Add(str);
-                comboBox2.Items.Add(str);
-                comboBox3.Items.Add(str);
-                comboBox4.Items.Add(str);
-                comboBox5.Items.Add(str);
-                comboBox6.Items.Add(str);
-            }
 
-            comboBox1.SelectedIndex = 0;
-            comboBox2.SelectedIndex = 1;
-            comboBox3.SelectedIndex = 2;
-            comboBox4.SelectedIndex = 3;
-            comboBox5.SelectedIndex = 4;
-            comboBox6.SelectedIndex = 5;
+            }
         }
     }
 }
