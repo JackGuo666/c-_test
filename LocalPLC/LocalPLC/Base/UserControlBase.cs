@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LocalPLC.Base.xml;
 
 namespace LocalPLC.Base
 {
@@ -49,7 +50,12 @@ namespace LocalPLC.Base
             object item = e.Data.GetData("Test");
 
             TreeNode node = (TreeNode)item;
+           
+            string localPLCType = node.Text.ToString();
+            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType);
             
+
+
             PlcType user1 = new PlcType(splitContainer2, this);
             curPlcType = user1;
             user1.Parent = this;

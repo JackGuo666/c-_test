@@ -33,7 +33,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.ipAddressControl4 = new IPAddressControlLib.IPAddressControl();
             this.ipAddressControl3 = new IPAddressControlLib.IPAddressControl();
@@ -41,17 +40,20 @@
             this.ipAddressControl1 = new IPAddressControlLib.IPAddressControl();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.checkBox1);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.radioButton2);
+            this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton1);
             this.panel1.Controls.Add(this.ipAddressControl4);
             this.panel1.Controls.Add(this.ipAddressControl3);
@@ -100,17 +102,6 @@
             this.label2.Size = new System.Drawing.Size(62, 18);
             this.label2.TabIndex = 9;
             this.label2.Text = "IP地址";
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(182, 327);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(69, 22);
-            this.radioButton2.TabIndex = 7;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "SNTP";
-            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton1
             // 
@@ -205,6 +196,27 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "网口1";
             // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(182, 151);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(123, 22);
+            this.radioButton3.TabIndex = 8;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "固定IP地址";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(182, 331);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(70, 22);
+            this.checkBox1.TabIndex = 10;
+            this.checkBox1.Text = "SNTP";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // UserControlEth
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -220,7 +232,6 @@
 
         #endregion
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private IPAddressControlLib.IPAddressControl ipAddressControl1;
         private System.Windows.Forms.TextBox textBox1;
@@ -232,5 +243,7 @@
         private IPAddressControlLib.IPAddressControl ipAddressControl2;
         private IPAddressControlLib.IPAddressControl ipAddressControl4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
