@@ -51,10 +51,10 @@ namespace LocalPLC.Base
         const int columnUsedIndex = 0;
         public void initData()
         {
-            if(UserControlBase.dataManage.dicBiffield.ContainsKey("OUTPUTS_TM221C16U"))
+            if(UserControlBase.dataManage.dicBitfield.ContainsKey("OUTPUTS_TM221C16U"))
             {
                 dtData.Clear();
-                var value = UserControlBase.dataManage.dicBiffield["OUTPUTS_TM221C16U"];
+                var value = UserControlBase.dataManage.dicBitfield["OUTPUTS_TM221C16U"];
                 int count = 0;
                 foreach(var elem in value.list)
                 {

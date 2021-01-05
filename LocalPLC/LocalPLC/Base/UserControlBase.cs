@@ -15,12 +15,17 @@ namespace LocalPLC.Base
     {
         List<PlcType> PlcTypeArr = new List<PlcType>();
         PlcType curPlcType = null;
-
+        TreeView treeView_ = null;
         //DataManageBase数据管理
         public static DataManageBase dataManage = new DataManageBase();
         public UserControlBase() 
         {
             InitializeComponent();
+        }
+
+        public void getTreeView(TreeView view)
+        {
+            treeView_ = view;
         }
 
         private void UserControlBase_Load(object sender, EventArgs e)
@@ -55,7 +60,9 @@ namespace LocalPLC.Base
            
             string localPLCType = node.Text.ToString();
             LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
-            
+
+            var topNode = treeView_.TopNode;
+            topNode.Text = localPLCType;
 
 
             PlcType user1 = new PlcType(splitContainer2, this, dataManage);

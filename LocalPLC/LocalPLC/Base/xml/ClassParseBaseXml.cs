@@ -97,23 +97,92 @@ namespace LocalPLC.Base.xml
                                 {
                                     BitfieldElem bitfieldElem = new BitfieldElem();
                                     bitfieldElem.name = elemChild1.GetAttribute("name");
+                                    
                                     bitfieldType.list.Add(bitfieldElem);
                                 }
                             }
                         }
                     }
 
-                    dataManage_.dicBiffield.Add(bitfieldType.tagName, bitfieldType);
+                    dataManage_.dicBitfield.Add(bitfieldType.tagName, bitfieldType);
                 }
-                else if("Enum" == name)
+                else if("EnumType" == name)
                 {
-                    int a = 5;
-                    a = 6;
+                    EnumType enumType = new EnumType();
+                    enumType.tagName = elem.GetAttribute("name");
+                    foreach (XmlNode xnChild in xn.ChildNodes)
+                    {
+                        XmlElement elemChild = (XmlElement)xnChild;
+                        //根节点下面分支
+                        string nameChild = xnChild.Name;
+                        if(nameChild == "Enum")
+                        {
+                            EnumElem enumElem = new EnumElem();
+                            foreach (XmlNode xnChild1 in xnChild.ChildNodes)
+                            {
+                                XmlElement elemChild1 = (XmlElement)xnChild1;
+
+                                string nameChild1 = xnChild1.Name;
+                                if (nameChild1 == "Value")
+                                {
+                                    enumElem.value = elemChild1.InnerText;
+                                }
+                                else if (nameChild1 == "VisibleName")
+                                {
+                                    enumElem.name = xnChild1.InnerText;
+                                }
+                            }
+
+                            enumType.list.Add(enumElem);
+                        }
+                    }
+                    dataManage_.dicEnum.Add(enumType.tagName, enumType);
                 }
-                else if("Struct" == name)
+                else if("StructType" == name)
                 {
-                    int a = 5;
-                    a = 6;
+                    StructType structType = new StructType();
+                    structType.tagName = elem.GetAttribute("name");
+                    foreach (XmlNode xnChild in xn.ChildNodes)
+                    {
+                        XmlElement elemChild = (XmlElement)xnChild;
+                        //根节点下面分支
+                        string nameChild = xnChild.Name;
+                        if (nameChild == "Component")
+                        {
+                            StructElem structElem = new StructElem();
+                            foreach (XmlNode xnChild1 in xnChild.ChildNodes)
+                            {
+                                
+                                structElem.type = elemChild.GetAttribute("type");
+                                XmlElement elemChild1 = (XmlElement)xnChild1;
+
+                                string nameChild1 = xnChild1.Name;
+                                if (nameChild1 == "Default")
+                                {
+                                     int.TryParse(elemChild1.InnerText, out structElem.defaultValue);
+                                }
+                                else if (nameChild1 == "VisibleName")
+                                {
+                                    structElem.name = elemChild1.InnerText;
+                                }
+                                else if(nameChild1 == "Description")
+                                {
+
+                                }
+                                else if(nameChild1 == "custom")
+                                {
+
+                                }
+
+                            }
+
+
+                            structType.list.Add(structElem);
+                        }
+
+
+                    }
+                    dataManage_.dicStruct.Add(structType.tagName, structType);
                 }
             }
 
