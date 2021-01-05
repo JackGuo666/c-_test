@@ -84,6 +84,9 @@ namespace LocalPLC.ModbusMaster
                     int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
                     int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
                     deviceData.resetVaraible = e.GetAttribute("resetvaraible");
+                    string[] resetkey = e.GetAttribute("resetkey").Split('m');
+                    deviceData.resetkey[0] = resetkey[0];
+                    deviceData.resetkey[1] = resetkey[1];
                     int.TryParse(e.GetAttribute("devstartaddr"), out deviceData.curDeviceAddr);
                     int.TryParse(e.GetAttribute("devlength"), out deviceData.curDeviceLength);
                     //读取channel数据
@@ -101,11 +104,19 @@ namespace LocalPLC.ModbusMaster
                         int.TryParse(e.GetAttribute("readlength"), out channelData.readLength);
                         
                         channelData.trigger = e.GetAttribute("trigger");
+                        string[] trigoffset = e.GetAttribute("triggeroffsetkey").Split('m');
+                        channelData.offsetkey[0] = trigoffset[0];
+                        trigoffset[1].Substring(0, 2);
+                        channelData.offsetkey[1] = trigoffset[1].Substring(0, 2);
+                        channelData.offsetkey[2] = trigoffset[1].Substring(2);
                         channelData.error = e.GetAttribute("error");
                         int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.curChannelAddr);
                         int.TryParse(e.GetAttribute("channellength"), out channelData.curChannelLength);
                         int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
                         int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+
+
+
                         channelData.note = e.GetAttribute("note");
 
                         deviceData.modbusChannelList.Add(channelData);
@@ -753,6 +764,9 @@ namespace LocalPLC.ModbusMaster
         public int writeLength;
         public string trigger = "";
         public string error = "";
+        public string[] offsetkey = new string[3];
+        public string offsetkey1 = "0";
+        public string offsetkey2 = "1";
         public string note;
         
 
@@ -785,6 +799,7 @@ namespace LocalPLC.ModbusMaster
         public int reconnectInterval;
         public string resetVaraible = "";
         public string channel;
+        public string[] resetkey = new string[2];
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
 
         public void addChannel(ChannelData data)

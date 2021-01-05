@@ -873,7 +873,9 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             //utility.addServerIOGroups();
             //utility.addVarType();
             utility.addVarType1();
+            //utility.checkvariables();
             utility.addVariables();
+            
             multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
         public  int a = 0;
@@ -952,11 +954,19 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                 }
 
                             }
+                            else if (servergroup.Name == "Client")
+                            {
+                                foreach (ADELib.Variable variable in servergroup.Variables)
+                                {
+                                    object resetkey1 = variable.GetAttribute(20);
+
+                                }
+                            }
                         }
                     }
                 }
             }
-
+            
 
 
             //var configurations = multiprogApp.ActiveProject.Hardware.Configurations;
@@ -1128,7 +1138,107 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         void IAdeVariableObserver2.AfterChange(AdeObjectType ObjectType, Variable OldVariable, ref Variable NewVariable)
         {
             //MessageBox.Show("已修改");
-           
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+                Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
+                foreach (Configuration configuration in physicalHardware.Configurations)
+                {
+                    foreach (Resource resource in configuration.Resources)
+                    {
+                        var groups = resource.Variables.Groups;
+                        foreach (VariableGroup clientgroup in groups)
+                        {
+                            if (clientgroup.Name == "Client")
+                            {
+                                
+                                string resetkey = null;
+                                foreach (Variable variable in clientgroup.Variables)
+                                {
+                                    
+                                        object resetkey1 = variable.GetAttribute(20);
+                                        object resetkey2 = OldVariable.GetAttribute(20);
+                                        if (resetkey1 != null && resetkey2 != null)
+                                        {
+                                            resetkey = resetkey1.ToString();
+                                            string[] key1 = resetkey.Split('c');
+                                            string key2 = key1[0];
+                                            string key3 = key1[1];
+                                            int a = key3.Length;
+                                            if ( key3.Length == 2)// && resetkey2 == resetkey1
+                                            {
+                                                if (resetkey2.ToString() == resetkey1.ToString())
+                                                {
+                                                    UserControl1.mci.clientManage.modbusClientList[Convert.ToInt32(key1[0])].modbusDeviceList[Convert.ToInt32(key1[1])].resetVaraible
+                                                          = variable.Name;
+                                                }
+                                            }
+                                            else if (key3.Length > 2 && resetkey2.ToString() == resetkey1.ToString())
+                                        {
+                                            string dev = key3.Substring(0, 2);
+                                            string cha = key3.Substring(2);
+                                            if (key1[2] == "0")
+                                            {
+                                               
+                                                UserControl1.mci.clientManage.modbusClientList[Convert.ToInt32(key1[0])].modbusDeviceList[Convert.ToInt32(dev)].modbusChannelList[Convert.ToInt32(cha)].trigger_offset
+                                                      = variable.Name;
+                                            }
+                                            else if(key1[2] == "1")
+                                            {
+                                                UserControl1.mci.clientManage.modbusClientList[Convert.ToInt32(key1[0])].modbusDeviceList[Convert.ToInt32(dev)].modbusChannelList[Convert.ToInt32(cha)].error_offset
+                                                      = variable.Name;
+                                            }
+                                        }
+                                        }
+                                }
+                            }
+                            if (clientgroup.Name == "Master")
+                            {
+
+                                string resetkey = null;
+                                foreach (Variable variable in clientgroup.Variables)
+                                {
+
+                                    object resetkey1 = variable.GetAttribute(20);
+                                    object resetkey2 = OldVariable.GetAttribute(20);
+                                    if (resetkey1 != null && resetkey2 != null)
+                                    {
+                                        resetkey = resetkey1.ToString();
+                                        string[] key1 = resetkey.Split('m');
+                                        string key2 = key1[0];
+                                        string key3 = key1[1];
+                                        int a = key3.Length;
+                                        if (key3.Length == 2)// && resetkey2 == resetkey1
+                                        {
+                                            if (resetkey2.ToString() == resetkey1.ToString())
+                                            {
+                                                UserControl1.modmaster.masterManage.modbusMastrList[Convert.ToInt32(key1[0])].modbusDeviceList[Convert.ToInt32(key1[1])].resetVaraible
+                                                      = variable.Name;
+                                            }
+                                        }
+                                        else if (key3.Length > 2 && resetkey2.ToString() == resetkey1.ToString())
+                                        {
+                                            string dev = key3.Substring(0, 2);
+                                            string cha = key3.Substring(2);
+                                            if (key1[2] == "0")
+                                            {
+                                                UserControl1.modmaster.masterManage.modbusMastrList[Convert.ToInt32(key1[0])].modbusDeviceList[Convert.ToInt32(dev)].modbusChannelList[Convert.ToInt32(cha)].trigger
+                                                      = variable.Name;
+                                            }
+                                            else if (key1[2] == "1")
+                                            {
+                                                UserControl1.modmaster.masterManage.modbusMastrList[Convert.ToInt32(key1[0])].modbusDeviceList[Convert.ToInt32(dev)].modbusChannelList[Convert.ToInt32(cha)].error
+                                                      = variable.Name;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
         }
 
         void IAdeVariableObserver2.OnErrorCodeChanged(AdeObjectType ObjectType, ref Variable Variable)

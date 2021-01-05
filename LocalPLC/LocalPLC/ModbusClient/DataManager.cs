@@ -28,6 +28,9 @@ namespace LocalPLC.ModbusClient
         public string error_offset = "";
         public int Channellength;
         public int channelstartaddr;
+        public string[] offsetkey = new string[3];
+        public string offsetkey1 = "0";
+        public string offsetkey2 = "1";
         public string note;
     }
     public class DeviceData
@@ -43,6 +46,7 @@ namespace LocalPLC.ModbusClient
         public string channel;
         public int devstartaddr;
         public int devlength = 1;
+        public string [] resetkey = new string[2];
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
     }
     public class ModbusClientData

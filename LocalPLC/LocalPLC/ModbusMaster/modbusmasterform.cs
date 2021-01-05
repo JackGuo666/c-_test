@@ -159,7 +159,17 @@ namespace LocalPLC.ModbusMaster
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RESET_VARIABLE].Value = "";
                 data.resetVaraible =  dataGridView1.Rows[i].Cells[(int)COLUMNNAME.RESET_VARIABLE].Value.ToString();
-
+                string devkey = null;
+                if (row < 10)
+                {
+                    devkey = 0 + row.ToString();
+                }
+                else if (row >= 10 && row <= 16)
+                {
+                    devkey = row.ToString();
+                }
+                data.resetkey[0] = masterData_.ID.ToString();
+                data.resetkey[1] = devkey;
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.CHANNEL].Value = "..."/* + i.ToString()*/;
                 //data.
 
