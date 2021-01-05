@@ -75,7 +75,7 @@ namespace LocalPLC.Base.xml
     {
         int connectorId;
 
-        List
+        List<ModuleElem> moduleList = new List<ModuleElem>();
     }
     public class DeviceInfoElem
     {
