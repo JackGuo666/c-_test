@@ -12,6 +12,9 @@ namespace LocalPLC
     {
         public static string DO = "DO";
         public static string DI = "DI";
+        //IO地址
+        public const int DOADDRESSIO = 8001;
+        public const int DIADDRESSIO = 8001;
     }
 }
 
