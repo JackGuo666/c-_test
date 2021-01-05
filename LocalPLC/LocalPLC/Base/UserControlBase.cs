@@ -16,7 +16,9 @@ namespace LocalPLC.Base
         List<PlcType> PlcTypeArr = new List<PlcType>();
         PlcType curPlcType = null;
 
-        public UserControlBase()
+        //DataManageBase数据管理
+        public static DataManageBase dataManage = new DataManageBase();
+        public UserControlBase() 
         {
             InitializeComponent();
         }
@@ -52,11 +54,11 @@ namespace LocalPLC.Base
             TreeNode node = (TreeNode)item;
            
             string localPLCType = node.Text.ToString();
-            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType);
+            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
             
 
 
-            PlcType user1 = new PlcType(splitContainer2, this);
+            PlcType user1 = new PlcType(splitContainer2, this, dataManage);
             curPlcType = user1;
             user1.Parent = this;
             PlcTypeArr.Add(user1);

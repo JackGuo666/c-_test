@@ -49,18 +49,49 @@ namespace LocalPLC.Base
         const int columnAddressIndex = 3;
         const int columnNoteIndex = 4;
         const int columnUsedIndex = 0;
+        public void initData()
+        {
+            if(UserControlBase.dataManage.dicBiffield.ContainsKey("OUTPUTS_TM221C16U"))
+            {
+                dtData.Clear();
+                var value = UserControlBase.dataManage.dicBiffield["OUTPUTS_TM221C16U"];
+                int count = 0;
+                foreach(var elem in value.list)
+                {
+                    DataRow drData;
+                    drData = dtData.NewRow();
+                    drData[0] = 0;
+                    drData[1] = "";
+                    drData[2] = elem.name;
+                    string ioAddress = string.Format("%QX{0}.{1}", ConstVariable.DOADDRESSIO
+                        , count);
+                    drData[3] = ioAddress;
+                    drData[4] = "";
+                    //drData[4] = "0";    //滤波
+                    //drData[5] = "注释1";
+                    dtData.Rows.Add(drData);
 
+                    count++;
+                }
+
+
+                this.dataGridView1.DataSource = dtData;
+            }
+        }
+
+
+        DataTable dtData = null;
         private void BindData()
         {
             //view绑定datatable
-            DataTable dtData = new DataTable();
+            dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
             dtData.Columns.Add("变量名");
             dtData.Columns.Add("通道名");
             dtData.Columns.Add("地址");
             dtData.Columns.Add("注释");
 
-
+            /*
             DataRow drData;
             drData = dtData.NewRow();
             drData[0] = 1;
@@ -86,6 +117,7 @@ namespace LocalPLC.Base
             //drData[4] = "12";
             //drData[5] = "注释3";
             dtData.Rows.Add(drData);
+            */
 
             this.dataGridView1.DataSource = dtData;
         }
