@@ -51,6 +51,22 @@ namespace LocalPLC.Base.xml
                     {
                          parseType(xn);
                     }
+                    else if(name == "Strings")
+                    {
+
+                    }
+                    else if(name == "Files")
+                    {
+
+                    }
+                    else if(name == "Device")
+                    {
+                        parseDevice(xn);
+                    }
+                    else if(name == "Modules")
+                    {
+
+                    }
                 }
 
             }
@@ -188,6 +204,25 @@ namespace LocalPLC.Base.xml
 
         }
 
+        private void parseDevice(XmlNode xNode)
+        {
+            XmlNodeList nodeList = xNode.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode xn in nodeList)
+            {
+                XmlElement elem = (XmlElement)xn;
+                //根节点下面分支
+                string name = xn.Name;
+
+                if ("DeviceIdentification" == name)
+                {
+
+                }
+                else if("DeviceInfo" == name)
+                {
+
+                }
+            }
+        }
     }
 
 

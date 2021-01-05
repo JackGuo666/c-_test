@@ -58,7 +58,38 @@ namespace LocalPLC.Base.xml
     }
     #endregion
 
+    #region device
+    public class DeviceIdentificationElem
+    {
+        public int type;
+        public string ID;
+        public string version;
+    }
 
+    public class ModuleElem
+    {
+        string baseName;
+        string moduleID;
+    }
+    public  class Connector
+    {
+        int connectorId;
+
+        List
+    }
+    public class DeviceInfoElem
+    {
+        string vendorId;
+
+        string name;
+        string desc;
+        string vendor;
+        string defaultInstanceName
+
+    }
+
+
+    #endregion
 
     public class DataManageBase
     {
