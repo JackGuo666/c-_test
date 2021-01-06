@@ -215,11 +215,80 @@ namespace LocalPLC.Base.xml
 
                 if ("DeviceIdentification" == name)
                 {
-
+                    DeviceIdentificationElem deviceIdentificationElem = new DeviceIdentificationElem();
+                    foreach (XmlNode xnChild in xn.ChildNodes)
+                    {
+                        XmlElement elemChild = (XmlElement)xnChild;
+                        //根节点下面分支
+                        string nameChild = xnChild.Name;
+                        if(nameChild == "Type")
+                        {
+                            deviceIdentificationElem.type = elemChild.InnerText;
+                        }
+                        else if(nameChild == "Id")
+                        {
+                            deviceIdentificationElem.ID = elemChild.InnerText;
+                        }
+                        else if(nameChild == "Version")
+                        {
+                            deviceIdentificationElem.version = elemChild.InnerText;
+                        }
+                    }
                 }
                 else if("DeviceInfo" == name)
                 {
+                    DeviceInfoElem devicInfoElem = new DeviceInfoElem();
+                    foreach (XmlNode xnChild in xn.ChildNodes)
+                    {
+                        XmlElement elemChild = (XmlElement)xnChild;
+                        //根节点下面分支
+                        string nameChild = xnChild.Name;
 
+                        if (nameChild == "Name")
+                        {
+                            devicInfoElem.name = elemChild.InnerText;
+                        }
+                        else if(nameChild == "Description")
+                        {
+                            devicInfoElem.desc = elemChild.InnerText;
+                        }
+                        else if(nameChild == "DefaultInstanceName")
+                        {
+                            devicInfoElem.defaultInstanceName = elemChild.InnerText;
+                        }
+                        else if(nameChild == "Vendor")
+                        {
+                            devicInfoElem.vendor = elemChild.InnerText;
+                        }
+                        else if(nameChild == "Connector")
+                        {
+                            //connector链表
+                            devicInfoElem.connector.connectorId = elemChild.GetAttribute("connectorId");
+
+                            foreach (XmlNode xnChild1 in xnChild.ChildNodes)
+                            {
+                                XmlElement elemChild1 = (XmlElement)xnChild1;
+
+                                string nameChild1 = xnChild1.Name;
+
+                                if (nameChild1 == "Module")
+                                {
+                                    ModuleElem moduleElem = new ModuleElem();
+                                    moduleElem.baseName = elemChild1.GetAttribute("basename");
+                                    foreach (XmlNode xnChild11 in xnChild1.ChildNodes)
+                                    {
+                                        XmlElement elemChild11 = (XmlElement)xnChild11;
+                                        string nameChild11 = xnChild11.Name;
+                                        if(nameChild11 == "LocalModuleId")
+                                        {
+                                            moduleElem.moduleID = elemChild11.InnerText;
+                                            devicInfoElem.connector.moduleList.Add(moduleElem);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

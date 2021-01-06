@@ -61,31 +61,32 @@ namespace LocalPLC.Base.xml
     #region device
     public class DeviceIdentificationElem
     {
-        public int type;
+        public string type;
         public string ID;
         public string version;
     }
 
     public class ModuleElem
     {
-        string baseName;
-        string moduleID;
+        public string baseName;
+        public string moduleID;
     }
     public  class Connector
     {
-        int connectorId;
+        public string connectorId;
 
-        List<ModuleElem> moduleList = new List<ModuleElem>();
+        public List<ModuleElem> moduleList = new List<ModuleElem>();
     }
     public class DeviceInfoElem
     {
-        string vendorId;
+        public string vendorId;
 
-        string name;
-        string desc;
-        string vendor;
-        string defaultInstanceName
+        public string name;
+        public string desc;
+        public string vendor;
+        public string defaultInstanceName;
 
+        public Connector connector = new Connector();
     }
 
 
