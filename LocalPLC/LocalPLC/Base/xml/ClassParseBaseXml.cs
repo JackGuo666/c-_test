@@ -349,7 +349,13 @@ namespace LocalPLC.Base.xml
                                     parameter.type = elemChild1.GetAttribute("type");
                                     parameter.parameterName = elemChild1.GetAttribute("ParameterName");
 
-                                    moduleElemModules.connectModules.list.Add(parameter);
+                                    Parameter parameterTmp = new Parameter();
+                                    parameterTmp.name = parameter.name;
+                                    parameterTmp.paraID = parameter.paraID;
+                                    parameterTmp.type = parameter.type;
+                                    parameterTmp.parameterName = parameter.parameterName;
+
+                                    moduleElemModules.connectModules.list.Add(parameterTmp);
                                 }
                             }
 

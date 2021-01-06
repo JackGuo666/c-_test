@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LocalPLC.Base.xml;
 
 namespace LocalPLC.Base
 {
@@ -45,6 +46,38 @@ namespace LocalPLC.Base
         private RichTextBox text_Temp = new RichTextBox();
         #endregion
 
+
+        public void initData()
+        {
+            var list = UserControlBase.dataManage.deviceInfoElem.connector.moduleList;
+            foreach(var elem in list)
+            {
+                if(elem.moduleID == "HSP_FUNC")
+                {
+                    var modulesList = UserControlBase.dataManage.modules.list;
+                    foreach(var elemModule in modulesList)
+                    {
+                        if(elemModule.moduleID == elem.moduleID)
+                        {
+                            foreach(var innerElem in elemModule.connectModules.list)
+                            {
+                                DataRow drData;
+                                drData = dtData.NewRow();
+                                drData[0] = 0;
+                                drData[1] = innerElem.parameterName;
+                                drData[2] = "未配置";
+                                drData[3] = "";  //类型
+
+                                dtData.Rows.Add(drData);
+                            }
+                        }
+                    }
+                    this.dataGridView1.DataSource = dtData;
+                }
+            }
+
+        }
+
         private void BindData()
         {
             //view绑定datatable
@@ -56,43 +89,43 @@ namespace LocalPLC.Base
             dtData.Columns.Add("注释");
 
 
-            DataRow drData;
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "HSP0";
-            drData[2] = "%IW20";
-            drData[3] = "0-10mA";  //类型
-            //drData[4] = 0; //
+            //DataRow drData;
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "HSP0";
+            //drData[2] = "未配置";
+            //drData[3] = "";  //类型
+            ////drData[4] = 0; //
 
 
-            //drData[5] = "注释1";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 2;
-            drData[1] = "HSP1";
-            drData[2] = "%IW24";
-            drData[3] = "0-20mA";
-            //drData[4] = 0;
+            ////drData[5] = "注释1";
+            //dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 2;
+            //drData[1] = "HSP1";
+            //drData[2] = "未配置";
+            //drData[3] = "";
+            ////drData[4] = 0;
 
 
-            //drData[5] = "注释2";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "HSP2";
-            drData[2] = "%IW28";
-            drData[3] = "0-20mA";
-            //drData[4] = 0;
+            ////drData[5] = "注释2";
+            //dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "HSP2";
+            //drData[2] = "未配置";
+            //drData[3] = "";
+            ////drData[4] = 0;
 
-            dtData.Rows.Add(drData);
+            //dtData.Rows.Add(drData);
 
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "HSP3";
-            drData[2] = "%IW28";
-            drData[3] = "0-20mA";
-            //drData[4] = 0;
-            dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "HSP3";
+            //drData[2] = "未配置";
+            //drData[3] = "";
+            ////drData[4] = 0;
+            //dtData.Rows.Add(drData);
 
 
             this.dataGridView1.DataSource = dtData;

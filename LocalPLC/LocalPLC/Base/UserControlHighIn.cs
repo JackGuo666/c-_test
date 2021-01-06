@@ -61,8 +61,8 @@ namespace LocalPLC.Base
             drData = dtData.NewRow();
             drData[0] = 1;
             drData[1] = "HSC0";
-            drData[2] = "%IW20";
-            drData[3] = "0-10mA";  //类型
+            drData[2] = "未配置";
+            drData[3] = "";  //类型
             //drData[4] = 0; //
 
 
@@ -71,8 +71,8 @@ namespace LocalPLC.Base
             drData = dtData.NewRow();
             drData[0] = 2;
             drData[1] = "HSC1";
-            drData[2] = "%IW24";
-            drData[3] = "0-20mA";
+            drData[2] = "未配置";
+            drData[3] = "";
             //drData[4] = 0;
 
 
@@ -81,8 +81,8 @@ namespace LocalPLC.Base
             drData = dtData.NewRow();
             drData[0] = 1;
             drData[1] = "HSC2";
-            drData[2] = "%IW28";
-            drData[3] = "0-20mA";
+            drData[2] = "未配置";
+            drData[3] = "";
             //drData[4] = 0;
 
             dtData.Rows.Add(drData);
@@ -90,8 +90,8 @@ namespace LocalPLC.Base
             drData = dtData.NewRow();
             drData[0] = 1;
             drData[1] = "HSC3";
-            drData[2] = "%IW28";
-            drData[3] = "0-20mA";
+            drData[2] = "未配置";
+            drData[3] = "";
             //drData[4] = 0;
             dtData.Rows.Add(drData);
 

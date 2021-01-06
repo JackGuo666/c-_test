@@ -57,6 +57,8 @@ namespace LocalPLC.Base
             dout.initData();
             di.initData();
             //
+            hout.initData();
+
 
         }
 
@@ -365,10 +367,10 @@ namespace LocalPLC.Base
             }
         }
 
-
+        UserControlHighOutput hout = new UserControlHighOutput();
         public void setHighOutputInfo(string name)
         {
-            UserControlHighOutput hout = new UserControlHighOutput();
+
             {
                 split.Panel2.Controls.Clear();
                 hout.Dock = DockStyle.Fill;
