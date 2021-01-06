@@ -66,7 +66,7 @@ namespace LocalPLC.Base.xml
         public string version;
     }
 
-    public class ModuleElem
+    public class DeviceModuleElem
     {
         public string baseName;
         public string moduleID;
@@ -75,7 +75,7 @@ namespace LocalPLC.Base.xml
     {
         public string connectorId;
 
-        public List<ModuleElem> moduleList = new List<ModuleElem>();
+        public List<DeviceModuleElem> moduleList = new List<DeviceModuleElem>();
     }
     public class DeviceInfoElem
     {
@@ -86,11 +86,56 @@ namespace LocalPLC.Base.xml
         public string vendor;
         public string defaultInstanceName;
 
+        public DeviceIdentificationElem deviceIdentificationElem = new DeviceIdentificationElem();
+
         public Connector connector = new Connector();
     }
 
 
     #endregion
+
+    #region
+    public class DeviceInfoModules
+    {
+        public string name;
+        public string desc;
+        public string vendor;
+    }
+
+    public class Parameter
+    {
+        public string name;
+        public string paraID;
+        public string type;
+        public string parameterName;
+    }
+
+    public class ConnectorModules
+    {
+        public string connectorID;
+        //public string name;
+        //public string paraID;
+        //public string type;
+        //public string parameterName;
+        public List<Parameter> list = new List<Parameter>();
+    }
+
+    
+
+    public class ModuleElemModules
+    {
+        public string moduleID;
+        public DeviceInfoModules deviceInfoModules = new DeviceInfoModules();
+        public ConnectorModules connectModules = new ConnectorModules();
+    }
+
+    public class Modules
+    {
+        public List<ModuleElemModules> list = new List<ModuleElemModules>();
+    }
+
+    #endregion
+
 
     public class DataManageBase
     {
@@ -102,5 +147,10 @@ namespace LocalPLC.Base.xml
 
         //struct
         public Dictionary<string, StructType> dicStruct = new Dictionary<string, StructType>();
+
+        public DeviceInfoElem deviceInfoElem = new DeviceInfoElem();
+
+        //
+        public Modules modules = new Modules();
     }
 }

@@ -18,7 +18,7 @@ namespace LocalPLC.Base.xml
         DataManageBase dataManage_ = null;
         public ClassParseBaseXml(string type, DataManageBase dataManage)
         {
-            if(UserControl1.multiprogApp.ActiveProject == null)
+            if(UserControl1.multiprogApp.IsProjectOpen() == false)
             {
                 return;
             }
@@ -65,7 +65,7 @@ namespace LocalPLC.Base.xml
                     }
                     else if(name == "Modules")
                     {
-
+                        parseModules(xn);
                     }
                 }
 
@@ -215,7 +215,7 @@ namespace LocalPLC.Base.xml
 
                 if ("DeviceIdentification" == name)
                 {
-                    DeviceIdentificationElem deviceIdentificationElem = new DeviceIdentificationElem();
+                    DeviceIdentificationElem deviceIdentificationElem = dataManage_.deviceInfoElem.deviceIdentificationElem;
                     foreach (XmlNode xnChild in xn.ChildNodes)
                     {
                         XmlElement elemChild = (XmlElement)xnChild;
@@ -237,7 +237,7 @@ namespace LocalPLC.Base.xml
                 }
                 else if("DeviceInfo" == name)
                 {
-                    DeviceInfoElem devicInfoElem = new DeviceInfoElem();
+                    DeviceInfoElem devicInfoElem = dataManage_.deviceInfoElem;
                     foreach (XmlNode xnChild in xn.ChildNodes)
                     {
                         XmlElement elemChild = (XmlElement)xnChild;
@@ -273,7 +273,7 @@ namespace LocalPLC.Base.xml
 
                                 if (nameChild1 == "Module")
                                 {
-                                    ModuleElem moduleElem = new ModuleElem();
+                                    DeviceModuleElem moduleElem = new DeviceModuleElem();
                                     moduleElem.baseName = elemChild1.GetAttribute("basename");
                                     foreach (XmlNode xnChild11 in xnChild1.ChildNodes)
                                     {
@@ -289,6 +289,74 @@ namespace LocalPLC.Base.xml
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private void parseModules(XmlNode xNode)
+        {
+            XmlNodeList nodeList = xNode.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode xn in nodeList)
+            {
+                XmlElement elem = (XmlElement)xn;
+                string name = xn.Name;
+                if(name == "Module")
+                {
+                    ModuleElemModules moduleElemModules = new ModuleElemModules();
+                    foreach (XmlNode xnChild in xn.ChildNodes)
+                    {
+                        XmlElement elemChild = (XmlElement)xnChild;
+                        string nameChild = xnChild.Name;
+                        if(nameChild == "ModuleId")
+                        {
+                            moduleElemModules.moduleID = elemChild.InnerText;
+                        }
+                        else if(nameChild == "DeviceInfo")
+                        {
+                            foreach(XmlNode xnChild1 in xnChild.ChildNodes)
+                            {
+                                XmlElement elemChild1 = (XmlElement)xnChild1;
+                                string nameChild1 = xnChild1.Name;
+                                if(nameChild1 == "Name")
+                                {
+                                    moduleElemModules.deviceInfoModules.name = elemChild1.InnerText; ;
+                                }
+                                else if(nameChild1 == "Description")
+                                {
+                                    moduleElemModules.deviceInfoModules.desc = elemChild1.InnerText;
+                                }
+                                else if(nameChild1 == "Vendor")
+                                {
+                                    moduleElemModules.deviceInfoModules.vendor = elemChild1.InnerText;
+                                }
+                            }
+                        }
+                        else if(nameChild == "Connector")
+                        {
+                            moduleElemModules.connectModules.connectorID = elemChild.GetAttribute("connectorId");
+                            Parameter parameter = new Parameter();
+                            foreach(XmlNode xnChild1 in xnChild.ChildNodes)
+                            {
+                                XmlElement elemChild1 = (XmlElement)xnChild1;
+                                string nameChild1 = xnChild1.Name;
+                                if(nameChild1 == "Name")
+                                {
+                                    parameter.name = elemChild1.InnerText;
+                                }
+                                else if(nameChild1 == "Parameter")
+                                {
+                                    parameter.paraID = elemChild1.GetAttribute("ParameterId");
+                                    parameter.type = elemChild1.GetAttribute("type");
+                                    parameter.parameterName = elemChild1.GetAttribute("ParameterName");
+
+                                    moduleElemModules.connectModules.list.Add(parameter);
+                                }
+                            }
+
+                        }
+                    }
+
+                    dataManage_.modules.list.Add(moduleElemModules);
                 }
             }
         }

@@ -55,6 +55,8 @@ namespace LocalPLC.Base
             //dataManage_.dicBiffield
             //di
             dout.initData();
+            di.initData();
+            //
 
         }
 
@@ -186,7 +188,7 @@ namespace LocalPLC.Base
 
             //pictureBox3_MouseDoubleClick(null, null);
 
-            UserControlDI di = new UserControlDI(name);
+            //UserControlDI di = new UserControlDI(name);
 
             split.Panel2.Controls.Clear();
             di.Dock = DockStyle.Fill;

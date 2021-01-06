@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using LocalPLC.Base.xml;
+using LocalPLC.Base;
 
 namespace LocalPLC.Base
 {
@@ -28,6 +30,14 @@ namespace LocalPLC.Base
         private ArrayList databitList = new ArrayList();
         private void Init()
         {
+            var list = UserControlBase.dataManage.modules.list;
+            foreach(var elem in list)
+            {
+                if(elem.moduleID == "SERIAL_LINE")
+                {
+                    //elem.connectModules.list
+                }
+            }
 
             baudList.Clear();
             baudList.Add(1200);

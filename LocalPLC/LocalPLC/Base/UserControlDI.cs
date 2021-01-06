@@ -24,6 +24,35 @@ namespace LocalPLC.Base
         const int columnFilterIndex = 2;
         const int columnChannelIndex = 3;
         const int columnAddressIndex = 4;
+        public void initData()
+        {
+            if (UserControlBase.dataManage.dicBitfield.ContainsKey("INPUTS_TM221C16U"))
+            {
+                dtData.Clear();
+                var value = UserControlBase.dataManage.dicBitfield["INPUTS_TM221C16U"];
+                int count = 0;
+                foreach(var elem in value.list)
+                {
+                    DataRow drData;
+                    drData = dtData.NewRow();
+                    drData[0] = 0;
+                    drData[1] = "";
+                    drData[2] = "3";  //单位ms
+                    drData[3] = elem.name;
+                    string ioAddress = string.Format("%IX{0}.{1}", ConstVariable.DIADDRESSIO
+                        , count);
+                    drData[4] = ioAddress;
+                    drData[5] = "";    //滤波
+                                       //drData[5] = "注释1";
+
+
+                    dtData.Rows.Add(drData);
+                    count++;
+                }
+
+                this.dataGridView1.DataSource = dtData;
+            }
+        }
 
         /// <summary>
         /// 绑定性别下拉列表框
@@ -62,10 +91,11 @@ namespace LocalPLC.Base
             cmb_Temp.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        DataTable dtData = new DataTable();
         private void BindData()
         {
             //view绑定datatable
-            DataTable dtData = new DataTable();
+            //DataTable dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
             dtData.Columns.Add("变量名");
             dtData.Columns.Add("滤波");
@@ -73,31 +103,31 @@ namespace LocalPLC.Base
             dtData.Columns.Add("地址");
             dtData.Columns.Add("注释");
 
-            DataRow drData;
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "DI0";
-            drData[2] = "%IX0.0";
-            drData[3] = "";
-            drData[4] = "0";    //滤波
-            //drData[5] = "注释1";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 2;
-            drData[1] = "DI1";
-            drData[2] = "%IX0.1";
-            drData[3] = "";
-            drData[4] = "3";
-            //drData[5] = "注释2";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "DI2";
-            drData[2] = "%IX0.2";
-            drData[3] = "";
-            drData[4] = "12";
-            //drData[5] = "注释3";
-            dtData.Rows.Add(drData);
+            //DataRow drData;
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "DI0";
+            //drData[2] = "%IX0.0";
+            //drData[3] = "";
+            //drData[4] = "0";    //滤波
+            ////drData[5] = "注释1";
+            //dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 2;
+            //drData[1] = "DI1";
+            //drData[2] = "%IX0.1";
+            //drData[3] = "";
+            //drData[4] = "3";
+            ////drData[5] = "注释2";
+            //dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "DI2";
+            //drData[2] = "%IX0.2";
+            //drData[3] = "";
+            //drData[4] = "12";
+            ////drData[5] = "注释3";
+            //dtData.Rows.Add(drData);
             
             this.dataGridView1.DataSource = dtData;
         }
