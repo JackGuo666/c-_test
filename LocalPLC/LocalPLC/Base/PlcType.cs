@@ -83,7 +83,7 @@ namespace LocalPLC.Base
             di.initData();
             //
             hout.initData();
-
+            hi.initData();
 
         }
 
@@ -380,9 +380,10 @@ namespace LocalPLC.Base
             }
         }
 
+        UserControlHighIn hi = new UserControlHighIn();
         public void setHighInputInfo(string name)
         {
-            UserControlHighIn hi = new UserControlHighIn();
+
             {
                 split.Panel2.Controls.Clear();
                 hi.Dock = DockStyle.Fill;

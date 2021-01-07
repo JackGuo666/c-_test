@@ -46,6 +46,37 @@ namespace LocalPLC.Base
         #endregion
 
 
+        public void initData()
+        {
+            var list = UserControlBase.dataManage.deviceInfoElem.connector.moduleList;
+            foreach(var elem in list)
+            {
+                if(elem.moduleID == "HSC_FUNC")
+                {
+                    var moduleList = UserControlBase.dataManage.modules.list;
+                    foreach(var elemModule in moduleList)
+                    {
+                        if(elemModule.moduleID == elem.moduleID)
+                        {
+                            foreach (var innerElem in elemModule.connectModules.list)
+                            {
+                                DataRow drData;
+                                drData = dtData.NewRow();
+                                drData[0] = 0;
+                                drData[1] = innerElem.parameterName;
+                                drData[2] = "未配置";
+                                drData[3] = "";  //类型
+                                //drData[4] = 0; //
+
+                                dtData.Rows.Add(drData);
+                            }
+                        }    
+                    }
+                    this.dataGridView1.DataSource = dtData;
+                }
+            }
+        }
+
         private void BindData()
         {
             //view绑定datatable
@@ -57,43 +88,43 @@ namespace LocalPLC.Base
             dtData.Columns.Add("注释");
 
 
-            DataRow drData;
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "HSC0";
-            drData[2] = "未配置";
-            drData[3] = "";  //类型
-            //drData[4] = 0; //
+            //DataRow drData;
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "HSC0";
+            //drData[2] = "未配置";
+            //drData[3] = "";  //类型
+            ////drData[4] = 0; //
 
 
-            //drData[5] = "注释1";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 2;
-            drData[1] = "HSC1";
-            drData[2] = "未配置";
-            drData[3] = "";
-            //drData[4] = 0;
+            ////drData[5] = "注释1";
+            //dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 2;
+            //drData[1] = "HSC1";
+            //drData[2] = "未配置";
+            //drData[3] = "";
+            ////drData[4] = 0;
 
 
-            //drData[5] = "注释2";
-            dtData.Rows.Add(drData);
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "HSC2";
-            drData[2] = "未配置";
-            drData[3] = "";
-            //drData[4] = 0;
+            ////drData[5] = "注释2";
+            //dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "HSC2";
+            //drData[2] = "未配置";
+            //drData[3] = "";
+            ////drData[4] = 0;
 
-            dtData.Rows.Add(drData);
+            //dtData.Rows.Add(drData);
 
-            drData = dtData.NewRow();
-            drData[0] = 1;
-            drData[1] = "HSC3";
-            drData[2] = "未配置";
-            drData[3] = "";
-            //drData[4] = 0;
-            dtData.Rows.Add(drData);
+            //drData = dtData.NewRow();
+            //drData[0] = 1;
+            //drData[1] = "HSC3";
+            //drData[2] = "未配置";
+            //drData[3] = "";
+            ////drData[4] = 0;
+            //dtData.Rows.Add(drData);
 
 
             this.dataGridView1.DataSource = dtData;
