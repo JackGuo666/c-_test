@@ -13,8 +13,11 @@ namespace LocalPLC.Base
 {
     public partial class UserControlBase : UserControl
     {
-        List<PlcType> PlcTypeArr = new List<PlcType>();
+        List<UserControl> PlcTypeArr = new List<UserControl>();
         PlcType curPlcType = null;
+        IWeapon curWeaponType = null;
+
+
         TreeView treeView_ = null;
         //DataManageBase数据管理
         public static DataManageBase dataManage = new DataManageBase();
@@ -64,9 +67,14 @@ namespace LocalPLC.Base
             var topNode = treeView_.TopNode;
             topNode.Text = localPLCType;
 
+            Type type = Type.GetType("LocalPLC.Base.PlcType");
+            //object obj = type.Assembly.CreateInstance(type);
+            UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 
-            PlcType user1 = new PlcType(splitContainer2, this, dataManage);
-            curPlcType = user1;
+
+            //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
+            curPlcType = (PlcType)user1;
+            curWeaponType = user1 as IWeapon;
             user1.Parent = this;
             PlcTypeArr.Add(user1);
             splitContainer2.Panel1.Controls.Add(user1);
@@ -86,7 +94,8 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setDOInfo(name);
+                curWeaponType.setDOInfo(name);
+                //curPlcType.setDOInfo(name);
             }
         }
 
@@ -99,7 +108,8 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setDIInfo(name);
+                curWeaponType.setDIInfo(name);
+                //curPlcType.setDIInfo(name);
             }
         }
 
@@ -221,7 +231,8 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setHighInputInfo(hi);
+                curWeaponType.setHighInputInfo(hi);
+                //curPlcType.setHighInputInfo(hi);
             }
         }
 
@@ -233,7 +244,8 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setHighOutputInfo(hout);
+                curWeaponType.setHighOutputInfo(hout);
+                //curPlcType.setHighOutputInfo(hout);
             }
         }
     }

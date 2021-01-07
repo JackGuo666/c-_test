@@ -11,7 +11,17 @@ using LocalPLC.Base.xml;
 
 namespace LocalPLC.Base
 {
-    public partial class PlcType : UserControl
+
+    public interface IWeapon
+    {
+        void Fire();
+        void setDIInfo(string name);
+        void setDOInfo(string name);
+        void setHighInputInfo(string name);
+        void setHighOutputInfo(string name);
+    }
+
+    public partial class PlcType : UserControl, IWeapon
     {
         bool pic2Selected = false;
         bool pic3Selected = false;
@@ -22,6 +32,21 @@ namespace LocalPLC.Base
         DoSomethingEventHandler myDelegate = null;
         //从base xml读取内容
         DataManageBase dataManage_ = null;
+
+        #region
+        public void Fire()
+        {
+            setDIInfo("DI");
+        }
+        #endregion
+
+
+        //动态添加不带参数构造函数
+        public PlcType()
+        {
+
+        }
+
         public PlcType(SplitContainer splitContainer, UserControlBase userBase
             , DataManageBase dataManage) 
         {
