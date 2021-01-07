@@ -55,6 +55,47 @@ namespace LocalPLC.Base
         }
 
 
+
+        private TreeNode FindNode(TreeNode tnParent, string strValue)
+        {
+            if (tnParent == null) return null;
+            if (tnParent.Text == strValue) return tnParent;
+
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in tnParent.Nodes)
+            {
+                tnRet = FindNode(tn, strValue);
+                if (tnRet != null)
+                {
+                    //treeView1.SelectedNode = tnRet;
+                    //treeView1.SelectedNode.Expand();//展开找到的节点
+                    break;
+                }
+            }
+            return tnRet;
+        }
+
+        //删除 parent 下所有的子节点
+        private void delSubNodes(TreeNode parent)
+        {
+            if (parent == null)
+            {
+                return;
+            }
+            //判断选定的节点是否存在下一级节点
+            if (parent.Nodes.Count == 0)
+            {
+            }
+            else
+            {
+                for (int i = parent.Nodes.Count - 1; i >= 0; i--)
+                {
+                    Console.WriteLine(" 删除： {0}", parent.Nodes[i].Text);
+                    parent.Nodes.RemoveAt(i);
+                }
+            }
+        }
+
         private void splitContainer1_Panel1_DragDrop(object sender, DragEventArgs e)
         {
             object item = e.Data.GetData("Test");
@@ -65,6 +106,12 @@ namespace LocalPLC.Base
             LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
 
             var topNode = treeView_.TopNode;
+            var commNode = FindNode(topNode, "通信线路");
+            //delSubNodes(commNode);
+            //TreeNode o = new TreeNode("真好");
+            //o.SelectedImageIndex = 12;
+            //o.ImageIndex = 12;
+            //commNode.Nodes.Add(o);
             topNode.Text = localPLCType;
 
             Type type = Type.GetType("LocalPLC.Base.PlcType");

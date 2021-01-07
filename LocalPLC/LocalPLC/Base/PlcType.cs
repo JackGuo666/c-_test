@@ -19,6 +19,8 @@ namespace LocalPLC.Base
         void setDOInfo(string name);
         void setHighInputInfo(string name);
         void setHighOutputInfo(string name);
+
+        void addCommNode(TreeNode tn);
     }
 
     public partial class PlcType : UserControl, IWeapon
@@ -379,6 +381,12 @@ namespace LocalPLC.Base
                 setShow(name, picArray);
             }
         }
+
+        public void addCommNode(TreeNode tn)
+        {
+            
+        }
+
 
         UserControlHighIn hi = new UserControlHighIn();
         public void setHighInputInfo(string name)
