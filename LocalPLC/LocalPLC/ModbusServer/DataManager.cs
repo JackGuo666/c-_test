@@ -42,14 +42,21 @@ namespace LocalPLC.ModbusServer
 
         public string IOAddrRange;
         public int IOAddrLength;
-
+        public int shmrange = 0;
+        public int shmlength;
         public int transformMode;  //0 TCP 1 UDP
         public int deviceAddr;
-
+        public int transform;
+        public int slavetansformMode; //0 RTU 1ASCII
         public int port = 502;
-        public int maxconnectnumber;
+        public int maxconnectnumber = 1;
         public int ipconnect; //0 false 1true
+        public bool isready = true; // 冲突检测，是否可以生成配置文件
         public int ip0, ip1, ip2, ip3;
+        public int ip10, ip11, ip12, ip13;
+        public int ip20, ip21, ip22, ip23;
+        public int ip30, ip31, ip32, ip33;
+
     }
 
     public class ModbusServerData

@@ -114,11 +114,7 @@
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ModbusWindow = new System.Windows.Forms.GroupBox();
-            this.myRichTextBox1 = new LocalPLC.MyRichTextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.contextMenuStrip1.SuspendLayout();
-            this.ModbusWindow.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView1
@@ -350,7 +346,6 @@
             // 
             // ModbusWindow
             // 
-            this.ModbusWindow.Controls.Add(this.panel1);
             this.ModbusWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ModbusWindow.Location = new System.Drawing.Point(358, 0);
             this.ModbusWindow.Margin = new System.Windows.Forms.Padding(4);
@@ -360,21 +355,6 @@
             this.ModbusWindow.TabIndex = 7;
             this.ModbusWindow.TabStop = false;
             this.ModbusWindow.Text = "配置";
-            // 
-            // myRichTextBox1
-            // 
-            this.myRichTextBox1.Location = new System.Drawing.Point(134, 80);
-            this.myRichTextBox1.Name = "myRichTextBox1";
-            this.myRichTextBox1.Size = new System.Drawing.Size(284, 28);
-            this.myRichTextBox1.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.myRichTextBox1);
-            this.panel1.Location = new System.Drawing.Point(218, 330);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(444, 165);
-            this.panel1.TabIndex = 1;
             // 
             // UserControl1
             // 
@@ -386,9 +366,6 @@
             this.Size = new System.Drawing.Size(1503, 750);
             this.Load += new System.EventHandler(this.UserControl1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.ModbusWindow.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -400,7 +377,5 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
-        private MyRichTextBox myRichTextBox1;
-        private System.Windows.Forms.Panel panel1;
     }
 }
