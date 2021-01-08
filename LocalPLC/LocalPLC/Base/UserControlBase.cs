@@ -96,25 +96,42 @@ namespace LocalPLC.Base
             }
         }
 
+        void addSerialNode(TreeNode tn)
+        {
+            var moduleList = UserControlBase.dataManage.deviceInfoElem.connector.moduleList;
+            foreach(var elem in moduleList)
+            {
+                if(elem.moduleID == "SERIAL_LINE")
+                {
+
+                }
+                else if(elem.moduleID == "ETHERNET")
+                {
+
+                }
+            }
+        }
+
         private void splitContainer1_Panel1_DragDrop(object sender, DragEventArgs e)
         {
             object item = e.Data.GetData("Test");
 
             TreeNode node = (TreeNode)item;
-           
+
             string localPLCType = node.Text.ToString();
             LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
 
             var topNode = treeView_.TopNode;
             var commNode = FindNode(topNode, "通信线路");
             //delSubNodes(commNode);
-            //TreeNode o = new TreeNode("真好");
+            addSerialNode(commNode);
             //o.SelectedImageIndex = 12;
             //o.ImageIndex = 12;
             //commNode.Nodes.Add(o);
             topNode.Text = localPLCType;
 
-            Type type = Type.GetType("LocalPLC.Base.PlcType");
+            string tmp = string.Format("LocalPLC.Base.{0}", "PlcType");
+            Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 
