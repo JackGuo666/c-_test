@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LocalPLC.Base.xml;
 
 namespace LocalPLC.Base
 {
@@ -19,7 +20,10 @@ namespace LocalPLC.Base
         private SplitContainer split = null;
         public delegate void DoSomethingEventHandler(string s1);
         DoSomethingEventHandler myDelegate = null;
-        public PlcType(SplitContainer splitContainer, UserControlBase userBase) 
+        //从base xml读取内容
+        DataManageBase dataManage_ = null;
+        public PlcType(SplitContainer splitContainer, UserControlBase userBase
+            , DataManageBase dataManage) 
         {
             InitializeComponent();
             split = splitContainer;
@@ -42,6 +46,15 @@ namespace LocalPLC.Base
             picArray.Add("DO", pictest1);
             picArray.Add("DI", pictest2);
 
+            initDIDO();
+        }
+
+
+        void initDIDO()
+        {
+            //dataManage_.dicBiffield
+            //di
+            dout.initData();
 
         }
 
@@ -155,7 +168,6 @@ namespace LocalPLC.Base
 
             //pictureBox2_MouseDoubleClick(null, null);
 
-            UserControlDO dout = new UserControlDO(name);
             //if (!split.Panel2.Controls.Contains(dout))
             {
                 split.Panel2.Controls.Clear();

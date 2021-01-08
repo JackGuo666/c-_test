@@ -54,6 +54,7 @@ namespace LocalPLC
             //msi = new ModbusServer.ServerIndex();
 
             UC.Parent = this;
+            UC.getTreeView(treeView1);
 
             return;
          }
