@@ -136,6 +136,43 @@ namespace LocalPLC.Base.xml
 
     #endregion
 
+    public class DOData
+    {
+        public bool used = false;
+        public string varName = "";
+        public string channelName = "";
+        public string address = "";
+        public string note = "";
+    }
+
+
+    public class DIData
+    {
+        public bool used = false;
+        public string varName = "";
+        public int filterTime = 3;
+        public string channelName = "";
+        public string address = "";
+        public string note = "";
+    }
+
+    public class SERIALData
+    {
+        public string name = "";
+        public int baud = 19200;
+        public int Parity = 2;
+        public int rsMode = 1;//Medium //232 0    485 1
+        public int modPol = 0; 
+        public int dataBit = 8;
+        public int stopBit = 1;
+
+        public string polR = "120kΩ";
+    }
+
+    public class ETHERNETData
+    {
+
+    }
 
     public class DataManageBase
     {
@@ -152,5 +189,16 @@ namespace LocalPLC.Base.xml
 
         //
         public Modules modules = new Modules();
+
+
+
+        //do数据结构
+        public List<DOData> doList = new List<DOData>();
+
+        //di数据结构
+        public List<DIData> diList = new List<DIData>();
+
+        public Dictionary<string, SERIALData> serialDic = new Dictionary<string, SERIALData>();
+        public Dictionary<string, ETHERNETData> ethernetDic = new Dictionary<string, ETHERNETData>();
     }
 }

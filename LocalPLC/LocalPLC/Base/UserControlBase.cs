@@ -13,7 +13,7 @@ namespace LocalPLC.Base
 {
     public partial class UserControlBase : UserControl
     {
-        List<UserControl> PlcTypeArr = new List<UserControl>();
+        public List<UserControl> PlcTypeArr = new List<UserControl>();
         PlcType curPlcType = null;
         IWeapon curWeaponType = null;
 
@@ -103,15 +103,38 @@ namespace LocalPLC.Base
             {
                 if(elem.moduleID == "SERIAL_LINE")
                 {
-
+                    TreeNode serialNode = new TreeNode();
+                    serialNode.Text = elem.baseName;
+                    serialNode.Tag = elem.moduleID;
+                    serialNode.SelectedImageIndex = 12;
+                    serialNode.ImageIndex = 12;
+                    tn.Nodes.Add(serialNode);
                 }
                 else if(elem.moduleID == "ETHERNET")
                 {
-
+                    TreeNode ethernetNode = new TreeNode();
+                    ethernetNode.Text = elem.baseName;
+                    ethernetNode.Tag = elem.moduleID;
+                    ethernetNode.SelectedImageIndex = 13;
+                    ethernetNode.ImageIndex = 13;
+                    tn.Nodes.Add(ethernetNode);
                 }
             }
         }
 
+        //动态创建串口界面
+        void createSerialUserControl()
+        {
+            List<DeviceModuleElem> list = dataManage.deviceInfoElem.connector.moduleList;
+            foreach(DeviceModuleElem elem in list)
+            {
+                if(elem.moduleID == "SERIAL_LINE")
+                {
+                    UserControlCom com = new UserControlCom(elem.baseName);
+                    comDic.Add(elem.baseName, com);
+                }
+            }
+        }
         private void splitContainer1_Panel1_DragDrop(object sender, DragEventArgs e)
         {
             object item = e.Data.GetData("Test");
@@ -121,13 +144,15 @@ namespace LocalPLC.Base
             string localPLCType = node.Text.ToString();
             LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
 
+
+            
+
             var topNode = treeView_.TopNode;
             var commNode = FindNode(topNode, "通信线路");
             //delSubNodes(commNode);
             addSerialNode(commNode);
-            //o.SelectedImageIndex = 12;
-            //o.ImageIndex = 12;
-            //commNode.Nodes.Add(o);
+            createSerialUserControl();
+
             topNode.Text = localPLCType;
 
             string tmp = string.Format("LocalPLC.Base.{0}", "PlcType");
@@ -177,6 +202,7 @@ namespace LocalPLC.Base
             }
         }
 
+        public Dictionary<string, UserControlCom> comDic = new Dictionary<string, UserControlCom>();
         public void setCOMShow(string com)
         {
             if (curPlcType == null)

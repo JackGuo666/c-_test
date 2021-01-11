@@ -49,12 +49,13 @@ namespace LocalPLC.Base
 
         }
 
+        UserControlBase userBase_ = null;
         public PlcType(SplitContainer splitContainer, UserControlBase userBase
             , DataManageBase dataManage) 
         {
             InitializeComponent();
             split = splitContainer;
-
+            userBase_ = userBase;
             UserControl1 us1 = (UserControl1)userBase.Parent.Parent;
             myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
@@ -86,6 +87,8 @@ namespace LocalPLC.Base
             //
             hout.initData();
             hi.initData();
+
+            //com.
 
         }
 
@@ -229,7 +232,7 @@ namespace LocalPLC.Base
         //name就是key，本体COM1，本体COM2等
         public void setCOMInfo(string name)
         {
-            UserControlCom com = new UserControlCom(name);
+            UserControlCom com = /*new UserControlCom(name)*/ userBase_.comDic[name];
             //if (!split.Panel2.Controls.Contains(com))
             {
                 split.Panel2.Controls.Clear();

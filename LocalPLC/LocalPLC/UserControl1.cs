@@ -273,6 +273,20 @@ namespace LocalPLC
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             string name = e.Node.Text.ToString();
+            if(e.Node.Tag != null)
+            {
+                //动态创建节点
+                if(e.Node.Tag.ToString() == "SERIAL_LINE")
+                {
+                    //显示串口信息
+                    UC.setCOMShow(name);
+                }
+                else if(e.Node.Tag.ToString() == "ETHERNET")
+                {
+
+                }
+            }
+
             if (name == "Modbus")
             {
                 //e1.Show();

@@ -33,20 +33,34 @@ namespace LocalPLC.Base
                 int count = 0;
                 foreach(var elem in value.list)
                 {
+                    xml.DIData diData = new xml.DIData();
+
                     DataRow drData;
                     drData = dtData.NewRow();
-                    drData[0] = 0;
-                    drData[1] = "";
-                    drData[2] = "3";  //单位ms
-                    drData[3] = elem.name;
+
+                    diData.used = false;
+                    drData[0] = diData.used;
+
+                    diData.varName = "";
+                    drData[1] = diData.varName;
+
+                    diData.filterTime = 3;
+                    drData[2] = diData.filterTime;  //单位ms
+
+                    diData.channelName = elem.name;
+                    drData[3] = diData.channelName;
+
                     string ioAddress = string.Format("%IX{0}.{1}", ConstVariable.DIADDRESSIO
                         , count);
-                    drData[4] = ioAddress;
-                    drData[5] = "";    //滤波
+                    diData.address = ioAddress;
+                    drData[4] = diData.address;
+
+                    diData.note = "";
+                    drData[5] = diData.note;
                                        //drData[5] = "注释1";
 
-
                     dtData.Rows.Add(drData);
+                    UserControlBase.dataManage.diList.Add(diData);
                     count++;
                 }
 
