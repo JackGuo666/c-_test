@@ -36,7 +36,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox_Com = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox_StopBit = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox_Databit = new System.Windows.Forms.ComboBox();
             this.comboBox_Parity = new System.Windows.Forms.ComboBox();
@@ -56,7 +56,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.textBox_Com);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.comboBox_StopBit);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.comboBox_Databit);
             this.groupBox1.Controls.Add(this.comboBox_Parity);
@@ -136,13 +136,13 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "停止位";
             // 
-            // comboBox1
+            // comboBox_StopBit
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(245, 263);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(122, 26);
-            this.comboBox1.TabIndex = 1;
+            this.comboBox_StopBit.FormattingEnabled = true;
+            this.comboBox_StopBit.Location = new System.Drawing.Point(245, 263);
+            this.comboBox_StopBit.Name = "comboBox_StopBit";
+            this.comboBox_StopBit.Size = new System.Drawing.Size(122, 26);
+            this.comboBox_StopBit.TabIndex = 1;
             // 
             // label4
             // 
@@ -234,6 +234,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBox_Databit;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox_StopBit;
     }
 }

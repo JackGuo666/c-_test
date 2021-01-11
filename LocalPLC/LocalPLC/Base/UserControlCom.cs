@@ -122,12 +122,97 @@ namespace LocalPLC.Base
                                                 {
                                                     if(medium.value == 1.ToString())
                                                     {
-
+                                                        radioButton1.Checked = true;
+                                                        radioButton2.Checked = false;
+                                                        
+                                                    }
+                                                    else if(medium.value == 0.ToString())
+                                                    {
+                                                        radioButton1.Checked = false;
+                                                        radioButton2.Checked = true;
+                                                        if (UserControlBase.dataManage.dicEnum.ContainsKey("Polarization"))
+                                                        {
+                                                            var polList = UserControlBase.dataManage.dicEnum["Polarization"].list;
+                                                            foreach (var pol in polList)
+                                                            {
+                                                                if (pol.value == medium.value)
+                                                                {
+                                                                    textBox1.Text = pol.name;
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
 
+                                    }
+                                    else if(serialData.name == "Polarization")
+                                    {
+                                        serialValueData.polR = serialData.defaultValue;
+
+                                        //在enumType里找到对应的描述
+                                        string[] strArrPolarization = serialData.type.Split(new Char[] { ':' });
+                                        if (strArrPolarization.Length == 2)
+                                        {
+                                            string strPolarization = strArrPolarization.ElementAt(1);
+                                            if (UserControlBase.dataManage.dicEnum.ContainsKey(strPolarization))
+                                            {
+                                                var polList = UserControlBase.dataManage.dicEnum[strPolarization].list;
+                                                foreach (var pol in polList)
+                                                {
+                                                    if (pol.value == serialValueData.polR.ToString())
+                                                    {
+                                                        textBox1.Text = pol.name;
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    else if(serialData.name == "Data bits")
+                                    {
+                                        //数据位
+                                        serialValueData.dataBit = serialData.defaultValue;
+                                        //在enumType里找到对应的描述
+                                        string[] strArrDataBit = serialData.type.Split(new Char[] { ':' });
+                                        if (strArrDataBit.Length == 2)
+                                        {
+                                            string strDataBit = strArrDataBit.ElementAt(1);
+                                            if (UserControlBase.dataManage.dicEnum.ContainsKey(strDataBit))
+                                            {
+                                                var databitList = UserControlBase.dataManage.dicEnum[strDataBit].list;
+                                                foreach (var dataBit in databitList)
+                                                {
+                                                    ComboboxItem item = new ComboboxItem();
+                                                    item.Value = dataBit.value; //值
+                                                    item.Text = dataBit.name;  //描述
+                                                    comboBox_Databit.Items.Add(item);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(serialData.name == "Stop bits")
+                                    {
+                                        //数据位
+                                        serialValueData.stopBit = serialData.defaultValue;
+                                        //在enumType里找到对应的描述
+                                        string[] strArrStopBit = serialData.type.Split(new Char[] { ':' });
+                                        if (strArrStopBit.Length == 2)
+                                        {
+                                            string strStopBit = strArrStopBit.ElementAt(1);
+                                            if (UserControlBase.dataManage.dicEnum.ContainsKey(strStopBit))
+                                            {
+                                                var stopBitList = UserControlBase.dataManage.dicEnum[strStopBit].list;
+                                                foreach (var dataBit in stopBitList)
+                                                {
+                                                    ComboboxItem item = new ComboboxItem();
+                                                    item.Value = dataBit.value;
+                                                    item.Text = dataBit.name;
+                                                    comboBox_StopBit.Items.Add(item);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 
@@ -148,6 +233,26 @@ namespace LocalPLC.Base
                                     if(combo.Value.ToString() ==serialValueData.Parity.ToString())
                                     {
                                         comboBox_Parity.SelectedItem = combo;
+                                    }
+                                }
+
+                                ComboBox.ObjectCollection collection = comboBox_Databit.Items;
+                                foreach(var dataBit in collection)
+                                {
+                                    ComboboxItem combo = (ComboboxItem)dataBit;
+                                    if(combo.Value == combo.Value)
+                                    {
+                                        comboBox_Databit.SelectedItem = combo;
+                                    }
+                                }
+
+                                ComboBox.ObjectCollection collectionStopBit = comboBox_StopBit.Items;
+                                foreach (var stopBit in collectionStopBit)
+                                {
+                                    ComboboxItem combo = (ComboboxItem)stopBit;
+                                    if (combo.Value == combo.Value)
+                                    {
+                                        comboBox_StopBit.SelectedItem = combo;
                                     }
                                 }
                             }
@@ -189,10 +294,10 @@ namespace LocalPLC.Base
             //}
             //comboBox_Parity.SelectedIndex = 1;
 
-            //数据位
-            comboBox_Databit.Items.Add(7);
-            comboBox_Databit.Items.Add(8);
-            comboBox_Databit.SelectedIndex = 1;
+            ////数据位
+            //comboBox_Databit.Items.Add(7);
+            //comboBox_Databit.Items.Add(8);
+            //comboBox_Databit.SelectedIndex = 1;
 
 
         }

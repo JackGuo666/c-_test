@@ -166,7 +166,7 @@ namespace LocalPLC.Base.xml
         public int dataBit = 8;
         public int stopBit = 1;
 
-        public string polR = "120kΩ";
+        public int polR = 1;
     }
 
     public class ETHERNETData
