@@ -24,6 +24,9 @@ namespace LocalPLC.Base.xml
             }
 
             dataManage_ = dataManage;
+            //清除之前加载的数据
+            dataManage_.clear();
+
 
             string path = UserControl1.multiprogApp.Path;
             string projectPath = UserControl1.multiprogApp.ActiveProject.Path;

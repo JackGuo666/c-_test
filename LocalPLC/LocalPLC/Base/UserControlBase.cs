@@ -125,6 +125,8 @@ namespace LocalPLC.Base
         //动态创建串口界面
         void createSerialUserControl()
         {
+            //清空之前加载的串口控件数组
+            comDic.Clear();
             List<DeviceModuleElem> list = dataManage.deviceInfoElem.connector.moduleList;
             foreach(DeviceModuleElem elem in list)
             {

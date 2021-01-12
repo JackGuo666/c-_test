@@ -15,6 +15,7 @@ namespace LocalPLC.Base
 {
     public partial class UserControlCom : UserControl
     {
+        SERIALData serialValueData = new SERIALData();
         public UserControlCom(string com)
         {
             InitializeComponent();
@@ -24,7 +25,8 @@ namespace LocalPLC.Base
 
 
             //数据管理里的串口数组
-            //UserControlBase.dataManage.serialDic
+            UserControlBase.dataManage.serialDic.Clear();
+            UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
 
         }
 
@@ -53,7 +55,7 @@ namespace LocalPLC.Base
                             if(UserControlBase.dataManage.dicStruct.ContainsKey(serialBusType))
                             {
                                 var serialStructType = UserControlBase.dataManage.dicStruct[serialBusType];
-                                SERIALData serialValueData = new SERIALData();
+                                //SERIALData serialValueData = new SERIALData();
 
                                 foreach (var serialData in serialStructType.list)
                                 {
@@ -215,6 +217,8 @@ namespace LocalPLC.Base
                                         }
                                     }
                                 }
+
+                                
 
                                 var itemsBaud = comboBox_Baud.Items;
                                 foreach (var item in itemsBaud)

@@ -73,12 +73,22 @@ namespace LocalPLC.Base.xml
     }
     public  class Connector
     {
+        public void clear()
+        {
+            moduleList.Clear();
+        }
+
         public string connectorId;
 
         public List<DeviceModuleElem> moduleList = new List<DeviceModuleElem>();
     }
     public class DeviceInfoElem
     {
+        public void clear()
+        {
+            connector.clear();
+        }
+
         public string vendorId;
 
         public string name;
@@ -131,6 +141,10 @@ namespace LocalPLC.Base.xml
 
     public class Modules
     {
+        public void clear()
+        {
+            list.Clear();
+        }
         public List<ModuleElemModules> list = new List<ModuleElemModules>();
     }
 
@@ -176,6 +190,19 @@ namespace LocalPLC.Base.xml
 
     public class DataManageBase
     {
+        public void clear()
+        {
+            dicBitfield.Clear();
+            dicEnum.Clear();
+            dicStruct.Clear();
+            deviceInfoElem.clear();
+            modules.clear();
+            doList.Clear();
+            diList.Clear();
+            serialDic.Clear();
+            ethernetDic.Clear();
+        }
+
         //DI DO
         public Dictionary<string, BitfieldType> dicBitfield = new Dictionary<string, BitfieldType>();
 
