@@ -23,7 +23,7 @@ namespace LocalPLC.Base
         void addCommNode(TreeNode tn);
     }
 
-    public partial class PlcType : UserControl, IWeapon
+    public partial class LocalPLC24P : UserControl, IWeapon
     {
         bool pic2Selected = false;
         bool pic3Selected = false;
@@ -44,13 +44,13 @@ namespace LocalPLC.Base
 
 
         //动态添加不带参数构造函数
-        public PlcType()
+        public LocalPLC24P()
         {
 
         }
 
         UserControlBase userBase_ = null;
-        public PlcType(SplitContainer splitContainer, UserControlBase userBase
+        public LocalPLC24P(SplitContainer splitContainer, UserControlBase userBase
             , DataManageBase dataManage) 
         {
             InitializeComponent();
@@ -64,13 +64,18 @@ namespace LocalPLC.Base
 
             pictest1.Parent = pictureBox1;
             pictest2.Parent = pictureBox1;
-            pictest3.Parent = pictureBox1;
-            pictest4.Parent = pictureBox1;
+            Serial_Line_1.Parent = pictureBox1;
+            Serial_Line_1.Tag = "Serial_Line_1";
+            Ethernet_1.Parent = pictureBox1;
+            Ethernet_1.Tag = "Ethernet_1";
+
+            Serial_Line_2.Parent = pictureBox1;
+            Serial_Line_2.Tag = "Serial_Line_2";
 
             //key value
             //com1 comobject 从配置文件读
-            picArray.Add("本体COM1", pictest3);
-            picArray.Add("本体ETH1", pictest4);
+            picArray.Add("Serial_Line_1", Serial_Line_1);
+            picArray.Add("Serial_Line_2", Serial_Line_2);
             picArray.Add("DO", pictest1);
             picArray.Add("DI", pictest2);
 
@@ -532,32 +537,38 @@ namespace LocalPLC.Base
         //UserControlCom com = new UserControlCom(null);
         private void pictest3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            //dataManage_.serialDic.First
+            pictest pic = (pictest)sender;
+            
+            if(userBase_.comDic.ContainsKey(pic.Tag.ToString()))
+            {
+                var com = userBase_.comDic[pic.Tag.ToString()];
+                if (!split.Panel2.Controls.Contains(com))
+                {
+                    split.Panel2.Controls.Clear();
+                    com.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(com);
+                }
 
-            //if (!split.Panel2.Controls.Contains(com))
-            //{
-            //    split.Panel2.Controls.Clear();
-            //    com.Dock = DockStyle.Fill;
-            //    split.Panel2.Controls.Add(com);
-            //}
-
-            ////从配置文件读取的值
-            //myDelegate("本体COM1");
+                //从配置文件读取的值
+                myDelegate(pic.Tag.ToString());
+            }
         }
 
         //网口信息
-        UserControlEth eth = new UserControlEth(null);
+        //UserControlEth eth = new UserControlEth(null);
         private void pictest4_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (!split.Panel2.Controls.Contains(eth))
+            pictest pic = (pictest)sender;
+            if (userBase_.ethDic.ContainsKey(pic.Tag.ToString()))
             {
+                var eth = userBase_.ethDic[pic.Tag.ToString()];
                 split.Panel2.Controls.Clear();
                 eth.Dock = DockStyle.Fill;
                 split.Panel2.Controls.Add(eth);
             }
 
             //从配置文件读取的值
-            myDelegate("本体ETH1");
+            myDelegate(pic.Tag.ToString());
         }
     }
 }

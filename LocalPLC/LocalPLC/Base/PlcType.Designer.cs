@@ -1,6 +1,6 @@
 ﻿namespace LocalPLC.Base
 {
-    partial class PlcType
+    partial class LocalPLC24P
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -31,15 +31,17 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictest4 = new LocalPLC.Base.pictest();
-            this.pictest3 = new LocalPLC.Base.pictest();
+            this.Ethernet_1 = new LocalPLC.Base.pictest();
+            this.Serial_Line_2 = new LocalPLC.Base.pictest();
+            this.Serial_Line_1 = new LocalPLC.Base.pictest();
             this.pictest2 = new LocalPLC.Base.pictest();
             this.pictest1 = new LocalPLC.Base.pictest();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictest4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictest3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Ethernet_1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest1)).BeginInit();
             this.SuspendLayout();
@@ -85,27 +87,38 @@
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
-            // pictest4
+            // Ethernet_1
             // 
-            this.pictest4.BackColor = System.Drawing.Color.Transparent;
-            this.pictest4.Location = new System.Drawing.Point(151, 140);
-            this.pictest4.MValue = false;
-            this.pictest4.Name = "pictest4";
-            this.pictest4.Size = new System.Drawing.Size(74, 68);
-            this.pictest4.TabIndex = 6;
-            this.pictest4.TabStop = false;
-            this.pictest4.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest4_MouseDoubleClick);
+            this.Ethernet_1.BackColor = System.Drawing.Color.Transparent;
+            this.Ethernet_1.Location = new System.Drawing.Point(151, 140);
+            this.Ethernet_1.MValue = false;
+            this.Ethernet_1.Name = "Ethernet_1";
+            this.Ethernet_1.Size = new System.Drawing.Size(74, 68);
+            this.Ethernet_1.TabIndex = 6;
+            this.Ethernet_1.TabStop = false;
+            this.Ethernet_1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest4_MouseDoubleClick);
             // 
-            // pictest3
+            // Serial_Line_2
             // 
-            this.pictest3.BackColor = System.Drawing.Color.Transparent;
-            this.pictest3.Location = new System.Drawing.Point(69, 141);
-            this.pictest3.MValue = false;
-            this.pictest3.Name = "pictest3";
-            this.pictest3.Size = new System.Drawing.Size(76, 68);
-            this.pictest3.TabIndex = 5;
-            this.pictest3.TabStop = false;
-            this.pictest3.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
+            this.Serial_Line_2.BackColor = System.Drawing.Color.Transparent;
+            this.Serial_Line_2.Location = new System.Drawing.Point(242, 140);
+            this.Serial_Line_2.MValue = false;
+            this.Serial_Line_2.Name = "Serial_Line_2";
+            this.Serial_Line_2.Size = new System.Drawing.Size(76, 68);
+            this.Serial_Line_2.TabIndex = 5;
+            this.Serial_Line_2.TabStop = false;
+            this.Serial_Line_2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
+            // 
+            // Serial_Line_1
+            // 
+            this.Serial_Line_1.BackColor = System.Drawing.Color.Transparent;
+            this.Serial_Line_1.Location = new System.Drawing.Point(69, 141);
+            this.Serial_Line_1.MValue = false;
+            this.Serial_Line_1.Name = "Serial_Line_1";
+            this.Serial_Line_1.Size = new System.Drawing.Size(76, 68);
+            this.Serial_Line_1.TabIndex = 5;
+            this.Serial_Line_1.TabStop = false;
+            this.Serial_Line_1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
             // 
             // pictest2
             // 
@@ -129,25 +142,27 @@
             this.pictest1.TabStop = false;
             this.pictest1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest1_MouseDoubleClick);
             // 
-            // PlcType
+            // LocalPLC24P
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Controls.Add(this.pictest4);
-            this.Controls.Add(this.pictest3);
+            this.Controls.Add(this.Ethernet_1);
+            this.Controls.Add(this.Serial_Line_2);
+            this.Controls.Add(this.Serial_Line_1);
             this.Controls.Add(this.pictest2);
             this.Controls.Add(this.pictest1);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Name = "PlcType";
+            this.Name = "LocalPLC24P";
             this.Size = new System.Drawing.Size(365, 280);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictest4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictest3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Ethernet_1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest1)).EndInit();
             this.ResumeLayout(false);
@@ -161,7 +176,8 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private LocalPLC.Base.pictest pictest1;
         private LocalPLC.Base.pictest pictest2;
-        private pictest pictest3;
-        private pictest pictest4;
+        private pictest Serial_Line_1;
+        private pictest Ethernet_1;
+        private pictest Serial_Line_2;
     }
 }

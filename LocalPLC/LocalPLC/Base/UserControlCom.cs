@@ -62,7 +62,8 @@ namespace LocalPLC.Base
                                     if(serialData.name == "Baudrate")
                                     {
                                         //StructType里波特率默认值
-                                        serialValueData.baud = serialData.defaultValue;
+                                        int.TryParse(serialData.defaultValue, out serialValueData.baud);
+
                                         string[] strArrBaud = serialData.type.Split(new Char[] { ':' });
                                         if (strArrBaud.Length == 2)
                                         {
@@ -86,7 +87,8 @@ namespace LocalPLC.Base
                                     else if(serialData.name == "Parity")
                                     {
                                         //StructType里波特率默认值
-                                        serialValueData.Parity = serialData.defaultValue;
+                                        //serialValueData.Parity = serialData.defaultValue;
+                                        int.TryParse(serialData.defaultValue, out serialValueData.Parity);
                                         //在enumType里找到对应的描述
                                         string[] strArrParity = serialData.type.Split(new Char[] { ':' });
 
@@ -111,7 +113,7 @@ namespace LocalPLC.Base
                                     else if(serialData.name == "Medium")
                                     {
                                         //StructType里串口默认值串口0-rs232    1-rs485
-                                        serialValueData.rsMode = serialData.defaultValue;
+                                        int.TryParse(serialData.defaultValue, out serialValueData.rsMode);
                                         //在enumType里找到对应的描述
                                         string[] strArrMedium = serialData.type.Split(new Char[] { ':' });
                                         if (strArrMedium.Length == 2)
@@ -151,7 +153,8 @@ namespace LocalPLC.Base
                                     }
                                     else if(serialData.name == "Polarization")
                                     {
-                                        serialValueData.polR = serialData.defaultValue;
+                                        //serialValueData.polR = serialData.defaultValue;
+                                        int.TryParse(serialData.defaultValue, out serialValueData.polR);
 
                                         //在enumType里找到对应的描述
                                         string[] strArrPolarization = serialData.type.Split(new Char[] { ':' });
@@ -175,7 +178,8 @@ namespace LocalPLC.Base
                                     else if(serialData.name == "Data bits")
                                     {
                                         //数据位
-                                        serialValueData.dataBit = serialData.defaultValue;
+                                        //serialValueData.dataBit = serialData.defaultValue;
+                                        int.TryParse(serialData.defaultValue, out serialValueData.dataBit);
                                         //在enumType里找到对应的描述
                                         string[] strArrDataBit = serialData.type.Split(new Char[] { ':' });
                                         if (strArrDataBit.Length == 2)
@@ -197,7 +201,9 @@ namespace LocalPLC.Base
                                     else if(serialData.name == "Stop bits")
                                     {
                                         //数据位
-                                        serialValueData.stopBit = serialData.defaultValue;
+                                        //serialValueData.stopBit = serialData.defaultValue;
+                                        int.TryParse(serialData.defaultValue, out serialValueData.stopBit);
+
                                         //在enumType里找到对应的描述
                                         string[] strArrStopBit = serialData.type.Split(new Char[] { ':' });
                                         if (strArrStopBit.Length == 2)

@@ -7,19 +7,104 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LocalPLC.Base.xml;
 
 namespace LocalPLC.Base
 {
     public partial class UserControlEth : UserControl
     {
+        ETHERNETData ethernetValueData = new ETHERNETData();
+        string etherName = "";
         public UserControlEth(string name)
         {
             InitializeComponent();
-
+            etherName = name;
             var v = ipAddressControl1.IPAddress;
 
-            var s = "192.168.0.1";
-            ipAddressControl1.IPAddress = System.Net.IPAddress.Parse(s);
+
+
+            init();
+            //数据管理里的网口数组 LocalPLC一般是1个网口
+            UserControlBase.dataManage.ethernetDic.Clear();
+            UserControlBase.dataManage.ethernetDic.Add(etherName, ethernetValueData);
+
+            var s = "0.0.0.0";
+            string maskAddress = "0.0.0.0";
+            //IP
+            ipAddressControl1.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.ipAddress);
+            //mask
+            ipAddressControl2.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.maskAddress);
+            //gateway
+            ipAddressControl3.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
+            //sntp
+            ipAddressControl4.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
+
+            //0 dhcp    1固定
+            if(ethernetValueData.ipMode == 0)
+            {
+                radioButton1.Checked = true;
+                radioButton3.Checked = false;
+            }
+
+            checkBox1.Checked = false;
+        }
+
+        void init()
+        {
+            var list = UserControlBase.dataManage.modules.list;
+            foreach (var elem in list)
+            {
+                if (elem.moduleID == "ETHERNET")
+                {
+                    
+                    foreach(Parameter para in elem.connectModules.list)
+                    {
+                        string type = para.type;
+                        string[] strArr = type.Split(new Char[] { ':' });
+                        if (strArr.Length == 2)
+                        {
+                            //串口type localTypes
+                            string localType = strArr.ElementAt(0);
+                            string ethernetBusType = strArr.ElementAt(1);
+                            if (UserControlBase.dataManage.dicStruct.ContainsKey(ethernetBusType))
+                            {
+                                //Ethernet line数据结构类型
+                                var ethernetStructType = UserControlBase.dataManage.dicStruct[ethernetBusType];
+                                foreach(var ethernetData in ethernetStructType.list)
+                                {
+                                    if(ethernetData.name == "IPConfigMode")
+                                    {
+                                        //ethernetValueData.ipMode = ethernetData.defaultValue;
+                                        int.TryParse(ethernetData.defaultValue, out ethernetValueData.ipMode);
+                                    }
+                                    else if(ethernetData.name == "IPAddress")
+                                    {
+                                        ethernetValueData.ipAddress = ethernetData.defaultValue;
+                                    }
+                                    else if(ethernetData.name == "MaskAddress")
+                                    {
+                                        ethernetValueData.maskAddress = ethernetData.defaultValue;
+                                    }
+                                    else if(ethernetData.name == "GatewayAddress")
+                                    {
+                                        ethernetValueData.gatewayAddress = ethernetValueData.maskAddress;
+                                    }
+                                    else if(ethernetData.name == "SNTP")
+                                    {
+                                        int.TryParse(ethernetData.defaultValue, out ethernetValueData.checkSNTP);
+                                    }
+                                    else if(ethernetData.name == "SNTPIPAddress")
+                                    {
+                                        ethernetValueData.gatewayAddress = ethernetData.defaultValue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
         }
 
         private void textBox1_Validated(object sender, EventArgs e)

@@ -14,9 +14,11 @@ namespace LocalPLC.Base
     public partial class UserControlBase : UserControl
     {
         public List<UserControl> PlcTypeArr = new List<UserControl>();
-        PlcType curPlcType = null;
+        LocalPLC24P curPlcType = null;
         IWeapon curWeaponType = null;
-
+        //动态创建串口网口控件
+        public Dictionary<string, UserControlCom> comDic = new Dictionary<string, UserControlCom>();
+        public Dictionary<string, UserControlEth> ethDic = new Dictionary<string, UserControlEth>();
 
         TreeView treeView_ = null;
         //DataManageBase数据管理
@@ -137,6 +139,22 @@ namespace LocalPLC.Base
                 }
             }
         }
+
+        void createEthernetUserControl()
+        {
+            ethDic.Clear();
+            List<DeviceModuleElem> list = dataManage.deviceInfoElem.connector.moduleList;
+            foreach (DeviceModuleElem elem in list)
+            {
+                if (elem.moduleID == "ETHERNET")
+                {
+                    UserControlEth eth = new UserControlEth(elem.baseName);
+                    ethDic.Add(elem.baseName, eth);
+                }
+            }
+        }
+
+
         private void splitContainer1_Panel1_DragDrop(object sender, DragEventArgs e)
         {
             object item = e.Data.GetData("Test");
@@ -154,17 +172,18 @@ namespace LocalPLC.Base
             //delSubNodes(commNode);
             addSerialNode(commNode);
             createSerialUserControl();
+            createEthernetUserControl();
 
             topNode.Text = localPLCType;
 
-            string tmp = string.Format("LocalPLC.Base.{0}", "PlcType");
+            string tmp = string.Format("LocalPLC.Base.{0}", localPLCType);
             Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 
 
             //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
-            curPlcType = (PlcType)user1;
+            curPlcType = (LocalPLC24P)user1;
             curWeaponType = user1 as IWeapon;
             user1.Parent = this;
             PlcTypeArr.Add(user1);
@@ -204,7 +223,7 @@ namespace LocalPLC.Base
             }
         }
 
-        public Dictionary<string, UserControlCom> comDic = new Dictionary<string, UserControlCom>();
+        
         public void setCOMShow(string com)
         {
             if (curPlcType == null)

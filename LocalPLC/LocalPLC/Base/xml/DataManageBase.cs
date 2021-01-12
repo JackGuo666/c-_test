@@ -45,7 +45,7 @@ namespace LocalPLC.Base.xml
     {
         public string name;
         public string value;
-        public int defaultValue;
+        public /*int*/ string defaultValue;
         public string type;
     }
 
@@ -118,6 +118,8 @@ namespace LocalPLC.Base.xml
         public string paraID;
         public string type;
         public string parameterName;
+
+        public string defaultValue = "";
     }
 
     public class ConnectorModules
@@ -185,7 +187,15 @@ namespace LocalPLC.Base.xml
 
     public class ETHERNETData
     {
+        public string name = "";    //网口名
+        public int ipMode = 0;          //0-固定IP地址  1-DHCP分配IP地址
+        public string ipAddress = "0.0.0.0";
+        public string maskAddress = "0.0.0.0";
+        public string gatewayAddress = "0.0.0.0";
 
+        //SNTP服务器
+        public int checkSNTP = 0;
+        public string sntpServerIp = "0.0.0.0";
     }
 
     public class DataManageBase
