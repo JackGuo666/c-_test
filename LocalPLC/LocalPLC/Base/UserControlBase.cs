@@ -21,6 +21,8 @@ namespace LocalPLC.Base
         public Dictionary<string, UserControlEth> ethDic = new Dictionary<string, UserControlEth>();
 
         TreeView treeView_ = null;
+
+        public Control parent_ = null;
         //DataManageBase数据管理
         public static DataManageBase dataManage = new DataManageBase();
         public UserControlBase() 
@@ -31,6 +33,11 @@ namespace LocalPLC.Base
         public void getTreeView(TreeView view)
         {
             treeView_ = view;
+        }
+
+        public void getParent(Control parent)
+        {
+            parent_ = parent;
         }
 
         private void UserControlBase_Load(object sender, EventArgs e)
@@ -154,10 +161,61 @@ namespace LocalPLC.Base
             }
         }
 
+        public void createControler(string defaultPLCType)
+        {
+            string localPLCType = defaultPLCType;
+            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
+
+
+
+
+            var topNode = treeView_.TopNode;
+            var commNode = FindNode(topNode, "通信线路");
+            //delSubNodes(commNode);
+            addSerialNode(commNode);
+            createSerialUserControl();
+            createEthernetUserControl();
+
+            topNode.Text = localPLCType;
+
+            string tmp = string.Format("LocalPLC.Base.{0}", localPLCType);
+            Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
+            //object obj = type.Assembly.CreateInstance(type);
+            UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
+
+
+            //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
+            curPlcType = (LocalPLC24P)user1;
+            curWeaponType = user1 as IWeapon;
+            user1.Parent = this;
+            PlcTypeArr.Add(user1);
+            splitContainer2.Panel1.Controls.Add(user1);
+            user1.Location = new System.Drawing.Point(PlcTypeArr.Count * user1.Width, 0);
+            user1.Name = defaultPLCType;
+            //user1.Dock = DockStyle.Fill;
+            //user1.Size = new System.Drawing.Size(41, 12);
+            user1.TabIndex = 0;
+        }
+
 
         private void splitContainer1_Panel1_DragDrop(object sender, DragEventArgs e)
         {
+            if(!LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+                MessageBox.Show("请先打开工程!");
+                return;
+            }
+
             object item = e.Data.GetData("Test");
+
+            foreach(Control control in splitContainer2.Panel1.Controls)
+            {
+                if(control.Tag.ToString() == 0.ToString())
+                {
+                    splitContainer2.Panel1.Controls.Remove(control);
+                    PlcTypeArr.Clear();
+                }
+            }
 
             TreeNode node = (TreeNode)item;
 
@@ -169,7 +227,8 @@ namespace LocalPLC.Base
 
             var topNode = treeView_.TopNode;
             var commNode = FindNode(topNode, "通信线路");
-            //delSubNodes(commNode);
+            
+            delSubNodes(commNode);
             addSerialNode(commNode);
             createSerialUserControl();
             createEthernetUserControl();
@@ -232,7 +291,8 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setCOMInfo(com);
+                //curPlcType.setCOMInfo(com);
+                curWeaponType.setCOMInfo(com);
             }
 
         }
@@ -245,7 +305,8 @@ namespace LocalPLC.Base
             }
             else
             {
-                curPlcType.setETHInfo(eth);
+                //curPlcType.setETHInfo(eth);
+                curWeaponType.setETHInfo(eth);
             }
 
         }

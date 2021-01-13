@@ -47,6 +47,7 @@ namespace LocalPLC.Base
             }
 
             checkBox1.Checked = false;
+            textBox1.Text = etherName;
         }
 
         void init()

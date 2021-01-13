@@ -43,71 +43,67 @@
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("高速输出", 8, 8, new System.Windows.Forms.TreeNode[] {
             treeNode7,
             treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("本体COM1", 12, 12);
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("本体ETH1", 13, 13);
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("通信线路", 11, 11, new System.Windows.Forms.TreeNode[] {
-            treeNode10,
-            treeNode11});
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("基本配置", 1, 1, new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("通信线路", 11, 11);
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("基本配置", 1, 1, new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode6,
             treeNode9,
-            treeNode12});
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("ModbusTCP-Client", 16, 16);
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ModbusTCP-Server", 15, 15);
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("ModbusRTU-Master", 17, 17);
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("ModbusRTU-Slave", 18, 18);
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Modbus", 14, 14, new System.Windows.Forms.TreeNode[] {
+            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("ModbusTCP-Client", 16, 16);
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("ModbusTCP-Server", 15, 15);
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("ModbusRTU-Master", 17, 17);
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("ModbusRTU-Slave", 18, 18);
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("Modbus", 14, 14, new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13,
             treeNode14,
-            treeNode15,
-            treeNode16,
-            treeNode17});
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("AI", 22, 23);
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("AO", 23, 23);
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("面板扩展", 20, 20, new System.Windows.Forms.TreeNode[] {
-            treeNode19,
-            treeNode20});
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("扩展串口模块1(型号)", 12, 12);
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("扩展网口模块1(型号)", 13, 13);
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("左模块", 21, 21, new System.Windows.Forms.TreeNode[] {
-            treeNode22,
+            treeNode15});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("AI", 22, 23);
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("AO", 23, 23);
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("面板扩展", 20, 20, new System.Windows.Forms.TreeNode[] {
+            treeNode17,
+            treeNode18});
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("扩展串口模块1(型号)", 12, 12);
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("扩展网口模块1(型号)", 13, 13);
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("左模块", 21, 21, new System.Windows.Forms.TreeNode[] {
+            treeNode20,
+            treeNode21});
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("AI", 22, 22);
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("模块1(型号)", 22, 22, new System.Windows.Forms.TreeNode[] {
             treeNode23});
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("AI", 22, 22);
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("模块1(型号)", 22, 22, new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("AO", 23, 23);
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("模块2(型号)", 23, 23, new System.Windows.Forms.TreeNode[] {
             treeNode25});
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("AO", 23, 23);
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("模块2(型号)", 23, 23, new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("DO", 2, 2);
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("模块3(型号)", 2, 2, new System.Windows.Forms.TreeNode[] {
             treeNode27});
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("DO", 2, 2);
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("模块3(型号)", 2, 2, new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("DI", 3, 3);
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("模块4(型号)", 3, 3, new System.Windows.Forms.TreeNode[] {
             treeNode29});
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("DI", 3, 3);
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("模块4(型号)", 3, 3, new System.Windows.Forms.TreeNode[] {
-            treeNode31});
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("右模块", 24, 24, new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("右模块", 24, 24, new System.Windows.Forms.TreeNode[] {
+            treeNode24,
             treeNode26,
             treeNode28,
-            treeNode30,
-            treeNode32});
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("扩展模块", 19, 19, new System.Windows.Forms.TreeNode[] {
-            treeNode21,
-            treeNode24,
-            treeNode33});
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("canopen", 25, 25);
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("运动控制", 26, 26);
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("modbus工具", 28, 28);
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("canopen工具", 29, 29);
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("shell工具", 27, 27, new System.Windows.Forms.TreeNode[] {
-            treeNode37,
-            treeNode38});
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("配置", 0, 0, new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode18,
-            treeNode34,
+            treeNode30});
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("扩展模块", 19, 19, new System.Windows.Forms.TreeNode[] {
+            treeNode19,
+            treeNode22,
+            treeNode31});
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("canopen", 25, 25);
+            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("运动控制", 26, 26);
+            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("modbus工具", 28, 28);
+            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("canopen工具", 29, 29);
+            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("shell工具", 27, 27, new System.Windows.Forms.TreeNode[] {
             treeNode35,
-            treeNode36,
-            treeNode39});
+            treeNode36});
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("配置", 0, 0, new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode16,
+            treeNode32,
+            treeNode33,
+            treeNode34,
+            treeNode37});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl1));
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -162,132 +158,124 @@
             treeNode9.Name = "高速输出";
             treeNode9.SelectedImageIndex = 8;
             treeNode9.Text = "高速输出";
-            treeNode10.ImageIndex = 12;
-            treeNode10.Name = "本体COM1";
-            treeNode10.SelectedImageIndex = 12;
-            treeNode10.Text = "本体COM1";
-            treeNode11.ImageIndex = 13;
-            treeNode11.Name = "本体ETH1";
-            treeNode11.SelectedImageIndex = 13;
-            treeNode11.Text = "本体ETH1";
-            treeNode12.ImageIndex = 11;
-            treeNode12.Name = "通信线路";
-            treeNode12.SelectedImageIndex = 11;
-            treeNode12.Text = "通信线路";
-            treeNode13.ImageIndex = 1;
-            treeNode13.Name = "基本配置";
-            treeNode13.SelectedImageIndex = 1;
-            treeNode13.Text = "基本配置";
-            treeNode14.ImageIndex = 16;
-            treeNode14.Name = "节点00";
-            treeNode14.SelectedImageIndex = 16;
-            treeNode14.Text = "ModbusTCP-Client";
-            treeNode15.ImageIndex = 15;
-            treeNode15.Name = "节点01";
-            treeNode15.SelectedImageIndex = 15;
-            treeNode15.Text = "ModbusTCP-Server";
-            treeNode16.ImageIndex = 17;
-            treeNode16.Name = "节点02";
-            treeNode16.SelectedImageIndex = 17;
-            treeNode16.Text = "ModbusRTU-Master";
-            treeNode17.ImageIndex = 18;
-            treeNode17.Name = "节点03";
-            treeNode17.SelectedImageIndex = 18;
-            treeNode17.Text = "ModbusRTU-Slave";
-            treeNode18.ImageIndex = 14;
-            treeNode18.Name = "节点0";
-            treeNode18.SelectedImageIndex = 14;
-            treeNode18.Text = "Modbus";
-            treeNode19.ImageIndex = 22;
-            treeNode19.Name = "AI";
-            treeNode19.SelectedImageIndex = 23;
-            treeNode19.Text = "AI";
-            treeNode20.ImageIndex = 23;
-            treeNode20.Name = "AO";
-            treeNode20.SelectedImageIndex = 23;
-            treeNode20.Text = "AO";
-            treeNode21.ImageIndex = 20;
-            treeNode21.Name = "面板扩展";
-            treeNode21.SelectedImageIndex = 20;
-            treeNode21.Text = "面板扩展";
-            treeNode22.ImageIndex = 12;
-            treeNode22.Name = "扩展串口模块1(型号)";
-            treeNode22.SelectedImageIndex = 12;
-            treeNode22.Text = "扩展串口模块1(型号)";
-            treeNode23.ImageIndex = 13;
-            treeNode23.Name = "扩展网口模块1(型号)";
-            treeNode23.SelectedImageIndex = 13;
-            treeNode23.Text = "扩展网口模块1(型号)";
-            treeNode24.ImageIndex = 21;
-            treeNode24.Name = "左模块";
-            treeNode24.SelectedImageIndex = 21;
-            treeNode24.Text = "左模块";
-            treeNode25.ImageIndex = 22;
-            treeNode25.Name = "AI";
-            treeNode25.SelectedImageIndex = 22;
-            treeNode25.Text = "AI";
-            treeNode26.ImageIndex = 22;
-            treeNode26.Name = "模块1(型号)";
-            treeNode26.SelectedImageIndex = 22;
-            treeNode26.Text = "模块1(型号)";
-            treeNode27.ImageIndex = 23;
-            treeNode27.Name = "AO";
-            treeNode27.SelectedImageIndex = 23;
-            treeNode27.Text = "AO";
-            treeNode28.ImageIndex = 23;
-            treeNode28.Name = "模块2(型号)";
-            treeNode28.SelectedImageIndex = 23;
-            treeNode28.Text = "模块2(型号)";
-            treeNode29.ImageIndex = 2;
+            treeNode10.ImageIndex = 11;
+            treeNode10.Name = "通信线路";
+            treeNode10.SelectedImageIndex = 11;
+            treeNode10.Text = "通信线路";
+            treeNode11.ImageIndex = 1;
+            treeNode11.Name = "基本配置";
+            treeNode11.SelectedImageIndex = 1;
+            treeNode11.Text = "基本配置";
+            treeNode12.ImageIndex = 16;
+            treeNode12.Name = "节点00";
+            treeNode12.SelectedImageIndex = 16;
+            treeNode12.Text = "ModbusTCP-Client";
+            treeNode13.ImageIndex = 15;
+            treeNode13.Name = "节点01";
+            treeNode13.SelectedImageIndex = 15;
+            treeNode13.Text = "ModbusTCP-Server";
+            treeNode14.ImageIndex = 17;
+            treeNode14.Name = "节点02";
+            treeNode14.SelectedImageIndex = 17;
+            treeNode14.Text = "ModbusRTU-Master";
+            treeNode15.ImageIndex = 18;
+            treeNode15.Name = "节点03";
+            treeNode15.SelectedImageIndex = 18;
+            treeNode15.Text = "ModbusRTU-Slave";
+            treeNode16.ImageIndex = 14;
+            treeNode16.Name = "节点0";
+            treeNode16.SelectedImageIndex = 14;
+            treeNode16.Text = "Modbus";
+            treeNode17.ImageIndex = 22;
+            treeNode17.Name = "AI";
+            treeNode17.SelectedImageIndex = 23;
+            treeNode17.Text = "AI";
+            treeNode18.ImageIndex = 23;
+            treeNode18.Name = "AO";
+            treeNode18.SelectedImageIndex = 23;
+            treeNode18.Text = "AO";
+            treeNode19.ImageIndex = 20;
+            treeNode19.Name = "面板扩展";
+            treeNode19.SelectedImageIndex = 20;
+            treeNode19.Text = "面板扩展";
+            treeNode20.ImageIndex = 12;
+            treeNode20.Name = "扩展串口模块1(型号)";
+            treeNode20.SelectedImageIndex = 12;
+            treeNode20.Text = "扩展串口模块1(型号)";
+            treeNode21.ImageIndex = 13;
+            treeNode21.Name = "扩展网口模块1(型号)";
+            treeNode21.SelectedImageIndex = 13;
+            treeNode21.Text = "扩展网口模块1(型号)";
+            treeNode22.ImageIndex = 21;
+            treeNode22.Name = "左模块";
+            treeNode22.SelectedImageIndex = 21;
+            treeNode22.Text = "左模块";
+            treeNode23.ImageIndex = 22;
+            treeNode23.Name = "AI";
+            treeNode23.SelectedImageIndex = 22;
+            treeNode23.Text = "AI";
+            treeNode24.ImageIndex = 22;
+            treeNode24.Name = "模块1(型号)";
+            treeNode24.SelectedImageIndex = 22;
+            treeNode24.Text = "模块1(型号)";
+            treeNode25.ImageIndex = 23;
+            treeNode25.Name = "AO";
+            treeNode25.SelectedImageIndex = 23;
+            treeNode25.Text = "AO";
+            treeNode26.ImageIndex = 23;
+            treeNode26.Name = "模块2(型号)";
+            treeNode26.SelectedImageIndex = 23;
+            treeNode26.Text = "模块2(型号)";
+            treeNode27.ImageIndex = 2;
+            treeNode27.Name = "DI";
+            treeNode27.SelectedImageIndex = 2;
+            treeNode27.Text = "DO";
+            treeNode28.ImageIndex = 2;
+            treeNode28.Name = "模块3(型号)";
+            treeNode28.SelectedImageIndex = 2;
+            treeNode28.Text = "模块3(型号)";
+            treeNode29.ImageIndex = 3;
             treeNode29.Name = "DI";
-            treeNode29.SelectedImageIndex = 2;
-            treeNode29.Text = "DO";
-            treeNode30.ImageIndex = 2;
-            treeNode30.Name = "模块3(型号)";
-            treeNode30.SelectedImageIndex = 2;
-            treeNode30.Text = "模块3(型号)";
-            treeNode31.ImageIndex = 3;
-            treeNode31.Name = "DI";
-            treeNode31.SelectedImageIndex = 3;
-            treeNode31.Text = "DI";
-            treeNode32.ImageIndex = 3;
-            treeNode32.Name = "模块4(型号)";
-            treeNode32.SelectedImageIndex = 3;
-            treeNode32.Text = "模块4(型号)";
-            treeNode33.ImageIndex = 24;
-            treeNode33.Name = "右模块";
-            treeNode33.SelectedImageIndex = 24;
-            treeNode33.Text = "右模块";
-            treeNode34.ImageIndex = 19;
-            treeNode34.Name = "扩展模块";
-            treeNode34.SelectedImageIndex = 19;
-            treeNode34.Text = "扩展模块";
-            treeNode35.ImageIndex = 25;
-            treeNode35.Name = "canopen";
-            treeNode35.SelectedImageIndex = 25;
-            treeNode35.Text = "canopen";
-            treeNode36.ImageIndex = 26;
-            treeNode36.Name = "运动控制";
-            treeNode36.SelectedImageIndex = 26;
-            treeNode36.Text = "运动控制";
-            treeNode37.ImageIndex = 28;
-            treeNode37.Name = "节点1";
-            treeNode37.SelectedImageIndex = 28;
-            treeNode37.Text = "modbus工具";
-            treeNode38.ImageIndex = 29;
-            treeNode38.Name = "节点2";
-            treeNode38.SelectedImageIndex = 29;
-            treeNode38.Text = "canopen工具";
-            treeNode39.ImageIndex = 27;
-            treeNode39.Name = "节点0";
-            treeNode39.SelectedImageIndex = 27;
-            treeNode39.Text = "shell工具";
-            treeNode40.ImageIndex = 0;
-            treeNode40.Name = "配置";
-            treeNode40.SelectedImageIndex = 0;
-            treeNode40.Text = "配置";
+            treeNode29.SelectedImageIndex = 3;
+            treeNode29.Text = "DI";
+            treeNode30.ImageIndex = 3;
+            treeNode30.Name = "模块4(型号)";
+            treeNode30.SelectedImageIndex = 3;
+            treeNode30.Text = "模块4(型号)";
+            treeNode31.ImageIndex = 24;
+            treeNode31.Name = "右模块";
+            treeNode31.SelectedImageIndex = 24;
+            treeNode31.Text = "右模块";
+            treeNode32.ImageIndex = 19;
+            treeNode32.Name = "扩展模块";
+            treeNode32.SelectedImageIndex = 19;
+            treeNode32.Text = "扩展模块";
+            treeNode33.ImageIndex = 25;
+            treeNode33.Name = "canopen";
+            treeNode33.SelectedImageIndex = 25;
+            treeNode33.Text = "canopen";
+            treeNode34.ImageIndex = 26;
+            treeNode34.Name = "运动控制";
+            treeNode34.SelectedImageIndex = 26;
+            treeNode34.Text = "运动控制";
+            treeNode35.ImageIndex = 28;
+            treeNode35.Name = "节点1";
+            treeNode35.SelectedImageIndex = 28;
+            treeNode35.Text = "modbus工具";
+            treeNode36.ImageIndex = 29;
+            treeNode36.Name = "节点2";
+            treeNode36.SelectedImageIndex = 29;
+            treeNode36.Text = "canopen工具";
+            treeNode37.ImageIndex = 27;
+            treeNode37.Name = "节点0";
+            treeNode37.SelectedImageIndex = 27;
+            treeNode37.Text = "shell工具";
+            treeNode38.ImageIndex = 0;
+            treeNode38.Name = "配置";
+            treeNode38.SelectedImageIndex = 0;
+            treeNode38.Text = "配置";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode40});
+            treeNode38});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(358, 750);
             this.treeView1.TabIndex = 6;

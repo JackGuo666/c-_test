@@ -287,7 +287,7 @@ namespace LocalPLC.Base
             //parityList.Add("偶数");
             //parityList.Add("奇数");
 
-            textBox_Com.Text = "COM1";
+            textBox_Com.Text = com_;
 
             //foreach(var baud in baudList)
             //{

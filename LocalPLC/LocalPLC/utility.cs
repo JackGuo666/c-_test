@@ -823,5 +823,36 @@ namespace LocalPLC
             UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
 
+        //日志接口
+        public static void WriteLogs(string fileName, string type, string content)
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            if (!string.IsNullOrEmpty(path))
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + fileName;
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                path = path + "\\" + DateTime.Now.ToString("yyyyMMdd");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                path = path + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+                if (!File.Exists(path))
+                {
+                    FileStream fs = File.Create(path);
+                    fs.Close();
+                }
+                if (File.Exists(path))
+                {
+                    StreamWriter sw = new StreamWriter(path, true, System.Text.Encoding.Default);
+                    sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + type + "-->" + content);
+                    //  sw.WriteLine("----------------------------------------");
+                    sw.Close();
+                }
+            }
+        }
     }
 }

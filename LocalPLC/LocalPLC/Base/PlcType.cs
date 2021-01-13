@@ -19,6 +19,8 @@ namespace LocalPLC.Base
         void setDOInfo(string name);
         void setHighInputInfo(string name);
         void setHighOutputInfo(string name);
+        void setCOMInfo(string name);
+        void setETHInfo(string eth);
 
         void addCommNode(TreeNode tn);
     }
@@ -53,33 +55,45 @@ namespace LocalPLC.Base
         public LocalPLC24P(SplitContainer splitContainer, UserControlBase userBase
             , DataManageBase dataManage) 
         {
-            InitializeComponent();
-            split = splitContainer;
-            userBase_ = userBase;
-            UserControl1 us1 = (UserControl1)userBase.Parent.Parent;
-            myDelegate = new DoSomethingEventHandler(us1.DoSomething);
+            try
+            {
+                //控制器类型
+                this.Tag = 0;
 
-            pictureBox2.Parent = pictureBox1;
-            pictureBox3.Parent = pictureBox1;
+                InitializeComponent();
+                split = splitContainer;
+                userBase_ = userBase;
+                UserControl1 us1 = (UserControl1)userBase.parent_;
+                myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
-            pictest1.Parent = pictureBox1;
-            pictest2.Parent = pictureBox1;
-            Serial_Line_1.Parent = pictureBox1;
-            Serial_Line_1.Tag = "Serial_Line_1";
-            Ethernet_1.Parent = pictureBox1;
-            Ethernet_1.Tag = "Ethernet_1";
+                pictureBox2.Parent = pictureBox1;
+                pictureBox3.Parent = pictureBox1;
 
-            Serial_Line_2.Parent = pictureBox1;
-            Serial_Line_2.Tag = "Serial_Line_2";
+                pictest1.Parent = pictureBox1;
+                pictest2.Parent = pictureBox1;
+                Serial_Line_1.Parent = pictureBox1;
+                Serial_Line_1.Tag = "Serial_Line_1";
+                Ethernet_1.Parent = pictureBox1;
+                Ethernet_1.Tag = "Ethernet_1";
 
-            //key value
-            //com1 comobject 从配置文件读
-            picArray.Add("Serial_Line_1", Serial_Line_1);
-            picArray.Add("Serial_Line_2", Serial_Line_2);
-            picArray.Add("DO", pictest1);
-            picArray.Add("DI", pictest2);
+                Serial_Line_2.Parent = pictureBox1;
+                Serial_Line_2.Tag = "Serial_Line_2";
 
-            initDIDO();
+                //key value
+                //com1 comobject 从配置文件读
+                picArray.Add("Serial_Line_1", Serial_Line_1);
+                picArray.Add("Serial_Line_2", Serial_Line_2);
+                picArray.Add("Ethernet_1", Ethernet_1);
+                picArray.Add("DO", pictest1);
+                picArray.Add("DI", pictest2);
+
+                initDIDO();
+            }
+            catch
+            {
+
+
+            }
         }
 
 
@@ -237,21 +251,24 @@ namespace LocalPLC.Base
         //name就是key，本体COM1，本体COM2等
         public void setCOMInfo(string name)
         {
-            UserControlCom com = /*new UserControlCom(name)*/ userBase_.comDic[name];
-            //if (!split.Panel2.Controls.Contains(com))
+            if(userBase_.comDic.ContainsKey(name))
             {
-                split.Panel2.Controls.Clear();
-                com.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(com);
+                UserControlCom com = /*new UserControlCom(name)*/ userBase_.comDic[name];
+                if (!split.Panel2.Controls.Contains(com))
+                {
+                    split.Panel2.Controls.Clear();
+                    com.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(com);
 
-                setShow(name, picArray);
+                    setShow(name, picArray);
 
-                //if(picArray.ContainsKey(name))
-                //{
-                //    picArray[name].SetAllFlagFalse();
-                //    picArray[name].SetSelectedFlag(true);
-                //    picArray[name].Refresh();
-                //}
+                    //if(picArray.ContainsKey(name))
+                    //{
+                    //    picArray[name].SetAllFlagFalse();
+                    //    picArray[name].SetSelectedFlag(true);
+                    //    picArray[name].Refresh();
+                    //}
+                }
             }
         }
 
@@ -281,21 +298,24 @@ namespace LocalPLC.Base
 
         public void setETHInfo(string name)
         {
-            UserControlEth eth = new UserControlEth(name);
-            //if (!split.Panel2.Controls.Contains(com))
+            if(userBase_.ethDic.ContainsKey(name))
             {
-                split.Panel2.Controls.Clear();
-                eth.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(eth);
+                UserControlEth eth = userBase_.ethDic[name]; ;
+                if (!split.Panel2.Controls.Contains(eth))
+                {
+                    split.Panel2.Controls.Clear();
+                    eth.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(eth);
 
-                setShow(name, picArray);
+                    setShow(name, picArray);
 
-                //if (picArray.ContainsKey(name))
-                //{
-                //    picArray[name].SetAllFlagFalse();
-                //    picArray[name].SetSelectedFlag(true);
-                //    picArray[name].Invalidate();
-                //}
+                    //if (picArray.ContainsKey(name))
+                    //{
+                    //    picArray[name].SetAllFlagFalse();
+                    //    picArray[name].SetSelectedFlag(true);
+                    //    picArray[name].Invalidate();
+                    //}
+                }
             }
         }
 
