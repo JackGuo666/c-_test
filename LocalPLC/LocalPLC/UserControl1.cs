@@ -200,7 +200,7 @@ namespace LocalPLC
             string projectName = multiprogApp.ActiveProject.Name;
             string path = projectPath + "\\" + projectName + "\\" + "config_project.xml";
 
-            clean();
+             clean();
 
 
             //multiprogApp获得后才可以得到运行路径
@@ -825,6 +825,12 @@ namespace LocalPLC
             //
             //
 
+            //基本配置保存xml文件
+            XmlElement elemBase = xDoc.CreateElement("base");
+            elemRoot.AppendChild(elemBase);
+            UC.saveXml(ref elemBase, ref xDoc);
+
+
             //xDoc.Save("students.xml");
 
             string projectPath = multiprogApp.ActiveProject.Path;
@@ -890,7 +896,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            if (msi.serverDataManager.listServer[0].dataDevice_.isready == true)
+            //if (msi.serverDataManager.listServer[0].dataDevice_.isready == true)
             {
                 saveXml();
                 saveJson();
@@ -898,17 +904,17 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 utility.addIOGroups();
 
                 //utility.addServerIOGroups();
-                //utility.addVarType();
-                utility.addVarType1();
+                utility.addVarType();
+                //utility.addVarType1();
                 //utility.checkvariables();
                 utility.addVariables();
             
                 multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
             }
-            else
-            {
+            //else
+            //{
                 utility.PrintError("请检查相关配置是否正确");
-            }
+            //}
         }
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
