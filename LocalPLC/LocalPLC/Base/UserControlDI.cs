@@ -105,7 +105,7 @@ namespace LocalPLC.Base
             cmb_Temp.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        DataTable dtData = new DataTable();
+        public DataTable dtData = new DataTable();
         private void BindData()
         {
             //view绑定datatable

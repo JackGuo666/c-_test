@@ -94,7 +94,7 @@ namespace LocalPLC.Base
         }
 
 
-        DataTable dtData = null;
+        public DataTable dtData = null;
         private void BindData()
         {
             //view绑定datatable

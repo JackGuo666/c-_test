@@ -15,7 +15,7 @@ namespace LocalPLC.Base
 {
     public partial class UserControlCom : UserControl
     {
-        SERIALData serialValueData = new SERIALData();
+        public SERIALData serialValueData = new SERIALData();
         public UserControlCom(string com)
         {
             InitializeComponent();
@@ -25,8 +25,55 @@ namespace LocalPLC.Base
 
 
             //数据管理里的串口数组
-            UserControlBase.dataManage.serialDic.Clear();
             UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
+
+        }
+
+        enum SerialMode { RS232, RS485};
+        public void getDataFromUI()
+        {
+            serialValueData.name = textBox_Com.Text.ToString();
+            string strBaud = ((ComboboxItem)comboBox_Baud.SelectedItem).Value.ToString();
+            int.TryParse(strBaud, out serialValueData.baud);
+
+            string strParity = ((ComboboxItem)comboBox_Parity.SelectedItem).Value.ToString();
+            int.TryParse(strParity, out serialValueData.Parity);
+
+            string strDatabit = ((ComboboxItem)comboBox_Databit.SelectedItem).Value.ToString();
+            int.TryParse(strDatabit, out serialValueData.dataBit);
+
+            string strStopbit = ((ComboboxItem)comboBox_StopBit.SelectedItem).Value.ToString();
+            int.TryParse(strStopbit, out serialValueData.stopBit);
+
+
+            if(radioButton1.Checked)
+            {
+                serialValueData.rsMode = (int)SerialMode.RS485;
+                //极化电阻
+                var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
+                foreach(var value in list)
+                {
+                    if(value.value == serialValueData.rsMode.ToString())
+                    {
+                        serialValueData.polR = serialValueData.rsMode;
+                    }
+                }
+
+            }
+            else if(radioButton2.Checked)
+            {
+                serialValueData.rsMode = (int)SerialMode.RS232;
+                //极化电阻
+                var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
+                foreach (var value in list)
+                {
+                    if (value.value == serialValueData.rsMode.ToString())
+                    {
+                        serialValueData.polR = serialValueData.rsMode;
+                    }
+                }
+            }
+
 
         }
 
@@ -141,7 +188,7 @@ namespace LocalPLC.Base
                                                             {
                                                                 if (pol.value == medium.value)
                                                                 {
-                                                                    textBox1.Text = pol.name;
+                                                                    textBox_Pol.Text = pol.name;
                                                                 }
                                                             }
                                                         }
@@ -168,7 +215,7 @@ namespace LocalPLC.Base
                                                 {
                                                     if (pol.value == serialValueData.polR.ToString())
                                                     {
-                                                        textBox1.Text = pol.name;
+                                                        textBox_Pol.Text = pol.name;
                                                     }
                                                 }
                                             }

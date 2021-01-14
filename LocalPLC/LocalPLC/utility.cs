@@ -820,7 +820,7 @@ namespace LocalPLC
             //UserControl1.multiprogApp.ActiveProject.Close();
             //UserControl1.multiprogApp.OpenProject(path, AdeConfirmRule.adeCrConfirm);
 
-            UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+            //UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
 
         //日志接口

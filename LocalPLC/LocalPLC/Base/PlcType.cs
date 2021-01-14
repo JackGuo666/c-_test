@@ -23,6 +23,9 @@ namespace LocalPLC.Base
         void setETHInfo(string eth);
 
         void addCommNode(TreeNode tn);
+
+        //
+        void getDataFromUI();
     }
 
     public partial class LocalPLC24P : UserControl, IWeapon
@@ -214,6 +217,40 @@ namespace LocalPLC.Base
 
         }
 
+        enum COLUMN_DI{ USED, VARNAME, FITERTIME, CHANNELNAME, ADDRESS, NOTE};
+        enum COLUMN_DO { USED, VARNAME, CHANNELNAME, ADDRESS, NOTE };
+        public void getDataFromUI()
+        {
+            var listDI = UserControlBase.dataManage.diList;
+
+            int row = 0;
+            foreach (DataRow dr in di.dtData.Rows)
+            {
+                listDI[row].used = bool.Parse(dr[(int)COLUMN_DI.USED].ToString());
+                listDI[row].varName = dr[(int)COLUMN_DI.VARNAME].ToString();
+                listDI[row].filterTime = int.Parse(dr[(int)COLUMN_DI.FITERTIME].ToString());
+                listDI[row].channelName = dr[(int)COLUMN_DI.CHANNELNAME].ToString();
+                listDI[row].address = dr[(int)COLUMN_DI.ADDRESS].ToString();
+                listDI[row].note = dr[(int)COLUMN_DI.NOTE].ToString();
+
+                row++;
+            }
+
+            var listDO = UserControlBase.dataManage.doList;
+            row = 0;
+            foreach (DataRow dr in dout.dtData.Rows)
+            {
+                listDO[row].used = bool.Parse(dr[(int)COLUMN_DO.USED].ToString());
+                listDO[row].varName = dr[(int)COLUMN_DO.VARNAME].ToString();
+                listDO[row].channelName = dr[(int)COLUMN_DO.CHANNELNAME].ToString();
+                listDO[row].address = dr[(int)COLUMN_DO.ADDRESS].ToString();
+                listDO[row].note = dr[(int)COLUMN_DO.NOTE].ToString();
+
+                row++;
+            }
+        }
+
+   
         public void setDOInfo(string name)
         {
             //pic2Selected = true;

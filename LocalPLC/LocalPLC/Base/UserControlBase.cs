@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LocalPLC.Base.xml;
+using System.Xml;
 
 namespace LocalPLC.Base
 {
@@ -15,7 +16,7 @@ namespace LocalPLC.Base
     {
         public List<UserControl> PlcTypeArr = new List<UserControl>();
         LocalPLC24P curPlcType = null;
-        IWeapon curWeaponType = null;
+        public IWeapon curWeaponType = null;
         //动态创建串口网口控件
         public Dictionary<string, UserControlCom> comDic = new Dictionary<string, UserControlCom>();
         public Dictionary<string, UserControlEth> ethDic = new Dictionary<string, UserControlEth>();
@@ -28,6 +29,64 @@ namespace LocalPLC.Base
         public UserControlBase() 
         {
             InitializeComponent();
+        }
+
+        public void saveXml(ref XmlElement elem, ref XmlDocument doc)
+        {
+            XmlElement elemDI = doc.CreateElement("DI");
+            elemDI.SetAttribute("name", "DI");
+            elem.AppendChild(elemDI);
+
+            //DI数据datatable到data manage
+            curWeaponType.getDataFromUI();
+            foreach(var di in dataManage.diList)
+            {
+                XmlElement elem_di = doc.CreateElement("elem");
+                elem_di.SetAttribute("used", di.used.ToString());
+                elem_di.SetAttribute("varname", di.varName);
+                elem_di.SetAttribute("fitertime", di.filterTime.ToString());
+                elem_di.SetAttribute("channelname", di.channelName.ToString());
+                elem_di.SetAttribute("address", di.address);
+                elem_di.SetAttribute("note", di.note);
+
+                elemDI.AppendChild(elem_di);
+            }
+
+            XmlElement elemDO = doc.CreateElement("DO");
+            elemDO.SetAttribute("name", "DO");
+            elem.AppendChild(elemDO);
+            foreach (var dout in dataManage.doList)
+            {
+                XmlElement elem_dout = doc.CreateElement("elem");
+                elem_dout.SetAttribute("used", dout.used.ToString());
+                elem_dout.SetAttribute("varname", dout.varName);
+                elem_dout.SetAttribute("channelname", dout.channelName.ToString());
+                elem_dout.SetAttribute("address", dout.address);
+                elem_dout.SetAttribute("note", dout.note);
+
+                elemDO.AppendChild(elem_dout);
+            }
+
+            XmlElement elemSerial = doc.CreateElement("Serial");
+            elemSerial.SetAttribute("name", "Serial");
+            elem.AppendChild(elemSerial);
+            foreach (var comUI in comDic)
+            {
+                comUI.Value.getDataFromUI();
+                if(dataManage.serialDic.ContainsKey(comUI.Key))
+                {
+                    dataManage.serialDic[comUI.Key] = comUI.Value.serialValueData;
+                    XmlElement elem_serialChid = doc.CreateElement("elem");
+                    elem_serialChid.SetAttribute("name", dataManage.serialDic[comUI.Key].name);
+                    elem_serialChid.SetAttribute("baud", dataManage.serialDic[comUI.Key].baud.ToString());
+                    elem_serialChid.SetAttribute("parity", dataManage.serialDic[comUI.Key].Parity.ToString());
+                    elem_serialChid.SetAttribute("databit", dataManage.serialDic[comUI.Key].dataBit.ToString());
+                    elem_serialChid.SetAttribute("stopbit", dataManage.serialDic[comUI.Key].stopBit.ToString());
+                    elem_serialChid.SetAttribute("polr", dataManage.serialDic[comUI.Key].polR.ToString());
+
+                    elemSerial.AppendChild(elem_serialChid);
+                }
+            }
         }
 
         public void getTreeView(TreeView view)

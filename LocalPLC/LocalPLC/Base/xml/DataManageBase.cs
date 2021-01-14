@@ -178,7 +178,7 @@ namespace LocalPLC.Base.xml
         public int baud = 19200;
         public int Parity = 2;
         public int rsMode = 1;//Medium //232 0    485 1
-        public int modPol = 0; 
+        //public int modPol = 0; 
         public int dataBit = 8;
         public int stopBit = 1;
 

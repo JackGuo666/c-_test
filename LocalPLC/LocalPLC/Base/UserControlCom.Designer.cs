@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_Pol = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -49,7 +49,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.textBox_Pol);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
@@ -72,13 +72,13 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "串口配置";
             // 
-            // textBox1
+            // textBox_Pol
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(312, 354);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(81, 28);
-            this.textBox1.TabIndex = 6;
+            this.textBox_Pol.Enabled = false;
+            this.textBox_Pol.Location = new System.Drawing.Point(312, 354);
+            this.textBox_Pol.Name = "textBox_Pol";
+            this.textBox_Pol.Size = new System.Drawing.Size(81, 28);
+            this.textBox_Pol.TabIndex = 6;
             // 
             // label6
             // 
@@ -227,7 +227,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_Com;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_Pol;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
