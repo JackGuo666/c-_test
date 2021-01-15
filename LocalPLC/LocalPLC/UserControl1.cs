@@ -55,6 +55,8 @@ namespace LocalPLC
 
             UC.Parent = this;
             UC.getTreeView(treeView1);
+            UC.getParent(this);
+
 
             return;
          }
@@ -160,7 +162,6 @@ namespace LocalPLC
             multiprogApp.AdviseVariableObserver2(this, (int)AdeVariableAction.adeVaChange,SafeArrayOfObjectType);
 
 			multiprogApp.AdviseCompileExtension(this, AdeObjectType.adeOtProject);
-            
         }
 
         void IAdeAddIn.OnDisconnection(AdeDisconnectMode RemoveMode, ref Array Custom)
@@ -200,6 +201,10 @@ namespace LocalPLC
             string path = projectPath + "\\" + projectName + "\\" + "config_project.xml";
 
             clean();
+
+
+            //multiprogApp获得后才可以得到运行路径
+            UC.createControler("LocalPLC24P");
             try
             {
                 xDoc.Load(path);
@@ -272,7 +277,27 @@ namespace LocalPLC
       
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if(!multiprogApp.IsProjectOpen())
+            {
+                MessageBox.Show("请先打开工程!");
+                return;
+            }
+
             string name = e.Node.Text.ToString();
+            if(e.Node.Tag != null)
+            {
+                //动态创建节点
+                if(e.Node.Tag.ToString() == "SERIAL_LINE")
+                {
+                    //显示串口信息
+                    UC.setCOMShow(name);
+                }
+                else if(e.Node.Tag.ToString() == "ETHERNET")
+                {
+                    UC.setETHShow(name);
+                }
+            }
+
             if (name == "Modbus")
             {
                 //e1.Show();

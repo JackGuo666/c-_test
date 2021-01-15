@@ -45,7 +45,7 @@ namespace LocalPLC.Base.xml
     {
         public string name;
         public string value;
-        public int defaultValue;
+        public /*int*/ string defaultValue;
         public string type;
     }
 
@@ -73,12 +73,22 @@ namespace LocalPLC.Base.xml
     }
     public  class Connector
     {
+        public void clear()
+        {
+            moduleList.Clear();
+        }
+
         public string connectorId;
 
         public List<DeviceModuleElem> moduleList = new List<DeviceModuleElem>();
     }
     public class DeviceInfoElem
     {
+        public void clear()
+        {
+            connector.clear();
+        }
+
         public string vendorId;
 
         public string name;
@@ -108,6 +118,8 @@ namespace LocalPLC.Base.xml
         public string paraID;
         public string type;
         public string parameterName;
+
+        public string defaultValue = "";
     }
 
     public class ConnectorModules
@@ -131,14 +143,76 @@ namespace LocalPLC.Base.xml
 
     public class Modules
     {
+        public void clear()
+        {
+            list.Clear();
+        }
         public List<ModuleElemModules> list = new List<ModuleElemModules>();
     }
 
     #endregion
 
+    public class DOData
+    {
+        public bool used = false;
+        public string varName = "";
+        public string channelName = "";
+        public string address = "";
+        public string note = "";
+    }
+
+
+    public class DIData
+    {
+        public bool used = false;
+        public string varName = "";
+        public int filterTime = 3;
+        public string channelName = "";
+        public string address = "";
+        public string note = "";
+    }
+
+    public class SERIALData
+    {
+        public string name = "";
+        public int baud = 19200;
+        public int Parity = 2;
+        public int rsMode = 1;//Medium //232 0    485 1
+        public int modPol = 0; 
+        public int dataBit = 8;
+        public int stopBit = 1;
+
+        public int polR = 1;
+    }
+
+    public class ETHERNETData
+    {
+        public string name = "";    //网口名
+        public int ipMode = 0;          //0-固定IP地址  1-DHCP分配IP地址
+        public string ipAddress = "0.0.0.0";
+        public string maskAddress = "0.0.0.0";
+        public string gatewayAddress = "0.0.0.0";
+
+        //SNTP服务器
+        public int checkSNTP = 0;
+        public string sntpServerIp = "0.0.0.0";
+    }
 
     public class DataManageBase
     {
+        public void clear()
+        {
+            dicBitfield.Clear();
+            dicEnum.Clear();
+            dicStruct.Clear();
+            deviceInfoElem.clear();
+            modules.clear();
+            doList.Clear();
+            diList.Clear();
+            serialDic.Clear();
+            ethernetDic.Clear();
+        }
+
         //DI DO
         public Dictionary<string, BitfieldType> dicBitfield = new Dictionary<string, BitfieldType>();
 
@@ -152,5 +226,16 @@ namespace LocalPLC.Base.xml
 
         //
         public Modules modules = new Modules();
+
+
+
+        //do数据结构
+        public List<DOData> doList = new List<DOData>();
+
+        //di数据结构
+        public List<DIData> diList = new List<DIData>();
+
+        public Dictionary<string, SERIALData> serialDic = new Dictionary<string, SERIALData>();
+        public Dictionary<string, ETHERNETData> ethernetDic = new Dictionary<string, ETHERNETData>();
     }
 }

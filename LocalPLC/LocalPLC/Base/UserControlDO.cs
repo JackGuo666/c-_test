@@ -58,18 +58,32 @@ namespace LocalPLC.Base
                 int count = 0;
                 foreach(var elem in value.list)
                 {
+                    xml.DOData diData = new xml.DOData();
+
                     DataRow drData;
                     drData = dtData.NewRow();
-                    drData[0] = 0;
-                    drData[1] = "";
-                    drData[2] = elem.name;
+                    diData.used = false;
+                    drData[0] = diData.used;
+
+                    diData.varName = "";
+                    drData[1] = diData.varName;
+
+                    diData.channelName = elem.name;
+                    drData[2] = diData.channelName;
+
                     string ioAddress = string.Format("%QX{0}.{1}", ConstVariable.DOADDRESSIO
                         , count);
-                    drData[3] = ioAddress;
-                    drData[4] = "";
+                    diData.address = ioAddress;
+                    drData[3] = diData.address;
+
+                    diData.note = "";
+                    drData[4] = diData.note;
                     //drData[4] = "0";    //滤波
                     //drData[5] = "注释1";
                     dtData.Rows.Add(drData);
+
+                    UserControlBase.dataManage.doList.Add(diData);
+
 
                     count++;
                 }

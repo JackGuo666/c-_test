@@ -24,6 +24,9 @@ namespace LocalPLC.Base.xml
             }
 
             dataManage_ = dataManage;
+            //清除之前加载的数据
+            dataManage_.clear();
+
 
             string path = UserControl1.multiprogApp.Path;
             string projectPath = UserControl1.multiprogApp.ActiveProject.Path;
@@ -175,7 +178,8 @@ namespace LocalPLC.Base.xml
                                 string nameChild1 = xnChild1.Name;
                                 if (nameChild1 == "Default")
                                 {
-                                     int.TryParse(elemChild1.InnerText, out structElem.defaultValue);
+                                    //int.TryParse(elemChild1.InnerText, out structElem.defaultValue);
+                                    structElem.defaultValue = elemChild1.InnerText;
                                 }
                                 else if (nameChild1 == "VisibleName")
                                 {
@@ -365,6 +369,16 @@ namespace LocalPLC.Base.xml
                     dataManage_.modules.list.Add(moduleElemModules);
                 }
             }
+        }
+
+        public static string IntToIp(long ipInt)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append((ipInt >> 24) & 0xFF).Append(".");
+            sb.Append((ipInt >> 16) & 0xFF).Append(".");
+            sb.Append((ipInt >> 8) & 0xFF).Append(".");
+            sb.Append(ipInt & 0xFF);
+            return sb.ToString();
         }
     }
 

@@ -19,11 +19,13 @@ namespace LocalPLC.Base
         void setDOInfo(string name);
         void setHighInputInfo(string name);
         void setHighOutputInfo(string name);
+        void setCOMInfo(string name);
+        void setETHInfo(string eth);
 
         void addCommNode(TreeNode tn);
     }
 
-    public partial class PlcType : UserControl, IWeapon
+    public partial class LocalPLC24P : UserControl, IWeapon
     {
         bool pic2Selected = false;
         bool pic3Selected = false;
@@ -44,36 +46,54 @@ namespace LocalPLC.Base
 
 
         //动态添加不带参数构造函数
-        public PlcType()
+        public LocalPLC24P()
         {
 
         }
 
-        public PlcType(SplitContainer splitContainer, UserControlBase userBase
+        UserControlBase userBase_ = null;
+        public LocalPLC24P(SplitContainer splitContainer, UserControlBase userBase
             , DataManageBase dataManage) 
         {
-            InitializeComponent();
-            split = splitContainer;
+            try
+            {
+                //控制器类型
+                this.Tag = 0;
 
-            UserControl1 us1 = (UserControl1)userBase.Parent.Parent;
-            myDelegate = new DoSomethingEventHandler(us1.DoSomething);
+                InitializeComponent();
+                split = splitContainer;
+                userBase_ = userBase;
+                UserControl1 us1 = (UserControl1)userBase.parent_;
+                myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
-            pictureBox2.Parent = pictureBox1;
-            pictureBox3.Parent = pictureBox1;
+                pictureBox2.Parent = pictureBox1;
+                pictureBox3.Parent = pictureBox1;
 
-            pictest1.Parent = pictureBox1;
-            pictest2.Parent = pictureBox1;
-            pictest3.Parent = pictureBox1;
-            pictest4.Parent = pictureBox1;
+                pictest1.Parent = pictureBox1;
+                pictest2.Parent = pictureBox1;
+                Serial_Line_1.Parent = pictureBox1;
+                Serial_Line_1.Tag = "Serial_Line_1";
+                Ethernet_1.Parent = pictureBox1;
+                Ethernet_1.Tag = "Ethernet_1";
 
-            //key value
-            //com1 comobject 从配置文件读
-            picArray.Add("本体COM1", pictest3);
-            picArray.Add("本体ETH1", pictest4);
-            picArray.Add("DO", pictest1);
-            picArray.Add("DI", pictest2);
+                Serial_Line_2.Parent = pictureBox1;
+                Serial_Line_2.Tag = "Serial_Line_2";
 
-            initDIDO();
+                //key value
+                //com1 comobject 从配置文件读
+                picArray.Add("Serial_Line_1", Serial_Line_1);
+                picArray.Add("Serial_Line_2", Serial_Line_2);
+                picArray.Add("Ethernet_1", Ethernet_1);
+                picArray.Add("DO", pictest1);
+                picArray.Add("DI", pictest2);
+
+                initDIDO();
+            }
+            catch
+            {
+
+
+            }
         }
 
 
@@ -86,6 +106,8 @@ namespace LocalPLC.Base
             //
             hout.initData();
             hi.initData();
+
+            //com.
 
         }
 
@@ -229,21 +251,24 @@ namespace LocalPLC.Base
         //name就是key，本体COM1，本体COM2等
         public void setCOMInfo(string name)
         {
-            UserControlCom com = new UserControlCom(name);
-            //if (!split.Panel2.Controls.Contains(com))
+            if(userBase_.comDic.ContainsKey(name))
             {
-                split.Panel2.Controls.Clear();
-                com.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(com);
+                UserControlCom com = /*new UserControlCom(name)*/ userBase_.comDic[name];
+                if (!split.Panel2.Controls.Contains(com))
+                {
+                    split.Panel2.Controls.Clear();
+                    com.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(com);
 
-                setShow(name, picArray);
+                    setShow(name, picArray);
 
-                //if(picArray.ContainsKey(name))
-                //{
-                //    picArray[name].SetAllFlagFalse();
-                //    picArray[name].SetSelectedFlag(true);
-                //    picArray[name].Refresh();
-                //}
+                    //if(picArray.ContainsKey(name))
+                    //{
+                    //    picArray[name].SetAllFlagFalse();
+                    //    picArray[name].SetSelectedFlag(true);
+                    //    picArray[name].Refresh();
+                    //}
+                }
             }
         }
 
@@ -273,21 +298,24 @@ namespace LocalPLC.Base
 
         public void setETHInfo(string name)
         {
-            UserControlEth eth = new UserControlEth(name);
-            //if (!split.Panel2.Controls.Contains(com))
+            if(userBase_.ethDic.ContainsKey(name))
             {
-                split.Panel2.Controls.Clear();
-                eth.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(eth);
+                UserControlEth eth = userBase_.ethDic[name]; ;
+                if (!split.Panel2.Controls.Contains(eth))
+                {
+                    split.Panel2.Controls.Clear();
+                    eth.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(eth);
 
-                setShow(name, picArray);
+                    setShow(name, picArray);
 
-                //if (picArray.ContainsKey(name))
-                //{
-                //    picArray[name].SetAllFlagFalse();
-                //    picArray[name].SetSelectedFlag(true);
-                //    picArray[name].Invalidate();
-                //}
+                    //if (picArray.ContainsKey(name))
+                    //{
+                    //    picArray[name].SetAllFlagFalse();
+                    //    picArray[name].SetSelectedFlag(true);
+                    //    picArray[name].Invalidate();
+                    //}
+                }
             }
         }
 
@@ -526,33 +554,41 @@ namespace LocalPLC.Base
         }
 
         //显示串口信息
-        UserControlCom com = new UserControlCom(null);
+        //UserControlCom com = new UserControlCom(null);
         private void pictest3_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (!split.Panel2.Controls.Contains(com))
+            pictest pic = (pictest)sender;
+            
+            if(userBase_.comDic.ContainsKey(pic.Tag.ToString()))
             {
-                split.Panel2.Controls.Clear();
-                com.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(com);
-            }
+                var com = userBase_.comDic[pic.Tag.ToString()];
+                if (!split.Panel2.Controls.Contains(com))
+                {
+                    split.Panel2.Controls.Clear();
+                    com.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(com);
+                }
 
-            //从配置文件读取的值
-            myDelegate("本体COM1");
+                //从配置文件读取的值
+                myDelegate(pic.Tag.ToString());
+            }
         }
 
         //网口信息
-        UserControlEth eth = new UserControlEth(null);
+        //UserControlEth eth = new UserControlEth(null);
         private void pictest4_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (!split.Panel2.Controls.Contains(eth))
+            pictest pic = (pictest)sender;
+            if (userBase_.ethDic.ContainsKey(pic.Tag.ToString()))
             {
+                var eth = userBase_.ethDic[pic.Tag.ToString()];
                 split.Panel2.Controls.Clear();
                 eth.Dock = DockStyle.Fill;
                 split.Panel2.Controls.Add(eth);
             }
 
             //从配置文件读取的值
-            myDelegate("本体ETH1");
+            myDelegate(pic.Tag.ToString());
         }
     }
 }
