@@ -135,7 +135,10 @@ namespace LocalPLC.ModbusServer
                 data.ID = row;
                 dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
-
+                if (row > 1)
+                {
+                    data.dataDevice_.shmrange = serverDataManager.listServer[row - 1].dataDevice_.shmrange + serverDataManager.listServer[row - 1].dataDevice_.shmlength;
+                }
                 serverDataManager.listServer.Add(data);
             }
         }
@@ -216,17 +219,70 @@ namespace LocalPLC.ModbusServer
         public void saveJson(JsonTextWriter writer)
         {
             //添加modbusserver节点
-            writer.WritePropertyName("mbtcp_server");
+            writer.WritePropertyName("mb_slave");
             writer.WriteStartObject();//添加{  server节点
-            writer.WritePropertyName("number");
-            writer.WriteValue(serverDataManager.listServer.Count);//number
-                writer.WritePropertyName("conf");
-                writer.WriteStartArray();//[ server节点下conf数组
+            //writer.WritePropertyName("number");
+            //writer.WriteValue(serverDataManager.listServer.Count);//number
+                //writer.WritePropertyName("conf");
+                //writer.WriteStartArray();//[ server节点下conf数组
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
             {
                 ModbusServerData data = serverDataManager.listServer[i];
-                
-                writer.WriteStartObject();//{ server节点下conf数组中配置信息
+                writer.WritePropertyName("io_range");
+                writer.WriteStartObject();//{ server节点io_range
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.IOAddrRange);
+                writer.WritePropertyName("bytes");
+                writer.WriteValue(data.dataDevice_.IOAddrLength);
+                writer.WriteEndObject();//} server节点下io_range
+                writer.WritePropertyName("shm_range");
+                writer.WriteStartObject();//{ server节点shm_range
+                writer.WritePropertyName("start");
+                writer.WriteValue(data.dataDevice_.shmrange);
+                writer.WritePropertyName("bytes");
+                writer.WriteValue(data.dataDevice_.shmlength);
+                writer.WriteEndObject();//} server节点下shm_range
+                //离散
+                writer.WritePropertyName("discrete");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INPUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.decreteCount);
+                writer.WriteEndObject();
+                //线圈
+                writer.WritePropertyName("coils");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INOUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.shmrange));
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.coilCount);
+                writer.WriteEndObject();
+                //状态
+                writer.WritePropertyName("regs");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INPUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.statusCount);
+                writer.WriteEndObject();
+                //保持
+                writer.WritePropertyName("holding");
+                writer.WriteStartObject();
+                writer.WritePropertyName("addr_type");
+                writer.WriteValue("IO_INOUT");
+                writer.WritePropertyName("start");
+                writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
+                writer.WritePropertyName("num");
+                writer.WriteValue(data.dataDevice_.holdingCount);
+                writer.WriteEndObject();//}
+
                 writer.WritePropertyName("port");                
                 writer.WriteValue("ethif_"+ data.ID.ToString());                
                 bool ipfixed = false;
@@ -262,50 +318,11 @@ namespace LocalPLC.ModbusServer
                 writer.WritePropertyName("bytes");
                 writer.WriteValue(data.dataDevice_.IOAddrLength);
                 writer.WriteEndObject();
-                //离散
-                writer.WritePropertyName("discrete");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INPUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.decreteCount);
-                writer.WriteEndObject();
-                //线圈
-                writer.WritePropertyName("coils");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INOUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.coilIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.coilCount);
-                writer.WriteEndObject();
-                //状态
-                writer.WritePropertyName("regs");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INPUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.statusCount);
-                writer.WriteEndObject();
-                //保持
-                writer.WritePropertyName("holding");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INOUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.holdingCount);
-                writer.WriteEndObject();//}
-                writer.WriteEndObject();//} server节点下conf数组中配置信息
+               
+                
                 
             }
-            writer.WriteEndArray();//] server节点下conf数组
+            //writer.WriteEndArray();//] server节点下conf数组
             writer.WriteEndObject();// 添加{  server节点
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
