@@ -90,7 +90,15 @@ namespace LocalPLC.Base
                 picArray.Add("DO", pictest1);
                 picArray.Add("DI", pictest2);
 
-                initDIDO();
+                if(!dataManage.newControlerFlag)
+                {
+                    //refreshData();
+                }
+                else
+                {
+                    initDIDO();
+                }
+
             }
             catch
             {
@@ -99,6 +107,10 @@ namespace LocalPLC.Base
             }
         }
 
+        public void refreshData()
+        {
+            di.refreshData();
+        }
 
         void initDIDO()
         {
@@ -280,6 +292,7 @@ namespace LocalPLC.Base
 
             split.Panel2.Controls.Clear();
             di.Dock = DockStyle.Fill;
+            //di.refreshData();
             split.Panel2.Controls.Add(di);
 
             setShow(name, picArray);

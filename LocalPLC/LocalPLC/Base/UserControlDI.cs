@@ -68,6 +68,26 @@ namespace LocalPLC.Base
             }
         }
 
+        public void refreshData()
+        {
+            dtData.Clear();
+            foreach (var diData in UserControlBase.dataManage.diList)
+            {
+                DataRow drData;
+                drData = dtData.NewRow();
+
+                drData[0] = diData.used;
+                drData[1] = diData.varName;
+                drData[2] = diData.filterTime;  //单位ms
+                drData[3] = diData.channelName;
+                drData[4] = diData.address;
+                drData[5] = diData.note;
+                //drData[5] = "注释1";
+
+                dtData.Rows.Add(drData);
+            }
+        }
+
         /// <summary>
         /// 绑定性别下拉列表框
         /// </summary>

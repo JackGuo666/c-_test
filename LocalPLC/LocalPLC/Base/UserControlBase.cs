@@ -31,6 +31,33 @@ namespace LocalPLC.Base
             InitializeComponent();
         }
 
+        public void loadXml(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                DIData diData = new DIData();
+                string name = e.Name;
+                string used = e.GetAttribute("used");
+                bool.TryParse(used, out diData.used);
+                string varName = e.GetAttribute("varname");
+                diData.varName = varName;
+                string filterName = e.GetAttribute("fitertime");
+                int.TryParse(filterName, out diData.filterTime);
+                string channelName = e.GetAttribute("channelname");
+                diData.channelName = channelName;
+                string address = e.GetAttribute("address");
+                diData.address = address;
+                string note = e.GetAttribute("note");
+                diData.note = note;
+
+                UserControlBase.dataManage.diList.Add(diData);
+
+            }
+        }
+
+
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elemDI = doc.CreateElement("DI");
@@ -243,8 +270,35 @@ namespace LocalPLC.Base
             }
         }
 
+        public void createControlerConfigured(string PLCType)
+        {
+            dataManage.newControlerFlag = false;
+
+            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(PLCType, dataManage);
+
+            string tmp = string.Format("LocalPLC.Base.{0}", PLCType);
+            Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
+            //object obj = type.Assembly.CreateInstance(type);
+            UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
+
+
+            //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
+            curPlcType = (LocalPLC24P)user1;
+            curWeaponType = user1 as IWeapon;
+            user1.Parent = this;
+            PlcTypeArr.Add(user1);
+            splitContainer2.Panel1.Controls.Add(user1);
+            user1.Location = new System.Drawing.Point(PlcTypeArr.Count * user1.Width, 0);
+            user1.Name = PLCType;
+            //user1.Dock = DockStyle.Fill;
+            //user1.Size = new System.Drawing.Size(41, 12);
+            user1.TabIndex = 0;
+        }
+
         public void createControler(string defaultPLCType)
         {
+            dataManage.newControlerFlag = true;
+
             string localPLCType = defaultPLCType;
             LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
 
@@ -288,6 +342,7 @@ namespace LocalPLC.Base
                 return;
             }
 
+            dataManage.newControlerFlag = true;
             object item = e.Data.GetData("Test");
 
             foreach(Control control in splitContainer2.Panel1.Controls)

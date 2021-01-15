@@ -200,6 +200,8 @@ namespace LocalPLC.Base.xml
 
     public class DataManageBase
     {
+        public bool newControlerFlag = false;
+
         public void clear()
         {
             dicBitfield.Clear();
