@@ -87,6 +87,29 @@ namespace LocalPLC.Base
                     elemSerial.AppendChild(elem_serialChid);
                 }
             }
+
+
+
+            XmlElement elemEthnet = doc.CreateElement("Ethnet");
+            elemEthnet.SetAttribute("name", "Ethnet");
+            elem.AppendChild(elemEthnet);
+            foreach (var etherUI in ethDic)
+            {
+                etherUI.Value.getDataFromUI();
+                if (dataManage.ethernetDic.ContainsKey(etherUI.Key))
+                {
+                    dataManage.ethernetDic[etherUI.Key] = etherUI.Value.ethernetValueData;
+                    XmlElement ethernetChild = doc.CreateElement("elem");
+                    ethernetChild.SetAttribute("name", dataManage.ethernetDic[etherUI.Key].name);
+                    ethernetChild.SetAttribute("ipmode", dataManage.ethernetDic[etherUI.Key].ipMode.ToString());
+                    ethernetChild.SetAttribute("maskaddress", dataManage.ethernetDic[etherUI.Key].maskAddress.ToString());
+                    ethernetChild.SetAttribute("gatewayaddress", dataManage.ethernetDic[etherUI.Key].gatewayAddress.ToString());
+                    ethernetChild.SetAttribute("checksntp", dataManage.ethernetDic[etherUI.Key].checkSNTP.ToString());
+                    ethernetChild.SetAttribute("sntpserverip", dataManage.ethernetDic[etherUI.Key].sntpServerIp.ToString());
+
+                    elemEthnet.AppendChild(ethernetChild);
+                }
+            }
         }
 
         public void getTreeView(TreeView view)

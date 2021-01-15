@@ -908,12 +908,12 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 //utility.addVarType1();
                 //utility.checkvariables();
                 utility.addVariables();
-            
+
                 multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
             }
             //else
             //{
-                utility.PrintError("请检查相关配置是否正确");
+                //utility.PrintError("请检查相关配置是否正确");
             //}
         }
         public  int a = 0;

@@ -13,42 +13,103 @@ namespace LocalPLC.Base
 {
     public partial class UserControlEth : UserControl
     {
-        ETHERNETData ethernetValueData = new ETHERNETData();
+        public ETHERNETData ethernetValueData = new ETHERNETData();
         string etherName = "";
         public UserControlEth(string name)
         {
             InitializeComponent();
             etherName = name;
-            var v = ipAddressControl1.IPAddress;
+            var v = ipAddressControl_ipaddr.IPAddress;
 
 
 
             init();
             //数据管理里的网口数组 LocalPLC一般是1个网口
-            UserControlBase.dataManage.ethernetDic.Clear();
             UserControlBase.dataManage.ethernetDic.Add(etherName, ethernetValueData);
 
             var s = "0.0.0.0";
             string maskAddress = "0.0.0.0";
             //IP
-            ipAddressControl1.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.ipAddress);
+            ipAddressControl_ipaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.ipAddress);
             //mask
-            ipAddressControl2.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.maskAddress);
+            ipAddressControl_maskaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.maskAddress);
             //gateway
-            ipAddressControl3.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
+            ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
             //sntp
-            ipAddressControl4.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
+            ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
 
             //0 dhcp    1固定
             if(ethernetValueData.ipMode == 0)
             {
-                radioButton1.Checked = true;
-                radioButton3.Checked = false;
+                radioButton_dhcp.Checked = true;
+                radioButton_fixed.Checked = false;
             }
 
-            checkBox1.Checked = false;
-            textBox1.Text = etherName;
+            checkBox_SNTP.Checked = false;
+            textBox_eth.Text = etherName;
         }
+
+        enum EthernetMode { FIXED, DHCP };
+        public void getDataFromUI()
+        {
+            System.Net.IPAddress ip;
+            ethernetValueData.name = textBox_eth.Text.ToString();
+            if (radioButton_dhcp.Checked)
+            {
+                ethernetValueData.ipMode = (int)EthernetMode.DHCP;
+            }
+            else if (radioButton_fixed.Checked)
+            {
+                ethernetValueData.ipMode = (int)EthernetMode.FIXED;
+            }
+
+            ethernetValueData.ipAddress = ipAddressControl_ipaddr.Text.ToString();
+            ethernetValueData.maskAddress = ipAddressControl_maskaddr.Text.ToString();
+            ethernetValueData.gatewayAddress = ipAddressControl_gateway.Text.ToString();
+            ethernetValueData.sntpServerIp = ipAddressControl_sntpaddr.Text.ToString();
+
+            if(!System.Net.IPAddress.TryParse(ethernetValueData.ipAddress, out ip))
+            {
+                string str = string.Format("{0} IPAddress 无效!", ethernetValueData.name);
+                utility.PrintError(str);
+            }
+
+            if (!System.Net.IPAddress.TryParse(ethernetValueData.maskAddress, out ip))
+            {
+                string str = string.Format("{0} IP Address 无效!", ethernetValueData.name);
+                utility.PrintError(str);
+            }
+
+            if (!System.Net.IPAddress.TryParse(ethernetValueData.maskAddress, out ip))
+            {
+                string str = string.Format("{0} Mask Address 无效!", ethernetValueData.name);
+                utility.PrintError(str);
+            }
+
+            if (!System.Net.IPAddress.TryParse(ethernetValueData.gatewayAddress, out ip))
+            {
+                string str = string.Format("{0} Gateway Address 无效!", ethernetValueData.name);
+                utility.PrintError(str);
+            }
+
+            if(checkBox_SNTP.Checked)
+            {
+                ethernetValueData.checkSNTP = 1;
+            }
+            else
+            {
+                ethernetValueData.checkSNTP = 0;
+            }
+
+            
+            if (!System.Net.IPAddress.TryParse(ethernetValueData.sntpServerIp, out ip))
+            {
+                string str = string.Format("{0} sntp Address 无效!", ethernetValueData.name);
+                utility.PrintError(str);
+            }
+
+        }
+
 
         void init()
         {
@@ -140,7 +201,7 @@ namespace LocalPLC.Base
             Encoding gb = Encoding.GetEncoding("gbk");
             Encoding b5 = Encoding.GetEncoding("big5");
 
-            byte[] tttbytes = gb.GetBytes(textBox1.Text);
+            byte[] tttbytes = gb.GetBytes(textBox_eth.Text);
 
 
             //转换得到4种编码的字节流  
@@ -152,7 +213,7 @@ namespace LocalPLC.Base
 
             //gdb编码字符串转换成string
             string str = System.Text.Encoding.Default.GetString(gbytes);
-            if(textBox1.Text != str)
+            if(textBox_eth.Text != str)
             {
                 //textBox1.Text = str;
             }

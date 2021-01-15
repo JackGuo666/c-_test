@@ -29,43 +29,53 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox_SNTP = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.ipAddressControl4 = new IPAddressControlLib.IPAddressControl();
-            this.ipAddressControl3 = new IPAddressControlLib.IPAddressControl();
-            this.ipAddressControl2 = new IPAddressControlLib.IPAddressControl();
-            this.ipAddressControl1 = new IPAddressControlLib.IPAddressControl();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.radioButton_fixed = new System.Windows.Forms.RadioButton();
+            this.radioButton_dhcp = new System.Windows.Forms.RadioButton();
+            this.ipAddressControl_sntpaddr = new IPAddressControlLib.IPAddressControl();
+            this.ipAddressControl_gateway = new IPAddressControlLib.IPAddressControl();
+            this.ipAddressControl_maskaddr = new IPAddressControlLib.IPAddressControl();
+            this.ipAddressControl_ipaddr = new IPAddressControlLib.IPAddressControl();
+            this.textBox_eth = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.checkBox1);
+            this.panel1.Controls.Add(this.checkBox_SNTP);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.radioButton3);
-            this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Controls.Add(this.ipAddressControl4);
-            this.panel1.Controls.Add(this.ipAddressControl3);
-            this.panel1.Controls.Add(this.ipAddressControl2);
-            this.panel1.Controls.Add(this.ipAddressControl1);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.radioButton_fixed);
+            this.panel1.Controls.Add(this.radioButton_dhcp);
+            this.panel1.Controls.Add(this.ipAddressControl_sntpaddr);
+            this.panel1.Controls.Add(this.ipAddressControl_gateway);
+            this.panel1.Controls.Add(this.ipAddressControl_maskaddr);
+            this.panel1.Controls.Add(this.ipAddressControl_ipaddr);
+            this.panel1.Controls.Add(this.textBox_eth);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1050, 438);
             this.panel1.TabIndex = 4;
+            // 
+            // checkBox_SNTP
+            // 
+            this.checkBox_SNTP.AutoSize = true;
+            this.checkBox_SNTP.Location = new System.Drawing.Point(182, 331);
+            this.checkBox_SNTP.Name = "checkBox_SNTP";
+            this.checkBox_SNTP.Size = new System.Drawing.Size(70, 22);
+            this.checkBox_SNTP.TabIndex = 10;
+            this.checkBox_SNTP.Text = "SNTP";
+            this.checkBox_SNTP.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -103,89 +113,100 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "IP地址";
             // 
-            // radioButton1
+            // radioButton_fixed
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(182, 111);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(159, 22);
-            this.radioButton1.TabIndex = 8;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "DHCP分配IP地址";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton_fixed.AutoSize = true;
+            this.radioButton_fixed.Location = new System.Drawing.Point(182, 151);
+            this.radioButton_fixed.Name = "radioButton_fixed";
+            this.radioButton_fixed.Size = new System.Drawing.Size(123, 22);
+            this.radioButton_fixed.TabIndex = 8;
+            this.radioButton_fixed.TabStop = true;
+            this.radioButton_fixed.Text = "固定IP地址";
+            this.radioButton_fixed.UseVisualStyleBackColor = true;
             // 
-            // ipAddressControl4
+            // radioButton_dhcp
             // 
-            this.ipAddressControl4.AllowInternalTab = false;
-            this.ipAddressControl4.AutoHeight = true;
-            this.ipAddressControl4.BackColor = System.Drawing.SystemColors.Window;
-            this.ipAddressControl4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ipAddressControl4.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ipAddressControl4.Location = new System.Drawing.Point(329, 369);
-            this.ipAddressControl4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ipAddressControl4.MinimumSize = new System.Drawing.Size(141, 28);
-            this.ipAddressControl4.Name = "ipAddressControl4";
-            this.ipAddressControl4.ReadOnly = false;
-            this.ipAddressControl4.Size = new System.Drawing.Size(246, 28);
-            this.ipAddressControl4.TabIndex = 6;
-            this.ipAddressControl4.Text = "...";
+            this.radioButton_dhcp.AutoSize = true;
+            this.radioButton_dhcp.Location = new System.Drawing.Point(182, 111);
+            this.radioButton_dhcp.Name = "radioButton_dhcp";
+            this.radioButton_dhcp.Size = new System.Drawing.Size(159, 22);
+            this.radioButton_dhcp.TabIndex = 8;
+            this.radioButton_dhcp.TabStop = true;
+            this.radioButton_dhcp.Text = "DHCP分配IP地址";
+            this.radioButton_dhcp.UseVisualStyleBackColor = true;
             // 
-            // ipAddressControl3
+            // ipAddressControl_sntpaddr
             // 
-            this.ipAddressControl3.AllowInternalTab = false;
-            this.ipAddressControl3.AutoHeight = true;
-            this.ipAddressControl3.BackColor = System.Drawing.SystemColors.Window;
-            this.ipAddressControl3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ipAddressControl3.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ipAddressControl3.Location = new System.Drawing.Point(329, 276);
-            this.ipAddressControl3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ipAddressControl3.MinimumSize = new System.Drawing.Size(141, 28);
-            this.ipAddressControl3.Name = "ipAddressControl3";
-            this.ipAddressControl3.ReadOnly = false;
-            this.ipAddressControl3.Size = new System.Drawing.Size(246, 28);
-            this.ipAddressControl3.TabIndex = 6;
-            this.ipAddressControl3.Text = "...";
+            this.ipAddressControl_sntpaddr.AllowInternalTab = false;
+            this.ipAddressControl_sntpaddr.AutoHeight = true;
+            this.ipAddressControl_sntpaddr.BackColor = System.Drawing.SystemColors.Window;
+            this.ipAddressControl_sntpaddr.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ipAddressControl_sntpaddr.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ipAddressControl_sntpaddr.Location = new System.Drawing.Point(329, 366);
+            this.ipAddressControl_sntpaddr.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ipAddressControl_sntpaddr.MinimumSize = new System.Drawing.Size(141, 28);
+            this.ipAddressControl_sntpaddr.Name = "ipAddressControl_sntpaddr";
+            this.ipAddressControl_sntpaddr.ReadOnly = false;
+            this.ipAddressControl_sntpaddr.Size = new System.Drawing.Size(246, 28);
+            this.ipAddressControl_sntpaddr.TabIndex = 6;
+            this.ipAddressControl_sntpaddr.Text = "...";
             // 
-            // ipAddressControl2
+            // ipAddressControl_gateway
             // 
-            this.ipAddressControl2.AllowInternalTab = false;
-            this.ipAddressControl2.AutoHeight = true;
-            this.ipAddressControl2.BackColor = System.Drawing.SystemColors.Window;
-            this.ipAddressControl2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ipAddressControl2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ipAddressControl2.Location = new System.Drawing.Point(329, 235);
-            this.ipAddressControl2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ipAddressControl2.MinimumSize = new System.Drawing.Size(141, 28);
-            this.ipAddressControl2.Name = "ipAddressControl2";
-            this.ipAddressControl2.ReadOnly = false;
-            this.ipAddressControl2.Size = new System.Drawing.Size(246, 28);
-            this.ipAddressControl2.TabIndex = 6;
-            this.ipAddressControl2.Text = "...";
+            this.ipAddressControl_gateway.AllowInternalTab = false;
+            this.ipAddressControl_gateway.AutoHeight = true;
+            this.ipAddressControl_gateway.BackColor = System.Drawing.SystemColors.Window;
+            this.ipAddressControl_gateway.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ipAddressControl_gateway.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ipAddressControl_gateway.Location = new System.Drawing.Point(329, 276);
+            this.ipAddressControl_gateway.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ipAddressControl_gateway.MinimumSize = new System.Drawing.Size(141, 28);
+            this.ipAddressControl_gateway.Name = "ipAddressControl_gateway";
+            this.ipAddressControl_gateway.ReadOnly = false;
+            this.ipAddressControl_gateway.Size = new System.Drawing.Size(246, 28);
+            this.ipAddressControl_gateway.TabIndex = 6;
+            this.ipAddressControl_gateway.Text = "...";
             // 
-            // ipAddressControl1
+            // ipAddressControl_maskaddr
             // 
-            this.ipAddressControl1.AllowInternalTab = false;
-            this.ipAddressControl1.AutoHeight = true;
-            this.ipAddressControl1.BackColor = System.Drawing.SystemColors.Window;
-            this.ipAddressControl1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ipAddressControl1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.ipAddressControl1.Location = new System.Drawing.Point(329, 194);
-            this.ipAddressControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.ipAddressControl1.MinimumSize = new System.Drawing.Size(141, 28);
-            this.ipAddressControl1.Name = "ipAddressControl1";
-            this.ipAddressControl1.ReadOnly = false;
-            this.ipAddressControl1.Size = new System.Drawing.Size(246, 28);
-            this.ipAddressControl1.TabIndex = 6;
-            this.ipAddressControl1.Text = "...";
+            this.ipAddressControl_maskaddr.AllowInternalTab = false;
+            this.ipAddressControl_maskaddr.AutoHeight = true;
+            this.ipAddressControl_maskaddr.BackColor = System.Drawing.SystemColors.Window;
+            this.ipAddressControl_maskaddr.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ipAddressControl_maskaddr.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ipAddressControl_maskaddr.Location = new System.Drawing.Point(329, 235);
+            this.ipAddressControl_maskaddr.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ipAddressControl_maskaddr.MinimumSize = new System.Drawing.Size(141, 28);
+            this.ipAddressControl_maskaddr.Name = "ipAddressControl_maskaddr";
+            this.ipAddressControl_maskaddr.ReadOnly = false;
+            this.ipAddressControl_maskaddr.Size = new System.Drawing.Size(246, 28);
+            this.ipAddressControl_maskaddr.TabIndex = 6;
+            this.ipAddressControl_maskaddr.Text = "...";
             // 
-            // textBox1
+            // ipAddressControl_ipaddr
             // 
-            this.textBox1.Location = new System.Drawing.Point(266, 62);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(95, 28);
-            this.textBox1.TabIndex = 5;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
+            this.ipAddressControl_ipaddr.AllowInternalTab = false;
+            this.ipAddressControl_ipaddr.AutoHeight = true;
+            this.ipAddressControl_ipaddr.BackColor = System.Drawing.SystemColors.Window;
+            this.ipAddressControl_ipaddr.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ipAddressControl_ipaddr.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ipAddressControl_ipaddr.Location = new System.Drawing.Point(329, 194);
+            this.ipAddressControl_ipaddr.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ipAddressControl_ipaddr.MinimumSize = new System.Drawing.Size(141, 28);
+            this.ipAddressControl_ipaddr.Name = "ipAddressControl_ipaddr";
+            this.ipAddressControl_ipaddr.ReadOnly = false;
+            this.ipAddressControl_ipaddr.Size = new System.Drawing.Size(246, 28);
+            this.ipAddressControl_ipaddr.TabIndex = 6;
+            this.ipAddressControl_ipaddr.Text = "...";
+            // 
+            // textBox_eth
+            // 
+            this.textBox_eth.Location = new System.Drawing.Point(266, 62);
+            this.textBox_eth.Name = "textBox_eth";
+            this.textBox_eth.Size = new System.Drawing.Size(95, 28);
+            this.textBox_eth.TabIndex = 5;
+            this.textBox_eth.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox_eth.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
             // label1
             // 
@@ -195,27 +216,6 @@
             this.label1.Size = new System.Drawing.Size(53, 18);
             this.label1.TabIndex = 4;
             this.label1.Text = "网口1";
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(182, 151);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(123, 22);
-            this.radioButton3.TabIndex = 8;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "固定IP地址";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(182, 331);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(70, 22);
-            this.checkBox1.TabIndex = 10;
-            this.checkBox1.Text = "SNTP";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // UserControlEth
             // 
@@ -232,18 +232,18 @@
 
         #endregion
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private IPAddressControlLib.IPAddressControl ipAddressControl1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RadioButton radioButton_dhcp;
+        private IPAddressControlLib.IPAddressControl ipAddressControl_ipaddr;
+        private System.Windows.Forms.TextBox textBox_eth;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private IPAddressControlLib.IPAddressControl ipAddressControl3;
-        private IPAddressControlLib.IPAddressControl ipAddressControl2;
-        private IPAddressControlLib.IPAddressControl ipAddressControl4;
+        private IPAddressControlLib.IPAddressControl ipAddressControl_gateway;
+        private IPAddressControlLib.IPAddressControl ipAddressControl_maskaddr;
+        private IPAddressControlLib.IPAddressControl ipAddressControl_sntpaddr;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.RadioButton radioButton_fixed;
+        private System.Windows.Forms.CheckBox checkBox_SNTP;
     }
 }
