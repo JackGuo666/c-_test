@@ -399,7 +399,7 @@ namespace LocalPLC.Base
 
             var topNode = treeView_.TopNode;
             var commNode = FindNode(topNode, "通信线路");
-            //delSubNodes(commNode);
+            delSubNodes(commNode);
             addSerialNode(commNode);
             createSerialUserControl();
             createEthernetUserControl();
