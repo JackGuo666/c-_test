@@ -187,7 +187,7 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectOpen(string Name, ref bool Cancel)
         {
-            
+
         }
 
         void IAdeProjectObserver.AfterProjectOpen(string Name)
@@ -202,61 +202,101 @@ namespace LocalPLC
 
              clean();
 
-
-            //multiprogApp获得后才可以得到运行路径
-            UC.createControler("LocalPLC24P");
             try
             {
-                xDoc.Load(path);
-
-                //根节点
-                XmlNode node = xDoc.SelectSingleNode("root");
-                XmlNodeList nodeList = node.ChildNodes;
-                foreach (XmlNode xn in nodeList)
+                if (File.Exists(path))
                 {
-                    XmlElement elem = (XmlElement)xn;
-                    //根节点下面分支
-                    string name = xn.Name;
-                    Console.WriteLine(name);
 
-                    if (name == "modbus")
+
+                    xDoc.Load(path);
+
+                    //根节点
+                    XmlNode node = xDoc.SelectSingleNode("root");
+                    XmlNodeList nodeList = node.ChildNodes;
+                    foreach (XmlNode xn in nodeList)
                     {
-                        XmlNodeList childList = xn.ChildNodes;
-                        foreach (XmlNode nChild in childList)
+                        XmlElement elem = (XmlElement)xn;
+                        //根节点下面分支
+                        string name = xn.Name;
+                        Console.WriteLine(name);
+
+                        if (name == "modbus")
                         {
-                            //student子节点
-                            XmlElement eChild = (XmlElement)nChild;
-                            string childname = eChild.Name;
-                            if (childname == "modbusmaster")
+                            XmlNodeList childList = xn.ChildNodes;
+                            foreach (XmlNode nChild in childList)
                             {
-                                //语文成绩结构
-                                //StudentData st = new StudentData();
-                                //st.test2 = eChild.InnerText;
-                                //modmaster = new modbusmastermain();
+                                //student子节点
+                                XmlElement eChild = (XmlElement)nChild;
+                                string childname = eChild.Name;
+                                if (childname == "modbusmaster")
+                                {
+                                    //语文成绩结构
+                                    //StudentData st = new StudentData();
+                                    //st.test2 = eChild.InnerText;
+                                    //modmaster = new modbusmastermain();
 
 
-                                modmaster.loadXml(nChild);
+                                    modmaster.loadXml(nChild);
+                                }
+                                else if (childname == "modbusslave")
+                                {
+                                    //数学成绩结构
+                                    modslave.loadXml(nChild);
+                                }
+                                else if (childname == "modbusclient")
+                                {
+
+                                    mci.loadXml(nChild);
+                                }
+                                else if (childname == "modbusserver")
+                                {
+                                    msi.loadXml(nChild);
+                                }
                             }
-                            else if (childname == "modbusslave")
+
+
+
+                        }
+                        else if (name == "base")
+                        {
+                            XmlNodeList childList = xn.ChildNodes;
+                            foreach (XmlNode nChild in childList)
                             {
-                                //数学成绩结构
-                                modslave.loadXml(nChild);
-                            }
-                            else if (childname == "modbusclient")
-                            {
-                                
-                                mci.loadXml(nChild);
-                            }
-                            else if (childname == "modbusserver")
-                            {
-                                msi.loadXml(nChild);
+                                XmlElement eChild = (XmlElement)nChild;
+                                string childname = eChild.Name;
+                                if (childname == "DI")
+                                {
+                                    UC.loadXmlDI(nChild);
+                                }
+                                else if (childname == "DO")
+                                {
+                                    UC.loadXmlDO(nChild);
+                                }
+                                else if (childname == "Serial")
+                                {
+                                    UC.loadXmlSerial(nChild);
+                                }
+                                else if (childname == "Ethnet")
+                                {
+
+                                }
                             }
                         }
 
 
-
                     }
+
+                    UC.createControlerConfigured("LocalPLC24P");
                 }
+                else
+                {
+                    //新建工程加载默认控制器
+                    UC.createControler("LocalPLC24P");
+                    return;
+                }
+
+
+
             }
             catch(Exception e)
             {
@@ -868,6 +908,15 @@ namespace LocalPLC
                 msi.serverDataManager.listServer.Clear();
             }
             //client server clean
+
+
+            if(UC != null)
+            {
+                //在加载前，清空数据
+                UserControlBase.dataManage.clear();
+                //在加载前，清空界面
+                UC.clearUI();
+            }
         }
         private void ModbusWindow_Enter(object sender, EventArgs e)
         {        

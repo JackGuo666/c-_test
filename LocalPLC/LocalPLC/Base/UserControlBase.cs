@@ -31,7 +31,16 @@ namespace LocalPLC.Base
             InitializeComponent();
         }
 
-        public void loadXml(XmlNode xn)
+
+        //重新加载工程，清空界面
+        public void clearUI()
+        {
+            PlcTypeArr.Clear();
+            splitContainer2.Panel1.Controls.Clear();
+            splitContainer2.Panel2.Controls.Clear();
+        }
+
+        public void loadXmlDI(XmlNode xn)
         {
             XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
             foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
@@ -57,6 +66,60 @@ namespace LocalPLC.Base
             }
         }
 
+        public void loadXmlDO(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                DOData doData = new DOData();
+                string name = e.Name;
+                string used = e.GetAttribute("used");
+                bool.TryParse(used, out doData.used);
+                string varName = e.GetAttribute("varname");
+                doData.varName = varName;
+                string channelName = e.GetAttribute("channelname");
+                doData.channelName = channelName;
+                string address = e.GetAttribute("address");
+                doData.address = address;
+                string note = e.GetAttribute("note");
+                doData.note = note;
+
+                UserControlBase.dataManage.doList.Add(doData);
+
+            }
+        }
+
+
+        public void loadXmlSerial(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                SERIALData serialData = new SERIALData();
+                string name = e.Name;
+                serialData.name = e.GetAttribute("name");
+                string baud = e.GetAttribute("baud");
+                int.TryParse(baud, out serialData.baud);
+
+                string parity = e.GetAttribute("parity");
+                int.TryParse(parity, out serialData.Parity);
+
+                string databit = e.GetAttribute("databit");
+                int.TryParse(databit, out serialData.dataBit);
+
+                string stopbit = e.GetAttribute("stopbit");
+                int.TryParse(stopbit, out serialData.stopBit);
+
+                //极化电阻
+                string polR = e.GetAttribute("polr");
+                int.TryParse(polR, out serialData.polR);
+
+                dataManage.serialDic.Add(serialData.name, serialData);
+            }
+        }
 
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
@@ -102,7 +165,7 @@ namespace LocalPLC.Base
                 comUI.Value.getDataFromUI();
                 if(dataManage.serialDic.ContainsKey(comUI.Key))
                 {
-                    dataManage.serialDic[comUI.Key] = comUI.Value.serialValueData;
+                    dataManage.serialDic[comUI.Key] = comUI.Value.serialValueData_;
                     XmlElement elem_serialChid = doc.CreateElement("elem");
                     elem_serialChid.SetAttribute("name", dataManage.serialDic[comUI.Key].name);
                     elem_serialChid.SetAttribute("baud", dataManage.serialDic[comUI.Key].baud.ToString());
@@ -250,9 +313,25 @@ namespace LocalPLC.Base
             {
                 if(elem.moduleID == "SERIAL_LINE")
                 {
-                    UserControlCom com = new UserControlCom(elem.baseName);
+                    SERIALData data = new SERIALData();
+                    UserControlCom com = new UserControlCom(elem.baseName, data, false);
                     comDic.Add(elem.baseName, com);
+                    dataManage.serialDic.Add(elem.baseName, data);
                 }
+            }
+        }
+
+        void createSerialUserControlConfigured()
+        {
+            //清空之前加载的串口控件数组
+            comDic.Clear();
+            //var list = dataManage.serialDic.ToList()
+            foreach (var elem in dataManage.serialDic)
+            {
+
+                 UserControlCom com = new UserControlCom(elem.Key, elem.Value, !dataManage.newControlerFlag);
+                 comDic.Add(elem.Key, com);
+
             }
         }
 
@@ -281,6 +360,19 @@ namespace LocalPLC.Base
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 
+
+
+            //
+            var topNode = treeView_.TopNode;
+            var commNode = FindNode(topNode, "通信线路");
+
+            delSubNodes(commNode);
+            addSerialNode(commNode);
+            createSerialUserControlConfigured();
+            createEthernetUserControl();
+
+            topNode.Text = PLCType;
+            //////
 
             //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
             curPlcType = (LocalPLC24P)user1;

@@ -92,7 +92,7 @@ namespace LocalPLC.Base
 
                 if(!dataManage.newControlerFlag)
                 {
-                    //refreshData();
+                    refreshData();
                 }
                 else
                 {
@@ -110,6 +110,8 @@ namespace LocalPLC.Base
         public void refreshData()
         {
             di.refreshData();
+            dout.refreshData();
+
         }
 
         void initDIDO()
@@ -292,7 +294,6 @@ namespace LocalPLC.Base
 
             split.Panel2.Controls.Clear();
             di.Dock = DockStyle.Fill;
-            //di.refreshData();
             split.Panel2.Controls.Add(di);
 
             setShow(name, picArray);

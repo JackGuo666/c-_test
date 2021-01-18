@@ -49,6 +49,22 @@ namespace LocalPLC.Base
         const int columnAddressIndex = 3;
         const int columnNoteIndex = 4;
         const int columnUsedIndex = 0;
+
+        public void refreshData()
+        {
+            dtData.Clear();
+            foreach(var doData in UserControlBase.dataManage.doList)
+            {
+                DataRow drData = dtData.NewRow();
+                drData[columnUsedIndex] = doData.used;
+                drData[columnVarIndex] = doData.varName;
+                drData[columnChannelIndex] = doData.channelName;
+                drData[columnAddressIndex] = doData.address;
+                dtData.Rows.Add(drData);
+            }
+
+            this.dataGridView1.DataSource = dtData;
+        }
         public void initData()
         {
             if(UserControlBase.dataManage.dicBitfield.ContainsKey("OUTPUTS_TM221C16U"))

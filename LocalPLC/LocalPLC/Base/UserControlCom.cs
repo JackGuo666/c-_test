@@ -15,61 +15,109 @@ namespace LocalPLC.Base
 {
     public partial class UserControlCom : UserControl
     {
-        public SERIALData serialValueData = new SERIALData();
-        public UserControlCom(string com)
+        public SERIALData serialValueData_ = null;
+        bool configured_ = false;
+        public UserControlCom(string com, SERIALData serialValueData, bool configured = false)
         {
             InitializeComponent();
+            serialValueData_ = serialValueData;
             //串口名
             com_ = com;
+            configured_ = configured;
             Init();
 
-
             //数据管理里的串口数组
-            UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
+            //UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
 
+
+        }
+
+        private void setDataToUI()
+        {
+            textBox_Com.Text = com_;
+
+            var itemsBaud = comboBox_Baud.Items;
+            foreach (var item in itemsBaud)
+            {
+                ComboboxItem combo = (ComboboxItem)item;
+                if (combo.Value.ToString() == serialValueData_.baud.ToString())
+                {
+                    comboBox_Baud.SelectedItem = combo;
+                }
+            }
+
+            var itemsParity = comboBox_Parity.Items;
+            foreach (var item in itemsParity)
+            {
+                ComboboxItem combo = (ComboboxItem)item;
+                if (combo.Value.ToString() == serialValueData_.Parity.ToString())
+                {
+                    comboBox_Parity.SelectedItem = combo;
+                }
+            }
+
+            ComboBox.ObjectCollection collection = comboBox_Databit.Items;
+            foreach (var dataBit in collection)
+            {
+                ComboboxItem combo = (ComboboxItem)dataBit;
+                if (combo.Value == combo.Value)
+                {
+                    comboBox_Databit.SelectedItem = combo;
+                }
+            }
+
+            ComboBox.ObjectCollection collectionStopBit = comboBox_StopBit.Items;
+            foreach (var stopBit in collectionStopBit)
+            {
+                ComboboxItem combo = (ComboboxItem)stopBit;
+                if (combo.Value == combo.Value)
+                {
+                    comboBox_StopBit.SelectedItem = combo;
+                }
+            }
         }
 
         enum SerialMode { RS232, RS485};
         public void getDataFromUI()
         {
-            serialValueData.name = textBox_Com.Text.ToString();
+            serialValueData_.name = textBox_Com.Text.ToString();
             string strBaud = ((ComboboxItem)comboBox_Baud.SelectedItem).Value.ToString();
-            int.TryParse(strBaud, out serialValueData.baud);
+            int.TryParse(strBaud, out serialValueData_.baud);
 
             string strParity = ((ComboboxItem)comboBox_Parity.SelectedItem).Value.ToString();
-            int.TryParse(strParity, out serialValueData.Parity);
+            int.TryParse(strParity, out serialValueData_.Parity);
 
             string strDatabit = ((ComboboxItem)comboBox_Databit.SelectedItem).Value.ToString();
-            int.TryParse(strDatabit, out serialValueData.dataBit);
+            int.TryParse(strDatabit, out serialValueData_.dataBit);
 
             string strStopbit = ((ComboboxItem)comboBox_StopBit.SelectedItem).Value.ToString();
-            int.TryParse(strStopbit, out serialValueData.stopBit);
+            int.TryParse(strStopbit, out serialValueData_.stopBit);
 
 
             if(radioButton1.Checked)
             {
-                serialValueData.rsMode = (int)SerialMode.RS485;
+                serialValueData_.rsMode = (int)SerialMode.RS485;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
                 foreach(var value in list)
                 {
-                    if(value.value == serialValueData.rsMode.ToString())
+                    if(value.value == serialValueData_.rsMode.ToString())
                     {
-                        serialValueData.polR = serialValueData.rsMode;
+                        serialValueData_.polR = serialValueData_.rsMode;
                     }
                 }
 
             }
             else if(radioButton2.Checked)
             {
-                serialValueData.rsMode = (int)SerialMode.RS232;
+                serialValueData_.rsMode = (int)SerialMode.RS232;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
                 foreach (var value in list)
                 {
-                    if (value.value == serialValueData.rsMode.ToString())
+                    if (value.value == serialValueData_.rsMode.ToString())
                     {
-                        serialValueData.polR = serialValueData.rsMode;
+                        serialValueData_.polR = serialValueData_.rsMode;
                     }
                 }
             }
@@ -109,7 +157,11 @@ namespace LocalPLC.Base
                                     if(serialData.name == "Baudrate")
                                     {
                                         //StructType里波特率默认值
-                                        int.TryParse(serialData.defaultValue, out serialValueData.baud);
+                                        if (!configured_)
+                                        {
+                                            //从控制器模板读取，设置默认值
+                                            int.TryParse(serialData.defaultValue, out serialValueData_.baud);
+                                        }
 
                                         string[] strArrBaud = serialData.type.Split(new Char[] { ':' });
                                         if (strArrBaud.Length == 2)
@@ -135,7 +187,10 @@ namespace LocalPLC.Base
                                     {
                                         //StructType里波特率默认值
                                         //serialValueData.Parity = serialData.defaultValue;
-                                        int.TryParse(serialData.defaultValue, out serialValueData.Parity);
+                                        if (!configured_)
+                                        {
+                                            int.TryParse(serialData.defaultValue, out serialValueData_.Parity);
+                                        }
                                         //在enumType里找到对应的描述
                                         string[] strArrParity = serialData.type.Split(new Char[] { ':' });
 
@@ -160,7 +215,10 @@ namespace LocalPLC.Base
                                     else if(serialData.name == "Medium")
                                     {
                                         //StructType里串口默认值串口0-rs232    1-rs485
-                                        int.TryParse(serialData.defaultValue, out serialValueData.rsMode);
+                                        if (!configured_)
+                                        {
+                                            int.TryParse(serialData.defaultValue, out serialValueData_.rsMode);
+                                        }
                                         //在enumType里找到对应的描述
                                         string[] strArrMedium = serialData.type.Split(new Char[] { ':' });
                                         if (strArrMedium.Length == 2)
@@ -201,7 +259,10 @@ namespace LocalPLC.Base
                                     else if(serialData.name == "Polarization")
                                     {
                                         //serialValueData.polR = serialData.defaultValue;
-                                        int.TryParse(serialData.defaultValue, out serialValueData.polR);
+                                        if (!configured_)
+                                        {
+                                            int.TryParse(serialData.defaultValue, out serialValueData_.polR);
+                                        }
 
                                         //在enumType里找到对应的描述
                                         string[] strArrPolarization = serialData.type.Split(new Char[] { ':' });
@@ -213,7 +274,7 @@ namespace LocalPLC.Base
                                                 var polList = UserControlBase.dataManage.dicEnum[strPolarization].list;
                                                 foreach (var pol in polList)
                                                 {
-                                                    if (pol.value == serialValueData.polR.ToString())
+                                                    if (pol.value == serialValueData_.polR.ToString())
                                                     {
                                                         textBox_Pol.Text = pol.name;
                                                     }
@@ -226,7 +287,10 @@ namespace LocalPLC.Base
                                     {
                                         //数据位
                                         //serialValueData.dataBit = serialData.defaultValue;
-                                        int.TryParse(serialData.defaultValue, out serialValueData.dataBit);
+                                        if (!configured_)
+                                        {
+                                            int.TryParse(serialData.defaultValue, out serialValueData_.dataBit);
+                                        }
                                         //在enumType里找到对应的描述
                                         string[] strArrDataBit = serialData.type.Split(new Char[] { ':' });
                                         if (strArrDataBit.Length == 2)
@@ -249,7 +313,10 @@ namespace LocalPLC.Base
                                     {
                                         //数据位
                                         //serialValueData.stopBit = serialData.defaultValue;
-                                        int.TryParse(serialData.defaultValue, out serialValueData.stopBit);
+                                        if (!configured_)
+                                        {
+                                            int.TryParse(serialData.defaultValue, out serialValueData_.stopBit);
+                                        }
 
                                         //在enumType里找到对应的描述
                                         string[] strArrStopBit = serialData.type.Split(new Char[] { ':' });
@@ -272,12 +339,12 @@ namespace LocalPLC.Base
                                 }
 
                                 
-
+                                
                                 var itemsBaud = comboBox_Baud.Items;
                                 foreach (var item in itemsBaud)
                                 {
                                     ComboboxItem combo = (ComboboxItem)item;
-                                    if (combo.Value.ToString() == serialValueData.baud.ToString())
+                                    if (combo.Value.ToString() == serialValueData_.baud.ToString())
                                     {
                                         comboBox_Baud.SelectedItem = combo;
                                     }
@@ -287,7 +354,7 @@ namespace LocalPLC.Base
                                 foreach (var item in itemsParity)
                                 {
                                     ComboboxItem combo = (ComboboxItem)item;
-                                    if(combo.Value.ToString() ==serialValueData.Parity.ToString())
+                                    if(combo.Value.ToString() ==serialValueData_.Parity.ToString())
                                     {
                                         comboBox_Parity.SelectedItem = combo;
                                     }

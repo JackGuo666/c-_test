@@ -86,6 +86,8 @@ namespace LocalPLC.Base
 
                 dtData.Rows.Add(drData);
             }
+
+            this.dataGridView1.DataSource = dtData;
         }
 
         /// <summary>
