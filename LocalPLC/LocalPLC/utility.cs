@@ -724,7 +724,7 @@ namespace LocalPLC
             s = sr1.ReadLine();
            
             string strSave = "";
-           
+            string strSave1 = "";
             string compare1 = "TYPE";
             string compare2 = "Task_Info_eCLR :";
             string compare3 = "STRUCT";
@@ -804,6 +804,24 @@ namespace LocalPLC
                         else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
                         {
                             strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataWord, channel.readLength);
+                        }
+
+                    }
+                }
+            }
+            foreach (var client in LocalPLC.UserControl1.mci.clientManage.modbusClientList)
+            {
+                foreach (var device in client.modbusDeviceList)
+                {
+                    foreach (var channel in device.modbusChannelList)
+                    {
+                        if (SplicedDataType.hashSetBit.Contains(channel.msgType))
+                        {
+                            strSave1 += SplicedDataType.splicedDataTypeArray1("client" + client.ID.ToString() + "dev" + device.ID.ToString() + "cha" + channel.ID.ToString(), ArrayDataType.DataBit, channel.Length);
+                        }
+                        else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
+                        {
+                            strSave1 += SplicedDataType.splicedDataTypeArray1("client" + client.ID.ToString() + "dev" + device.ID.ToString() + "cha" + channel.ID.ToString(), ArrayDataType.DataWord, channel.Length);
                         }
 
                     }
