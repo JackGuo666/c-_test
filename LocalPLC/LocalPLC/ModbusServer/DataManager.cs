@@ -17,14 +17,14 @@ namespace LocalPLC.ModbusServer
         public string coilIoAddrEnd;
         public string coilIoVarNameIn;
         public string coilIoVarNameOut;
-        public string mcoilstart;
+        public int iocoilstart;
 
         public int holdingCount;
         public string holdingIoAddrStart;
         public string holdingIoAddrEnd;
         public string holdingVarNameIn;
         public string holdingVarNameOut;
-        public string mholdingstart;
+        public int mholdingstart;
 
         public int decreteCount;
         public string decreteIoAddrStart;

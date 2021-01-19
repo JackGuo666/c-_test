@@ -783,24 +783,41 @@ namespace LocalPLC.ModbusServer
             bool number = isNumber(textBox1.Text);
             if (number == true)
             {
-                //if (Convert.ToInt32(textBox1.Text) < 0 || Convert.ToInt32(textBox3.Text) > 8000)
-                //{
-                //    MessageBox.Show("超出范围");
-                //    textBox1.Text = data_.dataDevice_.decreteCount.ToString();
-                //}
-                //else
-                //{
+                if (data_.dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
+                {
+                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 ;
+                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8 + 1;
+                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                }
+                else if (data_.dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
+                {
+                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8;
+                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8;
+                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                }
+                else if(data_.dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
+                {
+                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 + 1;
+                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8;
+                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                }
+                else
+                {
                     data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 + 1;
                     int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
                     data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8 + 1;
                     textBox29.Text = data_.dataDevice_.shmlength.ToString();
-                //}
+                }
             }
             else
             {
                 data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8;
                 data_.dataDevice_.coilCount = 0;
                 textBox1.Text = data_.dataDevice_.coilCount.ToString();
+                //data_.dataDevice_.mholdingstart = data_.dataDevice_.shmrange + data_.dataDevice_.coilCount / 8;
                 return;
             }
         }
@@ -819,7 +836,7 @@ namespace LocalPLC.ModbusServer
                 //{
                     data_.dataDevice_.shmlength -= data_.dataDevice_.holdingCount * 2;
                     int.TryParse(textBox2.Text, out data_.dataDevice_.holdingCount);
-                    data_.dataDevice_.shmlength += data_.dataDevice_.statusCount * 2;
+                    data_.dataDevice_.shmlength += data_.dataDevice_.holdingCount * 2;
                     textBox29.Text = data_.dataDevice_.shmlength.ToString();
                 //}
             }
@@ -830,6 +847,10 @@ namespace LocalPLC.ModbusServer
                 textBox2.Text = data_.dataDevice_.holdingCount.ToString();
                 return;
             }
+        }
+        private void checklength()
+        {
+
         }
     }
 }

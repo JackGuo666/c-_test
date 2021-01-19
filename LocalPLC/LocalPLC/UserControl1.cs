@@ -980,7 +980,9 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            //if (msi.serverDataManager.listServer[0].dataDevice_.isready == true)
+
+            if (msi.serverDataManager.listServer.Count == 0 || msi.serverDataManager.listServer[0].dataDevice_.isready == true)
+
             {
                 saveXml();
                 saveJson();
@@ -1010,16 +1012,16 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             }
             int coillength = msi.serverDataManager.listServer[0].dataDevice_.coilCount;
             int coilstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
-            int coilIOstart = msi.serverDataManager.listServer[0].serverstartaddr;
+            int coilIOstart = 0;
             int holdinglength = msi.serverDataManager.listServer[0].dataDevice_.holdingCount;
-            int holdingstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.holdingIoAddrStart);
+            int holdingstart = coilIOstart + coillength;
             int holdingIOstart = msi.serverDataManager.listServer[0].serverstartaddr+100;
             int decretelength = msi.serverDataManager.listServer[0].dataDevice_.decreteCount;
             int decretestart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.decreteIoAddrStart);
-            int decreteIOstart = msi.serverDataManager.listServer[0].serverstartaddr+500;
+            int decreteIOstart = msi.serverDataManager.listServer[0].serverstartaddr;
             int statuslength = msi.serverDataManager.listServer[0].dataDevice_.statusCount;
             int statusstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.statusIoAddrStart);
-            int statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + 600;
+            int statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + 200;
             if (multiprogApp != null && multiprogApp.IsProjectOpen())
             {
                 Hardware physicalHardware = multiprogApp.ActiveProject.Hardware;
