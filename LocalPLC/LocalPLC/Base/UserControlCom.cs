@@ -23,6 +23,8 @@ namespace LocalPLC.Base
             serialValueData_ = serialValueData;
             //串口名
             com_ = com;
+            //configured为true，串口数据加载config_project
+            //configured为false，串口数据加载控制器模板数据
             configured_ = configured;
             Init();
 
