@@ -121,6 +121,29 @@ namespace LocalPLC.Base
             }
         }
 
+
+        public void loadXmlEthernet(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                ETHERNETData ethernetData = new ETHERNETData();
+                string name = e.Name;
+                ethernetData.name =  e.GetAttribute("name");
+                string strIpMode =  e.GetAttribute("ipmode");
+                int.TryParse(strIpMode, out ethernetData.ipMode);
+                ethernetData.ipAddress = e.GetAttribute("ipaddress");
+                ethernetData.maskAddress = e.GetAttribute("maskaddress");
+                ethernetData.gatewayAddress = e.GetAttribute("gatewayaddress");
+                string strCheckSNTP = e.GetAttribute("checksntp");
+                int.TryParse(strCheckSNTP, out ethernetData.checkSNTP);
+                ethernetData.sntpServerIp = e.GetAttribute("sntpserverip");
+
+                dataManage.ethernetDic.Add(ethernetData.name, ethernetData);
+            }
+        }
+
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elemDI = doc.CreateElement("DI");
@@ -188,10 +211,11 @@ namespace LocalPLC.Base
                 etherUI.Value.getDataFromUI();
                 if (dataManage.ethernetDic.ContainsKey(etherUI.Key))
                 {
-                    dataManage.ethernetDic[etherUI.Key] = etherUI.Value.ethernetValueData;
+                    dataManage.ethernetDic[etherUI.Key] = etherUI.Value.ethernetValueData_;
                     XmlElement ethernetChild = doc.CreateElement("elem");
                     ethernetChild.SetAttribute("name", dataManage.ethernetDic[etherUI.Key].name);
                     ethernetChild.SetAttribute("ipmode", dataManage.ethernetDic[etherUI.Key].ipMode.ToString());
+                    ethernetChild.SetAttribute("ipaddress", dataManage.ethernetDic[etherUI.Key].ipAddress.ToString());
                     ethernetChild.SetAttribute("maskaddress", dataManage.ethernetDic[etherUI.Key].maskAddress.ToString());
                     ethernetChild.SetAttribute("gatewayaddress", dataManage.ethernetDic[etherUI.Key].gatewayAddress.ToString());
                     ethernetChild.SetAttribute("checksntp", dataManage.ethernetDic[etherUI.Key].checkSNTP.ToString());
@@ -343,9 +367,23 @@ namespace LocalPLC.Base
             {
                 if (elem.moduleID == "ETHERNET")
                 {
-                    UserControlEth eth = new UserControlEth(elem.baseName);
+                    ETHERNETData data = new ETHERNETData();
+                    UserControlEth eth = new UserControlEth(elem.baseName, data, dataManage.newControlerFlag);
                     ethDic.Add(elem.baseName, eth);
+                    UserControlBase.dataManage.ethernetDic.Add(elem.baseName, data);
                 }
+            }
+        }
+
+
+        void createEthernetUserControlConfigured()
+        {
+            ethDic.Clear();
+
+            foreach (var elem in dataManage.ethernetDic)
+            {
+                UserControlEth eth = new UserControlEth(elem.Key, elem.Value, dataManage.newControlerFlag);
+                 ethDic.Add(elem.Key, eth);
             }
         }
 
@@ -369,7 +407,8 @@ namespace LocalPLC.Base
             delSubNodes(commNode);
             addSerialNode(commNode);
             createSerialUserControlConfigured();
-            createEthernetUserControl();
+            //createEthernetUserControl();
+            createEthernetUserControlConfigured();
 
             topNode.Text = PLCType;
             //////

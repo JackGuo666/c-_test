@@ -13,11 +13,14 @@ namespace LocalPLC.Base
 {
     public partial class UserControlEth : UserControl
     {
-        public ETHERNETData ethernetValueData = new ETHERNETData();
+        public ETHERNETData ethernetValueData_ = null;
+        bool configured_ = false;
         string etherName = "";
-        public UserControlEth(string name)
+        public UserControlEth(string name, ETHERNETData ethernetValueData, bool configured = false)
         {
             InitializeComponent();
+            ethernetValueData_ = ethernetValueData;
+            configured_ = configured;
             etherName = name;
             var v = ipAddressControl_ipaddr.IPAddress;
 
@@ -25,24 +28,29 @@ namespace LocalPLC.Base
 
             init();
             //数据管理里的网口数组 LocalPLC一般是1个网口
-            UserControlBase.dataManage.ethernetDic.Add(etherName, ethernetValueData);
+            //UserControlBase.dataManage.ethernetDic.Add(etherName, ethernetValueData_);
 
             var s = "0.0.0.0";
             string maskAddress = "0.0.0.0";
             //IP
-            ipAddressControl_ipaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.ipAddress);
+            ipAddressControl_ipaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.ipAddress);
             //mask
-            ipAddressControl_maskaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.maskAddress);
+            ipAddressControl_maskaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.maskAddress);
             //gateway
-            ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
+            ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
             //sntp
-            ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData.gatewayAddress);
+            ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
 
             //0 dhcp    1固定
-            if(ethernetValueData.ipMode == 0)
+            if(ethernetValueData_.ipMode == 0)
             {
                 radioButton_dhcp.Checked = true;
                 radioButton_fixed.Checked = false;
+            }
+            else
+            {
+                radioButton_dhcp.Checked = false;
+                radioButton_fixed.Checked = true;
             }
 
             checkBox_SNTP.Checked = false;
@@ -53,58 +61,58 @@ namespace LocalPLC.Base
         public void getDataFromUI()
         {
             System.Net.IPAddress ip;
-            ethernetValueData.name = textBox_eth.Text.ToString();
+            ethernetValueData_.name = textBox_eth.Text.ToString();
             if (radioButton_dhcp.Checked)
             {
-                ethernetValueData.ipMode = (int)EthernetMode.DHCP;
+                ethernetValueData_.ipMode = (int)EthernetMode.DHCP;
             }
             else if (radioButton_fixed.Checked)
             {
-                ethernetValueData.ipMode = (int)EthernetMode.FIXED;
+                ethernetValueData_.ipMode = (int)EthernetMode.FIXED;
             }
 
-            ethernetValueData.ipAddress = ipAddressControl_ipaddr.Text.ToString();
-            ethernetValueData.maskAddress = ipAddressControl_maskaddr.Text.ToString();
-            ethernetValueData.gatewayAddress = ipAddressControl_gateway.Text.ToString();
-            ethernetValueData.sntpServerIp = ipAddressControl_sntpaddr.Text.ToString();
+            ethernetValueData_.ipAddress = ipAddressControl_ipaddr.Text.ToString();
+            ethernetValueData_.maskAddress = ipAddressControl_maskaddr.Text.ToString();
+            ethernetValueData_.gatewayAddress = ipAddressControl_gateway.Text.ToString();
+            ethernetValueData_.sntpServerIp = ipAddressControl_sntpaddr.Text.ToString();
 
-            if(!System.Net.IPAddress.TryParse(ethernetValueData.ipAddress, out ip))
+            if(!System.Net.IPAddress.TryParse(ethernetValueData_.ipAddress, out ip))
             {
-                string str = string.Format("{0} IPAddress 无效!", ethernetValueData.name);
+                string str = string.Format("{0} IPAddress 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
             }
 
-            if (!System.Net.IPAddress.TryParse(ethernetValueData.maskAddress, out ip))
+            if (!System.Net.IPAddress.TryParse(ethernetValueData_.maskAddress, out ip))
             {
-                string str = string.Format("{0} IP Address 无效!", ethernetValueData.name);
+                string str = string.Format("{0} IP Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
             }
 
-            if (!System.Net.IPAddress.TryParse(ethernetValueData.maskAddress, out ip))
+            if (!System.Net.IPAddress.TryParse(ethernetValueData_.maskAddress, out ip))
             {
-                string str = string.Format("{0} Mask Address 无效!", ethernetValueData.name);
+                string str = string.Format("{0} Mask Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
             }
 
-            if (!System.Net.IPAddress.TryParse(ethernetValueData.gatewayAddress, out ip))
+            if (!System.Net.IPAddress.TryParse(ethernetValueData_.gatewayAddress, out ip))
             {
-                string str = string.Format("{0} Gateway Address 无效!", ethernetValueData.name);
+                string str = string.Format("{0} Gateway Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
             }
 
             if(checkBox_SNTP.Checked)
             {
-                ethernetValueData.checkSNTP = 1;
+                ethernetValueData_.checkSNTP = 1;
             }
             else
             {
-                ethernetValueData.checkSNTP = 0;
+                ethernetValueData_.checkSNTP = 0;
             }
 
             
-            if (!System.Net.IPAddress.TryParse(ethernetValueData.sntpServerIp, out ip))
+            if (!System.Net.IPAddress.TryParse(ethernetValueData_.sntpServerIp, out ip))
             {
-                string str = string.Format("{0} sntp Address 无效!", ethernetValueData.name);
+                string str = string.Format("{0} sntp Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
             }
 
@@ -137,27 +145,45 @@ namespace LocalPLC.Base
                                     if(ethernetData.name == "IPConfigMode")
                                     {
                                         //ethernetValueData.ipMode = ethernetData.defaultValue;
-                                        int.TryParse(ethernetData.defaultValue, out ethernetValueData.ipMode);
+                                        if(configured_)
+                                        {
+                                            int.TryParse(ethernetData.defaultValue, out ethernetValueData_.ipMode);
+                                        }
                                     }
                                     else if(ethernetData.name == "IPAddress")
                                     {
-                                        ethernetValueData.ipAddress = ethernetData.defaultValue;
+                                        if (configured_)
+                                        {
+                                            ethernetValueData_.ipAddress = ethernetData.defaultValue;
+                                        }
                                     }
                                     else if(ethernetData.name == "MaskAddress")
                                     {
-                                        ethernetValueData.maskAddress = ethernetData.defaultValue;
+                                        if (configured_)
+                                        {
+                                            ethernetValueData_.maskAddress = ethernetData.defaultValue;
+                                        }
                                     }
                                     else if(ethernetData.name == "GatewayAddress")
                                     {
-                                        ethernetValueData.gatewayAddress = ethernetValueData.maskAddress;
+                                        if (configured_)
+                                        {
+                                            ethernetValueData_.gatewayAddress = ethernetValueData_.maskAddress;
+                                        }
                                     }
                                     else if(ethernetData.name == "SNTP")
                                     {
-                                        int.TryParse(ethernetData.defaultValue, out ethernetValueData.checkSNTP);
+                                        if (configured_)
+                                        {
+                                            int.TryParse(ethernetData.defaultValue, out ethernetValueData_.checkSNTP);
+                                        }
                                     }
                                     else if(ethernetData.name == "SNTPIPAddress")
                                     {
-                                        ethernetValueData.gatewayAddress = ethernetData.defaultValue;
+                                        if (configured_)
+                                        {
+                                            ethernetValueData_.gatewayAddress = ethernetData.defaultValue;
+                                        }
                                     }
                                 }
                             }

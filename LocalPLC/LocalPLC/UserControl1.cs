@@ -61,7 +61,6 @@ namespace LocalPLC
             return;
          }
 
-
         /// <summary>
         /// 设置TreeView选中节点
         /// </summary>
@@ -187,7 +186,10 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectOpen(string Name, ref bool Cancel)
         {
-
+            if (Name.Contains("UNTITLED"))
+            {
+                MessageBox.Show("新建工程，请修改默认工程名!");
+            }
         }
 
         void IAdeProjectObserver.AfterProjectOpen(string Name)
@@ -278,7 +280,7 @@ namespace LocalPLC
                                 }
                                 else if (childname == "Ethnet")
                                 {
-
+                                    UC.loadXmlEthernet(nChild);
                                 }
                             }
                         }
@@ -307,12 +309,12 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
         {
-            
+
         }
 
         void IAdeProjectObserver.AfterProjectClose(string Name)
         {
-            
+
         }
       
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -1369,6 +1371,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         {
             string name = Variable.Name;
         }
+
+
 
         void IAdeVariableObserver2.BeforeMove(AdeObjectType ObjectType, Variable OldVariable, VariableGroup NewVariableGroup, ref bool Cancel)
         {
