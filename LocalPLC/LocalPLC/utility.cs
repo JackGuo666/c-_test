@@ -787,7 +787,7 @@ namespace LocalPLC
             FileStream fs = new FileStream(fullName, FileMode.OpenOrCreate);
             fs.SetLength(0);
             StreamWriter sw = new StreamWriter(fs, Encoding.Default);
-
+            //StreamWriter sw1 = new StreamWriter(fs1, Encoding.Default);
 
             //sw.WriteLine("TYPE\r\nnimade: ARRAY[0..20] OF BYTE;\r\nEND_TYPE");
 
@@ -828,6 +828,7 @@ namespace LocalPLC
                 }
             }
             sw.WriteLine(strSave);
+            sw.WriteLine(strSave1)
             sw.Close();
             fs.Dispose();
             fs.Close();
