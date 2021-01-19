@@ -329,11 +329,27 @@ namespace LocalPLC
                 //动态创建节点
                 if(e.Node.Tag.ToString() == "SERIAL_LINE")
                 {
+                    if (!ModbusWindow.Controls.Contains(UC))
+                    {
+                        UC.Show();
+                        ModbusWindow.Controls.Clear();
+                        UC.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(UC);
+                    }
                     //显示串口信息
                     UC.setCOMShow(name);
                 }
                 else if(e.Node.Tag.ToString() == "ETHERNET")
                 {
+                    if (!ModbusWindow.Controls.Contains(UC))
+                    {
+                        UC.Show();
+                        ModbusWindow.Controls.Clear();
+                        UC.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(UC);
+                    }
                     UC.setETHShow(name);
                 }
             }
@@ -368,12 +384,16 @@ namespace LocalPLC
                 if (mct == null)
                 {
                     //测试函数 暂定位置
-                    saveXml();
+                    //=======gw注释====
+                    //saveXml();
+                    //================
                     return;
                 }
 
                 mci.initForm();
-                saveXml();
+                //=======gw注释====
+                //saveXml();
+                //================
                 mci.Show();			
 				ModbusWindow.Controls.Clear();
 				ModbusWindow.Controls.Add(mci);
@@ -391,7 +411,9 @@ namespace LocalPLC
                 modmaster.masterManage.refresh();
 
                 modmaster.initForm();
-                saveXml();
+                //=======gw注释========
+                //saveXml();
+                //====================
                 modmaster.Show();
                 ModbusWindow.Controls.Clear();
                 modmaster.Dock = DockStyle.Fill;
@@ -404,7 +426,9 @@ namespace LocalPLC
                     return;
                 }
                 msi.initForm();
-                saveXml();
+                //======gw注释=====
+                //saveXml();
+                //================
                 msi.Show();
 					   ModbusWindow.Controls.Clear();
 		               ModbusWindow.Controls.Add(msi);
@@ -417,7 +441,9 @@ namespace LocalPLC
                     return;
                 }
                 modslave.initForm();
-                saveXml();
+                //======gw注释=======
+                //saveXml();
+                //==================
                 modslave.Show(); 
 						ModbusWindow.Controls.Clear();
                 modslave.Dock = DockStyle.Fill;
@@ -446,6 +472,15 @@ namespace LocalPLC
             }
             else if(name == ConstVariable.DI)
             {
+                if (!ModbusWindow.Controls.Contains(UC))
+                {
+                    UC.Show();
+                    ModbusWindow.Controls.Clear();
+                    UC.Dock = DockStyle.Fill;
+                    ////UC.Size = new Size(472, 336);
+                    ModbusWindow.Controls.Add(UC);
+                }
+
                 UC.setDIShow(name);
             }
             else if(name == "本体COM1")
