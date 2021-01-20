@@ -49,13 +49,16 @@ namespace LocalPLC
             }
             else if(type == ArrayDataType.DataWord)
             {
-                string varTypeName = string.Format("ARRAY_word_{0}", name);
+                if (!utility.varTypeDicWord2.ContainsKey(count))
+                {
+                    string varTypeName = string.Format("ARRAY_word_{0}", name);
 
-                strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF WORD;";
-                strArray += "\r\nEND_TYPE\r\n";
+                    strArray += "\r\nTYPE\r\n" + varTypeName + " : ARRAY[0.." + (count - 1).ToString() + "] OF WORD;";
+                    strArray += "\r\nEND_TYPE\r\n";
 
-                utility.varTypeDicWord.Add(count, varTypeName);
-                //utility.varTypeDicWord2.Add(count, varTypeName);
+                    utility.varTypeDicWord.Add(count, varTypeName);
+                    //utility.varTypeDicWord2.Add(count, varTypeName);
+                }
             }
 
             return strArray;
@@ -703,7 +706,9 @@ namespace LocalPLC
         static public void addVarType()
         {
             varTypeDicBit.Clear();
+            varTypeDicBit1.Clear();
             varTypeDicWord.Clear();
+            varTypeDicWord2.Clear();
 
             if (!UserControl1.multiprogApp.IsProjectOpen())
             {
@@ -828,7 +833,7 @@ namespace LocalPLC
                 }
             }
             sw.WriteLine(strSave);
-            sw.WriteLine(strSave1)
+            sw.WriteLine(strSave1);
             sw.Close();
             fs.Dispose();
             fs.Close();

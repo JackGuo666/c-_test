@@ -997,7 +997,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 //utility.checkvariables();
                 utility.addVariables();
 
-                multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+                //multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
             }
             //else
             //{
