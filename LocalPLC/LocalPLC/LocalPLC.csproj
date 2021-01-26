@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.50 Build 10216\</OutputPath>
+    <OutputPath>..\..\..\..\..\Program Files %28x86%29\PHOENIX CONTACT Software\MULTIPROG 5.51 Express Build 653\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -158,6 +158,12 @@
     </Compile>
     <Compile Include="Base\UserControlHighOutput.Designer.cs">
       <DependentUpon>UserControlHighOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlPLS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlPLS.Designer.cs">
+      <DependentUpon>UserControlPLS.cs</DependentUpon>
     </Compile>
     <Compile Include="Base\UserControlPto.cs">
       <SubType>UserControl</SubType>
@@ -323,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlHighOutput.resx">
       <DependentUpon>UserControlHighOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlPLS.resx">
+      <DependentUpon>UserControlPLS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Base\UserControlPto.resx">
       <DependentUpon>UserControlPto.cs</DependentUpon>

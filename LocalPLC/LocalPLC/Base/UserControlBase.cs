@@ -151,7 +151,13 @@ namespace LocalPLC.Base
             elem.AppendChild(elemDI);
 
             //DI数据datatable到data manage
-            curWeaponType.getDataFromUI();
+            if(curWeaponType == null)
+            {
+                curWeaponType.getDataFromUI();
+                MessageBox.Show("配置文件格式错误!");
+                return;
+            }
+
             foreach(var di in dataManage.diList)
             {
                 XmlElement elem_di = doc.CreateElement("elem");
@@ -223,6 +229,29 @@ namespace LocalPLC.Base
 
                     elemEthnet.AppendChild(ethernetChild);
                 }
+            }
+
+
+            XmlElement elemHSP = doc.CreateElement("HSP");
+            elemHSP.SetAttribute("name", "HSP");
+            elem.AppendChild(elemHSP);
+            foreach(var hsp in dataManage.hspList)
+            {
+                XmlElement hspChild = doc.CreateElement("elem");
+
+                hspChild.SetAttribute("used", hsp.used.ToString());
+                hspChild.SetAttribute("name", hsp.name);
+                hspChild.SetAttribute("address", hsp.address);
+                hspChild.SetAttribute("type", hsp.type.ToString());
+                hspChild.SetAttribute("note", hsp.note);
+
+
+                //PLS PWM frequency
+                hspChild.SetAttribute("timebase", hsp.timeBase.ToString());
+                hspChild.SetAttribute("preset", hsp.preset.ToString());
+                hspChild.SetAttribute("signalfrequency", hsp.signalFrequency.ToString());
+
+                elemHSP.AppendChild(hspChild);
             }
         }
 

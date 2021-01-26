@@ -13,15 +13,26 @@ namespace LocalPLC.Base
 {
     public partial class UserControlHighOutput : UserControl
     {
+        enum TYPE { NOTUSED, PLS, PWM, FREQUENCY, PTO}
         public UserControlHighOutput()
         {
             InitializeComponent();
+
+            typeDescDic.Clear();
+
+            typeDescDic.Add(((int)TYPE.NOTUSED), "未配置");
+            typeDescDic.Add(((int)TYPE.PLS), "PLS");
+            typeDescDic.Add(((int)TYPE.PWM), "PWM");
+            typeDescDic.Add(((int)TYPE.FREQUENCY), "FREQUENCY");
+            typeDescDic.Add(((int)TYPE.PTO), "PTO");
 
             BindData();
 
             text_Temp.TextChanged += new System.EventHandler(textBox1_TextChanged);
             text_Temp.Visible = false;
             text_Temp.WordWrap = false;
+            //不显示滚动条
+            text_Temp.ScrollBars = RichTextBoxScrollBars.None;
 
             dataGridView1.Controls.Add(text_Temp);
 
@@ -40,10 +51,14 @@ namespace LocalPLC.Base
         DataTable dtData = null;
         const int columnUsedIndex = 0;
         const int columnVarIndex = 1;
-        const int columnTypeIndex = 2;
+        const int columnAddressIndex = 2;
+        const int columnTypeIndex = 3;
         const int columnNoteIndex = 4;
 
         private RichTextBox text_Temp = new RichTextBox();
+
+
+        Dictionary<int, string> typeDescDic = new Dictionary<int, string>();
         #endregion
 
 
@@ -61,14 +76,32 @@ namespace LocalPLC.Base
                         {
                             foreach(var innerElem in elemModule.connectModules.list)
                             {
+
+                                xml.HSPData hspData = new HSPData();
+
                                 DataRow drData;
                                 drData = dtData.NewRow();
-                                drData[0] = 0;
-                                drData[1] = innerElem.parameterName;
-                                drData[2] = "未配置";
-                                drData[3] = "";  //类型
+                                hspData.used = false;
+                                drData[columnUsedIndex] = hspData.used;
+
+                                hspData.name = innerElem.parameterName;
+                                drData[columnVarIndex] = hspData.name;
+
+                                hspData.type = 0;
+                                if(typeDescDic.ContainsKey(hspData.type))
+                                {
+                                    drData[columnTypeIndex] = typeDescDic[hspData.type];
+                                }
+                                else
+                                {
+                                    drData[columnTypeIndex] = "";
+                                }
+
+                                hspData.note = "";
+                                drData[columnNoteIndex] = hspData.note;  //注释
 
                                 dtData.Rows.Add(drData);
+                                UserControlBase.dataManage.hspList.Add(hspData);
                             }
                         }
                     }
@@ -84,6 +117,7 @@ namespace LocalPLC.Base
             dtData = new DataTable();
             dtData.Columns.Add("已配置", typeof(bool));
             dtData.Columns.Add("变量名", typeof(string));
+            dtData.Columns.Add("地址", typeof(string));
             dtData.Columns.Add("类型");
             //dtData.Columns.Add("配置");
             dtData.Columns.Add("注释");
@@ -150,7 +184,7 @@ namespace LocalPLC.Base
             uninstallButtonColumn.UseColumnTextForButtonValue = true;
 
 
-            int columnIndex = 2;
+            int columnIndex = 4;
             if (dataGridView1.Columns["配置"] == null)
             {
                 dataGridView1.Columns.Insert(columnIndex, uninstallButtonColumn);
@@ -171,7 +205,8 @@ namespace LocalPLC.Base
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index && e.RowIndex >= 0)
             {
                 //Do something with your button.
-                FormHighOutput color = new FormHighOutput();
+                FormHighOutput color = new FormHighOutput(typeDescDic, UserControlBase.dataManage.hspList[e.RowIndex].name,
+                    UserControlBase.dataManage.hspList[e.RowIndex].type);
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();
 
@@ -190,7 +225,7 @@ namespace LocalPLC.Base
 
             try
             {
-                if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+                if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex + 1)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -228,7 +263,7 @@ namespace LocalPLC.Base
 
             try
             {
-                if (this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex + 1)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
 

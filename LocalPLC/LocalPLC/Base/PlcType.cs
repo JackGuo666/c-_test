@@ -111,6 +111,7 @@ namespace LocalPLC.Base
         {
             di.refreshData();
             dout.refreshData();
+            //hout.refreshData();
 
         }
 

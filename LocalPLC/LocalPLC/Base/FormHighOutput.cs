@@ -10,16 +10,33 @@ using System.Windows.Forms;
 
 namespace LocalPLC.Base
 {
+
     public partial class FormHighOutput : Form
     {
-        public FormHighOutput()
+        Dictionary<int, string> typeDescDic_ = null;
+        public FormHighOutput(Dictionary<int, string> typeDescDic, string name, int type)
         {
             InitializeComponent();
 
-            comboBox3.Items.Add("未配置");
-            comboBox3.Items.Add("PTO");
-            comboBox3.Items.Add("PWM");
-            comboBox3.Items.Add("频率发生器");
+            this.Text = name;
+
+            typeDescDic_ = typeDescDic;
+
+            foreach (var elem in typeDescDic)
+            {
+                comboBox3.Items.Add(elem.Value);
+            }
+
+            if(comboBox3.Items.Count > 0)
+            {
+                comboBox3.SelectedIndex = 0;
+            }
+
+
+            //comboBox3.Items.Add("未配置");
+            //comboBox3.Items.Add("PLS");
+            //comboBox3.Items.Add("PWM");
+            //comboBox3.Items.Add("频率发生器");
 
 
             comboBox3.TextChanged += new System.EventHandler(comboBox3_SelectedIndexChanged);
@@ -40,12 +57,15 @@ namespace LocalPLC.Base
 
                 if (currentIndex == 1)
                 {
-
-
-                    UserControlPto pto = new UserControlPto("");
+                    UserControlPLS pls = new UserControlPLS(this.Width);
                     this.panel2.Controls.Clear();
-                    pto.Dock = DockStyle.Fill;
-                    this.panel2.Controls.Add(pto);
+                    pls.Dock = DockStyle.Fill;
+                    this.panel2.Controls.Add(pls);
+
+                    //UserControlPto pto = new UserControlPto("");
+                    //this.panel2.Controls.Clear();
+                    //pto.Dock = DockStyle.Fill;
+                    //this.panel2.Controls.Add(pto);
                 }
                 else if (currentIndex == 2)
                 {

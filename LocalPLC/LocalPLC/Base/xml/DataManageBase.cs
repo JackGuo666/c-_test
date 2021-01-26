@@ -18,7 +18,7 @@ namespace LocalPLC.Base.xml
     {
         public string tagName;
 
-        public List<BitfieldElem> list= new List<BitfieldElem>();
+        public List<BitfieldElem> list = new List<BitfieldElem>();
     }
     #endregion
 
@@ -71,7 +71,7 @@ namespace LocalPLC.Base.xml
         public string baseName;
         public string moduleID;
     }
-    public  class Connector
+    public class Connector
     {
         public void clear()
         {
@@ -132,7 +132,7 @@ namespace LocalPLC.Base.xml
         public List<Parameter> list = new List<Parameter>();
     }
 
-    
+
 
     public class ModuleElemModules
     {
@@ -198,6 +198,27 @@ namespace LocalPLC.Base.xml
         public string sntpServerIp = "0.0.0.0";
     }
 
+    public class HSPConfigData
+    {
+
+    }
+
+    public class HSPData
+    {
+        public bool used = false;
+        public string name = "";
+        public string address = "";
+        //config
+        public int pulseType = 0; //
+        public int timeBase = 0;    //0-0.1毫秒 1-1毫秒 2-10毫秒 3-1秒
+        public int preset = 0;
+
+        public int signalFrequency = 1000;
+
+        public int type = 0;    //0-未配置 1-PLS 2-PWM
+        public string note = "";
+    }
+
     public class DataManageBase
     {
         public bool newControlerFlag = false;
@@ -213,6 +234,8 @@ namespace LocalPLC.Base.xml
             diList.Clear();
             serialDic.Clear();
             ethernetDic.Clear();
+
+            hspList.Clear();
         }
 
         //DI DO
@@ -239,5 +262,7 @@ namespace LocalPLC.Base.xml
 
         public Dictionary<string, SERIALData> serialDic = new Dictionary<string, SERIALData>();
         public Dictionary<string, ETHERNETData> ethernetDic = new Dictionary<string, ETHERNETData>();
+
+        public List<HSPData> hspList = new List<HSPData>();
     }
 }
