@@ -208,14 +208,22 @@ namespace LocalPLC.Base.xml
         public bool used = false;
         public string name = "";
         public string address = "";
+
         //config
-        public int pulseType = 0; //
-        public int timeBase = 0;    //0-0.1毫秒 1-1毫秒 2-10毫秒 3-1秒
-        public int preset = 0;
+        //public int pulseType = 0; //
+        public string pulsePort = ""; //脉冲
+        public string directionPort = "";
+        public int timeBase = 3;    //0-0.1毫秒 1-1毫秒 2-10毫秒 3-1秒
+        public int preset = 1;
 
         public int signalFrequency = 1000;
+        public bool doubleWord = false;
 
-        public int type = 0;    //0-未配置 1-PLS 2-PWM
+        //PTO
+        public int outputMode = 1;         //0-CW/CCW 1-PULSE_DIC 2-AB_DIRECTION
+
+        public int type = 0;    //0-未配置 1-PLS 2-PWM 3-Frequency 4-PTO
+
         public string note = "";
     }
 

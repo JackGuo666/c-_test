@@ -243,13 +243,23 @@ namespace LocalPLC.Base
                 hspChild.SetAttribute("name", hsp.name);
                 hspChild.SetAttribute("address", hsp.address);
                 hspChild.SetAttribute("type", hsp.type.ToString());
-                hspChild.SetAttribute("note", hsp.note);
 
 
-                //PLS PWM frequency
+
+                //PWM
                 hspChild.SetAttribute("timebase", hsp.timeBase.ToString());
                 hspChild.SetAttribute("preset", hsp.preset.ToString());
+                //PLS
+                hspChild.SetAttribute("doubleword", hsp.doubleWord.ToString());
+                //frequency
                 hspChild.SetAttribute("signalfrequency", hsp.signalFrequency.ToString());
+                //PTO
+                hspChild.SetAttribute("outputmode", hsp.outputMode.ToString());
+                hspChild.SetAttribute("pulseport", hsp.pulsePort.ToString());
+                hspChild.SetAttribute("directionport", hsp.directionPort.ToString());
+
+
+                hspChild.SetAttribute("note", hsp.note);
 
                 elemHSP.AppendChild(hspChild);
             }
