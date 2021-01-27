@@ -13,7 +13,7 @@ namespace LocalPLC.Base
 {
     public partial class UserControlHighOutput : UserControl
     {
-        enum TYPE { NOTUSED, PLS, PWM, FREQUENCY, PTO}
+        public enum TYPE { NOTUSED, PLS, PWM, FREQUENCY, PTO}
         public UserControlHighOutput()
         {
             InitializeComponent();
@@ -205,14 +205,19 @@ namespace LocalPLC.Base
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index && e.RowIndex >= 0)
             {
                 //Do something with your button.
-                FormHighOutput color = new FormHighOutput(typeDescDic, UserControlBase.dataManage.hspList[e.RowIndex].name,
-                    UserControlBase.dataManage.hspList[e.RowIndex].type);
+                FormHighOutput color = new FormHighOutput(typeDescDic, UserControlBase.dataManage.hspList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();
 
-
                 var row = e.RowIndex;
                 var col = e.ColumnIndex;
+
+                var type = UserControlBase.dataManage.hspList[e.RowIndex].type;
+                if(typeDescDic.ContainsKey(type))
+                {
+                    //dtData.Rows[row][col] = typeDescDic[type];
+                    dtData.Rows[row][columnTypeIndex] = typeDescDic[type];
+                }
             }
         }
 
