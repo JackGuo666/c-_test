@@ -144,21 +144,50 @@ namespace LocalPLC.Base
             }
         }
 
+
+
+        public void loadXmlHsp(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                HSPData hspData = new HSPData();
+                string name = e.Name;
+                hspData.name = e.GetAttribute("name");
+                bool.TryParse(e.GetAttribute("used"), out hspData.used);
+                hspData.address = e.GetAttribute("address");
+                int.TryParse(e.GetAttribute("type"), out hspData.type);
+                int.TryParse(e.GetAttribute("timebase"), out hspData.timeBase);
+                int.TryParse(e.GetAttribute("preset"), out hspData.preset);
+                bool.TryParse(e.GetAttribute("doubleword"), out hspData.doubleWord);
+                int.TryParse(e.GetAttribute("signalfrequency"), out hspData.signalFrequency);
+                int.TryParse(e.GetAttribute("outputmode"), out hspData.outputMode);
+                hspData.pulsePort = e.GetAttribute("pulseport");
+                hspData.directionPort = e.GetAttribute("directionport");
+                hspData.note = e.GetAttribute("note");
+
+                dataManage.hspList.Add(hspData);
+            }
+        }
+
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elemDI = doc.CreateElement("DI");
             elemDI.SetAttribute("name", "DI");
             elem.AppendChild(elemDI);
 
-            //DI数据datatable到data manage
+
             if(curWeaponType == null)
             {
-                curWeaponType.getDataFromUI();
                 MessageBox.Show("配置文件格式错误!");
                 return;
             }
 
-            foreach(var di in dataManage.diList)
+            //DI、DO、HOUT、HIN数据datatable到data manage
+            curWeaponType.getDataFromUI();
+
+            foreach (var di in dataManage.diList)
             {
                 XmlElement elem_di = doc.CreateElement("elem");
                 elem_di.SetAttribute("used", di.used.ToString());

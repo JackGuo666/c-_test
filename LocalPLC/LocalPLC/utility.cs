@@ -125,59 +125,66 @@ namespace LocalPLC
          */
         public static void addIOGroups()
         {
-            IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
-
-            int Count = iog.Count;
-
-            List<IoGroup> ll = new List<IoGroup>();
-            foreach(IoGroup io in iog)
+            try 
             {
-                ll.Add(io);
-            }
+                IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
-            for(int i = 0; i < ll.Count; i++)
-            {
-                ll[i].Delete();
-            }
+                int Count = iog.Count;
 
-            var list = UserControl1.modmaster.masterManage.modbusMastrList;
-            foreach (var master in list)
-            {
-                string str = string.Format("master_in{0}", master.ID);
+                List<IoGroup> ll = new List<IoGroup>();
+                foreach (IoGroup io in iog)
+                {
+                    ll.Add(io);
+                }
 
-                iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
-            1, 1, 1, 1);
-                str = string.Format("master_out{0}", master.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
-                            1, 1, 1, 1);
-            }
-            List< LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
-            foreach(LocalPLC.ModbusClient.ModbusClientData client in listClient)
-            {
-                string str = string.Format("client_in{0}", client.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
-                    , 1, 1, 1, 1);
-                str = string.Format("client_out{0}", client.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
-                            1, 1, 1, 1);
-            }
-            string str1 = "server_in";
-            if(UserControl1.msi.serverDataManager.listServer.Count > 0)
-            {
-                iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
-                utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                for (int i = 0; i < ll.Count; i++)
+                {
+                    ll[i].Delete();
+                }
+
+                var list = UserControl1.modmaster.masterManage.modbusMastrList;
+                foreach (var master in list)
+                {
+                    string str = string.Format("master_in{0}", master.ID);
+
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+                utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                 1, 1, 1, 1);
+                    str = string.Format("master_out{0}", master.ID);
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                                utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                                1, 1, 1, 1);
+                }
+                List<LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
+                foreach (LocalPLC.ModbusClient.ModbusClientData client in listClient)
+                {
+                    string str = string.Format("client_in{0}", client.ID);
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
+                        , 1, 1, 1, 1);
+                    str = string.Format("client_out{0}", client.ID);
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                                utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                                1, 1, 1, 1);
+                }
+                string str1 = "server_in";
+                if (UserControl1.msi.serverDataManager.listServer.Count > 0)
+                {
+                    iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
+                    utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                    1, 1, 1, 1);
                     str1 = "server_out";
                     iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
                     utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
+                }
+
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
             }
-            
-            
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+            catch(Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("编译有错误，请修改错误后再重新生成配置文件!");
+            }
             
         }
         public static void addServerIOGroups()

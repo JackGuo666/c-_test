@@ -48,12 +48,12 @@ namespace LocalPLC.Base
         }
 
         #region
-        DataTable dtData = null;
-        const int columnUsedIndex = 0;
-        const int columnVarIndex = 1;
-        const int columnAddressIndex = 2;
-        const int columnTypeIndex = 3;
-        const int columnNoteIndex = 4;
+        public DataTable dtData = null;
+        public const int columnUsedIndex = 0;
+        public const int columnVarIndex = 1;
+        public const int columnAddressIndex = 2;
+        public const int columnTypeIndex = 3;
+        public const int columnNoteIndex = 4;
 
         private RichTextBox text_Temp = new RichTextBox();
 
@@ -109,6 +109,37 @@ namespace LocalPLC.Base
                 }
             }
 
+        }
+
+
+        /// <summary>
+        /// 加载工程文件，刷新界面显示
+        /// </summary>
+        public void refreshData()
+        {
+            dtData.Clear();
+            foreach (var hspData in UserControlBase.dataManage.hspList)
+            {
+                DataRow drData;
+                drData = dtData.NewRow();
+
+                drData[columnUsedIndex] = hspData.used;
+                drData[columnVarIndex] = hspData.name;
+                drData[columnAddressIndex] = hspData.address;
+                
+                if(typeDescDic.ContainsKey(hspData.type))
+                {
+                    drData[columnTypeIndex] = typeDescDic[hspData.type];
+                }
+                else
+                {
+                    drData[columnTypeIndex] = "";
+                }
+
+                drData[columnNoteIndex] = hspData.note;
+
+                dtData.Rows.Add(drData);
+            }
         }
 
         private void BindData()
@@ -217,6 +248,7 @@ namespace LocalPLC.Base
                 {
                     //dtData.Rows[row][col] = typeDescDic[type];
                     dtData.Rows[row][columnTypeIndex] = typeDescDic[type];
+                    dtData.Rows[row][columnUsedIndex] = UserControlBase.dataManage.hspList[e.RowIndex].used;
                 }
             }
         }

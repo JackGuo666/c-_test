@@ -111,8 +111,8 @@ namespace LocalPLC.Base
         {
             di.refreshData();
             dout.refreshData();
-            //hout.refreshData();
-
+            hout.refreshData();
+            
         }
 
         void initDIDO()
@@ -236,6 +236,7 @@ namespace LocalPLC.Base
         enum COLUMN_DO { USED, VARNAME, CHANNELNAME, ADDRESS, NOTE };
         public void getDataFromUI()
         {
+            //控制器类里DI、DO、HOUT从UI界面值传到datamanage
             var listDI = UserControlBase.dataManage.diList;
 
             int row = 0;
@@ -260,6 +261,18 @@ namespace LocalPLC.Base
                 listDO[row].channelName = dr[(int)COLUMN_DO.CHANNELNAME].ToString();
                 listDO[row].address = dr[(int)COLUMN_DO.ADDRESS].ToString();
                 listDO[row].note = dr[(int)COLUMN_DO.NOTE].ToString();
+
+                row++;
+            }
+
+            row = 0;
+            var hspList = UserControlBase.dataManage.hspList;
+            foreach(DataRow dr in hout.dtData.Rows)
+            {
+                bool.TryParse(dr[(int)UserControlHighOutput.columnUsedIndex].ToString(), out hspList[row].used);
+                hspList[row].name = dr[UserControlHighOutput.columnVarIndex].ToString();
+                hspList[row].address = dr[UserControlHighOutput.columnAddressIndex].ToString();
+                hspList[row].note = dr[UserControlHighOutput.columnNoteIndex].ToString();
 
                 row++;
             }

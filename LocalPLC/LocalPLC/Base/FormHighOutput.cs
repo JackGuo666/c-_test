@@ -216,6 +216,7 @@ namespace LocalPLC.Base
             if(comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.NOTUSED)
             {
                 hspData_.type = comboBox_outputType.SelectedIndex;
+                hspData_.used = false;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PLS)
             {
@@ -224,6 +225,7 @@ namespace LocalPLC.Base
                 hspData_.timeBase = comboBox_timeBase.SelectedIndex;
                 int.TryParse(textBox_preset.Text, out hspData_.preset);
                 hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                hspData_.used = true;
             }
             else if(comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PWM)
             {
@@ -231,12 +233,14 @@ namespace LocalPLC.Base
                 hspData_.timeBase = comboBox_timeBase.SelectedIndex;
                 int.TryParse(textBox_preset.Text, out hspData_.preset);
                 hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                hspData_.used = true;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.FREQUENCY)
             {
                 hspData_.type = comboBox_outputType.SelectedIndex;
                 hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
                 int.TryParse(textBox_frequency.Text, out hspData_.signalFrequency);
+                hspData_.used = true;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PTO)
             {
@@ -245,6 +249,7 @@ namespace LocalPLC.Base
                 hspData_.directionPort = comboBox_direction.SelectedItem.ToString();
                 //输出模式
                 hspData_.outputMode = comboBox_direction.SelectedIndex;
+                hspData_.used = true;
             }
             //if(comboBox_outputType == 0)
             //hspData_.type
