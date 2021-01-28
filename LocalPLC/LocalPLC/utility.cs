@@ -146,33 +146,33 @@ namespace LocalPLC
                 string str = string.Format("master_in{0}", master.ID);
 
                 iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
                 str = string.Format("master_out{0}", master.ID);
                 iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
             List< LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
             foreach(LocalPLC.ModbusClient.ModbusClientData client in listClient)
             {
                 string str = string.Format("client_in{0}", client.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "driver1", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
+                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
                     , 1, 1, 1, 1);
                 str = string.Format("client_out{0}", client.ID);
                 iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
             string str1 = "server_in";
             if(UserControl1.msi.serverDataManager.listServer.Count > 0)
             {
                 iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
-                utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                 1, 1, 1, 1);
                     str1 = "server_out";
                     iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
-                    utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                    utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
             }
             
@@ -199,11 +199,11 @@ namespace LocalPLC
 
             string str = "server_in";
             iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
             str = "server_out";
             iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
         }
         /* 动态添加创建数组刷新

@@ -282,6 +282,10 @@ namespace LocalPLC
                                 {
                                     UC.loadXmlEthernet(nChild);
                                 }
+                                else if(childname == "HSP")
+                                {
+                                    UC.loadXmlHsp(nChild);
+                                }
                             }
                         }
 
@@ -1128,10 +1132,10 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                     //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
                     //iog.Create("master1_in", AdeIoGroupAccessType.adeIgatInput,
-                    //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte, 
+                    //            1000, "SystemIODriver", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte, 
                     //            1, 1, 1, 1);
                     //iog.Create("master1_out", AdeIoGroupAccessType.adeIgatOutput,
-                    //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte,
+                    //            1000, "SystemIODriver", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte,
                     //            1, 1, 1, 1);
 
                     //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
@@ -1166,7 +1170,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                     //    {
 
                     //        resource.IoGroups.Create("master1", AdeIoGroupAccessType.adeIgatInput,
-                    //            1000, "driver1", "");
+                    //            1000, "SystemIODriver", "");
 
                     //        System.Runtime.InteropServices.Marshal.ReleaseComObject(resource.IoGroups);
 
@@ -1407,11 +1411,11 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 string str = string.Format("master_in{0}", master.ID);
 
                 iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
                 str = string.Format("master_out{0}", master.ID);
                 iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
 
