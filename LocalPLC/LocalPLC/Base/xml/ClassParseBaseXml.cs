@@ -33,7 +33,9 @@ namespace LocalPLC.Base.xml
             string path = UserControl1.multiprogApp.Path;
             string projectPath = UserControl1.multiprogApp.ActiveProject.Path;
             string projectName = UserControl1.multiprogApp.ActiveProject.Name;
-            path +=  "\\LocalPLC\\LocalPLC586.xml";
+            //为了测试使用默认值
+			path +=  "\\LocalPLC\\LocalPLC586.xml";
+            //path +=  "\\LocalPLC\\" + type + ".xml";
             try
             {
                 XmlReaderSettings settings = new XmlReaderSettings();
@@ -78,6 +80,7 @@ namespace LocalPLC.Base.xml
             catch(Exception e)
             {
                 Console.Out.WriteLine(e.Message);
+                System.Windows.Forms.MessageBox.Show(type + "控制器文件不存在");
                 return;
             }
         }
