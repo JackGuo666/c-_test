@@ -26,10 +26,41 @@ namespace LocalPLC.Base
         const int columnAddressIndex = 4;
         public void initData()
         {
-            if (UserControlBase.dataManage.dicBitfield.ContainsKey("INPUTS_TM221C16U"))
+            string diType = "";
+            foreach(var modbule in UserControlBase.dataManage.deviceInfoElem.connector.moduleList)
+            {
+                if(modbule.baseName == "DI")
+                {
+                    var moduleID = modbule.moduleID;
+
+                    foreach(var moduleElem in UserControlBase.dataManage.modules.list)
+                    {
+                        var paraList = moduleElem.connectModules.list;
+                        if(moduleElem.moduleID == moduleID)
+                        {
+                            foreach (var para in paraList)
+                            {
+                                string type = para.type;
+                                string[] strArr = type.Split(new Char[] { ':' });
+                                if (strArr.Length == 2)
+                                {
+                                    //串口type localTypes
+                                    string localType = strArr.ElementAt(0);
+                                    diType = strArr.ElementAt(1);
+
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            if (UserControlBase.dataManage.dicBitfield.ContainsKey(diType))
             {
                 dtData.Clear();
-                var value = UserControlBase.dataManage.dicBitfield["INPUTS_TM221C16U"];
+                var value = UserControlBase.dataManage.dicBitfield[diType];
                 int count = 0;
                 foreach(var elem in value.list)
                 {
@@ -246,6 +277,7 @@ namespace LocalPLC.Base
 
             text_Temp.Visible = false;
             text_Temp.WordWrap = false;
+            text_Temp.ScrollBars = RichTextBoxScrollBars.None;
             //text_Temp.setParent(dataGridView1);
 
 

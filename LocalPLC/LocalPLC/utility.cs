@@ -123,61 +123,106 @@ namespace LocalPLC
         /*
          IOGroups添加IOGroup
          */
-        public static void addIOGroups()
+        public static bool addIOGroups()
         {
-            IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
-
-            int Count = iog.Count;
-
-            List<IoGroup> ll = new List<IoGroup>();
-            foreach(IoGroup io in iog)
+            try 
             {
-                ll.Add(io);
-            }
+                if(LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Count == 0)
+                {
+                    System.Windows.Forms.MessageBox.Show("资源里没有数据,请配置好资源后，再重新导入数据!");
+                    return false; ;
+                }
 
-            for(int i = 0; i < ll.Count; i++)
-            {
-                ll[i].Delete();
-            }
+                GC.Collect();
+                IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
-            var list = UserControl1.modmaster.masterManage.modbusMastrList;
-            foreach (var master in list)
-            {
-                string str = string.Format("master_in{0}", master.ID);
+                int Count = iog.Count;
 
-                iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
-            1, 1, 1, 1);
-                str = string.Format("master_out{0}", master.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
-                            1, 1, 1, 1);
-            }
-            List< LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
-            foreach(LocalPLC.ModbusClient.ModbusClientData client in listClient)
-            {
-                string str = string.Format("client_in{0}", client.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "driver1", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
-                    , 1, 1, 1, 1);
-                str = string.Format("client_out{0}", client.ID);
-                iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
-                            1, 1, 1, 1);
-            }
-            string str1 = "server_in";
-            if(UserControl1.msi.serverDataManager.listServer.Count > 0)
-            {
-                iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
-                utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                List<IoGroup> ll = new List<IoGroup>();
+                foreach (IoGroup io in iog)
+                {
+                    ll.Add(io);
+                }
+
+                for (int i = 0; i < ll.Count; i++)
+                {
+                    ll[i].Delete();
+                }
+
+                var list = UserControl1.modmaster.masterManage.modbusMastrList;
+                foreach (var master in list)
+                {
+                    string str = string.Format("master_in{0}", master.ID);
+
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+                utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                 1, 1, 1, 1);
+                    str = string.Format("master_out{0}", master.ID);
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                                utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                                1, 1, 1, 1);
+                }
+                List<LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
+                foreach (LocalPLC.ModbusClient.ModbusClientData client in listClient)
+                {
+                    string str = string.Format("client_in{0}", client.ID);
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatInput, utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
+                        , 1, 1, 1, 1);
+                    str = string.Format("client_out{0}", client.ID);
+                    iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                                utility.modbusMudule, "SystemIODriver", "<默认>", "", client.clientstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                                1, 1, 1, 1);
+                }
+                string str1 = "server_in";
+                if (UserControl1.msi.serverDataManager.listServer.Count > 0)
+                {
+                    iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
+                    utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                    1, 1, 1, 1);
                     str1 = "server_out";
                     iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
-                    utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                    utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
+                }
+
+
+                //add by gw in 20210201 for 添加io group地址
+                string ioStartAddr = LocalPLC.Base.UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+                string ioEndAddr = LocalPLC.Base.UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrEnd;
+                int nIoStartAddr = 0;
+                int nIoEndAddr = 0;
+                if (int.TryParse(ioStartAddr, out nIoStartAddr) == false)
+                {
+                    System.Windows.Forms.MessageBox.Show("io组起始地址无效!");
+                }
+
+                if (int.TryParse(ioEndAddr, out nIoEndAddr) == false)
+                {
+                    System.Windows.Forms.MessageBox.Show("io组结束地址无效!");
+                }
+
+                int count = (nIoEndAddr - nIoStartAddr) + 1;
+
+                string strBase = "Base_DI_in";
+                iog.Create(strBase, AdeIoGroupAccessType.adeIgatInput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                    , 1, 1, 1, 1);
+                strBase = "Base_DI_out";
+                iog.Create(strBase, AdeIoGroupAccessType.adeIgatOutput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                   , 1, 1, 1, 1);
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
             }
-            
-            
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+            catch(Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("编译有错误，导入数据失败，请修改错误后,手动编译然后再导入数据!");
+                
+                //add by gw in 20210201 for释放异常情况IO Groups
+                GC.Collect();
+
+                return false;
+            }
+
+            return true;
             
         }
         public static void addServerIOGroups()
@@ -199,11 +244,11 @@ namespace LocalPLC
 
             string str = "server_in";
             iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
             str = "server_out";
             iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-            utility.modbusMudule, "driver1", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
         }
         /* 动态添加创建数组刷新
@@ -240,225 +285,289 @@ namespace LocalPLC
 
         public static void addVariables()
         {
-            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            try
             {
-                Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
-                
-                // Because of VB all indices are starting with 1 !!!!!
-                Resource resource = physicalHardware.Configurations.Item(1).Resources.Item(1);
-
-                // get the variables collection with the specified logical name
-                AdeObjectType objectType = AdeObjectType.adeOtVariables;
-                object variablesObject =
-                    LocalPLC.UserControl1.multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
-                // is the returned object really of type "Variables"?
-                if (objectType == AdeObjectType.adeOtVariables)
+                if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
                 {
-                    Variables variables = variablesObject as Variables;
-                    
-                    foreach(Variable var in variables)
-                    {
-                        //var.Delete();
-                    }
+                    Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
 
-                    //master组添加变量
-                    var groups = resource.Variables.Groups;
-                    foreach (VariableGroup ttt in groups)
+                    // Because of VB all indices are starting with 1 !!!!!
+                    Resource resource = physicalHardware.Configurations.Item(1).Resources.Item(1);
+
+                    // get the variables collection with the specified logical name
+                    AdeObjectType objectType = AdeObjectType.adeOtVariables;
+                    object variablesObject =
+                        LocalPLC.UserControl1.multiprogApp.ActiveProject.GetObjectByLogicalName(resource.Variables.LogicalName, ref objectType);
+                    // is the returned object really of type "Variables"?
+                    if (objectType == AdeObjectType.adeOtVariables)
                     {
-                        var name = ttt.Name;
-                        if (name == "Master")
+                        Variables variables = variablesObject as Variables;
+
+                        foreach (Variable var in variables)
                         {
-                            foreach(Variable variable in ttt.Variables)
+                            //var.Delete();
+                        }
+
+                        //master组添加变量
+                        var groups = resource.Variables.Groups;
+                        foreach (VariableGroup ttt in groups)
+                        {
+                            var name = ttt.Name;
+                            if (name == "Master")
                             {
-                                variable.Delete();
-                            }
-                            foreach(var master in UserControl1.modmaster.masterManage.modbusMastrList)
-                            {
-                                foreach(var device in master.modbusDeviceList)
+                                foreach (Variable variable in ttt.Variables)
                                 {
-                                    if (device.resetVaraible != "")
+                                    variable.Delete();
+                                }
+                                foreach (var master in UserControl1.modmaster.masterManage.modbusMastrList)
+                                {
+                                    foreach (var device in master.modbusDeviceList)
                                     {
-                                        var resetvariable = ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "复位变量", "", "%IB" + device.curDeviceAddr.ToString());
-                                        string a = device.resetkey[0];
-                                        string b = device.resetkey[1];
-                                        resetvariable.SetAttribute(20, device.resetkey[0] + "m" + device.resetkey[1]);
-
-                                    }
-                                    foreach(var channel in device.modbusChannelList)
-                                    {
-                                        if(utility.varTypeDicBit.ContainsKey(channel.readLength))
+                                        if (device.resetVaraible != "")
                                         {
-                                            string varType = utility.varTypeDicBit[channel.readLength];
-                                            string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
-                                            if (channel.trigger !="")
-                                            {
-                                                var triggeroffset = ttt.Variables.Create(channel.trigger,"BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "触发变量","","%IB"+ channel.curChannelAddr.ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                triggeroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey1);
-                                            }
-                                            if (channel.error != "")
-                                            {
-                                                var erroroffset = ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString() );
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                erroroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey2);
-                                            }
-                                            
-                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                "Inserted from AIFDemo", "", adress, false);
-                                        }
-                                        else if(utility.varTypeDicWord.ContainsKey(channel.readLength))
-                                        {
-                                            string varType = utility.varTypeDicWord[channel.readLength];
-                                            string adress = string.Format("%IW{0}", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
-                                            if (channel.trigger != "")
-                                            {
-                                                var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "触发变量", "", "%IB" + channel.curChannelAddr.ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                triggeroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey1);
-                                            }
-                                            if (channel.error != "")
-                                            {
-                                                var erroroffset = ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                erroroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey2);
-                                            }
-                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                "Inserted from AIFDemo", "", adress, false);
-                                        }
+                                            var resetvariable = ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "复位变量", "", "%IB" + device.curDeviceAddr.ToString());
+                                            string a = device.resetkey[0];
+                                            string b = device.resetkey[1];
+                                            resetvariable.SetAttribute(20, device.resetkey[0] + "m" + device.resetkey[1]);
 
+                                        }
+                                        foreach (var channel in device.modbusChannelList)
+                                        {
+                                            if (utility.varTypeDicBit.ContainsKey(channel.readLength))
+                                            {
+                                                string varType = utility.varTypeDicBit[channel.readLength];
+                                                string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                                if (channel.trigger != "")
+                                                {
+                                                    var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "触发变量", "", "%IB" + channel.curChannelAddr.ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    triggeroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey1);
+                                                }
+                                                if (channel.error != "")
+                                                {
+                                                    var erroroffset = ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    erroroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey2);
+                                                }
+
+                                                ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adress, false);
+                                            }
+                                            else if (utility.varTypeDicWord.ContainsKey(channel.readLength))
+                                            {
+                                                string varType = utility.varTypeDicWord[channel.readLength];
+                                                string adress = string.Format("%IW{0}", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                                if (channel.trigger != "")
+                                                {
+                                                    var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "触发变量", "", "%IB" + channel.curChannelAddr.ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    triggeroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey1);
+                                                }
+                                                if (channel.error != "")
+                                                {
+                                                    var erroroffset = ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    erroroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey2);
+                                                }
+                                                ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adress, false);
+                                            }
+
+                                        }
                                     }
                                 }
+
+                                //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                //     "Inserted from AIFDemo", "12", "%IX0.0", false);
                             }
-                            
-                            //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                            //     "Inserted from AIFDemo", "12", "%IX0.0", false);
-                        }
-                        if (name == "Client")
-                        {
-                            foreach (Variable variable in ttt.Variables)
+                            if (name == "Client")
                             {
-                                variable.Delete();
-                            }
-                            foreach (var client in UserControl1.mci.clientManage.modbusClientList)
-                            {
-                                foreach (var device in client.modbusDeviceList)
+                                foreach (Variable variable in ttt.Variables)
                                 {
-                                    if (device.resetVaraible != "")
+                                    variable.Delete();
+                                }
+                                foreach (var client in UserControl1.mci.clientManage.modbusClientList)
+                                {
+                                    foreach (var device in client.modbusDeviceList)
                                     {
-                                       var resetvariable = ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "复位变量", "", "%IB" + device.devstartaddr.ToString());
-                                        string a = device.resetkey[0];
-                                        string b = device.resetkey[1];
-                                        resetvariable.SetAttribute(20,device.resetkey[0] + "c"+ device.resetkey[1]);
-                                    }
-                                    foreach (var channel in device.modbusChannelList)
-                                    {
-                                        
-                                        if (utility.varTypeDicBit1.ContainsKey(channel.Length))
+                                        if (device.resetVaraible != "")
                                         {
-                                            string varType = utility.varTypeDicBit1[channel.Length];
-                                            string adress = string.Format("%IX{0}.0", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
-                                            if (channel.trigger_offset != "")
+                                            var resetvariable = ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                         "复位变量", "", "%IB" + device.devstartaddr.ToString());
+                                            string a = device.resetkey[0];
+                                            string b = device.resetkey[1];
+                                            resetvariable.SetAttribute(20, device.resetkey[0] + "c" + device.resetkey[1]);
+                                        }
+                                        foreach (var channel in device.modbusChannelList)
+                                        {
+
+                                            if (utility.varTypeDicBit1.ContainsKey(channel.Length))
                                             {
-                                                var triggeroffset = ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "触发变量", "", "%IB" + channel.channelstartaddr.ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                triggeroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c"+channel.offsetkey1);
+                                                string varType = utility.varTypeDicBit1[channel.Length];
+                                                string adress = string.Format("%IX{0}.0", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
+                                                if (channel.trigger_offset != "")
+                                                {
+                                                    var triggeroffset = ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "触发变量", "", "%IB" + channel.channelstartaddr.ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    triggeroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c" + channel.offsetkey1);
+                                                }
+                                                if (channel.error_offset != "")
+                                                {
+                                                    var erroroffset = ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    erroroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c" + channel.offsetkey2);
+                                                }
+
+                                                ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adress, false);
                                             }
-                                            if (channel.error_offset != "")
+                                            else if (utility.varTypeDicWord2.ContainsKey(channel.Length))
                                             {
-                                                var erroroffset = ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                erroroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c"+channel.offsetkey2);
+                                                string varType = utility.varTypeDicWord2[channel.Length];
+                                                string adress = string.Format("%IW{0}", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
+                                                if (channel.trigger_offset != "")
+                                                {
+                                                    var triggeroffset = ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "触发变量", "", "%IB" + channel.channelstartaddr.ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    triggeroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c" + channel.offsetkey1);
+                                                }
+                                                if (channel.error_offset != "")
+                                                {
+                                                    var erroroffset = ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
+                                                    string a = channel.offsetkey[0];
+                                                    string b = channel.offsetkey[1];
+                                                    string c = channel.offsetkey[2];
+                                                    string d = channel.offsetkey1;
+                                                    erroroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c" + channel.offsetkey2);
+                                                }
+                                                ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adress, false);
                                             }
 
-                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                "Inserted from AIFDemo", "", adress, false);
                                         }
-                                        else if (utility.varTypeDicWord2.ContainsKey(channel.Length))
-                                        {
-                                            string varType = utility.varTypeDicWord2[channel.Length];
-                                            string adress = string.Format("%IW{0}", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
-                                            if (channel.trigger_offset != "")
-                                            {
-                                                var triggeroffset = ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "触发变量", "", "%IB" + channel.channelstartaddr.ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                triggeroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c" + channel.offsetkey1);
-                                            }
-                                            if (channel.error_offset != "")
-                                            {
-                                                var erroroffset = ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
-                                                string a = channel.offsetkey[0];
-                                                string b = channel.offsetkey[1];
-                                                string c = channel.offsetkey[2];
-                                                string d = channel.offsetkey1;
-                                                erroroffset.SetAttribute(20, channel.offsetkey[0] + "c" + channel.offsetkey[1] + channel.offsetkey[2] + "c" + channel.offsetkey2);
-                                            }
-                                            ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                "Inserted from AIFDemo", "", adress, false);
-                                        }
-
                                     }
+                                }
+
+                                //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                //     "Inserted from AIFDemo", "12", "%IX0.0", false);
+                            }
+
+
+
+
+                            //add by gw in 20210201 for添加DI变量
+                            if(name == "Base_DI")
+                            {
+                                //删除变量组下的变量
+                                foreach (Variable variable in ttt.Variables)
+                                {
+                                    variable.Delete();
+                                }
+
+                                foreach(var di in LocalPLC.Base.UserControlBase.dataManage.diList)
+                                {
+                                    string varName = "";
+                                    if(di.varName == "")
+                                    {
+                                        varName = di.channelName;
+                                        di.varName = di.channelName;
+                                    }
+                                    else
+                                    {
+                                        varName = di.varName;
+                                    }
+                                    var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "DI变量", "", di.address);
                                 }
                             }
 
-                            //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                            //     "Inserted from AIFDemo", "12", "%IX0.0", false);
+                            if(name == "Base_DO")
+                            {
+                                //删除变量组下的变量
+                                foreach (Variable variable in ttt.Variables)
+                                {
+                                    variable.Delete();
+                                }
+
+                                foreach (var dout in LocalPLC.Base.UserControlBase.dataManage.doList)
+                                {
+                                    string varName = "";
+                                    if (dout.varName == "")
+                                    {
+                                        varName = dout.channelName;
+                                        dout.varName = dout.channelName;
+                                    }
+                                    else
+                                    {
+                                        varName = dout.varName;
+                                    }
+
+                                    var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "DO变量", "", dout.address);
+                                }
+                            }
                         }
+
+                        //var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                        //                 "Inserted from AIFDemo", "12", "", false);
+                        ////variable = variables.Create("test1", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
+                        ////              "Inserted from AIFDemo", "12", "%IW1000", false);
+                        //variable.SetAttribute(90, "1");
+
+                        //object t = variable.GetAttribute(90);
+                        //string strTemp = t.ToString();
+
+
+                        //System.Runtime.InteropServices.Marshal.ReleaseComObject(variable);
+
                     }
 
-                    //var variable = variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                    //                 "Inserted from AIFDemo", "12", "", false);
-                    ////variable = variables.Create("test1", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
-                    ////              "Inserted from AIFDemo", "12", "%IW1000", false);
-                    //variable.SetAttribute(90, "1");
 
-                    //object t = variable.GetAttribute(90);
-                    //string strTemp = t.ToString();
+                    string str = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path;
 
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(variablesObject);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(resource);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(physicalHardware);
 
-                    //System.Runtime.InteropServices.Marshal.ReleaseComObject(variable);
 
                 }
-
-
-                string str = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path;
-
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(variablesObject);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(resource);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(physicalHardware);
-
-
             }
+            catch(Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("变量内存冲突!");
+            }
+
+
         }
         public static void addserverVariables()
         {

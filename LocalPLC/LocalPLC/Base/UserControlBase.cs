@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LocalPLC.Base.xml;
 using System.Xml;
+using System.IO;
 
 namespace LocalPLC.Base
 {
@@ -26,9 +27,11 @@ namespace LocalPLC.Base
         public Control parent_ = null;
         //DataManageBase数据管理
         public static DataManageBase dataManage = new DataManageBase();
+        public string localPLCType_ = "";
         public UserControlBase() 
         {
             InitializeComponent();
+
         }
 
 
@@ -38,6 +41,8 @@ namespace LocalPLC.Base
             PlcTypeArr.Clear();
             splitContainer2.Panel1.Controls.Clear();
             splitContainer2.Panel2.Controls.Clear();
+
+            treeView2.Nodes.Clear();
         }
 
         public void loadXmlDI(XmlNode xn)
@@ -144,15 +149,50 @@ namespace LocalPLC.Base
             }
         }
 
+
+
+        public void loadXmlHsp(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                HSPData hspData = new HSPData();
+                string name = e.Name;
+                hspData.name = e.GetAttribute("name");
+                bool.TryParse(e.GetAttribute("used"), out hspData.used);
+                hspData.address = e.GetAttribute("address");
+                int.TryParse(e.GetAttribute("type"), out hspData.type);
+                int.TryParse(e.GetAttribute("timebase"), out hspData.timeBase);
+                int.TryParse(e.GetAttribute("preset"), out hspData.preset);
+                bool.TryParse(e.GetAttribute("doubleword"), out hspData.doubleWord);
+                int.TryParse(e.GetAttribute("signalfrequency"), out hspData.signalFrequency);
+                int.TryParse(e.GetAttribute("outputmode"), out hspData.outputMode);
+                hspData.pulsePort = e.GetAttribute("pulseport");
+                hspData.directionPort = e.GetAttribute("directionport");
+                hspData.note = e.GetAttribute("note");
+
+                dataManage.hspList.Add(hspData);
+            }
+        }
+
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elemDI = doc.CreateElement("DI");
             elemDI.SetAttribute("name", "DI");
             elem.AppendChild(elemDI);
 
-            //DI数据datatable到data manage
+
+            if(curWeaponType == null)
+            {
+                MessageBox.Show("配置文件格式错误!");
+                return;
+            }
+
+            //DI、DO、HOUT、HIN数据datatable到data manage
             curWeaponType.getDataFromUI();
-            foreach(var di in dataManage.diList)
+
+            foreach (var di in dataManage.diList)
             {
                 XmlElement elem_di = doc.CreateElement("elem");
                 elem_di.SetAttribute("used", di.used.ToString());
@@ -224,6 +264,39 @@ namespace LocalPLC.Base
                     elemEthnet.AppendChild(ethernetChild);
                 }
             }
+
+
+            XmlElement elemHSP = doc.CreateElement("HSP");
+            elemHSP.SetAttribute("name", "HSP");
+            elem.AppendChild(elemHSP);
+            foreach(var hsp in dataManage.hspList)
+            {
+                XmlElement hspChild = doc.CreateElement("elem");
+
+                hspChild.SetAttribute("used", hsp.used.ToString());
+                hspChild.SetAttribute("name", hsp.name);
+                hspChild.SetAttribute("address", hsp.address);
+                hspChild.SetAttribute("type", hsp.type.ToString());
+
+
+
+                //PWM
+                hspChild.SetAttribute("timebase", hsp.timeBase.ToString());
+                hspChild.SetAttribute("preset", hsp.preset.ToString());
+                //PLS
+                hspChild.SetAttribute("doubleword", hsp.doubleWord.ToString());
+                //frequency
+                hspChild.SetAttribute("signalfrequency", hsp.signalFrequency.ToString());
+                //PTO
+                hspChild.SetAttribute("outputmode", hsp.outputMode.ToString());
+                hspChild.SetAttribute("pulseport", hsp.pulsePort.ToString());
+                hspChild.SetAttribute("directionport", hsp.directionPort.ToString());
+
+
+                hspChild.SetAttribute("note", hsp.note);
+
+                elemHSP.AppendChild(hspChild);
+            }
         }
 
         public void getTreeView(TreeView view)
@@ -235,6 +308,42 @@ namespace LocalPLC.Base
         {
             parent_ = parent;
         }
+
+        public string loadControler()
+        {
+            string path = UserControl1.multiprogApp.Path;
+            path += "\\LocalPLC\\controler.xml";
+
+            XmlDocument xDoc = new XmlDocument();
+            this.treeView1.Nodes.Clear();
+            string returnType = "";
+            if (File.Exists(path))
+            {
+                xDoc.Load(path);
+
+                //根节点
+                XmlNode node = xDoc.SelectSingleNode("Controler");
+                XmlNodeList nodeList = node.ChildNodes;
+                foreach (XmlNode xn in nodeList)
+                {
+                    XmlElement eChild = (XmlElement)xn;
+                    string childname = eChild.Name;
+                    string name = eChild.GetAttribute("name");
+                    int defaultType;
+                    string test = eChild.GetAttribute("default");
+                    int.TryParse(test, out defaultType);
+                    if(defaultType > 0)
+                    {
+                        returnType = name;
+                    }
+
+                    this.treeView1.Nodes.Add(name);
+                }
+            }
+
+
+            return returnType;
+         }
 
         private void UserControlBase_Load(object sender, EventArgs e)
         {
@@ -389,6 +498,8 @@ namespace LocalPLC.Base
 
         public void createControlerConfigured(string PLCType)
         {
+            localPLCType_ = PLCType;
+
             dataManage.newControlerFlag = false;
 
             LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(PLCType, dataManage);
@@ -430,11 +541,8 @@ namespace LocalPLC.Base
         {
             dataManage.newControlerFlag = true;
 
-            string localPLCType = defaultPLCType;
-            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType, dataManage);
-
-
-
+            localPLCType_ = defaultPLCType;
+            LocalPLC.Base.xml.ClassParseBaseXml ttt = new ClassParseBaseXml(localPLCType_, dataManage);
 
             var topNode = treeView_.TopNode;
             var commNode = FindNode(topNode, "通信线路");
@@ -443,9 +551,9 @@ namespace LocalPLC.Base
             createSerialUserControl();
             createEthernetUserControl();
 
-            topNode.Text = localPLCType;
+            topNode.Text = localPLCType_;
 
-            string tmp = string.Format("LocalPLC.Base.{0}", localPLCType);
+            string tmp = string.Format("LocalPLC.Base.{0}", localPLCType_);
             Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);

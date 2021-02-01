@@ -18,7 +18,7 @@ namespace LocalPLC.Base.xml
     {
         public string tagName;
 
-        public List<BitfieldElem> list= new List<BitfieldElem>();
+        public List<BitfieldElem> list = new List<BitfieldElem>();
     }
     #endregion
 
@@ -64,6 +64,11 @@ namespace LocalPLC.Base.xml
         public string type;
         public string ID;
         public string version;
+
+
+        //IO address
+        public string ioAddrStart = "";
+        public string ioAddrEnd = "";
     }
 
     public class DeviceModuleElem
@@ -71,7 +76,7 @@ namespace LocalPLC.Base.xml
         public string baseName;
         public string moduleID;
     }
-    public  class Connector
+    public class Connector
     {
         public void clear()
         {
@@ -95,6 +100,7 @@ namespace LocalPLC.Base.xml
         public string desc;
         public string vendor;
         public string defaultInstanceName;
+
 
         public DeviceIdentificationElem deviceIdentificationElem = new DeviceIdentificationElem();
 
@@ -132,7 +138,7 @@ namespace LocalPLC.Base.xml
         public List<Parameter> list = new List<Parameter>();
     }
 
-    
+
 
     public class ModuleElemModules
     {
@@ -198,6 +204,35 @@ namespace LocalPLC.Base.xml
         public string sntpServerIp = "0.0.0.0";
     }
 
+    public class HSPConfigData
+    {
+
+    }
+
+    public class HSPData
+    {
+        public bool used = false;
+        public string name = "";
+        public string address = "";
+
+        //config
+        //public int pulseType = 0; //
+        public string pulsePort = ""; //脉冲
+        public string directionPort = "";
+        public int timeBase = 3;    //0-0.1毫秒 1-1毫秒 2-10毫秒 3-1秒
+        public int preset = 1;
+
+        public int signalFrequency = 1000;
+        public bool doubleWord = false;
+
+        //PTO
+        public int outputMode = 1;         //0-CW/CCW 1-PULSE_DIC 2-AB_DIRECTION
+
+        public int type = 0;    //0-未配置 1-PLS 2-PWM 3-Frequency 4-PTO
+
+        public string note = "";
+    }
+
     public class DataManageBase
     {
         public bool newControlerFlag = false;
@@ -213,6 +248,8 @@ namespace LocalPLC.Base.xml
             diList.Clear();
             serialDic.Clear();
             ethernetDic.Clear();
+
+            hspList.Clear();
         }
 
         //DI DO
@@ -239,5 +276,7 @@ namespace LocalPLC.Base.xml
 
         public Dictionary<string, SERIALData> serialDic = new Dictionary<string, SERIALData>();
         public Dictionary<string, ETHERNETData> ethernetDic = new Dictionary<string, ETHERNETData>();
+
+        public List<HSPData> hspList = new List<HSPData>();
     }
 }

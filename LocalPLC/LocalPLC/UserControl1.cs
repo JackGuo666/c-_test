@@ -45,7 +45,8 @@ namespace LocalPLC
 	
 		public static ModbusServer.ServerIndex msi = new ServerIndex();
 
-        static UserControlBase UC = new UserControlBase();
+
+        public static UserControlBase UC = new UserControlBase();
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -204,12 +205,11 @@ namespace LocalPLC
 
              clean();
 
+            string localPLCType = "";
             try
             {
                 if (File.Exists(path))
                 {
-
-
                     xDoc.Load(path);
 
                     //根节点
@@ -261,7 +261,10 @@ namespace LocalPLC
                         }
                         else if (name == "base")
                         {
+                            
                             XmlNodeList childList = xn.ChildNodes;
+                            XmlElement childElement = (XmlElement)xn;
+                            localPLCType = childElement.GetAttribute("Type");
                             foreach (XmlNode nChild in childList)
                             {
                                 XmlElement eChild = (XmlElement)nChild;
@@ -282,18 +285,24 @@ namespace LocalPLC
                                 {
                                     UC.loadXmlEthernet(nChild);
                                 }
+                                else if(childname == "HSP")
+                                {
+                                    UC.loadXmlHsp(nChild);
+                                }
                             }
                         }
 
 
                     }
 
-                    UC.createControlerConfigured("LocalPLC24P");
+                    UC.loadControler();
+                    UC.createControlerConfigured(/*"LocalPLC24P"*/ localPLCType);
                 }
                 else
                 {
                     //新建工程加载默认控制器
-                    UC.createControler("LocalPLC24P");
+                    string type = UC.loadControler();
+                    UC.createControler(/*"LocalPLC24P"*/ type);
                     return;
                 }
 
@@ -904,6 +913,7 @@ namespace LocalPLC
 
             //基本配置保存xml文件
             XmlElement elemBase = xDoc.CreateElement("base");
+            elemBase.SetAttribute("Type", UC.localPLCType_);
             elemRoot.AppendChild(elemBase);
             UC.saveXml(ref elemBase, ref xDoc);
 
@@ -953,6 +963,8 @@ namespace LocalPLC
                 UserControlBase.dataManage.clear();
                 //在加载前，清空界面
                 UC.clearUI();
+
+                //加载控制器文件
             }
         }
         private void ModbusWindow_Enter(object sender, EventArgs e)
@@ -1128,10 +1140,10 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                     //IoGroups iog = multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
                     //iog.Create("master1_in", AdeIoGroupAccessType.adeIgatInput,
-                    //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte, 
+                    //            1000, "SystemIODriver", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte, 
                     //            1, 1, 1, 1);
                     //iog.Create("master1_out", AdeIoGroupAccessType.adeIgatOutput,
-                    //            1000, "driver1", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte,
+                    //            1000, "SystemIODriver", "<默认>", "", 1000, "test", AdeIoGroupDataType.adeIgdtByte,
                     //            1, 1, 1, 1);
 
                     //System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
@@ -1166,7 +1178,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                     //    {
 
                     //        resource.IoGroups.Create("master1", AdeIoGroupAccessType.adeIgatInput,
-                    //            1000, "driver1", "");
+                    //            1000, "SystemIODriver", "");
 
                     //        System.Runtime.InteropServices.Marshal.ReleaseComObject(resource.IoGroups);
 
@@ -1407,11 +1419,11 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 string str = string.Format("master_in{0}", master.ID);
 
                 iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
             1, 1, 1, 1);
                 str = string.Format("master_out{0}", master.ID);
                 iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                            utility.modbusMudule, "driver1", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
             }
 

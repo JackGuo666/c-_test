@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("节点0");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("LocalPLC24P");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("LocalPLC40P");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("LocalPLCR1");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("LocalPLCR2");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("LocalPLCR3");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("LocalPLCR4");
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeView2 = new System.Windows.Forms.TreeView();
@@ -155,25 +149,6 @@
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Top;
             this.treeView1.Location = new System.Drawing.Point(3, 24);
             this.treeView1.Name = "treeView1";
-            treeNode2.Name = "节点0";
-            treeNode2.Text = "LocalPLC24P";
-            treeNode3.Name = "节点1";
-            treeNode3.Text = "LocalPLC40P";
-            treeNode4.Name = "节点2";
-            treeNode4.Text = "LocalPLCR1";
-            treeNode5.Name = "节点3";
-            treeNode5.Text = "LocalPLCR2";
-            treeNode6.Name = "节点4";
-            treeNode6.Text = "LocalPLCR3";
-            treeNode7.Name = "节点5";
-            treeNode7.Text = "LocalPLCR4";
-            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5,
-            treeNode6,
-            treeNode7});
             this.treeView1.Size = new System.Drawing.Size(214, 225);
             this.treeView1.TabIndex = 0;
             this.treeView1.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.treeView1_ItemDrag);

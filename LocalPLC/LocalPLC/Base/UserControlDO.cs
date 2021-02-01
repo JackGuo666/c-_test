@@ -67,10 +67,39 @@ namespace LocalPLC.Base
         }
         public void initData()
         {
-            if(UserControlBase.dataManage.dicBitfield.ContainsKey("OUTPUTS_TM221C16U"))
+            var list = UserControlBase.dataManage.deviceInfoElem.connector.moduleList;
+            string doType = "";
+            foreach (var elem in list)
+            {
+                if (elem.moduleID == "DIG_OUT")
+                {
+                    var modulesList = UserControlBase.dataManage.modules.list;
+                    foreach (var elemModule in modulesList)
+                    {
+                        if (elemModule.moduleID == elem.moduleID)
+                        {
+                            foreach (var para in elemModule.connectModules.list)
+                            {
+                                //doType
+                                string type = para.type;
+                                string[] strArr = type.Split(new Char[] { ':' });
+                                if (strArr.Length == 2)
+                                {
+                                    string localType = strArr.ElementAt(0);
+                                    doType = strArr.ElementAt(1);
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+             if (UserControlBase.dataManage.dicBitfield.ContainsKey(doType))
             {
                 dtData.Clear();
-                var value = UserControlBase.dataManage.dicBitfield["OUTPUTS_TM221C16U"];
+                var value = UserControlBase.dataManage.dicBitfield[doType];
                 int count = 0;
                 foreach(var elem in value.list)
                 {
