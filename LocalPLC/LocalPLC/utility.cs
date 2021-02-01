@@ -185,11 +185,38 @@ namespace LocalPLC
                 }
 
 
+                //add by gw in 20210201 for 添加io group地址
+                string ioStartAddr = LocalPLC.Base.UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+                string ioEndAddr = LocalPLC.Base.UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrEnd;
+                int nIoStartAddr = 0;
+                int nIoEndAddr = 0;
+                if (int.TryParse(ioStartAddr, out nIoStartAddr) == false)
+                {
+                    System.Windows.Forms.MessageBox.Show("io组起始地址无效!");
+                }
+
+                if (int.TryParse(ioEndAddr, out nIoEndAddr) == false)
+                {
+                    System.Windows.Forms.MessageBox.Show("io组结束地址无效!");
+                }
+
+                int count = (nIoEndAddr - nIoStartAddr) + 1;
+
+                string strBase = "Base_DI_in";
+                iog.Create(strBase, AdeIoGroupAccessType.adeIgatInput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                    , 1, 1, 1, 1);
+                strBase = "Base_DI_out";
+                iog.Create(strBase, AdeIoGroupAccessType.adeIgatOutput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                   , 1, 1, 1, 1);
+
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
             }
             catch(Exception e)
             {
                 System.Windows.Forms.MessageBox.Show("编译有错误，导入数据失败，请修改错误后再重新生成配置文件!");
+                
+                //add by gw in 20210201 for释放异常情况IO Groups
+                GC.Collect();
 
                 return false;
             }
@@ -452,6 +479,25 @@ namespace LocalPLC
 
                                 //ttt.Variables.Create("test", "INT", AdeVariableBlockType.adeVarBlockVarGlobal,
                                 //     "Inserted from AIFDemo", "12", "%IX0.0", false);
+                            }
+
+
+
+
+                            //add by gw in 20210201 for添加DI变量
+                            if(name == "Base_DI")
+                            {
+                                //删除变量组下的变量
+                                foreach (Variable variable in ttt.Variables)
+                                {
+                                    variable.Delete();
+                                }
+
+                                foreach(var di in LocalPLC.Base.UserControlBase.dataManage.diList)
+                                {
+                                    var resetvariable = ttt.Variables.Create(di.channelName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "DI变量", "", di.address);
+                                }
                             }
                         }
 

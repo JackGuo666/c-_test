@@ -45,7 +45,8 @@ namespace LocalPLC
 	
 		public static ModbusServer.ServerIndex msi = new ServerIndex();
 
-        static UserControlBase UC = new UserControlBase();
+
+        public static UserControlBase UC = new UserControlBase();
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
