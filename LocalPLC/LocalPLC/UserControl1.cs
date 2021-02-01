@@ -204,12 +204,11 @@ namespace LocalPLC
 
              clean();
 
+            string localPLCType = "";
             try
             {
                 if (File.Exists(path))
                 {
-
-
                     xDoc.Load(path);
 
                     //根节点
@@ -261,7 +260,10 @@ namespace LocalPLC
                         }
                         else if (name == "base")
                         {
+                            
                             XmlNodeList childList = xn.ChildNodes;
+                            XmlElement childElement = (XmlElement)xn;
+                            localPLCType = childElement.GetAttribute("Type");
                             foreach (XmlNode nChild in childList)
                             {
                                 XmlElement eChild = (XmlElement)nChild;
@@ -292,12 +294,14 @@ namespace LocalPLC
 
                     }
 
-                    UC.createControlerConfigured("LocalPLC24P");
+                    UC.loadControler();
+                    UC.createControlerConfigured(/*"LocalPLC24P"*/ localPLCType);
                 }
                 else
                 {
                     //新建工程加载默认控制器
-                    UC.createControler("LocalPLC24P");
+                    string type = UC.loadControler();
+                    UC.createControler(/*"LocalPLC24P"*/ type);
                     return;
                 }
 
@@ -908,6 +912,7 @@ namespace LocalPLC
 
             //基本配置保存xml文件
             XmlElement elemBase = xDoc.CreateElement("base");
+            elemBase.SetAttribute("Type", UC.localPLCType_);
             elemRoot.AppendChild(elemBase);
             UC.saveXml(ref elemBase, ref xDoc);
 
@@ -957,6 +962,8 @@ namespace LocalPLC
                 UserControlBase.dataManage.clear();
                 //在加载前，清空界面
                 UC.clearUI();
+
+                //加载控制器文件
             }
         }
         private void ModbusWindow_Enter(object sender, EventArgs e)
