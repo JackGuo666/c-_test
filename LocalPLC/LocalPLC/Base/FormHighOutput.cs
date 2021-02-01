@@ -224,7 +224,17 @@ namespace LocalPLC.Base
                 hspData_.doubleWord = checkBox_doubleWord.Checked;
                 hspData_.timeBase = comboBox_timeBase.SelectedIndex;
                 int.TryParse(textBox_preset.Text, out hspData_.preset);
-                hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                if(comboBox_pulse.SelectedItem != null)
+                {
+                    hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("脉冲端口没有设置");
+                    comboBox_pulse.Focus();
+                }
+
                 hspData_.used = true;
             }
             else if(comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PWM)
@@ -232,21 +242,62 @@ namespace LocalPLC.Base
                 hspData_.type = comboBox_outputType.SelectedIndex;
                 hspData_.timeBase = comboBox_timeBase.SelectedIndex;
                 int.TryParse(textBox_preset.Text, out hspData_.preset);
-                hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                if (comboBox_pulse.SelectedItem != null)
+                {
+                    hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("脉冲端口没有设置");
+                    comboBox_pulse.Focus();
+                }
                 hspData_.used = true;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.FREQUENCY)
             {
                 hspData_.type = comboBox_outputType.SelectedIndex;
-                hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                if (comboBox_pulse.SelectedItem != null)
+                {
+                    hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("脉冲端口没有设置");
+                    comboBox_pulse.Focus();
+                }
+
                 int.TryParse(textBox_frequency.Text, out hspData_.signalFrequency);
                 hspData_.used = true;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PTO)
             {
                 hspData_.type = comboBox_outputType.SelectedIndex;
-                hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                hspData_.directionPort = comboBox_direction.SelectedItem.ToString();
+
+                if (comboBox_pulse.SelectedItem != null)
+                {
+                    hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("脉冲端口没有设置");
+                    comboBox_pulse.Focus();
+                }
+
+                if(comboBox_direction.SelectedItem != null)
+                {
+                    hspData_.directionPort = comboBox_direction.SelectedItem.ToString();
+                }
+                else
+                {
+                    e.Cancel = true;
+                    MessageBox.Show("方向端口没有设置");
+                    comboBox_direction.Focus();
+                }
+
+
                 //输出模式
                 hspData_.outputMode = comboBox_direction.SelectedIndex;
                 hspData_.used = true;
