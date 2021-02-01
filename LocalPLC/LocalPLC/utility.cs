@@ -133,6 +133,7 @@ namespace LocalPLC
                     return false; ;
                 }
 
+                GC.Collect();
                 IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
                 int Count = iog.Count;
@@ -213,7 +214,7 @@ namespace LocalPLC
             }
             catch(Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("编译有错误，导入数据失败，请修改错误后再重新生成配置文件!");
+                System.Windows.Forms.MessageBox.Show("编译有错误，导入数据失败，请修改错误后,手动编译然后再导入数据!");
                 
                 //add by gw in 20210201 for释放异常情况IO Groups
                 GC.Collect();
@@ -495,8 +496,44 @@ namespace LocalPLC
 
                                 foreach(var di in LocalPLC.Base.UserControlBase.dataManage.diList)
                                 {
-                                    var resetvariable = ttt.Variables.Create(di.channelName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                    string varName = "";
+                                    if(di.varName == "")
+                                    {
+                                        varName = di.channelName;
+                                        di.varName = di.channelName;
+                                    }
+                                    else
+                                    {
+                                        varName = di.varName;
+                                    }
+                                    var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
                                                     "DI变量", "", di.address);
+                                }
+                            }
+
+                            if(name == "Base_DO")
+                            {
+                                //删除变量组下的变量
+                                foreach (Variable variable in ttt.Variables)
+                                {
+                                    variable.Delete();
+                                }
+
+                                foreach (var dout in LocalPLC.Base.UserControlBase.dataManage.doList)
+                                {
+                                    string varName = "";
+                                    if (dout.varName == "")
+                                    {
+                                        varName = dout.channelName;
+                                        dout.varName = dout.channelName;
+                                    }
+                                    else
+                                    {
+                                        varName = dout.varName;
+                                    }
+
+                                    var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "DO变量", "", dout.address);
                                 }
                             }
                         }
