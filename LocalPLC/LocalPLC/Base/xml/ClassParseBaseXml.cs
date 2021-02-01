@@ -239,6 +239,11 @@ namespace LocalPLC.Base.xml
                         {
                             deviceIdentificationElem.version = elemChild.InnerText;
                         }
+                        else if(nameChild == "IOAddress")
+                        {
+                            deviceIdentificationElem.ioAddrStart = elemChild.GetAttribute("start");
+                            deviceIdentificationElem.ioAddrEnd = elemChild.GetAttribute("end");
+                        }
                     }
                 }
                 else if("DeviceInfo" == name)

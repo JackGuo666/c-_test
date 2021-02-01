@@ -64,6 +64,11 @@ namespace LocalPLC.Base.xml
         public string type;
         public string ID;
         public string version;
+
+
+        //IO address
+        public string ioAddrStart = "";
+        public string ioAddrEnd = "";
     }
 
     public class DeviceModuleElem
@@ -95,6 +100,7 @@ namespace LocalPLC.Base.xml
         public string desc;
         public string vendor;
         public string defaultInstanceName;
+
 
         public DeviceIdentificationElem deviceIdentificationElem = new DeviceIdentificationElem();
 
