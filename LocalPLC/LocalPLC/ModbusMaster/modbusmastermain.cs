@@ -100,20 +100,20 @@ namespace LocalPLC.ModbusMaster
                         channelData.nameChannel = e.GetAttribute("namechannel");
                         int.TryParse(e.GetAttribute("msgtype"), out channelData.msgType);
                         int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
-                        int.TryParse(e.GetAttribute("readoffset"), out channelData.readOffset);
-                        int.TryParse(e.GetAttribute("readlength"), out channelData.readLength);
+                        int.TryParse(e.GetAttribute("offset"), out channelData.readOffset);
+                        int.TryParse(e.GetAttribute("length"), out channelData.readLength);
                         
-                        channelData.trigger = e.GetAttribute("trigger");
+                        channelData.trigger = e.GetAttribute("trigger_offset");
                         string[] trigoffset = e.GetAttribute("triggeroffsetkey").Split('m');
                         channelData.offsetkey[0] = trigoffset[0];
                         trigoffset[1].Substring(0, 2);
                         channelData.offsetkey[1] = trigoffset[1].Substring(0, 2);
                         channelData.offsetkey[2] = trigoffset[1].Substring(2);
-                        channelData.error = e.GetAttribute("error");
+                        channelData.error = e.GetAttribute("error_offset");
                         int.TryParse(e.GetAttribute("channelstartaddr"), out channelData.curChannelAddr);
                         int.TryParse(e.GetAttribute("channellength"), out channelData.curChannelLength);
-                        int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
-                        int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
+                        //int.TryParse(e.GetAttribute("writeoffset"), out channelData.writeOffset);
+                        //int.TryParse(e.GetAttribute("writelength"), out channelData.writeLength);
 
 
 
@@ -169,6 +169,7 @@ namespace LocalPLC.ModbusMaster
                     elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
                     elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
                     elem1_m_d.SetAttribute("resetvaraible", dataDev.resetVaraible);
+                    elem1_m_d.SetAttribute("resetkey", dataDev.resetkey[0] + "m" + dataDev.resetkey[1]);
                     elem1_m_d.SetAttribute("devstartaddr", dataDev.curDeviceAddr.ToString());
                     elem1_m_d.SetAttribute("devlength", dataDev.curDeviceLength.ToString());
 
@@ -182,14 +183,16 @@ namespace LocalPLC.ModbusMaster
                         elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
                         elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
                         elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
-                        elem1_m_d_c.SetAttribute("readoffset", dataChannel.readOffset.ToString());
-                        elem1_m_d_c.SetAttribute("readlength", dataChannel.readLength.ToString());                       
-                        elem1_m_d_c.SetAttribute("trigger", dataChannel.trigger.ToString());
-                        elem1_m_d_c.SetAttribute("error", dataChannel.error.ToString());
+                        elem1_m_d_c.SetAttribute("offset", dataChannel.readOffset.ToString());
+                        elem1_m_d_c.SetAttribute("length", dataChannel.readLength.ToString());                       
+                        elem1_m_d_c.SetAttribute("trigger_offset", dataChannel.trigger.ToString());
+                        elem1_m_d_c.SetAttribute("triggeroffsetkey", dataChannel.offsetkey[0] + "m" + dataChannel.offsetkey[1] + dataChannel.offsetkey[2] + "m" + dataChannel.offsetkey1);
+                        elem1_m_d_c.SetAttribute("error_offset", dataChannel.error.ToString());
+                        elem1_m_d_c.SetAttribute("erroroffsetkey", dataChannel.offsetkey[0] + "m" + dataChannel.offsetkey[1] + dataChannel.offsetkey[2] + "m" + dataChannel.offsetkey2);
                         elem1_m_d_c.SetAttribute("channelstartaddr", dataChannel.curChannelAddr.ToString());
                         elem1_m_d_c.SetAttribute("channellength", dataChannel.curChannelLength.ToString());
-                        elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
-                        elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
+                       // elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
+                        //elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
 
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点

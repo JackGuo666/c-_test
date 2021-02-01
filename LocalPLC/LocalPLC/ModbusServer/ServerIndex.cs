@@ -202,6 +202,8 @@ namespace LocalPLC.ModbusServer
                 
                 elem1_s.SetAttribute("IOAddrRange", data.serverstartaddr.ToString());
                 elem1_s.SetAttribute("IOAddrLength", data.dataDevice_.IOAddrLength.ToString());
+                elem1_s.SetAttribute("SHMRange", data.dataDevice_.shmrange.ToString());
+                elem1_s.SetAttribute("SHMLength", data.dataDevice_.shmlength.ToString());
                 elem1_s.SetAttribute("coilstart", data.dataDevice_.coilIoAddrStart);
                 elem1_s.SetAttribute("holdingstart", data.dataDevice_.holdingIoAddrStart);
                 elem1_s.SetAttribute("decretestart", data.dataDevice_.decreteIoAddrStart);
@@ -405,6 +407,8 @@ namespace LocalPLC.ModbusServer
                 data.dataDevice_.IOAddrRange = e.GetAttribute("IOAddrRange");
                 int.TryParse(e.GetAttribute("IOAddrRange"), out data.serverstartaddr);
                 int.TryParse(e.GetAttribute("IOAddrLength"), out data.dataDevice_.IOAddrLength);
+                int.TryParse(e.GetAttribute("SHMRange"), out data.dataDevice_.shmrange);
+                int.TryParse(e.GetAttribute("SHMLength"), out data.dataDevice_.shmlength);
                 data.dataDevice_.coilIoAddrStart = e.GetAttribute("coilstart");
                 data.dataDevice_.holdingIoAddrStart = e.GetAttribute("holdingstart");
                 data.dataDevice_.decreteIoAddrStart = e.GetAttribute("decretestart");

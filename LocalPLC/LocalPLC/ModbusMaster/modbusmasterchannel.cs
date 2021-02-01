@@ -444,12 +444,12 @@ namespace LocalPLC.ModbusMaster
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITEOFFSET)
             {
-                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
+                //int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
                 deviceData_.modbusChannelList[e.RowIndex].trigger = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITELENGTH)
             {
-                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
+                //int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
                 deviceData_.modbusChannelList[e.RowIndex].error = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NOTE)
