@@ -10,10 +10,11 @@ using System.Windows.Forms;
 using LocalPLC.Base.xml;
 using System.Xml;
 using System.IO;
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlBase : UserControl
+    public partial class UserControlBase : UserControl, ICheckVarName
     {
         public List<UserControl> PlcTypeArr = new List<UserControl>();
         LocalPLC24P curPlcType = null;
@@ -34,6 +35,25 @@ namespace LocalPLC.Base
 
         }
 
+        public bool checkVarName(String varName)
+        {
+            var diList = dataManage.diList;
+            foreach(var di in diList)
+            {
+                if(di.varName == varName)
+                {
+
+                }
+            }
+
+
+            return true;
+        }
+
+        public void refreshUserBaseUI()
+        {
+            curWeaponType.refreshData();
+        }
 
         //重新加载工程，清空界面
         public void clearUI()
@@ -654,6 +674,7 @@ namespace LocalPLC.Base
             else
             {
                 curWeaponType.setDIInfo(name);
+                
                 //curPlcType.setDIInfo(name);
             }
         }

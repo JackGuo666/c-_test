@@ -998,6 +998,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             if (msi.serverDataManager.listServer.Count == 0 || msi.serverDataManager.listServer[0].dataDevice_.isready == true)
 
             {
+
                 saveXml();
                 saveJson();
 
@@ -1009,7 +1010,12 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 //utility.checkvariables();
                 utility.addVariables();
 
+                //动态刷新DI DO数据
+                UC.refreshUserBaseUI();
                 multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+
+                saveXml();
+                saveJson();
             }
             //else
             //{

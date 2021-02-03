@@ -312,7 +312,13 @@ namespace LocalPLC.Base
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-           dataGridView1.CurrentCell.Value = text_Temp.Text;
+            if(dataGridView1.CurrentCell.Value.ToString() == text_Temp.Text)
+            {
+                //
+                UserControl1.UC.checkVarName(text_Temp.Text);
+
+                dataGridView1.CurrentCell.Value = text_Temp.Text;
+            }
         }
 
 

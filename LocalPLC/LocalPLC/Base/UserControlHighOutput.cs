@@ -45,6 +45,9 @@ namespace LocalPLC.Base
                 this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
+
+            // 禁止用户改变列头的高度  
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
         }
 
         #region

@@ -192,6 +192,7 @@
     <Compile Include="empty.Designer.cs">
       <DependentUpon>empty.cs</DependentUpon>
     </Compile>
+    <Compile Include="interface\ICheckVarName.cs" />
     <Compile Include="ModbusClient\ClientChannel.cs">
       <SubType>Form</SubType>
     </Compile>

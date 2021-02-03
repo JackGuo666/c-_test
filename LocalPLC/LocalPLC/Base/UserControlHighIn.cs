@@ -12,9 +12,16 @@ namespace LocalPLC.Base
 {
     public partial class UserControlHighIn : UserControl
     {
+        public enum TYPE { NOTUSED, SINGLEPULSE, DOUBLEPULSE, FREQUENCY}
         public UserControlHighIn()
         {
             InitializeComponent();
+
+            typeDescDic.Clear();
+            typeDescDic.Add(((int)TYPE.NOTUSED), "未配置");
+            typeDescDic.Add(((int)TYPE.SINGLEPULSE), "单相");
+            typeDescDic.Add(((int)TYPE.DOUBLEPULSE), "双相");
+            typeDescDic.Add(((int)TYPE.FREQUENCY), "频率计");
 
             BindData();
 
@@ -32,17 +39,23 @@ namespace LocalPLC.Base
             {
                 this.dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+
+            // 禁止用户改变列头的高度  
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
         }
 
         # region
         DataTable dtData = null;
         const int columnUsedIndex = 0;
         const int columnVarIndex = 1;
-        const int columnTypeIndex = 2;
+        const int columnAddressIndex = 2;
+        const int columnTypeIndex = 3;
         const int columnNoteIndex = 4;
 
         private RichTextBox text_Temp = new RichTextBox();
 
+
+        Dictionary<int, string> typeDescDic = new Dictionary<int, string>();
         #endregion
 
 
@@ -64,9 +77,9 @@ namespace LocalPLC.Base
                                 drData = dtData.NewRow();
                                 drData[0] = 0;
                                 drData[1] = innerElem.parameterName;
-                                drData[2] = "未配置";
-                                drData[3] = "";  //类型
-                                //drData[4] = 0; //
+                                drData[2] = "";
+                                drData[3] = "未配置";  //类型
+                                drData[4] = ""; //
 
                                 dtData.Rows.Add(drData);
                             }
@@ -83,6 +96,7 @@ namespace LocalPLC.Base
             dtData = new DataTable();
             dtData.Columns.Add("已配置", typeof(bool));
             dtData.Columns.Add("变量名", typeof(string));
+            dtData.Columns.Add("地址", typeof(string));
             dtData.Columns.Add("类型");
             //dtData.Columns.Add("配置");
             dtData.Columns.Add("注释");
@@ -149,7 +163,7 @@ namespace LocalPLC.Base
             uninstallButtonColumn.UseColumnTextForButtonValue = true;
 
 
-            int columnIndex = 2;
+            int columnIndex = 4;
             if (dataGridView1.Columns["配置"] == null)
             {
                 dataGridView1.Columns.Insert(columnIndex, uninstallButtonColumn);
@@ -182,7 +196,7 @@ namespace LocalPLC.Base
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index)
             {
                 //Do something with your button.
-                FormHighInput color = new FormHighInput();
+                FormHighInput color = new FormHighInput(typeDescDic, null);
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();
 
@@ -207,7 +221,7 @@ namespace LocalPLC.Base
 
             try
             {
-                if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+                if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex + 1)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
@@ -270,7 +284,8 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
 
-            dataGridView1.Columns[columnVarIndex].ReadOnly = true; 
+            dataGridView1.Columns[columnVarIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
             dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
         }
     }

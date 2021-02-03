@@ -209,6 +209,13 @@ namespace LocalPLC.Base.xml
 
     }
 
+    public class HSCData
+    {
+        public bool used = false;
+        public string name = "";
+        public string address = "";
+    }
+
     public class HSPData
     {
         public bool used = false;
