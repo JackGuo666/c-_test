@@ -26,6 +26,9 @@ namespace LocalPLC.Base
         Point posCaptureCheckBox;
         Point posCapturePortLabel;
 
+        int hscType_ = 0;
+        xml.HSCData hscData_ = null;
+
         Dictionary<int, string> inputDic = new Dictionary<int, string>();
         Dictionary<int, string> triggerDic = new Dictionary<int, string>();
         enum INPUTMODE {PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
@@ -40,17 +43,18 @@ namespace LocalPLC.Base
 
             posDirLabel = label_direction.Location;
             posDirCheckBox = checkBox_direction.Location;
-            posDirPortLabel = label1_dirPort.Location;
+            posDirPortLabel = textBox_dirInputPort.Location;
 
             posPresetLabel = label_presetInput.Location;
             posPresetCheckBox = checkBox_preset.Location;
-            posPresetPortCombo = comboBox_preset.Location;
+            posPresetPortCombo = comboBox_presetPort.Location;
 
-
+            hscType_ = hscData.type;
+            hscData_ = hscData;
 
             posCaptureLabel = label_caputreInput.Location;
             posCaptureCheckBox = checkBox_caputre.Location;
-            posCapturePortLabel = comboBox_capture.Location;
+            posCapturePortLabel = comboBox_capturePort.Location;
 
             foreach (var elem in typeDescDic)
             {
@@ -70,13 +74,15 @@ namespace LocalPLC.Base
             inputDic.Add((int)INPUTMODE.INTEGRAL_1, "积分 X1");
             inputDic.Add((int)INPUTMODE.INTEGRAL_2, "积分 X2");
             inputDic.Add((int)INPUTMODE.INTEGRAL_4, "积分 X4");
-            
 
-            foreach(var input in inputDic)
+
+            foreach (var input in inputDic)
             {
                 comboBox_inputmode.Items.Add(input.Value);
             }
-            comboBox_inputmode.SelectedIndex = 0;
+
+            ////输入模式
+            comboBox_inputmode.SelectedIndex = hscData_.inputMode;
 
             triggerDic.Clear();
             triggerDic.Add((int)INPUTMODE.PULSE_DIR, "未使用");
@@ -84,7 +90,7 @@ namespace LocalPLC.Base
             triggerDic.Add((int)INPUTMODE.INTEGRAL_2, "上升沿");
             triggerDic.Add((int)INPUTMODE.INTEGRAL_4, "上升/下降沿");
 
-            foreach(var trigger in triggerDic)
+            foreach (var trigger in triggerDic)
             {
                 comboBox_trigger0.Items.Add(trigger.Value);
                 comboBox_trigger1.Items.Add(trigger.Value);
@@ -92,12 +98,43 @@ namespace LocalPLC.Base
 
 
 
-            comboBox_trigger0.SelectedIndex = 0;
-            comboBox_trigger1.SelectedIndex = 0;
+            comboBox_trigger0.SelectedIndex = hscData_.trigger0;
+            comboBox_trigger1.SelectedIndex = hscData_.trigger1;
 
 
             comboBox_Type.TextChanged += new System.EventHandler(comboBox3_SelectedIndexChanged);
             comboBox_Type.SelectedIndex = 0;
+
+
+
+            this.Name = hscData_.name;
+            //双字
+            checkBox_doubleWord.Checked = hscData_.doubleWord;
+            textBox_presetValue.Text = hscData_.preset.ToString();
+            textBox_E0.Text = hscData_.thresholdS0.ToString();
+            textBox_E1.Text = hscData_.thresholdS1.ToString();
+
+
+
+            //事件名
+            textBox_eventName0.Text = hscData_.eventName0;
+            textBox_eventName1.Text = hscData_.eventName1;
+
+
+            //
+            checkBox_pulse.Checked = hscData_.pulseChecked;
+            checkBox_direction.Checked = hscData_.dirChecked;
+            checkBox_preset.Checked = hscData_.presetChecked;
+            checkBox_caputre.Checked = hscData_.captureChecked;
+            //
+            textBox_pulseInputPort.Text = hscData_.pulsePort;
+            textBox_dirInputPort.Text = hscData_.dirPort;
+            comboBox_presetPort.Text = hscData_.presetPort;
+            comboBox_capturePort.Text = hscData_.capturePort;
+
+            //频率计
+            checkBox_frequencyPulse.Checked = hscData_.pulseFrequencyChecked;
+            textBox_pulseFrequencyPort.Text = hscData_.pulseFrequencyInputPort;
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,9 +144,6 @@ namespace LocalPLC.Base
 
             if(currentIndex == 0)
             {
-                label_direction.Visible = false;
-                label_pulse.Visible = false;
-
                 label_inputmode.Visible = false;
                 comboBox_inputmode.Visible = false;
 
@@ -121,8 +155,8 @@ namespace LocalPLC.Base
             else
             {
 
-                label_direction.Visible = true;
-                label_pulse.Visible = true;
+                //label_direction.Visible = true;
+                //label_pulse.Visible = true;
 
                 label_inputmode.Visible = true;
                 comboBox_inputmode.Visible = true;
@@ -141,15 +175,21 @@ namespace LocalPLC.Base
 
                     label_direction.Visible = false;
                     checkBox_direction.Visible = false;
-                    label1_dirPort.Visible = false;
+                    textBox_dirInputPort.Visible = false;
 
                     label_presetInput.Location = posDirLabel;
                     checkBox_preset.Location = posDirCheckBox;
-                    comboBox_preset.Location = posDirPortLabel;
+                    comboBox_presetPort.Location = posDirPortLabel;
+                    label_presetInput.Visible = true;
+                    checkBox_preset.Visible = true;
+                    comboBox_presetPort.Visible = true;
 
                     label_caputreInput.Location = posPresetLabel;
                     checkBox_caputre.Location = posPresetCheckBox;
-                    comboBox_capture.Location = posPresetPortCombo;
+                    comboBox_capturePort.Location = posPresetPortCombo;
+                    label_caputreInput.Visible = true;
+                    checkBox_caputre.Visible = true;
+                    comboBox_capturePort.Visible = true;
                 }
                 else if (currentIndex == 2)
                 {
@@ -163,20 +203,20 @@ namespace LocalPLC.Base
 
                     label_direction.Visible = true;
                     checkBox_direction.Visible = true;
-                    label1_dirPort.Visible = true;
+                    textBox_dirInputPort.Visible = true;
 
 
                     label_direction.Location = posDirLabel;
                     checkBox_direction.Location = posDirCheckBox;
-                    label1_dirPort.Location = posDirPortLabel;
+                    textBox_dirInputPort.Location = posDirPortLabel;
 
                     label_presetInput.Location = posPresetLabel;
                     checkBox_preset.Location = posPresetCheckBox;
-                    comboBox_preset.Location = posPresetPortCombo;
+                    comboBox_presetPort.Location = posPresetPortCombo;
 
                     label_caputreInput.Location = posCaptureLabel;
                     checkBox_caputre.Location = posCaptureCheckBox;
-                    comboBox_capture.Location = posCapturePortLabel;
+                    comboBox_capturePort.Location = posCapturePortLabel;
                 }
                 else if (currentIndex == 3)
                 {
@@ -229,6 +269,11 @@ namespace LocalPLC.Base
                 label_pulse.Text = "脉冲输入相位A";
                 label_direction.Text = "脉冲输入相位B";
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

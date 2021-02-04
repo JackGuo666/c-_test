@@ -89,6 +89,7 @@ namespace LocalPLC.Base
 
                                 hspData.name = innerElem.parameterName;
                                 drData[columnVarIndex] = hspData.name;
+                                drData[columnAddressIndex] = hspData.address;
 
                                 hspData.type = 0;
                                 if(typeDescDic.ContainsKey(hspData.type))

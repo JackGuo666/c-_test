@@ -214,6 +214,47 @@ namespace LocalPLC.Base.xml
         public bool used = false;
         public string name = "";
         public string address = "";
+        public int type = 0;    //0-未配置 1-单相 2-双相 3-频率计
+        //输入模式
+        public int inputMode = 0;   //0-脉冲方向 1-积分X1 2-积分X2 2-积分X4
+
+        public bool doubleWord = false;
+        //预设
+        public int preset = 0;
+        //阈值
+        public int thresholdS0 = 1; 
+        public int thresholdS1 = 2;
+        //事件名
+        public string eventName0 = "";
+        public string eventName1 = "";
+        //事件ID
+        public string eventID0 = "EVENT_1";
+        public string eventID1 = "EVENT_2";
+
+        //触发器
+        public int trigger0 = 0;    //0-未使用 1-下降沿 2-上升沿 3-上升/下降沿
+        public int trigger1 = 0;
+
+        //脉冲输入
+        public bool pulseChecked = true;
+        public bool dirChecked = true;
+        public bool presetChecked = false;
+        public bool captureChecked = false;
+
+        public string pulsePort = "";
+        public string dirPort = "";
+        public string presetPort = "";
+        public string capturePort = "";
+
+        //频率计
+        public bool pulseFrequencyChecked = false;
+        public string pulseFrequencyInputPort = "";
+
+
+        //时间窗口
+        public int timeWindow = 0;  //0-100ms 1-1s
+
+        public string note = "";
     }
 
     public class HSPData
@@ -285,5 +326,6 @@ namespace LocalPLC.Base.xml
         public Dictionary<string, ETHERNETData> ethernetDic = new Dictionary<string, ETHERNETData>();
 
         public List<HSPData> hspList = new List<HSPData>();
+        public List<HSCData> hscList = new List<HSCData>();
     }
 }

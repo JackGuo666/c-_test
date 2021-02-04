@@ -73,15 +73,36 @@ namespace LocalPLC.Base
                         {
                             foreach (var innerElem in elemModule.connectModules.list)
                             {
+                                xml.HSCData hscData = new xml.HSCData();
+
                                 DataRow drData;
                                 drData = dtData.NewRow();
-                                drData[0] = 0;
-                                drData[1] = innerElem.parameterName;
-                                drData[2] = "";
-                                drData[3] = "未配置";  //类型
-                                drData[4] = ""; //
+
+                                hscData.used = false;
+                                drData[columnUsedIndex] = hscData.used;
+
+
+                                hscData.name = innerElem.parameterName;
+                                drData[columnVarIndex] = hscData.name;
+
+                                hscData.address = "";
+                                drData[columnAddressIndex] = hscData.address;
+
+                                hscData.type = (int)TYPE.NOTUSED;
+                                if (typeDescDic.ContainsKey(hscData.type))
+                                {
+                                    drData[columnTypeIndex] = typeDescDic[hscData.type];
+                                }
+                                else
+                                {
+                                    drData[columnTypeIndex] = "";
+                                }
+
+                                hscData.note = "";
+                                drData[columnNoteIndex] = hscData.note; //
 
                                 dtData.Rows.Add(drData);
+                                UserControlBase.dataManage.hscList.Add(hscData);
                             }
                         }    
                     }
@@ -196,7 +217,7 @@ namespace LocalPLC.Base
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index)
             {
                 //Do something with your button.
-                FormHighInput color = new FormHighInput(typeDescDic, null);
+                FormHighInput color = new FormHighInput(typeDescDic, UserControlBase.dataManage.hscList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();
 
