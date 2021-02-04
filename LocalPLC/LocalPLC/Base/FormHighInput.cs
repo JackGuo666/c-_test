@@ -111,8 +111,8 @@ namespace LocalPLC.Base
             //双字
             checkBox_doubleWord.Checked = hscData_.doubleWord;
             textBox_presetValue.Text = hscData_.preset.ToString();
-            textBox_E0.Text = hscData_.thresholdS0.ToString();
-            textBox_E1.Text = hscData_.thresholdS1.ToString();
+            textBox_threshold0.Text = hscData_.thresholdS0.ToString();
+            textBox_threshold1.Text = hscData_.thresholdS1.ToString();
 
 
 
@@ -274,6 +274,62 @@ namespace LocalPLC.Base
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void FormHighInput_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.NOTUSED)
+            {
+                hscData_.type = comboBox_Type.SelectedIndex;
+            }
+            else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
+            {
+                hscData_.type = comboBox_Type.SelectedIndex;
+                //双字
+                hscData_.doubleWord = checkBox_doubleWord.Checked;
+                int.TryParse(textBox_presetValue.Text, out hscData_.preset);
+                int.TryParse(textBox_threshold0.Text, out hscData_.thresholdS0);
+                int.TryParse(textBox_threshold1.Text, out hscData_.thresholdS1);
+                hscData_.eventID0 = EVENT_1.Text;
+                hscData_.eventID1 = EVENT_2.Text;
+                hscData_.eventName0 = textBox_eventName0.Text;
+                hscData_.eventName1 = textBox_eventName1.Text;
+                hscData_.trigger0 = comboBox_trigger0.SelectedIndex;
+                hscData_.trigger1 = comboBox_trigger1.SelectedIndex;
+
+                hscData_.pulseChecked = checkBox_pulse.Checked;
+                hscData_.dirChecked = checkBox_direction.Checked;
+                hscData_.presetChecked = checkBox_preset.Checked;
+                hscData_.captureChecked = checkBox_caputre.Checked;
+
+                hscData_.pulsePort = textBox_pulseInputPort.Text;
+                hscData_.dirPort = textBox_dirInputPort.Text;
+
+                if(comboBox_presetPort.SelectedItem != null)
+                {
+                    hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
+                }
+                else
+                {
+                    hscData_.presetPort = "";
+                }
+
+                hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
+
+                ////时间窗口
+                //hscData_.frequencyDoubleWord = checkBox_frequencyDoubleWord.Checked;
+                //if(radioButton_100ms.Checked)
+                //{
+                //    hscData_.timeWindow = 0;    //100ms
+                //}
+                //else if(radioButton_1s.Checked)
+                //{
+                //    hscData_.timeWindow = 1;    //1s
+                //}
+
+                //hscData_.pulseFrequencyChecked = checkBox_frequencyPulse.Checked;
+                //hscData_.pulseFrequencyInputPort = textBox_pulseFrequencyPort.Text;
+            }
         }
     }
 

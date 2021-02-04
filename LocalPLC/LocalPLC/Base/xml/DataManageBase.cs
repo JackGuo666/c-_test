@@ -247,12 +247,13 @@ namespace LocalPLC.Base.xml
         public string capturePort = "";
 
         //频率计
-        public bool pulseFrequencyChecked = false;
+        public bool pulseFrequencyChecked = true;
         public string pulseFrequencyInputPort = "";
 
 
         //时间窗口
         public int timeWindow = 0;  //0-100ms 1-1s
+        public bool frequencyDoubleWord = false;
 
         public string note = "";
     }

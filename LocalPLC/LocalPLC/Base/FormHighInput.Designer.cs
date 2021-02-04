@@ -35,12 +35,15 @@
             this.comboBox_Type = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBox_pulseFrequencyPort = new System.Windows.Forms.TextBox();
             this.checkBox_frequencyPulse = new System.Windows.Forms.CheckBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton_1s = new System.Windows.Forms.RadioButton();
+            this.radioButton_100ms = new System.Windows.Forms.RadioButton();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBox_pulseInputPort = new System.Windows.Forms.TextBox();
+            this.textBox_dirInputPort = new System.Windows.Forms.TextBox();
             this.checkBox_caputre = new System.Windows.Forms.CheckBox();
             this.checkBox_preset = new System.Windows.Forms.CheckBox();
             this.checkBox_direction = new System.Windows.Forms.CheckBox();
@@ -54,8 +57,8 @@
             this.comboBox_trigger0 = new System.Windows.Forms.ComboBox();
             this.textBox_eventName1 = new System.Windows.Forms.TextBox();
             this.textBox_eventName0 = new System.Windows.Forms.TextBox();
-            this.textBox_E1 = new System.Windows.Forms.TextBox();
-            this.textBox_E0 = new System.Windows.Forms.TextBox();
+            this.textBox_threshold1 = new System.Windows.Forms.TextBox();
+            this.textBox_threshold0 = new System.Windows.Forms.TextBox();
             this.textBox_presetValue = new System.Windows.Forms.TextBox();
             this.label_limite1 = new System.Windows.Forms.Label();
             this.label_limite0 = new System.Windows.Forms.Label();
@@ -69,9 +72,7 @@
             this.checkBox_doubleWord = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox_inputmode = new System.Windows.Forms.ComboBox();
-            this.textBox_dirInputPort = new System.Windows.Forms.TextBox();
-            this.textBox_pulseInputPort = new System.Windows.Forms.TextBox();
-            this.textBox_pulseFrequencyPort = new System.Windows.Forms.TextBox();
+            this.checkBox_frequencyDoubleWord = new System.Windows.Forms.CheckBox();
             this.panel2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -133,7 +134,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(939, 756);
+            this.panel2.Size = new System.Drawing.Size(939, 804);
             this.panel2.TabIndex = 5;
             // 
             // groupBox4
@@ -141,19 +142,28 @@
             this.groupBox4.Controls.Add(this.textBox_pulseFrequencyPort);
             this.groupBox4.Controls.Add(this.checkBox_frequencyPulse);
             this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.radioButton2);
-            this.groupBox4.Controls.Add(this.radioButton1);
+            this.groupBox4.Controls.Add(this.radioButton_1s);
+            this.groupBox4.Controls.Add(this.radioButton_100ms);
             this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.checkBox_frequencyDoubleWord);
             this.groupBox4.Location = new System.Drawing.Point(5, 558);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(905, 186);
+            this.groupBox4.Size = new System.Drawing.Size(905, 222);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
+            // 
+            // textBox_pulseFrequencyPort
+            // 
+            this.textBox_pulseFrequencyPort.Location = new System.Drawing.Point(382, 166);
+            this.textBox_pulseFrequencyPort.Name = "textBox_pulseFrequencyPort";
+            this.textBox_pulseFrequencyPort.Size = new System.Drawing.Size(101, 28);
+            this.textBox_pulseFrequencyPort.TabIndex = 4;
+            this.textBox_pulseFrequencyPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // checkBox_frequencyPulse
             // 
             this.checkBox_frequencyPulse.AutoSize = true;
-            this.checkBox_frequencyPulse.Location = new System.Drawing.Point(209, 145);
+            this.checkBox_frequencyPulse.Location = new System.Drawing.Point(209, 172);
             this.checkBox_frequencyPulse.Name = "checkBox_frequencyPulse";
             this.checkBox_frequencyPulse.Size = new System.Drawing.Size(70, 22);
             this.checkBox_frequencyPulse.TabIndex = 6;
@@ -163,38 +173,38 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(28, 145);
+            this.label14.Location = new System.Drawing.Point(28, 172);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(89, 18);
             this.label14.TabIndex = 4;
             this.label14.Text = "脉冲输入:";
             // 
-            // radioButton2
+            // radioButton_1s
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(107, 103);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(51, 22);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "1s";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton_1s.AutoSize = true;
+            this.radioButton_1s.Location = new System.Drawing.Point(107, 130);
+            this.radioButton_1s.Name = "radioButton_1s";
+            this.radioButton_1s.Size = new System.Drawing.Size(51, 22);
+            this.radioButton_1s.TabIndex = 1;
+            this.radioButton_1s.TabStop = true;
+            this.radioButton_1s.Text = "1s";
+            this.radioButton_1s.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioButton_100ms
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(107, 75);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(78, 22);
-            this.radioButton1.TabIndex = 1;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "100ms";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton_100ms.AutoSize = true;
+            this.radioButton_100ms.Location = new System.Drawing.Point(107, 102);
+            this.radioButton_100ms.Name = "radioButton_100ms";
+            this.radioButton_100ms.Size = new System.Drawing.Size(78, 22);
+            this.radioButton_100ms.TabIndex = 1;
+            this.radioButton_100ms.TabStop = true;
+            this.radioButton_100ms.Text = "100ms";
+            this.radioButton_100ms.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(26, 37);
+            this.label13.Location = new System.Drawing.Point(26, 64);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(80, 18);
             this.label13.TabIndex = 0;
@@ -219,6 +229,22 @@
             this.groupBox3.Size = new System.Drawing.Size(906, 200);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
+            // 
+            // textBox_pulseInputPort
+            // 
+            this.textBox_pulseInputPort.Location = new System.Drawing.Point(382, 41);
+            this.textBox_pulseInputPort.Name = "textBox_pulseInputPort";
+            this.textBox_pulseInputPort.Size = new System.Drawing.Size(113, 28);
+            this.textBox_pulseInputPort.TabIndex = 4;
+            this.textBox_pulseInputPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // textBox_dirInputPort
+            // 
+            this.textBox_dirInputPort.Location = new System.Drawing.Point(382, 75);
+            this.textBox_dirInputPort.Name = "textBox_dirInputPort";
+            this.textBox_dirInputPort.Size = new System.Drawing.Size(113, 28);
+            this.textBox_dirInputPort.TabIndex = 4;
+            this.textBox_dirInputPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // checkBox_caputre
             // 
@@ -302,8 +328,8 @@
             this.groupBox2.Controls.Add(this.comboBox_trigger0);
             this.groupBox2.Controls.Add(this.textBox_eventName1);
             this.groupBox2.Controls.Add(this.textBox_eventName0);
-            this.groupBox2.Controls.Add(this.textBox_E1);
-            this.groupBox2.Controls.Add(this.textBox_E0);
+            this.groupBox2.Controls.Add(this.textBox_threshold1);
+            this.groupBox2.Controls.Add(this.textBox_threshold0);
             this.groupBox2.Controls.Add(this.textBox_presetValue);
             this.groupBox2.Controls.Add(this.label_limite1);
             this.groupBox2.Controls.Add(this.label_limite0);
@@ -346,24 +372,24 @@
             // 
             // textBox_eventName0
             // 
-            this.textBox_eventName0.Location = new System.Drawing.Point(301, 130);
+            this.textBox_eventName0.Location = new System.Drawing.Point(301, 132);
             this.textBox_eventName0.Name = "textBox_eventName0";
             this.textBox_eventName0.Size = new System.Drawing.Size(109, 28);
             this.textBox_eventName0.TabIndex = 3;
             // 
-            // textBox_E1
+            // textBox_threshold1
             // 
-            this.textBox_E1.Location = new System.Drawing.Point(113, 185);
-            this.textBox_E1.Name = "textBox_E1";
-            this.textBox_E1.Size = new System.Drawing.Size(107, 28);
-            this.textBox_E1.TabIndex = 2;
+            this.textBox_threshold1.Location = new System.Drawing.Point(113, 184);
+            this.textBox_threshold1.Name = "textBox_threshold1";
+            this.textBox_threshold1.Size = new System.Drawing.Size(107, 28);
+            this.textBox_threshold1.TabIndex = 2;
             // 
-            // textBox_E0
+            // textBox_threshold0
             // 
-            this.textBox_E0.Location = new System.Drawing.Point(113, 130);
-            this.textBox_E0.Name = "textBox_E0";
-            this.textBox_E0.Size = new System.Drawing.Size(107, 28);
-            this.textBox_E0.TabIndex = 2;
+            this.textBox_threshold0.Location = new System.Drawing.Point(113, 132);
+            this.textBox_threshold0.Name = "textBox_threshold0";
+            this.textBox_threshold0.Size = new System.Drawing.Size(107, 28);
+            this.textBox_threshold0.TabIndex = 2;
             // 
             // textBox_presetValue
             // 
@@ -375,7 +401,7 @@
             // label_limite1
             // 
             this.label_limite1.AutoSize = true;
-            this.label_limite1.Location = new System.Drawing.Point(24, 188);
+            this.label_limite1.Location = new System.Drawing.Point(24, 187);
             this.label_limite1.Name = "label_limite1";
             this.label_limite1.Size = new System.Drawing.Size(62, 18);
             this.label_limite1.TabIndex = 1;
@@ -384,7 +410,7 @@
             // label_limite0
             // 
             this.label_limite0.AutoSize = true;
-            this.label_limite0.Location = new System.Drawing.Point(24, 133);
+            this.label_limite0.Location = new System.Drawing.Point(24, 135);
             this.label_limite0.Name = "label_limite0";
             this.label_limite0.Size = new System.Drawing.Size(62, 18);
             this.label_limite0.TabIndex = 1;
@@ -438,7 +464,7 @@
             // EVENT_1
             // 
             this.EVENT_1.AutoSize = true;
-            this.EVENT_1.Location = new System.Drawing.Point(475, 133);
+            this.EVENT_1.Location = new System.Drawing.Point(475, 135);
             this.EVENT_1.Name = "EVENT_1";
             this.EVENT_1.Size = new System.Drawing.Size(71, 18);
             this.EVENT_1.TabIndex = 1;
@@ -485,38 +511,25 @@
             this.comboBox_inputmode.TabIndex = 2;
             this.comboBox_inputmode.SelectedIndexChanged += new System.EventHandler(this.comboBox_inputmode_SelectedIndexChanged);
             // 
-            // textBox_dirInputPort
+            // checkBox_frequencyDoubleWord
             // 
-            this.textBox_dirInputPort.Location = new System.Drawing.Point(382, 75);
-            this.textBox_dirInputPort.Name = "textBox_dirInputPort";
-            this.textBox_dirInputPort.Size = new System.Drawing.Size(113, 28);
-            this.textBox_dirInputPort.TabIndex = 4;
-            this.textBox_dirInputPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // textBox_pulseInputPort
-            // 
-            this.textBox_pulseInputPort.Location = new System.Drawing.Point(382, 38);
-            this.textBox_pulseInputPort.Name = "textBox_pulseInputPort";
-            this.textBox_pulseInputPort.Size = new System.Drawing.Size(113, 28);
-            this.textBox_pulseInputPort.TabIndex = 4;
-            this.textBox_pulseInputPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // textBox_pulseFrequencyPort
-            // 
-            this.textBox_pulseFrequencyPort.Location = new System.Drawing.Point(382, 139);
-            this.textBox_pulseFrequencyPort.Name = "textBox_pulseFrequencyPort";
-            this.textBox_pulseFrequencyPort.Size = new System.Drawing.Size(101, 28);
-            this.textBox_pulseFrequencyPort.TabIndex = 4;
-            this.textBox_pulseFrequencyPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.checkBox_frequencyDoubleWord.AutoSize = true;
+            this.checkBox_frequencyDoubleWord.Location = new System.Drawing.Point(31, 27);
+            this.checkBox_frequencyDoubleWord.Name = "checkBox_frequencyDoubleWord";
+            this.checkBox_frequencyDoubleWord.Size = new System.Drawing.Size(70, 22);
+            this.checkBox_frequencyDoubleWord.TabIndex = 0;
+            this.checkBox_frequencyDoubleWord.Text = "双字";
+            this.checkBox_frequencyDoubleWord.UseVisualStyleBackColor = true;
             // 
             // FormHighInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 756);
+            this.ClientSize = new System.Drawing.Size(939, 804);
             this.Controls.Add(this.panel2);
             this.Name = "FormHighInput";
             this.Text = "FormHighInput";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHighInput_FormClosing);
             this.panel2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -553,8 +566,8 @@
         private System.Windows.Forms.ComboBox comboBox_trigger0;
         private System.Windows.Forms.TextBox textBox_eventName1;
         private System.Windows.Forms.TextBox textBox_eventName0;
-        private System.Windows.Forms.TextBox textBox_E1;
-        private System.Windows.Forms.TextBox textBox_E0;
+        private System.Windows.Forms.TextBox textBox_threshold1;
+        private System.Windows.Forms.TextBox textBox_threshold0;
         private System.Windows.Forms.TextBox textBox_presetValue;
         private System.Windows.Forms.Label label_limite1;
         private System.Windows.Forms.Label label_limite0;
@@ -568,12 +581,13 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox checkBox_frequencyPulse;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton_1s;
+        private System.Windows.Forms.RadioButton radioButton_100ms;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox_dirInputPort;
         private System.Windows.Forms.TextBox textBox_pulseInputPort;
         private System.Windows.Forms.TextBox textBox_pulseFrequencyPort;
+        private System.Windows.Forms.CheckBox checkBox_frequencyDoubleWord;
     }
 }
