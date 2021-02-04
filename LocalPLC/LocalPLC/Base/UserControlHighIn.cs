@@ -224,6 +224,14 @@ namespace LocalPLC.Base
 
                 var row = e.RowIndex;
                 var col = e.ColumnIndex;
+
+                var type = UserControlBase.dataManage.hscList[e.RowIndex].type;
+                if(typeDescDic.ContainsKey(type))
+                {
+                    //dtData.Rows[row][col] = typeDescDic[type];
+                    dtData.Rows[row][columnTypeIndex] = typeDescDic[type];
+                    dtData.Rows[row][columnUsedIndex] = UserControlBase.dataManage.hscList[e.RowIndex].used;
+                }
             }
         }
 

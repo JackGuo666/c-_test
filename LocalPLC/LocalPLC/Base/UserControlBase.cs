@@ -286,6 +286,44 @@ namespace LocalPLC.Base
             }
 
 
+            XmlElement elemHSC = doc.CreateElement("HSC");
+            elemHSC.SetAttribute("name", "HSC");
+            elem.AppendChild(elemHSC);
+            foreach(var hsc in dataManage.hscList)
+            {
+
+                XmlElement hscChild = doc.CreateElement("elem");
+                hscChild.SetAttribute("used", hsc.used.ToString());
+                hscChild.SetAttribute("name", hsc.name);
+                hscChild.SetAttribute("address", hsc.address);
+                hscChild.SetAttribute("type", hsc.type.ToString());
+
+                //双字
+                hscChild.SetAttribute("doubleword", hsc.doubleWord.ToString());
+                hscChild.SetAttribute("preset", hsc.preset.ToString());
+                //阈值
+                hscChild.SetAttribute("thresholds0", hsc.thresholdS0.ToString());
+                hscChild.SetAttribute("thresholds1", hsc.thresholdS1.ToString());
+                //事件名
+                hscChild.SetAttribute("eventname0", hsc.eventName0);
+                hscChild.SetAttribute("eventname1", hsc.eventName1);
+                //事件ID
+                hscChild.SetAttribute("eventid0", hsc.eventID0);
+                hscChild.SetAttribute("eventid1", hsc.eventID1);
+                //触发器
+                hscChild.SetAttribute("trigger0", hsc.trigger0.ToString());
+                hscChild.SetAttribute("trigger1", hsc.trigger1.ToString());
+
+                //方向输入
+                //hscChild.SetAttribute("dirinputchecked", hsc)
+
+
+
+                hscChild.SetAttribute("note", hsc.note);
+
+                elemHSC.AppendChild(hscChild);
+            }
+
             XmlElement elemHSP = doc.CreateElement("HSP");
             elemHSP.SetAttribute("name", "HSP");
             elem.AppendChild(elemHSP);

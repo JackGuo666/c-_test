@@ -103,7 +103,7 @@ namespace LocalPLC.Base
 
 
             comboBox_Type.TextChanged += new System.EventHandler(comboBox3_SelectedIndexChanged);
-            comboBox_Type.SelectedIndex = 0;
+            comboBox_Type.SelectedIndex = hscData_.type;
 
 
 
@@ -164,14 +164,16 @@ namespace LocalPLC.Base
                 if (currentIndex == 1)
                 {
                     //单脉冲计数
-                    label_direction.Text = "脉冲输入:";
-                    label_pulse.Text = "方向输入:";
+                    //label_direction.Text = "脉冲输入:";
+                    //label_pulse.Text = "方向输入:";
                     //comboBox_inputmode.Text = "脉冲/方向";
                     comboBox_inputmode.Visible = false;
                     label_inputmode.Visible = false;
                     groupBox2.Visible = true;
                     groupBox3.Visible = true;
                     groupBox4.Visible = false;
+
+
 
                     label_direction.Visible = false;
                     checkBox_direction.Visible = false;
@@ -194,8 +196,8 @@ namespace LocalPLC.Base
                 else if (currentIndex == 2)
                 {
                     //双向
-                    label_direction.Text = "脉冲输入:";
-                    label_pulse.Text = "脉冲输入:";
+                    //label_direction.Text = "脉冲输入:";
+                    //label_pulse.Text = "脉冲输入:";
                     //comboBox_inputmode.Text = "脉冲/脉冲";
                     groupBox2.Visible = true;
                     groupBox3.Visible = true;
@@ -221,8 +223,8 @@ namespace LocalPLC.Base
                 else if (currentIndex == 3)
                 {
                     //正交
-                    label_direction.Text = "脉冲输入:";
-                    label_pulse.Text = "脉冲输入:";
+                    //label_direction.Text = "脉冲输入:";
+                    //label_pulse.Text = "脉冲输入:";
                     //comboBox_inputmode.Text = "脉冲/脉冲";
                     comboBox_inputmode.Visible = false;
                     label_inputmode.Visible = false;
@@ -285,6 +287,7 @@ namespace LocalPLC.Base
             else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
                 hscData_.type = comboBox_Type.SelectedIndex;
+                hscData_.used = true;
                 //双字
                 hscData_.doubleWord = checkBox_doubleWord.Checked;
                 int.TryParse(textBox_presetValue.Text, out hscData_.preset);
@@ -305,7 +308,7 @@ namespace LocalPLC.Base
                 hscData_.pulsePort = textBox_pulseInputPort.Text;
                 hscData_.dirPort = textBox_dirInputPort.Text;
 
-                if(comboBox_presetPort.SelectedItem != null)
+                if (comboBox_presetPort.SelectedItem != null)
                 {
                     hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
                 }
@@ -314,21 +317,85 @@ namespace LocalPLC.Base
                     hscData_.presetPort = "";
                 }
 
-                hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
+                if(comboBox_capturePort.SelectedItem != null)
+                {
+                    hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
+                }
+                else
+                {
+                    hscData_.capturePort = "";
+                }
 
-                ////时间窗口
-                //hscData_.frequencyDoubleWord = checkBox_frequencyDoubleWord.Checked;
-                //if(radioButton_100ms.Checked)
-                //{
-                //    hscData_.timeWindow = 0;    //100ms
-                //}
-                //else if(radioButton_1s.Checked)
-                //{
-                //    hscData_.timeWindow = 1;    //1s
-                //}
+            }
+            else if (comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            {
+                hscData_.type = comboBox_Type.SelectedIndex;
+                hscData_.used = true;
+                //输入模式
+                if (comboBox_inputmode.SelectedItem != null)
+                {
+                    hscData_.inputMode = comboBox_inputmode.SelectedIndex;
+                }
+                else
+                {
+                    hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
+                }
 
-                //hscData_.pulseFrequencyChecked = checkBox_frequencyPulse.Checked;
-                //hscData_.pulseFrequencyInputPort = textBox_pulseFrequencyPort.Text;
+
+                //双字
+                hscData_.doubleWord = checkBox_doubleWord.Checked;
+                int.TryParse(textBox_presetValue.Text, out hscData_.preset);
+                int.TryParse(textBox_threshold0.Text, out hscData_.thresholdS0);
+                int.TryParse(textBox_threshold1.Text, out hscData_.thresholdS1);
+                hscData_.eventID0 = EVENT_1.Text;
+                hscData_.eventID1 = EVENT_2.Text;
+                hscData_.eventName0 = textBox_eventName0.Text;
+                hscData_.eventName1 = textBox_eventName1.Text;
+                hscData_.trigger0 = comboBox_trigger0.SelectedIndex;
+                hscData_.trigger1 = comboBox_trigger1.SelectedIndex;
+
+                hscData_.pulseChecked = checkBox_pulse.Checked;
+                hscData_.dirChecked = checkBox_direction.Checked;
+                hscData_.presetChecked = checkBox_preset.Checked;
+                hscData_.captureChecked = checkBox_caputre.Checked;
+
+                hscData_.pulsePort = textBox_pulseInputPort.Text;
+                hscData_.dirPort = textBox_dirInputPort.Text;
+
+                if (comboBox_presetPort.SelectedItem != null)
+                {
+                    hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
+                }
+                else
+                {
+                    hscData_.presetPort = "";
+                }
+
+                if (comboBox_capturePort.SelectedItem != null)
+                {
+                    hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
+                }
+                else
+                {
+                    hscData_.capturePort = "";
+                }
+            }
+            else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
+            {
+                hscData_.used = true;
+                //时间窗口
+                hscData_.frequencyDoubleWord = checkBox_frequencyDoubleWord.Checked;
+                if (radioButton_100ms.Checked)
+                {
+                    hscData_.timeWindow = 0;    //100ms
+                }
+                else if (radioButton_1s.Checked)
+                {
+                    hscData_.timeWindow = 1;    //1s
+                }
+
+                hscData_.pulseFrequencyChecked = checkBox_frequencyPulse.Checked;
+                hscData_.pulseFrequencyInputPort = textBox_pulseFrequencyPort.Text;
             }
         }
     }
