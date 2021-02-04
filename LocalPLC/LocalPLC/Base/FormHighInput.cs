@@ -27,7 +27,9 @@ namespace LocalPLC.Base
         Point posCapturePortLabel;
 
         Dictionary<int, string> inputDic = new Dictionary<int, string>();
+        Dictionary<int, string> triggerDic = new Dictionary<int, string>();
         enum INPUTMODE {PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
+        enum TRIGGER { NOTUSED, FAILING_EDGE, RSIING_EDGE, FAILING_RSIING_EDGE }
         public FormHighInput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSCData hscData)
         {
             InitializeComponent();
@@ -75,6 +77,24 @@ namespace LocalPLC.Base
                 comboBox_inputmode.Items.Add(input.Value);
             }
             comboBox_inputmode.SelectedIndex = 0;
+
+            triggerDic.Clear();
+            triggerDic.Add((int)INPUTMODE.PULSE_DIR, "未使用");
+            triggerDic.Add((int)INPUTMODE.INTEGRAL_1, "下降沿");
+            triggerDic.Add((int)INPUTMODE.INTEGRAL_2, "上升沿");
+            triggerDic.Add((int)INPUTMODE.INTEGRAL_4, "上升/下降沿");
+
+            foreach(var trigger in triggerDic)
+            {
+                comboBox_trigger0.Items.Add(trigger.Value);
+                comboBox_trigger1.Items.Add(trigger.Value);
+            }
+
+
+
+            comboBox_trigger0.SelectedIndex = 0;
+            comboBox_trigger1.SelectedIndex = 0;
+
 
             comboBox_Type.TextChanged += new System.EventHandler(comboBox3_SelectedIndexChanged);
             comboBox_Type.SelectedIndex = 0;
@@ -192,6 +212,18 @@ namespace LocalPLC.Base
                 label_direction.Text = "方向输入";
             }
             else if(((int)INPUTMODE.INTEGRAL_1) == comboBox_inputmode.SelectedIndex &&
+                comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            {
+                label_pulse.Text = "脉冲输入相位A";
+                label_direction.Text = "脉冲输入相位B";
+            }
+            else if (((int)INPUTMODE.INTEGRAL_2) == comboBox_inputmode.SelectedIndex &&
+                comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            {
+                label_pulse.Text = "脉冲输入相位A";
+                label_direction.Text = "脉冲输入相位B";
+            }
+            else if (((int)INPUTMODE.INTEGRAL_4) == comboBox_inputmode.SelectedIndex &&
                 comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
                 label_pulse.Text = "脉冲输入相位A";
