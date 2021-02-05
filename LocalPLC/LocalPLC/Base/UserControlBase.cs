@@ -314,10 +314,18 @@ namespace LocalPLC.Base
                 hscChild.SetAttribute("trigger0", hsc.trigger0.ToString());
                 hscChild.SetAttribute("trigger1", hsc.trigger1.ToString());
 
+                //脉冲输入
+                hscChild.SetAttribute("pulseinputchecked", hsc.pulseChecked.ToString());
+                hscChild.SetAttribute("pulseinputport", hsc.pulsePort.ToString());
                 //方向输入
-                //hscChild.SetAttribute("dirinputchecked", hsc)
-
-
+                hscChild.SetAttribute("dirinputcheck", hsc.dirChecked.ToString());
+                hscChild.SetAttribute("dirinputport", hsc.dirPort);
+                //预设输入
+                hscChild.SetAttribute("presetinputchecked", hsc.presetChecked.ToString());
+                hscChild.SetAttribute("presetinputport", hsc.presetPort);
+                //捕捉收入
+                hscChild.SetAttribute("caputreinputchecked", hsc.captureChecked.ToString());
+                hscChild.SetAttribute("caputreinput", hsc.capturePort);
 
                 hscChild.SetAttribute("note", hsc.note);
 

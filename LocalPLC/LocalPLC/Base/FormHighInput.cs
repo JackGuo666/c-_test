@@ -96,6 +96,16 @@ namespace LocalPLC.Base
                 comboBox_trigger1.Items.Add(trigger.Value);
             }
 
+            foreach(var di in UserControlBase.dataManage.diList)
+            {
+                comboBox_presetPort.Items.Add(di.channelName);
+            }
+
+
+            foreach (var di in UserControlBase.dataManage.diList)
+            {
+                comboBox_capturePort.Items.Add(di.channelName);
+            }
 
 
             comboBox_trigger0.SelectedIndex = hscData_.trigger0;
