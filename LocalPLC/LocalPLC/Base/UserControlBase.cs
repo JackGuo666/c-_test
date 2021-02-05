@@ -170,7 +170,6 @@ namespace LocalPLC.Base
         }
 
 
-
         public void loadXmlHsp(XmlNode xn)
         {
             XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
@@ -182,6 +181,7 @@ namespace LocalPLC.Base
                 hspData.name = e.GetAttribute("name");
                 bool.TryParse(e.GetAttribute("used"), out hspData.used);
                 hspData.address = e.GetAttribute("address");
+
                 int.TryParse(e.GetAttribute("type"), out hspData.type);
                 int.TryParse(e.GetAttribute("timebase"), out hspData.timeBase);
                 int.TryParse(e.GetAttribute("preset"), out hspData.preset);
@@ -194,6 +194,54 @@ namespace LocalPLC.Base
 
                 dataManage.hspList.Add(hspData);
             }
+        }
+
+        public void loadXmlHsc(XmlNode xn)
+        {
+            XmlNodeList nodeList = xn.ChildNodes;//创建xn的所有子节点的集合
+            foreach (XmlNode childNode in nodeList)//遍历集合中所有的节点
+            {
+                XmlElement e = (XmlElement)childNode;
+                HSCData hscData = new HSCData();
+
+                hscData.name = e.GetAttribute("name");
+                bool.TryParse(e.GetAttribute("used"), out hscData.used);
+                hscData.address = e.GetAttribute("address");
+                int.TryParse(e.GetAttribute("type"), out hscData.type);
+                bool.TryParse(e.GetAttribute("doubleword"), out hscData.doubleWord);
+                int.TryParse(e.GetAttribute("preset"), out hscData.preset);
+                int.TryParse(e.GetAttribute("thresholds0"), out hscData.thresholdS0);
+                int.TryParse(e.GetAttribute("thresholds1"), out hscData.thresholdS1);
+                hscData.eventName0 = e.GetAttribute("eventname0");
+                hscData.eventName1 = e.GetAttribute("eventname1");
+                hscData.eventName0 = e.GetAttribute("eventname0");
+                hscData.eventID0 = e.GetAttribute("eventid0");
+                hscData.eventID1 = e.GetAttribute("eventid1");
+                int.TryParse(e.GetAttribute("trigger0"), out hscData.trigger0);
+                int.TryParse(e.GetAttribute("trigger1"), out hscData.trigger1);
+                //脉冲
+                bool.TryParse(e.GetAttribute("pulseinputchecked"), out hscData.pulseChecked);
+                hscData.pulsePort = e.GetAttribute("pulseinputport");
+                //方向
+                bool.TryParse(e.GetAttribute("dirinputcheck"), out hscData.dirChecked);
+                hscData.dirPort = e.GetAttribute("dirinputport");
+                //预留
+                bool.TryParse(e.GetAttribute("presetinputchecked"), out hscData.presetChecked);
+                hscData.presetPort = e.GetAttribute("presetinputport");
+                //捕获
+                bool.TryParse(e.GetAttribute("caputreinputchecked"), out hscData.captureChecked);
+                hscData.capturePort = e.GetAttribute("caputreinput");
+
+                //频率计
+                bool.TryParse(e.GetAttribute("frequencydoubleword"), out hscData.frequencyDoubleWord);
+                //时间窗口
+                int.TryParse(e.GetAttribute("timewindow"), out hscData.timeWindow);
+                bool.TryParse(e.GetAttribute("frequencypulseinputchecked"), out hscData.pulseFrequencyChecked);
+                hscData.pulseFrequencyInputPort = e.GetAttribute("frequencypulseinputport");
+
+                dataManage.hscList.Add(hscData);
+            }
+
         }
 
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
@@ -326,6 +374,12 @@ namespace LocalPLC.Base
                 //捕捉收入
                 hscChild.SetAttribute("caputreinputchecked", hsc.captureChecked.ToString());
                 hscChild.SetAttribute("caputreinput", hsc.capturePort);
+
+                //频率计
+                hscChild.SetAttribute("frequencydoubleword", hsc.frequencyDoubleWord.ToString());
+                hscChild.SetAttribute("timewindow", hsc.timeWindow.ToString());
+                hscChild.SetAttribute("frequencypulseinputchecked", hsc.pulseFrequencyChecked.ToString());
+                hscChild.SetAttribute("frequencypulseinputport", hsc.pulseFrequencyInputPort);
 
                 hscChild.SetAttribute("note", hsc.note);
 

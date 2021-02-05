@@ -298,6 +298,7 @@ namespace LocalPLC.Base.xml
             serialDic.Clear();
             ethernetDic.Clear();
 
+            hscList.Clear();
             hspList.Clear();
         }
 

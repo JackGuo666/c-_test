@@ -285,6 +285,10 @@ namespace LocalPLC
                                 {
                                     UC.loadXmlEthernet(nChild);
                                 }
+                                else if(childname == "HSC")
+                                {
+                                    UC.loadXmlHsc(nChild);
+                                }
                                 else if(childname == "HSP")
                                 {
                                     UC.loadXmlHsp(nChild);
@@ -504,10 +508,29 @@ namespace LocalPLC
             }
             else if(name == "高速计数器")
             {
+                if (!ModbusWindow.Controls.Contains(UC))
+                {
+                    UC.Show();
+                    ModbusWindow.Controls.Clear();
+                    UC.Dock = DockStyle.Fill;
+                    ////UC.Size = new Size(472, 336);
+                    ModbusWindow.Controls.Add(UC);
+                }
+
                 UC.setHighInput(name);
             }
             else if(name == "高速输出")
             {
+
+                if (!ModbusWindow.Controls.Contains(UC))
+                {
+                    UC.Show();
+                    ModbusWindow.Controls.Clear();
+                    UC.Dock = DockStyle.Fill;
+                    ////UC.Size = new Size(472, 336);
+                    ModbusWindow.Controls.Add(UC);
+                }
+
                 UC.setHighOutput(name);
             }
             else if(name == "正交编码器")

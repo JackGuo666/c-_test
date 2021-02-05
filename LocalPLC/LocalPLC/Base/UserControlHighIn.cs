@@ -111,6 +111,33 @@ namespace LocalPLC.Base
             }
         }
 
+
+        public void refreshData()
+        {
+            dtData.Clear();
+            foreach (var hscData in UserControlBase.dataManage.hscList)
+            {
+                DataRow drData;
+                drData = dtData.NewRow();
+
+                drData[columnUsedIndex] = hscData.used;
+                drData[columnVarIndex] = hscData.name;
+                drData[columnAddressIndex] = hscData.address;
+                if (typeDescDic.ContainsKey(hscData.type))
+                {
+                    drData[columnTypeIndex] = typeDescDic[hscData.type];
+                }
+                else
+                {
+                    drData[columnTypeIndex] = "";
+                }
+                drData[columnNoteIndex] = hscData.note; //
+
+                dtData.Rows.Add(drData);
+            }
+
+        }
+
         private void BindData()
         {
             //view绑定datatable
@@ -216,7 +243,7 @@ namespace LocalPLC.Base
         {
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index)
             {
-                //Do something with your button.
+                //Do something with your button. 
                 FormHighInput color = new FormHighInput(typeDescDic, UserControlBase.dataManage.hscList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();

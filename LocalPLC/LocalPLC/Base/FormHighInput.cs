@@ -33,6 +33,7 @@ namespace LocalPLC.Base
         Dictionary<int, string> triggerDic = new Dictionary<int, string>();
         enum INPUTMODE {PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
         enum TRIGGER { NOTUSED, FAILING_EDGE, RSIING_EDGE, FAILING_RSIING_EDGE }
+        public enum TIMEBASE { T100ms, T1s }
         public FormHighInput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSCData hscData)
         {
             InitializeComponent();
@@ -145,6 +146,16 @@ namespace LocalPLC.Base
             //频率计
             checkBox_frequencyPulse.Checked = hscData_.pulseFrequencyChecked;
             textBox_pulseFrequencyPort.Text = hscData_.pulseFrequencyInputPort;
+            if(hscData_.timeWindow == (int)TIMEBASE.T100ms)
+            {
+                radioButton_100ms.Checked = true;
+            }
+            else
+            {
+                radioButton_1s.Checked = true;
+            }
+
+            checkBox_frequencyDoubleWord.Checked = hscData_.frequencyDoubleWord;
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -157,6 +168,7 @@ namespace LocalPLC.Base
                 label_inputmode.Visible = false;
                 comboBox_inputmode.Visible = false;
 
+                hscData_.used = false;
 
                 groupBox2.Visible = false;
                 groupBox3.Visible = false;
@@ -392,7 +404,9 @@ namespace LocalPLC.Base
             }
             else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {
+                hscData_.type = comboBox_Type.SelectedIndex;
                 hscData_.used = true;
+
                 //时间窗口
                 hscData_.frequencyDoubleWord = checkBox_frequencyDoubleWord.Checked;
                 if (radioButton_100ms.Checked)
