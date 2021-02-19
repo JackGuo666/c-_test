@@ -52,7 +52,7 @@ namespace LocalPLC.Base
 
         public void refreshUserBaseUI()
         {
-            curWeaponType.refreshData();
+             curWeaponType.refreshData();
         }
 
         //重新加载工程，清空界面

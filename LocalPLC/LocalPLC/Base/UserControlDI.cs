@@ -331,7 +331,7 @@ namespace LocalPLC.Base
 
             try
             {
-                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
+                            if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
                     this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
