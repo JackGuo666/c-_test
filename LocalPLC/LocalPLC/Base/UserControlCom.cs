@@ -17,6 +17,9 @@ namespace LocalPLC.Base
     {
         public SERIALData serialValueData_ = null;
         bool configured_ = false;
+        //string polKey = "ModPol";
+        List<EnumElem> mediumList_ = null;
+        List<EnumElem> polList_ = null;
         public UserControlCom(string com, SERIALData serialValueData, bool configured = false)
         {
             InitializeComponent();
@@ -26,7 +29,16 @@ namespace LocalPLC.Base
             //configured为true，串口数据加载config_project
             //configured为false，串口数据加载控制器模板数据
             configured_ = configured;
-            Init();
+            if(configured_)
+            {
+                Init();
+                setDataToUI();
+            }
+            else
+            {
+                Init();
+            }
+
 
             //数据管理里的串口数组
             //UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
@@ -77,9 +89,20 @@ namespace LocalPLC.Base
                     comboBox_StopBit.SelectedItem = combo;
                 }
             }
+
+            if(serialValueData_.rsMode == (int)SerialMode.RS232)
+            {
+                radioButton2.Checked = true;
+            }
+            else if(serialValueData_.rsMode == (int)SerialMode.RS485)
+            {
+                radioButton1.Checked = true;
+            }
+
         }
 
         enum SerialMode { RS232, RS485};
+        enum SerialPol { RS232POL, RS485POL };
         public void getDataFromUI()
         {
             serialValueData_.name = textBox_Com.Text.ToString();
@@ -221,6 +244,11 @@ namespace LocalPLC.Base
                                         {
                                             int.TryParse(serialData.defaultValue, out serialValueData_.rsMode);
                                         }
+                                        else
+                                        {
+                                            //已配置，不要设置默认值
+                                            continue;
+                                        }
                                         //在enumType里找到对应的描述
                                         string[] strArrMedium = serialData.type.Split(new Char[] { ':' });
                                         if (strArrMedium.Length == 2)
@@ -229,29 +257,30 @@ namespace LocalPLC.Base
                                             if (UserControlBase.dataManage.dicEnum.ContainsKey(strMedium))
                                             {
                                                 var mediumList = UserControlBase.dataManage.dicEnum[strMedium].list;
-                                                foreach(var medium in mediumList)
+                                                mediumList_ = mediumList;
+                                                foreach (var medium in mediumList)
                                                 {
-                                                    if(medium.value == 1.ToString())
+                                                    if(medium.value == /*1.ToString()*/ serialData.defaultValue)
                                                     {
                                                         radioButton1.Checked = true;
                                                         radioButton2.Checked = false;
                                                         
                                                     }
-                                                    else if(medium.value == 0.ToString())
+                                                    else if(medium.value == /*0.ToString()*/ serialData.defaultValue)
                                                     {
                                                         radioButton1.Checked = false;
                                                         radioButton2.Checked = true;
-                                                        if (UserControlBase.dataManage.dicEnum.ContainsKey("Polarization"))
-                                                        {
-                                                            var polList = UserControlBase.dataManage.dicEnum["Polarization"].list;
-                                                            foreach (var pol in polList)
-                                                            {
-                                                                if (pol.value == medium.value)
-                                                                {
-                                                                    textBox_Pol.Text = pol.name;
-                                                                }
-                                                            }
-                                                        }
+                                                        //if (UserControlBase.dataManage.dicEnum.ContainsKey("Polarization"))
+                                                        //{
+                                                        //    var polList = UserControlBase.dataManage.dicEnum["Polarization"].list;
+                                                        //    foreach (var pol in polList)
+                                                        //    {
+                                                        //        if (pol.value == medium.value)
+                                                        //        {
+                                                        //            textBox_Pol.Text = pol.name;
+                                                        //        }
+                                                        //    }
+                                                        //}
                                                     }
                                                 }
                                             }
@@ -265,6 +294,11 @@ namespace LocalPLC.Base
                                         {
                                             int.TryParse(serialData.defaultValue, out serialValueData_.polR);
                                         }
+                                        else
+                                        {
+                                            //已配置，不要设置默认值
+                                            continue;
+                                        }
 
                                         //在enumType里找到对应的描述
                                         string[] strArrPolarization = serialData.type.Split(new Char[] { ':' });
@@ -274,6 +308,7 @@ namespace LocalPLC.Base
                                             if (UserControlBase.dataManage.dicEnum.ContainsKey(strPolarization))
                                             {
                                                 var polList = UserControlBase.dataManage.dicEnum[strPolarization].list;
+                                                polList_ = polList;
                                                 foreach (var pol in polList)
                                                 {
                                                     if (pol.value == serialValueData_.polR.ToString())
@@ -426,6 +461,82 @@ namespace LocalPLC.Base
             //comboBox_Databit.SelectedIndex = 1;
 
 
+        }
+
+        public void refreshData()
+        {
+            //serialDic
+            if (UserControlBase.dataManage.serialDic.ContainsKey(com_))
+            {
+                var serial = UserControlBase.dataManage.serialDic[com_];
+            }
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            //rs232
+            if (radioButton1.Checked)
+            {
+                serialValueData_.rsMode = (int)SerialMode.RS485;
+                //极化电阻
+                var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
+                foreach (var value in list)
+                {
+                    if (value.value == serialValueData_.rsMode.ToString())
+                    {
+                        serialValueData_.polR = serialValueData_.rsMode;
+                        textBox_Pol.Text = value.name;
+                    }
+                }
+
+            }
+            else if (radioButton2.Checked)
+            {
+                serialValueData_.rsMode = (int)SerialMode.RS232;
+                //极化电阻
+                var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
+                foreach (var value in list)
+                {
+                    if (value.value == serialValueData_.rsMode.ToString())
+                    {
+                        serialValueData_.polR = serialValueData_.rsMode;
+                        textBox_Pol.Text = value.name;
+                    }
+                }
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                serialValueData_.rsMode = (int)SerialMode.RS485;
+                //极化电阻
+                var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
+                foreach (var value in list)
+                {
+                    if (value.value == serialValueData_.rsMode.ToString())
+                    {
+                        serialValueData_.polR = serialValueData_.rsMode;
+                        textBox_Pol.Text = value.name;
+                    }
+                }
+
+            }
+            else if (radioButton2.Checked)
+            {
+                serialValueData_.rsMode = (int)SerialMode.RS232;
+                //极化电阻
+                var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
+                foreach (var value in list)
+                {
+                    if (value.value == serialValueData_.polR.ToString())
+                    {
+                        serialValueData_.polR = serialValueData_.polR;
+                        textBox_Pol.Text = value.name;
+                    }
+                }
+            }
         }
     }
 
