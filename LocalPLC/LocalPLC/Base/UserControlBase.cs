@@ -321,7 +321,11 @@ namespace LocalPLC.Base
             elem.AppendChild(elemEthnet);
             foreach (var etherUI in ethDic)
             {
-                etherUI.Value.getDataFromUI();
+                bool ret = etherUI.Value.getDataFromUI();
+                if(!ret)
+                {
+                    break;
+                }
                 if (dataManage.ethernetDic.ContainsKey(etherUI.Key))
                 {
                     dataManage.ethernetDic[etherUI.Key] = etherUI.Value.ethernetValueData_;
@@ -737,8 +741,17 @@ namespace LocalPLC.Base
 
             topNode.Text = localPLCType;
 
+
+
             string tmp = string.Format("LocalPLC.Base.{0}", localPLCType);
             Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
+
+
+            if(type == null)
+            {
+                return;
+            }
+
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 
