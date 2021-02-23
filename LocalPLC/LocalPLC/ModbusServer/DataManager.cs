@@ -13,28 +13,28 @@ namespace LocalPLC.ModbusServer
         }
 
         public int coilCount;
-        public string coilIoAddrStart ;
+        public string coilIoAddrStart = "10001";
         public string coilIoAddrEnd;
         public string coilIoVarNameIn;
         public string coilIoVarNameOut;
         public int iocoilstart;
 
         public int holdingCount;
-        public string holdingIoAddrStart;
+        public string holdingIoAddrStart = "20001";
         public string holdingIoAddrEnd;
         public string holdingVarNameIn;
         public string holdingVarNameOut;
         public int mholdingstart;
 
         public int decreteCount;
-        public string decreteIoAddrStart;
+        public string decreteIoAddrStart = "30001";
         public string decreteIoAddrEnd;
         public string decreteVarNameIn;
         public string decreteVarNameOut;
         public string mdiscretestart;
 
         public int statusCount;
-        public string statusIoAddrStart;
+        public string statusIoAddrStart = "40001";
         public string statusIoAddrEnd;
         public string statusVarNameIn;
         public string statusVarNameOut;
@@ -47,6 +47,9 @@ namespace LocalPLC.ModbusServer
         public int transformMode;  //0 TCP 1 UDP
         public int deviceAddr;
         public int transform;
+        public int transformport;
+        public bool ipfixed = false;
+        //public int connectnum = 1;
         public int slavetansformMode; //0 RTU 1ASCII
         public int port = 502;
         public int maxconnectnumber = 1;
@@ -63,6 +66,8 @@ namespace LocalPLC.ModbusServer
     {
         public int ID;
         public int serverstartaddr;
+        //public int TCPnum = 0;
+        //public int Rtunum = 0;
         //public DeviceData device { get; set; }
         public DataServer dataDevice_ = new DataServer();
         public ModbusServerData()
@@ -77,11 +82,13 @@ namespace LocalPLC.ModbusServer
     public class DataManager
     {
         private static DataManager instance = null;
+        public int TCPnum = 0;
+        public int Rtunum = 0;
         //public int serverstartaddr;
         public List<ModbusServer.ModbusServerData> listServer = new List<ModbusServer.ModbusServerData>();
 
         //public ModbusSlave.DataSlave data_ = new ModbusSlave.DataSlave();
-        private DataManager()
+        public DataManager()
         {
 
         }

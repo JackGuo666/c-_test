@@ -125,6 +125,7 @@ namespace LocalPLC.ModbusClient
                         channelData.nameChannel = e.GetAttribute("namechannel");
                         int.TryParse(e.GetAttribute("msgtype"), out channelData.msgType);
                         channelData.msgdiscrib = e.GetAttribute("msgdiscrib");
+                        int.TryParse(e.GetAttribute("trig_mode"), out channelData.trig_mode);
                         int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
                         int.TryParse(e.GetAttribute("offset"), out channelData.Offset);
                         int.TryParse(e.GetAttribute("length"), out channelData.Length);
@@ -204,6 +205,7 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
                         elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
                         elem1_m_d_c.SetAttribute("msgdiscrib", dataChannel.msgdiscrib);
+                        elem1_m_d_c.SetAttribute("trig_mode", dataChannel.trig_mode.ToString());
                         elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
                         elem1_m_d_c.SetAttribute("offset", dataChannel.Offset.ToString());
                         elem1_m_d_c.SetAttribute("length", dataChannel.Length.ToString());
@@ -229,115 +231,122 @@ namespace LocalPLC.ModbusClient
         public void saveJson(JsonTextWriter writer)
         {
             //添加modbusslave节点
-            writer.WritePropertyName("mbtcp_client");
-            writer.WriteStartObject();//添加{  client节点
-            writer.WritePropertyName("number");
-            writer.WriteValue(clientManage.modbusClientList.Count);//number
-            writer.WritePropertyName("time_uint");
-            writer.WriteValue("ms");//时间单位
-            int index = 0;
+            ModbusClientManage client =clientManage;
+            if (client.modbusClientList.Count > 0)
+            {
+                writer.WritePropertyName("mbtcp_client");
+                writer.WriteStartObject();//添加{  client节点
+                writer.WritePropertyName("number");
+                writer.WriteValue(clientManage.modbusClientList.Count);//number
+                writer.WritePropertyName("time_uint");
+                writer.WriteValue("ms");//时间单位
+                int index = 0;
                 writer.WritePropertyName("conf");
                 writer.WriteStartArray();//[ client节点下conf数组
-            for (int i = 0; i < clientManage.modbusClientList.Count; i++)//遍历所有Client的集合
-            {
-                ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
-                
-                writer.WriteStartObject();//{  client节点下device
-                writer.WritePropertyName("port");
-                writer.WriteValue("ethif_" + data.ID.ToString());
-                string mode = null;
-                if (data.transformMode == 0)
+                for (int i = 0; i < clientManage.modbusClientList.Count; i++)//遍历所有Client的集合
                 {
-                    mode = "tcp";
-                }
-                else if (data.transformMode == 1)
-                {
-                    mode = "udp";
-                }
-                writer.WritePropertyName("mode");
-                writer.WriteValue(mode);
-                writer.WritePropertyName("dev_namestr");
-                writer.WriteValue("mb"+mode+"_client"+data.ID);
-                writer.WritePropertyName("slave");
-                writer.WriteStartObject();//{  slave节点 从设备信息
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.modbusDeviceList.Count);
-                if (i > 0)
-                {
-                    index = i * clientManage.modbusClientList[i - 1].modbusDeviceList.Count;
-                }
+                    ModbusClientData data = clientManage.modbusClientList.ElementAt(i);
+
+                    writer.WriteStartObject();//{  client节点下device
+                    writer.WritePropertyName("port");
+                    writer.WriteValue("ethif_" + data.ID.ToString());
+                    writer.WritePropertyName("response_timeout");
+                    writer.WriteValue(data.responseTimeout);
+                    string mode = null;
+                    if (data.transformMode == 0)
+                    {
+                        mode = "tcp";
+                    }
+                    else if (data.transformMode == 1)
+                    {
+                        mode = "udp";
+                    }
+                    writer.WritePropertyName("mode");
+                    writer.WriteValue(mode);
+                    writer.WritePropertyName("dev_namestr");
+                    writer.WriteValue("mb" + mode + "_client" + data.ID);
+                    writer.WritePropertyName("slave");
+                    writer.WriteStartObject();//{  slave节点 从设备信息
+                    writer.WritePropertyName("num");
+                    writer.WriteValue(data.modbusDeviceList.Count);
+                    if (i > 0)
+                    {
+                        index = i * clientManage.modbusClientList[i - 1].modbusDeviceList.Count;
+                    }
                     writer.WritePropertyName("conf");
                     writer.WriteStartArray();//[  slave节点conf
-                for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数至
-                {
-                    DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
-                    
-                    writer.WriteStartObject();//{  conf数组下节点，从设备信息
-                    writer.WritePropertyName("slave_ip");
-                    writer.WriteValue(dataDev.serverAddr);
-                    writer.WritePropertyName("slave_port");
-                    writer.WriteValue(502);
-                    writer.WritePropertyName("response_timeout");
-                    writer.WriteValue(dataDev.reponseTimeout);
-                    writer.WritePropertyName("retry_interval");
-                    writer.WriteValue(dataDev.reconnectInterval);
-                    writer.WritePropertyName("timeout_cnt_max");
-                    writer.WriteValue(dataDev.permitTimeoutCount);
-                    writer.WritePropertyName("io_range");
-                    writer.WriteStartObject();//{  conf数组下 iorange                
-                    writer.WritePropertyName("start");
-                    writer.WriteValue(dataDev.devstartaddr);
-                    writer.WritePropertyName("bytes");
-                    writer.WriteValue(dataDev.devlength);
-                    writer.WriteEndObject();//}    conf数组下 iorange    
-                    writer.WritePropertyName("restart_offset");
-                    writer.WriteValue(0);
-                    writer.WritePropertyName("channel_cfg");
-                    writer.WriteStartObject();//{  channel_cfg节点
-                    writer.WritePropertyName("num");
-                    writer.WriteValue(dataDev.modbusChannelList.Count);
+                    for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数至
+                    {
+                        DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
+
+                        writer.WriteStartObject();//{  conf数组下节点，从设备信息
+                        writer.WritePropertyName("slave_ip");
+                        writer.WriteValue(dataDev.serverAddr);
+                        writer.WritePropertyName("slave_port");
+                        writer.WriteValue(502);
+
+                        writer.WritePropertyName("retry_interval");
+                        writer.WriteValue(dataDev.reconnectInterval);
+                        writer.WritePropertyName("timeout_cnt_max");
+                        writer.WriteValue(dataDev.permitTimeoutCount);
+                        writer.WritePropertyName("io_range");
+                        writer.WriteStartObject();//{  conf数组下 iorange                
+                        writer.WritePropertyName("start");
+                        writer.WriteValue(dataDev.devstartaddr);
+                        writer.WritePropertyName("bytes");
+                        writer.WriteValue(dataDev.devlength);
+                        writer.WriteEndObject();//}    conf数组下 iorange    
+                        writer.WritePropertyName("restart_offset");
+                        writer.WriteValue(0);
+                        writer.WritePropertyName("channel_cfg");
+                        writer.WriteStartObject();//{  channel_cfg节点
+                        writer.WritePropertyName("num");
+                        writer.WriteValue(dataDev.modbusChannelList.Count);
                         writer.WritePropertyName("conf");
                         writer.WriteStartArray();//[  channel_cfg节点下conf数组
 
-                    for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
-                    {
-                        ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
-                        writer.WriteStartObject();//{  channel_cfg节点下conf数组中channel信息
-                        writer.WritePropertyName("channel_id");
-                        writer.WriteValue(dataChannel.ID);
-                        writer.WritePropertyName("channel_name");
-                        writer.WriteValue("channel" + dataChannel.ID);
-                        writer.WritePropertyName("msg_type");
-                        writer.WriteValue(dataChannel.msgType);
-                        writer.WritePropertyName("polling_time");
-                        writer.WriteValue(dataChannel.pollingTime);
-                        writer.WritePropertyName("offset");
-                        writer.WriteValue(dataChannel.Offset);
-                        writer.WritePropertyName("quantity");
-                        writer.WriteValue(dataChannel.Length);
-                        writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.channelstartaddr + 2 - data.clientstartaddr);
-                        writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.Channellength - 2);
-                        writer.WritePropertyName("trigger_offset");
-                        writer.WriteValue(dataChannel.channelstartaddr-data.clientstartaddr);
-                        writer.WritePropertyName("error_offset");
-                        writer.WriteValue(dataChannel.channelstartaddr + 1 - data.clientstartaddr);
-                        writer.WritePropertyName("direction");
-                        writer.WriteValue("in");
-                        writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
+                        for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
+                        {
+                            ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
+                            writer.WriteStartObject();//{  channel_cfg节点下conf数组中channel信息
+                            writer.WritePropertyName("channel_id");
+                            writer.WriteValue(dataChannel.ID);
+                            writer.WritePropertyName("channel_name");
+                            writer.WriteValue("channel" + dataChannel.ID);
+                            writer.WritePropertyName("msg_type");
+                            writer.WriteValue(dataChannel.msgType);
+                            writer.WritePropertyName("trig_mode");
+                            writer.WriteValue(dataChannel.trig_mode);
+                            writer.WritePropertyName("polling_time");
+                            writer.WriteValue(dataChannel.pollingTime);
+                            writer.WritePropertyName("offset");
+                            writer.WriteValue(dataChannel.Offset);
+                            writer.WritePropertyName("quantity");
+                            writer.WriteValue(dataChannel.Length);
+                            writer.WritePropertyName("io_offset");
+                            writer.WriteValue(dataChannel.channelstartaddr + 3 - data.clientstartaddr);
+                            writer.WritePropertyName("io_bytes");
+                            writer.WriteValue(dataChannel.Channellength - 3);
+                            writer.WritePropertyName("trigger_offset");
+                            writer.WriteValue(dataChannel.channelstartaddr - data.clientstartaddr);
+                            writer.WritePropertyName("error_offset");
+                            writer.WriteValue(dataChannel.channelstartaddr + 1 - data.clientstartaddr);
+                            writer.WritePropertyName("direction");
+                            writer.WriteValue("in");
+                            writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
 
+                        }
+                        writer.WriteEndArray();//] channel_cfg节点下conf数组
+                        writer.WriteEndObject();//}  channel_cfg节点
+                        writer.WriteEndObject();//}  conf数组下节点，从设备信息
                     }
-                    writer.WriteEndArray();//] channel_cfg节点下conf数组
-                    writer.WriteEndObject();//}  channel_cfg节点
-                    writer.WriteEndObject();//}  conf数组下节点，从设备信息
+                    writer.WriteEndArray();//]  slave节点conf
+                    writer.WriteEndObject();//} slave节点 从设备信息
+                    writer.WriteEndObject();//} client节点下device
                 }
-                writer.WriteEndArray();//]  slave节点conf
-                writer.WriteEndObject();//} slave节点 从设备信息
-                writer.WriteEndObject();//} client节点下device
+                writer.WriteEndArray();//] client节点下conf数组
+                writer.WriteEndObject();//添加}  client节点
             }
-            writer.WriteEndArray();//] client节点下conf数组
-            writer.WriteEndObject();//添加}  client节点
         }
 
         private enum COLUMNNAME : int

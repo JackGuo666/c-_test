@@ -99,6 +99,7 @@ namespace LocalPLC.ModbusMaster
                         int.TryParse(e.GetAttribute("ID"), out channelData.ID);
                         channelData.nameChannel = e.GetAttribute("namechannel");
                         int.TryParse(e.GetAttribute("msgtype"), out channelData.msgType);
+                        int.TryParse(e.GetAttribute("trig_mode"), out channelData.trig_mode);
                         int.TryParse(e.GetAttribute("pollingtime"), out channelData.pollingTime);
                         int.TryParse(e.GetAttribute("offset"), out channelData.readOffset);
                         int.TryParse(e.GetAttribute("length"), out channelData.readLength);
@@ -182,6 +183,7 @@ namespace LocalPLC.ModbusMaster
                         elem1_m_d_c.SetAttribute("ID", dataChannel.ID.ToString());
                         elem1_m_d_c.SetAttribute("namechannel", dataChannel.nameChannel);
                         elem1_m_d_c.SetAttribute("msgtype", dataChannel.msgType.ToString());
+                        elem1_m_d_c.SetAttribute("trig_mode", dataChannel.trig_mode.ToString());
                         elem1_m_d_c.SetAttribute("pollingtime", dataChannel.pollingTime.ToString());
                         elem1_m_d_c.SetAttribute("offset", dataChannel.readOffset.ToString());
                         elem1_m_d_c.SetAttribute("length", dataChannel.readLength.ToString());                       
@@ -212,116 +214,121 @@ namespace LocalPLC.ModbusMaster
         public void saveJson(JsonTextWriter writer)
         {
             //添加modbusslave节点
-            writer.WritePropertyName("mbserial_master");
-            writer.WriteStartObject();//添加{  client节点
-            writer.WritePropertyName("number");
-            writer.WriteValue(masterManage.modbusMastrList.Count);//number
-            writer.WritePropertyName("time_uint");
-            writer.WriteValue("ms");//时间单位
-            int index = 0;
-            writer.WritePropertyName("conf");
-            writer.WriteStartArray();//[ client节点下conf数组
-            for (int i = 0; i < masterManage.modbusMastrList.Count; i++)//遍历所有Client的集合
+            ModbusMasterManage master = masterManage;
+            if (master.modbusMastrList.Count > 0)
             {
-                ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
-
-                writer.WriteStartObject();//{  client节点下device
-                writer.WritePropertyName("port");
-                writer.WriteValue("ser_port" + data.ID.ToString());
-                string mode = null;
-                if (data.transformMode == 0)
-                {
-                    mode = "rtu";
-                }
-                else if (data.transformMode == 1)
-                {
-                    mode = "ascii";
-                }
-                writer.WritePropertyName("mode");
-                writer.WriteValue(mode);
-                writer.WritePropertyName("dev_namestr");
-                writer.WriteValue("mbserial" + "_master" + data.ID);
-                writer.WritePropertyName("slave");
-                writer.WriteStartObject();//{  slave节点 从设备信息
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.modbusDeviceList.Count);
-                if (i > 0)
-                {
-                    index = i * masterManage.modbusMastrList[i - 1].modbusDeviceList.Count;
-                }
+                writer.WritePropertyName("mbserial_master");
+                writer.WriteStartObject();//添加{  master节点
+                writer.WritePropertyName("number");
+                writer.WriteValue(masterManage.modbusMastrList.Count);//number
+                writer.WritePropertyName("time_uint");
+                writer.WriteValue("ms");//时间单位
+                int index = 0;
                 writer.WritePropertyName("conf");
-                writer.WriteStartArray();//[  slave节点conf
-                for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数至
+                writer.WriteStartArray();//[ master节点下conf数组
+                for (int i = 0; i < masterManage.modbusMastrList.Count; i++)//遍历所有Client的集合
                 {
-                    DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
+                    ModbusMasterData data = masterManage.modbusMastrList.ElementAt(i);
 
-                    writer.WriteStartObject();//{  conf数组下节点，从设备信息
-                    writer.WritePropertyName("slave_id");
-                    writer.WriteValue(dataDev.ID);
+                    writer.WriteStartObject();//{  master节点下device
+                    writer.WritePropertyName("port");
+                    writer.WriteValue("ser_port" + data.ID.ToString());
                     writer.WritePropertyName("response_timeout");
-                    writer.WriteValue(dataDev.reponseTimeout);
-                    
-                    writer.WritePropertyName("timeout_cnt_max");
-                    writer.WriteValue(dataDev.permitTimeoutCount);
-                    writer.WritePropertyName("retry_interval");
-                    writer.WriteValue(dataDev.reconnectInterval);
-                    writer.WritePropertyName("io_range");
-                    writer.WriteStartObject();//{  conf数组下 iorange                
-                    writer.WritePropertyName("start");
-                    writer.WriteValue(dataDev.curDeviceAddr);//io范围这块上位机设计方案中在master和client中并没有提到，需要确认
-                    writer.WritePropertyName("bytes");
-                    writer.WriteValue(dataDev.curDeviceLength);
-                    writer.WriteEndObject();//}    conf数组下 iorange   
-                    writer.WritePropertyName("restart_offset");
-                    writer.WriteValue(0);
-                    writer.WritePropertyName("channel_cfg");
-                    writer.WriteStartObject();//{  channel_cfg节点
-                    writer.WritePropertyName("num");
-                    writer.WriteValue(dataDev.modbusChannelList.Count);
-                    writer.WritePropertyName("conf");
-                    writer.WriteStartArray();//[  channel_cfg节点下conf数组
-
-                    for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
+                    writer.WriteValue(data.responseTimeout);
+                    string mode = null;
+                    if (data.transformMode == 0)
                     {
-                        ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
-                        writer.WriteStartObject();//{  channel_cfg节点下conf数组中channel信息
-                        writer.WritePropertyName("channel_id");
-                        writer.WriteValue(dataChannel.ID);
-                        writer.WritePropertyName("channel"+dataChannel.ID);
-                        writer.WriteValue(dataChannel.nameChannel);
-                        writer.WritePropertyName("msg_type");
-                        writer.WriteValue(dataChannel.msgType);
-                        writer.WritePropertyName("trig_mode");//trig_mode的含义？？
-                        writer.WriteValue(0);
-                        writer.WritePropertyName("polling_time");
-                        writer.WriteValue(dataChannel.pollingTime);
-                        writer.WritePropertyName("offset");//偏移这块和我们上位机草图设计有一些出入，需要确认
-                        writer.WriteValue(dataChannel.readOffset);
-                        writer.WritePropertyName("quantity");
-                        writer.WriteValue(dataChannel.readLength);
-                        writer.WritePropertyName("io_offset");
-                        writer.WriteValue(dataChannel.curChannelAddr + 2 - dataDev.curDeviceAddr);
-                        writer.WritePropertyName("io_bytes");
-                        writer.WriteValue(dataChannel.curChannelLength-2);
-                        writer.WritePropertyName("trigger_offset");
-                        writer.WriteValue(dataChannel.curChannelAddr-dataDev.curDeviceAddr);
-                        writer.WritePropertyName("error_offset");
-                        writer.WriteValue(dataChannel.curChannelAddr+1-dataDev.curDeviceAddr);
-                        writer.WritePropertyName("direction");//direction参数的含义？？
-                        writer.WriteValue("in");
-                        writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
-
+                        mode = "rtu";
                     }
-                    writer.WriteEndArray();//] channel_cfg节点下conf数组
-                    writer.WriteEndObject();//}  channel_cfg节点
-                    writer.WriteEndObject();//}  conf数组下节点，从设备信息
+                    else if (data.transformMode == 1)
+                    {
+                        mode = "ascii";
+                    }
+                    writer.WritePropertyName("mode");
+                    writer.WriteValue(mode);
+                    writer.WritePropertyName("dev_namestr");
+                    writer.WriteValue("mbserial" + "_master" + data.ID);
+                    writer.WritePropertyName("slave");
+                    writer.WriteStartObject();//{  slave节点 从设备信息
+                    writer.WritePropertyName("num");
+                    writer.WriteValue(data.modbusDeviceList.Count);
+                    if (i > 0)
+                    {
+                        index = i * masterManage.modbusMastrList[i - 1].modbusDeviceList.Count;
+                    }
+                    writer.WritePropertyName("conf");
+                    writer.WriteStartArray();//[  slave节点conf
+                    for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数至
+                    {
+                        DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
+
+                        writer.WriteStartObject();//{  conf数组下节点，从设备信息
+                        writer.WritePropertyName("slave_id");
+                        writer.WriteValue(dataDev.ID);
+
+
+                        writer.WritePropertyName("timeout_cnt_max");
+                        writer.WriteValue(dataDev.permitTimeoutCount);
+                        writer.WritePropertyName("retry_interval");
+                        writer.WriteValue(dataDev.reconnectInterval);
+                        writer.WritePropertyName("io_range");
+                        writer.WriteStartObject();//{  conf数组下 iorange                
+                        writer.WritePropertyName("start");
+                        writer.WriteValue(dataDev.curDeviceAddr);//io范围这块上位机设计方案中在master和client中并没有提到，需要确认
+                        writer.WritePropertyName("bytes");
+                        writer.WriteValue(dataDev.curDeviceLength);
+                        writer.WriteEndObject();//}    conf数组下 iorange   
+                        writer.WritePropertyName("restart_offset");
+                        writer.WriteValue(0);
+                        writer.WritePropertyName("channel_cfg");
+                        writer.WriteStartObject();//{  channel_cfg节点
+                        writer.WritePropertyName("num");
+                        writer.WriteValue(dataDev.modbusChannelList.Count);
+                        writer.WritePropertyName("conf");
+                        writer.WriteStartArray();//[  channel_cfg节点下conf数组
+
+                        for (int k = 0; k < dataDev.modbusChannelList.Count; k++)//循环添加通道至子设备节点下
+                        {
+                            ChannelData dataChannel = dataDev.modbusChannelList.ElementAt(k);
+                            writer.WriteStartObject();//{  channel_cfg节点下conf数组中channel信息
+                            writer.WritePropertyName("channel_id");
+                            writer.WriteValue(dataChannel.ID);
+                            writer.WritePropertyName("channel" + dataChannel.ID);
+                            writer.WriteValue(dataChannel.nameChannel);
+                            writer.WritePropertyName("msg_type");
+                            writer.WriteValue(dataChannel.msgType);
+                            writer.WritePropertyName("trig_mode");//trig_mode的含义？？
+                            writer.WriteValue(dataChannel.trig_mode);
+                            writer.WritePropertyName("polling_time");
+                            writer.WriteValue(dataChannel.pollingTime);
+                            writer.WritePropertyName("offset");//偏移这块和我们上位机草图设计有一些出入，需要确认
+                            writer.WriteValue(dataChannel.readOffset);
+                            writer.WritePropertyName("quantity");
+                            writer.WriteValue(dataChannel.readLength);
+                            writer.WritePropertyName("io_offset");
+                            writer.WriteValue(dataChannel.curChannelAddr + 3 - dataDev.curDeviceAddr);
+                            writer.WritePropertyName("io_bytes");
+                            writer.WriteValue(dataChannel.curChannelLength - 3);
+                            writer.WritePropertyName("trigger_offset");
+                            writer.WriteValue(dataChannel.curChannelAddr - dataDev.curDeviceAddr);
+                            writer.WritePropertyName("error_offset");
+                            writer.WriteValue(dataChannel.curChannelAddr + 1 - dataDev.curDeviceAddr);
+                            writer.WritePropertyName("direction");//direction参数的含义？？
+                            writer.WriteValue("in");
+                            writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息
+
+                        }
+                        writer.WriteEndArray();//] channel_cfg节点下conf数组
+                        writer.WriteEndObject();//}  channel_cfg节点
+                        writer.WriteEndObject();//}  conf数组下节点，从设备信息
+                    }
+                    writer.WriteEndArray();//]  slave节点conf
+                    writer.WriteEndObject();//} slave节点 从设备信息
+                    writer.WriteEndObject();//} client节点下device
                 }
-                writer.WriteEndArray();//]  slave节点conf
-                writer.WriteEndObject();//} slave节点 从设备信息
-                writer.WriteEndObject();//} client节点下device
+                writer.WriteEndArray();//] client节点下conf数组
+                writer.WriteEndObject();//添加}  client节点
             }
-            writer.WriteEndArray();//] client节点下conf数组
-            writer.WriteEndObject();//添加}  client节点
         }
 
         private enum COLUMNNAME : int
@@ -666,7 +673,7 @@ namespace LocalPLC.ModbusMaster
                             dataGridView2.Rows[j].Cells["设备名"].Value = deviceName;
                             dataGridView2.Rows[j].Cells["通道名"].Value = channelName;
                             dataGridView2.Rows[j].Cells["功能码"].Value = dicMsg[channel.msgType];
-                            dataGridView2.Rows[j].Cells["通道起始地址"].Value = channel.curChannelAddr + 2;
+                            dataGridView2.Rows[j].Cells["通道起始地址"].Value = channel.curChannelAddr + 3;
                             dataGridView2.Rows[j].Cells["长度"].Value = channel.readLength;
                             dataGridView2.Rows[j].Cells["触发变量地址"].Value = channel.writeOffset;
                             dataGridView2.Rows[j].Cells["错误变量地址"].Value = channel.writeLength;
@@ -760,6 +767,7 @@ namespace LocalPLC.ModbusMaster
         public int ID;
         public string nameChannel;
         public int msgType;
+        public int trig_mode;
         public int pollingTime;
         public int readOffset;
         public int readLength;
@@ -781,12 +789,12 @@ namespace LocalPLC.ModbusMaster
                 curChannelLength++;
             }
 
-            curChannelLength = curChannelLength + 2;
+            curChannelLength = curChannelLength + 3;
         }
 
         public void setChannelLengthWord(int length)
         {
-            curChannelLength = length * 2 + 2;
+            curChannelLength = length * 2 + 3;
         }
     }
 
@@ -939,7 +947,7 @@ namespace LocalPLC.ModbusMaster
             int clientCount = UserControl1.mci.clientManage.modbusClientList.Count;
             int serverCount = UserControl1.msi.serverDataManager.listServer.Count;
 
-            masterStartAddr = (clientCount + serverCount) * utility.modbusMudule + utility.modbusAddr;
+            masterStartAddr = (clientCount + 1) * utility.modbusMudule + utility.modbusAddr;
 
             //刷新list每项的首地址
             for (int i = 0; i < modbusMastrList.Count; i++)

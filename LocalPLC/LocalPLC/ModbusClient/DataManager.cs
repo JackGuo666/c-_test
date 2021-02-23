@@ -21,6 +21,7 @@ namespace LocalPLC.ModbusClient
         public int msgType;
         public string msgdiscrib;
         public int type;
+        public int trig_mode;
         public int pollingTime;
         public int Offset;
         public int Length;

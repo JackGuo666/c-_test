@@ -36,7 +36,7 @@ namespace LocalPLC.ModbusClient
         public int devnumber;
         public enum COLUMNNAME_CHANNLE : int
         {
-            ID,功能码,循环触发时间,偏移,长度,触发变量,错误变量,名称,注释
+            ID,功能码,触发方式,循环触发时间,偏移,长度,触发变量,错误变量,名称,注释
         };
         private DeviceData data_;
         private ModbusClientData data2 { get; set; }
@@ -75,6 +75,7 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("ID", Type.GetType("System.Int32"));
                
                 ds.Tables[i].Columns.Add("功能码", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("触发方式", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("循环触发时间", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("偏移", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("长度", Type.GetType("System.Int32"));
@@ -301,6 +302,7 @@ namespace LocalPLC.ModbusClient
                         string value = dicMsg[data2.modbusDeviceList[j].modbusChannelList[i].msgType];
                         ds.Tables[j].Rows[i][(int)COLUMNNAME_CHANNLE.功能码] = Convert.ToInt32(value);
                         //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = channelData.pollingTime.ToString();
+                        ds.Tables[j].Rows[i][(int)COLUMNNAME_CHANNLE.触发方式] = data2.modbusDeviceList[j].modbusChannelList[i].trig_mode;
                         ds.Tables[j].Rows[i][(int)COLUMNNAME_CHANNLE.循环触发时间] = data2.modbusDeviceList[j].modbusChannelList[i].pollingTime.ToString();
                         //dataGridView2.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = channelData.readOffset;
                         ds.Tables[j].Rows[i][(int)COLUMNNAME_CHANNLE.偏移] = data2.modbusDeviceList[j].modbusChannelList[i].Offset.ToString();
@@ -390,6 +392,8 @@ namespace LocalPLC.ModbusClient
             dr[(int)COLUMNNAME_CHANNLE.功能码] = 1;
             data.msgType = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.功能码]);
             data.msgdiscrib = "读多个位(线圈)-0x01";
+            dr[(int)COLUMNNAME_CHANNLE.触发方式] = 0;
+            data.trig_mode = Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.触发方式]);
             dr[(int)COLUMNNAME_CHANNLE.循环触发时间] = 1000;
             data.pollingTime =Convert.ToInt32(dr[(int)COLUMNNAME_CHANNLE.循环触发时间]);
             dr[(int)COLUMNNAME_CHANNLE.偏移] = 0;
@@ -419,12 +423,12 @@ namespace LocalPLC.ModbusClient
             if (data.msgType ==1 || data.msgType == 2 || data.msgType == 5 || data.msgType == 15)
             {
                 type = 0;
-                data.Channellength = 2 + data.Length / 8 + 1;
+                data.Channellength = 3 + data.Length / 8 + 1;
             }
             else //if(data.msgType == 3 || data.msgType == 4 || data.msgType == 6 || data.msgType == 16)
             {
                 type = 1;
-                data.Channellength = 2 + data.Length * 2;
+                data.Channellength = 3 + data.Length * 2;
             }
             data.type = type;
             data.offsetkey[0] = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].resetkey[0];
@@ -691,6 +695,13 @@ namespace LocalPLC.ModbusClient
                 }
                 //data_.modbusChannelList.ElementAt(e.RowIndex).msgdiscrib = dc.Tables[0].Rows[a][0].ToString();
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).msgdiscrib = dc.Tables[0].Rows[a][0].ToString();
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.触发方式)
+            {
+                if (Convert.ToInt32(str) != 0 && Convert.ToInt32(str) != 1)
+                    MessageBox.Show("触发方式只能为0或者1");
+                else
+                { int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).trig_mode); }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.循环触发时间)
             {

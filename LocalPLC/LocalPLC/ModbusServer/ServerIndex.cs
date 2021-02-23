@@ -48,6 +48,9 @@ namespace LocalPLC.ModbusServer
             DataGridViewTextBoxColumn cellColumn = new DataGridViewTextBoxColumn();
             cellColumn.Name = "ID";
             cellColumn.HeaderText = "ID";
+            //DataGridViewTextBoxColumn celltype = new DataGridViewTextBoxColumn();
+            //celltype.Name = "Mode";
+            //celltype.HeaderText = "Mode";
             buttonColumn.DefaultCellStyle.NullValue = ". . .";
             btn.DefaultCellStyle.NullValue = ". . .";
 
@@ -56,6 +59,7 @@ namespace LocalPLC.ModbusServer
             dataGridView1.Columns.Add(cellColumn);
             dataGridView1.Columns.Add(buttonColumn);
             dataGridView1.Columns.Add(btn);
+            //dataGridView1.Columns.Add(celltype);
 
             if (dataGridView1.Columns.Count > 3)
             {
@@ -71,7 +75,10 @@ namespace LocalPLC.ModbusServer
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
             {
                 ModbusServerData data = serverDataManager.listServer.ElementAt(i);
+                //ModbusServer.DataManager datamanage = serverDataManager;
+                //ModbusServerData data = serverDataManager.listServer[i];
                 dataGridView1.Rows[i].Cells["ID"].Value = data.ID;
+                
                 //dataGridView1.Rows[i].Cells["配置"].Value = "..."/* + i.ToString()*/;
             }
         }
@@ -139,6 +146,14 @@ namespace LocalPLC.ModbusServer
                 {
                     data.dataDevice_.shmrange = serverDataManager.listServer[row - 1].dataDevice_.shmrange + serverDataManager.listServer[row - 1].dataDevice_.shmlength;
                 }
+                if(data.dataDevice_.transformMode == 0)
+                {
+                    serverDataManager.Rtunum++;
+                }
+                else if (data.dataDevice_.transformMode == 1)
+                {
+                    serverDataManager.TCPnum++;
+                }
                 serverDataManager.listServer.Add(data);
             }
         }
@@ -175,6 +190,8 @@ namespace LocalPLC.ModbusServer
         public void saveXml(ref System.Xml.XmlElement elem, ref System.Xml.XmlDocument doc)
         {
             XmlElement elem1 = doc.CreateElement("modbusserver");
+            elem.SetAttribute("Rtunum", serverDataManager.Rtunum.ToString());
+            elem.SetAttribute("Tcpnum", serverDataManager.TCPnum.ToString());
             elem.AppendChild(elem1);
             //elem1.SetAttribute("start");
             for (int i = 0; i < serverDataManager.listServer.Count; i++)
@@ -190,16 +207,29 @@ namespace LocalPLC.ModbusServer
                 elem1_s.SetAttribute("holdingcount", data.dataDevice_.holdingCount.ToString());
                 elem1_s.SetAttribute("decretecount", data.dataDevice_.decreteCount.ToString());
                 elem1_s.SetAttribute("statuscount", data.dataDevice_.statusCount.ToString());
-
+                elem1_s.SetAttribute("transform", data.dataDevice_.transform.ToString());
+                elem1_s.SetAttribute("transformport", data.dataDevice_.transformport.ToString());
                 elem1_s.SetAttribute("transformmode", data.dataDevice_.transformMode.ToString());
                 elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
                 elem1_s.SetAttribute("port", data.dataDevice_.port.ToString());
                 elem1_s.SetAttribute("maxconnect", data.dataDevice_.maxconnectnumber.ToString());
+                elem1_s.SetAttribute("ipfixed", data.dataDevice_.ipfixed.ToString());
                 elem1_s.SetAttribute("ip0", data.dataDevice_.ip0.ToString());
                 elem1_s.SetAttribute("ip1", data.dataDevice_.ip1.ToString());
                 elem1_s.SetAttribute("ip2", data.dataDevice_.ip2.ToString());
                 elem1_s.SetAttribute("ip3", data.dataDevice_.ip3.ToString());
-                
+                elem1_s.SetAttribute("ip10", data.dataDevice_.ip10.ToString());
+                elem1_s.SetAttribute("ip11", data.dataDevice_.ip11.ToString());
+                elem1_s.SetAttribute("ip12", data.dataDevice_.ip12.ToString());
+                elem1_s.SetAttribute("ip13", data.dataDevice_.ip13.ToString());
+                elem1_s.SetAttribute("ip20", data.dataDevice_.ip20.ToString());
+                elem1_s.SetAttribute("ip21", data.dataDevice_.ip21.ToString());
+                elem1_s.SetAttribute("ip22", data.dataDevice_.ip22.ToString());
+                elem1_s.SetAttribute("ip23", data.dataDevice_.ip23.ToString());
+                elem1_s.SetAttribute("ip30", data.dataDevice_.ip30.ToString());
+                elem1_s.SetAttribute("ip31", data.dataDevice_.ip31.ToString());
+                elem1_s.SetAttribute("ip32", data.dataDevice_.ip32.ToString());
+                elem1_s.SetAttribute("ip33", data.dataDevice_.ip33.ToString());
                 elem1_s.SetAttribute("IOAddrRange", data.serverstartaddr.ToString());
                 elem1_s.SetAttribute("IOAddrLength", data.dataDevice_.IOAddrLength.ToString());
                 elem1_s.SetAttribute("SHMRange", data.dataDevice_.shmrange.ToString());
@@ -221,111 +251,210 @@ namespace LocalPLC.ModbusServer
         public void saveJson(JsonTextWriter writer)
         {
             //添加modbusserver节点
-            writer.WritePropertyName("mb_slave");
-            writer.WriteStartObject();//添加{  server节点
-            //writer.WritePropertyName("number");
-            //writer.WriteValue(serverDataManager.listServer.Count);//number
-                //writer.WritePropertyName("conf");
-                //writer.WriteStartArray();//[ server节点下conf数组
-            for (int i = 0; i < serverDataManager.listServer.Count; i++)
+            DataManager server = serverDataManager;
+            if (server.listServer.Count > 0)
             {
-                ModbusServerData data = serverDataManager.listServer[i];
-                writer.WritePropertyName("io_range");
-                writer.WriteStartObject();//{ server节点io_range
-                writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.IOAddrRange);
-                writer.WritePropertyName("bytes");
-                writer.WriteValue(data.dataDevice_.IOAddrLength);
-                writer.WriteEndObject();//} server节点下io_range
-                writer.WritePropertyName("shm_range");
-                writer.WriteStartObject();//{ server节点shm_range
-                writer.WritePropertyName("start");
-                writer.WriteValue(data.dataDevice_.shmrange);
-                writer.WritePropertyName("bytes");
-                writer.WriteValue(data.dataDevice_.shmlength);
-                writer.WriteEndObject();//} server节点下shm_range
-                //离散
-                writer.WritePropertyName("discrete");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INPUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.decreteCount);
-                writer.WriteEndObject();
-                //线圈
-                writer.WritePropertyName("coils");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INOUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.shmrange));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.coilCount);
-                writer.WriteEndObject();
-                //状态
-                writer.WritePropertyName("regs");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INPUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.statusCount);
-                writer.WriteEndObject();
-                //保持
-                writer.WritePropertyName("holding");
-                writer.WriteStartObject();
-                writer.WritePropertyName("addr_type");
-                writer.WriteValue("IO_INOUT");
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
-                writer.WritePropertyName("num");
-                writer.WriteValue(data.dataDevice_.holdingCount);
-                writer.WriteEndObject();//}
+                writer.WritePropertyName("mb_slave");
+                writer.WriteStartObject();//添加{  server节点
+                                          //writer.WritePropertyName("number");
+                                          //writer.WriteValue(serverDataManager.listServer.Count);//number
+                                          //writer.WritePropertyName("conf");
+                                          //writer.WriteStartArray();//[ server节点下conf数组
+                                          //for (int i = 0; i < serverDataManager.listServer.Count; i++)
+                {
+                    ModbusServerData data = serverDataManager.listServer[0];
+                    writer.WritePropertyName("io_range");
+                    writer.WriteStartObject();//{ server节点io_range
+                    writer.WritePropertyName("start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.IOAddrRange));
+                    writer.WritePropertyName("bytes");
+                    writer.WriteValue(data.dataDevice_.IOAddrLength);
+                    writer.WriteEndObject();//} server节点下io_range
+                    writer.WritePropertyName("shm_range");
+                    writer.WriteStartObject();//{ server节点shm_range
+                    writer.WritePropertyName("start");
+                    writer.WriteValue(data.dataDevice_.shmrange);
+                    writer.WritePropertyName("bytes");
+                    writer.WriteValue(data.dataDevice_.shmlength);
+                    writer.WriteEndObject();//} server节点下shm_range
+                                            //离散
+                    writer.WritePropertyName("discrete");
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("addr_type");
+                    writer.WriteValue("IO_INPUT");
+                    writer.WritePropertyName("start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
+                    writer.WritePropertyName("num");
+                    writer.WriteValue(data.dataDevice_.decreteCount);
+                    writer.WriteEndObject();
+                    //线圈
+                    writer.WritePropertyName("coils");
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("addr_type");
+                    writer.WriteValue("IO_INOUT");
+                    writer.WritePropertyName("start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.shmrange));
+                    writer.WritePropertyName("num");
+                    writer.WriteValue(data.dataDevice_.coilCount);
+                    writer.WriteEndObject();
+                    //状态
+                    writer.WritePropertyName("regs");
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("addr_type");
+                    writer.WriteValue("IO_INPUT");
+                    writer.WritePropertyName("start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
+                    writer.WritePropertyName("num");
+                    writer.WriteValue(data.dataDevice_.statusCount);
+                    writer.WriteEndObject();
+                    //保持
+                    writer.WritePropertyName("holding");
+                    writer.WriteStartObject();
+                    writer.WritePropertyName("addr_type");
+                    writer.WriteValue("IO_INOUT");
+                    writer.WritePropertyName("start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
+                    writer.WritePropertyName("num");
+                    writer.WriteValue(data.dataDevice_.holdingCount);
+                    writer.WriteEndObject();//}
+                    //串口
+                    int rtunumber = 0;
+                    for (int i = 0; i < serverDataManager.listServer.Count; i++)
+                    {
+                        if (serverDataManager.listServer[i].dataDevice_.transform == 0)
+                        {
+                            rtunumber++;
+                        }
+                    }
+                    if (rtunumber > 0)
+                    {
+                        writer.WritePropertyName("mb_slave_serial");
+                        writer.WriteStartObject();//{ 串口
+                        writer.WritePropertyName("number");
+                        writer.WriteValue(rtunumber);
+                        writer.WritePropertyName("conf");
+                        writer.WriteStartArray();//[ 串口节点下conf数组              
+                        int j = 0;
+                        for (int i = 0; i < serverDataManager.listServer.Count; i++)
+                        {
+                            ModbusServerData data_ = serverDataManager.listServer[i];
+                            if (serverDataManager.listServer[i].dataDevice_.transform == 0)
+                            {
+                                writer.WriteStartObject(); // { 串口数组下设备左括号
+                                writer.WritePropertyName("port");
+                                writer.WriteValue("ser_port" + (data_.dataDevice_.transformport));
+                                writer.WritePropertyName("mode");
+                                writer.WriteValue("rtu");
+                                writer.WritePropertyName("time_unit");
+                                writer.WriteValue("ms");
+                                writer.WritePropertyName("dev_id");
+                                writer.WriteValue(data_.ID);
+                                writer.WritePropertyName("dev_namestr");
+                                writer.WriteValue("mbrtu_slave" + j.ToString());
+                                writer.WriteEndObject(); // } 串口数组下设备右括号
+                                j++;
+                            }
+                        }
+                        writer.WriteEndArray();//] 串口节点下conf数组  
+                        writer.WriteEndObject();//} 串口
+                    }
+                    //网口
+                    int tcpnumber = 0;
+                    for (int i = 0; i < serverDataManager.listServer.Count; i++)
+                    {
+                        if (serverDataManager.listServer[i].dataDevice_.transform == 1)
+                        {
+                            tcpnumber++;
+                        }
+                    }
+                    if (tcpnumber > 0)
+                    {
+                        int k = 0;
+                        writer.WritePropertyName("mb_slave_tcp");
+                        writer.WriteStartObject();//{ 网口
+                        writer.WritePropertyName("number");
+                        writer.WriteValue(tcpnumber);
+                        writer.WritePropertyName("conf");
+                        writer.WriteStartArray();//[ 网口节点下conf数组   
+                        int n = 0;
+                        for (int i = 0; i < serverDataManager.listServer.Count; i++)
+                        {
+                            ModbusServerData data_ = serverDataManager.listServer[i];
+                            bool ipfixed = false;
+                            if (data_.dataDevice_.ipfixed == false)
+                            {
+                                ipfixed = false;
+                            }
+                            else if (data_.dataDevice_.ipfixed == true)
+                            {
+                                ipfixed = true;
+                            }
+                            if (serverDataManager.listServer[i].dataDevice_.transform == 1)
+                            {
+                                writer.WriteStartObject(); // { 网口数组下设备左括号
+                                writer.WritePropertyName("port");
+                                writer.WriteValue("ethif" + (data_.dataDevice_.transformport - 2));
+                                writer.WritePropertyName("remote_ip_fixed");
+                                writer.WriteValue(ipfixed);
+                                writer.WritePropertyName("max_connection");
+                                writer.WriteValue(4);
+                                writer.WritePropertyName("remote_ip_num");
+                                writer.WriteValue(data_.dataDevice_.maxconnectnumber);
+                                writer.WritePropertyName("remote_ip");
+                                writer.WriteStartArray();//[ 指定ip的数组
+                                string ip0 = data_.dataDevice_.ip0.ToString() + "." + data_.dataDevice_.ip1.ToString() + "." + data_.dataDevice_.ip2.ToString() + "." + data_.dataDevice_.ip3.ToString();
+                                string ip1 = data_.dataDevice_.ip10.ToString() + "." + data_.dataDevice_.ip11.ToString() + "." + data_.dataDevice_.ip12.ToString() + "." + data_.dataDevice_.ip13.ToString();
+                                string ip2 = data_.dataDevice_.ip20.ToString() + "." + data_.dataDevice_.ip21.ToString() + "." + data_.dataDevice_.ip22.ToString() + "." + data_.dataDevice_.ip23.ToString();
+                                string ip3 = data_.dataDevice_.ip30.ToString() + "." + data_.dataDevice_.ip31.ToString() + "." + data_.dataDevice_.ip32.ToString() + "." + data_.dataDevice_.ip33.ToString();
+                                string[] ip = { ip0, ip1, ip2, ip3 };
+                                for (int m = 0; m < data_.dataDevice_.maxconnectnumber; m++)
+                                {
+                                    writer.WriteValue(ip[m]);
+                                }
+                                writer.WriteEndArray();//] 指定ip的数组
+                                writer.WritePropertyName("ip_port");
+                                writer.WriteValue(502);
+                                writer.WritePropertyName("time_unit");
+                                writer.WriteValue("ms");
+                                writer.WritePropertyName("dev_id");
+                                writer.WriteValue(data_.ID);
+                                writer.WritePropertyName("dev_namstr");
+                                writer.WriteValue("mbtcp_client" + n);
+                                n++;
+                            }
+                        }
+                        writer.WriteEndArray();//] 网口节点下conf数组   
+                        writer.WriteEndObject();//} 网口
+                    }
+                    //writer.WritePropertyName("max_connection");
+                    //writer.WriteValue(data.dataDevice_.maxconnectnumber);
+                    //writer.WritePropertyName("remote_ip_num");
+                    //writer.WriteValue(1);
+                    //writer.WritePropertyName("remote_ip");
+                    //writer.WriteStartArray();//[ remote_ip节点下数组
+                    //writer.WriteValue(data.dataDevice_.ip0+"."+data.dataDevice_.ip1+"."+data.dataDevice_.ip2+"."+data.dataDevice_.ip3);
+                    //writer.WriteValue("192.168.1.11");
+                    //writer.WriteEndArray();//] remote_ip节点下数组
+                    //writer.WritePropertyName("ip_port");
+                    //writer.WriteValue(data.dataDevice_.port);
+                    //writer.WritePropertyName("time_uint");
+                    //writer.WriteValue("ms");
+                    //writer.WritePropertyName("dev_id");
+                    //writer.WriteValue(data.ID);
+                    //writer.WritePropertyName("io_range");
+                    //writer.WriteStartObject();
+                    //writer.WritePropertyName("start");
+                    //writer.WriteValue(Convert.ToInt32(data.serverstartaddr));
+                    //writer.WritePropertyName("bytes");
+                    //writer.WriteValue(data.dataDevice_.IOAddrLength);
+                    //writer.WriteEndObject();
 
-                writer.WritePropertyName("port");                
-                writer.WriteValue("ethif_"+ data.ID.ToString());                
-                bool ipfixed = false;
-                if (data.dataDevice_.ipconnect == 0)
-                {
-                    ipfixed = false;
+
+
                 }
-                else if (data.dataDevice_.ipconnect == 1)
-                {
-                    ipfixed = true;
-                }
-                writer.WritePropertyName("remote_ip_fixed");
-                writer.WriteValue(ipfixed);
-                writer.WritePropertyName("max_connection");
-                writer.WriteValue(data.dataDevice_.maxconnectnumber);
-                writer.WritePropertyName("remote_ip_num");
-                writer.WriteValue(1);
-                writer.WritePropertyName("remote_ip");
-                writer.WriteStartArray();//[ remote_ip节点下数组
-                writer.WriteValue(data.dataDevice_.ip0+"."+data.dataDevice_.ip1+"."+data.dataDevice_.ip2+"."+data.dataDevice_.ip3);
-                writer.WriteValue("192.168.1.11");
-                writer.WriteEndArray();//] remote_ip节点下数组
-                writer.WritePropertyName("ip_port");
-                writer.WriteValue(data.dataDevice_.port);
-                writer.WritePropertyName("time_uint");
-                writer.WriteValue("ms");
-                writer.WritePropertyName("dev_id");
-                writer.WriteValue(data.ID);
-                writer.WritePropertyName("io_range");
-                writer.WriteStartObject();
-                writer.WritePropertyName("start");
-                writer.WriteValue(Convert.ToInt32(data.serverstartaddr));
-                writer.WritePropertyName("bytes");
-                writer.WriteValue(data.dataDevice_.IOAddrLength);
-                writer.WriteEndObject();
-               
-                
-                
+                //writer.WriteEndArray();//] server节点下conf数组
+                writer.WriteEndObject();// 添加}  server节点
             }
-            //writer.WriteEndArray();//] server节点下conf数组
-            writer.WriteEndObject();// 添加{  server节点
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -375,6 +504,7 @@ namespace LocalPLC.ModbusServer
             init = true;
 
             XmlNodeList nodeList = xn.ChildNodes;
+            
             foreach (XmlNode childNode in nodeList)
             {
                 XmlElement e = (XmlElement)childNode;
@@ -391,8 +521,12 @@ namespace LocalPLC.ModbusServer
                 int.TryParse(e.GetAttribute("decretecount"), out data.dataDevice_.decreteCount);
                 //状态
                 int.TryParse(e.GetAttribute("statuscount"), out data.dataDevice_.statusCount);
+                //串口或者网口
+                int.TryParse(e.GetAttribute("transform"), out data.dataDevice_.transform);
                 //传输方式
                 int.TryParse(e.GetAttribute("transformmode"), out data.dataDevice_.transformMode);
+                //传输端口
+                int.TryParse(e.GetAttribute("transformport"), out data.dataDevice_.transformport);
                 //设备地址
                 int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
                 //端口号
@@ -400,10 +534,23 @@ namespace LocalPLC.ModbusServer
                 //最大连接数量
                 int.TryParse(e.GetAttribute("maxconnect"), out data.dataDevice_.maxconnectnumber);
                 //指定ip
+                bool.TryParse(e.GetAttribute("ipfixed"), out data.dataDevice_.ipfixed);
                 int.TryParse(e.GetAttribute("ip0"), out data.dataDevice_.ip0);
                 int.TryParse(e.GetAttribute("ip1"), out data.dataDevice_.ip1);
                 int.TryParse(e.GetAttribute("ip2"), out data.dataDevice_.ip2);
                 int.TryParse(e.GetAttribute("ip3"), out data.dataDevice_.ip3);
+                int.TryParse(e.GetAttribute("ip10"), out data.dataDevice_.ip10);
+                int.TryParse(e.GetAttribute("ip11"), out data.dataDevice_.ip11);
+                int.TryParse(e.GetAttribute("ip12"), out data.dataDevice_.ip12);
+                int.TryParse(e.GetAttribute("ip13"), out data.dataDevice_.ip13);
+                int.TryParse(e.GetAttribute("ip20"), out data.dataDevice_.ip20);
+                int.TryParse(e.GetAttribute("ip21"), out data.dataDevice_.ip21);
+                int.TryParse(e.GetAttribute("ip22"), out data.dataDevice_.ip22);
+                int.TryParse(e.GetAttribute("ip23"), out data.dataDevice_.ip23);
+                int.TryParse(e.GetAttribute("ip30"), out data.dataDevice_.ip30);
+                int.TryParse(e.GetAttribute("ip31"), out data.dataDevice_.ip31);
+                int.TryParse(e.GetAttribute("ip32"), out data.dataDevice_.ip32);
+                int.TryParse(e.GetAttribute("ip33"), out data.dataDevice_.ip33);
                 data.dataDevice_.IOAddrRange = e.GetAttribute("IOAddrRange");
                 int.TryParse(e.GetAttribute("IOAddrRange"), out data.serverstartaddr);
                 int.TryParse(e.GetAttribute("IOAddrLength"), out data.dataDevice_.IOAddrLength);
@@ -413,7 +560,7 @@ namespace LocalPLC.ModbusServer
                 data.dataDevice_.holdingIoAddrStart = e.GetAttribute("holdingstart");
                 data.dataDevice_.decreteIoAddrStart = e.GetAttribute("decretestart");
                 data.dataDevice_.statusIoAddrStart = e.GetAttribute("statusstart");
-                int.TryParse(e.GetAttribute("ipconnect"), out data.dataDevice_.ipconnect);
+                bool.TryParse(e.GetAttribute("ipfixed"), out data.dataDevice_.ipfixed);
                 
                 serverDataManager.listServer.Add(data);
             }
