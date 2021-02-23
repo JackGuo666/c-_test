@@ -312,7 +312,7 @@ namespace LocalPLC.Base
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if(dataGridView1.CurrentCell.Value.ToString() == text_Temp.Text)
+            if(dataGridView1.CurrentCell.Value.ToString() != text_Temp.Text)
             {
                 //
                 UserControl1.UC.checkVarName(text_Temp.Text);
@@ -331,7 +331,7 @@ namespace LocalPLC.Base
 
             try
             {
-                if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
+                            if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
                     this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);

@@ -52,7 +52,7 @@ namespace LocalPLC.Base
 
         public void refreshUserBaseUI()
         {
-            curWeaponType.refreshData();
+             curWeaponType.refreshData();
         }
 
         //重新加载工程，清空界面
@@ -137,6 +137,10 @@ namespace LocalPLC.Base
 
                 string stopbit = e.GetAttribute("stopbit");
                 int.TryParse(stopbit, out serialData.stopBit);
+
+                //串口模式
+                string rsMode = e.GetAttribute("rsmode");
+                int.TryParse(rsMode, out serialData.rsMode);
 
                 //极化电阻
                 string polR = e.GetAttribute("polr");
@@ -303,6 +307,7 @@ namespace LocalPLC.Base
                     elem_serialChid.SetAttribute("parity", dataManage.serialDic[comUI.Key].Parity.ToString());
                     elem_serialChid.SetAttribute("databit", dataManage.serialDic[comUI.Key].dataBit.ToString());
                     elem_serialChid.SetAttribute("stopbit", dataManage.serialDic[comUI.Key].stopBit.ToString());
+                    elem_serialChid.SetAttribute("rsmode", dataManage.serialDic[comUI.Key].rsMode.ToString());
                     elem_serialChid.SetAttribute("polr", dataManage.serialDic[comUI.Key].polR.ToString());
 
                     elemSerial.AppendChild(elem_serialChid);
@@ -629,6 +634,17 @@ namespace LocalPLC.Base
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 
+            //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
+            curPlcType = (LocalPLC24P)user1;
+            curWeaponType = user1 as IWeapon;
+            user1.Parent = this;
+            PlcTypeArr.Add(user1);
+            splitContainer2.Panel1.Controls.Add(user1);
+            user1.Location = new System.Drawing.Point(PlcTypeArr.Count * user1.Width, 0);
+            user1.Name = PLCType;
+            //user1.Dock = DockStyle.Fill;
+            //user1.Size = new System.Drawing.Size(41, 12);
+            user1.TabIndex = 0;
 
 
             //
@@ -644,17 +660,7 @@ namespace LocalPLC.Base
             topNode.Text = PLCType;
             //////
 
-            //PlcType user1 = new PlcType(splitContainer2, this, dataManage);
-            curPlcType = (LocalPLC24P)user1;
-            curWeaponType = user1 as IWeapon;
-            user1.Parent = this;
-            PlcTypeArr.Add(user1);
-            splitContainer2.Panel1.Controls.Add(user1);
-            user1.Location = new System.Drawing.Point(PlcTypeArr.Count * user1.Width, 0);
-            user1.Name = PLCType;
-            //user1.Dock = DockStyle.Fill;
-            //user1.Size = new System.Drawing.Size(41, 12);
-            user1.TabIndex = 0;
+            
         }
 
         public void createControler(string defaultPLCType)

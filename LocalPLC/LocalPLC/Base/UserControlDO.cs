@@ -60,6 +60,7 @@ namespace LocalPLC.Base
                 drData[columnVarIndex] = doData.varName;
                 drData[columnChannelIndex] = doData.channelName;
                 drData[columnAddressIndex] = doData.address;
+                drData[columnNoteIndex] = doData.note;
                 dtData.Rows.Add(drData);
             }
 
