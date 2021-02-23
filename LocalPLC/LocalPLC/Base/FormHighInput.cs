@@ -86,10 +86,10 @@ namespace LocalPLC.Base
             comboBox_inputmode.SelectedIndex = hscData_.inputMode;
 
             triggerDic.Clear();
-            triggerDic.Add((int)INPUTMODE.PULSE_DIR, "未使用");
-            triggerDic.Add((int)INPUTMODE.INTEGRAL_1, "下降沿");
-            triggerDic.Add((int)INPUTMODE.INTEGRAL_2, "上升沿");
-            triggerDic.Add((int)INPUTMODE.INTEGRAL_4, "上升/下降沿");
+            triggerDic.Add((int)TRIGGER.NOTUSED, "未使用");
+            triggerDic.Add((int)TRIGGER.FAILING_EDGE, "下降沿");
+            triggerDic.Add((int)TRIGGER.RSIING_EDGE, "上升沿");
+            triggerDic.Add((int)TRIGGER.FAILING_RSIING_EDGE, "上升/下降沿");
 
             foreach (var trigger in triggerDic)
             {
@@ -118,7 +118,7 @@ namespace LocalPLC.Base
 
 
 
-            this.Name = hscData_.name;
+            this.Text = hscData_.name;
             //双字
             checkBox_doubleWord.Checked = hscData_.doubleWord;
             textBox_presetValue.Text = hscData_.preset.ToString();
@@ -131,6 +131,8 @@ namespace LocalPLC.Base
             textBox_eventName0.Text = hscData_.eventName0;
             textBox_eventName1.Text = hscData_.eventName1;
 
+            EVENT_1.Text = hscData_.eventID0;
+            EVENT_2.Text = hscData_.eventID1;
 
             //
             checkBox_pulse.Checked = hscData_.pulseChecked;
