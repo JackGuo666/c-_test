@@ -65,6 +65,9 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.textBox29 = new System.Windows.Forms.TextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -95,9 +98,7 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.textBox29 = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -153,6 +154,7 @@
             this.textBox1.Size = new System.Drawing.Size(115, 28);
             this.textBox1.TabIndex = 4;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             this.textBox1.Validated += new System.EventHandler(this.textBox1_Validated);
             // 
             // textBox2
@@ -162,6 +164,7 @@
             this.textBox2.Size = new System.Drawing.Size(115, 28);
             this.textBox2.TabIndex = 4;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
             this.textBox2.Validated += new System.EventHandler(this.textBox2_Validated);
             // 
             // textBox3
@@ -171,6 +174,7 @@
             this.textBox3.Size = new System.Drawing.Size(115, 28);
             this.textBox3.TabIndex = 4;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            this.textBox3.Leave += new System.EventHandler(this.textBox3_Leave);
             this.textBox3.MouseLeave += new System.EventHandler(this.textBox3_MouseLeave);
             this.textBox3.Validated += new System.EventHandler(this.textBox3_Validated);
             // 
@@ -181,6 +185,7 @@
             this.textBox4.Size = new System.Drawing.Size(115, 28);
             this.textBox4.TabIndex = 4;
             this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            this.textBox4.Leave += new System.EventHandler(this.textBox4_Leave);
             this.textBox4.MouseLeave += new System.EventHandler(this.textBox4_MouseLeave);
             this.textBox4.Validated += new System.EventHandler(this.textBox4_Validated);
             // 
@@ -461,12 +466,37 @@
             this.panel2.Size = new System.Drawing.Size(350, 289);
             this.panel2.TabIndex = 20;
             // 
+            // textBox29
+            // 
+            this.textBox29.Location = new System.Drawing.Point(107, 190);
+            this.textBox29.Name = "textBox29";
+            this.textBox29.Size = new System.Drawing.Size(115, 28);
+            this.textBox29.TabIndex = 12;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(3, 193);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(107, 18);
+            this.label23.TabIndex = 11;
+            this.label23.Text = "SHM区长度：";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(228, 196);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(62, 18);
+            this.label24.TabIndex = 10;
+            this.label24.Text = "0-8000";
+            // 
             // label22
             // 
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(228, 139);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(93, 27);
+            this.label22.Size = new System.Drawing.Size(62, 18);
             this.label22.TabIndex = 10;
             this.label22.Text = "0-1000";
             // 
@@ -733,6 +763,7 @@
             // 
             // panel7
             // 
+            this.panel7.Controls.Add(this.comboBox2);
             this.panel7.Controls.Add(this.comboBox1);
             this.panel7.Controls.Add(this.label18);
             this.panel7.Location = new System.Drawing.Point(22, 353);
@@ -761,30 +792,18 @@
             this.label18.TabIndex = 24;
             this.label18.Text = "传输端口：";
             // 
-            // label23
+            // comboBox2
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(3, 193);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(107, 18);
-            this.label23.TabIndex = 11;
-            this.label23.Text = "SHM区长度：";
-            // 
-            // textBox29
-            // 
-            this.textBox29.Location = new System.Drawing.Point(107, 190);
-            this.textBox29.Name = "textBox29";
-            this.textBox29.Size = new System.Drawing.Size(115, 28);
-            this.textBox29.TabIndex = 12;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(228, 196);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(62, 18);
-            this.label24.TabIndex = 10;
-            this.label24.Text = "0-8000";
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Serial_Line_1",
+            "Serial_Line_2",
+            "Ethernet_1"});
+            this.comboBox2.Location = new System.Drawing.Point(320, 27);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(174, 26);
+            this.comboBox2.TabIndex = 25;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // modbusserver
             // 
@@ -801,6 +820,7 @@
             this.Name = "modbusserver";
             this.Text = "modbusserver";
             this.Load += new System.EventHandler(this.modbusserver_Load);
+            this.Shown += new System.EventHandler(this.modbusserver_Shown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -897,5 +917,6 @@
         private System.Windows.Forms.TextBox textBox29;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.ComboBox comboBox2;
     }
 }

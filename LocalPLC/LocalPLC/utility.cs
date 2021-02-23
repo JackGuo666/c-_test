@@ -337,7 +337,7 @@ namespace LocalPLC
                                             if (utility.varTypeDicBit.ContainsKey(channel.readLength))
                                             {
                                                 string varType = utility.varTypeDicBit[channel.readLength];
-                                                string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                                string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量,错误变量为1个word
                                                 if (channel.trigger != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
@@ -350,8 +350,8 @@ namespace LocalPLC
                                                 }
                                                 if (channel.error != "")
                                                 {
-                                                    var erroroffset = ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString());
+                                                    var erroroffset = ttt.Variables.Create(channel.error, "WORD", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IW" + (channel.curChannelAddr + 1).ToString());
                                                     string a = channel.offsetkey[0];
                                                     string b = channel.offsetkey[1];
                                                     string c = channel.offsetkey[2];
@@ -365,7 +365,7 @@ namespace LocalPLC
                                             else if (utility.varTypeDicWord.ContainsKey(channel.readLength))
                                             {
                                                 string varType = utility.varTypeDicWord[channel.readLength];
-                                                string adress = string.Format("%IW{0}", channel.curChannelAddr + 2);  //2 一个触发变量 一个错误变量
+                                                string adress = string.Format("%IW{0}", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量
                                                 if (channel.trigger != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
@@ -378,8 +378,8 @@ namespace LocalPLC
                                                 }
                                                 if (channel.error != "")
                                                 {
-                                                    var erroroffset = ttt.Variables.Create(channel.error, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "错误变量", "", "%IB" + (channel.curChannelAddr + 1).ToString());
+                                                    var erroroffset = ttt.Variables.Create(channel.error, "WORD", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IW" + (channel.curChannelAddr + 1).ToString());
                                                     string a = channel.offsetkey[0];
                                                     string b = channel.offsetkey[1];
                                                     string c = channel.offsetkey[2];
@@ -421,7 +421,7 @@ namespace LocalPLC
                                             if (utility.varTypeDicBit1.ContainsKey(channel.Length))
                                             {
                                                 string varType = utility.varTypeDicBit1[channel.Length];
-                                                string adress = string.Format("%IX{0}.0", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
+                                                string adress = string.Format("%IX{0}.0", channel.channelstartaddr + 3);  //2 一个触发变量 一个错误变量
                                                 if (channel.trigger_offset != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
@@ -434,8 +434,8 @@ namespace LocalPLC
                                                 }
                                                 if (channel.error_offset != "")
                                                 {
-                                                    var erroroffset = ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
+                                                    var erroroffset = ttt.Variables.Create(channel.error_offset, "WORD", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IW" + (channel.channelstartaddr + 1).ToString());
                                                     string a = channel.offsetkey[0];
                                                     string b = channel.offsetkey[1];
                                                     string c = channel.offsetkey[2];
@@ -449,7 +449,7 @@ namespace LocalPLC
                                             else if (utility.varTypeDicWord2.ContainsKey(channel.Length))
                                             {
                                                 string varType = utility.varTypeDicWord2[channel.Length];
-                                                string adress = string.Format("%IW{0}", channel.channelstartaddr + 2);  //2 一个触发变量 一个错误变量
+                                                string adress = string.Format("%IW{0}", channel.channelstartaddr + 3);  //2 一个触发变量 一个错误变量
                                                 if (channel.trigger_offset != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
@@ -462,8 +462,8 @@ namespace LocalPLC
                                                 }
                                                 if (channel.error_offset != "")
                                                 {
-                                                    var erroroffset = ttt.Variables.Create(channel.error_offset, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "错误变量", "", "%IB" + (channel.channelstartaddr + 1).ToString());
+                                                    var erroroffset = ttt.Variables.Create(channel.error_offset, "WORD", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                        "错误变量", "", "%IW" + (channel.channelstartaddr + 1).ToString());
                                                     string a = channel.offsetkey[0];
                                                     string b = channel.offsetkey[1];
                                                     string c = channel.offsetkey[2];

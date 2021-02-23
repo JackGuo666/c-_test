@@ -15,7 +15,7 @@ namespace LocalPLC.ModbusMaster
     {
         public enum COLUMNNAME_CHANNLE : int
         {
-            ID, MSGTYPE, POLLINGTIME, READOFFSET, READLENGTH,
+            ID, MSGTYPE, TRIG_MODE,POLLINGTIME, READOFFSET, READLENGTH,
             WRITEOFFSET, WRITELENGTH, NAME, NOTE
         };
 
@@ -126,7 +126,8 @@ namespace LocalPLC.ModbusMaster
             columnMsgType.Items.Add("写多个位(线圈) - 0x0F");
             columnMsgType.Items.Add("写多个字(寄存器) - 0x10");
 
-
+            DataGridViewTextBoxColumn cellColumntrig_mode = new DataGridViewTextBoxColumn();
+            cellColumntrig_mode.Name = "触发方式（0为自动触发，1为手动触发）";
             DataGridViewTextBoxColumn cellColumnPolling = new DataGridViewTextBoxColumn();
             cellColumnPolling.Name = "循环触发事件";
             DataGridViewTextBoxColumn cellColumnReadOffset = new DataGridViewTextBoxColumn();
@@ -150,6 +151,7 @@ namespace LocalPLC.ModbusMaster
 
             dataGridView1.Columns.Add(cellColumnID);
             dataGridView1.Columns.Add(columnMsgType);
+            dataGridView1.Columns.Add(cellColumntrig_mode);
             dataGridView1.Columns.Add(cellColumnPolling);
             dataGridView1.Columns.Add(cellColumnReadOffset);
             dataGridView1.Columns.Add(cellColumnReadLength);
@@ -185,11 +187,12 @@ namespace LocalPLC.ModbusMaster
                     string value = dicMsg[channelData.msgType];
                     dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = value;
                 }
-                
+
 
                 //POLLINGTIME, READOFFSET, READLENGTH,
-            //WRITEOFFSET, WRITELENGTH, NOTE
+                //WRITEOFFSET, WRITELENGTH, NOTE
 
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.TRIG_MODE].Value = channelData.trig_mode;
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = channelData.pollingTime.ToString();
 
@@ -243,7 +246,7 @@ namespace LocalPLC.ModbusMaster
             data.msgType = 0x01;
             //0x01 单bit 默认生成
             data.curChannelLength = 1 + 2;
-
+            data.trig_mode = 0;
             data.pollingTime = 1000;
             data.readOffset = 0;
             data.readLength = 1;
@@ -268,6 +271,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NAME].Value = data.nameChannel;
                 //
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.MSGTYPE].Value = "读多个位(线圈) - 0x01";
+                dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.TRIG_MODE].Value = data.trig_mode;
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.POLLINGTIME].Value = data.pollingTime;    //ms
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.READOFFSET].Value = data.readOffset;
 
@@ -383,6 +387,10 @@ namespace LocalPLC.ModbusMaster
                 deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                 //变量地址 错误变量 界面刷新
                 //refreshGridTableTwoVarAddr();
+            }
+            else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.TRIG_MODE)
+            {
+                deviceData_.modbusChannelList.ElementAt(e.RowIndex).trig_mode = Convert.ToInt32(str);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.POLLINGTIME)
             {

@@ -621,6 +621,8 @@ namespace LocalPLC
             writer.WritePropertyName("portcfg");
             writer.WriteStartArray(); //[ 网口portcfg 数组
             writer.WriteStartObject(); //{ 网口portcfg 数组下节点1
+            writer.WritePropertyName("namestr");
+            writer.WriteValue("ethif_0");
             writer.WritePropertyName("mac");
             writer.WriteValue("aa-aa-aa-aa-aa-aa");
             writer.WritePropertyName("is_dhpc");
@@ -848,8 +850,8 @@ namespace LocalPLC
             }
             string projectPath = multiprogApp.ActiveProject.Path;
             string projectName = multiprogApp.ActiveProject.Name;
-            string path = projectPath + "\\" + projectName + "\\" + "myconfig.json";
-
+            //string path = projectPath + "\\" + projectName + "\\C\\配置\\R\\资源\\myconfig.json";
+            string path = projectPath + "\\" + projectName + "\\c\\CONFIGURATION_ECLR\\R\\SIMULATION\\myconfig.json";
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
@@ -862,9 +864,8 @@ namespace LocalPLC
             writer.WritePropertyName("modbus");
             writer.WriteStartObject();// { modbus大括号左边
             //writer.WriteValue("1");
-            modslave.saveJson(writer);
-            msi.saveJson(writer);
             modmaster.saveJson(writer);
+            msi.saveJson(writer);          
             mci.saveJson(writer);
             //============================
             ////第一级节点
@@ -1028,8 +1029,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 utility.addIOGroups();
 
                 //utility.addServerIOGroups();
-                utility.addVarType();
-                //utility.addVarType1();
+                //utility.addVarType();
+                utility.addVarType1();
                 //utility.checkvariables();
                 utility.addVariables();
 

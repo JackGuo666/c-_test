@@ -68,10 +68,11 @@ namespace LocalPLC.ModbusServer
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
+
             
-                
             if(radioButton3.Checked == true)
             {
+                data_.dataDevice_.ipfixed = true;
                 int connectnumber = Convert.ToInt32(textBox24.Text);
                 switch(connectnumber)
                 {
@@ -181,7 +182,8 @@ namespace LocalPLC.ModbusServer
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton4.Checked == true)
-            { 
+            {
+                data_.dataDevice_.ipfixed = false;
                 textBox25.ReadOnly = true;
                 textBox25.Enabled = false;
                 textBox26.ReadOnly = true;
@@ -271,10 +273,12 @@ namespace LocalPLC.ModbusServer
 
         private void modbusserver_Load(object sender, EventArgs e)
         {
-            textBox1.Text = data_.dataDevice_.coilCount.ToString();
-            textBox2.Text = data_.dataDevice_.holdingCount.ToString();
-            textBox3.Text = data_.dataDevice_.decreteCount.ToString();
-            textBox4.Text = data_.dataDevice_.statusCount.ToString();
+            //dataManager.listServer[0]
+            textBox1.Text = dataManager.listServer[0].dataDevice_.coilCount.ToString();
+            textBox2.Text = dataManager.listServer[0].dataDevice_.holdingCount.ToString();
+            textBox3.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
+            textBox4.Text = dataManager.listServer[0].dataDevice_.statusCount.ToString();
+            comboBox1.SelectedItem = data_.dataDevice_.transform;
             if (data_.dataDevice_.transformMode == (int)TRANSFORMMODE.TCP)
             {
                 radioButton1.Checked = true;
@@ -293,41 +297,187 @@ namespace LocalPLC.ModbusServer
             }
             textBox23.Text = data_.dataDevice_.port.ToString();
             textBox24.Text = data_.dataDevice_.maxconnectnumber.ToString();
-            textBox25.Text = data_.dataDevice_.ip0.ToString();
-            textBox26.Text = data_.dataDevice_.ip1.ToString();
-            textBox27.Text = data_.dataDevice_.ip2.ToString();
-            textBox28.Text = data_.dataDevice_.ip3.ToString();
-            textBox5.Text = data_.dataDevice_.coilIoAddrStart;
-            textBox6.Text = data_.dataDevice_.holdingIoAddrStart;
-            textBox7.Text = data_.dataDevice_.decreteIoAddrStart;
-            textBox8.Text = data_.dataDevice_.statusIoAddrStart;
+            textBox22.ReadOnly = true;
+            textBox25.ReadOnly = true;
+            textBox26.ReadOnly = true;
+            textBox27.ReadOnly = true;
+            textBox28.ReadOnly = true;
+            textBox25.ReadOnly = true;
+            textBox26.ReadOnly = true;
+            textBox27.ReadOnly = true;
+            textBox28.ReadOnly = true;
+            textBox9.ReadOnly = true;
+            textBox10.ReadOnly = true;
+            textBox11.ReadOnly = true;
+            textBox12.ReadOnly = true;
+            textBox13.ReadOnly = true;
+            textBox14.ReadOnly = true;
+            textBox15.ReadOnly = true;
+            textBox16.ReadOnly = true;
+            textBox17.ReadOnly = true;
+            textBox18.ReadOnly = true;
+            textBox19.ReadOnly = true;
+            textBox20.ReadOnly = true;
+            textBox5.Text = dataManager.listServer[0].dataDevice_.coilIoAddrStart;
+            textBox6.Text = dataManager.listServer[0].dataDevice_.holdingIoAddrStart;
+            textBox7.Text = dataManager.listServer[0].dataDevice_.decreteIoAddrStart;
+            textBox8.Text = dataManager.listServer[0].dataDevice_.statusIoAddrStart;
 
-            textBox21.Text = data_.serverstartaddr.ToString();
+            textBox21.Text = dataManager.listServer[0].serverstartaddr.ToString();
             textBox21.ReadOnly = true;
-            textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
-            if(data_.dataDevice_.ipconnect == (int)IPCONNECT.TRUE)
+            textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+            
+            if (data_.dataDevice_.ipfixed == true)
             {
                 radioButton3.Checked = true;
-                textBox25.ReadOnly = false;
-                textBox25.Enabled = true;
-                textBox26.ReadOnly = false;
-                textBox26.Enabled = true;
-                textBox27.ReadOnly = false;
-                textBox27.Enabled = true;
-                textBox28.ReadOnly = false;
-                textBox28.Enabled = true;
-            }
-            else
-            {
-                radioButton4.Checked = true;
-                textBox25.ReadOnly = true;
-                textBox25.Enabled = false;
-                textBox26.ReadOnly = true;
-                textBox26.Enabled = false;
-                textBox27.ReadOnly = true;
-                textBox27.Enabled = false;
-                textBox28.ReadOnly = true;
-                textBox28.Enabled = false;
+                radioButton4.Checked = false;
+                int connectnumber = data_.dataDevice_.maxconnectnumber;
+                if (connectnumber == 1)
+                {
+                    textBox25.ReadOnly = false;
+                    textBox25.Enabled = true;
+                    textBox26.ReadOnly = false;
+                    textBox26.Enabled = true;
+                    textBox27.ReadOnly = false;
+                    textBox27.Enabled = true;
+                    textBox28.ReadOnly = false;
+                    textBox28.Enabled = true;
+                    textBox25.Text = data_.dataDevice_.ip0.ToString();
+                    textBox26.Text = data_.dataDevice_.ip1.ToString();
+                    textBox27.Text = data_.dataDevice_.ip2.ToString();
+                    textBox28.Text = data_.dataDevice_.ip3.ToString();
+                }
+                else if (connectnumber == 2)
+                {
+                    textBox25.ReadOnly = false;
+                    textBox25.Enabled = true;
+                    textBox26.ReadOnly = false;
+                    textBox26.Enabled = true;
+                    textBox27.ReadOnly = false;
+                    textBox27.Enabled = true;
+                    textBox28.ReadOnly = false;
+                    textBox28.Enabled = true;
+                    textBox9.ReadOnly = false;
+                    textBox9.Enabled = true;
+                    textBox10.ReadOnly = false;
+                    textBox10.Enabled = true;
+                    textBox12.ReadOnly = false;
+                    textBox12.Enabled = true;
+                    textBox11.ReadOnly = false;
+                    textBox11.Enabled = true;
+                    textBox25.Text = data_.dataDevice_.ip0.ToString();
+                    textBox26.Text = data_.dataDevice_.ip1.ToString();
+                    textBox27.Text = data_.dataDevice_.ip2.ToString();
+                    textBox28.Text = data_.dataDevice_.ip3.ToString();
+                    textBox9.Text = data_.dataDevice_.ip10.ToString();
+                    textBox10.Text = data_.dataDevice_.ip11.ToString();
+                    textBox11.Text = data_.dataDevice_.ip12.ToString();
+                    textBox12.Text = data_.dataDevice_.ip13.ToString();
+                }
+                else if (connectnumber == 3)
+                {
+                    textBox25.ReadOnly = false;
+                    textBox25.Enabled = true;
+                    textBox26.ReadOnly = false;
+                    textBox26.Enabled = true;
+                    textBox27.ReadOnly = false;
+                    textBox27.Enabled = true;
+                    textBox28.ReadOnly = false;
+                    textBox28.Enabled = true;
+                    textBox9.ReadOnly = false;
+                    textBox9.Enabled = true;
+                    textBox10.ReadOnly = false;
+                    textBox10.Enabled = true;
+                    textBox12.ReadOnly = false;
+                    textBox12.Enabled = true;
+                    textBox11.ReadOnly = false;
+                    textBox11.Enabled = true;
+                    textBox13.ReadOnly = false;
+                    textBox13.Enabled = true;
+                    textBox14.ReadOnly = false;
+                    textBox14.Enabled = true;
+                    textBox15.ReadOnly = false;
+                    textBox15.Enabled = true;
+                    textBox16.ReadOnly = false;
+                    textBox16.Enabled = true;
+                    textBox25.Text = data_.dataDevice_.ip0.ToString();
+                    textBox26.Text = data_.dataDevice_.ip1.ToString();
+                    textBox27.Text = data_.dataDevice_.ip2.ToString();
+                    textBox28.Text = data_.dataDevice_.ip3.ToString();
+                    textBox9.Text = data_.dataDevice_.ip10.ToString();
+                    textBox10.Text = data_.dataDevice_.ip11.ToString();
+                    textBox11.Text = data_.dataDevice_.ip12.ToString();
+                    textBox12.Text = data_.dataDevice_.ip13.ToString();
+                    textBox13.Text = data_.dataDevice_.ip20.ToString();
+                    textBox14.Text = data_.dataDevice_.ip21.ToString();
+                    textBox15.Text = data_.dataDevice_.ip22.ToString();
+                    textBox16.Text = data_.dataDevice_.ip23.ToString();
+                }
+                else if (connectnumber == 4)
+                {
+                    textBox25.ReadOnly = false;
+                    textBox25.Enabled = true;
+                    textBox26.ReadOnly = false;
+                    textBox26.Enabled = true;
+                    textBox27.ReadOnly = false;
+                    textBox27.Enabled = true;
+                    textBox28.ReadOnly = false;
+                    textBox28.Enabled = true;
+                    textBox9.ReadOnly = false;
+                    textBox9.Enabled = true;
+                    textBox10.ReadOnly = false;
+                    textBox10.Enabled = true;
+                    textBox12.ReadOnly = false;
+                    textBox12.Enabled = true;
+                    textBox11.ReadOnly = false;
+                    textBox11.Enabled = true;
+                    textBox13.ReadOnly = false;
+                    textBox13.Enabled = true;
+                    textBox14.ReadOnly = false;
+                    textBox14.Enabled = true;
+                    textBox15.ReadOnly = false;
+                    textBox15.Enabled = true;
+                    textBox16.ReadOnly = false;
+                    textBox16.Enabled = true;
+                    textBox17.ReadOnly = false;
+                    textBox17.Enabled = true;
+                    textBox18.ReadOnly = false;
+                    textBox18.Enabled = true;
+                    textBox19.ReadOnly = false;
+                    textBox19.Enabled = true;
+                    textBox20.ReadOnly = false;
+                    textBox20.Enabled = true;
+                    textBox25.Text = data_.dataDevice_.ip0.ToString();
+                    textBox26.Text = data_.dataDevice_.ip1.ToString();
+                    textBox27.Text = data_.dataDevice_.ip2.ToString();
+                    textBox28.Text = data_.dataDevice_.ip3.ToString();
+                    textBox9.Text = data_.dataDevice_.ip10.ToString();
+                    textBox10.Text = data_.dataDevice_.ip11.ToString();
+                    textBox11.Text = data_.dataDevice_.ip12.ToString();
+                    textBox12.Text = data_.dataDevice_.ip13.ToString();
+                    textBox13.Text = data_.dataDevice_.ip20.ToString();
+                    textBox14.Text = data_.dataDevice_.ip21.ToString();
+                    textBox15.Text = data_.dataDevice_.ip22.ToString();
+                    textBox16.Text = data_.dataDevice_.ip23.ToString();
+                    textBox17.Text = data_.dataDevice_.ip30.ToString();
+                    textBox18.Text = data_.dataDevice_.ip31.ToString();
+                    textBox19.Text = data_.dataDevice_.ip32.ToString();
+                    textBox20.Text = data_.dataDevice_.ip33.ToString();
+                }
+
+                else if (data_.dataDevice_.ipfixed == false)
+                {
+                    radioButton4.Checked = true;
+                    radioButton3.Checked = false;
+                    textBox25.ReadOnly = true;
+                    textBox25.Enabled = false;
+                    textBox26.ReadOnly = true;
+                    textBox26.Enabled = false;
+                    textBox27.ReadOnly = true;
+                    textBox27.Enabled = false;
+                    textBox28.ReadOnly = true;
+                    textBox28.Enabled = false;
+                }
             }
             //textBox13.ReadOnly = true;
             //textBox13.Enabled = false;
@@ -338,13 +488,14 @@ namespace LocalPLC.ModbusServer
             //textBox16.ReadOnly = true;
             //textBox16.Enabled = false;
             comboBox1.SelectedIndex = data_.dataDevice_.transform;
+            comboBox2.SelectedIndex = data_.dataDevice_.transformport;
             textBox21.ReadOnly = true;
             textBox22.ReadOnly = true;
             textBox29.ReadOnly = true;
-            textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
-            textBox29.Text = data_.dataDevice_.shmlength.ToString();
+            textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+            textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();          
+            
         }
-       
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -605,7 +756,15 @@ namespace LocalPLC.ModbusServer
                 radioButton2.Enabled = false;
                 radioButton5.Enabled = true;
                 radioButton6.Enabled = true;
+                panel6.Visible = false;
                 data_.dataDevice_.transform = 0;
+                if(comboBox2.SelectedIndex == 2)
+                {
+                    MessageBox.Show("当前选择通讯方式为串口，不可以选择端口为网口");
+                    comboBox2.SelectedIndex = 0;
+                }
+                dataManager.Rtunum++;
+                dataManager.TCPnum--;
             }
             else if (comboBox1.SelectedIndex == 1)
             {
@@ -613,7 +772,15 @@ namespace LocalPLC.ModbusServer
                 radioButton2.Enabled = true;
                 radioButton5.Enabled = false;
                 radioButton6.Enabled = false;
+                panel6.Visible = true;
                 data_.dataDevice_.transform = 1;
+                if(comboBox2.SelectedIndex == 0 || comboBox2.SelectedIndex == 1)
+                {
+                    MessageBox.Show("当前选择通讯方式为网口，不可以选择端口为串口");
+                    comboBox2.SelectedIndex = 2;
+                }
+                dataManager.TCPnum++;
+                dataManager.Rtunum--;
             }
         }
 
@@ -652,57 +819,57 @@ namespace LocalPLC.ModbusServer
 
         private void textBox3_Validated(object sender, EventArgs e)
         {
-            bool number = isNumber(textBox3.Text);
-            if (number == true)
-            {
-                if (Convert.ToInt32(textBox3.Text) < 0 || Convert.ToInt32(textBox3.Text) > 8000)
-                {
-                    MessageBox.Show("超出范围");
-                    textBox3.Text = data_.dataDevice_.decreteCount.ToString();
-                }
-                else
-                {
-                    data_.dataDevice_.IOAddrLength -= data_.dataDevice_.decreteCount / 8 + 1;
-                    int.TryParse(textBox3.Text, out data_.dataDevice_.decreteCount);
-                    data_.dataDevice_.IOAddrLength += data_.dataDevice_.decreteCount / 8 + 1;
-                    textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
-                }
-            }
-            else
-            {
-                data_.dataDevice_.IOAddrLength -= data_.dataDevice_.decreteCount / 8;
-                data_.dataDevice_.decreteCount = 0;
-                textBox3.Text = data_.dataDevice_.decreteCount.ToString();
-                return;
-            }
+            //bool number = isNumber(textBox3.Text);
+            //if (number == true)
+            //{
+            //    if (Convert.ToInt32(textBox3.Text) < 0 || Convert.ToInt32(textBox3.Text) > 8000)
+            //    {
+            //        MessageBox.Show("超出范围");
+            //        textBox3.Text = data_.dataDevice_.decreteCount.ToString();
+            //    }
+            //    else
+            //    {
+            //        data_.dataDevice_.IOAddrLength -= data_.dataDevice_.decreteCount / 8 + 1;
+            //        int.TryParse(textBox3.Text, out data_.dataDevice_.decreteCount);
+            //        data_.dataDevice_.IOAddrLength += data_.dataDevice_.decreteCount / 8 + 1;
+            //        textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
+            //    }
+            //}
+            //else
+            //{
+            //    data_.dataDevice_.IOAddrLength -= data_.dataDevice_.decreteCount / 8;
+            //    data_.dataDevice_.decreteCount = 0;
+            //    textBox3.Text = data_.dataDevice_.decreteCount.ToString();
+            //    return;
+            //}
                 
         }
 
         private void textBox4_Validated(object sender, EventArgs e)
         {
-            bool number = isNumber(textBox4.Text);
-            if(number == true)
-            {
-                if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
-                {
-                    MessageBox.Show("超出范围");
-                    textBox4.Text = data_.dataDevice_.decreteCount.ToString();
-                }
-                else
-                {
-                    data_.dataDevice_.IOAddrLength -= data_.dataDevice_.statusCount * 2;
-                    int.TryParse(textBox4.Text, out data_.dataDevice_.statusCount);
-                    data_.dataDevice_.IOAddrLength += data_.dataDevice_.statusCount * 2;
-                    textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
-                }
-            }
-           else
-            {
-                data_.dataDevice_.IOAddrLength -= data_.dataDevice_.statusCount * 2;
-                data_.dataDevice_.statusCount = 0;
-                textBox4.Text = data_.dataDevice_.statusCount.ToString();
-                return;
-            }
+           // bool number = isNumber(textBox4.Text);
+           // if(number == true)
+           // {
+           //     if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
+           //     {
+           //         MessageBox.Show("超出范围");
+           //         textBox4.Text = data_.dataDevice_.decreteCount.ToString();
+           //     }
+           //     else
+           //     {
+           //         data_.dataDevice_.IOAddrLength -= data_.dataDevice_.statusCount * 2;
+           //         int.TryParse(textBox4.Text, out data_.dataDevice_.statusCount);
+           //         data_.dataDevice_.IOAddrLength += data_.dataDevice_.statusCount * 2;
+           //         textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
+           //     }
+           // }
+           //else
+           // {
+           //     data_.dataDevice_.IOAddrLength -= data_.dataDevice_.statusCount * 2;
+           //     data_.dataDevice_.statusCount = 0;
+           //     textBox4.Text = data_.dataDevice_.statusCount.ToString();
+           //     return;
+           // }
         }
         public bool isNumber(string message)
         {
@@ -780,49 +947,240 @@ namespace LocalPLC.ModbusServer
 
         private void textBox1_Validated(object sender, EventArgs e)
         {
+            //bool number = isNumber(textBox1.Text);
+            //if (number == true)
+            //{
+            //    if (data_.dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
+            //    {
+            //        data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 ;
+            //        int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+            //        data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8 + 1;
+            //        textBox29.Text = data_.dataDevice_.shmlength.ToString();
+            //    }
+            //    else if (data_.dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
+            //    {
+            //        data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8;
+            //        int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+            //        data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8;
+            //        textBox29.Text = data_.dataDevice_.shmlength.ToString();
+            //    }
+            //    else if(data_.dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
+            //    {
+            //        data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 + 1;
+            //        int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+            //        data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8;
+            //        textBox29.Text = data_.dataDevice_.shmlength.ToString();
+            //    }
+            //    else
+            //    {
+            //        data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 + 1;
+            //        int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
+            //        data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8 + 1;
+            //        textBox29.Text = data_.dataDevice_.shmlength.ToString();
+            //    }
+            //}
+            //else
+            //{
+            //    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8;
+            //    data_.dataDevice_.coilCount = 0;
+            //    textBox1.Text = data_.dataDevice_.coilCount.ToString();
+            //    //data_.dataDevice_.mholdingstart = data_.dataDevice_.shmrange + data_.dataDevice_.coilCount / 8;
+            //    return;
+            //}
+        }
+
+        private void textBox2_Validated(object sender, EventArgs e)
+        {
+            //bool number = isNumber(textBox2.Text);
+            //if (number == true)
+            //{
+            //    //if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
+            //    //{
+            //    //    MessageBox.Show("超出范围");
+            //    //    textBox4.Text = data_.dataDevice_.decreteCount.ToString();
+            //    //}
+            //    //else
+            //    //{
+            //        data_.dataDevice_.shmlength -= data_.dataDevice_.holdingCount * 2;
+            //        int.TryParse(textBox2.Text, out data_.dataDevice_.holdingCount);
+            //        data_.dataDevice_.shmlength += data_.dataDevice_.holdingCount * 2;
+            //        textBox29.Text = data_.dataDevice_.shmlength.ToString();
+            //    //}
+            //}
+            //else
+            //{
+            //    data_.dataDevice_.shmlength -= data_.dataDevice_.holdingCount * 2;
+            //    data_.dataDevice_.holdingCount = 0;
+            //    textBox2.Text = data_.dataDevice_.holdingCount.ToString();
+            //    return;
+            //}
+        }
+        private void checklength()
+        {
+
+        }
+
+        private void modbusserver_Shown(object sender, EventArgs e)
+        {
+            if (data_.dataDevice_.ipfixed == true)
+            {
+                radioButton3.Checked = true;
+
+                int connectnumber = data_.dataDevice_.maxconnectnumber;            
+                   if(connectnumber == 1)
+                   {
+                            textBox25.ReadOnly = false;
+                            textBox25.Enabled = true;
+                            textBox26.ReadOnly = false;
+                            textBox26.Enabled = true;
+                            textBox27.ReadOnly = false;
+                            textBox27.Enabled = true;
+                            textBox28.ReadOnly = false;
+                            textBox28.Enabled = true;
+                    }
+                    else if (connectnumber == 2)
+                    {
+                            textBox25.ReadOnly = false;
+                            textBox25.Enabled = true;
+                            textBox26.ReadOnly = false;
+                            textBox26.Enabled = true;
+                            textBox27.ReadOnly = false;
+                            textBox27.Enabled = true;
+                            textBox28.ReadOnly = false;
+                            textBox28.Enabled = true;
+                            textBox9.ReadOnly = false;
+                            textBox9.Enabled = true;
+                            textBox10.ReadOnly = false;
+                            textBox10.Enabled = true;
+                            textBox12.ReadOnly = false;
+                            textBox12.Enabled = true;
+                            textBox11.ReadOnly = false;
+                            textBox11.Enabled = true;
+                     }
+                    else if(connectnumber == 3)
+                     {
+                            textBox25.ReadOnly = false;
+                            textBox25.Enabled = true;
+                            textBox26.ReadOnly = false;
+                            textBox26.Enabled = true;
+                            textBox27.ReadOnly = false;
+                            textBox27.Enabled = true;
+                            textBox28.ReadOnly = false;
+                            textBox28.Enabled = true;
+                            textBox9.ReadOnly = false;
+                            textBox9.Enabled = true;
+                            textBox10.ReadOnly = false;
+                            textBox10.Enabled = true;
+                            textBox12.ReadOnly = false;
+                            textBox12.Enabled = true;
+                            textBox11.ReadOnly = false;
+                            textBox11.Enabled = true;
+                            textBox13.ReadOnly = false;
+                            textBox13.Enabled = true;
+                            textBox14.ReadOnly = false;
+                            textBox14.Enabled = true;
+                            textBox15.ReadOnly = false;
+                            textBox15.Enabled = true;
+                            textBox16.ReadOnly = false;
+                            textBox16.Enabled = true;
+                     }
+                    else if (connectnumber == 4)
+                     {
+                            textBox25.ReadOnly = false;
+                            textBox25.Enabled = true;
+                            textBox26.ReadOnly = false;
+                            textBox26.Enabled = true;
+                            textBox27.ReadOnly = false;
+                            textBox27.Enabled = true;
+                            textBox28.ReadOnly = false;
+                            textBox28.Enabled = true;
+                            textBox9.ReadOnly = false;
+                            textBox9.Enabled = true;
+                            textBox10.ReadOnly = false;
+                            textBox10.Enabled = true;
+                            textBox12.ReadOnly = false;
+                            textBox12.Enabled = true;
+                            textBox11.ReadOnly = false;
+                            textBox11.Enabled = true;
+                            textBox13.ReadOnly = false;
+                            textBox13.Enabled = true;
+                            textBox14.ReadOnly = false;
+                            textBox14.Enabled = true;
+                            textBox15.ReadOnly = false;
+                            textBox15.Enabled = true;
+                            textBox16.ReadOnly = false;
+                            textBox16.Enabled = true;
+                            textBox17.ReadOnly = false;
+                            textBox17.Enabled = true;
+                            textBox18.ReadOnly = false;
+                            textBox18.Enabled = true;
+                            textBox19.ReadOnly = false;
+                            textBox19.Enabled = true;
+                            textBox20.ReadOnly = false;
+                            textBox20.Enabled = true;
+                     }
+                           
+            else if (data_.dataDevice_.ipfixed == false)
+            {
+                radioButton4.Checked = true;
+                textBox25.ReadOnly = true;
+                textBox25.Enabled = false;
+                textBox26.ReadOnly = true;
+                textBox26.Enabled = false;
+                textBox27.ReadOnly = true;
+                textBox27.Enabled = false;
+                textBox28.ReadOnly = true;
+                textBox28.Enabled = false;
+            }
+        }
+     }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            
             bool number = isNumber(textBox1.Text);
             if (number == true)
             {
-                if (data_.dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
+                if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
                 {
-                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 ;
-                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
-                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8 + 1;
-                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
-                else if (data_.dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
+                else if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
                 {
-                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8;
-                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
-                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8;
-                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
-                else if(data_.dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
+                else if (dataManager.listServer[0].dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
                 {
-                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 + 1;
-                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
-                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8;
-                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
                 else
                 {
-                    data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8 + 1;
-                    int.TryParse(textBox1.Text, out data_.dataDevice_.coilCount);
-                    data_.dataDevice_.shmlength += data_.dataDevice_.coilCount / 8 + 1;
-                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
             }
             else
             {
-                data_.dataDevice_.shmlength -= data_.dataDevice_.coilCount / 8;
-                data_.dataDevice_.coilCount = 0;
-                textBox1.Text = data_.dataDevice_.coilCount.ToString();
+                dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                dataManager.listServer[0].dataDevice_.coilCount = 0;
+                textBox1.Text = dataManager.listServer[0].dataDevice_.coilCount.ToString();
                 //data_.dataDevice_.mholdingstart = data_.dataDevice_.shmrange + data_.dataDevice_.coilCount / 8;
                 return;
             }
         }
 
-        private void textBox2_Validated(object sender, EventArgs e)
+        private void textBox2_Leave(object sender, EventArgs e)
         {
             bool number = isNumber(textBox2.Text);
             if (number == true)
@@ -834,23 +1192,79 @@ namespace LocalPLC.ModbusServer
                 //}
                 //else
                 //{
-                    data_.dataDevice_.shmlength -= data_.dataDevice_.holdingCount * 2;
-                    int.TryParse(textBox2.Text, out data_.dataDevice_.holdingCount);
-                    data_.dataDevice_.shmlength += data_.dataDevice_.holdingCount * 2;
-                    textBox29.Text = data_.dataDevice_.shmlength.ToString();
+                dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.holdingCount * 2;
+                int.TryParse(textBox2.Text, out dataManager.listServer[0].dataDevice_.holdingCount);
+                dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.holdingCount * 2;
+                textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 //}
             }
             else
             {
-                data_.dataDevice_.shmlength -= data_.dataDevice_.holdingCount * 2;
-                data_.dataDevice_.holdingCount = 0;
-                textBox2.Text = data_.dataDevice_.holdingCount.ToString();
+                dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.holdingCount * 2;
+                dataManager.listServer[0].dataDevice_.holdingCount = 0;
+                textBox2.Text = dataManager.listServer[0].dataDevice_.holdingCount.ToString();
                 return;
             }
         }
-        private void checklength()
-        {
 
+        private void textBox3_Leave(object sender, EventArgs e)
+        {
+            bool number = isNumber(textBox3.Text);
+            if (number == true)
+            {
+                if (Convert.ToInt32(textBox3.Text) < 0 || Convert.ToInt32(textBox3.Text) > 8000)
+                {
+                    MessageBox.Show("超出范围");
+                    textBox3.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
+                }
+                else
+                {
+                    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+                }
+            }
+            else
+            {
+                dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
+                dataManager.listServer[0].dataDevice_.decreteCount = 0;
+                textBox3.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
+                return;
+            }
+        }
+
+        private void textBox4_Leave(object sender, EventArgs e)
+        {
+            bool number = isNumber(textBox4.Text);
+            if (number == true)
+            {
+                if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
+                {
+                    MessageBox.Show("超出范围");
+                    textBox4.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
+                }
+                else
+                {
+                    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.statusCount * 2;
+                    int.TryParse(textBox4.Text, out dataManager.listServer[0].dataDevice_.statusCount);
+                    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.statusCount * 2;
+                    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+                }
+            }
+            else
+            {
+                dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.statusCount * 2;
+                dataManager.listServer[0].dataDevice_.statusCount = 0;
+                textBox4.Text = dataManager.listServer[0].dataDevice_.statusCount.ToString();
+                return;
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            data_.dataDevice_.transformport = comboBox2.SelectedIndex;
         }
     }
 }
