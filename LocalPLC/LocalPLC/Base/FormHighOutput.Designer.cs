@@ -31,23 +31,27 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_outputType = new System.Windows.Forms.ComboBox();
             this.comboBox_pulse = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label_pulse = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.checkBox_doubleWord = new System.Windows.Forms.CheckBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.comboBox_timeBase = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.textBox_preset = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox_timeBase = new System.Windows.Forms.ComboBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.textBox_frequency = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
+            this.comboBox_outputType_pto = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboBox_pulse_pto = new System.Windows.Forms.ComboBox();
             this.comboBox_outputMode = new System.Windows.Forms.ComboBox();
+            this.label_diretion = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.comboBox_direction = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -60,16 +64,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(39, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 18);
+            this.label1.Size = new System.Drawing.Size(116, 18);
             this.label1.TabIndex = 0;
-            this.label1.Text = "高速输出类型:";
+            this.label1.Text = "高速输出类型";
             // 
             // comboBox_outputType
             // 
             this.comboBox_outputType.FormattingEnabled = true;
             this.comboBox_outputType.Location = new System.Drawing.Point(170, 30);
             this.comboBox_outputType.Name = "comboBox_outputType";
-            this.comboBox_outputType.Size = new System.Drawing.Size(123, 26);
+            this.comboBox_outputType.Size = new System.Drawing.Size(133, 26);
             this.comboBox_outputType.TabIndex = 3;
             this.comboBox_outputType.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
             // 
@@ -81,20 +85,20 @@
             this.comboBox_pulse.Size = new System.Drawing.Size(85, 26);
             this.comboBox_pulse.TabIndex = 3;
             // 
-            // label2
+            // label_pulse
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(456, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 18);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "脉冲";
+            this.label_pulse.AutoSize = true;
+            this.label_pulse.Location = new System.Drawing.Point(456, 35);
+            this.label_pulse.Name = "label_pulse";
+            this.label_pulse.Size = new System.Drawing.Size(44, 18);
+            this.label_pulse.TabIndex = 4;
+            this.label_pulse.Text = "脉冲";
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.comboBox_outputType);
-            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label_pulse);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.comboBox_pulse);
             this.panel1.Location = new System.Drawing.Point(12, 22);
@@ -133,23 +137,12 @@
             this.panel3.Size = new System.Drawing.Size(776, 111);
             this.panel3.TabIndex = 5;
             // 
-            // comboBox_timeBase
+            // textBox_preset
             // 
-            this.comboBox_timeBase.FormattingEnabled = true;
-            this.comboBox_timeBase.Location = new System.Drawing.Point(114, 28);
-            this.comboBox_timeBase.Name = "comboBox_timeBase";
-            this.comboBox_timeBase.Size = new System.Drawing.Size(93, 26);
-            this.comboBox_timeBase.TabIndex = 3;
-            this.comboBox_timeBase.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(43, 31);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 18);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "时基";
+            this.textBox_preset.Location = new System.Drawing.Point(114, 69);
+            this.textBox_preset.Name = "textBox_preset";
+            this.textBox_preset.Size = new System.Drawing.Size(121, 28);
+            this.textBox_preset.TabIndex = 5;
             // 
             // label4
             // 
@@ -160,12 +153,23 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "预设";
             // 
-            // textBox_preset
+            // label3
             // 
-            this.textBox_preset.Location = new System.Drawing.Point(114, 69);
-            this.textBox_preset.Name = "textBox_preset";
-            this.textBox_preset.Size = new System.Drawing.Size(121, 28);
-            this.textBox_preset.TabIndex = 5;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(43, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 18);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "时基";
+            // 
+            // comboBox_timeBase
+            // 
+            this.comboBox_timeBase.FormattingEnabled = true;
+            this.comboBox_timeBase.Location = new System.Drawing.Point(114, 28);
+            this.comboBox_timeBase.Name = "comboBox_timeBase";
+            this.comboBox_timeBase.Size = new System.Drawing.Size(93, 26);
+            this.comboBox_timeBase.TabIndex = 3;
+            this.comboBox_timeBase.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
             // 
             // panel4
             // 
@@ -177,6 +181,13 @@
             this.panel4.Size = new System.Drawing.Size(775, 77);
             this.panel4.TabIndex = 6;
             // 
+            // textBox_frequency
+            // 
+            this.textBox_frequency.Location = new System.Drawing.Point(124, 27);
+            this.textBox_frequency.Name = "textBox_frequency";
+            this.textBox_frequency.Size = new System.Drawing.Size(121, 28);
+            this.textBox_frequency.TabIndex = 5;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -186,59 +197,91 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "频率(Hz)";
             // 
-            // textBox_frequency
-            // 
-            this.textBox_frequency.Location = new System.Drawing.Point(124, 27);
-            this.textBox_frequency.Name = "textBox_frequency";
-            this.textBox_frequency.Size = new System.Drawing.Size(121, 28);
-            this.textBox_frequency.TabIndex = 5;
-            // 
             // panel5
             // 
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.comboBox_outputType_pto);
+            this.panel5.Controls.Add(this.label8);
+            this.panel5.Controls.Add(this.label9);
+            this.panel5.Controls.Add(this.comboBox_pulse_pto);
             this.panel5.Controls.Add(this.comboBox_outputMode);
-            this.panel5.Controls.Add(this.label7);
+            this.panel5.Controls.Add(this.label_diretion);
             this.panel5.Controls.Add(this.label6);
             this.panel5.Controls.Add(this.comboBox_direction);
             this.panel5.Location = new System.Drawing.Point(12, 382);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(775, 77);
+            this.panel5.Size = new System.Drawing.Size(775, 111);
             this.panel5.TabIndex = 6;
             // 
-            // label6
+            // comboBox_outputType_pto
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(84, 33);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 18);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "输出模式";
+            this.comboBox_outputType_pto.FormattingEnabled = true;
+            this.comboBox_outputType_pto.Location = new System.Drawing.Point(170, 19);
+            this.comboBox_outputType_pto.Name = "comboBox_outputType_pto";
+            this.comboBox_outputType_pto.Size = new System.Drawing.Size(133, 26);
+            this.comboBox_outputType_pto.TabIndex = 6;
+            this.comboBox_outputType_pto.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(456, 24);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(44, 18);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "脉冲";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(39, 24);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(116, 18);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "高速输出类型";
+            // 
+            // comboBox_pulse_pto
+            // 
+            this.comboBox_pulse_pto.FormattingEnabled = true;
+            this.comboBox_pulse_pto.Location = new System.Drawing.Point(506, 19);
+            this.comboBox_pulse_pto.Name = "comboBox_pulse_pto";
+            this.comboBox_pulse_pto.Size = new System.Drawing.Size(85, 26);
+            this.comboBox_pulse_pto.TabIndex = 7;
             // 
             // comboBox_outputMode
             // 
             this.comboBox_outputMode.FormattingEnabled = true;
-            this.comboBox_outputMode.Location = new System.Drawing.Point(170, 30);
+            this.comboBox_outputMode.Location = new System.Drawing.Point(170, 71);
             this.comboBox_outputMode.Name = "comboBox_outputMode";
             this.comboBox_outputMode.Size = new System.Drawing.Size(133, 26);
             this.comboBox_outputMode.TabIndex = 3;
             this.comboBox_outputMode.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
             // 
+            // label_diretion
+            // 
+            this.label_diretion.AutoSize = true;
+            this.label_diretion.Location = new System.Drawing.Point(456, 74);
+            this.label_diretion.Name = "label_diretion";
+            this.label_diretion.Size = new System.Drawing.Size(44, 18);
+            this.label_diretion.TabIndex = 4;
+            this.label_diretion.Text = "方向";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(75, 74);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(80, 18);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "输出模式";
+            // 
             // comboBox_direction
             // 
             this.comboBox_direction.FormattingEnabled = true;
-            this.comboBox_direction.Location = new System.Drawing.Point(506, 25);
+            this.comboBox_direction.Location = new System.Drawing.Point(506, 69);
             this.comboBox_direction.Name = "comboBox_direction";
             this.comboBox_direction.Size = new System.Drawing.Size(85, 26);
             this.comboBox_direction.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(456, 30);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(44, 18);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "方向";
             // 
             // FormHighOutput
             // 
@@ -271,7 +314,7 @@
         #endregion
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox_outputType;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label_pulse;
         private System.Windows.Forms.ComboBox comboBox_pulse;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
@@ -286,8 +329,12 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.ComboBox comboBox_outputMode;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label_diretion;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBox_direction;
+        private System.Windows.Forms.ComboBox comboBox_outputType_pto;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboBox_pulse_pto;
     }
 }
