@@ -29,6 +29,7 @@ namespace LocalPLC
         public UserControl1()
         {
             InitializeComponent();
+
             i++;
         }
 
@@ -53,6 +54,48 @@ namespace LocalPLC
             //mci = new ModbusClient.Clientindex();
             //mct = new ModbusClient.modbusclient();
             //msi = new ModbusServer.ServerIndex();
+
+            TreeNode tnRet = null;
+            string s1 = "MOTION_CONTROL";
+            foreach (TreeNode tn in treeView1.Nodes)
+            {
+                tnRet = FindeNodeByTag(tn, s1);
+                if (tnRet != null)
+                {
+                    break;
+                }
+            }
+
+            if(tnRet != null)
+            {
+                TreeNode axis = new TreeNode("轴", 1, 1);
+                axis.Tag = "AXIS";
+                tnRet.Nodes.Add(axis);
+
+                //添加轴对象
+                TreeNode addAxis = new TreeNode("添加轴对象", 2, 2);
+                addAxis.Tag = "ADDAXIS";
+                axis.Nodes.Add(addAxis);
+
+                //命令表
+                TreeNode commandTable = new TreeNode("命令表", 1, 1);
+                commandTable.Tag = "COMMANDTABLE";
+                tnRet.Nodes.Add(commandTable);
+                //添加命令表对象
+                TreeNode addCommandTable = new TreeNode("添加命令表对象", 2, 2);
+                addCommandTable.Tag = "ADDCOMMANDTABLE";
+                commandTable.Nodes.Add(addCommandTable);
+
+                //凸轮
+                TreeNode camTable = new TreeNode("凸轮表待定", 1, 1);
+                camTable.Tag = "CAMTABLE";
+                tnRet.Nodes.Add(camTable);
+                //添加凸轮表对象
+                TreeNode addCamTable = new TreeNode("添加凸轮表对象", 2, 2);
+                addCamTable.Tag = "ADDCAMTABLE";
+                camTable.Nodes.Add(addCamTable);
+            }
+
 
             UC.Parent = this;
             UC.getTreeView(treeView1);
@@ -113,6 +156,22 @@ namespace LocalPLC
                     FindEvery(tv, tnc[i].Nodes, nds);
                 }
             }
+        }
+
+        private TreeNode FindeNodeByTag(TreeNode tnParent, string strTag)
+        {
+            if (tnParent.Tag == null && tnParent.Text == null) return null;
+            if (tnParent.Tag.ToString() == strTag) return tnParent;
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in tnParent.Nodes)
+            {
+                tnRet = FindeNodeByTag(tn, strTag);
+                if (tnRet != null)
+                {
+                    break;
+                }
+            }
+            return tnRet;
         }
 
         private TreeNode FindNode(TreeNode tnParent, string strValue)
@@ -994,7 +1053,7 @@ namespace LocalPLC
         private void ModbusWindow_Enter(object sender, EventArgs e)
         {        
 		}
-private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right)
             {
@@ -1464,6 +1523,19 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         public static void deleteIOGroups()
         {
 
+        }
+
+        private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Tag.ToString() == "ADDAXIS")
+            {
+
+            }
         }
     }
 
