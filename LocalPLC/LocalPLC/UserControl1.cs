@@ -35,6 +35,8 @@ namespace LocalPLC
         public static ADELib.Application multiprogApp = null;
         public static string projectPath = "test";
         private static string projectName = null;
+
+        private LocalPLC.Base.xml.DataManageBase basedata { get; set; }
         static int i = 0; 
 
         public empty e1;
@@ -562,8 +564,13 @@ namespace LocalPLC
             {
                 UC.setExtendAOShow(name);
             }
+            
     }
-        private void defaultjson(JsonTextWriter writer)//基础配置
+        public void getbasedata(ref LocalPLC.Base.xml.DataManageBase data)
+        {
+            basedata = data;
+        }
+        public void defaultjson(JsonTextWriter writer)//基础配置
         {
             
             writer.WritePropertyName("general");
@@ -625,7 +632,7 @@ namespace LocalPLC
             writer.WriteValue("ethif_0");
             writer.WritePropertyName("mac");
             writer.WriteValue("aa-aa-aa-aa-aa-aa");
-            writer.WritePropertyName("is_dhpc");
+            writer.WritePropertyName("is_dhcp");
             writer.WriteValue("false");
             writer.WritePropertyName("ip");
             writer.WriteValue("192.168.1.10");
@@ -658,6 +665,7 @@ namespace LocalPLC
             writer.WriteValue(100000);
             writer.WriteEndObject(); //} can节点下portcfg数组下节点1
             writer.WriteEndArray(); //] can节点下portcfg数组
+            writer.WriteEndObject(); //} can节点
             //HSC高速脉冲输入组
             writer.WritePropertyName("HSC");
             writer.WriteStartObject(); //{ HSC节点
@@ -834,7 +842,7 @@ namespace LocalPLC
             writer.WriteEndObject(); //} DO节点
             writer.WriteEndObject(); //} hardware节点
             writer.WriteEndObject(); //} general节点
-            writer.WriteEndObject(); //} 总节点
+            //writer.WriteEndObject(); //} 总节点
         }
 
         private void saveJson()
@@ -850,8 +858,8 @@ namespace LocalPLC
             }
             string projectPath = multiprogApp.ActiveProject.Path;
             string projectName = multiprogApp.ActiveProject.Name;
-            //string path = projectPath + "\\" + projectName + "\\C\\配置\\R\\资源\\myconfig.json";
-            string path = projectPath + "\\" + projectName + "\\c\\CONFIGURATION_ECLR\\R\\SIMULATION\\myconfig.json";
+            string path = projectPath + "\\" + projectName + "\\C\\配置\\R\\资源\\my_config.json";
+            //string path = projectPath + "\\" + projectName + "\\c\\CONFIGURATION_ECLR\\R\\SIMULATION\\my_config.json";
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
@@ -987,7 +995,7 @@ namespace LocalPLC
                 UserControlBase.dataManage.clear();
                 //在加载前，清空界面
                 UC.clearUI();
-
+                
                 //加载控制器文件
             }
         }
@@ -1029,8 +1037,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 utility.addIOGroups();
 
                 //utility.addServerIOGroups();
-                //utility.addVarType();
-                utility.addVarType1();
+                utility.addVarType();
+                //utility.addVarType1();
                 //utility.checkvariables();
                 utility.addVariables();
 
@@ -1049,8 +1057,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
-
-            if(!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
+            
+            if (!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;
             }
@@ -1058,14 +1066,23 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
             int coilstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
             int coilIOstart = 0;
             int holdinglength = msi.serverDataManager.listServer[0].dataDevice_.holdingCount;
-            int holdingstart = coilIOstart + coillength;
-            int holdingIOstart = msi.serverDataManager.listServer[0].serverstartaddr+100;
+            //int holdingstart = coilIOstart + coillength;
+            int holdingstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.holdingIoAddrStart);          
+            int holdingIOstart;
+            if (coillength != 0)
+            { holdingIOstart = coilIOstart + msi.serverDataManager.listServer[0].dataDevice_.coilCount/8+1; }
+            else
+            { holdingIOstart = coilIOstart; }
             int decretelength = msi.serverDataManager.listServer[0].dataDevice_.decreteCount;
             int decretestart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.decreteIoAddrStart);
             int decreteIOstart = msi.serverDataManager.listServer[0].serverstartaddr;
             int statuslength = msi.serverDataManager.listServer[0].dataDevice_.statusCount;
             int statusstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.statusIoAddrStart);
-            int statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + 200;
+            int statusIOstart;
+            if(decretelength != 0)
+            { statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + decretelength/8+1; }
+            else
+            { statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr; }
             if (multiprogApp != null && multiprogApp.IsProjectOpen())
             {
                 Hardware physicalHardware = multiprogApp.ActiveProject.Hardware;
@@ -1079,7 +1096,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                         {
                             if (servergroup.Name == "Server")//变量组是否为Server组
                             {
-                                foreach(ADELib.Variable variable in servergroup.Variables)//遍历组中变量，根据变量在modbus地址这一项中的值，修改IO地址
+                               // servergroup.Variables.Create("icu", "INT", AdeVariableBlockType.adeVarBlockVarGlobal, "", "", "", false);
+                                foreach (ADELib.Variable variable in servergroup.Variables)//遍历组中变量，根据变量在modbus地址这一项中的值，修改IO地址
                                 {
                                     object mda = variable.GetAttribute(19);
                                     int modbusaddr = Convert.ToInt32(mda);
@@ -1090,8 +1108,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         {
                                             int a = i / 8;
                                             int b = i % 8;
-                                            variable.IecAddress ="%MX" +(coilIOstart+a).ToString()+"."+b.ToString();
-                                            
+                                            variable.IecAddress ="%MX3." +(coilIOstart+a).ToString()+"."+b.ToString();
+                                            variable.DataType = "BOOL";
                                         }
                                     }
                                     for (int j = 0;j < holdinglength;j++)
@@ -1099,7 +1117,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         if (modbusaddr == holdingstart + j)
                                         {
 
-                                            variable.IecAddress = "%MW" + (holdingIOstart + j).ToString();
+                                            variable.IecAddress = "%MW3." + (holdingIOstart + j*2).ToString();
+                                            variable.DataType = "WORD";
                                         }
                                     }
                                     for (int k = 0; k < decretelength; k++)
@@ -1108,7 +1127,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         {
                                             int c = k / 8;
                                             int d = k % 8;
-                                            variable.IecAddress = "%IX" + (decreteIOstart + c).ToString()+"."+d.ToString();
+                                            variable.IecAddress = "%QX" + (decreteIOstart + c).ToString()+"."+d.ToString();
+                                            variable.DataType = "BOOL";
                                         }
                                     }
                                     for (int l = 0; l < statuslength; l++)
@@ -1116,7 +1136,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         if (modbusaddr == statusstart + l)
                                         {
 
-                                            variable.IecAddress = "%IW" + (statusIOstart + l).ToString();
+                                            variable.IecAddress = "%QW" + (statusIOstart + l*2).ToString();
+                                            variable.DataType = "WORD";
                                         }
                                     }
                                 }

@@ -247,7 +247,7 @@ namespace LocalPLC.Base
             }
 
         }
-
+        LocalPLC.UserControl1 US1 = new UserControl1();
         public void saveXml(ref XmlElement elem, ref XmlDocument doc)
         {
             XmlElement elemDI = doc.CreateElement("DI");
@@ -422,6 +422,8 @@ namespace LocalPLC.Base
 
                 elemHSP.AppendChild(hspChild);
             }
+
+            US1.getbasedata(ref dataManage);
         }
 
         public void getTreeView(TreeView view)
@@ -923,5 +925,7 @@ namespace LocalPLC.Base
                 //curPlcType.setHighOutputInfo(hout);
             }
         }
+
+       
     }
 }

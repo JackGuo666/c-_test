@@ -136,7 +136,7 @@ namespace LocalPLC.ModbusClient
                 //ds.Tables[channelnumber].Rows[i][(int)COLUMNNAME.通道] = "...";
                 i++;
             }
-            dataGridView1.AutoSize = true;
+            dataGridView1.AutoSize = false;
             dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
