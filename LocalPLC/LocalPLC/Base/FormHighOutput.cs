@@ -25,7 +25,7 @@ namespace LocalPLC.Base
         int panel1Height = 0;
         Dictionary<int, string> timeBaseDic = new Dictionary<int, string>();
         Dictionary<int, string> outputPluseDic = new Dictionary<int, string>();
-        enum TimeBase { ZEROPOINTFIVE, ONE, TEN, ONETHOUSAND}
+        enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
         enum OutputMode {CW_CCW, PULSE_DIC, AB_DIRECTION}
         public FormHighOutput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSPData hspData)
         {
@@ -40,7 +40,7 @@ namespace LocalPLC.Base
             panel1Height = panel1.Height;
 
             timeBaseDic.Clear();
-            timeBaseDic.Add((int)TimeBase.ZEROPOINTFIVE, "0.1毫秒");
+            timeBaseDic.Add((int)TimeBase.ZEROPOINTONE, "0.1毫秒");
             timeBaseDic.Add((int)TimeBase.ONE, "1毫秒");
             timeBaseDic.Add((int)TimeBase.TEN, "10毫秒");
             timeBaseDic.Add((int)TimeBase.ONETHOUSAND, "1秒");
@@ -372,7 +372,7 @@ namespace LocalPLC.Base
 
 
                 //输出模式
-                hspData_.outputMode = comboBox_direction.SelectedIndex;
+                hspData_.outputMode = comboBox_outputMode.SelectedIndex;
                 hspData_.used = true;
             }
             //if(comboBox_outputType == 0)
