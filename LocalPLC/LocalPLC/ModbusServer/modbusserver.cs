@@ -329,7 +329,6 @@ namespace LocalPLC.ModbusServer
             
             if (data_.dataDevice_.ipfixed == true)
             {
-                
                 radioButton3.Checked = true;
                 radioButton4.Checked = false;
                 int connectnumber = data_.dataDevice_.maxconnectnumber;
@@ -465,7 +464,7 @@ namespace LocalPLC.ModbusServer
                     textBox19.Text = data_.dataDevice_.ip32.ToString();
                     textBox20.Text = data_.dataDevice_.ip33.ToString();
                 }
-    }
+
                 else if (data_.dataDevice_.ipfixed == false)
                 {
                     radioButton4.Checked = true;
@@ -479,7 +478,7 @@ namespace LocalPLC.ModbusServer
                     textBox28.ReadOnly = true;
                     textBox28.Enabled = false;
                 }
-
+            }
             //textBox13.ReadOnly = true;
             //textBox13.Enabled = false;
             //textBox14.ReadOnly = true;
@@ -488,24 +487,14 @@ namespace LocalPLC.ModbusServer
             //textBox15.Enabled = false;
             //textBox16.ReadOnly = true;
             //textBox16.Enabled = false;
-            //for (int i = 0; i < dataManager.listServer.Count; i++)
-            //{
-            //    if (data_.dataDevice_.deviceAddr == dataManager.listServer[i].dataDevice_.deviceAddr && data_.ID != dataManager.listServer[i].ID)
-            //    {
-            //        data_.dataDevice_.deviceAddr++;
-            //    }
-            //}
-            data_.dataDevice_.deviceAddr = data_.ID+1;
-            textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
             comboBox1.SelectedIndex = data_.dataDevice_.transform;
             comboBox2.SelectedIndex = data_.dataDevice_.transformport;
             textBox21.ReadOnly = true;
             textBox22.ReadOnly = true;
             textBox29.ReadOnly = true;
             textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-            textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-           
-
+            textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();          
+            
         }
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -723,22 +712,22 @@ namespace LocalPLC.ModbusServer
 
         private void textBox5_TextChanged(object sender, EventArgs e)
         {
-            //data_.dataDevice_.coilIoAddrStart = textBox5.Text;
+            data_.dataDevice_.coilIoAddrStart = textBox5.Text;
         }
 
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
-            //data_.dataDevice_.holdingIoAddrStart = textBox6.Text;
+            data_.dataDevice_.holdingIoAddrStart = textBox6.Text;
         }
 
         private void textBox7_TextChanged(object sender, EventArgs e)
         {
-            //data_.dataDevice_.decreteIoAddrStart = textBox7.Text;
+            data_.dataDevice_.decreteIoAddrStart = textBox7.Text;
         }
 
         private void textBox8_TextChanged(object sender, EventArgs e)
         {
-            //data_.dataDevice_.statusIoAddrStart = textBox8.Text;
+            data_.dataDevice_.statusIoAddrStart = textBox8.Text;
         }
 
         
@@ -754,7 +743,7 @@ namespace LocalPLC.ModbusServer
             }
             else
             {
-                textBox22.BackColor = textBox21.BackColor;
+                textBox22.BackColor = Color.White;
                 data_.dataDevice_.isready = true;
             }
         }
@@ -768,15 +757,12 @@ namespace LocalPLC.ModbusServer
                 radioButton5.Enabled = true;
                 radioButton6.Enabled = true;
                 panel6.Visible = false;
-                textBox30.Enabled = true;
-                textBox30.ReadOnly = false;
                 data_.dataDevice_.transform = 0;
                 if(comboBox2.SelectedIndex == 2)
                 {
                     MessageBox.Show("当前选择通讯方式为串口，不可以选择端口为网口");
                     comboBox2.SelectedIndex = 0;
                 }
-                textBox30_Leave(sender, e);
                 dataManager.Rtunum++;
                 dataManager.TCPnum--;
             }
@@ -787,8 +773,6 @@ namespace LocalPLC.ModbusServer
                 radioButton5.Enabled = false;
                 radioButton6.Enabled = false;
                 panel6.Visible = true;
-                textBox30.Enabled = false;
-                textBox30.ReadOnly = true;
                 data_.dataDevice_.transform = 1;
                 if(comboBox2.SelectedIndex == 0 || comboBox2.SelectedIndex == 1)
                 {
@@ -817,7 +801,21 @@ namespace LocalPLC.ModbusServer
             //}
         }
 
-     
+        private void textBox3_MouseLeave(object sender, EventArgs e)
+        {
+            //if (Convert.ToInt32(textBox3.Text) < 0 || Convert.ToInt32(textBox3.Text) > 8000)
+            //{
+            //    MessageBox.Show("超出范围");
+            //    textBox3.Text = data_.dataDevice_.decreteCount.ToString();
+            //}
+            //else
+            //{
+            //    data_.dataDevice_.IOAddrLength -= data_.dataDevice_.decreteCount / 8 + 1;
+            //    int.TryParse(textBox3.Text, out data_.dataDevice_.decreteCount);
+            //    data_.dataDevice_.IOAddrLength += data_.dataDevice_.decreteCount / 8 + 1;
+            //    textBox22.Text = data_.dataDevice_.IOAddrLength.ToString();
+            //}
+        }
 
         private void textBox3_Validated(object sender, EventArgs e)
         {
@@ -1143,41 +1141,33 @@ namespace LocalPLC.ModbusServer
             bool number = isNumber(textBox1.Text);
             if (number == true)
             {
-                if (Convert.ToInt32(textBox1.Text) < 0 || Convert.ToInt32(textBox1.Text) > 8000)
+                if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
                 {
-                    MessageBox.Show("超出范围");
-                    textBox1.Text = dataManager.listServer[0].dataDevice_.coilCount.ToString();
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                }
+                else if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
+                {
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                }
+                else if (dataManager.listServer[0].dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
+                {
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
                 else
                 {
-                    if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
-                    else
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
             }
             else
@@ -1195,18 +1185,18 @@ namespace LocalPLC.ModbusServer
             bool number = isNumber(textBox2.Text);
             if (number == true)
             {
-                if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
-                {
-                    MessageBox.Show("超出范围");
-                    textBox4.Text = data_.dataDevice_.decreteCount.ToString();
-                }
-                else
-                {
-                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.holdingCount * 2;
-                    int.TryParse(textBox2.Text, out dataManager.listServer[0].dataDevice_.holdingCount);
-                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.holdingCount * 2;
-                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                }
+                //if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
+                //{
+                //    MessageBox.Show("超出范围");
+                //    textBox4.Text = data_.dataDevice_.decreteCount.ToString();
+                //}
+                //else
+                //{
+                dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.holdingCount * 2;
+                int.TryParse(textBox2.Text, out dataManager.listServer[0].dataDevice_.holdingCount);
+                dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.holdingCount * 2;
+                textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                //}
             }
             else
             {
@@ -1229,38 +1219,10 @@ namespace LocalPLC.ModbusServer
                 }
                 else
                 {
-                    //dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                    //int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                    //dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                    //textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    if (dataManager.listServer[0].dataDevice_.decreteCount == 0 && Convert.ToInt32(textBox3.Text) != 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.decreteCount == 0 && Convert.ToInt32(textBox3.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.decreteCount != 0 && Convert.ToInt32(textBox3.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
-                    else
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
+                    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
                 }
             }
             else
@@ -1280,7 +1242,7 @@ namespace LocalPLC.ModbusServer
                 if (Convert.ToInt32(textBox4.Text) < 0 || Convert.ToInt32(textBox4.Text) > 500)
                 {
                     MessageBox.Show("超出范围");
-                    textBox4.Text = dataManager.listServer[0].dataDevice_.statusCount.ToString();
+                    textBox4.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
                 }
                 else
                 {
@@ -1303,168 +1265,6 @@ namespace LocalPLC.ModbusServer
         {
             
             data_.dataDevice_.transformport = comboBox2.SelectedIndex;
-        }
-
-        private void textBox29_TextChanged(object sender, EventArgs e)
-        {
-            if (Convert.ToInt32(textBox29.Text) > 8000)
-            {
-                MessageBox.Show("长度超出范围，请重新设置");
-                textBox29.BackColor = Color.Red;
-                data_.dataDevice_.isready = false;
-            }
-            else
-            {
-                textBox29.BackColor = textBox21.BackColor;
-                data_.dataDevice_.isready = true;
-            }
-        }
-
-        private void textBox30_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox30_Leave(object sender, EventArgs e)
-        {
-            bool number = isNumber(textBox30.Text);
-            if (number == true)
-            {
-                int x = 0;
-                for (int i = 0; i < dataManager.listServer.Count; i++)
-                {
-                    if (dataManager.listServer[i].dataDevice_.deviceAddr.ToString() == textBox30.Text && dataManager.listServer[i].dataDevice_.transform == 0 && dataManager.listServer[i].ID
-                        != data_.ID)
-                    {
-                        x++;
-                    }
-                }
-                if (Convert.ToInt32(textBox30.Text) >= 0 && Convert.ToInt32(textBox30.Text)<= 100 && x == 1)
-                {
-                    
-                    data_.dataDevice_.deviceAddr = Convert.ToInt32(textBox30.Text);
-                    textBox30.BackColor = textBox1.BackColor;
-                }
-                else if(x != 0)
-                {
-                    MessageBox.Show("设备id有重复，请检查");
-                    textBox30.BackColor = Color.Red;
-                    //textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
-                    x = 0;
-                }
-                else
-                {
-                    MessageBox.Show("设备id超出范围");
-                    textBox30.BackColor = Color.Red;
-                    textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
-                    x = 0;
-                }
-               
-            }
-            else if(number == false)
-            {
-                    MessageBox.Show("请输入范围内的数字");
-                    textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
-                    
-            }
-        }
-
-        private void textBox5_Leave(object sender, EventArgs e)
-        {
-            bool number = isNumber(textBox5.Text);
-            if (number == true)
-            {
-                if (Convert.ToInt32(textBox5.Text) >= 1 && Convert.ToInt32(textBox5.Text) <= 9999)
-                {
-                    dataManager.listServer[0].dataDevice_.coilIoAddrStart = textBox5.Text;
-                }
-                else
-                {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
-                    textBox5.Text = dataManager.listServer[0].dataDevice_.coilIoAddrStart;
-                }
-            }
-            else
-            {
-                     MessageBox.Show("请输入范围内的数字");
-                     textBox5.Text = dataManager.listServer[0].dataDevice_.coilIoAddrStart;
-            }
-        }
-
-        private void textBox6_Leave(object sender, EventArgs e)
-        {
-            bool number = isNumber(textBox6.Text);
-            if (number == true)
-            {
-                if (Convert.ToInt32(textBox6.Text) >= 40001 && Convert.ToInt32(textBox6.Text) <= 49999)
-                {
-                    dataManager.listServer[0].dataDevice_.holdingIoAddrStart = textBox6.Text;
-                }
-                else
-                {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
-                    textBox6.Text = dataManager.listServer[0].dataDevice_.holdingIoAddrStart;
-                }
-            }
-            else
-            {
-                MessageBox.Show("请输入范围内的数字");
-                textBox6.Text = dataManager.listServer[0].dataDevice_.holdingIoAddrStart;
-            }
-        }
-
-        private void textBox7_Leave(object sender, EventArgs e)
-        {
-            bool number = isNumber(textBox7.Text);
-            if (number == true)
-            {
-                if (Convert.ToInt32(textBox7.Text) >= 10001 && Convert.ToInt32(textBox7.Text) <= 19999)
-                {
-                    dataManager.listServer[0].dataDevice_.decreteIoAddrStart = textBox7.Text;
-                }
-                else
-                {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
-                    textBox7.Text = dataManager.listServer[0].dataDevice_.decreteIoAddrStart;
-                }
-            }
-            else
-            {
-                MessageBox.Show("请输入范围内的数字");
-                textBox7.Text = dataManager.listServer[0].dataDevice_.decreteIoAddrStart;
-            }
-        }
-
-        private void textBox8_Leave(object sender, EventArgs e)
-        {
-            bool number = isNumber(textBox8.Text);
-            if (number == true)
-            {
-                if (Convert.ToInt32(textBox8.Text) >= 30001 && Convert.ToInt32(textBox8.Text) <= 39999)
-                {
-                    dataManager.listServer[0].dataDevice_.statusIoAddrStart = textBox8.Text;
-                }
-                else
-                {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
-                    textBox8.Text = dataManager.listServer[0].dataDevice_.statusIoAddrStart;
-                }
-            }
-            else
-            {
-                MessageBox.Show("请输入范围内的数字");
-                textBox8.Text = dataManager.listServer[0].dataDevice_.statusIoAddrStart;
-            }
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            textBox1_Leave(sender,e);
-            textBox2_Leave(sender, e);
-            textBox3_Leave(sender, e);
-            textBox4_Leave(sender, e);
-            textBox30_Leave(sender, e);
-
         }
     }
 }

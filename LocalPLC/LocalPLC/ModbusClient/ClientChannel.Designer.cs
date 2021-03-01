@@ -55,7 +55,7 @@
             this.groupchannel.Controls.Add(this.dataGridView2);
             this.groupchannel.Location = new System.Drawing.Point(16, 117);
             this.groupchannel.Name = "groupchannel";
-            this.groupchannel.Size = new System.Drawing.Size(1788, 367);
+            this.groupchannel.Size = new System.Drawing.Size(1350, 366);
             this.groupchannel.TabIndex = 9;
             this.groupchannel.TabStop = false;
             this.groupchannel.Text = "通道";
@@ -63,7 +63,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1713, 289);
+            this.button2.Location = new System.Drawing.Point(1247, 277);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -73,7 +73,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1585, 289);
+            this.button1.Location = new System.Drawing.Point(1127, 277);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -83,7 +83,7 @@
             // 
             // delete
             // 
-            this.delete.Location = new System.Drawing.Point(1713, 49);
+            this.delete.Location = new System.Drawing.Point(1247, 49);
             this.delete.Name = "delete";
             this.delete.Size = new System.Drawing.Size(75, 23);
             this.delete.TabIndex = 2;
@@ -93,7 +93,7 @@
             // 
             // add
             // 
-            this.add.Location = new System.Drawing.Point(1585, 49);
+            this.add.Location = new System.Drawing.Point(1127, 49);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(75, 23);
             this.add.TabIndex = 1;
@@ -110,7 +110,7 @@
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(1785, 150);
+            this.dataGridView2.Size = new System.Drawing.Size(1347, 150);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
@@ -191,7 +191,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1802, 488);
+            this.ClientSize = new System.Drawing.Size(1372, 496);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupchannel);

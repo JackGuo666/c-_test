@@ -320,7 +320,7 @@ namespace LocalPLC.ModbusClient
              }
 
             this.dataGridView2.BeginInvoke(new Action(() => { this.dataGridView2.DataSource = ds.Tables[mc1.channelnumber]; }));
-            dataGridView2.AutoSize = false;
+            dataGridView2.AutoSize = true;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
