@@ -850,8 +850,8 @@ namespace LocalPLC
             }
             string projectPath = multiprogApp.ActiveProject.Path;
             string projectName = multiprogApp.ActiveProject.Name;
-            //string path = projectPath + "\\" + projectName + "\\C\\配置\\R\\资源\\myconfig.json";
-            string path = projectPath + "\\" + projectName + "\\c\\CONFIGURATION_ECLR\\R\\SIMULATION\\myconfig.json";
+            string path = projectPath + "\\" + projectName + "\\C\\配置\\R\\资源\\myconfig.json";
+            //string path = projectPath + "\\" + projectName + "\\c\\CONFIGURATION_ECLR\\R\\SIMULATION\\myconfig.json";
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
@@ -1029,8 +1029,8 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                 utility.addIOGroups();
 
                 //utility.addServerIOGroups();
-                //utility.addVarType();
-                utility.addVarType1();
+                utility.addVarType();
+                //utility.addVarType1();
                 //utility.checkvariables();
                 utility.addVariables();
 
