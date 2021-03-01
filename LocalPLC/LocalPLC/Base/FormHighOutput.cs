@@ -21,9 +21,11 @@ namespace LocalPLC.Base
         Point posPTO;
         LocalPLC.Base.xml.HSPData hspData_ = null;
         int hspType_ = 0;
+
+        int panel1Height = 0;
         Dictionary<int, string> timeBaseDic = new Dictionary<int, string>();
         Dictionary<int, string> outputPluseDic = new Dictionary<int, string>();
-        enum TimeBase { ZEROPOINTFIVE, ONE, TEN, ONETHOUSAND}
+        enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
         enum OutputMode {CW_CCW, PULSE_DIC, AB_DIRECTION}
         public FormHighOutput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSPData hspData)
         {
@@ -35,9 +37,10 @@ namespace LocalPLC.Base
             posFreqency = panel4.Location;
             posPTO = panel5.Location;
 
+            panel1Height = panel1.Height;
 
             timeBaseDic.Clear();
-            timeBaseDic.Add((int)TimeBase.ZEROPOINTFIVE, "0.1毫秒");
+            timeBaseDic.Add((int)TimeBase.ZEROPOINTONE, "0.1毫秒");
             timeBaseDic.Add((int)TimeBase.ONE, "1毫秒");
             timeBaseDic.Add((int)TimeBase.TEN, "10毫秒");
             timeBaseDic.Add((int)TimeBase.ONETHOUSAND, "1秒");
@@ -56,6 +59,7 @@ namespace LocalPLC.Base
             foreach (var elem in typeDescDic)
             {
                 comboBox_outputType.Items.Add(elem.Value);
+                comboBox_outputType_pto.Items.Add(elem.Value);
             }
 
             foreach (var elemTimeBase in timeBaseDic)
@@ -78,6 +82,7 @@ namespace LocalPLC.Base
             foreach(var dOut in UserControlBase.dataManage.doList)
             {
                 comboBox_pulse.Items.Add(dOut.channelName);
+                comboBox_pulse_pto.Items.Add(dOut.channelName);
             }
 
             foreach (var dOut in UserControlBase.dataManage.doList)
@@ -115,6 +120,62 @@ namespace LocalPLC.Base
 
         }
 
+        void deletePtoUserControl()
+        {
+            panel1.Controls.Remove(label6);
+            panel1.Controls.Remove(comboBox_outputMode);
+            panel1.Controls.Remove(label_diretion);
+            panel1.Controls.Remove(comboBox_direction);
+
+            panel1.Height = panel1Height;
+        }
+
+        void setPtoUserControl()
+        {
+            //label6;
+            label6.Parent = panel1;
+
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(75, 74);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(80, 18);
+            label6.TabIndex = 0;
+            label6.Text = "输出模式";
+
+            panel1.Controls.Add(label6);
+            panel1.Height = 74 + label6.Height + 10;
+
+            comboBox_outputMode.Parent = panel1;
+            this.comboBox_outputMode.FormattingEnabled = true;
+            this.comboBox_outputMode.Location = new System.Drawing.Point(170, 71);
+            this.comboBox_outputMode.Name = "comboBox_outputMode";
+            this.comboBox_outputMode.Size = new System.Drawing.Size(133, 26);
+            this.comboBox_outputMode.TabIndex = 3;
+            panel1.Controls.Add(comboBox_outputMode);
+
+            // 
+            // label_diretion
+            // 
+            this.label_diretion.AutoSize = true;
+            this.label_diretion.Location = new System.Drawing.Point(456, 74);
+            this.label_diretion.Name = "label_diretion";
+            this.label_diretion.Size = new System.Drawing.Size(44, 18);
+            this.label_diretion.TabIndex = 4;
+            panel1.Controls.Add(label_diretion);
+
+            // 
+            // comboBox_direction
+            // 
+            this.comboBox_direction.FormattingEnabled = true;
+            this.comboBox_direction.Location = new System.Drawing.Point(506, 69);
+            this.comboBox_direction.Name = "comboBox_direction";
+            this.comboBox_direction.Size = new System.Drawing.Size(85, 26);
+            this.comboBox_direction.TabIndex = 3;
+
+            panel1.Controls.Add(comboBox_direction);
+        }
+
+
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             int currentIndex = this.comboBox_outputType.SelectedIndex;
@@ -123,6 +184,11 @@ namespace LocalPLC.Base
             if (currentIndex == 0)
             {
                 //this.panel2.Controls.Clear();
+                deletePtoUserControl();
+
+                label_pulse.Visible = false;
+                comboBox_pulse.Visible = false;
+
                 this.Controls.Remove(panel2);
                 this.Controls.Remove(panel3);
                 this.Controls.Remove(panel4);
@@ -130,10 +196,14 @@ namespace LocalPLC.Base
             }
             else
             {
+                label_pulse.Visible = true;
+                comboBox_pulse.Visible = true;
 
                 //PLS
                 if (currentIndex == 1)
                 {
+                    deletePtoUserControl();
+
                     this.Controls.Remove(panel2);
                     this.Controls.Remove(panel3);
                     this.Controls.Remove(panel4);
@@ -153,6 +223,8 @@ namespace LocalPLC.Base
                 else if (currentIndex == 2)
                 {
                     //PWM
+                    deletePtoUserControl();
+
                     this.Controls.Remove(panel2);
                     this.Controls.Remove(panel3);
                     this.Controls.Remove(panel4);
@@ -174,6 +246,7 @@ namespace LocalPLC.Base
                 {
 
                     //Frequency
+                    deletePtoUserControl();
                     this.Controls.Remove(panel2);
                     this.Controls.Remove(panel3);
                     this.Controls.Remove(panel4);
@@ -194,8 +267,9 @@ namespace LocalPLC.Base
                     this.Controls.Remove(panel4);
                     this.Controls.Remove(panel5);
 
-                    panel5.Location = posDoubleWord;
-                    this.Controls.Add(panel5);
+                    panel2.Location = posRegular;
+                    setPtoUserControl();
+                    this.Controls.Add(panel2);
                 }
             }
 
@@ -210,7 +284,6 @@ namespace LocalPLC.Base
 
         private void FormHighOutput_FormClosing(object sender, FormClosingEventArgs e)
         {
-
             //e.Cancel = true;
 
             if(comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.NOTUSED)
@@ -299,7 +372,7 @@ namespace LocalPLC.Base
 
 
                 //输出模式
-                hspData_.outputMode = comboBox_direction.SelectedIndex;
+                hspData_.outputMode = comboBox_outputMode.SelectedIndex;
                 hspData_.used = true;
             }
             //if(comboBox_outputType == 0)

@@ -32,33 +32,49 @@ namespace LocalPLC.Base
 
             var s = "0.0.0.0";
             string maskAddress = "0.0.0.0";
-            //IP
-            ipAddressControl_ipaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.ipAddress);
-            //mask
-            ipAddressControl_maskaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.maskAddress);
-            //gateway
-            ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
-            //sntp
-            ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
-
-            //0 dhcp    1固定
-            if(ethernetValueData_.ipMode == 0)
+            try
             {
-                radioButton_dhcp.Checked = true;
-                radioButton_fixed.Checked = false;
-            }
-            else
-            {
-                radioButton_dhcp.Checked = false;
-                radioButton_fixed.Checked = true;
-            }
+                //IP
+                ipAddressControl_ipaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.ipAddress);
+                //mask
+                ipAddressControl_maskaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.maskAddress);
+                //gateway
+                ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
+                //sntp
+                ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
 
-            checkBox_SNTP.Checked = false;
-            textBox_eth.Text = etherName;
+                //1 dhcp    0固定
+                if (ethernetValueData_.ipMode == 1)
+                {
+                    radioButton_dhcp.Checked = true;
+                    radioButton_fixed.Checked = false;
+                }
+                else
+                {
+                    radioButton_dhcp.Checked = false;
+                    radioButton_fixed.Checked = true;
+                }
+
+                if(ethernetValueData_.checkSNTP == 0)
+                {
+                    checkBox_SNTP.Checked = false;
+                }
+                else
+                {
+                    checkBox_SNTP.Checked = true;
+                }
+
+                textBox_eth.Text = etherName;
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(string.Format("{1}模块{0}", e.Message, etherName));
+            }
+            
         }
 
         enum EthernetMode { FIXED, DHCP };
-        public void getDataFromUI()
+        public bool getDataFromUI()
         {
             System.Net.IPAddress ip;
             ethernetValueData_.name = textBox_eth.Text.ToString();
@@ -80,24 +96,29 @@ namespace LocalPLC.Base
             {
                 string str = string.Format("{0} IPAddress 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
+                return false;
             }
 
             if (!System.Net.IPAddress.TryParse(ethernetValueData_.maskAddress, out ip))
             {
                 string str = string.Format("{0} IP Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
+                return false;
             }
 
             if (!System.Net.IPAddress.TryParse(ethernetValueData_.maskAddress, out ip))
             {
                 string str = string.Format("{0} Mask Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
+                return false;
             }
 
             if (!System.Net.IPAddress.TryParse(ethernetValueData_.gatewayAddress, out ip))
             {
                 string str = string.Format("{0} Gateway Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
+
+                return false;
             }
 
             if(checkBox_SNTP.Checked)
@@ -114,8 +135,11 @@ namespace LocalPLC.Base
             {
                 string str = string.Format("{0} sntp Address 无效!", ethernetValueData_.name);
                 utility.PrintError(str);
+
+                return false;
             }
 
+            return true;
         }
 
 

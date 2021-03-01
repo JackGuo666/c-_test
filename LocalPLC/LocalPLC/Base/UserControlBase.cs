@@ -212,6 +212,9 @@ namespace LocalPLC.Base
                 bool.TryParse(e.GetAttribute("used"), out hscData.used);
                 hscData.address = e.GetAttribute("address");
                 int.TryParse(e.GetAttribute("type"), out hscData.type);
+                //输入模式
+                int.TryParse(e.GetAttribute("inputmode"), out hscData.inputMode);
+
                 bool.TryParse(e.GetAttribute("doubleword"), out hscData.doubleWord);
                 int.TryParse(e.GetAttribute("preset"), out hscData.preset);
                 int.TryParse(e.GetAttribute("thresholds0"), out hscData.thresholdS0);
@@ -321,7 +324,11 @@ namespace LocalPLC.Base
             elem.AppendChild(elemEthnet);
             foreach (var etherUI in ethDic)
             {
-                etherUI.Value.getDataFromUI();
+                bool ret = etherUI.Value.getDataFromUI();
+                if(!ret)
+                {
+                    break;
+                }
                 if (dataManage.ethernetDic.ContainsKey(etherUI.Key))
                 {
                     dataManage.ethernetDic[etherUI.Key] = etherUI.Value.ethernetValueData_;
@@ -350,6 +357,8 @@ namespace LocalPLC.Base
                 hscChild.SetAttribute("name", hsc.name);
                 hscChild.SetAttribute("address", hsc.address);
                 hscChild.SetAttribute("type", hsc.type.ToString());
+                //输入模式
+                hscChild.SetAttribute("inputmode", hsc.inputMode.ToString());
 
                 //双字
                 hscChild.SetAttribute("doubleword", hsc.doubleWord.ToString());
@@ -737,8 +746,17 @@ namespace LocalPLC.Base
 
             topNode.Text = localPLCType;
 
+
+
             string tmp = string.Format("LocalPLC.Base.{0}", localPLCType);
             Type type = Type.GetType(/*"LocalPLC.Base.PlcType"*/ tmp);
+
+
+            if(type == null)
+            {
+                return;
+            }
+
             //object obj = type.Assembly.CreateInstance(type);
             UserControl user1 = (UserControl)Activator.CreateInstance(type, splitContainer2, this, dataManage);
 

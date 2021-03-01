@@ -41,6 +41,7 @@
             this.radioButton_1s = new System.Windows.Forms.RadioButton();
             this.radioButton_100ms = new System.Windows.Forms.RadioButton();
             this.label13 = new System.Windows.Forms.Label();
+            this.checkBox_frequencyDoubleWord = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox_pulseInputPort = new System.Windows.Forms.TextBox();
             this.textBox_dirInputPort = new System.Windows.Forms.TextBox();
@@ -72,7 +73,6 @@
             this.checkBox_doubleWord = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox_inputmode = new System.Windows.Forms.ComboBox();
-            this.checkBox_frequencyDoubleWord = new System.Windows.Forms.CheckBox();
             this.panel2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -163,7 +163,7 @@
             // checkBox_frequencyPulse
             // 
             this.checkBox_frequencyPulse.AutoSize = true;
-            this.checkBox_frequencyPulse.Location = new System.Drawing.Point(209, 172);
+            this.checkBox_frequencyPulse.Location = new System.Drawing.Point(209, 168);
             this.checkBox_frequencyPulse.Name = "checkBox_frequencyPulse";
             this.checkBox_frequencyPulse.Size = new System.Drawing.Size(70, 22);
             this.checkBox_frequencyPulse.TabIndex = 6;
@@ -209,6 +209,16 @@
             this.label13.Size = new System.Drawing.Size(80, 18);
             this.label13.TabIndex = 0;
             this.label13.Text = "时间窗口";
+            // 
+            // checkBox_frequencyDoubleWord
+            // 
+            this.checkBox_frequencyDoubleWord.AutoSize = true;
+            this.checkBox_frequencyDoubleWord.Location = new System.Drawing.Point(31, 27);
+            this.checkBox_frequencyDoubleWord.Name = "checkBox_frequencyDoubleWord";
+            this.checkBox_frequencyDoubleWord.Size = new System.Drawing.Size(70, 22);
+            this.checkBox_frequencyDoubleWord.TabIndex = 0;
+            this.checkBox_frequencyDoubleWord.Text = "双字";
+            this.checkBox_frequencyDoubleWord.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -510,16 +520,6 @@
             this.comboBox_inputmode.Size = new System.Drawing.Size(141, 26);
             this.comboBox_inputmode.TabIndex = 2;
             this.comboBox_inputmode.SelectedIndexChanged += new System.EventHandler(this.comboBox_inputmode_SelectedIndexChanged);
-            // 
-            // checkBox_frequencyDoubleWord
-            // 
-            this.checkBox_frequencyDoubleWord.AutoSize = true;
-            this.checkBox_frequencyDoubleWord.Location = new System.Drawing.Point(31, 27);
-            this.checkBox_frequencyDoubleWord.Name = "checkBox_frequencyDoubleWord";
-            this.checkBox_frequencyDoubleWord.Size = new System.Drawing.Size(70, 22);
-            this.checkBox_frequencyDoubleWord.TabIndex = 0;
-            this.checkBox_frequencyDoubleWord.Text = "双字";
-            this.checkBox_frequencyDoubleWord.UseVisualStyleBackColor = true;
             // 
             // FormHighInput
             // 

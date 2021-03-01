@@ -858,8 +858,10 @@ namespace LocalPLC
             }
             string projectPath = multiprogApp.ActiveProject.Path;
             string projectName = multiprogApp.ActiveProject.Name;
+
             string path = projectPath + "\\" + projectName + "\\C\\配置\\R\\资源\\my_config.json";
             //string path = projectPath + "\\" + projectName + "\\c\\CONFIGURATION_ECLR\\R\\SIMULATION\\my_config.json";
+
             StringWriter sw = new StringWriter();
             JsonTextWriter writer = new JsonTextWriter(sw);//字符串转换为json
 
