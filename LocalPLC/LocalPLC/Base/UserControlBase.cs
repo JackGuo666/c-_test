@@ -35,6 +35,16 @@ namespace LocalPLC.Base
 
         }
 
+        public void getDataManager(ref DataManageBase retDataManageBase)
+        {
+            retDataManageBase = dataManage;
+        }
+
+       public DataManageBase getReDataManager()
+        {
+            return dataManage;
+        }
+
         public bool checkVarName(String varName)
         {
             var diList = dataManage.diList;
@@ -431,6 +441,8 @@ namespace LocalPLC.Base
 
                 elemHSP.AppendChild(hspChild);
             }
+            LocalPLC.UserControl1 US1 = new UserControl1();
+            US1.getbasedata(ref dataManage);
         }
 
         public void getTreeView(TreeView view)

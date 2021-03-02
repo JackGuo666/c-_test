@@ -13,28 +13,28 @@ namespace LocalPLC.ModbusServer
         }
 
         public int coilCount;
-        public string coilIoAddrStart = "10001";
+        public string coilIoAddrStart = "1";
         public string coilIoAddrEnd;
         public string coilIoVarNameIn;
         public string coilIoVarNameOut;
         public int iocoilstart;
 
         public int holdingCount;
-        public string holdingIoAddrStart = "20001";
+        public string holdingIoAddrStart = "40001";
         public string holdingIoAddrEnd;
         public string holdingVarNameIn;
         public string holdingVarNameOut;
         public int mholdingstart;
 
         public int decreteCount;
-        public string decreteIoAddrStart = "30001";
+        public string decreteIoAddrStart = "10001";
         public string decreteIoAddrEnd;
         public string decreteVarNameIn;
         public string decreteVarNameOut;
         public string mdiscretestart;
 
         public int statusCount;
-        public string statusIoAddrStart = "40001";
+        public string statusIoAddrStart = "30001";
         public string statusIoAddrEnd;
         public string statusVarNameIn;
         public string statusVarNameOut;
@@ -45,7 +45,7 @@ namespace LocalPLC.ModbusServer
         public int shmrange = 0;
         public int shmlength;
         public int transformMode;  //0 TCP 1 UDP
-        public int deviceAddr;
+        public int deviceAddr = 0;
         public int transform;
         public int transformport;
         public bool ipfixed = false;
@@ -55,7 +55,7 @@ namespace LocalPLC.ModbusServer
         public int maxconnectnumber = 1;
         public int ipconnect; //0 false 1true
         public bool isready = true; // 冲突检测，是否可以生成配置文件
-        public int ip0, ip1, ip2, ip3;
+        public int ip0, ip1 , ip2 , ip3;
         public int ip10, ip11, ip12, ip13;
         public int ip20, ip21, ip22, ip23;
         public int ip30, ip31, ip32, ip33;
