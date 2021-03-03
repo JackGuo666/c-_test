@@ -382,7 +382,7 @@ namespace LocalPLC.ModbusClient
             for (int i = 0; i < clientManage.modbusClientList.Count; i++)
             {
                 clientManage.modbusClientList[i].ID = i;
-                clientManage.modbusClientList[i].clientstartaddr = 1000 + 1000 * i;
+                clientManage.modbusClientList[i].clientstartaddr = 10000 + 1000 * i;
             }
         }
         private void button2_Click(object sender, EventArgs e)

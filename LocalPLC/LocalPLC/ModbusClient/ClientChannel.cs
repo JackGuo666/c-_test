@@ -504,14 +504,17 @@ namespace LocalPLC.ModbusClient
             //int n = Convert.ToInt32(dataGridView2.SelectedRows[0].Index);
             int n = selectrow;
             //this.dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
-            if (n<0)
+            if (n < 0)
             {
                 return;
             }
-            ds.Tables[Convert.ToInt32( this.label3.Text)].Rows[n].Delete();
-            //data_.modbusChannelList.RemoveAt(n);
-            data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(n);
-            refresh();
+            else if (n >= 0)
+            {
+                ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[n].Delete();
+                //data_.modbusChannelList.RemoveAt(n);
+                data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(n);
+                refresh();
+            }
             //if (n>0)
             //{
                  

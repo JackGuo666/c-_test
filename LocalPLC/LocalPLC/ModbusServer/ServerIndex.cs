@@ -287,7 +287,7 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.decreteCount);
                     writer.WritePropertyName("mb_start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart)-10001);
                     writer.WriteEndObject();
                     //线圈
                     writer.WritePropertyName("coils");
@@ -299,7 +299,7 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.coilCount);
                     writer.WritePropertyName("mb_start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.coilIoAddrStart));
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.coilIoAddrStart)-1);
                     writer.WriteEndObject();
                     //状态
                     writer.WritePropertyName("regs");
@@ -314,7 +314,7 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.statusCount);
                     writer.WritePropertyName("mb_start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart)-30001);
                     writer.WriteEndObject();
                     //保持
                     writer.WritePropertyName("holding");
@@ -329,7 +329,7 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.holdingCount);
                     writer.WritePropertyName("mb_start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart)-40001);
                     writer.WriteEndObject();//}
                     //串口
                     int rtunumber = 0;

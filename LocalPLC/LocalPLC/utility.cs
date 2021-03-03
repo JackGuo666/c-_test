@@ -110,7 +110,7 @@ namespace LocalPLC
         public static int masterDeviceCountMax = 16;
         public static int masterDeviceChannleCountMax = 16;
         //modbus总起始地址
-        public static int modbusAddr = 1000;
+        public static int modbusAddr = 10000;
         //每个单位间隔1000字节
         public static int modbusMudule= 1000;
         public static void PrintError(string str)
