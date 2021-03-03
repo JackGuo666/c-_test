@@ -383,7 +383,7 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
         {
-
+            //Cancel = true;
         }
 
         void IAdeProjectObserver.AfterProjectClose(string Name)
@@ -1118,7 +1118,6 @@ namespace LocalPLC
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
-            
             if (!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;
@@ -1553,10 +1552,44 @@ namespace LocalPLC
 
         }
 
+        void createNode(ref TreeNode retNode, string name, string tag, TreeNode parent, int index)
+        {
+            TreeNode basePara = new TreeNode(name, index, index);
+            basePara.Tag = tag;
+            retNode = basePara;
+            parent.Nodes.Add(basePara);
+        }
+
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Tag.ToString() == "ADDAXIS")
             {
+                //添加轴对象
+                //基本参数 运动参数
+                var motion = e.Node.Parent;
+                TreeNode axis = null;
+                createNode(ref axis, "轴1", "MOTION_AXIS", motion, 3);
+                TreeNode basePara = null;
+                TreeNode motionMotionPara = null;
+                createNode(ref basePara, "基本参数", "MOTION_BASE_PARA", axis, 4);
+                createNode(ref motionMotionPara, "运动参数", "MOTION_MOTION_PARA", axis, 5);
+                
+                TreeNode motionPulseEquivalent = null;
+                TreeNode motionLimitSignal = null;
+                TreeNode motionDynamicParameter = null;
+                TreeNode motionBackOrigin = null;
+                TreeNode motionReverseCompensation = null;
+                createNode(ref motionPulseEquivalent, "脉冲当量", "MOTION_PULSE_EQUIVALENT", motionMotionPara, 6);
+                createNode(ref motionLimitSignal, "限位信号", "MOTION_LIMIT_SIGNAL", motionMotionPara, 7);
+                createNode(ref motionDynamicParameter, "限位信号", "MOTION_DYNAMIC_PARA", motionMotionPara, 8);
+                createNode(ref motionBackOrigin, "回原点", "MOTION_BACK_ORIGIN", motionMotionPara, 9);
+                createNode(ref motionReverseCompensation, "反向间隙补偿", "MOTION_REVERSE_COMPENSATION", motionMotionPara, 9);
+            }
+            else if(e.Node.Tag.ToString() == "ADDCOMMANDTABLE")
+            {
+                var motion = e.Node.Parent;
+                TreeNode command  = null;
+                createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motion, 3);
 
             }
         }
