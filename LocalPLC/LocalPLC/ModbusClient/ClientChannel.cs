@@ -424,7 +424,7 @@ namespace LocalPLC.ModbusClient
             if (data.msgType ==1 || data.msgType == 2 || data.msgType == 5 || data.msgType == 15)
             {
                 type = 0;
-                data.Channellength = 3 + data.Length+ 1;
+                data.Channellength = 3 + data.Length;
             }
             else //if(data.msgType == 3 || data.msgType == 4 || data.msgType == 6 || data.msgType == 16)
             {
@@ -750,7 +750,7 @@ namespace LocalPLC.ModbusClient
                     type = 0;
                     int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
-                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length / 8 + 1;
+                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 0;
                 }
                 else if(msg == 3 || msg == 4 || msg == 6 || msg == 16)

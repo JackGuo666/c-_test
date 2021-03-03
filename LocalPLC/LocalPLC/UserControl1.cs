@@ -632,23 +632,23 @@ namespace LocalPLC
         public void defaultjson(JsonTextWriter writer)//基础配置
         {
            
-            string[] serialnames = null;
-            string[] ethnames = null;
+            List<string> serialnames = new List<string> ();
+            List<string> ethnames = new List<string> ();
             int a = 0;
             LocalPLC.Base.xml.DataManageBase baseData = null;
             UC.getDataManager(ref baseData);
-            //foreach(string serialname in baseData.serialDic.Keys)
-            //{
-            //    serialnames[a] = serialname;
-            //    //a = a + 1;
-            //}
-            //a = 0;
-            //foreach (string ethname in baseData.ethernetDic.Keys)
-            //{
-            //    ethnames[a] = ethname;
-            //    a++;
-            //}
-            //int a = baseData.serialDic[0].baud;
+            foreach (string serialname in baseData.serialDic.Keys)
+            {
+                serialnames.Add(serialname);
+                
+            }
+            
+            foreach (string ethname in baseData.ethernetDic.Keys)
+            {
+                ethnames.Add(ethname);
+                
+            }
+            
 
             writer.WritePropertyName("general");
             writer.WriteStartObject(); //{ general 节点
