@@ -245,7 +245,7 @@ namespace LocalPLC.ModbusMaster
             data.nameChannel = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
             data.msgType = 0x01;
             //0x01 单bit 默认生成
-            data.curChannelLength = 1 + 2;
+            data.curChannelLength = 1 + 3;
             data.trig_mode = 0;
             data.pollingTime = 1000;
             data.readOffset = 0;
@@ -367,7 +367,18 @@ namespace LocalPLC.ModbusMaster
                 {
                     channel.setChannelLengthWord(channel.readLength);
                 }
-
+                if (deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType == 4 || deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType == 5)
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["长度"].ReadOnly = true;
+                    dataGridView1.Rows[e.RowIndex].Cells["长度"].Style.BackColor = Color.Gainsboro;
+                    channel.readLength = 1;
+                    dataGridView1.Rows[e.RowIndex].Cells["长度"].Value = "1";
+                }
+                else
+                {
+                    dataGridView1.Rows[e.RowIndex].Cells["长度"].ReadOnly = false;
+                    dataGridView1.Rows[e.RowIndex].Cells["长度"].Style.BackColor = Color.White;
+                }
                 if(!checkMasterLenthValid())
                 {
                     //还原回上一次数值

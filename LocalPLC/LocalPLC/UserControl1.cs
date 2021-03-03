@@ -578,17 +578,17 @@ namespace LocalPLC
             int a = 0;
             LocalPLC.Base.xml.DataManageBase baseData = null;
             UC.getDataManager(ref baseData);
-            foreach(string serialname in baseData.serialDic.Keys)
-            {
-                serialnames[a] = serialname;
-                a++;
-            }
-            a = 0;
-            foreach (string ethname in baseData.ethernetDic.Keys)
-            {
-                ethnames[a] = ethname;
-                a++;
-            }
+            //foreach(string serialname in baseData.serialDic.Keys)
+            //{
+            //    serialnames[a] = serialname;
+            //    //a = a + 1;
+            //}
+            //a = 0;
+            //foreach (string ethname in baseData.ethernetDic.Keys)
+            //{
+            //    ethnames[a] = ethname;
+            //    a++;
+            //}
             //int a = baseData.serialDic[0].baud;
 
             writer.WritePropertyName("general");
@@ -612,34 +612,34 @@ namespace LocalPLC
             writer.WritePropertyName("namestr");
             writer.WriteValue("ser_port0");
             writer.WritePropertyName("baudrate");
-            writer.WriteValue(baseData.serialDic[serialnames[0]].baud);
+            writer.WriteValue(baseData.serialDic["Serial_Line_1"].baud);
             writer.WritePropertyName("parity");
             writer.WriteValue("none");
             writer.WritePropertyName("data_bits");
-            writer.WriteValue(baseData.serialDic[serialnames[0]].dataBit);
+            writer.WriteValue(baseData.serialDic["Serial_Line_1"].dataBit);
             writer.WritePropertyName("stop_bits");
-            writer.WriteValue(baseData.serialDic[serialnames[0]].stopBit);
+            writer.WriteValue(baseData.serialDic["Serial_Line_1"].stopBit);
             writer.WritePropertyName("medium");
-            if (baseData.serialDic[serialnames[0]].rsMode == 0)
+            if (baseData.serialDic["Serial_Line_1"].rsMode == 0)
             { writer.WriteValue("rs232"); }
-            else if (baseData.serialDic[serialnames[0]].rsMode == 1)
+            else if (baseData.serialDic["Serial_Line_1"].rsMode == 1)
             { writer.WriteValue("rs485"); }
             writer.WriteEndObject(); //} portcfg 数组下节点1
             writer.WriteStartObject(); //{ portcfg 数组下节点2
             writer.WritePropertyName("namestr");
             writer.WriteValue("ser_port1");
             writer.WritePropertyName("baudrate");
-            writer.WriteValue(baseData.serialDic[serialnames[1]].baud);
+            writer.WriteValue(baseData.serialDic["Serial_Line_2"].baud);
             writer.WritePropertyName("parity");
             writer.WriteValue("none");
             writer.WritePropertyName("data_bits");
-            writer.WriteValue(baseData.serialDic[serialnames[1]].dataBit);
+            writer.WriteValue(baseData.serialDic["Serial_Line_2"].dataBit);
             writer.WritePropertyName("stop_bits");
-            writer.WriteValue(baseData.serialDic[serialnames[1]].stopBit);
+            writer.WriteValue(baseData.serialDic["Serial_Line_2"].stopBit);
             writer.WritePropertyName("medium");
-            if (baseData.serialDic[serialnames[1]].rsMode == 0)
+            if (baseData.serialDic["Serial_Line_2"].rsMode == 0)
             { writer.WriteValue("rs232"); }
-            else if (baseData.serialDic[serialnames[1]].rsMode == 1)
+            else if (baseData.serialDic["Serial_Line_2"].rsMode == 1)
             { writer.WriteValue("rs485"); }
             writer.WriteEndObject(); //} portcfg 数组下节点2
             writer.WriteEndArray(); //] portcfg 数组
@@ -657,24 +657,24 @@ namespace LocalPLC
             writer.WritePropertyName("mac");
             writer.WriteValue("aa-aa-aa-aa-aa-aa");
             writer.WritePropertyName("is_dhcp");
-            if (baseData.ethernetDic[ethnames[0]].ipMode == 0)
+            if (baseData.ethernetDic["Ethernet_1"].ipMode == 0)
             { writer.WriteValue(false); }
-            else if(baseData.ethernetDic[ethnames[0]].ipMode == 1)
+            else if(baseData.ethernetDic["Ethernet_1"].ipMode == 1)
             { writer.WriteValue(true); }
             writer.WritePropertyName("ip");
-            writer.WriteValue(baseData.ethernetDic[ethnames[0]].ipAddress);
+            writer.WriteValue(baseData.ethernetDic["Ethernet_1"].ipAddress);
             writer.WritePropertyName("netmask");
-            writer.WriteValue(baseData.ethernetDic[ethnames[0]].maskAddress);
+            writer.WriteValue(baseData.ethernetDic["Ethernet_1"].maskAddress);
             writer.WritePropertyName("gateway");
-            writer.WriteValue(baseData.ethernetDic[ethnames[0]].gatewayAddress);
+            writer.WriteValue(baseData.ethernetDic["Ethernet_1"].gatewayAddress);
             writer.WritePropertyName("dns");
             writer.WriteValue("192.168.1.200");
             writer.WritePropertyName("sntp_server_ip");
-            writer.WriteValue(baseData.ethernetDic[ethnames[0]].sntpServerIp);
+            writer.WriteValue(baseData.ethernetDic["Ethernet_1"].sntpServerIp);
             writer.WritePropertyName("sntp_en");
-            if (baseData.ethernetDic[ethnames[0]].checkSNTP == 0)
+            if (baseData.ethernetDic["Ethernet_1"].checkSNTP == 0)
             { writer.WriteValue(false); }
-            else if (baseData.ethernetDic[ethnames[0]].checkSNTP == 1)
+            else if (baseData.ethernetDic["Ethernet_1"].checkSNTP == 1)
             { writer.WriteValue(true); }
             
             writer.WriteEndObject(); //} 网口portcfg 数组下节点1
@@ -1139,10 +1139,14 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                     {
                                         if (modbusaddr == coilstart + i)
                                         {
-                                            int a = i / 8;
-                                            int b = i % 8;
-                                            variable.IecAddress ="%MX3." +(coilIOstart+a).ToString()+"."+b.ToString();
-                                            variable.DataType = "BOOL";
+                                            //int a = i / 8;
+                                            //int b = i % 8;
+                                            //variable.IecAddress ="%MX3." +(coilIOstart+a).ToString()+"."+b.ToString();
+                                            //variable.DataType = "BOOL";
+                                            int a = i;
+                                            int b = 0;
+                                            variable.IecAddress = "%MX3." + (coilIOstart + a).ToString() + "." + b.ToString();
+                                            //variable.DataType = "BOOL";
                                         }
                                     }
                                     for (int j = 0;j < holdinglength;j++)
@@ -1151,17 +1155,21 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         {
 
                                             variable.IecAddress = "%MW3." + (holdingIOstart + j*2).ToString();
-                                            variable.DataType = "WORD";
+                                            //variable.DataType = "WORD";
                                         }
                                     }
                                     for (int k = 0; k < decretelength; k++)
                                     {
                                         if (modbusaddr == decretestart + k)
                                         {
-                                            int c = k / 8;
-                                            int d = k % 8;
-                                            variable.IecAddress = "%QX" + (decreteIOstart + c).ToString()+"."+d.ToString();
-                                            variable.DataType = "BOOL";
+                                            //int c = k / 8;
+                                            //int d = k % 8;
+                                            //variable.IecAddress = "%QX" + (decreteIOstart + c).ToString()+"."+d.ToString();
+                                            //variable.DataType = "BOOL";
+                                            int c = k;
+                                            int d = 0;
+                                            variable.IecAddress = "%QX" + (decreteIOstart + c).ToString() + "." + d.ToString();
+                                           // variable.DataType = "BOOL";
                                         }
                                     }
                                     for (int l = 0; l < statuslength; l++)
@@ -1170,7 +1178,7 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
                                         {
 
                                             variable.IecAddress = "%QW" + (statusIOstart + l*2).ToString();
-                                            variable.DataType = "WORD";
+                                            //variable.DataType = "WORD";
                                         }
                                     }
                                 }

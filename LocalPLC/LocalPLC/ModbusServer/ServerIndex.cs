@@ -286,6 +286,8 @@ namespace LocalPLC.ModbusServer
                     writer.WriteValue(0);
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.decreteCount);
+                    writer.WritePropertyName("mb_start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
                     writer.WriteEndObject();
                     //线圈
                     writer.WritePropertyName("coils");
@@ -296,6 +298,8 @@ namespace LocalPLC.ModbusServer
                     writer.WriteValue(0);
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.coilCount);
+                    writer.WritePropertyName("mb_start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.coilIoAddrStart));
                     writer.WriteEndObject();
                     //状态
                     writer.WritePropertyName("regs");
@@ -309,6 +313,8 @@ namespace LocalPLC.ModbusServer
                     { writer.WriteValue(0); }
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.statusCount);
+                    writer.WritePropertyName("mb_start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
                     writer.WriteEndObject();
                     //保持
                     writer.WritePropertyName("holding");
@@ -322,6 +328,8 @@ namespace LocalPLC.ModbusServer
                     { writer.WriteValue(0); }
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.holdingCount);
+                    writer.WritePropertyName("mb_start");
+                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
                     writer.WriteEndObject();//}
                     //串口
                     int rtunumber = 0;

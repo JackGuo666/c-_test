@@ -790,7 +790,7 @@
             this.label28.AutoSize = true;
             this.label28.Location = new System.Drawing.Point(526, 52);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(134, 27);
+            this.label28.Size = new System.Drawing.Size(89, 18);
             this.label28.TabIndex = 22;
             this.label28.Text = "（1-100）";
             // 

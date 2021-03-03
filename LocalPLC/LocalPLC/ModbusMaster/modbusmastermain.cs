@@ -783,11 +783,11 @@ namespace LocalPLC.ModbusMaster
 
         public void setChannelLengthBit(int length)
         {
-            curChannelLength = length / 8;
-            if(length % 8 != 0)
-            {
-                curChannelLength++;
-            }
+            curChannelLength = length;
+            //if(length % 8 != 0)
+            //{
+            //    curChannelLength++;
+            //}
 
             curChannelLength = curChannelLength + 3;
         }

@@ -1150,39 +1150,43 @@ namespace LocalPLC.ModbusServer
                 }
                 else
                 {
-                    if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
-                    else
-                    {
-                        dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
-                        dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
-                        textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-                    }
+                    //if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) != 0)
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    //    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    //    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    //    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                    //}
+                    //else if (dataManager.listServer[0].dataDevice_.coilCount == 0 && Convert.ToInt32(textBox1.Text) == 0)
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    //    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    //    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    //    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                    //}
+                    //else if (dataManager.listServer[0].dataDevice_.coilCount != 0 && Convert.ToInt32(textBox1.Text) == 0)
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    //    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    //    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8;
+                    //    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                    //}
+                    //else
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    //    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    //    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount / 8 + 1;
+                    //    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
+                    //}
+                    dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount;
+                    int.TryParse(textBox1.Text, out dataManager.listServer[0].dataDevice_.coilCount);
+                    dataManager.listServer[0].dataDevice_.shmlength += dataManager.listServer[0].dataDevice_.coilCount;
+                    textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
                 }
             }
             else
             {
-                dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount / 8;
+                dataManager.listServer[0].dataDevice_.shmlength -= dataManager.listServer[0].dataDevice_.coilCount;
                 dataManager.listServer[0].dataDevice_.coilCount = 0;
                 textBox1.Text = dataManager.listServer[0].dataDevice_.coilCount.ToString();
                 //data_.dataDevice_.mholdingstart = data_.dataDevice_.shmrange + data_.dataDevice_.coilCount / 8;
@@ -1233,39 +1237,43 @@ namespace LocalPLC.ModbusServer
                     //int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
                     //dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
                     //textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    if (dataManager.listServer[0].dataDevice_.decreteCount == 0 && Convert.ToInt32(textBox3.Text) != 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.decreteCount == 0 && Convert.ToInt32(textBox3.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
-                    else if (dataManager.listServer[0].dataDevice_.decreteCount != 0 && Convert.ToInt32(textBox3.Text) == 0)
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
-                    else
-                    {
-                        dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
-                        dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
-                        textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
-                    }
+                    //if (dataManager.listServer[0].dataDevice_.decreteCount == 0 && Convert.ToInt32(textBox3.Text) != 0)
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
+                    //    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    //    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+                    //}
+                    //else if (dataManager.listServer[0].dataDevice_.decreteCount == 0 && Convert.ToInt32(textBox3.Text) == 0)
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
+                    //    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8;
+                    //    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+                    //}
+                    //else if (dataManager.listServer[0].dataDevice_.decreteCount != 0 && Convert.ToInt32(textBox3.Text) == 0)
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    //    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8;
+                    //    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+                    //}
+                    //else
+                    //{
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    //    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    //    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount / 8 + 1;
+                    //    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
+                    //}
+                    dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount;
+                    int.TryParse(textBox3.Text, out dataManager.listServer[0].dataDevice_.decreteCount);
+                    dataManager.listServer[0].dataDevice_.IOAddrLength += dataManager.listServer[0].dataDevice_.decreteCount;
+                    textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
                 }
             }
             else
             {
-                dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount / 8;
+                dataManager.listServer[0].dataDevice_.IOAddrLength -= dataManager.listServer[0].dataDevice_.decreteCount;
                 dataManager.listServer[0].dataDevice_.decreteCount = 0;
                 textBox3.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
                 return;
@@ -1339,7 +1347,7 @@ namespace LocalPLC.ModbusServer
                         x++;
                     }
                 }
-                if (Convert.ToInt32(textBox30.Text) >= 0 && Convert.ToInt32(textBox30.Text)<= 100 && x == 1)
+                if (Convert.ToInt32(textBox30.Text) >= 0 && Convert.ToInt32(textBox30.Text)<= 100 && x == 0)
                 {
                     
                     data_.dataDevice_.deviceAddr = Convert.ToInt32(textBox30.Text);
@@ -1355,7 +1363,7 @@ namespace LocalPLC.ModbusServer
                 else if (Convert.ToInt32(textBox30.Text) >= 0 && Convert.ToInt32(textBox30.Text) > 100)
                 {
                     MessageBox.Show("设备id超出范围");
-                    textBox30.BackColor = Color.Red;
+                    //textBox30.BackColor = Color.Red;
                     textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
                     x = 0;
                 }

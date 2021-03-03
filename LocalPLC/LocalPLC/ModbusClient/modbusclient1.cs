@@ -74,10 +74,11 @@ namespace LocalPLC.ModbusClient
             return cn;
         }
         DataGridViewButtonColumn mcg = new DataGridViewButtonColumn();
+        public int channelNo;
         public int channelnumber
         {
             
-            get { return this.dataGridView1.SelectedRows[0].Index; }
+            get { return channelNo; }
         }
         
         private void modbusclient1_Load(object sender, EventArgs e)
@@ -138,7 +139,7 @@ namespace LocalPLC.ModbusClient
             }
             dataGridView1.AutoSize = true;
             dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            //this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
             this.comboBox1.Items.Add("网口1");
@@ -322,9 +323,10 @@ namespace LocalPLC.ModbusClient
                 }
             }
         }
+        private int selectrow = -1;
         private void button2_Click(object sender, EventArgs e)
         {
-            int n = Convert.ToInt32(dataGridView1.SelectedRows[0].Index);
+            int n = selectrow;
             if (n < 0)
             {
                 return;
@@ -378,6 +380,7 @@ namespace LocalPLC.ModbusClient
                 CCl.getModbusClientData(ref datac);
                 CCl.ClientNumber(cn);
                 CCl.StartPosition = FormStartPosition.CenterScreen;
+                channelNo = e.RowIndex;
                 CCl.ShowDialog(this);
             }
         }
@@ -386,7 +389,7 @@ namespace LocalPLC.ModbusClient
             //DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
             //CCl.getDeviceData(ref data);
             //CCl.ShowDialog(this);
-
+            selectrow = e.RowIndex;
         }
         private void dataGridView1_CellEndEdit_1(object sender, DataGridViewCellEventArgs e)
         {

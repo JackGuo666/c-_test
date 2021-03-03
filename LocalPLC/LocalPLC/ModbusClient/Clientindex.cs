@@ -250,8 +250,8 @@ namespace LocalPLC.ModbusClient
                     writer.WriteStartObject();//{  client节点下device
                     writer.WritePropertyName("port");
                     writer.WriteValue("ethif_" + data.ID.ToString());
-                    writer.WritePropertyName("response_timeout");
-                    writer.WriteValue(data.responseTimeout);
+                    //writer.WritePropertyName("response_timeout");
+                    //writer.WriteValue(data.responseTimeout);
                     string mode = null;
                     if (data.transformMode == 0)
                     {
@@ -281,10 +281,11 @@ namespace LocalPLC.ModbusClient
 
                         writer.WriteStartObject();//{  conf数组下节点，从设备信息
                         writer.WritePropertyName("slave_ip");
-                        writer.WriteValue(dataDev.serverAddr);
+                        writer.WriteValue(dataDev.ipaddr);
                         writer.WritePropertyName("slave_port");
                         writer.WriteValue(502);
-
+                        writer.WritePropertyName("response_timeout");
+                        writer.WriteValue(dataDev.reponseTimeout);
                         writer.WritePropertyName("retry_interval");
                         writer.WriteValue(dataDev.reconnectInterval);
                         writer.WritePropertyName("timeout_cnt_max");
