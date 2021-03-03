@@ -29,6 +29,7 @@ namespace LocalPLC
         public UserControl1()
         {
             InitializeComponent();
+
             i++;
         }
 
@@ -55,6 +56,48 @@ namespace LocalPLC
             //mci = new ModbusClient.Clientindex();
             //mct = new ModbusClient.modbusclient();
             //msi = new ModbusServer.ServerIndex();
+
+            TreeNode tnRet = null;
+            string s1 = "MOTION_CONTROL";
+            foreach (TreeNode tn in treeView1.Nodes)
+            {
+                tnRet = FindeNodeByTag(tn, s1);
+                if (tnRet != null)
+                {
+                    break;
+                }
+            }
+
+            if(tnRet != null)
+            {
+                TreeNode axis = new TreeNode("轴", 1, 1);
+                axis.Tag = "AXIS";
+                tnRet.Nodes.Add(axis);
+
+                //添加轴对象
+                TreeNode addAxis = new TreeNode("添加轴对象", 2, 2);
+                addAxis.Tag = "ADDAXIS";
+                axis.Nodes.Add(addAxis);
+
+                //命令表
+                TreeNode commandTable = new TreeNode("命令表", 1, 1);
+                commandTable.Tag = "COMMANDTABLE";
+                tnRet.Nodes.Add(commandTable);
+                //添加命令表对象
+                TreeNode addCommandTable = new TreeNode("添加命令表对象", 2, 2);
+                addCommandTable.Tag = "ADDCOMMANDTABLE";
+                commandTable.Nodes.Add(addCommandTable);
+
+                //凸轮
+                TreeNode camTable = new TreeNode("凸轮表待定", 1, 1);
+                camTable.Tag = "CAMTABLE";
+                tnRet.Nodes.Add(camTable);
+                //添加凸轮表对象
+                TreeNode addCamTable = new TreeNode("添加凸轮表对象", 2, 2);
+                addCamTable.Tag = "ADDCAMTABLE";
+                camTable.Nodes.Add(addCamTable);
+            }
+
 
             UC.Parent = this;
             UC.getTreeView(treeView1);
@@ -115,6 +158,22 @@ namespace LocalPLC
                     FindEvery(tv, tnc[i].Nodes, nds);
                 }
             }
+        }
+
+        private TreeNode FindeNodeByTag(TreeNode tnParent, string strTag)
+        {
+            if (tnParent.Tag == null && tnParent.Text == null) return null;
+            if (tnParent.Tag.ToString() == strTag) return tnParent;
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in tnParent.Nodes)
+            {
+                tnRet = FindeNodeByTag(tn, strTag);
+                if (tnRet != null)
+                {
+                    break;
+                }
+            }
+            return tnRet;
         }
 
         private TreeNode FindNode(TreeNode tnParent, string strValue)
@@ -324,7 +383,7 @@ namespace LocalPLC
 
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
         {
-
+            //Cancel = true;
         }
 
         void IAdeProjectObserver.AfterProjectClose(string Name)
@@ -1035,7 +1094,7 @@ namespace LocalPLC
         private void ModbusWindow_Enter(object sender, EventArgs e)
         {        
 		}
-private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right)
             {
@@ -1090,7 +1149,6 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         public  int a = 0;
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
-            
             if (!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;
@@ -1526,6 +1584,53 @@ private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs
         public static void deleteIOGroups()
         {
 
+        }
+
+        private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        void createNode(ref TreeNode retNode, string name, string tag, TreeNode parent, int index)
+        {
+            TreeNode basePara = new TreeNode(name, index, index);
+            basePara.Tag = tag;
+            retNode = basePara;
+            parent.Nodes.Add(basePara);
+        }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Tag.ToString() == "ADDAXIS")
+            {
+                //添加轴对象
+                //基本参数 运动参数
+                var motion = e.Node.Parent;
+                TreeNode axis = null;
+                createNode(ref axis, "轴1", "MOTION_AXIS", motion, 3);
+                TreeNode basePara = null;
+                TreeNode motionMotionPara = null;
+                createNode(ref basePara, "基本参数", "MOTION_BASE_PARA", axis, 4);
+                createNode(ref motionMotionPara, "运动参数", "MOTION_MOTION_PARA", axis, 5);
+                
+                TreeNode motionPulseEquivalent = null;
+                TreeNode motionLimitSignal = null;
+                TreeNode motionDynamicParameter = null;
+                TreeNode motionBackOrigin = null;
+                TreeNode motionReverseCompensation = null;
+                createNode(ref motionPulseEquivalent, "脉冲当量", "MOTION_PULSE_EQUIVALENT", motionMotionPara, 6);
+                createNode(ref motionLimitSignal, "限位信号", "MOTION_LIMIT_SIGNAL", motionMotionPara, 7);
+                createNode(ref motionDynamicParameter, "限位信号", "MOTION_DYNAMIC_PARA", motionMotionPara, 8);
+                createNode(ref motionBackOrigin, "回原点", "MOTION_BACK_ORIGIN", motionMotionPara, 9);
+                createNode(ref motionReverseCompensation, "反向间隙补偿", "MOTION_REVERSE_COMPENSATION", motionMotionPara, 9);
+            }
+            else if(e.Node.Tag.ToString() == "ADDCOMMANDTABLE")
+            {
+                var motion = e.Node.Parent;
+                TreeNode command  = null;
+                createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motion, 3);
+
+            }
         }
     }
 

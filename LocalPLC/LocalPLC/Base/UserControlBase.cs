@@ -441,8 +441,7 @@ namespace LocalPLC.Base
 
                 elemHSP.AppendChild(hspChild);
             }
-            LocalPLC.UserControl1 US1 = new UserControl1();
-            US1.getbasedata(ref dataManage);
+
         }
 
         public void getTreeView(TreeView view)

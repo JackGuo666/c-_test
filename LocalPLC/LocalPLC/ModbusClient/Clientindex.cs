@@ -408,7 +408,7 @@ namespace LocalPLC.ModbusClient
             refreshID();
         }
 
-        UserControl1 user1 = new UserControl1();
+        //UserControl1 user1 = new UserControl1();
         
         public int a;
         public string clientnumber
