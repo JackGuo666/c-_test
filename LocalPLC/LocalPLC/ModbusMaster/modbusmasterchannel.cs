@@ -367,7 +367,7 @@ namespace LocalPLC.ModbusMaster
                 {
                     channel.setChannelLengthWord(channel.readLength);
                 }
-                if (deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType == 4 || deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType == 5)
+                if (deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType == 6 || deviceData_.modbusChannelList.ElementAt(e.RowIndex).msgType == 5)
                 {
                     dataGridView1.Rows[e.RowIndex].Cells["长度"].ReadOnly = true;
                     dataGridView1.Rows[e.RowIndex].Cells["长度"].Style.BackColor = Color.Gainsboro;
