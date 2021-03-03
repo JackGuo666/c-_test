@@ -266,9 +266,9 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("io_range");
                     writer.WriteStartObject();//{ server节点io_range
                     writer.WritePropertyName("start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.IOAddrRange));
+                    writer.WriteValue(Convert.ToInt32(data.serverstartaddr));
                     writer.WritePropertyName("bytes");
-                    writer.WriteValue(data.dataDevice_.IOAddrLength);
+                    writer.WriteValue(1000);
                     writer.WriteEndObject();//} server节点下io_range
                     writer.WritePropertyName("shm_range");
                     writer.WriteStartObject();//{ server节点shm_range
@@ -277,13 +277,13 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("bytes");
                     writer.WriteValue(data.dataDevice_.shmlength);
                     writer.WriteEndObject();//} server节点下shm_range
-                                            //离散
+                    //离散
                     writer.WritePropertyName("discrete");
                     writer.WriteStartObject();
                     writer.WritePropertyName("addr_type");
                     writer.WriteValue("IO_INPUT");
                     writer.WritePropertyName("start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart));
+                    writer.WriteValue(0);
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.decreteCount);
                     writer.WriteEndObject();
@@ -293,7 +293,7 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("addr_type");
                     writer.WriteValue("IO_INOUT");
                     writer.WritePropertyName("start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.shmrange));
+                    writer.WriteValue(0);
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.coilCount);
                     writer.WriteEndObject();
@@ -303,7 +303,10 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("addr_type");
                     writer.WriteValue("IO_INPUT");
                     writer.WritePropertyName("start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart));
+                    if (data.dataDevice_.decreteCount != 0)
+                    { writer.WriteValue(data.dataDevice_.decreteCount / 8 + 1); }
+                    else
+                    { writer.WriteValue(0); }
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.statusCount);
                     writer.WriteEndObject();
@@ -313,7 +316,10 @@ namespace LocalPLC.ModbusServer
                     writer.WritePropertyName("addr_type");
                     writer.WriteValue("IO_INOUT");
                     writer.WritePropertyName("start");
-                    writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart));
+                    if (data.dataDevice_.coilCount != 0)
+                    { writer.WriteValue(data.dataDevice_.coilCount / 8 + 1); }
+                    else
+                    { writer.WriteValue(0); }
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.holdingCount);
                     writer.WriteEndObject();//}
@@ -348,7 +354,7 @@ namespace LocalPLC.ModbusServer
                                 writer.WritePropertyName("time_unit");
                                 writer.WriteValue("ms");
                                 writer.WritePropertyName("dev_id");
-                                writer.WriteValue(data_.ID);
+                                writer.WriteValue(data_.dataDevice_.deviceAddr);
                                 writer.WritePropertyName("dev_namestr");
                                 writer.WriteValue("mbrtu_slave" + j.ToString());
                                 writer.WriteEndObject(); // } 串口数组下设备右括号
@@ -407,9 +413,16 @@ namespace LocalPLC.ModbusServer
                                 string ip2 = data_.dataDevice_.ip20.ToString() + "." + data_.dataDevice_.ip21.ToString() + "." + data_.dataDevice_.ip22.ToString() + "." + data_.dataDevice_.ip23.ToString();
                                 string ip3 = data_.dataDevice_.ip30.ToString() + "." + data_.dataDevice_.ip31.ToString() + "." + data_.dataDevice_.ip32.ToString() + "." + data_.dataDevice_.ip33.ToString();
                                 string[] ip = { ip0, ip1, ip2, ip3 };
-                                for (int m = 0; m < data_.dataDevice_.maxconnectnumber; m++)
+                                if (ipfixed == true)
                                 {
-                                    writer.WriteValue(ip[m]);
+                                    for (int m = 0; m < data_.dataDevice_.maxconnectnumber; m++)
+                                    {
+                                        writer.WriteValue(ip[m]);
+                                    }
+                                }
+                                else if( ipfixed == false)
+                                {
+                                    writer.WriteValue("255.255.255.255");
                                 }
                                 writer.WriteEndArray();//] 指定ip的数组
                                 writer.WritePropertyName("ip_port");
@@ -419,8 +432,9 @@ namespace LocalPLC.ModbusServer
                                 writer.WritePropertyName("dev_id");
                                 writer.WriteValue(data_.ID);
                                 writer.WritePropertyName("dev_namstr");
-                                writer.WriteValue("mbtcp_client" + n);
+                                writer.WriteValue("mbtcp_server" + n);
                                 n++;
+                                writer.WriteEndObject(); // } 网口数组下设备右括号
                             }
                         }
                         writer.WriteEndArray();//] 网口节点下conf数组   

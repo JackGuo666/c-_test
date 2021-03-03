@@ -631,7 +631,25 @@ namespace LocalPLC
         }
         public void defaultjson(JsonTextWriter writer)//基础配置
         {
-            
+           
+            string[] serialnames = null;
+            string[] ethnames = null;
+            int a = 0;
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UC.getDataManager(ref baseData);
+            foreach(string serialname in baseData.serialDic.Keys)
+            {
+                serialnames[a] = serialname;
+                a++;
+            }
+            a = 0;
+            foreach (string ethname in baseData.ethernetDic.Keys)
+            {
+                ethnames[a] = ethname;
+                a++;
+            }
+            //int a = baseData.serialDic[0].baud;
+
             writer.WritePropertyName("general");
             writer.WriteStartObject(); //{ general 节点
             writer.WritePropertyName("device_info");
@@ -653,29 +671,35 @@ namespace LocalPLC
             writer.WritePropertyName("namestr");
             writer.WriteValue("ser_port0");
             writer.WritePropertyName("baudrate");
-            writer.WriteValue(115200);
+            writer.WriteValue(baseData.serialDic[serialnames[0]].baud);
             writer.WritePropertyName("parity");
             writer.WriteValue("none");
             writer.WritePropertyName("data_bits");
-            writer.WriteValue(8);
+            writer.WriteValue(baseData.serialDic[serialnames[0]].dataBit);
             writer.WritePropertyName("stop_bits");
-            writer.WriteValue(0);
+            writer.WriteValue(baseData.serialDic[serialnames[0]].stopBit);
             writer.WritePropertyName("medium");
-            writer.WriteValue("rs232");
+            if (baseData.serialDic[serialnames[0]].rsMode == 0)
+            { writer.WriteValue("rs232"); }
+            else if (baseData.serialDic[serialnames[0]].rsMode == 1)
+            { writer.WriteValue("rs485"); }
             writer.WriteEndObject(); //} portcfg 数组下节点1
             writer.WriteStartObject(); //{ portcfg 数组下节点2
             writer.WritePropertyName("namestr");
             writer.WriteValue("ser_port1");
             writer.WritePropertyName("baudrate");
-            writer.WriteValue(115200);
+            writer.WriteValue(baseData.serialDic[serialnames[1]].baud);
             writer.WritePropertyName("parity");
             writer.WriteValue("none");
             writer.WritePropertyName("data_bits");
-            writer.WriteValue(8);
+            writer.WriteValue(baseData.serialDic[serialnames[1]].dataBit);
             writer.WritePropertyName("stop_bits");
-            writer.WriteValue(0);
+            writer.WriteValue(baseData.serialDic[serialnames[1]].stopBit);
             writer.WritePropertyName("medium");
-            writer.WriteValue("rs485");
+            if (baseData.serialDic[serialnames[1]].rsMode == 0)
+            { writer.WriteValue("rs232"); }
+            else if (baseData.serialDic[serialnames[1]].rsMode == 1)
+            { writer.WriteValue("rs485"); }
             writer.WriteEndObject(); //} portcfg 数组下节点2
             writer.WriteEndArray(); //] portcfg 数组
             writer.WriteEndObject(); //} serial 节点
@@ -692,19 +716,26 @@ namespace LocalPLC
             writer.WritePropertyName("mac");
             writer.WriteValue("aa-aa-aa-aa-aa-aa");
             writer.WritePropertyName("is_dhcp");
-            writer.WriteValue("false");
+            if (baseData.ethernetDic[ethnames[0]].ipMode == 0)
+            { writer.WriteValue(false); }
+            else if(baseData.ethernetDic[ethnames[0]].ipMode == 1)
+            { writer.WriteValue(true); }
             writer.WritePropertyName("ip");
-            writer.WriteValue("192.168.1.10");
+            writer.WriteValue(baseData.ethernetDic[ethnames[0]].ipAddress);
             writer.WritePropertyName("netmask");
-            writer.WriteValue("255.255.255.0");
+            writer.WriteValue(baseData.ethernetDic[ethnames[0]].maskAddress);
             writer.WritePropertyName("gateway");
-            writer.WriteValue("192.168.1.1");
+            writer.WriteValue(baseData.ethernetDic[ethnames[0]].gatewayAddress);
             writer.WritePropertyName("dns");
             writer.WriteValue("192.168.1.200");
             writer.WritePropertyName("sntp_server_ip");
-            writer.WriteValue("192.168.1.13");
+            writer.WriteValue(baseData.ethernetDic[ethnames[0]].sntpServerIp);
             writer.WritePropertyName("sntp_en");
-            writer.WriteValue("false");
+            if (baseData.ethernetDic[ethnames[0]].checkSNTP == 0)
+            { writer.WriteValue(false); }
+            else if (baseData.ethernetDic[ethnames[0]].checkSNTP == 1)
+            { writer.WriteValue(true); }
+            
             writer.WriteEndObject(); //} 网口portcfg 数组下节点1
             writer.WriteEndArray(); //] 网口portcfg 数组
             writer.WriteEndObject(); //} ethnet 节点
