@@ -117,7 +117,8 @@ namespace LocalPLC.Base
                     diData.channelName = elem.name;
                     drData[2] = diData.channelName;
 
-                    string ioAddress = string.Format("%QX{0}.{1}", ConstVariable.DOADDRESSIO
+                    string start = UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+                    string ioAddress = string.Format("%QX{0}.{1}", /*ConstVariable.DOADDRESSIO*/ start
                         , count);
                     diData.address = ioAddress;
                     drData[3] = diData.address;
