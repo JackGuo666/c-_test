@@ -97,11 +97,15 @@ namespace LocalPLC.Base
                 }
             }
 
-             if (UserControlBase.dataManage.dicBitfield.ContainsKey(doType))
+            string start = UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+            int nStart = 0;
+            int count = 0;
+            int.TryParse(start, out nStart);
+            if (UserControlBase.dataManage.dicBitfield.ContainsKey(doType))
             {
                 dtData.Clear();
                 var value = UserControlBase.dataManage.dicBitfield[doType];
-                int count = 0;
+                //int count = 0;
                 foreach(var elem in value.list)
                 {
                     xml.DOData diData = new xml.DOData();
@@ -117,10 +121,18 @@ namespace LocalPLC.Base
                     diData.channelName = elem.name;
                     drData[2] = diData.channelName;
 
-                    string start = UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
-                    string ioAddress = string.Format("%QX{0}.{1}", /*ConstVariable.DOADDRESSIO*/ start
-                        , count);
+                    //string start = UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+                    string ioAddress = string.Format("%QX{0}.{1}", /*ConstVariable.DIADDRESSIO*/ nStart, count);
                     diData.address = ioAddress;
+                    count++;
+                    if ((count) % 8 == 0)
+                    {
+                        count = 0;
+                        nStart++;
+                        ioAddress = string.Format("%QX{0}.{1}", /*ConstVariable.DIADDRESSIO*/ nStart, count);
+
+                    }
+
                     drData[3] = diData.address;
 
                     diData.note = "";
@@ -130,9 +142,6 @@ namespace LocalPLC.Base
                     dtData.Rows.Add(drData);
 
                     UserControlBase.dataManage.doList.Add(diData);
-
-
-                    count++;
                 }
 
 
