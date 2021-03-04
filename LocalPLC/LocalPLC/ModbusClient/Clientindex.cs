@@ -371,7 +371,7 @@ namespace LocalPLC.ModbusClient
                 data.ID = rowcount;
                 //dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
-                data.clientstartaddr = 1000 + 1000 * i;
+                data.clientstartaddr = 10000 + 1000 * i;
                 clientManage.modbusClientList.Add(data);
             }
             
