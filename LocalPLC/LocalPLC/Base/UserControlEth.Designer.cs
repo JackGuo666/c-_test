@@ -203,6 +203,7 @@
             // 
             this.textBox_eth.Location = new System.Drawing.Point(266, 62);
             this.textBox_eth.Name = "textBox_eth";
+            this.textBox_eth.ReadOnly = true;
             this.textBox_eth.Size = new System.Drawing.Size(95, 28);
             this.textBox_eth.TabIndex = 5;
             this.textBox_eth.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
