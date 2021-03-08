@@ -39,7 +39,7 @@ namespace LocalPLC.ModbusClient
             ID,功能码,触发方式,循环触发时间,偏移,长度,触发变量,错误变量,名称,注释
         };
         private DeviceData data_;
-        private ModbusClientData data2 { get; set; }
+        public ModbusClientData data2 { get; set; }
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
         Dictionary<String, int> dicMsgType = new Dictionary<String, int>();
 
@@ -490,6 +490,7 @@ namespace LocalPLC.ModbusClient
                 }
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].devlength += data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].Channellength;
             }
+
         }
 
         private void groupchannel_Enter(object sender, EventArgs e)
@@ -753,7 +754,7 @@ namespace LocalPLC.ModbusClient
                     type = 0;
                     int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
-                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
+                        3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 0;
                 }
                 else if(msg == 3 || msg == 4 || msg == 6 || msg == 16)
@@ -761,7 +762,7 @@ namespace LocalPLC.ModbusClient
                     type = 1;
                     int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
-                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
+                        3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 1;
                 }
                 refresh();
