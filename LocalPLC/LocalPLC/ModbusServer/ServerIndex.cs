@@ -286,7 +286,7 @@ namespace LocalPLC.ModbusServer
                     writer.WriteValue(0);
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.decreteCount);
-                    writer.WritePropertyName("mb_start");
+                    writer.WritePropertyName("mb_offset");
                     writer.WriteValue(Convert.ToInt32(data.dataDevice_.decreteIoAddrStart)-10001);
                     writer.WriteEndObject();
                     //线圈
@@ -298,7 +298,7 @@ namespace LocalPLC.ModbusServer
                     writer.WriteValue(0);
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.coilCount);
-                    writer.WritePropertyName("mb_start");
+                    writer.WritePropertyName("mb_offset");
                     writer.WriteValue(Convert.ToInt32(data.dataDevice_.coilIoAddrStart)-1);
                     writer.WriteEndObject();
                     //状态
@@ -308,12 +308,12 @@ namespace LocalPLC.ModbusServer
                     writer.WriteValue("IO_INPUT");
                     writer.WritePropertyName("start");
                     if (data.dataDevice_.decreteCount != 0)
-                    { writer.WriteValue(data.dataDevice_.decreteCount / 8 + 1); }
+                    { writer.WriteValue(data.dataDevice_.decreteCount); }
                     else
                     { writer.WriteValue(0); }
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.statusCount);
-                    writer.WritePropertyName("mb_start");
+                    writer.WritePropertyName("mb_offset");
                     writer.WriteValue(Convert.ToInt32(data.dataDevice_.statusIoAddrStart)-30001);
                     writer.WriteEndObject();
                     //保持
@@ -323,12 +323,12 @@ namespace LocalPLC.ModbusServer
                     writer.WriteValue("IO_INOUT");
                     writer.WritePropertyName("start");
                     if (data.dataDevice_.coilCount != 0)
-                    { writer.WriteValue(data.dataDevice_.coilCount / 8 + 1); }
+                    { writer.WriteValue(data.dataDevice_.coilCount); }
                     else
                     { writer.WriteValue(0); }
                     writer.WritePropertyName("num");
                     writer.WriteValue(data.dataDevice_.holdingCount);
-                    writer.WritePropertyName("mb_start");
+                    writer.WritePropertyName("mb_offset");
                     writer.WriteValue(Convert.ToInt32(data.dataDevice_.holdingIoAddrStart)-40001);
                     writer.WriteEndObject();//}
                     //串口

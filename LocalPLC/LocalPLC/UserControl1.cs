@@ -643,6 +643,10 @@ namespace LocalPLC
                 
             }
             
+            
+            var start = baseData.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+            var end = baseData.deviceInfoElem.deviceIdentificationElem.ioAddrEnd;
+            
             foreach (string ethname in baseData.ethernetDic.Keys)
             {
                 ethnames.Add(ethname);
@@ -813,6 +817,21 @@ namespace LocalPLC
             writer.WriteEndObject(); //} PTO conf数组下节点组合脉冲输入模式
             writer.WriteEndArray(); //]PTO下conf数组
             writer.WriteEndObject(); //} PTO节点
+            //general_io
+            //writer.WritePropertyName("general_io");
+            //writer.WriteStartObject(); //{ general_io节点
+            //writer.WritePropertyName("io_range");
+            //writer.WriteStartObject(); //{ io_range节点
+            //writer.WritePropertyName("start");
+            //writer.WriteValue(Convert.ToInt32(start));
+            //writer.WritePropertyName("bytes");
+            //writer.WriteValue(Convert.ToInt32(end) - Convert.ToInt32(start));
+            //writer.WriteEndObject(); //} io_range节点
+            //writer.WritePropertyName("input");
+            //writer.WriteStartObject(); //{ input节点
+            //writer.WritePropertyName("num");
+            //writer.WriteValue(baseData.diList.Count);
+
             //DI
             writer.WritePropertyName("DI");
             writer.WriteStartObject(); //{ DI节点
@@ -1087,6 +1106,238 @@ namespace LocalPLC
         {
             if (e.Button != MouseButtons.Right)
             {
+                //左键单
+                if (!multiprogApp.IsProjectOpen())
+                {
+                    MessageBox.Show("请先打开工程!");
+                    return;
+                }
+
+                string name = e.Node.Text.ToString();
+                if (e.Node.Tag != null)
+                {
+                    //动态创建节点
+                    if (e.Node.Tag.ToString() == "SERIAL_LINE")
+                    {
+                        if (!ModbusWindow.Controls.Contains(UC))
+                        {
+                            UC.Show();
+                            ModbusWindow.Controls.Clear();
+                            UC.Dock = DockStyle.Fill;
+                            ////UC.Size = new Size(472, 336);
+                            ModbusWindow.Controls.Add(UC);
+                        }
+                        //显示串口信息
+                        UC.setCOMShow(name);
+                    }
+                    else if (e.Node.Tag.ToString() == "ETHERNET")
+                    {
+                        if (!ModbusWindow.Controls.Contains(UC))
+                        {
+                            UC.Show();
+                            ModbusWindow.Controls.Clear();
+                            UC.Dock = DockStyle.Fill;
+                            ////UC.Size = new Size(472, 336);
+                            ModbusWindow.Controls.Add(UC);
+                        }
+                        UC.setETHShow(name);
+                    }
+                }
+
+                if (name == "Modbus")
+                {
+                    //e1.Show();
+                    //ModbusWindow.Controls.Clear();
+                    //ModbusWindow.Controls.Add(e1);
+
+
+                }
+                //else if (name == "MobusTCP-Client")
+                //{
+                //    if(mct == null)
+                //    {
+                //        //测试函数 暂定位置
+                //        saveXml();
+                //        return;
+                //    }
+
+
+                //    saveXml();
+
+                //    e1.Show();
+                //    ModbusWindow.Controls.Clear();
+                //    ModbusWindow.Controls.Add(e1);
+
+                //}
+                else if (name == "ModbusTCP-Client")
+                {
+                    if (mct == null)
+                    {
+                        //测试函数 暂定位置
+                        //=======gw注释====
+                        //saveXml();
+                        //================
+                        return;
+                    }
+
+                    mci.initForm();
+                    //=======gw注释====
+                    //saveXml();
+                    //================
+                    mci.Show();
+                    ModbusWindow.Controls.Clear();
+                    ModbusWindow.Controls.Add(mci);
+                }
+                else if (name == "ModbusRTU-Master")
+                {
+
+                    if (modmaster == null)
+                    {
+                        return;
+                    }
+
+                    //刷新master地址
+                    modmaster.masterManage.getMasterStartAddr();
+                    modmaster.masterManage.refresh();
+
+                    modmaster.initForm();
+                    //=======gw注释========
+                    //saveXml();
+                    //====================
+                    modmaster.Show();
+                    ModbusWindow.Controls.Clear();
+                    modmaster.Dock = DockStyle.Fill;
+                    ModbusWindow.Controls.Add(modmaster);
+                }
+                else if (name == "ModbusTCP-Server")
+                {
+                    if (msi == null)
+                    {
+                        return;
+                    }
+                    msi.initForm();
+                    //======gw注释=====
+                    //saveXml();
+                    //================
+                    msi.Show();
+                    ModbusWindow.Controls.Clear();
+                    ModbusWindow.Controls.Add(msi);
+                }
+
+                else if (name == "ModbusRTU-Slave")
+                {
+                    if (modslave == null)
+                    {
+                        return;
+                    }
+                    modslave.initForm();
+                    //======gw注释=======
+                    //saveXml();
+                    //==================
+                    modslave.Show();
+                    ModbusWindow.Controls.Clear();
+                    modslave.Dock = DockStyle.Fill;
+                    ModbusWindow.Controls.Add(modslave);
+                }
+                else if (name == "基本配置")
+                {
+                    UC.Show();
+                    ModbusWindow.Controls.Clear();
+                    UC.Dock = DockStyle.Fill;
+                    ////UC.Size = new Size(472, 336);
+                    ModbusWindow.Controls.Add(UC);
+                }
+                else if (name == ConstVariable.DO)
+                {
+                    if (!ModbusWindow.Controls.Contains(UC))
+                    {
+                        UC.Show();
+                        ModbusWindow.Controls.Clear();
+                        UC.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(UC);
+                    }
+
+                    UC.setDOShow(name);
+                }
+                else if (name == ConstVariable.DI)
+                {
+                    if (!ModbusWindow.Controls.Contains(UC))
+                    {
+                        UC.Show();
+                        ModbusWindow.Controls.Clear();
+                        UC.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(UC);
+                    }
+
+                    UC.setDIShow(name);
+                }
+                else if (name == "本体COM1")
+                {
+                    UC.setCOMShow(name);
+                }
+                else if (name == "本体ETH1")
+                {
+                    UC.setETHShow(name);
+                }
+                else if (name == "高速计数器")
+                {
+                    if (!ModbusWindow.Controls.Contains(UC))
+                    {
+                        UC.Show();
+                        ModbusWindow.Controls.Clear();
+                        UC.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(UC);
+                    }
+
+                    UC.setHighInput(name);
+                }
+                else if (name == "高速输出")
+                {
+
+                    if (!ModbusWindow.Controls.Contains(UC))
+                    {
+                        UC.Show();
+                        ModbusWindow.Controls.Clear();
+                        UC.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(UC);
+                    }
+
+                    UC.setHighOutput(name);
+                }
+                else if (name == "正交编码器")
+                {
+                    UC.setQuadShow(name);
+                }
+                else if (name == "双相脉冲计数")
+                {
+                    UC.setBiDirPulseShow(name);
+                }
+                else if (name == "单脉冲计数")
+                {
+                    UC.setSinglePulseShow(name);
+                }
+                else if (name == "PTO")
+                {
+                    UC.setPTOShow(name);
+                }
+                else if (name == "PWM")
+                {
+                    UC.setPWMShow(name);
+                }
+                else if (name == "AI")
+                {
+                    //暂时
+                    UC.setExtendAIShow(name);
+                }
+                else if (name == "AO")
+                {
+                    UC.setExtendAOShow(name);
+                }
+
                 return;
             }
 
@@ -1149,8 +1400,8 @@ namespace LocalPLC
             //int holdingstart = coilIOstart + coillength;
             int holdingstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.holdingIoAddrStart);          
             int holdingIOstart;
-            if (coillength != 0)
-            { holdingIOstart = coilIOstart + msi.serverDataManager.listServer[0].dataDevice_.coilCount/8+1; }
+            if (coillength != 0) 
+            { holdingIOstart = coilIOstart + msi.serverDataManager.listServer[0].dataDevice_.coilCount; }
             else
             { holdingIOstart = coilIOstart; }
             int decretelength = msi.serverDataManager.listServer[0].dataDevice_.decreteCount;
@@ -1160,7 +1411,7 @@ namespace LocalPLC
             int statusstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.statusIoAddrStart);
             int statusIOstart;
             if(decretelength != 0)
-            { statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + decretelength/8+1; }
+            { statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr + decretelength; }
             else
             { statusIOstart = msi.serverDataManager.listServer[0].serverstartaddr; }
             if (multiprogApp != null && multiprogApp.IsProjectOpen())
@@ -1192,7 +1443,10 @@ namespace LocalPLC
                                             //variable.DataType = "BOOL";
                                             int a = i;
                                             int b = 0;
-                                            variable.IecAddress = "%MX3." + (coilIOstart + a).ToString() + "." + b.ToString();
+                                            if (variable.DataType == "BOOL" || variable.DataType == "WORD")
+                                            { variable.IecAddress = "%MX3." + (coilIOstart + a).ToString() + "." + b.ToString(); }
+                                            else
+                                            { variable.IecAddress = "%MB3." + (coilIOstart + a).ToString(); }
                                             //variable.DataType = "BOOL";
                                         }
                                     }
@@ -1215,8 +1469,11 @@ namespace LocalPLC
                                             //variable.DataType = "BOOL";
                                             int c = k;
                                             int d = 0;
-                                            variable.IecAddress = "%QX" + (decreteIOstart + c).ToString() + "." + d.ToString();
-                                           // variable.DataType = "BOOL";
+                                            if (variable.DataType == "BOOL" || variable.DataType == "WORD")
+                                            { variable.IecAddress = "%QX" + (decreteIOstart + c).ToString() + "." + d.ToString(); }
+                                            else
+                                            { variable.IecAddress = "%QB" + (decreteIOstart + c).ToString() ; }
+                                            // variable.DataType = "BOOL";
                                         }
                                     }
                                     for (int l = 0; l < statuslength; l++)
