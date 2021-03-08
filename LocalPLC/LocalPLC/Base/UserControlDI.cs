@@ -57,11 +57,15 @@ namespace LocalPLC.Base
                 }
             }
 
+            string start = UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
+            int nStart = 0;
+            int count = 0;
+            int.TryParse(start, out nStart);
             if (UserControlBase.dataManage.dicBitfield.ContainsKey(diType))
             {
                 dtData.Clear();
                 var value = UserControlBase.dataManage.dicBitfield[diType];
-                int count = 0;
+                //int count = 0;
                 foreach(var elem in value.list)
                 {
                     xml.DIData diData = new xml.DIData();
@@ -82,10 +86,19 @@ namespace LocalPLC.Base
                     drData[3] = diData.channelName;
 
 
-                    string start = UserControlBase.dataManage.deviceInfoElem.deviceIdentificationElem.ioAddrStart;
-                    string ioAddress = string.Format("%IX{0}.{1}", /*ConstVariable.DIADDRESSIO*/ start
-                        , count);
+
+                    string ioAddress = string.Format("%IX{0}.{1}", /*ConstVariable.DIADDRESSIO*/ nStart, count);
                     diData.address = ioAddress;
+                    count++;
+                    if ((count) % 8 == 0)
+                    {
+                        count = 0;
+                        nStart++;
+                        ioAddress = string.Format("%IX{0}.{1}", /*ConstVariable.DIADDRESSIO*/ nStart, count);
+
+                    }
+
+
                     drData[4] = diData.address;
 
                     diData.note = "";
@@ -94,7 +107,6 @@ namespace LocalPLC.Base
 
                     dtData.Rows.Add(drData);
                     UserControlBase.dataManage.diList.Add(diData);
-                    count++;
                 }
 
                 this.dataGridView1.DataSource = dtData;
