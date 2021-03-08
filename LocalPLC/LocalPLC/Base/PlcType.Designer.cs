@@ -28,16 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Ethernet_1 = new LocalPLC.Base.pictest();
             this.Serial_Line_2 = new LocalPLC.Base.pictest();
             this.Serial_Line_1 = new LocalPLC.Base.pictest();
             this.pictest2 = new LocalPLC.Base.pictest();
             this.pictest1 = new LocalPLC.Base.pictest();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ethernet_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_2)).BeginInit();
@@ -45,33 +41,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictest2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictest1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Location = new System.Drawing.Point(28, 68);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(254, 33);
-            this.pictureBox3.TabIndex = 2;
-            this.pictureBox3.TabStop = false;
-            this.pictureBox3.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseDoubleClick);
-            this.pictureBox3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseDown);
-            this.pictureBox3.MouseEnter += new System.EventHandler(this.pictureBox3_MouseEnter);
-            this.pictureBox3.MouseLeave += new System.EventHandler(this.pictureBox3_MouseLeave);
-            this.pictureBox3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseUp);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Location = new System.Drawing.Point(86, 68);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(196, 33);
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDoubleClick);
-            this.pictureBox2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDown);
-            this.pictureBox2.MouseEnter += new System.EventHandler(this.pictureBox2_MouseEnter);
-            this.pictureBox2.MouseLeave += new System.EventHandler(this.pictureBox2_MouseLeave);
-            this.pictureBox2.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseUp);
             // 
             // pictureBox1
             // 
@@ -101,7 +70,7 @@
             // Serial_Line_2
             // 
             this.Serial_Line_2.BackColor = System.Drawing.Color.Transparent;
-            this.Serial_Line_2.Location = new System.Drawing.Point(242, 140);
+            this.Serial_Line_2.Location = new System.Drawing.Point(244, 140);
             this.Serial_Line_2.MValue = false;
             this.Serial_Line_2.Name = "Serial_Line_2";
             this.Serial_Line_2.Size = new System.Drawing.Size(76, 68);
@@ -112,7 +81,7 @@
             // Serial_Line_1
             // 
             this.Serial_Line_1.BackColor = System.Drawing.Color.Transparent;
-            this.Serial_Line_1.Location = new System.Drawing.Point(69, 141);
+            this.Serial_Line_1.Location = new System.Drawing.Point(69, 140);
             this.Serial_Line_1.MValue = false;
             this.Serial_Line_1.Name = "Serial_Line_1";
             this.Serial_Line_1.Size = new System.Drawing.Size(76, 68);
@@ -123,7 +92,7 @@
             // pictest2
             // 
             this.pictest2.BackColor = System.Drawing.Color.Transparent;
-            this.pictest2.Location = new System.Drawing.Point(107, 3);
+            this.pictest2.Location = new System.Drawing.Point(106, 3);
             this.pictest2.MValue = false;
             this.pictest2.Name = "pictest2";
             this.pictest2.Size = new System.Drawing.Size(255, 30);
@@ -152,13 +121,9 @@
             this.Controls.Add(this.Serial_Line_1);
             this.Controls.Add(this.pictest2);
             this.Controls.Add(this.pictest1);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Name = "LocalPLC24P";
             this.Size = new System.Drawing.Size(365, 280);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ethernet_1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_2)).EndInit();
@@ -172,8 +137,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private LocalPLC.Base.pictest pictest1;
         private LocalPLC.Base.pictest pictest2;
         private pictest Serial_Line_1;

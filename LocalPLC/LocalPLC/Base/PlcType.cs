@@ -71,8 +71,8 @@ namespace LocalPLC.Base
                 UserControl1 us1 = (UserControl1)userBase.parent_;
                 myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
-                pictureBox2.Parent = pictureBox1;
-                pictureBox3.Parent = pictureBox1;
+                //pictureBox2.Parent = pictureBox1;
+                //pictureBox3.Parent = pictureBox1;
 
                 pictest1.Parent = pictureBox1;
                 pictest2.Parent = pictureBox1;
@@ -143,31 +143,31 @@ namespace LocalPLC.Base
         //最小化刷新重写函数
         protected override void OnPaint(PaintEventArgs e)
         {
-            if(pic3Selected)
-            {
-                Graphics gc = pictureBox3.CreateGraphics();
-                //gc.DrawLine(new Pen(Color.Red, 5), 0, 0, 500, 500);
+            //if(pic3Selected)
+            //{
+            //    Graphics gc = pictureBox3.CreateGraphics();
+            //    //gc.DrawLine(new Pen(Color.Red, 5), 0, 0, 500, 500);
 
-                Pen pen = new Pen(Color.DodgerBlue, 8);
-                gc.DrawRectangle(pen, 0, 0, pictureBox3.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
+            //    Pen pen = new Pen(Color.DodgerBlue, 8);
+            //    gc.DrawRectangle(pen, 0, 0, pictureBox3.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
 
-                gc.Dispose();
-                base.OnPaint(e);
-            }
+            //    gc.Dispose();
+            //    base.OnPaint(e);
+            //}
 
 
-            if (pic2Selected)
-            {
-                Graphics gc = pictureBox2.CreateGraphics();
-                //gc.DrawLine(new Pen(Color.Red, 5), 0, 0, 500, 500);
+            //if (pic2Selected)
+            //{
+            //    Graphics gc = pictureBox2.CreateGraphics();
+            //    //gc.DrawLine(new Pen(Color.Red, 5), 0, 0, 500, 500);
 
-                Pen pen = new Pen(Color.DodgerBlue, 3);
-                gc.DrawRectangle(pen, 0, 0, pictureBox2.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
+            //    Pen pen = new Pen(Color.DodgerBlue, 3);
+            //    gc.DrawRectangle(pen, 0, 0, pictureBox2.Width /*- borderWidth*/, pictureBox3.Height /*- borderWidth*/);
 
-                gc.Dispose();
+            //    gc.Dispose();
 
-                base.OnPaint(e);
-            }
+            //    base.OnPaint(e);
+            //}
 
         }
 
@@ -182,57 +182,57 @@ namespace LocalPLC.Base
 
         }
 
-        private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
-        {
-            picHighLighted(pictureBox2, 6);
+        //private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    picHighLighted(pictureBox2, 6);
 
-            pictureBox3.Refresh();
+        //    pictureBox3.Refresh();
 
-            //存在标志
-            pic3Selected = false;
+        //    //存在标志
+        //    pic3Selected = false;
 
-            //显示设备信息
-            //picHighLighted(pictureBox1, 2);
-        }
+        //    //显示设备信息
+        //    //picHighLighted(pictureBox1, 2);
+        //}
 
-        private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
-        {
-            picHighLighted(pictureBox2, 3);
-        }
+        //private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    picHighLighted(pictureBox2, 3);
+        //}
 
-        private void pictureBox2_MouseEnter(object sender, EventArgs e)
-        {
-            picHighLighted(pictureBox2, 3);
-        }
+        //private void pictureBox2_MouseEnter(object sender, EventArgs e)
+        //{
+        //    picHighLighted(pictureBox2, 3);
+        //}
 
-        private void pictureBox2_MouseLeave(object sender, EventArgs e)
-        {
-            if (pic2Selected == false)
-            {
-                PictureBox pic = (PictureBox)sender;
-                pic.Refresh();
-            }
-        }
+        //private void pictureBox2_MouseLeave(object sender, EventArgs e)
+        //{
+        //    if (pic2Selected == false)
+        //    {
+        //        PictureBox pic = (PictureBox)sender;
+        //        pic.Refresh();
+        //    }
+        //}
 
 
 
-        private void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            pic2Selected = true;
-            pic3Selected = false;
+        //private void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e)
+        //{
+        //    pic2Selected = true;
+        //    pic3Selected = false;
 
-            if(!split.Panel2.Controls.Contains(dout))
-            {
-                split.Panel2.Controls.Clear();
-                dout.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(dout);
+        //    if(!split.Panel2.Controls.Contains(dout))
+        //    {
+        //        split.Panel2.Controls.Clear();
+        //        dout.Dock = DockStyle.Fill;
+        //        split.Panel2.Controls.Add(dout);
 
-                Refresh();
-            }
+        //        Refresh();
+        //    }
 
-            myDelegate(ConstVariable.DO);
+        //    myDelegate(ConstVariable.DO);
 
-        }
+        //}
 
         enum COLUMN_DI{ USED, VARNAME, FITERTIME, CHANNELNAME, ADDRESS, NOTE};
         enum COLUMN_DO { USED, VARNAME, CHANNELNAME, ADDRESS, NOTE };
@@ -510,25 +510,25 @@ namespace LocalPLC.Base
             }
         }
 
-        private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
-        {
-            picHighLighted(pictureBox3, 6);
+        //private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    picHighLighted(pictureBox3, 6);
 
-            pictureBox2.Refresh();
+        //    pictureBox2.Refresh();
 
-            //存在标志
-            pic2Selected = false;
-        }
+        //    //存在标志
+        //    pic2Selected = false;
+        //}
 
-        private void pictureBox3_MouseUp(object sender, MouseEventArgs e)
-        {
-            picHighLighted(pictureBox3, 3);
-        }
+        //private void pictureBox3_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    picHighLighted(pictureBox3, 3);
+        //}
 
-        private void pictureBox3_MouseEnter(object sender, EventArgs e)
-        {
-            picHighLighted(pictureBox3, 3);
-        }
+        //private void pictureBox3_MouseEnter(object sender, EventArgs e)
+        //{
+        //    picHighLighted(pictureBox3, 3);
+        //}
 
         private void pictureBox3_MouseLeave(object sender, EventArgs e)
         {
@@ -540,23 +540,23 @@ namespace LocalPLC.Base
         }
 
 
-        private void pictureBox3_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            pic3Selected = true;
-            pic2Selected = false;
+        //private void pictureBox3_MouseDoubleClick(object sender, MouseEventArgs e)
+        //{
+        //    pic3Selected = true;
+        //    pic2Selected = false;
 
-            if (!split.Panel2.Controls.Contains(di))
-            {
-                split.Panel2.Controls.Clear();
-                di.Dock = DockStyle.Fill;
-                split.Panel2.Controls.Add(di);
+        //    if (!split.Panel2.Controls.Contains(di))
+        //    {
+        //        split.Panel2.Controls.Clear();
+        //        di.Dock = DockStyle.Fill;
+        //        split.Panel2.Controls.Add(di);
 
-                Refresh();
-                //有下面一行就刷新，没有就不刷新
-                picHighLighted(pictureBox3, 3);
-            }
+        //        Refresh();
+        //        //有下面一行就刷新，没有就不刷新
+        //        picHighLighted(pictureBox3, 3);
+        //    }
 
-        }
+        //}
 
 
         //显示设备信息
