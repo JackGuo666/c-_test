@@ -1102,6 +1102,7 @@ namespace LocalPLC
         }
         private void ModbusWindow_Enter(object sender, EventArgs e)
         {        
+
 		}
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -1156,6 +1157,7 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_MOTION_PARA")
                     {
+                        //运控参数
                         UserControlMotionPara para = new UserControlMotionPara();
                         para.Show();
                         ModbusWindow.Controls.Clear();
@@ -1165,7 +1167,43 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_PULSE_EQUIVALENT")
                     {
+                        //脉冲当量
                         UserControlPulseEquivalent para = new UserControlPulseEquivalent();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.None;
+                        ModbusWindow.Controls.Add(para);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_LIMIT_SIGNAL")
+                    {
+                        //限位信号
+                        UserControlLimitSignal para = new UserControlLimitSignal();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.None;
+                        ModbusWindow.Controls.Add(para);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_DYNAMIC_PARA")
+                    {
+                        //动态参数
+                        UserControlDynamicPara para = new UserControlDynamicPara();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.None;
+                        ModbusWindow.Controls.Add(para);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_BACK_ORIGIN")
+                    {
+                        //回原点
+                        UserControlBackOrigin para = new UserControlBackOrigin();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.None;
+                        ModbusWindow.Controls.Add(para);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_REVERSE_COMPENSATION")
+                    {
+                        UserControlReverseCompensation para = new UserControlReverseCompensation();
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;
@@ -1895,7 +1933,7 @@ namespace LocalPLC
                 TreeNode motionReverseCompensation = null;
                 createNode(ref motionPulseEquivalent, "脉冲当量", "MOTION_PULSE_EQUIVALENT", motionMotionPara, 6);
                 createNode(ref motionLimitSignal, "限位信号", "MOTION_LIMIT_SIGNAL", motionMotionPara, 7);
-                createNode(ref motionDynamicParameter, "限位信号", "MOTION_DYNAMIC_PARA", motionMotionPara, 8);
+                createNode(ref motionDynamicParameter, "动态参数", "MOTION_DYNAMIC_PARA", motionMotionPara, 8);
                 createNode(ref motionBackOrigin, "回原点", "MOTION_BACK_ORIGIN", motionMotionPara, 9);
                 createNode(ref motionReverseCompensation, "反向间隙补偿", "MOTION_REVERSE_COMPENSATION", motionMotionPara, 9);
             }
