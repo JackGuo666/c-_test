@@ -103,7 +103,8 @@ namespace LocalPLC.ModbusClient
                     int.TryParse(e.GetAttribute("ID"), out deviceData.ID);//为各子节点赋值
                     deviceData.nameDev = e.GetAttribute("namedev");
                     deviceData.ipaddr = e.GetAttribute("ipaddr");
-                    deviceData.serverAddr = e.GetAttribute("serveraddr");
+                    //deviceData.serverAddr = e.GetAttribute("serveraddr");
+                    int.TryParse(e.GetAttribute("port"), out deviceData.port);
                     int.TryParse(e.GetAttribute("responsetimeout"), out deviceData.reponseTimeout);
                     int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
                     int.TryParse(e.GetAttribute("reconnectinterval"), out deviceData.reconnectInterval);
@@ -187,7 +188,8 @@ namespace LocalPLC.ModbusClient
                     elem1_m_d.SetAttribute("ID", dataDev.ID.ToString());
                     elem1_m_d.SetAttribute("namedev", dataDev.nameDev.ToString());
                     elem1_m_d.SetAttribute("ipaddr", dataDev.ipaddr.ToString());
-                    elem1_m_d.SetAttribute("serveraddr", dataDev.serverAddr.ToString());
+                   // elem1_m_d.SetAttribute("serveraddr", dataDev.serverAddr.ToString());
+                    elem1_m_d.SetAttribute("port", dataDev.port.ToString());
                     elem1_m_d.SetAttribute("responsetimeout", dataDev.reponseTimeout.ToString());
                     elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
                     elem1_m_d.SetAttribute("reconnectinterval", dataDev.reconnectInterval.ToString());
@@ -283,7 +285,7 @@ namespace LocalPLC.ModbusClient
                         writer.WritePropertyName("slave_ip");
                         writer.WriteValue(dataDev.ipaddr);
                         writer.WritePropertyName("slave_port");
-                        writer.WriteValue(502);
+                        writer.WriteValue(dataDev.port);
                         writer.WritePropertyName("response_timeout");
                         writer.WriteValue(dataDev.reponseTimeout);
                         writer.WritePropertyName("retry_interval");
@@ -325,13 +327,13 @@ namespace LocalPLC.ModbusClient
                             writer.WritePropertyName("quantity");
                             writer.WriteValue(dataChannel.Length);
                             writer.WritePropertyName("io_offset");
-                            writer.WriteValue(dataChannel.channelstartaddr + 3 - data.clientstartaddr);
+                            writer.WriteValue(dataChannel.channelstartaddr + 3 - dataDev.devstartaddr);
                             writer.WritePropertyName("io_bytes");
                             writer.WriteValue(dataChannel.Channellength - 3);
                             writer.WritePropertyName("trigger_offset");
-                            writer.WriteValue(dataChannel.channelstartaddr - data.clientstartaddr);
+                            writer.WriteValue(dataChannel.channelstartaddr - dataDev.devstartaddr);
                             writer.WritePropertyName("error_offset");
-                            writer.WriteValue(dataChannel.channelstartaddr + 1 - data.clientstartaddr);
+                            writer.WriteValue(dataChannel.channelstartaddr + 1 - dataDev.devstartaddr);
                             writer.WritePropertyName("direction");
                             writer.WriteValue("in");
                             writer.WriteEndObject();//} channel_cfg节点下conf数组中channel信息

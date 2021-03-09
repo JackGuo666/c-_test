@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using LocalPLC;
 
 namespace LocalPLC.ModbusServer
 {
@@ -48,6 +49,9 @@ namespace LocalPLC.ModbusServer
         //};
         private DataManager dataManager = null;
         ModbusServerData data_;
+       
+        
+
         enum TRANSFORMMODE : int
         { TCP, UDP }
         enum SLAVETRANS : int
@@ -64,6 +68,7 @@ namespace LocalPLC.ModbusServer
         public void getServerData(ref ModbusServerData data)
         {
             data_ = data;
+            
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
@@ -761,6 +766,8 @@ namespace LocalPLC.ModbusServer
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UserControl1.UC.getDataManager(ref baseData);
             if (comboBox1.SelectedIndex == 0)
             {
                 radioButton1.Enabled = false;
@@ -771,11 +778,14 @@ namespace LocalPLC.ModbusServer
                 textBox30.Enabled = true;
                 textBox30.ReadOnly = false;
                 data_.dataDevice_.transform = 0;
-                if(comboBox2.SelectedIndex == 2)
+                comboBox2.Items.Clear();
+                foreach (string serialname in baseData.serialDic.Keys)
                 {
-                    MessageBox.Show("当前选择通讯方式为串口，不可以选择端口为网口");
-                    comboBox2.SelectedIndex = 0;
+                    comboBox2.Items.Add(serialname);
+
                 }
+                comboBox2.SelectedIndex = -1;
+                comboBox2.Text = null;
                 textBox30_Leave(sender, e);
                 dataManager.Rtunum++;
                 dataManager.TCPnum--;
@@ -790,11 +800,14 @@ namespace LocalPLC.ModbusServer
                 textBox30.Enabled = false;
                 textBox30.ReadOnly = true;
                 data_.dataDevice_.transform = 1;
-                if(comboBox2.SelectedIndex == 0 || comboBox2.SelectedIndex == 1)
+                comboBox2.Text = null;
+                comboBox2.Items.Clear();
+                foreach (string ethname in baseData.ethernetDic.Keys)
                 {
-                    MessageBox.Show("当前选择通讯方式为网口，不可以选择端口为串口");
-                    comboBox2.SelectedIndex = 2;
+                    comboBox2.Items.Add(ethname);
+
                 }
+                comboBox2.SelectedIndex = -1;
                 dataManager.TCPnum++;
                 dataManager.Rtunum--;
             }

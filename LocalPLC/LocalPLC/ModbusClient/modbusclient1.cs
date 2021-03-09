@@ -39,7 +39,7 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("ID", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("名称", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("IP地址", Type.GetType("System.String"));
-                ds.Tables[i].Columns.Add("从站地址", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("端口号", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("响应超时", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("重连间隔", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("允许超时的次数", Type.GetType("System.Int32"));
@@ -59,7 +59,7 @@ namespace LocalPLC.ModbusClient
 
         public enum COLUMNNAME : int
         {
-            ID, 名称, IP地址,从站地址, 响应超时, 重连间隔, 允许超时的次数
+            ID, 名称, IP地址,端口号, 响应超时, 重连间隔, 允许超时的次数
                                         , 复位变量, 通道
         };
 
@@ -124,7 +124,7 @@ namespace LocalPLC.ModbusClient
                 //
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.IP地址].Value = devData.serverAddr;
                 ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.IP地址] = devData.ipaddr;
-                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.从站地址] = devData.serverAddr;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.端口号] = devData.port;
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.响应超时].Value = devData.reponseTimeout;
                 ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.响应超时] = devData.reponseTimeout;
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.允许超时的次数].Value = devData.permitTimeoutCount;
@@ -222,8 +222,8 @@ namespace LocalPLC.ModbusClient
             data.nameDev = dr[(int)COLUMNNAME.名称].ToString();
             dr[(int)COLUMNNAME.IP地址] = "";
             data.ipaddr = dr[(int)COLUMNNAME.IP地址].ToString();
-            dr[(int)COLUMNNAME.从站地址] = "";
-            data.serverAddr = dr[(int)COLUMNNAME.从站地址].ToString();
+            dr[(int)COLUMNNAME.端口号] = 502;
+            data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
             dr[(int)COLUMNNAME.响应超时] = 1000;
             data.reponseTimeout = Convert.ToInt32(dr[(int)COLUMNNAME.响应超时]);
             dr[(int)COLUMNNAME.允许超时的次数] = 5;
@@ -422,9 +422,12 @@ namespace LocalPLC.ModbusClient
             {
                 data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
             }
-            else if (e.ColumnIndex == (int)COLUMNNAME.从站地址)
+            else if (e.ColumnIndex == (int)COLUMNNAME.端口号)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).serverAddr = str;
+                if (Convert.ToInt32(str) >= 500 && Convert.ToInt32(str) <= 600)
+                { data_.modbusDeviceList.ElementAt(e.RowIndex).port = Convert.ToInt32(str); }
+                else
+                { MessageBox.Show("端口范围500-600"); }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.响应超时)
             {
