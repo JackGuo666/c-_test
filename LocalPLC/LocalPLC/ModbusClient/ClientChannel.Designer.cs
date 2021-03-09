@@ -198,6 +198,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ClientChannel";
             this.Text = "ClientChannel";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClientChannel_FormClosing);
             this.Load += new System.EventHandler(this.ClientChannel_Load);
             this.Shown += new System.EventHandler(this.ClientChannel_Shown);
             this.groupchannel.ResumeLayout(false);

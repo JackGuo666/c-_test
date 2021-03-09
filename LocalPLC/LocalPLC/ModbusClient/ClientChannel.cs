@@ -489,7 +489,9 @@ namespace LocalPLC.ModbusClient
                         data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].devstartaddr + 1;
                 }
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].devlength += data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].Channellength;
+                int bbb = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].Channellength;
             }
+            int aaa = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].devlength;
 
         }
 
@@ -505,7 +507,7 @@ namespace LocalPLC.ModbusClient
             //int n = Convert.ToInt32(dataGridView2.SelectedRows[0].Index);
             int n = selectrow;
             //this.dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
-            if (n < 0)
+            if (n < 0  )
             {
                 return;
             }
@@ -602,7 +604,7 @@ namespace LocalPLC.ModbusClient
             {
                 this.dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            if (e.ColumnIndex < 0 || e.RowIndex < 0)
+            if (e.RowIndex < 0)
             {
                 //for (int i = 0; i < dataGridView2.RowCount; i++)
                 //{
@@ -613,9 +615,18 @@ namespace LocalPLC.ModbusClient
                 //    cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                 //    dataGridView2.Rows[i].Cells["功能码"] = cell;
                 //}
+
                 return;
             }
-            selectrow = e.RowIndex;
+            if (e.ColumnIndex < 0)
+            { 
+                selectrow = dataGridView2.SelectedRows[0].Index;
+                
+            }
+            else if (e.ColumnIndex >= 0)
+            { 
+                selectrow = e.RowIndex; 
+            }
         }
 
         private void dataGridView2_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -671,14 +682,14 @@ namespace LocalPLC.ModbusClient
                     //data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength = 
                     //    2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length / 8 + 1;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
-                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
+                        3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
                 }
                 else //if (dicMsgType[str] == 3 || dicMsgType[str] == 4 || dicMsgType[str] == 6 || dicMsgType[str] == 16)
                 {
                     type = 1;
                     int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
                     data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength = 
-                        2 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
+                        3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
                 }
                 if (dicMsgType[str] == 5 || dicMsgType[str] == 6)
                 {
@@ -787,6 +798,11 @@ namespace LocalPLC.ModbusClient
         private void dataGridView2_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
 
+        }
+
+        private void ClientChannel_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            refresh();
         }
     }
 }

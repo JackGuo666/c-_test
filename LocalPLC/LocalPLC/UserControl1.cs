@@ -50,7 +50,7 @@ namespace LocalPLC
 		public static ModbusServer.ServerIndex msi = new ServerIndex();
 
 
-        public static UserControlBase UC = new UserControlBase();
+        public static UserControlBase UC { get; set; } = new UserControlBase();
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -819,126 +819,169 @@ namespace LocalPLC
             writer.WriteEndArray(); //]PTO下conf数组
             writer.WriteEndObject(); //} PTO节点
             //general_io
-            //writer.WritePropertyName("general_io");
-            //writer.WriteStartObject(); //{ general_io节点
-            //writer.WritePropertyName("io_range");
-            //writer.WriteStartObject(); //{ io_range节点
-            //writer.WritePropertyName("start");
-            //writer.WriteValue(Convert.ToInt32(start));
-            //writer.WritePropertyName("bytes");
-            //writer.WriteValue(Convert.ToInt32(end) - Convert.ToInt32(start));
-            //writer.WriteEndObject(); //} io_range节点
-            //writer.WritePropertyName("input");
-            //writer.WriteStartObject(); //{ input节点
-            //writer.WritePropertyName("num");
-            //writer.WriteValue(baseData.diList.Count);
+            
+            writer.WritePropertyName("general_io");
+            writer.WriteStartObject(); //{ general_io节点
+            writer.WritePropertyName("io_range");
+            writer.WriteStartObject(); //{ io_range节点
+            writer.WritePropertyName("start");
+            writer.WriteValue(Convert.ToInt32(start));
+            writer.WritePropertyName("bytes");
+            writer.WriteValue(Convert.ToInt32(end) - Convert.ToInt32(start));
+            writer.WriteEndObject(); //} io_range节点
+            // input
+            writer.WritePropertyName("input");
+            writer.WriteStartObject(); //{ input节点
+            writer.WritePropertyName("num");
+            writer.WriteValue(baseData.diList.Count);
+            writer.WritePropertyName("conf");
+            writer.WriteStartArray(); //[input下conf数组
+            for(int i = 0; i<baseData.diList.Count;i++)
+            {
+                if(baseData.diList[i].used == false)
+                {
+                    writer.WriteStartObject(); //{ input数组成员节点
+                    writer.WritePropertyName("channel");
+                    writer.WriteValue(baseData.diList[0].channelName);
+                    writer.WritePropertyName("fit_time");
+                    writer.WriteValue(baseData.diList[0].filterTime);
+                    writer.WritePropertyName("io_bit_off");
+                    writer.WriteValue(i);
+                    writer.WriteEndObject(); //} input数组成员节点
+                }
+                
+            }
+            writer.WriteEndArray(); //]input下conf数组
+            writer.WriteEndObject(); //} input节点
+            //output
+            writer.WritePropertyName("output");
+            writer.WriteStartObject(); //{ output节点
+            writer.WritePropertyName("num");
+            writer.WriteValue(baseData.doList.Count);
+            writer.WritePropertyName("conf");
+            writer.WriteStartArray(); //[output下conf数组
+            for (int i = 0; i < baseData.doList.Count; i++)
+            {
+                if (baseData.doList[i].used == false)
+                {
+                    writer.WriteStartObject(); //{ input数组成员节点
+                    writer.WritePropertyName("channel");
+                    writer.WriteValue(baseData.doList[0].channelName);
+                    writer.WritePropertyName("io_bit_off");
+                    writer.WriteValue(i);
+                    writer.WriteEndObject(); //} output数组成员节点
+                }
 
+            }
+            writer.WriteEndArray(); //]output下conf数组
+            writer.WriteEndObject(); //} output节点
+            writer.WriteEndObject(); //} general_io节点
             //DI
-            writer.WritePropertyName("DI");
-            writer.WriteStartObject(); //{ DI节点
-            writer.WritePropertyName("conf");
-            writer.WriteStartArray(); //[ DI下conf数组
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置1
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI04");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置1
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置2
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI05");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置2
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置3
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI06");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置3
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置4
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI07");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置4
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置5
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI08");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置5
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置6
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI09");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置6
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置7
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI010");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置7
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置8
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI11");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置8
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置9
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI12");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置9
-            writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置10
-            writer.WritePropertyName("member");
-            writer.WriteValue("DI13");
-            writer.WritePropertyName("filter_time");
-            writer.WriteValue(10);
-            writer.WriteEndObject(); //} DI conf数组下节点DI输入配置10
-            writer.WriteEndArray(); //]DI下conf数组
-            writer.WriteEndObject(); //} DI节点
-            //DO
-            writer.WritePropertyName("DO");
-            writer.WriteStartObject(); //{ DO节点
-            writer.WritePropertyName("conf");
-            writer.WriteStartArray(); //[ DO下conf数组
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置1
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO02");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置1
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置2
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO03");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置2
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置3
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO04");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置3
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置4
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO05");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置4
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置5
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO06");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置5
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置6
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO07");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置6
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置7
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO08");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置7
-            writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置8
-            writer.WritePropertyName("member");
-            writer.WriteValue("DO09");
-            writer.WriteEndObject(); //} DO conf数组下节点DO输入配置8
-            writer.WriteEndArray(); //]DO下conf数组
-            writer.WriteEndObject(); //} DO节点
+            //writer.WritePropertyName("DI");
+            //writer.WriteStartObject(); //{ DI节点
+            //writer.WritePropertyName("conf");
+            //writer.WriteStartArray(); //[ DI下conf数组
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置1
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI04");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置1
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置2
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI05");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置2
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置3
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI06");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置3
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置4
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI07");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置4
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置5
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI08");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置5
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置6
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI09");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置6
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置7
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI010");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置7
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置8
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI11");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置8
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置9
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI12");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置9
+            //writer.WriteStartObject(); //{ DI conf数组下节点DI输入配置10
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DI13");
+            //writer.WritePropertyName("filter_time");
+            //writer.WriteValue(10);
+            //writer.WriteEndObject(); //} DI conf数组下节点DI输入配置10
+            //writer.WriteEndArray(); //]DI下conf数组
+            //writer.WriteEndObject(); //} DI节点
+            ////DO
+            //writer.WritePropertyName("DO");
+            //writer.WriteStartObject(); //{ DO节点
+            //writer.WritePropertyName("conf");
+            //writer.WriteStartArray(); //[ DO下conf数组
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置1
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO02");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置1
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置2
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO03");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置2
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置3
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO04");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置3
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置4
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO05");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置4
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置5
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO06");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置5
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置6
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO07");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置6
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置7
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO08");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置7
+            //writer.WriteStartObject(); //{ DO conf数组下节点DO输入配置8
+            //writer.WritePropertyName("member");
+            //writer.WriteValue("DO09");
+            //writer.WriteEndObject(); //} DO conf数组下节点DO输入配置8
+            //writer.WriteEndArray(); //]DO下conf数组
+            //writer.WriteEndObject(); //} DO节点
             writer.WriteEndObject(); //} hardware节点
             writer.WriteEndObject(); //} general节点
             //writer.WriteEndObject(); //} 总节点
