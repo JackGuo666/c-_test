@@ -18,6 +18,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using LocalPLC.Base;
+using LocalPLC.motion;
 
 namespace LocalPLC
 {
@@ -1113,6 +1114,8 @@ namespace LocalPLC
                     return;
                 }
 
+
+
                 string name = e.Node.Text.ToString();
                 if (e.Node.Tag != null)
                 {
@@ -1141,6 +1144,32 @@ namespace LocalPLC
                             ModbusWindow.Controls.Add(UC);
                         }
                         UC.setETHShow(name);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_BASE_PARA")
+                    {
+                        UserControlMotionBasePara para = new UserControlMotionBasePara();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow.Controls.Add(para);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_MOTION_PARA")
+                    {
+                        UserControlMotionPara para = new UserControlMotionPara();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.Fill;
+                        ModbusWindow.Controls.Add(para);
+
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_PULSE_EQUIVALENT")
+                    {
+                        UserControlPulseEquivalent para = new UserControlPulseEquivalent();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.None;
+                        ModbusWindow.Controls.Add(para);
                     }
                 }
 
