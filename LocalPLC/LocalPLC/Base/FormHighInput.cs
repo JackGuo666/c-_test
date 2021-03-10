@@ -34,8 +34,13 @@ namespace LocalPLC.Base
         enum INPUTMODE {PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
         enum TRIGGER { NOTUSED, FAILING_EDGE, RSIING_EDGE, FAILING_RSIING_EDGE }
         public enum TIMEBASE { T100ms, T1s }
+
+        List<Base.xml.DIData> diData_ = null;
         public FormHighInput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSCData hscData)
         {
+            Base.xml.DataManageBase retDataManageBase = null;
+            UserControl1.UC.getDataManager(ref retDataManageBase);
+            diData_ = retDataManageBase.diList;
             InitializeComponent();
 
             posRegular = groupBox2.Location;
@@ -466,6 +471,30 @@ namespace LocalPLC.Base
 
         }
 
+
+        void checkBaseDIUse(bool isChecked, string diPort)
+        {
+            bool ret = false;
+            if(isChecked)
+            {
+                foreach(var port in diData_)
+                {
+                    if(port.channelName == diPort)
+                    {
+                        port.used = true;
+                        ret = true;
+                        break;
+                    }
+                }
+
+                if (!ret)
+                {
+                    utility.PrintError(string.Format("{0}在基本配置DI模块里没有找到!", diPort));
+                }
+            }
+
+        }
+
         private void FormHighInput_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.NOTUSED)
@@ -574,6 +603,12 @@ namespace LocalPLC.Base
                 //    hscData_.capturePort = "";
                 //}
                 hscData_.capturePort = textBox_capturePort.Text;
+
+                //di判断是否已用
+                checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
+                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                checkBaseDIUse(hscData_.presetChecked, hscData_.presetPort);
+                checkBaseDIUse(hscData_.captureChecked, hscData_.capturePort);
             }
             else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {
