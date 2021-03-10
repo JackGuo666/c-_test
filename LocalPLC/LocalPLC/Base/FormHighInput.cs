@@ -262,6 +262,56 @@ namespace LocalPLC.Base
             }
         }
 
+        void setFrequecyPortVisible(bool visible)
+        {
+            checkBox_frequencyPulse.Enabled = visible;
+            textBox_pulseFrequencyPort.Enabled = visible;
+        }
+
+        void setHSCPortFrequecy(string name)
+        {
+            if (name == "HSC0")
+            {
+                textBox_pulseFrequencyPort.Text = "DI00";
+                setFrequecyPortVisible(false);
+            }
+            else if(name == "HSC1")
+            {
+                textBox_pulseFrequencyPort.Text = "DI02";
+                setFrequecyPortVisible(false);
+            }
+            else if (name == "HSC2")
+            {
+                textBox_pulseFrequencyPort.Text = "DI04";
+                setFrequecyPortVisible(false);
+            }
+            else if (name == "HSC3")
+            {
+                textBox_pulseFrequencyPort.Text = "DI06";
+                setFrequecyPortVisible(false);
+            }
+            else if (name == "HSC4")
+            {
+                textBox_pulseFrequencyPort.Text = "DI01";
+                setFrequecyPortVisible(false);
+            }
+            else if(name == "HSC5")
+            {
+                textBox_pulseFrequencyPort.Text = "DI03";
+                setFrequecyPortVisible(false);
+            }
+            else if (name == "HSC6")
+            {
+                textBox_pulseFrequencyPort.Text = "DI05";
+                setFrequecyPortVisible(false);
+            }
+            else if (name == "HSC7")
+            {
+                textBox_pulseFrequencyPort.Text = "DI07";
+                setFrequecyPortVisible(false);
+            }
+        }
+
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             int currentIndex = this.comboBox_Type.SelectedIndex;
@@ -360,12 +410,10 @@ namespace LocalPLC.Base
                     checkBox_caputre.Location = posCaptureCheckBox;
                     textBox_capturePort.Location = posCapturePortLabel;
                 }
-                else if (currentIndex == 3)
+                else if (currentIndex == /*3*/ (int)UserControlHighIn.TYPE.FREQUENCY)
                 {
-                    //正交
-                    //label_direction.Text = "脉冲输入:";
-                    //label_pulse.Text = "脉冲输入:";
-                    //comboBox_inputmode.Text = "脉冲/脉冲";
+                    setHSCPortFrequecy(hscData_.name);
+
                     comboBox_inputmode.Visible = false;
                     label_inputmode.Visible = false;
                     groupBox2.Visible = false;
