@@ -183,6 +183,17 @@ namespace LocalPLC.Base
             label_caputreInput.Visible = visible;
         }
 
+        void setHSCNotUsed(string name)
+        {
+            if (name == "HSC0")
+            {
+                textBox_pulseInputPort.Text = "DI00";
+                textBox_dirInputPort.Text = "DI01";
+                textBox_presetPort.Text = "DI04";
+                textBox_capturePort.Text = "DI05";
+            }
+        }
+
         void setHSCPortDoublePulse(string name)
         {
             //双相
@@ -472,16 +483,40 @@ namespace LocalPLC.Base
         }
 
 
+        //检查辅助端口 (DI04 DI05) (06 07)
+        void checkBaseDIAssistUse(bool isChecked, string diPort)
+        {
+            //if(di)
+            if(diPort == "DI04" | diPort == "DI05" | diPort == "DI06" | diPort == "DI07")
+            {
+
+                if(!isChecked)
+                {
+                    //辅助接点不做修改
+                    return;
+                }
+
+            }
+
+            checkBaseDIUse(isChecked, diPort);
+        }
+
         void checkBaseDIUse(bool isChecked, string diPort)
         {
+
+            if(diPort.Length == 0)
+            {
+                return;
+            }
+
             bool ret = false;
-            if(isChecked)
+            //if(isChecked)
             {
                 foreach(var port in diData_)
                 {
                     if(port.channelName == diPort)
                     {
-                        port.used = true;
+                        port.used = isChecked;
                         ret = true;
                         break;
                     }
@@ -489,7 +524,7 @@ namespace LocalPLC.Base
 
                 if (!ret)
                 {
-                    utility.PrintError(string.Format("{0}在基本配置DI模块里没有找到!", diPort));
+                    //utility.PrintError(string.Format("{0}在基本配置DI模块里没有找到!", diPort));
                 }
             }
 
@@ -500,6 +535,23 @@ namespace LocalPLC.Base
             if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.NOTUSED)
             {
                 hscData_.type = comboBox_Type.SelectedIndex;
+                hscData_.pulseChecked = false;
+                hscData_.dirChecked = false;
+                hscData_.presetChecked = false;
+                hscData_.captureChecked = false;
+
+                hscData_.pulsePort = textBox_pulseInputPort.Text;
+                hscData_.dirPort = textBox_dirInputPort.Text;
+                hscData_.presetPort = textBox_presetPort.Text;
+                hscData_.capturePort = textBox_capturePort.Text;
+
+                //di判断是否已用
+                checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
+                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+
+                //辅助端口，false不处理
+                checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
+                checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
             }
             else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
@@ -607,8 +659,9 @@ namespace LocalPLC.Base
                 //di判断是否已用
                 checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
                 checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
-                checkBaseDIUse(hscData_.presetChecked, hscData_.presetPort);
-                checkBaseDIUse(hscData_.captureChecked, hscData_.capturePort);
+                //双相 辅助接点为false不做判断
+                checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
+                checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
             }
             else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {

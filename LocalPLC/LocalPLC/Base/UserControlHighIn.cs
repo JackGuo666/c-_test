@@ -7,11 +7,115 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace LocalPLC.Base
 {
     public partial class UserControlHighIn : UserControl
     {
+        public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
+        {
+            public DataGridViewDisableButtonColumn()
+            {
+                this.CellTemplate = new DataGridViewDisableButtonCell();
+            }
+        }
+
+        public class DataGridViewDisableButtonCell : DataGridViewButtonCell
+        {
+            private bool enabledValue;
+            public bool Enabled
+            {
+                get
+                {
+                    return enabledValue;
+                }
+                set
+                {
+                    enabledValue = value;
+                }
+            }
+
+            // Override the Clone method so that the Enabled property is copied.
+            public override object Clone()
+            {
+                DataGridViewDisableButtonCell cell =
+                    (DataGridViewDisableButtonCell)base.Clone();
+                cell.Enabled = this.Enabled;
+                return cell;
+            }
+
+            // By default, enable the button cell.
+            public DataGridViewDisableButtonCell()
+            {
+                this.enabledValue = true;
+            }
+
+            protected override void Paint(Graphics graphics,
+                Rectangle clipBounds, Rectangle cellBounds, int rowIndex,
+                DataGridViewElementStates elementState, object value,
+                object formattedValue, string errorText,
+                DataGridViewCellStyle cellStyle,
+                DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                DataGridViewPaintParts paintParts)
+            {
+                // The button cell is disabled, so paint the border,
+                // background, and disabled button for the cell.
+                if (!this.enabledValue)
+                {
+                    // Draw the cell background, if specified.
+                    if ((paintParts & DataGridViewPaintParts.Background) ==
+                        DataGridViewPaintParts.Background)
+                    {
+                        SolidBrush cellBackground =
+                            new SolidBrush(cellStyle.BackColor);
+                        graphics.FillRectangle(cellBackground, cellBounds);
+                        cellBackground.Dispose();
+                    }
+
+                    // Draw the cell borders, if specified.
+                    if ((paintParts & DataGridViewPaintParts.Border) ==
+                        DataGridViewPaintParts.Border)
+                    {
+                        PaintBorder(graphics, clipBounds, cellBounds, cellStyle,
+                            advancedBorderStyle);
+                    }
+
+                    // Calculate the area in which to draw the button.
+                    Rectangle buttonArea = cellBounds;
+                    Rectangle buttonAdjustment =
+                        this.BorderWidths(advancedBorderStyle);
+                    buttonArea.X += buttonAdjustment.X;
+                    buttonArea.Y += buttonAdjustment.Y;
+                    buttonArea.Height -= buttonAdjustment.Height;
+                    buttonArea.Width -= buttonAdjustment.Width;
+
+                    // Draw the disabled button.
+                    ButtonRenderer.DrawButton(graphics, buttonArea,
+                        PushButtonState.Disabled);
+
+                    // Draw the disabled button text.
+                    if (this.FormattedValue is String)
+                    {
+                        TextRenderer.DrawText(graphics,
+                            (string)this.FormattedValue,
+                            this.DataGridView.Font,
+                            buttonArea, SystemColors.GrayText);
+                    }
+                }
+                else
+                {
+                    // The button cell is enabled, so let the base class
+                    // handle the painting.
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex,
+                        elementState, value, formattedValue, errorText,
+                        cellStyle, advancedBorderStyle, paintParts);
+                }
+            }
+        }
+
+
+
         public enum TYPE { NOTUSED, SINGLEPULSE, DOUBLEPULSE, FREQUENCY}
         public UserControlHighIn()
         {
@@ -191,7 +295,7 @@ namespace LocalPLC.Base
 
             this.dataGridView1.DataSource = dtData;
 
-            DataGridViewButtonColumn uninstallButtonColumn = new DataGridViewButtonColumn();
+            DataGridViewDisableButtonColumn uninstallButtonColumn = new DataGridViewDisableButtonColumn();
             uninstallButtonColumn.Name = "配置";
             uninstallButtonColumn.Text = "...";
 
@@ -239,10 +343,42 @@ namespace LocalPLC.Base
             //}
         }
 
+
+
+
+        void setButtonConfig(bool enable, int column, int row)
+        {
+            //DI00使用，HSC4不可以配置
+            DataGridViewDisableButtonColumn button = (DataGridViewDisableButtonColumn)dataGridView1.Columns[0];
+            DataGridViewButtonCell vCell = (DataGridViewButtonCell)dataGridView1[column, row];
+            if (vCell is DataGridViewDisableButtonCell)
+            {
+                ((DataGridViewDisableButtonCell)vCell).Enabled = enable;
+                dataGridView1.Invalidate();
+            }
+        }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+
+
+
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
+
+
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index)
             {
+                if (dataGridView1.CurrentCell is DataGridViewDisableButtonCell)
+                {
+                    if( ((DataGridViewDisableButtonCell)dataGridView1.CurrentCell).Enabled == false)
+                    {
+                        return;
+                    }
+                }
+
                 //Do something with your button. 
                 FormHighInput color = new FormHighInput(typeDescDic, UserControlBase.dataManage.hscList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
@@ -258,6 +394,67 @@ namespace LocalPLC.Base
                     //dtData.Rows[row][col] = typeDescDic[type];
                     dtData.Rows[row][columnTypeIndex] = typeDescDic[type];
                     dtData.Rows[row][columnUsedIndex] = UserControlBase.dataManage.hscList[e.RowIndex].used;
+                }
+
+                //根据高速DI使用情况，HSC轴是否可以配置调整
+                foreach(var di in UserControlBase.dataManage.diList)
+                {
+                    if(di.channelName == "DI01")
+                    {
+                        if(di.used)
+                        {
+                            //DI00使用，HSC4不可以配置
+                            //DataGridViewDisableButtonColumn button = (DataGridViewDisableButtonColumn)dataGridView1.Columns[0];
+                            //DataGridViewButtonCell vCell = (DataGridViewButtonCell)dataGridView1[0, 4];
+                            //if (vCell is DataGridViewDisableButtonCell)
+                            //{
+                            //    ((DataGridViewDisableButtonCell)vCell).Enabled = false;
+                            //    dataGridView1.Invalidate();
+                            //}
+
+                            setButtonConfig(false, 0, 4);
+
+                        }
+                        else
+                        {
+                            setButtonConfig(true, 0, 4);
+                        }
+                    }
+                    else if(di.channelName == "DI03")
+                    {
+                        if(di.used)
+                        {
+                            setButtonConfig(false, 0, 5);
+                        }
+                        else
+                        {
+                            setButtonConfig(true, 0, 5);
+                        }
+                    }
+                    else if(di.channelName == "DI05")
+                    {
+                        if (di.used)
+                        {
+                            setButtonConfig(false, 0, 6);
+                        }
+                        else
+                        {
+                            setButtonConfig(true, 0, 6);
+                        }
+                    }
+                    else if (di.channelName == "DI07")
+                    {
+
+
+                        if (di.used)
+                        {
+                            setButtonConfig(false, 0, 7);
+                        }
+                        else
+                        {
+                            setButtonConfig(true, 0, 7);
+                        }
+                    }
                 }
             }
         }
@@ -315,7 +512,7 @@ namespace LocalPLC.Base
 
             try
             {
-                if (this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+                if (this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex + 1)
                 {
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
 
@@ -334,15 +531,15 @@ namespace LocalPLC.Base
 
         private void dataGridView1_DataSourceChanged(object sender, EventArgs e)
         {
-            //绑定事件DataBindingComplete 之后设置才有效果
-            dataGridView1.Columns[columnUsedIndex].ReadOnly = true;
-            //背景设置灰色只读
-            dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+            ////绑定事件DataBindingComplete 之后设置才有效果
+            //dataGridView1.Columns[columnUsedIndex].ReadOnly = true;
+            ////背景设置灰色只读
+            //dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
 
-            dataGridView1.Columns[columnVarIndex].ReadOnly = true;
-            dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
-            dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
+            //dataGridView1.Columns[columnVarIndex].ReadOnly = true;
+            //dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
+            //dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
         }
     }
 }
