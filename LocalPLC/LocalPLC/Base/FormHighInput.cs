@@ -63,6 +63,8 @@ namespace LocalPLC.Base
             //posCapturePortLabel = comboBox_capturePort.Location;
             posCapturePortLabel = textBox_capturePort.Location;
 
+            //根据DI端口，添加有效类型
+            initComboType(typeDescDic);
             foreach (var elem in typeDescDic)
             {
                 comboBox_Type.Items.Add(elem.Value);
@@ -170,7 +172,43 @@ namespace LocalPLC.Base
             }
 
             checkBox_frequencyDoubleWord.Checked = hscData_.frequencyDoubleWord;
+
+
+            if(hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            {
+                //双相
+
+            }
         }
+
+        #region
+
+        void initComboType(Dictionary<int, string> typeDescDic)
+        {
+            if(hscData_.name == "HSC0")
+            {
+                foreach(var di in diData_)
+                {
+                    if(di.channelName == "DI01")
+                    {
+                        if(di.used)
+                        {
+                            //DI01已使用，没有双相类型
+                            foreach (var elem in typeDescDic)
+                            {
+                                if(elem.Key != (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+                                {
+                                    comboBox_Type.Items.Add(elem.Value);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
 
         void setPresetCapureVisble(bool visible)
         {
@@ -517,6 +555,7 @@ namespace LocalPLC.Base
                     if(port.channelName == diPort)
                     {
                         port.used = isChecked;
+                        port.hscUsed = hscData_.name;
                         ret = true;
                         break;
                     }
@@ -571,7 +610,7 @@ namespace LocalPLC.Base
 
 
                 hscData_.pulseChecked = checkBox_pulse.Checked;
-                hscData_.dirChecked = checkBox_direction.Checked;
+                hscData_.dirChecked = /*checkBox_direction.Checked*/ false;
                 hscData_.presetChecked = checkBox_preset.Checked;
                 hscData_.captureChecked = checkBox_caputre.Checked;
 
@@ -597,6 +636,17 @@ namespace LocalPLC.Base
                 //    hscData_.capturePort = "";
                 //}
                 hscData_.capturePort = textBox_capturePort.Text;
+
+                //di判断是否已用
+                checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
+                //单相没有方向，下面代码注释
+                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+
+                //辅助端口，false不处理
+                checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
+                checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
+
+
 
             }
             else if (comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)

@@ -176,6 +176,7 @@ namespace LocalPLC.Base.xml
         public string channelName = "";
         public string address = "";
         public string note = "";
+        public string hscUsed = "";
     }
 
     public class SERIALData

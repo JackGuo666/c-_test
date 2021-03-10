@@ -412,6 +412,11 @@ namespace LocalPLC.Base
                             //    dataGridView1.Invalidate();
                             //}
 
+                            if (di.hscUsed == "HSC4")
+                            {
+                                continue;
+                            }
+
                             setButtonConfig(false, 0, 4);
 
                         }
@@ -424,6 +429,10 @@ namespace LocalPLC.Base
                     {
                         if(di.used)
                         {
+                            if (UserControlBase.dataManage.hscList[e.RowIndex].name == "HSC5")
+                            {
+                                continue;
+                            }
                             setButtonConfig(false, 0, 5);
                         }
                         else
@@ -435,6 +444,12 @@ namespace LocalPLC.Base
                     {
                         if (di.used)
                         {
+
+
+                            if (UserControlBase.dataManage.hscList[e.RowIndex].name == "HSC6")
+                            {
+                                continue;
+                            }
                             setButtonConfig(false, 0, 6);
                         }
                         else
@@ -448,6 +463,11 @@ namespace LocalPLC.Base
 
                         if (di.used)
                         {
+                            if (UserControlBase.dataManage.hscList[e.RowIndex].name == "HSC7")
+                            {
+                                continue;
+                            }
+
                             setButtonConfig(false, 0, 7);
                         }
                         else
