@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,6 +58,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\packages\zedgraph_dll_v515\zedgraph_dll_v515\zedgraph_dll_v5.1.5\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\FormHighInput.cs">
@@ -262,6 +265,48 @@
     <Compile Include="ModbusSlave\modbusslavemain.Designer.cs">
       <DependentUpon>modbusslavemain.cs</DependentUpon>
     </Compile>
+    <Compile Include="motion\UserControlBackOrigin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlBackOrigin.Designer.cs">
+      <DependentUpon>UserControlBackOrigin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlDynamicPara.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlDynamicPara.Designer.cs">
+      <DependentUpon>UserControlDynamicPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlLimitSignal.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlLimitSignal.Designer.cs">
+      <DependentUpon>UserControlLimitSignal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlMotionBasePara.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlMotionBasePara.Designer.cs">
+      <DependentUpon>UserControlMotionBasePara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlMotionPara.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlMotionPara.Designer.cs">
+      <DependentUpon>UserControlMotionPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlPulseEquivalent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlPulseEquivalent.Designer.cs">
+      <DependentUpon>UserControlPulseEquivalent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlReverseCompensation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlReverseCompensation.Designer.cs">
+      <DependentUpon>UserControlReverseCompensation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -379,6 +424,27 @@
     <EmbeddedResource Include="ModbusSlave\modbusslavemain.resx">
       <DependentUpon>modbusslavemain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlBackOrigin.resx">
+      <DependentUpon>UserControlBackOrigin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlDynamicPara.resx">
+      <DependentUpon>UserControlDynamicPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlLimitSignal.resx">
+      <DependentUpon>UserControlLimitSignal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlMotionBasePara.resx">
+      <DependentUpon>UserControlMotionBasePara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlMotionPara.resx">
+      <DependentUpon>UserControlMotionPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlPulseEquivalent.resx">
+      <DependentUpon>UserControlPulseEquivalent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlReverseCompensation.resx">
+      <DependentUpon>UserControlReverseCompensation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -389,6 +455,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="pic\TM221C16R.jpg" />
+    <Content Include="pic\LocalPLC24P.png" />
     <Content Include="Properties\Interop.ADELib.dll" />
   </ItemGroup>
   <ItemGroup>

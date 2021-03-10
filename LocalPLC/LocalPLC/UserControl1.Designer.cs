@@ -330,6 +330,7 @@
             // 
             // ModbusWindow
             // 
+            this.ModbusWindow.BackColor = System.Drawing.Color.White;
             this.ModbusWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ModbusWindow.Location = new System.Drawing.Point(358, 0);
             this.ModbusWindow.Margin = new System.Windows.Forms.Padding(4);
