@@ -14,6 +14,8 @@ namespace LocalPLC.ModbusMaster
         public modbusmasterDeviceform()
         {
             InitializeComponent();
+
+           
         }
 
         private ModbusMasterData masterData_;
@@ -32,6 +34,15 @@ namespace LocalPLC.ModbusMaster
         private string[] columnName = {"ID", "name"};
         private void modbusmasterform_Load(object sender, EventArgs e)
         {
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UserControl1.UC.getDataManager(ref baseData);
+            comboBox_transform_channel.Items.Clear();
+            foreach (string serialname in baseData.serialDic.Keys)
+            {
+                comboBox_transform_channel.Items.Add(serialname);
+
+            }
+            comboBox_transform_channel.SelectedIndex = -1;
             try
             {
                 DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
@@ -94,7 +105,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                     DataGridViewContentAlignment.MiddleCenter;
 
-                this.comboBox_transform_channel.Items.Add("COM1");
+                //this.comboBox_transform_channel.Items.Add("COM1");
                 this.comboBox_transform_channel.Text = masterData_.transformChannel;
 
                 this.textBox_reponse_timeout.Text = masterData_.responseTimeout.ToString();   //ms

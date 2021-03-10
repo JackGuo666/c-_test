@@ -17,11 +17,22 @@ namespace LocalPLC.ModbusClient
        
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
+        
         public modbusclient1()
         {
             InitializeComponent();
-            
+
             //this.Controls.Add(channel);
+
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UserControl1.UC.getDataManager(ref baseData);
+            foreach (string ethname in baseData.ethernetDic.Keys)
+            {
+                comboBox1.Items.Add(ethname);
+
+            }
+            comboBox1.SelectedIndex = -1;
+
             channel.Text = ". . .";
             
             DataColumn dc = null;
@@ -142,11 +153,9 @@ namespace LocalPLC.ModbusClient
             //this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ColumnHeadersDefaultCellStyle.Alignment =
                 DataGridViewContentAlignment.MiddleCenter;
-            this.comboBox1.Items.Add("网口1");
-            this.comboBox1.Items.Add("网口2");
-            this.comboBox1.Items.Add("网口3");
+            
             this.comboBox1.Text = data_.transformChannel;
-            this.textBox1.Text = data_.responseTimeout.ToString();   //ms
+            
             if (data_.transformMode == 0)
             {
                 radioButton1.Checked = true;
@@ -372,6 +381,7 @@ namespace LocalPLC.ModbusClient
             }
             if (e.ColumnIndex == (int)COLUMNNAME.通道)
             {
+                refresh();
                 DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
                 
                 ModbusClientData datac = data_;
@@ -458,14 +468,7 @@ namespace LocalPLC.ModbusClient
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            string str = textBox1.Text;
-            if (!int.TryParse(str.ToString(), out data_.responseTimeout))
-            {
-                textBox1.Text = "1000";
-            }
-        }
+        
 
         private void dataGridView1_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -479,6 +482,9 @@ namespace LocalPLC.ModbusClient
             dataGridView1.Columns.Add(mcg);
         }
 
-        
+        private void modbusclient1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            refresh();
+        }
     }
 }

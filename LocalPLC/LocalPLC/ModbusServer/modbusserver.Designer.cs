@@ -434,7 +434,7 @@
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(379, 128);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(71, 18);
+            this.label26.Size = new System.Drawing.Size(107, 27);
             this.label26.TabIndex = 10;
             this.label26.Text = "(0-500)";
             // 
@@ -445,7 +445,7 @@
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(80, 18);
             this.label25.TabIndex = 9;
-            this.label25.Text = "(0-8000)";
+            this.label25.Text = "(0-1000)";
             // 
             // label21
             // 
@@ -463,7 +463,7 @@
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(80, 18);
             this.label20.TabIndex = 7;
-            this.label20.Text = "(0-8000)";
+            this.label20.Text = "(0-1000)";
             // 
             // label15
             // 
@@ -514,7 +514,7 @@
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(62, 18);
             this.label24.TabIndex = 10;
-            this.label24.Text = "0-8000";
+            this.label24.Text = "0-1000";
             // 
             // label22
             // 

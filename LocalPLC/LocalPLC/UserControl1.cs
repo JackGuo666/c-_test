@@ -841,9 +841,9 @@ namespace LocalPLC
                 {
                     writer.WriteStartObject(); //{ input数组成员节点
                     writer.WritePropertyName("channel");
-                    writer.WriteValue(baseData.diList[0].channelName);
+                    writer.WriteValue(baseData.diList[i].channelName);
                     writer.WritePropertyName("fit_time");
-                    writer.WriteValue(baseData.diList[0].filterTime);
+                    writer.WriteValue(baseData.diList[i].filterTime);
                     writer.WritePropertyName("io_bit_off");
                     writer.WriteValue(i);
                     writer.WriteEndObject(); //} input数组成员节点
@@ -865,7 +865,7 @@ namespace LocalPLC
                 {
                     writer.WriteStartObject(); //{ input数组成员节点
                     writer.WritePropertyName("channel");
-                    writer.WriteValue(baseData.doList[0].channelName);
+                    writer.WriteValue(baseData.doList[i].channelName);
                     writer.WritePropertyName("io_bit_off");
                     writer.WriteValue(i);
                     writer.WriteEndObject(); //} output数组成员节点

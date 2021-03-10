@@ -148,19 +148,26 @@ namespace LocalPLC
                 {
                     ll[i].Delete();
                 }
-
-                var list = UserControl1.modmaster.masterManage.modbusMastrList;
-                foreach (var master in list)
+                List<LocalPLC.ModbusMaster.ModbusMasterData> listmaster = UserControl1.modmaster.masterManage.modbusMastrList;
+                int masternumber = 0;
+                //var list = UserControl1.modmaster.masterManage.modbusMastrList;
+                foreach (var master in listmaster)
                 {
-                    string str = string.Format("master_in{0}", master.ID);
-
-                    iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
-                utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
-                1, 1, 1, 1);
-                    str = string.Format("master_out{0}", master.ID);
-                    iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
-                                utility.modbusMudule, "SystemIODriver", "<默认>", "", master.curMasterStartAddr, "test", AdeIoGroupDataType.adeIgdtByte,
-                                1, 1, 1, 1);
+                    List<LocalPLC.ModbusMaster.DeviceData> listmasterdev = UserControl1.modmaster.masterManage.modbusMastrList[masternumber].modbusDeviceList;
+                    for (int i =0;i<listmasterdev.Count;i++)
+                    {
+                        string str = string.Format("master_in{0}_dev{1}", master.ID,master.modbusDeviceList[i].ID);
+                        //int a = listmasterdev[i].curDeviceLength;
+                        //int b = listmasterdev[i].curDeviceAddr;
+                        iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+                            listmasterdev[i].curDeviceLength, "SystemIODriver", "<默认>", "", listmasterdev[i].curDeviceAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            1, 1, 1, 1);
+                        str = string.Format("master_out{0}_dev{1}", master.ID, master.modbusDeviceList[i].ID);
+                        iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                            listmasterdev[i].curDeviceLength, "SystemIODriver", "<默认>", "", listmasterdev[i].curDeviceAddr, "test", AdeIoGroupDataType.adeIgdtByte,
+                            1, 1, 1, 1);
+                    }
+                    masternumber++;                   
                 }
                 List<LocalPLC.ModbusClient.ModbusClientData> listClient = UserControl1.mci.clientManage.modbusClientList;
                 int clientnumber = 0;
@@ -170,8 +177,8 @@ namespace LocalPLC
                     for (int j = 0; j < listclientdev.Count; j++)
                     {     
                         string str = string.Format("client_in{0}_dev{1}", client.ID, client.modbusDeviceList[j].ID);
-                        int aaa = listclientdev[j].devstartaddr;
-                        int bbb = listclientdev[j].devlength;
+                        //int aaa = listclientdev[j].devstartaddr;
+                        //int bbb = listclientdev[j].devlength;
                         iog.Create(str, AdeIoGroupAccessType.adeIgatInput, listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
                             , 1, 1, 1, 1);
                         str = string.Format("client_out{0}_dev{1}", client.ID, client.modbusDeviceList[j].ID);
@@ -343,11 +350,15 @@ namespace LocalPLC
                                         }
                                         foreach (var channel in device.modbusChannelList)
                                         {
+                                            string adress = string.Format("%IB{0}", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量
+                                            string adresswrite = string.Format("%QB{0}", channel.curChannelAddr + 3);
+                                            string adressword = string.Format("%IW{0}", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量
+                                            string adresswriteword = string.Format("%QW{0}", channel.curChannelAddr + 3);
                                             if (utility.varTypeDicBit.ContainsKey(channel.readLength) && (channel.msgType == 1|| channel.msgType == 2
                                                 || channel.msgType == 5 || channel.msgType == 15))
                                             {
                                                 string varType = utility.varTypeDicBit[channel.readLength];
-                                                string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量,错误变量为1个word
+                                                //string adress = string.Format("%IX{0}.0", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量,错误变量为1个word
                                                 if (channel.trigger != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
@@ -368,15 +379,22 @@ namespace LocalPLC
                                                     string d = channel.offsetkey1;
                                                     erroroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey2);
                                                 }
-
-                                                ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                if (channel.msgType >= 1 && channel.msgType <= 4)
+                                                {
+                                                    ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
                                                     "Inserted from AIFDemo", "", adress, false);
+                                                }
+                                                else if (channel.msgType >= 5)
+                                                {
+                                                    ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adresswrite, false);
+                                                }
                                             }
                                             else if (utility.varTypeDicWord.ContainsKey(channel.readLength) && (channel.msgType == 3 || channel.msgType == 4 ||
                                                 channel.msgType == 6 || channel.msgType == 16))
                                             {
                                                 string varType = utility.varTypeDicWord[channel.readLength];
-                                                string adress = string.Format("%IW{0}", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量
+                                                //string adress = string.Format("%IW{0}", channel.curChannelAddr + 3);  //2 一个触发变量 一个错误变量
                                                 if (channel.trigger != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
@@ -397,8 +415,16 @@ namespace LocalPLC
                                                     string d = channel.offsetkey1;
                                                     erroroffset.SetAttribute(20, channel.offsetkey[0] + "m" + channel.offsetkey[1] + channel.offsetkey[2] + "m" + channel.offsetkey2);
                                                 }
-                                                ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "Inserted from AIFDemo", "", adress, false);
+                                                if (channel.msgType >= 1 && channel.msgType <= 4)
+                                                {
+                                                    ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adressword, false);
+                                                }
+                                                else if (channel.msgType >= 5)
+                                                {
+                                                    ttt.Variables.Create(channel.nameChannel, varType, AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "Inserted from AIFDemo", "", adresswriteword, false);
+                                                }
                                             }
 
                                         }
@@ -949,11 +975,11 @@ namespace LocalPLC
                     {
                         if (SplicedDataType.hashSetBit.Contains(channel.msgType))
                         {
-                            strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataBit, channel.readLength);
+                            strSave += SplicedDataType.splicedDataTypeArray(channel.readLength.ToString()+"m", ArrayDataType.DataBit, channel.readLength);
                         }
                         else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
                         {
-                            strSave += SplicedDataType.splicedDataTypeArray(channel.nameChannel, ArrayDataType.DataWord, channel.readLength);
+                            strSave += SplicedDataType.splicedDataTypeArray(channel.readLength.ToString()+"m", ArrayDataType.DataWord, channel.readLength);
                         }
 
                     }
@@ -969,14 +995,14 @@ namespace LocalPLC
                         //if(channel.msgType == 1 || channel.msgType == 2 || channel.msgType == 5 || channel.msgType == 15)
                         {
                             //string name = "client" + client.ID.ToString() + "dev" + device.ID.ToString() + "cha" + channel.ID.ToString();
-                            string name = channel.Length.ToString();
+                            string name = channel.Length.ToString()+"c";
                             strSave1 += SplicedDataType.splicedDataTypeArray1(name, ArrayDataType.DataBit, channel.Length);
                             
                             
                         }
                         else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
                         {
-                            string name = channel.Length.ToString();
+                            string name = channel.Length.ToString()+"c";
                             strSave1 += SplicedDataType.splicedDataTypeArray1(name, ArrayDataType.DataWord, channel.Length);
                                
                         }

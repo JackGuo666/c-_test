@@ -1156,7 +1156,7 @@ namespace LocalPLC.ModbusServer
             bool number = isNumber(textBox1.Text);
             if (number == true)
             {
-                if (Convert.ToInt32(textBox1.Text) < 0 || Convert.ToInt32(textBox1.Text) > 8000)
+                if (Convert.ToInt32(textBox1.Text) < 0 || Convert.ToInt32(textBox1.Text) > 1000)
                 {
                     MessageBox.Show("超出范围");
                     textBox1.Text = dataManager.listServer[0].dataDevice_.coilCount.ToString();
@@ -1239,7 +1239,7 @@ namespace LocalPLC.ModbusServer
             bool number = isNumber(textBox3.Text);
             if (number == true)
             {
-                if (Convert.ToInt32(textBox3.Text) < 0 || Convert.ToInt32(textBox3.Text) > 8000)
+                if (Convert.ToInt32(textBox3.Text) < 0 || Convert.ToInt32(textBox3.Text) > 1000)
                 {
                     MessageBox.Show("超出范围");
                     textBox3.Text = dataManager.listServer[0].dataDevice_.decreteCount.ToString();
@@ -1328,7 +1328,7 @@ namespace LocalPLC.ModbusServer
 
         private void textBox29_TextChanged(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(textBox29.Text) > 8000)
+            if (Convert.ToInt32(textBox29.Text) > 1000)
             {
                 MessageBox.Show("长度超出范围，请重新设置");
                 textBox29.BackColor = Color.Red;
