@@ -48,11 +48,8 @@
             this.checkBox_caputre = new System.Windows.Forms.CheckBox();
             this.checkBox_preset = new System.Windows.Forms.CheckBox();
             this.checkBox_direction = new System.Windows.Forms.CheckBox();
-            this.checkBox_pulse = new System.Windows.Forms.CheckBox();
             this.label_presetInput = new System.Windows.Forms.Label();
-            this.comboBox_presetPort = new System.Windows.Forms.ComboBox();
             this.label_caputreInput = new System.Windows.Forms.Label();
-            this.comboBox_capturePort = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.comboBox_trigger1 = new System.Windows.Forms.ComboBox();
             this.comboBox_trigger0 = new System.Windows.Forms.ComboBox();
@@ -73,6 +70,9 @@
             this.checkBox_doubleWord = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox_inputmode = new System.Windows.Forms.ComboBox();
+            this.textBox_presetPort = new System.Windows.Forms.TextBox();
+            this.checkBox_pulse = new System.Windows.Forms.CheckBox();
+            this.textBox_capturePort = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -222,7 +222,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.textBox_capturePort);
             this.groupBox3.Controls.Add(this.textBox_pulseInputPort);
+            this.groupBox3.Controls.Add(this.textBox_presetPort);
             this.groupBox3.Controls.Add(this.textBox_dirInputPort);
             this.groupBox3.Controls.Add(this.checkBox_caputre);
             this.groupBox3.Controls.Add(this.checkBox_preset);
@@ -230,10 +232,8 @@
             this.groupBox3.Controls.Add(this.checkBox_pulse);
             this.groupBox3.Controls.Add(this.label_presetInput);
             this.groupBox3.Controls.Add(this.label_pulse);
-            this.groupBox3.Controls.Add(this.comboBox_presetPort);
             this.groupBox3.Controls.Add(this.label_caputreInput);
             this.groupBox3.Controls.Add(this.label_direction);
-            this.groupBox3.Controls.Add(this.comboBox_capturePort);
             this.groupBox3.Location = new System.Drawing.Point(5, 352);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(906, 200);
@@ -242,6 +242,7 @@
             // 
             // textBox_pulseInputPort
             // 
+            this.textBox_pulseInputPort.Enabled = false;
             this.textBox_pulseInputPort.Location = new System.Drawing.Point(382, 41);
             this.textBox_pulseInputPort.Name = "textBox_pulseInputPort";
             this.textBox_pulseInputPort.Size = new System.Drawing.Size(113, 28);
@@ -250,6 +251,7 @@
             // 
             // textBox_dirInputPort
             // 
+            this.textBox_dirInputPort.Enabled = false;
             this.textBox_dirInputPort.Location = new System.Drawing.Point(382, 75);
             this.textBox_dirInputPort.Name = "textBox_dirInputPort";
             this.textBox_dirInputPort.Size = new System.Drawing.Size(113, 28);
@@ -279,22 +281,15 @@
             // checkBox_direction
             // 
             this.checkBox_direction.AutoSize = true;
+            this.checkBox_direction.Checked = true;
+            this.checkBox_direction.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_direction.Enabled = false;
             this.checkBox_direction.Location = new System.Drawing.Point(209, 79);
             this.checkBox_direction.Name = "checkBox_direction";
             this.checkBox_direction.Size = new System.Drawing.Size(70, 22);
             this.checkBox_direction.TabIndex = 3;
             this.checkBox_direction.Text = "启用";
             this.checkBox_direction.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_pulse
-            // 
-            this.checkBox_pulse.AutoSize = true;
-            this.checkBox_pulse.Location = new System.Drawing.Point(209, 44);
-            this.checkBox_pulse.Name = "checkBox_pulse";
-            this.checkBox_pulse.Size = new System.Drawing.Size(70, 22);
-            this.checkBox_pulse.TabIndex = 3;
-            this.checkBox_pulse.Text = "启用";
-            this.checkBox_pulse.UseVisualStyleBackColor = true;
             // 
             // label_presetInput
             // 
@@ -305,15 +300,6 @@
             this.label_presetInput.TabIndex = 0;
             this.label_presetInput.Text = "预设输入:";
             // 
-            // comboBox_presetPort
-            // 
-            this.comboBox_presetPort.BackColor = System.Drawing.Color.White;
-            this.comboBox_presetPort.FormattingEnabled = true;
-            this.comboBox_presetPort.Location = new System.Drawing.Point(382, 112);
-            this.comboBox_presetPort.Name = "comboBox_presetPort";
-            this.comboBox_presetPort.Size = new System.Drawing.Size(113, 26);
-            this.comboBox_presetPort.TabIndex = 2;
-            // 
             // label_caputreInput
             // 
             this.label_caputreInput.AutoSize = true;
@@ -322,15 +308,6 @@
             this.label_caputreInput.Size = new System.Drawing.Size(89, 18);
             this.label_caputreInput.TabIndex = 0;
             this.label_caputreInput.Text = "捕捉输入:";
-            // 
-            // comboBox_capturePort
-            // 
-            this.comboBox_capturePort.FormattingEnabled = true;
-            this.comboBox_capturePort.Location = new System.Drawing.Point(382, 147);
-            this.comboBox_capturePort.Name = "comboBox_capturePort";
-            this.comboBox_capturePort.Size = new System.Drawing.Size(113, 26);
-            this.comboBox_capturePort.TabIndex = 2;
-            this.comboBox_capturePort.SelectedIndexChanged += new System.EventHandler(this.comboBox5_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -521,6 +498,38 @@
             this.comboBox_inputmode.TabIndex = 2;
             this.comboBox_inputmode.SelectedIndexChanged += new System.EventHandler(this.comboBox_inputmode_SelectedIndexChanged);
             // 
+            // textBox_presetPort
+            // 
+            this.textBox_presetPort.Enabled = false;
+            this.textBox_presetPort.Location = new System.Drawing.Point(382, 112);
+            this.textBox_presetPort.Name = "textBox_presetPort";
+            this.textBox_presetPort.Size = new System.Drawing.Size(113, 28);
+            this.textBox_presetPort.TabIndex = 4;
+            this.textBox_presetPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // checkBox_pulse
+            // 
+            this.checkBox_pulse.AutoSize = true;
+            this.checkBox_pulse.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox_pulse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.checkBox_pulse.Checked = true;
+            this.checkBox_pulse.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_pulse.Enabled = false;
+            this.checkBox_pulse.Location = new System.Drawing.Point(209, 44);
+            this.checkBox_pulse.Name = "checkBox_pulse";
+            this.checkBox_pulse.Size = new System.Drawing.Size(70, 22);
+            this.checkBox_pulse.TabIndex = 3;
+            this.checkBox_pulse.Text = "启用";
+            this.checkBox_pulse.UseVisualStyleBackColor = false;
+            // 
+            // textBox_capturePort
+            // 
+            this.textBox_capturePort.Enabled = false;
+            this.textBox_capturePort.Location = new System.Drawing.Point(382, 150);
+            this.textBox_capturePort.Name = "textBox_capturePort";
+            this.textBox_capturePort.Size = new System.Drawing.Size(113, 28);
+            this.textBox_capturePort.TabIndex = 5;
+            // 
             // FormHighInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -558,9 +567,7 @@
         private System.Windows.Forms.CheckBox checkBox_direction;
         private System.Windows.Forms.CheckBox checkBox_pulse;
         private System.Windows.Forms.Label label_presetInput;
-        private System.Windows.Forms.ComboBox comboBox_presetPort;
         private System.Windows.Forms.Label label_caputreInput;
-        private System.Windows.Forms.ComboBox comboBox_capturePort;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox comboBox_trigger1;
         private System.Windows.Forms.ComboBox comboBox_trigger0;
@@ -589,5 +596,7 @@
         private System.Windows.Forms.TextBox textBox_pulseInputPort;
         private System.Windows.Forms.TextBox textBox_pulseFrequencyPort;
         private System.Windows.Forms.CheckBox checkBox_frequencyDoubleWord;
+        private System.Windows.Forms.TextBox textBox_presetPort;
+        private System.Windows.Forms.TextBox textBox_capturePort;
     }
 }

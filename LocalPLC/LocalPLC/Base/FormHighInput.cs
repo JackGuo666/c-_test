@@ -48,14 +48,15 @@ namespace LocalPLC.Base
 
             posPresetLabel = label_presetInput.Location;
             posPresetCheckBox = checkBox_preset.Location;
-            posPresetPortCombo = comboBox_presetPort.Location;
+            posPresetPortCombo = textBox_presetPort.Location;
 
             hscType_ = hscData.type;
             hscData_ = hscData;
 
             posCaptureLabel = label_caputreInput.Location;
             posCaptureCheckBox = checkBox_caputre.Location;
-            posCapturePortLabel = comboBox_capturePort.Location;
+            //posCapturePortLabel = comboBox_capturePort.Location;
+            posCapturePortLabel = textBox_capturePort.Location;
 
             foreach (var elem in typeDescDic)
             {
@@ -97,16 +98,20 @@ namespace LocalPLC.Base
                 comboBox_trigger1.Items.Add(trigger.Value);
             }
 
-            foreach(var di in UserControlBase.dataManage.diList)
-            {
-                comboBox_presetPort.Items.Add(di.channelName);
-            }
+            //根据HSC号设置textBox_presetPort
+            textBox_presetPort.Text = "DI00";
+            //textBox_presetPort.BackColor
+            //foreach (var di in UserControlBase.dataManage.diList)
+            //{
+            //    comboBox_presetPort.Items.Add(di.channelName);
+            //}
 
-
-            foreach (var di in UserControlBase.dataManage.diList)
-            {
-                comboBox_capturePort.Items.Add(di.channelName);
-            }
+            //根据HSC号设置textBox_presetPort
+            textBox_capturePort.Text = "DI01";
+            //foreach (var di in UserControlBase.dataManage.diList)
+            //{
+            //    comboBox_capturePort.Items.Add(di.channelName);
+            //}
 
 
             comboBox_trigger0.SelectedIndex = hscData_.trigger0;
@@ -142,8 +147,10 @@ namespace LocalPLC.Base
             //
             textBox_pulseInputPort.Text = hscData_.pulsePort;
             textBox_dirInputPort.Text = hscData_.dirPort;
-            comboBox_presetPort.Text = hscData_.presetPort;
-            comboBox_capturePort.Text = hscData_.capturePort;
+            //comboBox_presetPort.Text = hscData_.presetPort;
+            textBox_presetPort.Text = hscData_.presetPort;
+            //comboBox_capturePort.Text = hscData_.capturePort;
+            textBox_capturePort.Text = hscData_.capturePort;
 
             //频率计
             checkBox_frequencyPulse.Checked = hscData_.pulseFrequencyChecked;
@@ -158,6 +165,101 @@ namespace LocalPLC.Base
             }
 
             checkBox_frequencyDoubleWord.Checked = hscData_.frequencyDoubleWord;
+        }
+
+        void setPresetCapureVisble(bool visible)
+        {
+            //隐藏textBox_presetPort
+            textBox_presetPort.Visible = visible;
+            textBox_capturePort.Visible = visible;
+            checkBox_preset.Visible = visible;
+            checkBox_caputre.Visible = visible;
+            label_presetInput.Visible = visible;
+            label_caputreInput.Visible = visible;
+        }
+
+        void setHSCPortDoublePulse(string name)
+        {
+            //双相
+            if (comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            {
+                if (name == "HSC0")
+                {
+                    textBox_pulseInputPort.Text = "DI00";
+                    textBox_dirInputPort.Text = "DI01";
+                    textBox_presetPort.Text = "DI04";
+                    textBox_capturePort.Text = "DI05";
+                }
+                else if (name == "HSC1")
+                {
+                    textBox_pulseInputPort.Text = "DI02";
+                    textBox_dirInputPort.Text = "DI03";
+                    textBox_presetPort.Text = "DI06";
+                    textBox_capturePort.Text = "DI07";
+                }
+                else if(name == "HSC2")
+                {
+                    textBox_pulseInputPort.Text = "DI04";
+                    textBox_dirInputPort.Text = "DI05";
+                    //隐藏textBox_presetPort
+                    setPresetCapureVisble(false);
+                }
+                else if(name == "HSC3")
+                {
+                    textBox_pulseInputPort.Text = "DI06";
+                    textBox_dirInputPort.Text = "DI07";
+                    //隐藏textBox_presetPort
+                    setPresetCapureVisble(false);
+                }
+            }
+        }
+
+        void setHSCPortSinglePulse(string name)
+        {
+            if (name == "HSC0")
+            {
+                //有预设和捕获端口
+                textBox_pulseInputPort.Text = "DI00";
+                textBox_presetPort.Text = "DI04";
+                textBox_capturePort.Text = "DI05";
+            }
+            else if(name == "HSC1")
+            {
+                //有预设和捕获端口
+                textBox_pulseInputPort.Text = "DI02";
+                textBox_presetPort.Text = "DI06";
+                textBox_capturePort.Text = "DI07";
+            }
+            else if(name == "HSC2")
+            {
+                textBox_pulseInputPort.Text = "DI04";
+                setPresetCapureVisble(false);
+            }
+            else if(name == "HSC3")
+            {
+                textBox_pulseInputPort.Text = "DI06";
+                setPresetCapureVisble(false);
+            }
+            else if (name == "HSC4")
+            {
+                textBox_pulseInputPort.Text = "DI01";
+                setPresetCapureVisble(false);
+            }
+            else if (name == "HSC5")
+            {
+                textBox_pulseInputPort.Text = "DI03";
+                setPresetCapureVisble(false);
+            }
+            else if (name == "HSC6")
+            {
+                textBox_pulseInputPort.Text = "DI05";
+                setPresetCapureVisble(false);
+            }
+            else if (name == "HSC7")
+            {
+                textBox_pulseInputPort.Text = "DI07";
+                setPresetCapureVisble(false);
+            }
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
@@ -187,6 +289,9 @@ namespace LocalPLC.Base
 
                 if (currentIndex == 1)
                 {
+                    setHSCPortSinglePulse(hscData_.name);
+
+
                     //单脉冲计数
                     //label_direction.Text = "脉冲输入:";
                     //label_pulse.Text = "方向输入:";
@@ -205,17 +310,22 @@ namespace LocalPLC.Base
 
                     label_presetInput.Location = posDirLabel;
                     checkBox_preset.Location = posDirCheckBox;
-                    comboBox_presetPort.Location = posDirPortLabel;
-                    label_presetInput.Visible = true;
-                    checkBox_preset.Visible = true;
-                    comboBox_presetPort.Visible = true;
+                    //comboBox_presetPort.Location = posDirPortLabel;
+                    textBox_presetPort.Location = posDirPortLabel;
+                    //label_presetInput.Visible = true;
+                    //checkBox_preset.Visible = true;
+                    ////comboBox_presetPort.Visible = true;
+                    //textBox_presetPort.Visible = true;
 
                     label_caputreInput.Location = posPresetLabel;
                     checkBox_caputre.Location = posPresetCheckBox;
-                    comboBox_capturePort.Location = posPresetPortCombo;
-                    label_caputreInput.Visible = true;
-                    checkBox_caputre.Visible = true;
-                    comboBox_capturePort.Visible = true;
+                    //comboBox_capturePort.Location = posPresetPortCombo;
+                    textBox_capturePort.Location = posPresetPortCombo;
+
+                    //label_caputreInput.Visible = true;
+                    //checkBox_caputre.Visible = true;
+                    ////comboBox_capturePort.Visible = true;
+                    //textBox_capturePort.Visible = true;
                 }
                 else if (currentIndex == 2)
                 {
@@ -223,6 +333,10 @@ namespace LocalPLC.Base
                     //label_direction.Text = "脉冲输入:";
                     //label_pulse.Text = "脉冲输入:";
                     //comboBox_inputmode.Text = "脉冲/脉冲";
+
+                    setHSCPortDoublePulse(hscData_.name);
+
+
                     groupBox2.Visible = true;
                     groupBox3.Visible = true;
                     groupBox4.Visible = false;
@@ -236,13 +350,15 @@ namespace LocalPLC.Base
                     checkBox_direction.Location = posDirCheckBox;
                     textBox_dirInputPort.Location = posDirPortLabel;
 
+
                     label_presetInput.Location = posPresetLabel;
                     checkBox_preset.Location = posPresetCheckBox;
-                    comboBox_presetPort.Location = posPresetPortCombo;
+                    //comboBox_presetPort.Location = posPresetPortCombo;
+                    textBox_presetPort.Location = posPresetPortCombo;
 
                     label_caputreInput.Location = posCaptureLabel;
                     checkBox_caputre.Location = posCaptureCheckBox;
-                    comboBox_capturePort.Location = posCapturePortLabel;
+                    textBox_capturePort.Location = posCapturePortLabel;
                 }
                 else if (currentIndex == 3)
                 {
@@ -324,6 +440,7 @@ namespace LocalPLC.Base
                 hscData_.trigger0 = comboBox_trigger0.SelectedIndex;
                 hscData_.trigger1 = comboBox_trigger1.SelectedIndex;
 
+
                 hscData_.pulseChecked = checkBox_pulse.Checked;
                 hscData_.dirChecked = checkBox_direction.Checked;
                 hscData_.presetChecked = checkBox_preset.Checked;
@@ -332,23 +449,25 @@ namespace LocalPLC.Base
                 hscData_.pulsePort = textBox_pulseInputPort.Text;
                 hscData_.dirPort = textBox_dirInputPort.Text;
 
-                if (comboBox_presetPort.SelectedItem != null)
-                {
-                    hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
-                }
-                else
-                {
-                    hscData_.presetPort = "";
-                }
+                //if (comboBox_presetPort.SelectedItem != null)
+                //{
+                //    hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
+                //}
+                //else
+                //{
+                //    hscData_.presetPort = "";
+                //}
+                hscData_.presetPort = textBox_presetPort.Text;
 
-                if(comboBox_capturePort.SelectedItem != null)
-                {
-                    hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
-                }
-                else
-                {
-                    hscData_.capturePort = "";
-                }
+                //if (comboBox_capturePort.SelectedItem != null)
+                //{
+                //    hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
+                //}
+                //else
+                //{
+                //    hscData_.capturePort = "";
+                //}
+                hscData_.capturePort = textBox_capturePort.Text;
 
             }
             else if (comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
@@ -383,26 +502,30 @@ namespace LocalPLC.Base
                 hscData_.presetChecked = checkBox_preset.Checked;
                 hscData_.captureChecked = checkBox_caputre.Checked;
 
+
                 hscData_.pulsePort = textBox_pulseInputPort.Text;
                 hscData_.dirPort = textBox_dirInputPort.Text;
 
-                if (comboBox_presetPort.SelectedItem != null)
-                {
-                    hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
-                }
-                else
-                {
-                    hscData_.presetPort = "";
-                }
 
-                if (comboBox_capturePort.SelectedItem != null)
-                {
-                    hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
-                }
-                else
-                {
-                    hscData_.capturePort = "";
-                }
+                //if (comboBox_presetPort.SelectedItem != null)
+                //{
+                //    hscData_.presetPort = comboBox_presetPort.SelectedItem.ToString();
+                //}
+                //else
+                //{
+                //    hscData_.presetPort = "";
+                //}
+                hscData_.presetPort = textBox_presetPort.Text;
+
+                //if (comboBox_capturePort.SelectedItem != null)
+                //{
+                //    hscData_.capturePort = comboBox_capturePort.SelectedItem.ToString();
+                //}
+                //else
+                //{
+                //    hscData_.capturePort = "";
+                //}
+                hscData_.capturePort = textBox_capturePort.Text;
             }
             else if(comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {

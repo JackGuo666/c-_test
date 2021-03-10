@@ -455,6 +455,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="pic\TM221C16R.jpg" />
+    <Content Include="pic\LocalPLC24P.png" />
     <Content Include="Properties\Interop.ADELib.dll" />
   </ItemGroup>
   <ItemGroup>
