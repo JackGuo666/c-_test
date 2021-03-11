@@ -94,6 +94,7 @@ namespace LocalPLC.Base
                     ButtonRenderer.DrawButton(graphics, buttonArea,
                         PushButtonState.Disabled);
 
+
                     // Draw the disabled button text.
                     if (this.FormattedValue is String)
                     {
@@ -331,7 +332,12 @@ namespace LocalPLC.Base
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            //if (e.ColumnIndex == 2)
+            //if(e.RowIndex < 0)
+            //{
+            //    return;
+            //}
+
+            //if (e.ColumnIndex == 0)
             //{
             //    e.Handled = true;
 
@@ -380,7 +386,7 @@ namespace LocalPLC.Base
                 }
 
                 //Do something with your button. 
-                FormHighInput color = new FormHighInput(typeDescDic, UserControlBase.dataManage.hscList[e.RowIndex]);
+                 FormHighInput color = new FormHighInput(typeDescDic, UserControlBase.dataManage.hscList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
                 color.ShowDialog();
 
@@ -429,7 +435,7 @@ namespace LocalPLC.Base
                     {
                         if(di.used)
                         {
-                            if (UserControlBase.dataManage.hscList[e.RowIndex].name == "HSC5")
+                            if (di.hscUsed  == "HSC5")
                             {
                                 continue;
                             }
@@ -444,9 +450,7 @@ namespace LocalPLC.Base
                     {
                         if (di.used)
                         {
-
-
-                            if (UserControlBase.dataManage.hscList[e.RowIndex].name == "HSC6")
+                            if (di.hscUsed == "HSC6")
                             {
                                 continue;
                             }
@@ -459,11 +463,9 @@ namespace LocalPLC.Base
                     }
                     else if (di.channelName == "DI07")
                     {
-
-
                         if (di.used)
                         {
-                            if (UserControlBase.dataManage.hscList[e.RowIndex].name == "HSC7")
+                            if (di.hscUsed == "HSC7")
                             {
                                 continue;
                             }

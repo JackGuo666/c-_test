@@ -43,11 +43,14 @@
             this.label13 = new System.Windows.Forms.Label();
             this.checkBox_frequencyDoubleWord = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.textBox_capturePort = new System.Windows.Forms.TextBox();
             this.textBox_pulseInputPort = new System.Windows.Forms.TextBox();
+            this.textBox_presetPort = new System.Windows.Forms.TextBox();
             this.textBox_dirInputPort = new System.Windows.Forms.TextBox();
             this.checkBox_caputre = new System.Windows.Forms.CheckBox();
             this.checkBox_preset = new System.Windows.Forms.CheckBox();
             this.checkBox_direction = new System.Windows.Forms.CheckBox();
+            this.checkBox_pulse = new System.Windows.Forms.CheckBox();
             this.label_presetInput = new System.Windows.Forms.Label();
             this.label_caputreInput = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -70,9 +73,6 @@
             this.checkBox_doubleWord = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBox_inputmode = new System.Windows.Forms.ComboBox();
-            this.textBox_presetPort = new System.Windows.Forms.TextBox();
-            this.checkBox_pulse = new System.Windows.Forms.CheckBox();
-            this.textBox_capturePort = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -163,6 +163,8 @@
             // checkBox_frequencyPulse
             // 
             this.checkBox_frequencyPulse.AutoSize = true;
+            this.checkBox_frequencyPulse.Checked = true;
+            this.checkBox_frequencyPulse.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_frequencyPulse.Location = new System.Drawing.Point(209, 168);
             this.checkBox_frequencyPulse.Name = "checkBox_frequencyPulse";
             this.checkBox_frequencyPulse.Size = new System.Drawing.Size(70, 22);
@@ -240,6 +242,14 @@
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             // 
+            // textBox_capturePort
+            // 
+            this.textBox_capturePort.Enabled = false;
+            this.textBox_capturePort.Location = new System.Drawing.Point(382, 150);
+            this.textBox_capturePort.Name = "textBox_capturePort";
+            this.textBox_capturePort.Size = new System.Drawing.Size(113, 28);
+            this.textBox_capturePort.TabIndex = 5;
+            // 
             // textBox_pulseInputPort
             // 
             this.textBox_pulseInputPort.Enabled = false;
@@ -248,6 +258,15 @@
             this.textBox_pulseInputPort.Size = new System.Drawing.Size(113, 28);
             this.textBox_pulseInputPort.TabIndex = 4;
             this.textBox_pulseInputPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // textBox_presetPort
+            // 
+            this.textBox_presetPort.Enabled = false;
+            this.textBox_presetPort.Location = new System.Drawing.Point(382, 112);
+            this.textBox_presetPort.Name = "textBox_presetPort";
+            this.textBox_presetPort.Size = new System.Drawing.Size(113, 28);
+            this.textBox_presetPort.TabIndex = 4;
+            this.textBox_presetPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // textBox_dirInputPort
             // 
@@ -290,6 +309,21 @@
             this.checkBox_direction.TabIndex = 3;
             this.checkBox_direction.Text = "启用";
             this.checkBox_direction.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_pulse
+            // 
+            this.checkBox_pulse.AutoSize = true;
+            this.checkBox_pulse.BackColor = System.Drawing.Color.Transparent;
+            this.checkBox_pulse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.checkBox_pulse.Checked = true;
+            this.checkBox_pulse.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_pulse.Enabled = false;
+            this.checkBox_pulse.Location = new System.Drawing.Point(209, 44);
+            this.checkBox_pulse.Name = "checkBox_pulse";
+            this.checkBox_pulse.Size = new System.Drawing.Size(70, 22);
+            this.checkBox_pulse.TabIndex = 3;
+            this.checkBox_pulse.Text = "启用";
+            this.checkBox_pulse.UseVisualStyleBackColor = false;
             // 
             // label_presetInput
             // 
@@ -497,38 +531,6 @@
             this.comboBox_inputmode.Size = new System.Drawing.Size(141, 26);
             this.comboBox_inputmode.TabIndex = 2;
             this.comboBox_inputmode.SelectedIndexChanged += new System.EventHandler(this.comboBox_inputmode_SelectedIndexChanged);
-            // 
-            // textBox_presetPort
-            // 
-            this.textBox_presetPort.Enabled = false;
-            this.textBox_presetPort.Location = new System.Drawing.Point(382, 112);
-            this.textBox_presetPort.Name = "textBox_presetPort";
-            this.textBox_presetPort.Size = new System.Drawing.Size(113, 28);
-            this.textBox_presetPort.TabIndex = 4;
-            this.textBox_presetPort.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // checkBox_pulse
-            // 
-            this.checkBox_pulse.AutoSize = true;
-            this.checkBox_pulse.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_pulse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.checkBox_pulse.Checked = true;
-            this.checkBox_pulse.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_pulse.Enabled = false;
-            this.checkBox_pulse.Location = new System.Drawing.Point(209, 44);
-            this.checkBox_pulse.Name = "checkBox_pulse";
-            this.checkBox_pulse.Size = new System.Drawing.Size(70, 22);
-            this.checkBox_pulse.TabIndex = 3;
-            this.checkBox_pulse.Text = "启用";
-            this.checkBox_pulse.UseVisualStyleBackColor = false;
-            // 
-            // textBox_capturePort
-            // 
-            this.textBox_capturePort.Enabled = false;
-            this.textBox_capturePort.Location = new System.Drawing.Point(382, 150);
-            this.textBox_capturePort.Name = "textBox_capturePort";
-            this.textBox_capturePort.Size = new System.Drawing.Size(113, 28);
-            this.textBox_capturePort.TabIndex = 5;
             // 
             // FormHighInput
             // 
