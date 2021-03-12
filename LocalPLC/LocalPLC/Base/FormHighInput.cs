@@ -175,7 +175,8 @@ namespace LocalPLC.Base
 
             if(hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
-                //双相
+                //双相 判断预设和捕获是否被别处使用
+
 
             }
             else if(hscData_.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
@@ -271,7 +272,7 @@ namespace LocalPLC.Base
                 {
                     if (di.channelName == "DI05")
                     {
-                        if (di.used && di.hscUsed == "HSC6")
+                        if (di.used && (di.hscUsed == "HSC6" || di.hscUsed == "HSC0"))
                         {
                             //DI01已使用，并且是被HSC4轴使用的，这时HSC0的类型没有双相
                             addTypeNotDoublePulseCombo(typeDescDic);
@@ -289,7 +290,7 @@ namespace LocalPLC.Base
                 {
                     if (di.channelName == "DI07")
                     {
-                        if (di.used && di.hscUsed == "HSC7")
+                        if (di.used && (di.hscUsed == "HSC7" || di.hscUsed == "HSC1"))
                         {
                             //DI01已使用，并且是被HSC4轴使用的，这时HSC0的类型没有双相
                             addTypeNotDoublePulseCombo(typeDescDic);
@@ -352,7 +353,7 @@ namespace LocalPLC.Base
                 {
                     checkBox_pulse.Checked = true;
                     textBox_pulseInputPort.Text = "DI02";
-                    checkBox_caputre.Checked = true;
+                    checkBox_direction.Checked = true;
                     textBox_dirInputPort.Text = "DI03";
                     textBox_presetPort.Text = "DI06";
                     textBox_capturePort.Text = "DI07";
@@ -654,10 +655,20 @@ namespace LocalPLC.Base
             //if(di)
             if(diPort == "DI04" | diPort == "DI05" | diPort == "DI06" | diPort == "DI07")
             {
-
+                
                 if(!isChecked)
                 {
                     //辅助接点不做修改
+                    foreach (var port in diData_)
+                    {
+                        if (port.channelName == diPort && (port.hscUsed != "HSC2" || port.hscUsed != "HSC3") )
+                        {
+                            port.used = isChecked;
+                            port.hscUsed = /*hscData_.name*/ "";
+                            break;
+                        }
+                    }
+
                     return;
                 }
 
@@ -873,6 +884,56 @@ namespace LocalPLC.Base
 
                 //di判断是否已用
                 checkBaseDIUse(hscData_.pulseFrequencyChecked, hscData_.pulseFrequencyInputPort);
+
+                checkBaseDIUse(false, hscData_.dirPort);
+            }
+        }
+
+        private void checkBox_preset_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void checkBox_caputre_CheckedChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void checkBox_preset_MouseDown(object sender, MouseEventArgs e)
+        {
+            //预设判断别处是否使用
+            foreach (var di in diData_)
+            {
+                if (di.channelName == textBox_presetPort.Text)
+                {
+                    if (di.hscUsed != hscData_.name)
+                    {
+                        if (di.used)
+                        {
+                            (sender as CheckBox).Checked = false;
+                            MessageBox.Show(string.Format("{0}已在{1}使用", di.channelName, di.hscUsed));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void checkBox_caputre_MouseDown(object sender, MouseEventArgs e)
+        {
+            //预设判断别处是否使用
+            foreach (var di in diData_)
+            {
+                if (di.channelName == textBox_capturePort.Text)
+                {
+                    if (di.hscUsed != hscData_.name)
+                    {
+                        if (di.used)
+                        {
+                            (sender as CheckBox).Checked = false;
+                            MessageBox.Show(string.Format("{0}已在{1}使用", di.channelName, di.hscUsed));
+                        }
+                    }
+                }
             }
         }
     }

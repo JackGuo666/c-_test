@@ -286,6 +286,7 @@
             this.checkBox_caputre.TabIndex = 3;
             this.checkBox_caputre.Text = "启用";
             this.checkBox_caputre.UseVisualStyleBackColor = true;
+            this.checkBox_caputre.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkBox_caputre_MouseDown);
             // 
             // checkBox_preset
             // 
@@ -296,6 +297,7 @@
             this.checkBox_preset.TabIndex = 3;
             this.checkBox_preset.Text = "启用";
             this.checkBox_preset.UseVisualStyleBackColor = true;
+            this.checkBox_preset.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkBox_preset_MouseDown);
             // 
             // checkBox_direction
             // 
