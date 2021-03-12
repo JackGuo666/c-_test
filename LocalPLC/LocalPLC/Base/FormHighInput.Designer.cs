@@ -184,6 +184,7 @@
             // radioButton_1s
             // 
             this.radioButton_1s.AutoSize = true;
+            this.radioButton_1s.Checked = true;
             this.radioButton_1s.Location = new System.Drawing.Point(107, 130);
             this.radioButton_1s.Name = "radioButton_1s";
             this.radioButton_1s.Size = new System.Drawing.Size(51, 22);

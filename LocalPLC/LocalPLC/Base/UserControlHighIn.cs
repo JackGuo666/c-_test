@@ -621,6 +621,15 @@ namespace LocalPLC.Base
                     }
                 }
             }
+
+            foreach(var test in UserControlBase.dataManage.diList)
+            {
+                if(test.used)
+                {
+                    utility.PrintError(test.channelName);
+                }
+
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -695,15 +704,15 @@ namespace LocalPLC.Base
 
         private void dataGridView1_DataSourceChanged(object sender, EventArgs e)
         {
-            ////绑定事件DataBindingComplete 之后设置才有效果
-            //dataGridView1.Columns[columnUsedIndex].ReadOnly = true;
-            ////背景设置灰色只读
-            //dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+            //绑定事件DataBindingComplete 之后设置才有效果
+            dataGridView1.Columns[columnUsedIndex].ReadOnly = true;
+            //背景设置灰色只读
+            dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
 
-            //dataGridView1.Columns[columnVarIndex].ReadOnly = true;
-            //dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
-            //dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
+            dataGridView1.Columns[columnVarIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
+            dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
         }
     }
 }

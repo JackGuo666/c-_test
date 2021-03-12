@@ -743,7 +743,7 @@ namespace LocalPLC.Base
             }
             else if(currentIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
-                hscData_.type = comboBox_Type.SelectedIndex;
+                hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
                 //双字
                 hscData_.doubleWord = checkBox_doubleWord.Checked;
@@ -800,7 +800,7 @@ namespace LocalPLC.Base
             }
             else if (currentIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
-                hscData_.type = comboBox_Type.SelectedIndex;
+                hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
                 //输入模式
                 if (comboBox_inputmode.SelectedItem != null)
@@ -885,7 +885,16 @@ namespace LocalPLC.Base
                 //di判断是否已用
                 checkBaseDIUse(hscData_.pulseFrequencyChecked, hscData_.pulseFrequencyInputPort);
 
-                checkBaseDIUse(false, hscData_.dirPort);
+                hscData_.dirChecked = false;
+                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+
+                //双相 辅助接点为false不做判断
+                hscData_.presetChecked = false;
+                checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
+                hscData_.captureChecked = false;
+                checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
+
+                utility.PrintError(string.Format("频率计{0}不勾选", hscData_.dirPort));
             }
         }
 
