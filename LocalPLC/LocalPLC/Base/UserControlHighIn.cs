@@ -352,7 +352,7 @@ namespace LocalPLC.Base
 
 
 
-        void setButtonConfig(bool enable, int column, int row)
+        void setButtonEnable(bool enable, int column, int row)
         {
             //DI00使用，HSC4不可以配置
             DataGridViewDisableButtonColumn button = (DataGridViewDisableButtonColumn)dataGridView1.Columns[0];
@@ -403,78 +403,220 @@ namespace LocalPLC.Base
                 }
 
                 //根据高速DI使用情况，HSC轴是否可以配置调整
-                foreach(var di in UserControlBase.dataManage.diList)
+                //foreach(var di in UserControlBase.dataManage.diList)
+                //{
+                //    if(di.channelName == "DI01")
+                //    {
+                //        if(di.used)
+                //        {
+                //            //DI00使用，HSC4不可以配置
+                //            //DataGridViewDisableButtonColumn button = (DataGridViewDisableButtonColumn)dataGridView1.Columns[0];
+                //            //DataGridViewButtonCell vCell = (DataGridViewButtonCell)dataGridView1[0, 4];
+                //            //if (vCell is DataGridViewDisableButtonCell)
+                //            //{
+                //            //    ((DataGridViewDisableButtonCell)vCell).Enabled = false;
+                //            //    dataGridView1.Invalidate();
+                //            //}
+
+                //            if (di.hscUsed == "HSC4")
+                //            {
+                //                continue;
+                //            }
+
+                //            setButtonConfig(false, 0, 4);
+
+                //        }
+                //        else
+                //        {
+                //            setButtonConfig(true, 0, 4);
+                //        }
+                //    }
+                //    else if(di.channelName == "DI03")
+                //    {
+                //        if(di.used)
+                //        {
+                //            if (di.hscUsed  == "HSC5")
+                //            {
+                //                continue;
+                //            }
+                //            setButtonConfig(false, 0, 5);
+                //        }
+                //        else
+                //        {
+                //            setButtonConfig(true, 0, 5);
+                //        }
+                //    }
+                //    else if(di.channelName == "DI05")
+                //    {
+                //        if (di.used)
+                //        {
+                //            if (di.hscUsed == "HSC6")
+                //            {
+                //                continue;
+                //            }
+                //            setButtonConfig(false, 0, 6);
+                //        }
+                //        else
+                //        {
+                //            setButtonConfig(true, 0, 6);
+                //        }
+                //    }
+                //    else if (di.channelName == "DI07")
+                //    {
+                //        if (di.used)
+                //        {
+                //            if (di.hscUsed == "HSC7")
+                //            {
+                //                continue;
+                //            }
+
+                //            setButtonConfig(false, 0, 7);
+                //        }
+                //        else
+                //        {
+                //            setButtonConfig(true, 0, 7);
+                //        }
+                //    }
+                //}
+
+                foreach(var hsc in UserControlBase.dataManage.hscList)
                 {
-                    if(di.channelName == "DI01")
+                    if(hsc.name == "HSC6")
                     {
-                        if(di.used)
+                        bool di05Flag = false;
+                        foreach (var di in UserControlBase.dataManage.diList)
                         {
-                            //DI00使用，HSC4不可以配置
-                            //DataGridViewDisableButtonColumn button = (DataGridViewDisableButtonColumn)dataGridView1.Columns[0];
-                            //DataGridViewButtonCell vCell = (DataGridViewButtonCell)dataGridView1[0, 4];
-                            //if (vCell is DataGridViewDisableButtonCell)
-                            //{
-                            //    ((DataGridViewDisableButtonCell)vCell).Enabled = false;
-                            //    dataGridView1.Invalidate();
-                            //}
-
-                            if (di.hscUsed == "HSC4")
+                            if (di.channelName == "DI05" && di.used && (di.hscUsed == "HSC0" || di.hscUsed == "HSC2"))
                             {
-                                continue;
+                                di05Flag = true;
                             }
+                        }
 
-                            setButtonConfig(false, 0, 4);
-
+                        if(di05Flag)
+                        {
+                            setButtonEnable(false, 0, 6);
                         }
                         else
                         {
-                            setButtonConfig(true, 0, 4);
+                            setButtonEnable(true, 0, 6);
                         }
                     }
-                    else if(di.channelName == "DI03")
+
+                    if (hsc.name == "HSC7")
                     {
-                        if(di.used)
+                        bool di07Flag = false;
+                        foreach (var di in UserControlBase.dataManage.diList)
                         {
-                            if (di.hscUsed  == "HSC5")
+                            if (di.channelName == "DI07" && di.used && (di.hscUsed == "HSC1" || di.hscUsed == "HSC3"))
                             {
-                                continue;
+                                di07Flag = true;
                             }
-                            setButtonConfig(false, 0, 5);
+                        }
+
+                        if (di07Flag)
+                        {
+                            setButtonEnable(false, 0, 7);
                         }
                         else
                         {
-                            setButtonConfig(true, 0, 5);
+                            setButtonEnable(true, 0, 7);
                         }
                     }
-                    else if(di.channelName == "DI05")
+
+                    else if(hsc.name == "HSC2")
                     {
-                        if (di.used)
+
+                        bool di04Flag = false;
+                        bool di05Flag = false;
+                        foreach (var di in UserControlBase.dataManage.diList)
                         {
-                            if (di.hscUsed == "HSC6")
+                            if(di.channelName == "DI04" && di.used && di.hscUsed == "HSC0")
                             {
-                                continue;
-                            }
-                            setButtonConfig(false, 0, 6);
-                        }
-                        else
-                        {
-                            setButtonConfig(true, 0, 6);
-                        }
-                    }
-                    else if (di.channelName == "DI07")
-                    {
-                        if (di.used)
-                        {
-                            if (di.hscUsed == "HSC7")
-                            {
-                                continue;
+                                di04Flag = true;
                             }
 
-                            setButtonConfig(false, 0, 7);
+                            if(di.channelName == "DI05" && di.used && (di.hscUsed == "HSC0" || di.hscUsed == "HSC6"))
+                            {
+                                di05Flag = true;
+                            }
+                        }
+
+                        if(di04Flag /*|| (di04Flag == false && di05Flag == true)*/)
+                        {
+                            setButtonEnable(false, 0, 2);
                         }
                         else
                         {
-                            setButtonConfig(true, 0, 7);
+                            setButtonEnable(true, 0, 2);
+                        }
+                    }
+                    else if(hsc.name == "HSC3")
+                    {
+                        bool di06Flag = false;
+                        bool di07Flag = false;
+                        foreach (var di in UserControlBase.dataManage.diList)
+                        {
+                            if (di.channelName == "DI06" && di.used && di.hscUsed == "HSC1")
+                            {
+                                di06Flag = true;
+                            }
+
+                            if (di.channelName == "DI07" && di.used && (di.hscUsed == "HSC1" || di.hscUsed == "HSC7"))
+                            {
+                                di07Flag = true;
+                            }
+                        }
+
+
+                        if (di06Flag/* || (di07Flag == false && di06Flag == true)*/)
+                        {
+                            setButtonEnable(false, 0, 3);
+                        }
+                        else
+                        {
+                            setButtonEnable(true, 0, 3);
+                        }
+                    }
+
+                    else if(hsc.name == "HSC4")
+                    {
+                        bool di01Flag = false;
+                        foreach (var di in UserControlBase.dataManage.diList)
+                        {
+                            if (di.channelName == "DI01" && di.used && di.hscUsed == "HSC0")
+                            {
+                                //被HSC0占用
+                                di01Flag = true;
+                            }
+                        }
+
+                        if(di01Flag)
+                        {
+                            setButtonEnable(false, 0, 4);
+                        }
+                        else
+                        {
+                            setButtonEnable(true, 0, 4);
+                        }
+                    }
+                    else if(hsc.name == "HSC5")
+                    {
+                        bool di03Flag = false;
+                        foreach (var di in UserControlBase.dataManage.diList)
+                        {
+                            if (di.channelName == "DI03" && di.used && di.hscUsed == "HSC1")
+                            {
+                                //被HSC0占用
+                                di03Flag = true;
+                            }
+                        }
+                        if(di03Flag)
+                        {
+                            setButtonEnable(false, 0, 5);
+                        }
+                        else
+                        {
+                            setButtonEnable(true, 0, 5);
                         }
                     }
                 }

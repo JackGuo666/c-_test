@@ -155,10 +155,13 @@ namespace LocalPLC.Base
             EVENT_1.Text = hscData_.eventID0;
             EVENT_2.Text = hscData_.eventID1;
 
-            //
+            //脉冲
             checkBox_pulse.Checked = hscData_.pulseChecked;
+            //方向
             checkBox_direction.Checked = hscData_.dirChecked;
+            //预设
             checkBox_preset.Checked = hscData_.presetChecked;
+            //捕获
             checkBox_caputre.Checked = hscData_.captureChecked;
             //
             textBox_pulseInputPort.Text = hscData_.pulsePort;
@@ -477,6 +480,11 @@ namespace LocalPLC.Base
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             var item =  (ComboboxItem)this.comboBox_Type.SelectedItem;
+            if(item == null)
+            {
+                return;
+            }
+
             int currentIndex = 0;
             try
             {
