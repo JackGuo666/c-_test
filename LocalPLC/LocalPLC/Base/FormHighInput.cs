@@ -661,7 +661,9 @@ namespace LocalPLC.Base
                     //辅助接点不做修改
                     foreach (var port in diData_)
                     {
-                        if (port.channelName == diPort && (port.hscUsed != "HSC2" || port.hscUsed != "HSC3") )
+                        if (port.channelName == diPort && 
+                            (port.hscUsed != "HSC2" && port.hscUsed != "HSC3" 
+                            && port.hscUsed != "HSC6" && port.hscUsed != "HSC7" ) )
                         {
                             port.used = isChecked;
                             port.hscUsed = /*hscData_.name*/ "";
@@ -854,6 +856,12 @@ namespace LocalPLC.Base
                 //    hscData_.capturePort = "";
                 //}
                 hscData_.capturePort = textBox_capturePort.Text;
+
+                //清空频率计控件
+                checkBox_frequencyPulse.Checked = false;
+                hscData_.pulseFrequencyChecked = checkBox_frequencyPulse.Checked;
+                textBox_pulseFrequencyPort.Text = "";
+                hscData_.pulseFrequencyInputPort = textBox_pulseFrequencyPort.Text;
 
                 //di判断是否已用
                 checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
