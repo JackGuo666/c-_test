@@ -1343,7 +1343,33 @@ namespace LocalPLC.ModbusServer
 
         private void textBox30_TextChanged(object sender, EventArgs e)
         {
+            //bool number = isNumber(textBox30.Text);
+            //if (number == true && (Convert.ToInt32(textBox30.Text) >= 1 && Convert.ToInt32(textBox30.Text) <= 100))
+            //{
+            //    int flag = 0;
+            //    for (int i = 0; i < dataManager.listServer.Count; i++)
+            //    {
+            //        if (textBox30.Text == dataManager.listServer[i].dataDevice_.deviceAddr.ToString())
+            //        {
+            //            flag++;
+            //        }
 
+            //        if (flag == 0)
+            //        {
+            //            dataManager.listServer[i].dataDevice_.deviceAddr = Convert.ToInt32(textBox30.Text);
+            //        }
+            //        else
+            //        {
+            //            MessageBox.Show("从站地址有重复，请重新设置");
+            //            textBox30.Text = null;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("请输入1-100的数字作为从站地址");
+            //    textBox30.Text = null;
+            //}
         }
 
         private void textBox30_Leave(object sender, EventArgs e)

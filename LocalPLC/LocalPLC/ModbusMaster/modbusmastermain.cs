@@ -232,7 +232,7 @@ namespace LocalPLC.ModbusMaster
 
                     writer.WriteStartObject();//{  master节点下device
                     writer.WritePropertyName("port");
-                    writer.WriteValue("ser_port" + data.ID.ToString());
+                    writer.WriteValue(data.transformChannel);
                     writer.WritePropertyName("response_timeout");
                     writer.WriteValue(data.responseTimeout);
                     string mode = null;
@@ -264,7 +264,7 @@ namespace LocalPLC.ModbusMaster
 
                         writer.WriteStartObject();//{  conf数组下节点，从设备信息
                         writer.WritePropertyName("slave_id");
-                        writer.WriteValue(dataDev.ID);
+                        writer.WriteValue(dataDev.slaveAddr);
 
 
                         writer.WritePropertyName("timeout_cnt_max");

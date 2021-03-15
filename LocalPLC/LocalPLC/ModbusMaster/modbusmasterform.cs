@@ -29,7 +29,7 @@ namespace LocalPLC.ModbusMaster
         }
 
         public enum COLUMNNAME :  int
-            { ID, NAME, SLAVE_ADDR, REPONSE_TIMEOUT, PERMIT_TIMEOUT_COUNT, RECONNECT_INTERVAL
+            { ID, NAME, SLAVE_ADDR, PERMIT_TIMEOUT_COUNT, RECONNECT_INTERVAL
                                         , RESET_VARIABLE, CHANNEL};
         private string[] columnName = {"ID", "name"};
         private void modbusmasterform_Load(object sender, EventArgs e)
@@ -51,8 +51,8 @@ namespace LocalPLC.ModbusMaster
                 cellColumnName.Name = "名称";
                 DataGridViewTextBoxColumn cellColumnSlaveAddr = new DataGridViewTextBoxColumn();
                 cellColumnSlaveAddr.Name = "从站地址";
-                DataGridViewTextBoxColumn cellColumnTimeout = new DataGridViewTextBoxColumn();
-                cellColumnTimeout.Name = "响应超时(ms)";
+                //DataGridViewTextBoxColumn cellColumnTimeout = new DataGridViewTextBoxColumn();
+                //cellColumnTimeout.Name = "响应超时(ms)";
                 DataGridViewTextBoxColumn cellColumnTimeoutCount = new DataGridViewTextBoxColumn();
                 cellColumnTimeoutCount.Name = "允许的超时次数";
                 DataGridViewTextBoxColumn cellColumnReconnectInvertal = new DataGridViewTextBoxColumn();
@@ -68,7 +68,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Columns.Add(cellColumnID);
                 dataGridView1.Columns.Add(cellColumnName);
                 dataGridView1.Columns.Add(cellColumnSlaveAddr);
-                dataGridView1.Columns.Add(cellColumnTimeout);
+                //dataGridView1.Columns.Add(cellColumnTimeout);
                 dataGridView1.Columns.Add(cellColumnTimeoutCount);
                 dataGridView1.Columns.Add(cellColumnReconnectInvertal);
                 dataGridView1.Columns.Add(cellColumnResetVariable);
@@ -86,7 +86,7 @@ namespace LocalPLC.ModbusMaster
                     //
                     dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value = devData.slaveAddr;
 
-                    dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = devData.reponseTimeout;
+                    //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = devData.reponseTimeout;
 
                     dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value = devData.permitTimeoutCount;
 
@@ -159,8 +159,8 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value = "";
                 data.slaveAddr = dataGridView1.Rows[i].Cells[(int)COLUMNNAME.SLAVE_ADDR].Value.ToString();
 
-                dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = 1000;
-                data.reponseTimeout = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value.ToString());
+                //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value = 1000;
+                //data.reponseTimeout = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME.REPONSE_TIMEOUT].Value.ToString());
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value = 5;
                 data.permitTimeoutCount = int.Parse(dataGridView1.Rows[i].Cells[(int)COLUMNNAME.PERMIT_TIMEOUT_COUNT].Value.ToString());
@@ -246,7 +246,19 @@ namespace LocalPLC.ModbusMaster
                 }
             }
         }
-
+        public bool isNumber(string message)
+        {
+            try
+            {
+                int a = Convert.ToInt32(message);
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("请输入范围内的数字");
+                return false;
+            }
+        }
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             object obj = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
@@ -276,12 +288,37 @@ namespace LocalPLC.ModbusMaster
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
             {
-                masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                bool number = isNumber(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                if(number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
+                {
+                    int flag = 0;
+                    for (int i =0;i< masterData_.modbusDeviceList.Count;i++)
+                    {
+                        if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr)
+                        {
+                            flag++;
+                        }
+                    }
+                    if (flag == 0)
+                    {
+                        masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                    }
+                    else
+                    {
+                        MessageBox.Show("从站地址有重复，请重新设置");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                    }
+                }
+                else 
+                {
+                    MessageBox.Show("请输入1-100的数字作为从站地址");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                }
             }
-            else if(e.ColumnIndex == (int)COLUMNNAME.REPONSE_TIMEOUT)
-            {   
-                int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
-            }
+            //else if(e.ColumnIndex == (int)COLUMNNAME.REPONSE_TIMEOUT)
+            //{   
+            //    int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
+            //}
             else if(e.ColumnIndex == (int)COLUMNNAME.PERMIT_TIMEOUT_COUNT)
             {
                 int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
