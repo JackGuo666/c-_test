@@ -1506,12 +1506,12 @@ namespace LocalPLC
             }
 
 
-            //     判断各模块是否有错误，如果有，Erros设置为True，multiprog停止编译
-            Errors = true;
-            if(Errors)
-            {
-                utility.PrintBuild("test");
-            }
+            ////     判断各模块是否有错误，如果有，Erros设置为True，multiprog停止编译
+            //Errors = true;
+            //if(Errors)
+            //{
+            //    utility.PrintBuild("test");
+            //}
             
 
             int coillength = msi.serverDataManager.listServer[0].dataDevice_.coilCount;
