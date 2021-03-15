@@ -49,7 +49,7 @@ namespace LocalPLC
 	
 		public static ModbusServer.ServerIndex msi = new ServerIndex();
 
-        public static IoGroups iog { get; set; } = null;
+        //public static IoGroups iog { get; set; } = null;
         public static UserControlBase UC { get; set; } = new UserControlBase();
         private void UserControl1_Load(object sender, EventArgs e)
         {
@@ -1542,21 +1542,23 @@ namespace LocalPLC
             //{
                 //utility.PrintError("请检查相关配置是否正确");
             //}
+            
         }
         public  int a = 0;
+        modbusserver server = new modbusserver(0);
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
             if (!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;
             }
-
-
-            ////     判断各模块是否有错误，如果有，Erros设置为True，multiprog停止编译
+            
+            //     判断各模块是否有错误，如果有，Erros设置为True，multiprog停止编译
             //Errors = true;
-            //if(Errors)
+            //if (Errors)
             //{
             //    utility.PrintBuild("test");
+            //    utility.PrintError("变量名重复");
             //}
             
 

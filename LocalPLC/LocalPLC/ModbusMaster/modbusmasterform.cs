@@ -61,6 +61,7 @@ namespace LocalPLC.ModbusMaster
                 cellColumnResetVariable.Name = "复位变量";
                 DataGridViewDisableButtonColumn buttonColumn = new DataGridViewDisableButtonColumn();
                 buttonColumn.Name = "通道";
+                
                 //列标题自适应
                 dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
@@ -75,7 +76,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Columns.Add(buttonColumn);
 
                 dataGridView1.RowCount = 1 + masterData_.modbusDeviceList.Count;
-
+                int a = dataGridView1.RowTemplate.Height;
                 int i = 0;
                 foreach (DeviceData devData in masterData_.modbusDeviceList)
                 {
