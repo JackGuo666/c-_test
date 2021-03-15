@@ -49,7 +49,7 @@ namespace LocalPLC
 	
 		public static ModbusServer.ServerIndex msi = new ServerIndex();
 
-
+        public static IoGroups iog { get; set; } = null;
         public static UserControlBase UC { get; set; } = new UserControlBase();
         private void UserControl1_Load(object sender, EventArgs e)
         {
@@ -1465,6 +1465,7 @@ namespace LocalPLC
             }
 
         }
+
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
@@ -1503,6 +1504,16 @@ namespace LocalPLC
             {
                 return;
             }
+
+
+            //     判断各模块是否有错误，如果有，Erros设置为True，multiprog停止编译
+            Errors = true;
+            if(Errors)
+            {
+                utility.PrintBuild("test");
+            }
+            
+
             int coillength = msi.serverDataManager.listServer[0].dataDevice_.coilCount;
             int coilstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
             int coilIOstart = 0;

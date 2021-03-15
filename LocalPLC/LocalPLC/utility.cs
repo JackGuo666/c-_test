@@ -113,11 +113,51 @@ namespace LocalPLC
         public static int modbusAddr = 10000;
         //每个单位间隔1000字节
         public static int modbusMudule= 1000;
+        public static void PrintBuild(string str)
+        {
+            //for (int i = 0; i < LocalPLC.UserControl1.multiprogApp.OutputWindows.Count; i++)
+            //{
+            //    var name = LocalPLC.UserControl1.multiprogApp.OutputWindows.Item(i + 1).Name;
+            //    PrintError(name);
+            //}
+
+            //foreach(var name in LocalPLC.UserControl1.multiprogApp.OutputWindows)
+            //{
+            //   var ttt =  (name as OutputWindow).Name;
+            //}
+
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Build").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+            // show the output window and activate the "Infos" tab
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Build").Activate();
+        }
+
         public static void PrintError(string str)
+        {
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Errors").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+            // show the output window and activate the "Infos" tab
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Errors").Activate();
+        }
+
+        public static void PrintInfo(string str)
         {
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
             // show the output window and activate the "Infos" tab
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+        }
+
+
+        public static void PrintPLCError(string str)
+        {
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("PLC Errors").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+            // show the output window and activate the "Infos" tab
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("PLC Errors").Activate();
+        }
+
+        public static void Print(string str)
+        {
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Print").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+            // show the output window and activate the "Infos" tab
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Print").Activate();
         }
 
         /*
@@ -134,12 +174,16 @@ namespace LocalPLC
                 }
 
                 GC.Collect();
-                IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
+                if(UserControl1.iog == null)
+                {
+                    UserControl1.iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
+                }
+                
 
-                int Count = iog.Count;
+                //int Count = UserControl1.iog.Count;
 
                 List<IoGroup> ll = new List<IoGroup>();
-                foreach (IoGroup io in iog)
+                foreach (IoGroup io in UserControl1.iog)
                 {
                     ll.Add(io);
                 }
@@ -159,11 +203,11 @@ namespace LocalPLC
                         string str = string.Format("master_in{0}_dev{1}", master.ID,master.modbusDeviceList[i].ID);
                         //int a = listmasterdev[i].curDeviceLength;
                         //int b = listmasterdev[i].curDeviceAddr;
-                        iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
                             listmasterdev[i].curDeviceLength, "SystemIODriver", "<默认>", "", listmasterdev[i].curDeviceAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
                         str = string.Format("master_out{0}_dev{1}", master.ID, master.modbusDeviceList[i].ID);
-                        iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
                             listmasterdev[i].curDeviceLength, "SystemIODriver", "<默认>", "", listmasterdev[i].curDeviceAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
                     }
@@ -179,10 +223,10 @@ namespace LocalPLC
                         string str = string.Format("client_in{0}_dev{1}", client.ID, client.modbusDeviceList[j].ID);
                         //int aaa = listclientdev[j].devstartaddr;
                         //int bbb = listclientdev[j].devlength;
-                        iog.Create(str, AdeIoGroupAccessType.adeIgatInput, listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
+                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatInput, listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
                             , 1, 1, 1, 1);
                         str = string.Format("client_out{0}_dev{1}", client.ID, client.modbusDeviceList[j].ID);
-                        iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
                                    listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                                     1, 1, 1, 1);
                     }
@@ -191,11 +235,11 @@ namespace LocalPLC
                 string str1 = "server_in";
                 if (UserControl1.msi.serverDataManager.listServer.Count > 0)
                 {
-                    iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
+                    UserControl1.iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
                     utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
                     str1 = "server_out";
-                    iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
+                    UserControl1.iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
                     utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
                 }
@@ -219,18 +263,19 @@ namespace LocalPLC
                 int count = (nIoEndAddr - nIoStartAddr) + 1;
 
                 string strBase = "Base_DI_in";
-                iog.Create(strBase, AdeIoGroupAccessType.adeIgatInput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                UserControl1.iog.Create(strBase, AdeIoGroupAccessType.adeIgatInput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
                     , 1, 1, 1, 1);
                 strBase = "Base_DI_out";
-                iog.Create(strBase, AdeIoGroupAccessType.adeIgatOutput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                UserControl1.iog.Create(strBase, AdeIoGroupAccessType.adeIgatOutput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
                    , 1, 1, 1, 1);
 
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
+                //System.Runtime.InteropServices.Marshal.ReleaseComObject(UserControl1.iog);
             }
             catch(Exception e)
             {
                 System.Windows.Forms.MessageBox.Show("编译有错误，导入数据失败，请修改错误后,手动编译然后再导入数据!");
-                
+                System.Windows.Forms.MessageBox.Show(e.ToString());
+
                 //add by gw in 20210201 for释放异常情况IO Groups
                 GC.Collect();
 
