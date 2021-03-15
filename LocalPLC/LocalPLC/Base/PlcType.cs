@@ -28,6 +28,8 @@ namespace LocalPLC.Base
         void getDataFromUI();
 
         void refreshData();
+
+        void refreshDIData();
     }
 
     public partial class LocalPLC24P : UserControl, IWeapon
@@ -115,6 +117,12 @@ namespace LocalPLC.Base
             dout.refreshData();
             hout.refreshData();
             hi.refreshData();
+        }
+
+
+        public void refreshDIData()
+        {
+            di.refreshData();
         }
 
         void initDIDO()
@@ -245,6 +253,8 @@ namespace LocalPLC.Base
             foreach (DataRow dr in di.dtData.Rows)
             {
                 listDI[row].used = bool.Parse(dr[(int)COLUMN_DI.USED].ToString());
+
+                utility.PrintInfo(string.Format("{0} {1}", listDI[row].channelName, listDI[row].used));
                 listDI[row].varName = dr[(int)COLUMN_DI.VARNAME].ToString();
                 listDI[row].filterTime = int.Parse(dr[(int)COLUMN_DI.FITERTIME].ToString());
                 listDI[row].channelName = dr[(int)COLUMN_DI.CHANNELNAME].ToString();

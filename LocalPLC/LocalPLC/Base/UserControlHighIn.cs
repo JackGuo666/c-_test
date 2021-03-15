@@ -241,6 +241,8 @@ namespace LocalPLC.Base
                 dtData.Rows.Add(drData);
             }
 
+
+            refreshHSCConfigButton();
         }
 
         private void BindData()
@@ -364,7 +366,7 @@ namespace LocalPLC.Base
             }
         }
 
-        void refreshHSCConfigButton()
+        public void refreshHSCConfigButton()
         {
             foreach (var hsc in UserControlBase.dataManage.hscList)
             {
@@ -507,6 +509,10 @@ namespace LocalPLC.Base
                     }
                 }
             }
+
+
+            //数据刷新到DI DO datarow里,动态更新
+            UserControl1.UC.refreshDIUserBaseUI();
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -646,6 +652,11 @@ namespace LocalPLC.Base
         private void UserControlHighIn_Load(object sender, EventArgs e)
         {
             refreshHSCConfigButton();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

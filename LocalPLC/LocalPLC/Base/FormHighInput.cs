@@ -595,6 +595,8 @@ namespace LocalPLC.Base
                 else if (currentIndex == /*3*/ (int)UserControlHighIn.TYPE.FREQUENCY)
                 {
                     setHSCPortFrequecy(hscData_.name);
+                    //hscData_.pulseFrequencyChecked;
+                    //hscData_.pulseFrequencyInputPort;
 
                     comboBox_inputmode.Visible = false;
                     label_inputmode.Visible = false;
@@ -747,6 +749,9 @@ namespace LocalPLC.Base
             {
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
+
+                hscData_.opr_mode = "single_pulse";
+
                 //双字
                 hscData_.doubleWord = checkBox_doubleWord.Checked;
                 int.TryParse(textBox_presetValue.Text, out hscData_.preset);

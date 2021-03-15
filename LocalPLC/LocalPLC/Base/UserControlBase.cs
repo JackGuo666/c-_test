@@ -62,9 +62,18 @@ namespace LocalPLC.Base
 
         public void refreshUserBaseUI()
         {
-            if(curWeaponType == null)
+            if(curWeaponType != null)
             {
                 curWeaponType.refreshData();
+            }
+
+        }
+
+        public void refreshDIUserBaseUI()
+        {
+            if (curWeaponType != null)
+            {
+                curWeaponType.refreshDIData();
             }
 
         }
