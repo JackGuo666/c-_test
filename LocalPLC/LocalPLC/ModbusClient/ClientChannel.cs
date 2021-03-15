@@ -600,10 +600,10 @@ namespace LocalPLC.ModbusClient
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            for (int i = 0; i < this.dataGridView2.Columns.Count; i++)
-            {
-                this.dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-            }
+            //for (int i = 0; i < this.dataGridView2.Columns.Count; i++)
+            //{
+            //    this.dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+            //}
             if (e.RowIndex < 0)
             {
                 //for (int i = 0; i < dataGridView2.RowCount; i++)

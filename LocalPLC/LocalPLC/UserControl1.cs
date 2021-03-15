@@ -843,7 +843,7 @@ namespace LocalPLC
                     writer.WriteStartObject(); //{ input数组成员节点
                     writer.WritePropertyName("channel");
                     writer.WriteValue(baseData.diList[i].channelName);
-                    writer.WritePropertyName("fit_time");
+                    writer.WritePropertyName("flt_time");
                     writer.WriteValue(baseData.diList[i].filterTime);
                     writer.WritePropertyName("io_bit_off");
                     writer.WriteValue(i);
