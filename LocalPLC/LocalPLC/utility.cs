@@ -173,17 +173,16 @@ namespace LocalPLC
                     return false; ;
                 }
 
-                GC.Collect();
-                if(UserControl1.iog == null)
-                {
-                    UserControl1.iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
-                }
+                //GC.Collect();
+
+                IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
+
                 
 
                 //int Count = UserControl1.iog.Count;
 
                 List<IoGroup> ll = new List<IoGroup>();
-                foreach (IoGroup io in UserControl1.iog)
+                foreach (IoGroup io in iog)
                 {
                     ll.Add(io);
                 }
@@ -203,11 +202,11 @@ namespace LocalPLC
                         string str = string.Format("master_in{0}_dev{1}", master.ID,master.modbusDeviceList[i].ID);
                         //int a = listmasterdev[i].curDeviceLength;
                         //int b = listmasterdev[i].curDeviceAddr;
-                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
+                        iog.Create(str, AdeIoGroupAccessType.adeIgatInput,
                             listmasterdev[i].curDeviceLength, "SystemIODriver", "<默认>", "", listmasterdev[i].curDeviceAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
                         str = string.Format("master_out{0}_dev{1}", master.ID, master.modbusDeviceList[i].ID);
-                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                        iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
                             listmasterdev[i].curDeviceLength, "SystemIODriver", "<默认>", "", listmasterdev[i].curDeviceAddr, "test", AdeIoGroupDataType.adeIgdtByte,
                             1, 1, 1, 1);
                     }
@@ -223,10 +222,10 @@ namespace LocalPLC
                         string str = string.Format("client_in{0}_dev{1}", client.ID, client.modbusDeviceList[j].ID);
                         //int aaa = listclientdev[j].devstartaddr;
                         //int bbb = listclientdev[j].devlength;
-                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatInput, listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
+                        iog.Create(str, AdeIoGroupAccessType.adeIgatInput, listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte
                             , 1, 1, 1, 1);
                         str = string.Format("client_out{0}_dev{1}", client.ID, client.modbusDeviceList[j].ID);
-                        UserControl1.iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
+                        iog.Create(str, AdeIoGroupAccessType.adeIgatOutput,
                                    listclientdev[j].devlength, "SystemIODriver", "<默认>", "", listclientdev[j].devstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                                     1, 1, 1, 1);
                     }
@@ -235,11 +234,11 @@ namespace LocalPLC
                 string str1 = "server_in";
                 if (UserControl1.msi.serverDataManager.listServer.Count > 0)
                 {
-                    UserControl1.iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
+                    iog.Create(str1, AdeIoGroupAccessType.adeIgatInput,
                     utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
                     str1 = "server_out";
-                    UserControl1.iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
+                    iog.Create(str1, AdeIoGroupAccessType.adeIgatOutput,
                     utility.modbusMudule, "SystemIODriver", "<默认>", "", UserControl1.msi.serverDataManager.listServer[0].serverstartaddr, "test", AdeIoGroupDataType.adeIgdtByte,
                     1, 1, 1, 1);
                 }
@@ -263,13 +262,13 @@ namespace LocalPLC
                 int count = (nIoEndAddr - nIoStartAddr) + 1;
 
                 string strBase = "Base_DI_in";
-                UserControl1.iog.Create(strBase, AdeIoGroupAccessType.adeIgatInput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                iog.Create(strBase, AdeIoGroupAccessType.adeIgatInput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
                     , 1, 1, 1, 1);
                 strBase = "Base_DI_out";
-                UserControl1.iog.Create(strBase, AdeIoGroupAccessType.adeIgatOutput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
+                iog.Create(strBase, AdeIoGroupAccessType.adeIgatOutput, count, "SystemIODriver", "<默认>", "", nIoStartAddr, "test", AdeIoGroupDataType.adeIgdtByte
                    , 1, 1, 1, 1);
 
-                //System.Runtime.InteropServices.Marshal.ReleaseComObject(UserControl1.iog);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(iog);
             }
             catch(Exception e)
             {
@@ -277,7 +276,7 @@ namespace LocalPLC
                 System.Windows.Forms.MessageBox.Show(e.ToString());
 
                 //add by gw in 20210201 for释放异常情况IO Groups
-                GC.Collect();
+                //GC.Collect();
 
                 return false;
             }

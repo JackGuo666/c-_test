@@ -49,7 +49,7 @@ namespace LocalPLC.ModbusServer
         //};
         private DataManager dataManager = null;
         ModbusServerData data_;
-       
+        public static modbusserver server;
         
 
         enum TRANSFORMMODE : int
@@ -61,10 +61,20 @@ namespace LocalPLC.ModbusServer
         public modbusserver(int index)
         {
             InitializeComponent();
-
+            server = this;
             dataManager = DataManager.GetInstance();
         }
-
+        public bool error()
+        {
+            if (textBox29.BackColor == Color.Red || textBox22.BackColor == Color.Red)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void getServerData(ref ModbusServerData data)
         {
             data_ = data;

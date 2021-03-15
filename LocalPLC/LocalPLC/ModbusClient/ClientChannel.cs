@@ -137,7 +137,7 @@ namespace LocalPLC.ModbusClient
             //列标题自适应
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             DataGridViewComboBoxColumn dc1 = new DataGridViewComboBoxColumn();
-            
+            dataGridView2.RowTemplate.Height = 30;
                 dc1.DataSource = dc.Tables[0];
                 dc1.DisplayMember = "functioncode";
                 dc1.ValueMember = "displayvalue";
@@ -781,12 +781,56 @@ namespace LocalPLC.ModbusClient
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.触发变量)
             {
                 //data_.modbusChannelList.ElementAt(e.RowIndex).trigger_offset = str;
-                data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).trigger_offset = str;
+                int flag = 0;
+                for(int i = 0; i < data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count;i++)
+                {
+                    if(str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].trigger_offset ||
+                        str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].error_offset)
+                    {
+                        flag++;
+                    }
+                }
+                for (int j = 0;j< data2.modbusDeviceList.Count;j++)
+                {
+                    if(str == data2.modbusDeviceList[j].resetVaraible)
+                    {
+                        flag++;
+                    }
+                }
+                if (flag == 0)
+                { data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).trigger_offset = str; }
+                else
+                {
+                    MessageBox.Show("输入的变量名有重复，请检查后重新输入");
+                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).trigger_offset;
+                }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.错误变量)
             {
                 //data_.modbusChannelList.ElementAt(e.RowIndex).error_offset = str;
-                data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).error_offset = str;
+                int flag = 0;
+                for (int i = 0; i < data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count; i++)
+                {
+                    if (str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].trigger_offset ||
+                        str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].error_offset)
+                    {
+                        flag++;
+                    }
+                }
+                for (int j = 0; j < data2.modbusDeviceList.Count; j++)
+                {
+                    if (str == data2.modbusDeviceList[j].resetVaraible)
+                    {
+                        flag++;
+                    }
+                }
+                if (flag == 0)
+                { data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).error_offset = str; }
+                else
+                {
+                    MessageBox.Show("输入的变量名有重复，请检查后重新输入");
+                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).error_offset;
+                }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.注释)
             {

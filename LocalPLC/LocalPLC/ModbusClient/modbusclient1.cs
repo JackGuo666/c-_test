@@ -108,8 +108,8 @@ namespace LocalPLC.ModbusClient
             //{
             //    dataGridView1.Columns.Add(mcg);
             //}
-            
-            
+
+            dataGridView1.ColumnHeadersHeight = 23;
             //列标题自适应
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             //dataGridView1.Columns.Add(btn);
@@ -124,7 +124,7 @@ namespace LocalPLC.ModbusClient
                     ds.Tables[Convert.ToInt32(cn)].Rows.Add(dr1);
                 }
             }
-
+            dataGridView1.RowTemplate.Height = 30;
             int i = 0;
             foreach (DeviceData devData in data_.modbusDeviceList)
             {
@@ -453,8 +453,33 @@ namespace LocalPLC.ModbusClient
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.复位变量)
             {
-                data_.modbusDeviceList[e.RowIndex].resetVaraible = str;
+                int flag = 0;
+                for(int i = 0; i < data_.modbusDeviceList.Count; i++)
+                {
+                    if(str == data_.modbusDeviceList[i].resetVaraible)
+                    {
+                        flag++;
+                    }
+                    for(int j =0;j< data_.modbusDeviceList[i].modbusChannelList.Count;j++)
+                    {
+                        if(str == data_.modbusDeviceList[i].modbusChannelList[j].trigger_offset || str == data_.modbusDeviceList[i].modbusChannelList[j].error_offset)
+                        {
+                            flag++;
+                        }
+                    }
+                }
 
+                if (flag == 0)
+                { 
+                    data_.modbusDeviceList[e.RowIndex].resetVaraible = str;
+                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = dataGridView1.Rows[0].Cells[0].Style.BackColor;
+                }
+                else
+                {
+                    MessageBox.Show("复位变量名有重复，请检查后重新输入");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data_.modbusDeviceList[e.RowIndex].resetVaraible;
+                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Red;
+                }
 
             }
         }
