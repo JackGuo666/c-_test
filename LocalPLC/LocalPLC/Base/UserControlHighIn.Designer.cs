@@ -58,6 +58,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "UserControlHighIn";
             this.Size = new System.Drawing.Size(893, 447);
+            this.Load += new System.EventHandler(this.UserControlHighIn_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

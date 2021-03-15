@@ -62,7 +62,11 @@ namespace LocalPLC.Base
 
         public void refreshUserBaseUI()
         {
-             curWeaponType.refreshData();
+            if(curWeaponType == null)
+            {
+                curWeaponType.refreshData();
+            }
+
         }
 
         //重新加载工程，清空界面
@@ -95,6 +99,9 @@ namespace LocalPLC.Base
                 diData.address = address;
                 string note = e.GetAttribute("note");
                 diData.note = note;
+                string hscUsed = e.GetAttribute("hscused");
+                diData.hscUsed = hscUsed;
+
 
                 UserControlBase.dataManage.diList.Add(diData);
 
@@ -288,6 +295,7 @@ namespace LocalPLC.Base
                 elem_di.SetAttribute("channelname", di.channelName.ToString());
                 elem_di.SetAttribute("address", di.address);
                 elem_di.SetAttribute("note", di.note);
+                elem_di.SetAttribute("hscused", di.hscUsed);
 
                 elemDI.AppendChild(elem_di);
             }

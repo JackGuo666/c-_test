@@ -974,6 +974,11 @@ namespace LocalPLC.Base
                 }
             }
         }
+
+        private void FormHighInput_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

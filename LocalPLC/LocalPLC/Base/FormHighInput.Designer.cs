@@ -544,6 +544,7 @@
             this.Name = "FormHighInput";
             this.Text = "FormHighInput";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHighInput_FormClosing);
+            this.Load += new System.EventHandler(this.FormHighInput_Load);
             this.panel2.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
