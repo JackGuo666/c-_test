@@ -224,6 +224,8 @@ namespace LocalPLC.Base
                 int.TryParse(e.GetAttribute("type"), out hscData.type);
                 //输入模式
                 int.TryParse(e.GetAttribute("inputmode"), out hscData.inputMode);
+                //opr mode
+                hscData.opr_mode = e.GetAttribute("oprmode");
 
                 bool.TryParse(e.GetAttribute("doubleword"), out hscData.doubleWord);
                 int.TryParse(e.GetAttribute("preset"), out hscData.preset);
@@ -369,6 +371,9 @@ namespace LocalPLC.Base
                 hscChild.SetAttribute("type", hsc.type.ToString());
                 //输入模式
                 hscChild.SetAttribute("inputmode", hsc.inputMode.ToString());
+
+                //ope mode
+                hscChild.SetAttribute("oprmode", hsc.opr_mode.ToString());
 
                 //双字
                 hscChild.SetAttribute("doubleword", hsc.doubleWord.ToString());

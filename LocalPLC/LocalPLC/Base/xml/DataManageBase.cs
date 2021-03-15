@@ -219,6 +219,8 @@ namespace LocalPLC.Base.xml
         //输入模式
         public int inputMode = 0;   //0-脉冲方向 1-积分X1 2-积分X2 2-积分X4
 
+        public string opr_mode = "";
+
         public bool doubleWord = false;
         //预设
         public int preset = 0;
@@ -330,5 +332,20 @@ namespace LocalPLC.Base.xml
 
         public List<HSPData> hspList = new List<HSPData>();
         public List<HSCData> hscList = new List<HSCData>();
+
+
+        public int getUsedHscCount()
+        {
+            int count = 0;
+            foreach(var hsc in hscList)
+            {
+                if(hsc.used)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
     }
 }

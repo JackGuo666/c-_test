@@ -808,10 +808,28 @@ namespace LocalPLC.Base
                 if (comboBox_inputmode.SelectedItem != null)
                 {
                     hscData_.inputMode = comboBox_inputmode.SelectedIndex;
+                    if(hscData_.inputMode == (int)INPUTMODE.PULSE_DIR)
+                    {
+                        //脉冲方向
+                        hscData_.opr_mode = "pulse_dir";
+                    }
+                    else if(hscData_.inputMode == (int)INPUTMODE.INTEGRAL_1)
+                    {
+                        hscData_.opr_mode = "pulse_x1";
+                    }
+                    else if(hscData_.inputMode == (int)INPUTMODE.INTEGRAL_2)
+                    {
+                        hscData_.opr_mode = "pulse_x2";
+                    }
+                    else if(hscData_.inputMode == (int)INPUTMODE.INTEGRAL_4)
+                    {
+                        hscData_.opr_mode = "pulse_x4";
+                    }
                 }
                 else
                 {
                     hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
+                    hscData_.opr_mode = "";
                 }
 
 
@@ -874,6 +892,9 @@ namespace LocalPLC.Base
             {
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
+
+                hscData_.opr_mode = "freq_calc";
+
 
                 //时间窗口
                 hscData_.frequencyDoubleWord = checkBox_frequencyDoubleWord.Checked;
