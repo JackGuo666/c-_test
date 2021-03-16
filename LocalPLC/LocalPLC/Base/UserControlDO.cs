@@ -318,5 +318,34 @@ namespace LocalPLC.Base
                 //e.Cancel = true;
             }
         }
+
+        enum COLUMN_DO { USED, VARNAME, CHANNELNAME, ADDRESS, NOTE };
+        
+        void getDataFromUI()
+        {
+            var listDO = UserControlBase.dataManage.doList;
+            int row = 0;
+            foreach (DataRow dr in dtData.Rows)
+            {
+                listDO[row].used = bool.Parse(dr[(int)COLUMN_DO.USED].ToString());
+                listDO[row].varName = dr[(int)COLUMN_DO.VARNAME].ToString();
+                listDO[row].channelName = dr[(int)COLUMN_DO.CHANNELNAME].ToString();
+                listDO[row].address = dr[(int)COLUMN_DO.ADDRESS].ToString();
+                listDO[row].note = dr[(int)COLUMN_DO.NOTE].ToString();
+
+                row++;
+            }
+        }
+        
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            getDataFromUI();
+            utility.PrintInfo("DO数据生效!");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            refreshData();
+        }
     }
 }

@@ -548,5 +548,37 @@ namespace LocalPLC.Base
 
             }
         }
+
+        void getDataFromUI()
+        {
+            //控制器类里DI、DO、HOUT从UI界面值传到datamanage
+            var listDI = UserControlBase.dataManage.diList;
+
+            int row = 0;
+            foreach (DataRow dr in dtData.Rows)
+            {
+                listDI[row].used = bool.Parse(dr[(int)COLUMN_DI.USED].ToString());
+
+                utility.PrintInfo(string.Format("{0} {1}", listDI[row].channelName, listDI[row].used));
+                listDI[row].varName = dr[(int)COLUMN_DI.VARNAME].ToString();
+                listDI[row].filterTime = int.Parse(dr[(int)COLUMN_DI.FITERTIME].ToString());
+                listDI[row].channelName = dr[(int)COLUMN_DI.CHANNELNAME].ToString();
+                listDI[row].address = dr[(int)COLUMN_DI.ADDRESS].ToString();
+                listDI[row].note = dr[(int)COLUMN_DI.NOTE].ToString();
+
+                row++;
+            }
+        }
+
+        enum COLUMN_DI { USED, VARNAME, FITERTIME, CHANNELNAME, ADDRESS, NOTE };
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            getDataFromUI();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            refreshData();
+        }
     }
 }

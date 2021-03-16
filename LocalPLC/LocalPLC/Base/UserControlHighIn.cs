@@ -242,7 +242,7 @@ namespace LocalPLC.Base
             }
 
 
-            refreshHSCConfigButton();
+            //refreshHSCConfigButton();
         }
 
         private void BindData()
@@ -657,6 +657,30 @@ namespace LocalPLC.Base
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            getDataFromUI();
+        }
+
+        void getDataFromUI()
+        {
+            int row = 0;
+            var hscList = UserControlBase.dataManage.hscList;
+            foreach (DataRow dr in dtData.Rows)
+            {
+                bool.TryParse(dr[columnUsedIndex].ToString(), out hscList[row].used);
+                hscList[columnVarIndex].name = dr[columnVarIndex].ToString();
+                hscList[columnAddressIndex].address = dr[columnAddressIndex].ToString();
+                //type
+                hscList[columnNoteIndex].note = dr[columnNoteIndex].ToString();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            refreshData();
         }
     }
 }
