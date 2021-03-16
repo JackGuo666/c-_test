@@ -165,7 +165,7 @@ namespace LocalPLC
          */
         public static bool addIOGroups()
         {
-            try 
+            try
             {
                 if(LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Count == 0)
                 {
@@ -174,6 +174,8 @@ namespace LocalPLC
                 }
 
                 //GC.Collect();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups);
+
 
                 IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
