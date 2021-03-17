@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -271,6 +271,12 @@
     <Compile Include="motion\UserControlBackOrigin.Designer.cs">
       <DependentUpon>UserControlBackOrigin.cs</DependentUpon>
     </Compile>
+    <Compile Include="motion\UserControlCommandTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlCommandTable.Designer.cs">
+      <DependentUpon>UserControlCommandTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="motion\UserControlDynamicPara.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -426,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="motion\UserControlBackOrigin.resx">
       <DependentUpon>UserControlBackOrigin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlCommandTable.resx">
+      <DependentUpon>UserControlCommandTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="motion\UserControlDynamicPara.resx">
       <DependentUpon>UserControlDynamicPara.cs</DependentUpon>

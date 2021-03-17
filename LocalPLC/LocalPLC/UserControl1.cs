@@ -767,8 +767,13 @@ namespace LocalPLC
 
             foreach(var hsc in baseData.hscList)
             {
+                if(hsc.used == false)
+                {
+                    continue;
+                }
                 writer.WriteStartObject(); //{ HSC下的conf数组下节点1组合输入模式
-                if(hsc.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+                if(hsc.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE ||
+                    hsc.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
                 {
                     writer.WritePropertyName("grp_no");
                     writer.WriteValue(hsc.name);
@@ -776,17 +781,30 @@ namespace LocalPLC
                     writer.WriteValue(hsc.opr_mode);
                     writer.WritePropertyName("phaseA");
                     writer.WriteValue(hsc.pulsePort);
-                    writer.WritePropertyName("phaseB");
-                    writer.WriteValue(hsc.dirPort);
+                    if(hsc.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+                    {
+                        writer.WritePropertyName("phaseB");
+                        writer.WriteValue(hsc.dirPort);
+                    }
+
                     writer.WritePropertyName("capture");
                     if (hsc.captureChecked)
                     {
                         writer.WriteValue(hsc.capturePort);
                     }
+                    else
+                    {
+                        writer.WriteValue("");
+                    }
+
                     writer.WritePropertyName("preset");
                     if (hsc.presetChecked)
                     {
                         writer.WriteValue(hsc.presetPort);
+                    }
+                    else
+                    {
+                        writer.WriteValue("");
                     }
                 }
                 else if(hsc.type == (int)UserControlHighIn.TYPE.FREQUENCY)
@@ -1237,7 +1255,9 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BASE_PARA")
                     {
-                        UserControlMotionBasePara para = new UserControlMotionBasePara();
+
+
+                        UserControlMotionBasePara para = new UserControlMotionBasePara(e.Node, name);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.Fill;
@@ -1296,6 +1316,15 @@ namespace LocalPLC
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;
+                        ModbusWindow.Controls.Add(para);
+                    }
+                    else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
+                    {
+                        //添加命令表
+                        UserControlCommandTable para = new UserControlCommandTable();
+                        para.Show();
+                        ModbusWindow.Controls.Clear();
+                        para.Dock = DockStyle.Fill;
                         ModbusWindow.Controls.Add(para);
                     }
                 }
@@ -1514,11 +1543,28 @@ namespace LocalPLC
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            if(multiprogApp.IsProjectOpen())
+            {
+                projectName = multiprogApp.ActiveProject.FullName;
+                saveXml();
+                saveJson();
+                multiprogApp.ActiveProject.Save();
+                multiprogApp.ActiveProject.Close();
+                multiprogApp.OpenProject(projectName, AdeConfirmRule.adeCrNotConfirm);
+            }
+            else
+            {
+                
+            }
+
+
+
 
             if (msi.serverDataManager.listServer.Count == 0 || msi.serverDataManager.listServer[0].dataDevice_.isready == true)
 
             {
+                //
+                utility.PrintError("fsf vaf");
 
                 saveXml();
                 saveJson();
@@ -1540,9 +1586,10 @@ namespace LocalPLC
             }
             //else
             //{
-                //utility.PrintError("请检查相关配置是否正确");
+            //utility.PrintError("请检查相关配置是否正确");
             //}
-            
+
+
         }
         public  int a = 0;
         modbusserver server = new modbusserver(0);

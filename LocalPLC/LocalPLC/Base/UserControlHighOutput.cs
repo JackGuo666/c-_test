@@ -332,5 +332,33 @@ namespace LocalPLC.Base
             dataGridView1.Columns[columnVarIndex].ReadOnly = true;
             dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
         }
+
+
+        public void getDataFromUI()
+        {
+            int row = 0;
+            var hspList = UserControlBase.dataManage.hspList;
+            foreach (DataRow dr in dtData.Rows)
+            {
+                bool.TryParse(dr[(int)UserControlHighOutput.columnUsedIndex].ToString(), out hspList[row].used);
+                hspList[row].name = dr[UserControlHighOutput.columnVarIndex].ToString();
+                hspList[row].address = dr[UserControlHighOutput.columnAddressIndex].ToString();
+                hspList[row].note = dr[UserControlHighOutput.columnNoteIndex].ToString();
+
+                row++;
+            }
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            getDataFromUI();
+        }
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            refreshData();
+        }
     }
 }

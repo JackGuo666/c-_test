@@ -549,7 +549,7 @@ namespace LocalPLC.Base
             }
         }
 
-        void getDataFromUI()
+        public void getDataFromUI()
         {
             //控制器类里DI、DO、HOUT从UI界面值传到datamanage
             var listDI = UserControlBase.dataManage.diList;

@@ -277,6 +277,10 @@ namespace LocalPLC.Base
                 row++;
             }
 
+            //
+            di.getDataFromUI();
+
+
             row = 0;
             var hspList = UserControlBase.dataManage.hspList;
             foreach(DataRow dr in hout.dtData.Rows)
