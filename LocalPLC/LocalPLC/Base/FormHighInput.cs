@@ -721,7 +721,7 @@ namespace LocalPLC.Base
             }
             catch (Exception)
             {
-
+                
             }
 
             if (currentIndex == (int)UserControlHighIn.TYPE.NOTUSED)

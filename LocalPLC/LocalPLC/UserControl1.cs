@@ -51,6 +51,10 @@ namespace LocalPLC
 
         //public static IoGroups iog { get; set; } = null;
         public static UserControlBase UC { get; set; } = new UserControlBase();
+
+        //运控参数数据管理
+        public static LocalPLC.motion.DataManageBase motionDataManage = new LocalPLC.motion.DataManageBase();
+
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -1121,6 +1125,19 @@ namespace LocalPLC
             
             
         }
+
+        void saveMotionXml(ref XmlElement elem, ref XmlDocument doc)
+        {
+            //运控
+            XmlElement elemAxis = doc.CreateElement("axis");
+            elemAxis.SetAttribute("name", "axis");
+            elem.AppendChild(elemAxis);
+            foreach (var axis in motionDataManage.axisList)
+            {
+
+            }
+        }
+
         private void saveXml()
         {
             try 
@@ -1156,6 +1173,11 @@ namespace LocalPLC
             elemBase.SetAttribute("Type", UC.localPLCType_);
             elemRoot.AppendChild(elemBase);
             UC.saveXml(ref elemBase, ref xDoc);
+
+            XmlElement elemMotion = xDoc.CreateElement("motion");
+            elemRoot.AppendChild(elemMotion);
+            saveMotionXml(ref elemMotion, ref xDoc);
+
 
 
             //xDoc.Save("students.xml");
@@ -1255,7 +1277,10 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BASE_PARA")
                     {
-
+                        if(e.Node.Parent == null)
+                        {
+                            return;
+                        }
 
                         UserControlMotionBasePara para = new UserControlMotionBasePara(e.Node, name);
                         para.Show();
@@ -1564,8 +1589,6 @@ namespace LocalPLC
 
             {
                 //
-                utility.PrintError("fsf vaf");
-
                 saveXml();
                 saveJson();
 
@@ -2069,12 +2092,20 @@ namespace LocalPLC
                 //基本参数 运动参数
                 var motion = e.Node.Parent;
                 TreeNode axis = null;
-                createNode(ref axis, "轴1", "MOTION_AXIS", motion, 3);
+                LocalPLC.motion.Axis axisData = new Axis();
+                string name = "轴1";
+                createNode(ref axis, name, "MOTION_AXIS", motion, 3);
+                axisData.name = name;
+                axis.Tag = axisData;
+
                 TreeNode basePara = null;
                 TreeNode motionMotionPara = null;
                 createNode(ref basePara, "基本参数", "MOTION_BASE_PARA", axis, 4);
+                //basePara.Tag = axisData.axisBase;
+
                 createNode(ref motionMotionPara, "运动参数", "MOTION_MOTION_PARA", axis, 5);
-                
+                //motionMotionPara.Tag = axisData.axisMotionPara;
+
                 TreeNode motionPulseEquivalent = null;
                 TreeNode motionLimitSignal = null;
                 TreeNode motionDynamicParameter = null;
@@ -2090,6 +2121,8 @@ namespace LocalPLC
             {
                 var motion = e.Node.Parent;
                 TreeNode command  = null;
+                LocalPLC.motion.Axis axis = new Axis();
+                motionDataManage.axisList.Add(axis);
                 createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motion, 3);
 
             }

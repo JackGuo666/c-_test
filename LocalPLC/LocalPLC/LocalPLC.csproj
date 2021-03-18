@@ -265,6 +265,7 @@
     <Compile Include="ModbusSlave\modbusslavemain.Designer.cs">
       <DependentUpon>modbusslavemain.cs</DependentUpon>
     </Compile>
+    <Compile Include="motion\DataManageMotion.cs" />
     <Compile Include="motion\UserControlBackOrigin.cs">
       <SubType>UserControl</SubType>
     </Compile>

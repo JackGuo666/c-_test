@@ -79,6 +79,7 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.AllowDrop = true;
+            this.splitContainer2.Panel1.AutoScroll = true;
             this.splitContainer2.Panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.splitContainer2.Panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.splitContainer1_Panel1_DragDrop);
             this.splitContainer2.Panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.splitContainer1_Panel1_DragEnter);

@@ -463,7 +463,6 @@ namespace LocalPLC.Base
 
                 elemHSP.AppendChild(hspChild);
             }
-
         }
 
         public void getTreeView(TreeView view)

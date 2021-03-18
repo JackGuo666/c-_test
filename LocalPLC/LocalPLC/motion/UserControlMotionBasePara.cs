@@ -15,6 +15,9 @@ namespace LocalPLC.motion
         #region
         TreeNode node_ = null;
         LocalPLC.Base.xml.DataManageBase dataManage = null;
+
+        Axis data = null;
+        //AxisBasePara axisBasePara = null;
         #endregion
 
         #region
@@ -128,18 +131,17 @@ namespace LocalPLC.motion
 
             initCombo();
 
-
-
-
             if (node.Parent == null)
             {
                 utility.PrintInfo("{0}节点没有父节点!");
                 return;
             }
 
+            data = node.Parent.Tag as Axis;
+
             node_ = node;
 
-            richTextBox_AxisName.Text = node.Parent.Text;
+            richTextBox_AxisName.Text = data.name;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -149,7 +151,8 @@ namespace LocalPLC.motion
 
         private void richTextBox_AxisName_TextChanged(object sender, EventArgs e)
         {
-            node_.Parent.Text = (sender as RichTextBox).Text;
+            data.name = (sender as RichTextBox).Text;
+            node_.Parent.Text = data.name;
         }
 
         private void comboBox_HardwareInterface_SelectedIndexChanged(object sender, EventArgs e)
@@ -171,6 +174,112 @@ namespace LocalPLC.motion
                     }
                 }
             }
+        }
+
+        void setDataFromUI()
+        {
+
+
+            if (comboBox_HardwareInterface.SelectedItem != null)
+            {
+                data.axisBasePara.hardwareInterface = comboBox_HardwareInterface.SelectedItem.ToString();
+            }
+            else
+            {
+
+            }
+
+
+            data.axisBasePara.axisName = richTextBox_AxisName.Text;
+            data.axisBasePara.axisType = comboBox_AxisType.SelectedIndex;
+            data.axisBasePara.meaUnit = comboBox_MeasureUnit.SelectedIndex;
+
+
+            foreach (var outputPulse in outputPluseDic)
+            {
+                if (outputPulse.Value == richTextBox_SignalType.Text)
+                {
+                    data.axisBasePara.signalType = outputPulse.Key;
+                }
+            }
+
+            data.axisBasePara.pulseoutput = richTextBox_PulseOutput.Text;
+            data.axisBasePara.dirOutput = richTextBox_DirOutput.Text;
+        }
+
+        void refreshData()
+        {
+            richTextBox_AxisName.Text = data.axisBasePara.axisName;
+
+            //轴类型
+            foreach(var item in comboBox_AxisType.Items)
+            {
+                var current = item as ComboboxItem;
+                if(current == null)
+                {
+                    return;
+                }
+
+                if(current.Value.ToString() == data.axisBasePara.axisType.ToString())
+                {
+                    comboBox_AxisType.SelectedItem = current.Text;
+                }
+            }
+
+            //测量单位
+            foreach(var item in comboBox_MeasureUnit.Items)
+            {
+                var current = item as ComboboxItem;
+                if(current == null)
+                {
+                    return;
+                }
+
+                if(current.Value.ToString() == data.axisBasePara.meaUnit.ToString())
+                {
+                    comboBox_MeasureUnit.SelectedItem = current.Text;
+                }
+            }
+
+            foreach (var item in comboBox_HardwareInterface.Items)
+            {
+                var current = item;
+                if (current == null)
+                {
+                    return;
+                }
+
+                if (current.ToString() == data.axisBasePara.hardwareInterface)
+                {
+                    comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
+                }
+            }
+        }
+
+
+        private void button_valid_Click(object sender, EventArgs e)
+        {
+            setDataFromUI();
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            refreshData();
+        }
+
+        private void comboBox_MeasureUnit_DataSourceChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void comboBox_MeasureUnit_KeyDown(object sender, KeyEventArgs e)
+        {
+            return;
+        }
+
+        private void comboBox_MeasureUnit_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
