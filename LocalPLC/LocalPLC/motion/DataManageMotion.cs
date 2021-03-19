@@ -20,36 +20,36 @@ namespace LocalPLC.motion
 
     public class PulseEquivalent
     {
-        int pulsePerRevolutionMotor = 1000;         //电机每转脉冲数
-        int offsetPerReolutionMotor = 1;          //电机每转的负载位移
+        public int pulsePerRevolutionMotor = 1000;         //电机每转脉冲数
+        public int offsetPerReolutionMotor = 1;          //电机每转的负载位移
     }
 
     public class LimitSignal
     {
-        bool hardLimitChecked = false;
-        string hardUpLimitInput = "";
-        int hardUpLimitInputLevel = 0;
-        string hardDownLimitInput = "";
-        int hardDownLimitInputLevel = 0;
+        public bool hardLimitChecked = false;
+        public int hardUpLimitInput;
+        public int hardUpLimitInputLevel = 0;
+        public int hardDownLimitInput;
+        public int hardDownLimitInputLevel = 0;
 
-        bool softLimitChecked = false;
-        int softUpLimitInputOffset = 1;
-        int softDownLimitOffset = 1;
+        public bool softLimitChecked = false;
+        public int softUpLimitInputOffset = 1;
+        public int softDownLimitOffset = 1;
     }
 
 
     public class DynamicPara
     {
         //最大速度
-        int maxSpeed;
+        public int maxSpeed = 1;
         //加速度
-        int acceleratedSpeed;
+        public int acceleratedSpeed = 1;
         //减速度
-        int decelerationSpeed;
+        public int decelerationSpeed = 1;
         //跃度Jerk
-        int jerk;
+        public int jerk = 1;
         //急停减速度
-        int emeStopDeceleration;
+        public int emeStopDeceleration = 1;
     }
 
     public class BackOriginal
@@ -73,6 +73,9 @@ namespace LocalPLC.motion
     public class AxisMotionPara
     {
         //脉冲当量
+        public PulseEquivalent pulseEquivalent = new PulseEquivalent();
+        public LimitSignal limitSignal = new LimitSignal();
+        public DynamicPara dynamicPara = new DynamicPara();
     }
 
     public class Axis

@@ -1292,7 +1292,7 @@ namespace LocalPLC
                     else if(e.Node.Tag.ToString() == "MOTION_MOTION_PARA")
                     {
                         //运控参数
-                        UserControlMotionPara para = new UserControlMotionPara();
+                        UserControlMotionPara para = new UserControlMotionPara(e.Node);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.Fill;
@@ -1568,7 +1568,7 @@ namespace LocalPLC
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(multiprogApp.IsProjectOpen())
+            if (multiprogApp.IsProjectOpen())
             {
                 projectName = multiprogApp.ActiveProject.FullName;
                 saveXml();
@@ -1579,7 +1579,7 @@ namespace LocalPLC
             }
             else
             {
-                
+
             }
 
 

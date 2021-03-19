@@ -129,13 +129,13 @@
             // 
             // comboBox_HardwareInterface
             // 
-            this.comboBox_HardwareInterface.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_HardwareInterface.FormattingEnabled = true;
             this.comboBox_HardwareInterface.Location = new System.Drawing.Point(495, 155);
             this.comboBox_HardwareInterface.Name = "comboBox_HardwareInterface";
             this.comboBox_HardwareInterface.Size = new System.Drawing.Size(121, 26);
             this.comboBox_HardwareInterface.TabIndex = 2;
             this.comboBox_HardwareInterface.SelectedIndexChanged += new System.EventHandler(this.comboBox_HardwareInterface_SelectedIndexChanged);
+            this.comboBox_HardwareInterface.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_HardwareInterface_KeyPress);
             // 
             // label5
             // 
@@ -148,7 +148,6 @@
             // 
             // comboBox_MeasureUnit
             // 
-            this.comboBox_MeasureUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_MeasureUnit.FormattingEnabled = true;
             this.comboBox_MeasureUnit.Location = new System.Drawing.Point(177, 159);
             this.comboBox_MeasureUnit.Name = "comboBox_MeasureUnit";
@@ -157,6 +156,7 @@
             this.comboBox_MeasureUnit.DataSourceChanged += new System.EventHandler(this.comboBox_MeasureUnit_DataSourceChanged);
             this.comboBox_MeasureUnit.TextChanged += new System.EventHandler(this.comboBox_MeasureUnit_TextChanged);
             this.comboBox_MeasureUnit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox_MeasureUnit_KeyDown);
+            this.comboBox_MeasureUnit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_MeasureUnit_KeyPress);
             // 
             // label4
             // 
@@ -169,13 +169,13 @@
             // 
             // comboBox_AxisType
             // 
-            this.comboBox_AxisType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_AxisType.FormattingEnabled = true;
             this.comboBox_AxisType.Location = new System.Drawing.Point(495, 101);
             this.comboBox_AxisType.Name = "comboBox_AxisType";
             this.comboBox_AxisType.Size = new System.Drawing.Size(121, 26);
             this.comboBox_AxisType.TabIndex = 2;
             this.comboBox_AxisType.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox_AxisType.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_AxisType_KeyPress);
             // 
             // label3
             // 

@@ -29,20 +29,19 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_pulsePerRevolutionMotor = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox_offsetPerReolutionMotor = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardDownLimitLevel = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -60,11 +59,11 @@
             this.label22 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox_AcceleratedSpeed = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox_MaxSpeed = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -86,11 +85,16 @@
             this.label31 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox_hardUpLimitLevel = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -100,14 +104,14 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(134, 18);
             this.label1.TabIndex = 0;
-            this.label1.Text = "电机没转脉冲数";
+            this.label1.Text = "电机每转脉冲数";
             // 
-            // textBox1
+            // textBox_pulsePerRevolutionMotor
             // 
-            this.textBox1.Location = new System.Drawing.Point(297, 35);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(140, 28);
-            this.textBox1.TabIndex = 1;
+            this.textBox_pulsePerRevolutionMotor.Location = new System.Drawing.Point(297, 35);
+            this.textBox_pulsePerRevolutionMotor.Name = "textBox_pulsePerRevolutionMotor";
+            this.textBox_pulsePerRevolutionMotor.Size = new System.Drawing.Size(140, 28);
+            this.textBox_pulsePerRevolutionMotor.TabIndex = 1;
             // 
             // label2
             // 
@@ -116,14 +120,14 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(170, 18);
             this.label2.TabIndex = 0;
-            this.label2.Text = "电机没转的负载位移";
+            this.label2.Text = "电机每转的负载位移";
             // 
-            // textBox2
+            // textBox_offsetPerReolutionMotor
             // 
-            this.textBox2.Location = new System.Drawing.Point(297, 69);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(140, 28);
-            this.textBox2.TabIndex = 1;
+            this.textBox_offsetPerReolutionMotor.Location = new System.Drawing.Point(297, 69);
+            this.textBox_offsetPerReolutionMotor.Name = "textBox_offsetPerReolutionMotor";
+            this.textBox_offsetPerReolutionMotor.Size = new System.Drawing.Size(140, 28);
+            this.textBox_offsetPerReolutionMotor.TabIndex = 1;
             // 
             // label3
             // 
@@ -136,15 +140,17 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.textBox_offsetPerReolutionMotor);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.textBox_pulsePerRevolutionMotor);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(0, 15);
+            this.panel1.Location = new System.Drawing.Point(6, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(891, 114);
+            this.panel1.Size = new System.Drawing.Size(886, 114);
             this.panel1.TabIndex = 2;
             // 
             // label4
@@ -158,13 +164,15 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.comboBox4);
-            this.panel2.Controls.Add(this.comboBox3);
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.comboBox_hardDownLimitLevel);
+            this.panel2.Controls.Add(this.comboBox_hardUpLimitLevel);
             this.panel2.Controls.Add(this.comboBox2);
             this.panel2.Controls.Add(this.comboBox1);
             this.panel2.Controls.Add(this.textBox5);
             this.panel2.Controls.Add(this.textBox3);
-            this.panel2.Controls.Add(this.checkBox2);
+            this.panel2.Controls.Add(this.checkBox_softLimit);
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.checkBox1);
             this.panel2.Controls.Add(this.label8);
@@ -175,26 +183,18 @@
             this.panel2.Controls.Add(this.label13);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.label7);
-            this.panel2.Location = new System.Drawing.Point(0, 135);
+            this.panel2.Location = new System.Drawing.Point(1, 147);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(891, 262);
             this.panel2.TabIndex = 2;
             // 
-            // comboBox4
+            // comboBox_hardDownLimitLevel
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(637, 117);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(141, 26);
-            this.comboBox4.TabIndex = 3;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(637, 80);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(141, 26);
-            this.comboBox3.TabIndex = 3;
+            this.comboBox_hardDownLimitLevel.FormattingEnabled = true;
+            this.comboBox_hardDownLimitLevel.Location = new System.Drawing.Point(637, 117);
+            this.comboBox_hardDownLimitLevel.Name = "comboBox_hardDownLimitLevel";
+            this.comboBox_hardDownLimitLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitLevel.TabIndex = 3;
             // 
             // comboBox2
             // 
@@ -226,15 +226,15 @@
             this.textBox3.Size = new System.Drawing.Size(140, 28);
             this.textBox3.TabIndex = 1;
             // 
-            // checkBox2
+            // checkBox_softLimit
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(97, 157);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(124, 22);
-            this.checkBox2.TabIndex = 2;
-            this.checkBox2.Text = "启动软限位";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox_softLimit.AutoSize = true;
+            this.checkBox_softLimit.Location = new System.Drawing.Point(97, 157);
+            this.checkBox_softLimit.Name = "checkBox_softLimit";
+            this.checkBox_softLimit.Size = new System.Drawing.Size(124, 22);
+            this.checkBox_softLimit.TabIndex = 2;
+            this.checkBox_softLimit.Text = "启动软限位";
+            this.checkBox_softLimit.UseVisualStyleBackColor = true;
             // 
             // label12
             // 
@@ -329,23 +329,25 @@
             // 
             // panel3
             // 
+            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel3.Controls.Add(this.textBox9);
             this.panel3.Controls.Add(this.label24);
             this.panel3.Controls.Add(this.textBox8);
             this.panel3.Controls.Add(this.label22);
             this.panel3.Controls.Add(this.textBox7);
             this.panel3.Controls.Add(this.label20);
-            this.panel3.Controls.Add(this.textBox6);
+            this.panel3.Controls.Add(this.textBox_AcceleratedSpeed);
             this.panel3.Controls.Add(this.label23);
             this.panel3.Controls.Add(this.label18);
             this.panel3.Controls.Add(this.label21);
-            this.panel3.Controls.Add(this.textBox4);
+            this.panel3.Controls.Add(this.textBox_MaxSpeed);
             this.panel3.Controls.Add(this.label19);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label17);
             this.panel3.Controls.Add(this.label15);
             this.panel3.Controls.Add(this.label16);
-            this.panel3.Location = new System.Drawing.Point(3, 403);
+            this.panel3.Location = new System.Drawing.Point(4, 415);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(887, 197);
             this.panel3.TabIndex = 3;
@@ -398,12 +400,12 @@
             this.label20.TabIndex = 0;
             this.label20.Text = "减速度";
             // 
-            // textBox6
+            // textBox_AcceleratedSpeed
             // 
-            this.textBox6.Location = new System.Drawing.Point(294, 63);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(140, 28);
-            this.textBox6.TabIndex = 1;
+            this.textBox_AcceleratedSpeed.Location = new System.Drawing.Point(294, 63);
+            this.textBox_AcceleratedSpeed.Name = "textBox_AcceleratedSpeed";
+            this.textBox_AcceleratedSpeed.Size = new System.Drawing.Size(140, 28);
+            this.textBox_AcceleratedSpeed.TabIndex = 1;
             // 
             // label23
             // 
@@ -432,12 +434,12 @@
             this.label21.TabIndex = 0;
             this.label21.Text = "mm/s³";
             // 
-            // textBox4
+            // textBox_MaxSpeed
             // 
-            this.textBox4.Location = new System.Drawing.Point(294, 32);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(140, 28);
-            this.textBox4.TabIndex = 1;
+            this.textBox_MaxSpeed.Location = new System.Drawing.Point(294, 32);
+            this.textBox_MaxSpeed.Name = "textBox_MaxSpeed";
+            this.textBox_MaxSpeed.Size = new System.Drawing.Size(140, 28);
+            this.textBox_MaxSpeed.TabIndex = 1;
             // 
             // label19
             // 
@@ -486,6 +488,8 @@
             // 
             // panel4
             // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel4.Controls.Add(this.label32);
             this.panel4.Controls.Add(this.label25);
             this.panel4.Controls.Add(this.comboBox5);
@@ -496,7 +500,7 @@
             this.panel4.Controls.Add(this.label26);
             this.panel4.Controls.Add(this.label27);
             this.panel4.Controls.Add(this.label28);
-            this.panel4.Location = new System.Drawing.Point(5, 606);
+            this.panel4.Location = new System.Drawing.Point(6, 618);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(886, 105);
             this.panel4.TabIndex = 4;
@@ -588,11 +592,13 @@
             // 
             // panel5
             // 
+            this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.Controls.Add(this.label33);
             this.panel5.Controls.Add(this.label31);
             this.panel5.Controls.Add(this.textBox12);
             this.panel5.Controls.Add(this.label34);
-            this.panel5.Location = new System.Drawing.Point(2, 714);
+            this.panel5.Location = new System.Drawing.Point(2, 727);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(887, 74);
             this.panel5.TabIndex = 5;
@@ -631,18 +637,58 @@
             this.label34.TabIndex = 0;
             this.label34.Text = "mm";
             // 
+            // button_cancel
+            // 
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(129, 3);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 6;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = false;
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(3, 3);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 7;
+            this.button_valid.Text = "生效";
+            this.button_valid.UseVisualStyleBackColor = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.panel1);
+            this.groupBox1.Controls.Add(this.panel2);
+            this.groupBox1.Controls.Add(this.panel3);
+            this.groupBox1.Controls.Add(this.panel5);
+            this.groupBox1.Controls.Add(this.panel4);
+            this.groupBox1.Location = new System.Drawing.Point(3, 44);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(898, 809);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
+            // 
+            // comboBox_hardUpLimitLevel
+            // 
+            this.comboBox_hardUpLimitLevel.FormattingEnabled = true;
+            this.comboBox_hardUpLimitLevel.Location = new System.Drawing.Point(637, 80);
+            this.comboBox_hardUpLimitLevel.Name = "comboBox_hardUpLimitLevel";
+            this.comboBox_hardUpLimitLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitLevel.TabIndex = 3;
+            // 
             // UserControlMotionPara
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.panel5);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.button_cancel);
+            this.Controls.Add(this.button_valid);
             this.Name = "UserControlMotionPara";
-            this.Size = new System.Drawing.Size(891, 789);
+            this.Size = new System.Drawing.Size(913, 864);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -653,13 +699,14 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_offsetPerReolutionMotor;
+        private System.Windows.Forms.TextBox textBox_pulsePerRevolutionMotor;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -672,13 +719,12 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox_softLimit;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox_hardDownLimitLevel;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label14;
@@ -690,11 +736,11 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox_AcceleratedSpeed;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox_MaxSpeed;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label17;
@@ -716,5 +762,9 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox comboBox_hardUpLimitLevel;
     }
 }

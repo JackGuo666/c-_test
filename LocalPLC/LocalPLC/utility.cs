@@ -379,6 +379,7 @@ namespace LocalPLC
                             {
                                 foreach (Variable variable in ttt.Variables)
                                 {
+                                    ttt.Variables.Create("test", "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal);
                                     variable.Delete();
                                 }
                                 foreach (var master in UserControl1.modmaster.masterManage.modbusMastrList)
