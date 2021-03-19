@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.groupchannel = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.delete = new System.Windows.Forms.Button();
             this.add = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -48,44 +46,22 @@
             // 
             // groupchannel
             // 
-            this.groupchannel.Controls.Add(this.button2);
-            this.groupchannel.Controls.Add(this.button1);
             this.groupchannel.Controls.Add(this.delete);
             this.groupchannel.Controls.Add(this.add);
             this.groupchannel.Controls.Add(this.dataGridView2);
-            this.groupchannel.Location = new System.Drawing.Point(16, 117);
+            this.groupchannel.Location = new System.Drawing.Point(16, 111);
             this.groupchannel.Name = "groupchannel";
-            this.groupchannel.Size = new System.Drawing.Size(1455, 366);
+            this.groupchannel.Size = new System.Drawing.Size(1179, 594);
             this.groupchannel.TabIndex = 9;
             this.groupchannel.TabStop = false;
             this.groupchannel.Text = "通道";
             this.groupchannel.Enter += new System.EventHandler(this.groupchannel_Enter);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(1374, 278);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "取消";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1254, 278);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "确定";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // delete
             // 
-            this.delete.Location = new System.Drawing.Point(1374, 47);
+            this.delete.Location = new System.Drawing.Point(134, 30);
             this.delete.Name = "delete";
-            this.delete.Size = new System.Drawing.Size(75, 23);
+            this.delete.Size = new System.Drawing.Size(114, 32);
             this.delete.TabIndex = 2;
             this.delete.Text = "删除";
             this.delete.UseVisualStyleBackColor = true;
@@ -93,9 +69,9 @@
             // 
             // add
             // 
-            this.add.Location = new System.Drawing.Point(1254, 47);
+            this.add.Location = new System.Drawing.Point(0, 30);
             this.add.Name = "add";
-            this.add.Size = new System.Drawing.Size(75, 23);
+            this.add.Size = new System.Drawing.Size(114, 32);
             this.add.TabIndex = 1;
             this.add.Text = "添加";
             this.add.UseVisualStyleBackColor = true;
@@ -103,14 +79,17 @@
             // 
             // dataGridView2
             // 
+            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView2.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 90);
+            this.dataGridView2.Location = new System.Drawing.Point(0, 90);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(1446, 150);
+            this.dataGridView2.Size = new System.Drawing.Size(1174, 500);
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick);
@@ -140,7 +119,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(167, 33);
+            this.label3.Location = new System.Drawing.Point(130, 33);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 18);
@@ -153,14 +132,14 @@
             this.label2.Location = new System.Drawing.Point(4, 33);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(161, 18);
+            this.label2.Size = new System.Drawing.Size(125, 18);
             this.label2.TabIndex = 5;
-            this.label2.Text = "名称：       设备";
+            this.label2.Text = "名称：   设备";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 9);
+            this.label1.Location = new System.Drawing.Point(14, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 18);
@@ -181,7 +160,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1396, 485);
+            this.label6.Location = new System.Drawing.Point(1396, 484);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 18);
             this.label6.TabIndex = 11;
@@ -191,7 +170,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1469, 486);
+            this.ClientSize = new System.Drawing.Size(1348, 702);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupchannel);
@@ -213,8 +192,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupchannel;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button delete;
         private System.Windows.Forms.Button add;
         private System.Windows.Forms.DataGridView dataGridView2;

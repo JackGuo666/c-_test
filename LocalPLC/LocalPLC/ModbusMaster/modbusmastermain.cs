@@ -264,7 +264,15 @@ namespace LocalPLC.ModbusMaster
 
                         writer.WriteStartObject();//{  conf数组下节点，从设备信息
                         writer.WritePropertyName("slave_id");
-                        writer.WriteValue(dataDev.slaveAddr);
+                        try
+                        {
+                            int sid = Convert.ToInt32(dataDev.slaveAddr);
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                        writer.WriteValue(Convert.ToInt32(dataDev.slaveAddr));
 
 
                         writer.WritePropertyName("timeout_cnt_max");
@@ -633,9 +641,9 @@ namespace LocalPLC.ModbusMaster
 
                     modbusmasterDeviceform form = new modbusmasterDeviceform();
                     ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
-
+                    ModbusMasterManage a = masterManage;
                     int masterStartAddr = masterManage.getMasterStartAddr();
-                    form.getMasterData(ref data, masterStartAddr);
+                    form.getMasterData(ref data, masterStartAddr,a,e.RowIndex);
                     form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
                 }
@@ -689,14 +697,14 @@ namespace LocalPLC.ModbusMaster
 
         private void button_delete_Click(object sender, EventArgs e)
         {
-            // int row = dataGridView1.SelectedRows[0];
+            int n = dataGridView1.SelectedCells[0].RowIndex;
             if (dataGridView1.SelectedRows.Count <= 0)
             {
                 LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
                 // show the output window and activate the "Infos" tab
                 LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
 
-
+                MessageBox.Show("请选择一整行进行删除");
                 return;
             }
 

@@ -389,25 +389,29 @@ namespace LocalPLC.ModbusClient
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            // int row = dataGridView1.SelectedRows[0];
-            if (dataGridView1.SelectedRows.Count <= 0)
+             int row = dataGridView1.SelectedCells[0].RowIndex;
+            if (dataGridView1.SelectedRows.Count != 1 )
             {
+                MessageBox.Show("请选择一整行进行删除");
+                return;
                 LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
                 // show the output window and activate the "Infos" tab
                 LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
 
 
-                return;
-            }
 
-            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+            }
+            else
             {
-                int index = dataGridView1.SelectedRows[i].Index;
+                for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+                {
+                    int index = dataGridView1.SelectedRows[i].Index;
 
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                clientManage.modbusClientList.RemoveAt(index);
+                    dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                    clientManage.modbusClientList.RemoveAt(index);
+                }
+                refreshID();
             }
-            refreshID();
         }
 
         //UserControl1 user1 = new UserControl1();
@@ -501,7 +505,7 @@ namespace LocalPLC.ModbusClient
                     
                     mct1.ClientNumber(this.label1.Text);
                     
-                    mct1.getClientData(ref data);
+                    mct1.getClientData(ref data, clientManage,e.RowIndex);
                     //cc1.ClientNumber(this.label1.Text);
                     // cc1.getClientData(ref data);
                     mct1.StartPosition = FormStartPosition.CenterScreen;

@@ -20,12 +20,15 @@ namespace LocalPLC.ModbusMaster
 
         private ModbusMasterData masterData_;
         private int masterStartAddr_ = 0;
-
-        public void getMasterData(ref ModbusMasterData data, int masterStartAddr)
+        private ModbusMasterManage mastermanage;
+        private int MID;
+        public void getMasterData(ref ModbusMasterData data, int masterStartAddr,ModbusMasterManage a,int masterid)
         {
             masterData_ = data;
             masterData_.ID = data.ID;
             masterStartAddr_ = masterStartAddr;
+            mastermanage = a;
+            MID = masterid;
         }
 
         public enum COLUMNNAME :  int
@@ -76,7 +79,7 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Columns.Add(buttonColumn);
 
                 dataGridView1.RowCount = 1 + masterData_.modbusDeviceList.Count;
-                int a = dataGridView1.RowTemplate.Height;
+               
                 int i = 0;
                 foreach (DeviceData devData in masterData_.modbusDeviceList)
                 {
@@ -200,6 +203,7 @@ namespace LocalPLC.ModbusMaster
             // int row = dataGridView1.SelectedRows[0];
             if(dataGridView1.SelectedRows.Count <= 0)
             {
+                MessageBox.Show("请选择一整行进行删除");
                 return;
             }
 
@@ -240,7 +244,7 @@ namespace LocalPLC.ModbusMaster
                     masterData_.refreshAddr();
                     modbusmasterchannel form = new modbusmasterchannel();
                     DeviceData data = masterData_.modbusDeviceList.ElementAt(e.RowIndex);
-                    form.getDeviceData(ref data, masterStartAddr_, ref masterData_);
+                    form.getDeviceData(ref data, masterStartAddr_, ref masterData_,ref mastermanage,MID,e.RowIndex);
                     form.devicenumber(data.ID);
                     form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
@@ -322,16 +326,86 @@ namespace LocalPLC.ModbusMaster
             //}
             else if(e.ColumnIndex == (int)COLUMNNAME.PERMIT_TIMEOUT_COUNT)
             {
-                int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+                try
+                {
+                    int value = Convert.ToInt32(str);
+                    if (value >= 0 && value <= 10)
+                    {
+                        int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+                    }
+                    else
+                    {
+                        MessageBox.Show("请输入0-10的数字");
+                        return;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("请输入0-10的数字");
+                    return;
+                }
+                //int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.RECONNECT_INTERVAL)
             {
-                int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+                try
+                {
+                    int value = Convert.ToInt32(str);
+                    if (value >= 100 && value <= 10000)
+                    {
+                        int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+                    }
+                    else
+                    {
+                        MessageBox.Show("请输入100-10000的数字");
+                        return;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("请输入100-10000的数字");
+                    return;
+                }
+                //int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.RESET_VARIABLE)
             {
-                masterData_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
+                int flag = 0;
+                for (int i = 0; i < mastermanage.modbusMastrList.Count; i++)
+                {
+                    for (int j = 0; j < mastermanage.modbusMastrList[i].modbusDeviceList.Count; j++)
+                    {
+                        if(str == mastermanage.modbusMastrList[i].modbusDeviceList[j].resetVaraible &&(i != MID || j != e.RowIndex))
+                        {
+                            flag++;
+                        }
+                        
+                        for(int k =0;k< mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count;k++)
+                        {
+                            if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger || 
+                                str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error && j != e.RowIndex)
+                            {
+                                flag++;
+                            }
+                        }
+                    }
+                }
+
+                if (flag == 0)
+                {
+                    masterData_.modbusDeviceList[e.RowIndex].resetVaraible = str;
+                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = dataGridView1.Rows[0].Cells[0].Style.BackColor;
+                }
+                else
+                {
+                    MessageBox.Show("复位变量名有重复，请检查后重新输入");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = masterData_.modbusDeviceList[e.RowIndex].resetVaraible;
+                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Red;
+                }
+            //masterData_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
             }
+            
+            
             else if(e.ColumnIndex == (int)COLUMNNAME.CHANNEL)
             {
 
@@ -375,6 +449,31 @@ namespace LocalPLC.ModbusMaster
             {
                 masterData_.transformMode = 0;
             }
+        }
+
+        private void modbusmasterDeviceform_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            int length = 0;
+            for (int i = 0; i < masterData_.modbusDeviceList.Count; i++)
+            {
+                length += masterData_.modbusDeviceList[i].curDeviceLength;
+            }
+            if (length >= 1000)
+            {
+                MessageBox.Show("client" + MID.ToString() + "长度超过1000，请重新设置");
+                utility.PrintError("client" + MID.ToString() + "长度超过1000，请重新设置");
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+            
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

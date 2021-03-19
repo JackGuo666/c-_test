@@ -136,7 +136,9 @@ namespace LocalPLC
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Errors").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
             // show the output window and activate the "Infos" tab
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Errors").Activate();
+            
         }
+
 
         public static void PrintInfo(string str)
         {
@@ -174,7 +176,7 @@ namespace LocalPLC
                 }
 
                 //GC.Collect();
-
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups);
                 IoGroups iog = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1).Resources.Item(1).IoGroups;
 
                 

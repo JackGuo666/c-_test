@@ -240,6 +240,7 @@ namespace LocalPLC.ModbusServer
                 elem1_s.SetAttribute("statusstart", data.dataDevice_.statusIoAddrStart);
 
                 elem1_s.SetAttribute("transformmode", data.dataDevice_.transformMode.ToString());
+                elem1_s.SetAttribute("transformmodedescribe", data.dataDevice_.transformportdescribe.ToString());
                 elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
 
                 //elem1_s.AppendChild(elem1_s_data);
@@ -407,7 +408,7 @@ namespace LocalPLC.ModbusServer
                             {
                                 writer.WriteStartObject(); // { 网口数组下设备左括号
                                 writer.WritePropertyName("port");
-                                writer.WriteValue("ethif" + (data_.dataDevice_.transformport - 2));
+                                writer.WriteValue(data_.dataDevice_.transformportdescribe);
                                 writer.WritePropertyName("remote_ip_fixed");
                                 writer.WriteValue(ipfixed);
                                 writer.WritePropertyName("max_connection");
@@ -553,6 +554,7 @@ namespace LocalPLC.ModbusServer
                 int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
                 //端口号
                 int.TryParse(e.GetAttribute("port"), out data.dataDevice_.port);
+                data.dataDevice_.transformportdescribe = e.GetAttribute("transformportdescribe");
                 //最大连接数量
                 int.TryParse(e.GetAttribute("maxconnect"), out data.dataDevice_.maxconnectnumber);
                 //指定ip

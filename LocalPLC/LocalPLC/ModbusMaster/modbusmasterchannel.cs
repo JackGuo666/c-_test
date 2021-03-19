@@ -21,6 +21,7 @@ namespace LocalPLC.ModbusMaster
 
         private DeviceData deviceData_ = null;
         private ModbusMasterData masterData_ = null;
+        private ModbusMasterManage mastermanage = null;
 
         private int masterStartAddr_ = 0;
         private bool checkMasterLenthValid()
@@ -81,12 +82,16 @@ namespace LocalPLC.ModbusMaster
             dicMsgType.Add("写多个字(寄存器) - 0x10", 0x10);
 
         }
-
-        public void getDeviceData(ref DeviceData data, int masterStartAddr, ref ModbusMasterData masterData)
+        private int MID;
+        private int MDID;
+        public void getDeviceData(ref DeviceData data, int masterStartAddr, ref ModbusMasterData masterData,ref ModbusMasterManage mmange,int masterid,int masterdevid)
         {
             deviceData_ = data;
             masterStartAddr_ = masterStartAddr;
             masterData_ = masterData;
+            mastermanage = mmange;
+            MID = masterid;
+            MDID = masterdevid;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -111,9 +116,9 @@ namespace LocalPLC.ModbusMaster
         {
             DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
             cellColumnID.Name = "ID";
-
-
-
+            textBox2.Text = MID.ToString();
+            textBox4.Text = MID.ToString();
+            
 
             DataGridViewComboBoxColumn columnMsgType = new DataGridViewComboBoxColumn();
             columnMsgType.Name = "功能码";
@@ -209,7 +214,7 @@ namespace LocalPLC.ModbusMaster
             }
 
             textBox1.Text =  deviceData_.nameDev.ToString();
-            textBox3.Text = deviceData_.slaveAddr.ToString();
+            //textBox3.Text = deviceData_.slaveAddr.ToString();
 
             //dataGridView1.RowCount = /*8*/ 1;
             dataGridView1.AutoSize = true;
@@ -291,6 +296,7 @@ namespace LocalPLC.ModbusMaster
             // int row = dataGridView1.SelectedRows[0];
             if (dataGridView1.SelectedRows.Count <= 0)
             {
+                MessageBox.Show("请选择一整行进行删除");
                 return;
             }
 
@@ -401,75 +407,169 @@ namespace LocalPLC.ModbusMaster
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.TRIG_MODE)
             {
-                deviceData_.modbusChannelList.ElementAt(e.RowIndex).trig_mode = Convert.ToInt32(str);
+                if (Convert.ToInt32(str) != 0 && Convert.ToInt32(str) != 1)
+                { MessageBox.Show("触发方式只能为0或者1"); }
+                else
+                { deviceData_.modbusChannelList.ElementAt(e.RowIndex).trig_mode = Convert.ToInt32(str); }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.POLLINGTIME)
             {
-                if(Convert.ToInt32(str) <= 50)
+                try
+                {
+                    if (Convert.ToInt32(str) <= 50)
+                    {
+                        MessageBox.Show("循环触发时间最小为50ms");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
+                        return;
+                    }
+                    else
+                        int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
+                }
+                catch
                 {
                     MessageBox.Show("循环触发时间最小为50ms");
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
                     return;
                 }
-                else
-                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
+                
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READOFFSET)
             {
-                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
+                try
+                {
+                    Convert.ToInt32(str);
+                    int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
+                }
+                catch
+                {
+                    MessageBox.Show("请输入数字");
+                    return;
+                }
+                //int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readOffset);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.READLENGTH)
             {
-                int lastLength = deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength;
-                
-                int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength);
-                //通道长度
-                var channel = deviceData_.modbusChannelList.ElementAt(e.RowIndex);
-                if(bitMsgTypeSet.Contains(channel.msgType))
+                try
                 {
-                    channel.setChannelLengthBit(channel.readLength);
-                }
-                else if(byteMsgTypeSet.Contains(channel.msgType))
-                {
-                    channel.setChannelLengthWord(channel.readLength);
-                }
+                    Convert.ToInt32(str);
+                    int lastLength = deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength;
 
-                if(!checkMasterLenthValid())
-                {
-                    //还原回上一次数值
-                    channel.readLength = lastLength;
-
+                    int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength);
+                    //通道长度
+                    var channel = deviceData_.modbusChannelList.ElementAt(e.RowIndex);
                     if (bitMsgTypeSet.Contains(channel.msgType))
                     {
-                        channel.setChannelLengthBit(lastLength);
+                        channel.setChannelLengthBit(channel.readLength);
                     }
                     else if (byteMsgTypeSet.Contains(channel.msgType))
                     {
-                        channel.setChannelLengthWord(lastLength);
+                        channel.setChannelLengthWord(channel.readLength);
                     }
 
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = lastLength.ToString();
+                    if (!checkMasterLenthValid())
+                    {
+                        //还原回上一次数值
+                        channel.readLength = lastLength;
 
+                        if (bitMsgTypeSet.Contains(channel.msgType))
+                        {
+                            channel.setChannelLengthBit(lastLength);
+                        }
+                        else if (byteMsgTypeSet.Contains(channel.msgType))
+                        {
+                            channel.setChannelLengthWord(lastLength);
+                        }
+
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = lastLength.ToString();
+
+                    }
+                    else
+                    {
+
+                    }
+
+                    //通道地址刷新
+                    deviceData_.refreshAddr(deviceData_.curDeviceAddr);
+                    //变量地址 错误变量 界面刷新
+                    //refreshGridTableTwoVarAddr();
                 }
-                else
+                catch
                 {
-
+                    MessageBox.Show("请输入数字");
+                    return;
                 }
-
-                //通道地址刷新
-                deviceData_.refreshAddr(deviceData_.curDeviceAddr);
-                //变量地址 错误变量 界面刷新
-                //refreshGridTableTwoVarAddr();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITEOFFSET)
             {
                 //int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeOffset);
-                deviceData_.modbusChannelList[e.RowIndex].trigger = str;
+                int flag = 0;
+
+                for (int i = 0; i < mastermanage.modbusMastrList.Count; i++)
+                {
+                    for (int j = 0; j < mastermanage.modbusMastrList[i].modbusDeviceList.Count; j++)
+                    {
+                        if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].resetVaraible)
+                        {
+                            flag++;
+                        }
+                        for (int k = 0; k < mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
+                        {
+                            if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger ||
+                            str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error && 
+                            (i != MID || j!= MDID || k != e.RowIndex))
+                            {
+                                flag++;
+                            }
+
+                        }
+                    }
+                }
+                if (flag == 0)
+                {
+                    deviceData_.modbusChannelList[e.RowIndex].trigger = str;
+                }
+                else
+                {
+                    MessageBox.Show("输入的变量名有重复，请检查后重新输入");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = deviceData_.modbusChannelList[e.RowIndex].trigger;
+                }
+
+                //deviceData_.modbusChannelList[e.RowIndex].trigger = str;
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.WRITELENGTH)
             {
                 //int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).writeLength);
-                deviceData_.modbusChannelList[e.RowIndex].error = str;
+                //deviceData_.modbusChannelList[e.RowIndex].error = str;
+                int flag = 0;
+
+                for (int i = 0; i < mastermanage.modbusMastrList.Count; i++)
+                {
+                    for (int j = 0; j < mastermanage.modbusMastrList[i].modbusDeviceList.Count; j++)
+                    {
+                        if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].resetVaraible)
+                        {
+                            flag++;
+                        }
+                        for (int k = 0; k < mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
+                        {
+                            if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger ||
+                            str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error
+                            && (i != MID || j != MDID || k != e.RowIndex))
+                            {
+                                flag++;
+                            }
+
+                        }
+                    }
+                }
+                if (flag == 0)
+                {
+                    deviceData_.modbusChannelList[e.RowIndex].error = str;
+                }
+                else
+                {
+                    MessageBox.Show("输入的变量名有重复，请检查后重新输入");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = deviceData_.modbusChannelList[e.RowIndex].error;
+                }
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NOTE)
             {

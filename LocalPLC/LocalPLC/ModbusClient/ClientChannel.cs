@@ -40,6 +40,7 @@ namespace LocalPLC.ModbusClient
         };
         private DeviceData data_;
         public ModbusClientData data2 { get; set; }
+        private ModbusClientManage clientmanage;
         Dictionary<int, String> dicMsg = new Dictionary<int, String>();
         Dictionary<String, int> dicMsgType = new Dictionary<String, int>();
 
@@ -112,9 +113,12 @@ namespace LocalPLC.ModbusClient
         {
             return cn;
         }
-        public void getModbusClientData(ref ModbusClientData data)
+        int CID;
+        public void getModbusClientData(ref ModbusClientData data,ref ModbusClientManage modclientmanage,int clientid)
         {
             data2 = data;
+            clientmanage = modclientmanage;
+            CID = clientid;
         }
         public void getDeviceData(ref DeviceData data)
         {
@@ -126,7 +130,7 @@ namespace LocalPLC.ModbusClient
         //DataGridViewComboBoxColumn dc = new DataGridViewComboBoxColumn();
         private void ClientChannel_Load(object sender, EventArgs e)
         {
-            
+            //dataGridView2.Columns[-1].
             ModbusClient.modbusclient1 mc1 = (modbusclient1)this.Owner;
             this.label3.Text = mc1.channelnumber.ToString();
             this.label5.Text = mc1.channelnumber.ToString();
@@ -144,7 +148,7 @@ namespace LocalPLC.ModbusClient
                 dc1.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
             //dataGridView2.Rows[i].Cells["功能码"] = cell;
             //dataGridView2.Columns.Insert(1, dc1);
-            
+            label6.Visible = false;
             //dataGridView2.RowCount = 1 + data_.modbusChannelList.Count;
 
             //if (ds.Tables[Convert.ToInt32(mc1.channelnumber)].Rows.Count < data_.modbusChannelList.Count)
@@ -505,13 +509,14 @@ namespace LocalPLC.ModbusClient
         {
             
             //int n = Convert.ToInt32(dataGridView2.SelectedRows[0].Index);
-            int n = selectrow;
+            int n = dataGridView2.SelectedCells[0].RowIndex;
             //this.dataGridView2.Rows.RemoveAt(dataGridView2.SelectedRows[0].Index);
-            if (n < 0  )
+            if (dataGridView2.SelectedRows.Count != 1 )
             {
+                MessageBox.Show("请选择一整行进行删除");
                 return;
             }
-            else if (n >= 0)
+            else if (n == 1)
             {
                 ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[n].Delete();
                 //data_.modbusChannelList.RemoveAt(n);
@@ -604,7 +609,8 @@ namespace LocalPLC.ModbusClient
             //{
             //    this.dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             //}
-            if (e.RowIndex < 0)
+
+            if (e.RowIndex == -1)
             {
                 //for (int i = 0; i < dataGridView2.RowCount; i++)
                 //{
@@ -740,61 +746,93 @@ namespace LocalPLC.ModbusClient
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.循环触发时间)
             {
                 //int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).pollingTime);
-                if (Convert.ToInt32(str) <= 50)
+                try
+                {
+                    if (Convert.ToInt32(str) <= 50)
+                    {
+                        MessageBox.Show("循环触发时间最小为50ms");
+                        dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
+                        return;
+                    }
+                    else
+                        int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).pollingTime);
+                }
+                catch
                 {
                     MessageBox.Show("循环触发时间最小为50ms");
-                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
                     return;
                 }
-                else
-                int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).pollingTime);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.偏移)
             {
                 //int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).Offset);
-                int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Offset);
+                try
+                {
+                    Convert.ToInt32(str);
+                    int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Offset);
+                }
+                catch
+                {
+                    MessageBox.Show("请输入数字");
+                    return;
+                }
+                //int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Offset);
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.长度)
             {
                 //int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).Length);
-                int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Length);
-                int type = 0;
-                int msg = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].msgType;
-                if (msg == 1 || msg == 2 || msg == 5 || msg == 15)
+                try
                 {
-                    type = 0;
-                    int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
-                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
-                        3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
-                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 0;
+                    Convert.ToInt32(str);
+                    int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Length);
+                    int type = 0;
+                    int msg = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].msgType;
+                    if (msg == 1 || msg == 2 || msg == 5 || msg == 15)
+                    {
+                        type = 0;
+                        int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
+                        data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
+                            3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length;
+                        data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 0;
+                    }
+                    else if (msg == 3 || msg == 4 || msg == 6 || msg == 16)
+                    {
+                        type = 1;
+                        int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
+                        data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
+                            3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
+                        data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 1;
+                    }
+                    refresh();
                 }
-                else if(msg == 3 || msg == 4 || msg == 6 || msg == 16)
+                catch
                 {
-                    type = 1;
-                    int c = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength;
-                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Channellength =
-                        3 + data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].Length * 2;
-                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[e.RowIndex].type = 1;
+                    MessageBox.Show("请输入数字");
+                    return;
                 }
-                refresh();
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.触发变量)
             {
                 //data_.modbusChannelList.ElementAt(e.RowIndex).trigger_offset = str;
                 int flag = 0;
-                for(int i = 0; i < data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count;i++)
+                for(int i = 0; i < clientmanage.modbusClientList.Count;i++)
                 {
-                    if(str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].trigger_offset ||
-                        str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].error_offset)
+                    for (int j = 0; j < clientmanage.modbusClientList[i].modbusDeviceList.Count; j++)
                     {
-                        flag++;
-                    }
-                }
-                for (int j = 0;j< data2.modbusDeviceList.Count;j++)
-                {
-                    if(str == data2.modbusDeviceList[j].resetVaraible)
-                    {
-                        flag++;
+                        if (str == clientmanage.modbusClientList[i].modbusDeviceList[j].resetVaraible)
+                        {
+                            flag++;
+                        }
+                        for (int k = 0; k < clientmanage.modbusClientList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
+                        {
+                            bool a = (i == CID && j == Convert.ToInt32(this.label3.Text) && k == e.RowIndex);
+                            if ((str == clientmanage.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].trigger_offset ||
+                                str == clientmanage.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].error_offset) &&
+                              a == false)
+                            {
+                                flag++;
+                            }
+                        }
                     }
                 }
                 if (flag == 0)
@@ -809,19 +847,23 @@ namespace LocalPLC.ModbusClient
             {
                 //data_.modbusChannelList.ElementAt(e.RowIndex).error_offset = str;
                 int flag = 0;
-                for (int i = 0; i < data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count; i++)
+                for (int i = 0; i < clientmanage.modbusClientList.Count; i++)
                 {
-                    if (str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].trigger_offset ||
-                        str == data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].error_offset)
+                    for (int j = 0; j < clientmanage.modbusClientList[i].modbusDeviceList.Count; j++)
                     {
-                        flag++;
-                    }
-                }
-                for (int j = 0; j < data2.modbusDeviceList.Count; j++)
-                {
-                    if (str == data2.modbusDeviceList[j].resetVaraible)
-                    {
-                        flag++;
+                        if (str == clientmanage.modbusClientList[i].modbusDeviceList[j].resetVaraible)
+                        {
+                            flag++;
+                        }
+                        for (int k = 0; k < clientmanage.modbusClientList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
+                        {
+                            if (str == clientmanage.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].trigger_offset ||
+                                str == clientmanage.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].error_offset &&
+                              (i != CID || j != Convert.ToInt32(this.label3.Text) || k != e.RowIndex))
+                            {
+                                flag++;
+                            }
+                        }
                     }
                 }
                 if (flag == 0)

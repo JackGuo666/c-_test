@@ -1468,7 +1468,19 @@ namespace LocalPLC
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            if (multiprogApp.IsProjectOpen())
+            {
+                projectName = multiprogApp.ActiveProject.FullName;
+                saveXml();
+                saveJson();
+                multiprogApp.ActiveProject.Save();
+                multiprogApp.ActiveProject.Close();
+                multiprogApp.OpenProject(projectName, AdeConfirmRule.adeCrNotConfirm);
+            }
+            else
+            {
+
+            }
 
             if (msi.serverDataManager.listServer.Count == 0 || msi.serverDataManager.listServer[0].dataDevice_.isready == true)
 
@@ -1487,7 +1499,15 @@ namespace LocalPLC
 
                 //动态刷新DI DO数据
                 UC.refreshUserBaseUI();
-                multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+                try
+                {
+                    multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
+                }
+                catch
+                {
+                    MessageBox.Show("联机模式无法操作");
+                    return;
+                }
 
                 saveXml();
                 saveJson();
@@ -1499,14 +1519,14 @@ namespace LocalPLC
             
         }
         public  int a = 0;
-        modbusserver server = new modbusserver(0);
+        
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
             if (!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;
             }
-            
+
             //     判断各模块是否有错误，如果有，Erros设置为True，multiprog停止编译
             //Errors = true;
             //if (Errors)
@@ -1514,8 +1534,18 @@ namespace LocalPLC
             //    utility.PrintBuild("test");
             //    utility.PrintError("变量名重复");
             //}
-            
-
+            if(msi.serverDataManager.listServer[0].dataDevice_.IOAddrLength > 1000 || msi.serverDataManager.listServer[0].dataDevice_.shmlength > 1000)
+            {
+                Errors = true;
+            }
+            else
+            {
+                Errors = false;
+            }
+            if (Errors == true)
+            { 
+                utility.PrintError("modbusserver配置中长度有误"); 
+            }
             int coillength = msi.serverDataManager.listServer[0].dataDevice_.coilCount;
             int coilstart = Convert.ToInt32(msi.serverDataManager.listServer[0].dataDevice_.coilIoAddrStart);
             int coilIOstart = 0;

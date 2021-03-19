@@ -49,7 +49,7 @@ namespace LocalPLC.ModbusServer
         //};
         private DataManager dataManager = null;
         ModbusServerData data_;
-        public static modbusserver server;
+        public modbusserver server;
         
 
         enum TRANSFORMMODE : int
@@ -64,20 +64,11 @@ namespace LocalPLC.ModbusServer
             server = this;
             dataManager = DataManager.GetInstance();
         }
-        public bool error()
-        {
-            if (textBox29.BackColor == Color.Red || textBox22.BackColor == Color.Red)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        private string eth;
         public void getServerData(ref ModbusServerData data)
         {
             data_ = data;
+            //eth = comboBox2.Text;
             
         }
 
@@ -1334,6 +1325,7 @@ namespace LocalPLC.ModbusServer
         {
             
             data_.dataDevice_.transformport = comboBox2.SelectedIndex;
+            data_.dataDevice_.transformportdescribe = comboBox2.SelectedItem.ToString();
         }
 
         private void textBox29_TextChanged(object sender, EventArgs e)
@@ -1522,6 +1514,18 @@ namespace LocalPLC.ModbusServer
             textBox4_Leave(sender, e);
             textBox30_Leave(sender, e);
 
+        }
+        public bool error()
+        {
+            string a = textBox29.Text;
+            if (data_.dataDevice_.IOAddrLength >= 1000 || data_.dataDevice_.shmlength >= 1000)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -48,6 +48,7 @@ namespace LocalPLC.ModbusServer
         public int deviceAddr = 0;
         public int transform;
         public int transformport;
+        public string transformportdescribe;
         public bool ipfixed = false;
         //public int connectnum = 1;
         public int slavetansformMode; //0 RTU 1ASCII

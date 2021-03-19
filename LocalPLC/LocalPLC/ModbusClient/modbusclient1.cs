@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
-
+using System.Net;
 namespace LocalPLC.ModbusClient
 {
     public partial class modbusclient1 : Form
@@ -60,11 +60,14 @@ namespace LocalPLC.ModbusClient
             
         }
         private ModbusClientData data_ { get; set; }
-
-        public void getClientData(ref ModbusClientData data)
+        private ModbusClientManage mcm;
+        int CID;
+        public void getClientData(ref ModbusClientData data,ModbusClientManage clientmanage,int clientid)
         {
             data_ = data;
             data_.ID = data.ID;
+            mcm = clientmanage;
+            CID = clientid;
         }
 
 
@@ -335,35 +338,40 @@ namespace LocalPLC.ModbusClient
         private int selectrow = -1;
         private void button2_Click(object sender, EventArgs e)
         {
-            int n = selectrow;
-            if (n < 0)
+            
+            int n = dataGridView1.SelectedCells[0].RowIndex;
+            if (dataGridView1.SelectedRows.Count != 1)
             {
+                MessageBox.Show("请选择一整行进行删除");
                 return;
             }
             //this.dataGridView1.Rows.RemoveAt(n);
-            ds.Tables[Convert.ToInt32(cn)].Rows[n].Delete();
-            data_.modbusDeviceList.RemoveAt(n);
-            //if (n > 1)
-            //{
-            //    for (int i = n; i<dataGridView1.RowCount;i++)
-            //    {
-            //        ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = data_.modbusDeviceList[i - 1].ID + 1;
-            //        data_.modbusDeviceList[i].ID = data_.modbusDeviceList[i - 1].ID + 1;
-            //    }
-                
-            //}
-            //else if (n == 1)
-            //{
-            //    ds.Tables[Convert.ToInt32(cn)].Rows[n][0] = 0;
-            //    data_.modbusDeviceList[n].ID = 0;
-            //}
-            for (int i =0;i<ds.Tables[Convert.ToInt32(cn)].Rows.Count;i++)
+            else
             {
-                ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = i;
-                data_.modbusDeviceList[i].ID = i;
+                ds.Tables[Convert.ToInt32(cn)].Rows[n].Delete();
+                data_.modbusDeviceList.RemoveAt(n);
+                //if (n > 1)
+                //{
+                //    for (int i = n; i<dataGridView1.RowCount;i++)
+                //    {
+                //        ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = data_.modbusDeviceList[i - 1].ID + 1;
+                //        data_.modbusDeviceList[i].ID = data_.modbusDeviceList[i - 1].ID + 1;
+                //    }
+
+                //}
+                //else if (n == 1)
+                //{
+                //    ds.Tables[Convert.ToInt32(cn)].Rows[n][0] = 0;
+                //    data_.modbusDeviceList[n].ID = 0;
+                //}
+                for (int i = 0; i < ds.Tables[Convert.ToInt32(cn)].Rows.Count; i++)
+                {
+                    ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = i;
+                    data_.modbusDeviceList[i].ID = i;
+                }
+                //ds.Tables[n].Clear();
+                refresh();
             }
-            //ds.Tables[n].Clear();
-            refresh();
         }
         ModbusClient.ClientChannel CCl = new ClientChannel();
         //ClientChannel CC ;
@@ -387,7 +395,7 @@ namespace LocalPLC.ModbusClient
                 ModbusClientData datac = data_;
                 // ModbusClientData data1 = 
                 //CCl.getDeviceData(ref data);
-                CCl.getModbusClientData(ref datac);
+                CCl.getModbusClientData(ref datac,ref mcm,CID);
                 CCl.ClientNumber(cn);
                 CCl.StartPosition = FormStartPosition.CenterScreen;
                 channelNo = e.RowIndex;
@@ -430,7 +438,17 @@ namespace LocalPLC.ModbusClient
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.IP地址)
             {
-                data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
+                try
+                {
+                    IPAddress ipTry = IPAddress.Parse(str);
+                    data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
+                }
+                catch
+                {
+                    MessageBox.Show("请输入正确的IP地址：(0-255).(0-255).(0-255).(0-255)");
+                    return;
+                }
+                //data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.端口号)
             {
@@ -441,34 +459,91 @@ namespace LocalPLC.ModbusClient
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.响应超时)
             {
-                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
+                try 
+                {
+                   int value = Convert.ToInt32(str);
+                    if (value >= 100 && value<=10000)
+                    {
+                        int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
+                    }
+                    else
+                    {
+                        MessageBox.Show("请输入100-10000的数字");
+                        return;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("请输入100-10000的数字");
+                    return;
+                }
+                  
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.重连间隔)
             {
-                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+                try
+                {
+                    int value = Convert.ToInt32(str);
+                    if (value >= 100 && value <= 10000)
+                    {
+                        int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+                    }
+                    else
+                    {
+                        MessageBox.Show("请输入100-10000的数字");
+                        return;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("请输入100-10000的数字");
+                    return;
+                }
+                
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.允许超时的次数)
             {
-                int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+                try
+                {
+                    int value = Convert.ToInt32(str);
+                    if (value >= 0 && value <= 10)
+                    {
+                        int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+                    }
+                    else
+                    {
+                        MessageBox.Show("请输入0-10的数字");
+                        return;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("请输入0-10的数字");
+                    return;
+                }
+                
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.复位变量)
             {
                 int flag = 0;
-                for(int i = 0; i < data_.modbusDeviceList.Count; i++)
+                for(int i = 0; i < mcm.modbusClientList.Count; i++)
                 {
-                    if(str == data_.modbusDeviceList[i].resetVaraible)
+                    for(int j=0; j< mcm.modbusClientList[i].modbusDeviceList.Count;j++)
                     {
-                        flag++;
-                    }
-                    for(int j =0;j< data_.modbusDeviceList[i].modbusChannelList.Count;j++)
-                    {
-                        if(str == data_.modbusDeviceList[i].modbusChannelList[j].trigger_offset || str == data_.modbusDeviceList[i].modbusChannelList[j].error_offset)
+                        if (str == mcm.modbusClientList[i].modbusDeviceList[j].resetVaraible && (i!=CID || j != e.RowIndex))
                         {
                             flag++;
                         }
-                    }
+                        for(int k =0; k< mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList.Count;k++)
+                        {
+                            if (str == mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].trigger_offset || 
+                                str == mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].error_offset)
+                            {
+                                flag++;
+                            }
+                        }
+                    }        
                 }
-
                 if (flag == 0)
                 { 
                     data_.modbusDeviceList[e.RowIndex].resetVaraible = str;
@@ -510,6 +585,26 @@ namespace LocalPLC.ModbusClient
         private void modbusclient1_FormClosing(object sender, FormClosingEventArgs e)
         {
             refresh();
+            int length = 0;
+            for(int i =0;i<data_.modbusDeviceList.Count;i++)
+            {
+                length += data_.modbusDeviceList[i].devlength;
+            }
+            if(length >= 1000)
+            {
+                MessageBox.Show("client" + CID.ToString() + "长度超过1000，请重新设置");
+                utility.PrintError("client"+CID.ToString()+"长度超过1000，请重新设置");
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
+        }
+
+        private void ClientSettings_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
