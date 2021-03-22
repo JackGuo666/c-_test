@@ -74,8 +74,16 @@ namespace LocalPLC.motion
 
         void initDynamic()
         {
+            //最大速度
             textBox_MaxSpeed.Text = data.axisMotionPara.dynamicPara.maxSpeed.ToString();
+            //加速度
             textBox_AcceleratedSpeed.Text = data.axisMotionPara.dynamicPara.acceleratedSpeed.ToString();
+            //减速度
+            textBox_DecelerationSpeed.Text = data.axisMotionPara.dynamicPara.decelerationSpeed.ToString();
+            //跃度
+            textBox_Jerk.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
+            //急停减速度
+            textBox_EmeStopDeceleration.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
         }
 
         #endregion
@@ -95,6 +103,7 @@ namespace LocalPLC.motion
 
             initPulseEquient();
             initLimitSignal();
+            initDynamic();
         }
     }
 }
