@@ -79,13 +79,40 @@ namespace LocalPLC.motion
             //加速度
             textBox_AcceleratedSpeed.Text = data.axisMotionPara.dynamicPara.acceleratedSpeed.ToString();
             //减速度
-            textBox_DecelerationSpeed.Text = data.axisMotionPara.dynamicPara.decelerationSpeed.ToString();
+            textBox7.Text = data.axisMotionPara.dynamicPara.decelerationSpeed.ToString();
             //跃度
-            textBox_Jerk.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
+            textBox8.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
             //急停减速度
-            textBox_EmeStopDeceleration.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
+            textBox9.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
         }
 
+        void initBackOriginal()
+        {
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+            foreach (var di in dataManage.diList)
+            {
+                if (!di.used)
+                {
+                    comboBox_BackOriginal.Items.Add(di.channelName);
+                    comboBox_ZPulseSignal.Items.Add(di.channelName);
+                }
+            }
+
+            levelDic.Clear();
+            levelDic.Add((int)TypeLevel.HIGH_LEVEL, "高电平有效");
+            levelDic.Add((int)TypeLevel.LOW_LEVEL, "低电平有效");
+            foreach (var level in levelDic)
+            {
+                comboBox_BackOriginalSelectLevel.Items.Add(level.Value);
+            }
+        }
+
+
+        void reverseCompensation()
+        {
+            textBox_ReverseCompensation.Text = data.axisMotionPara.reverseCompensation.reverseCompensation.ToString();
+        }
         #endregion
 
         public UserControlMotionPara(TreeNode node)
@@ -104,6 +131,8 @@ namespace LocalPLC.motion
             initPulseEquient();
             initLimitSignal();
             initDynamic();
+            initBackOriginal();
+            reverseCompensation();
         }
     }
 }
