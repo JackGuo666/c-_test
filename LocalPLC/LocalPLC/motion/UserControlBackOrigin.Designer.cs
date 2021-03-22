@@ -31,15 +31,15 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.label32 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.comboBox_BackOriginalSelectLevel = new System.Windows.Forms.ComboBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.comboBox_BackOriginal = new System.Windows.Forms.ComboBox();
+            this.comboBox_ZPulseSignal = new System.Windows.Forms.ComboBox();
             this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,10 +47,10 @@
             // 
             this.panel4.Controls.Add(this.label32);
             this.panel4.Controls.Add(this.label25);
-            this.panel4.Controls.Add(this.comboBox5);
-            this.panel4.Controls.Add(this.textBox11);
+            this.panel4.Controls.Add(this.comboBox_ZPulseSignal);
+            this.panel4.Controls.Add(this.comboBox_BackOriginal);
+            this.panel4.Controls.Add(this.comboBox_BackOriginalSelectLevel);
             this.panel4.Controls.Add(this.label30);
-            this.panel4.Controls.Add(this.textBox10);
             this.panel4.Controls.Add(this.label29);
             this.panel4.Controls.Add(this.label26);
             this.panel4.Controls.Add(this.label27);
@@ -78,20 +78,13 @@
             this.label25.TabIndex = 0;
             this.label25.Text = "回原点";
             // 
-            // comboBox5
+            // comboBox_BackOriginalSelectLevel
             // 
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(632, 38);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(141, 26);
-            this.comboBox5.TabIndex = 3;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(294, 72);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(140, 28);
-            this.textBox11.TabIndex = 1;
+            this.comboBox_BackOriginalSelectLevel.FormattingEnabled = true;
+            this.comboBox_BackOriginalSelectLevel.Location = new System.Drawing.Point(632, 38);
+            this.comboBox_BackOriginalSelectLevel.Name = "comboBox_BackOriginalSelectLevel";
+            this.comboBox_BackOriginalSelectLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_BackOriginalSelectLevel.TabIndex = 3;
             // 
             // label30
             // 
@@ -101,13 +94,6 @@
             this.label30.Size = new System.Drawing.Size(89, 18);
             this.label30.TabIndex = 0;
             this.label30.Text = "Z脉冲信号";
-            // 
-            // textBox10
-            // 
-            this.textBox10.Location = new System.Drawing.Point(294, 38);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(140, 28);
-            this.textBox10.TabIndex = 1;
             // 
             // label29
             // 
@@ -153,6 +139,22 @@
             this.richTextBox1.TabIndex = 6;
             this.richTextBox1.Text = "图片";
             // 
+            // comboBox_BackOriginal
+            // 
+            this.comboBox_BackOriginal.FormattingEnabled = true;
+            this.comboBox_BackOriginal.Location = new System.Drawing.Point(293, 38);
+            this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
+            this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_BackOriginal.TabIndex = 3;
+            // 
+            // comboBox_ZPulseSignal
+            // 
+            this.comboBox_ZPulseSignal.FormattingEnabled = true;
+            this.comboBox_ZPulseSignal.Location = new System.Drawing.Point(293, 72);
+            this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
+            this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_ZPulseSignal.TabIndex = 3;
+            // 
             // UserControlBackOrigin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -173,14 +175,14 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.ComboBox comboBox_BackOriginalSelectLevel;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ComboBox comboBox_ZPulseSignal;
+        private System.Windows.Forms.ComboBox comboBox_BackOriginal;
     }
 }

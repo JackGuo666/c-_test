@@ -71,14 +71,14 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label26 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.comboBox_BackOriginalSelectLevel = new System.Windows.Forms.ComboBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.comboBox_BackOriginal = new System.Windows.Forms.ComboBox();
             this.comboBox_ZPulseSignal = new System.Windows.Forms.ComboBox();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.comboBox_BackOriginal = new System.Windows.Forms.ComboBox();
+            this.comboBox_BackOriginalSelectLevel = new System.Windows.Forms.ComboBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.button_cancel = new System.Windows.Forms.Button();
             this.button_valid = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
@@ -504,15 +504,6 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "回原点";
             // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(7, 30);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(116, 18);
-            this.label26.TabIndex = 0;
-            this.label26.Text = "原点输入信号";
-            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -522,14 +513,29 @@
             this.label28.TabIndex = 0;
             this.label28.Text = "选择电平";
             // 
-            // label30
+            // comboBox_ZPulseSignal
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(7, 64);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(89, 18);
-            this.label30.TabIndex = 0;
-            this.label30.Text = "Z脉冲信号";
+            this.comboBox_ZPulseSignal.FormattingEnabled = true;
+            this.comboBox_ZPulseSignal.Location = new System.Drawing.Point(210, 61);
+            this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
+            this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_ZPulseSignal.TabIndex = 3;
+            // 
+            // comboBox4
+            // 
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(395, 64);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(141, 26);
+            this.comboBox4.TabIndex = 3;
+            // 
+            // comboBox_BackOriginal
+            // 
+            this.comboBox_BackOriginal.FormattingEnabled = true;
+            this.comboBox_BackOriginal.Location = new System.Drawing.Point(210, 22);
+            this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
+            this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_BackOriginal.TabIndex = 3;
             // 
             // comboBox_BackOriginalSelectLevel
             // 
@@ -538,6 +544,24 @@
             this.comboBox_BackOriginalSelectLevel.Name = "comboBox_BackOriginalSelectLevel";
             this.comboBox_BackOriginalSelectLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_BackOriginalSelectLevel.TabIndex = 3;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(7, 30);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(116, 18);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "原点输入信号";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(7, 64);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(89, 18);
+            this.label30.TabIndex = 0;
+            this.label30.Text = "Z脉冲信号";
             // 
             // groupBox6
             // 
@@ -552,30 +576,6 @@
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "反向间隙补偿";
-            // 
-            // comboBox_BackOriginal
-            // 
-            this.comboBox_BackOriginal.FormattingEnabled = true;
-            this.comboBox_BackOriginal.Location = new System.Drawing.Point(210, 22);
-            this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
-            this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_BackOriginal.TabIndex = 3;
-            // 
-            // comboBox_ZPulseSignal
-            // 
-            this.comboBox_ZPulseSignal.FormattingEnabled = true;
-            this.comboBox_ZPulseSignal.Location = new System.Drawing.Point(210, 61);
-            this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
-            this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_ZPulseSignal.TabIndex = 3;
-            // 
-            // comboBox4
-            // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(210, 27);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(141, 26);
-            this.comboBox4.TabIndex = 3;
             // 
             // button_cancel
             // 

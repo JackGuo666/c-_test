@@ -31,11 +31,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.comboBox_hardDownLimitLevel = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardUpLimitLevel = new System.Windows.Forms.ComboBox();
+            this.textBox_hardDownLimitInput = new System.Windows.Forms.TextBox();
+            this.textBox_checkBox_softLimit = new System.Windows.Forms.TextBox();
+            this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -46,19 +46,20 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.comboBox4);
             this.panel2.Controls.Add(this.comboBox3);
-            this.panel2.Controls.Add(this.comboBox2);
-            this.panel2.Controls.Add(this.comboBox1);
-            this.panel2.Controls.Add(this.textBox5);
-            this.panel2.Controls.Add(this.textBox3);
-            this.panel2.Controls.Add(this.checkBox2);
+            this.panel2.Controls.Add(this.comboBox_hardDownLimitLevel);
+            this.panel2.Controls.Add(this.comboBox_hardUpLimitLevel);
+            this.panel2.Controls.Add(this.textBox_hardDownLimitInput);
+            this.panel2.Controls.Add(this.textBox_checkBox_softLimit);
+            this.panel2.Controls.Add(this.checkBox_softLimit);
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.checkBox1);
             this.panel2.Controls.Add(this.label8);
@@ -90,45 +91,45 @@
             this.comboBox3.Size = new System.Drawing.Size(141, 26);
             this.comboBox3.TabIndex = 3;
             // 
-            // comboBox2
+            // comboBox_hardDownLimitLevel
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(297, 117);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(141, 26);
-            this.comboBox2.TabIndex = 3;
+            this.comboBox_hardDownLimitLevel.FormattingEnabled = true;
+            this.comboBox_hardDownLimitLevel.Location = new System.Drawing.Point(297, 117);
+            this.comboBox_hardDownLimitLevel.Name = "comboBox_hardDownLimitLevel";
+            this.comboBox_hardDownLimitLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitLevel.TabIndex = 3;
             // 
-            // comboBox1
+            // comboBox_hardUpLimitLevel
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(297, 80);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(141, 26);
-            this.comboBox1.TabIndex = 3;
+            this.comboBox_hardUpLimitLevel.FormattingEnabled = true;
+            this.comboBox_hardUpLimitLevel.Location = new System.Drawing.Point(297, 80);
+            this.comboBox_hardUpLimitLevel.Name = "comboBox_hardUpLimitLevel";
+            this.comboBox_hardUpLimitLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitLevel.TabIndex = 3;
             // 
-            // textBox5
+            // textBox_hardDownLimitInput
             // 
-            this.textBox5.Location = new System.Drawing.Point(297, 225);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(140, 28);
-            this.textBox5.TabIndex = 1;
+            this.textBox_hardDownLimitInput.Location = new System.Drawing.Point(297, 225);
+            this.textBox_hardDownLimitInput.Name = "textBox_hardDownLimitInput";
+            this.textBox_hardDownLimitInput.Size = new System.Drawing.Size(140, 28);
+            this.textBox_hardDownLimitInput.TabIndex = 1;
             // 
-            // textBox3
+            // textBox_checkBox_softLimit
             // 
-            this.textBox3.Location = new System.Drawing.Point(297, 188);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(140, 28);
-            this.textBox3.TabIndex = 1;
+            this.textBox_checkBox_softLimit.Location = new System.Drawing.Point(297, 188);
+            this.textBox_checkBox_softLimit.Name = "textBox_checkBox_softLimit";
+            this.textBox_checkBox_softLimit.Size = new System.Drawing.Size(140, 28);
+            this.textBox_checkBox_softLimit.TabIndex = 1;
             // 
-            // checkBox2
+            // checkBox_softLimit
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(97, 157);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(124, 22);
-            this.checkBox2.TabIndex = 2;
-            this.checkBox2.Text = "启动软限位";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox_softLimit.AutoSize = true;
+            this.checkBox_softLimit.Location = new System.Drawing.Point(97, 157);
+            this.checkBox_softLimit.Name = "checkBox_softLimit";
+            this.checkBox_softLimit.Size = new System.Drawing.Size(124, 22);
+            this.checkBox_softLimit.TabIndex = 2;
+            this.checkBox_softLimit.Text = "启动软限位";
+            this.checkBox_softLimit.UseVisualStyleBackColor = true;
             // 
             // label12
             // 
@@ -221,25 +222,30 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "硬件上限位输入点";
             // 
-            // richTextBox1
+            // pictureBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 267);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(856, 305);
-            this.richTextBox1.TabIndex = 4;
-            this.richTextBox1.Text = "图片";
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.BackgroundImage = global::LocalPLC.Properties.Resources.LocalPLC24P;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(2, 273);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(857, 301);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
             // 
             // UserControlLimitSignal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel2);
             this.Name = "UserControlLimitSignal";
             this.Size = new System.Drawing.Size(860, 575);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -249,11 +255,11 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.ComboBox comboBox_hardDownLimitLevel;
+        private System.Windows.Forms.ComboBox comboBox_hardUpLimitLevel;
+        private System.Windows.Forms.TextBox textBox_hardDownLimitInput;
+        private System.Windows.Forms.TextBox textBox_checkBox_softLimit;
+        private System.Windows.Forms.CheckBox checkBox_softLimit;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label8;
@@ -264,6 +270,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

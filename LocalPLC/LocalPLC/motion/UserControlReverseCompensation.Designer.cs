@@ -31,7 +31,7 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.label33 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox_ReverseCompensation = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel5.SuspendLayout();
@@ -41,7 +41,7 @@
             // 
             this.panel5.Controls.Add(this.label33);
             this.panel5.Controls.Add(this.label31);
-            this.panel5.Controls.Add(this.textBox12);
+            this.panel5.Controls.Add(this.textBox_ReverseCompensation);
             this.panel5.Controls.Add(this.label34);
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
@@ -66,12 +66,12 @@
             this.label31.TabIndex = 0;
             this.label31.Text = "反向间隙补偿";
             // 
-            // textBox12
+            // textBox_ReverseCompensation
             // 
-            this.textBox12.Location = new System.Drawing.Point(309, 53);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(140, 28);
-            this.textBox12.TabIndex = 1;
+            this.textBox_ReverseCompensation.Location = new System.Drawing.Point(309, 53);
+            this.textBox_ReverseCompensation.Name = "textBox_ReverseCompensation";
+            this.textBox_ReverseCompensation.Size = new System.Drawing.Size(140, 28);
+            this.textBox_ReverseCompensation.TabIndex = 1;
             // 
             // label34
             // 
@@ -110,7 +110,7 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox_ReverseCompensation;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.RichTextBox richTextBox1;
     }

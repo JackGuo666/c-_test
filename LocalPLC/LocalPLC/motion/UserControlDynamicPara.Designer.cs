@@ -35,11 +35,11 @@
             this.label22 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.textBox_AcceleratedSpeed = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox_MaxSpeed = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -57,11 +57,11 @@
             this.panel3.Controls.Add(this.label22);
             this.panel3.Controls.Add(this.textBox7);
             this.panel3.Controls.Add(this.label20);
-            this.panel3.Controls.Add(this.textBox6);
+            this.panel3.Controls.Add(this.textBox_AcceleratedSpeed);
             this.panel3.Controls.Add(this.label23);
             this.panel3.Controls.Add(this.label18);
             this.panel3.Controls.Add(this.label21);
-            this.panel3.Controls.Add(this.textBox4);
+            this.panel3.Controls.Add(this.textBox_MaxSpeed);
             this.panel3.Controls.Add(this.label19);
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.label17);
@@ -120,12 +120,12 @@
             this.label20.TabIndex = 0;
             this.label20.Text = "减速度";
             // 
-            // textBox6
+            // textBox_AcceleratedSpeed
             // 
-            this.textBox6.Location = new System.Drawing.Point(294, 63);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(140, 28);
-            this.textBox6.TabIndex = 1;
+            this.textBox_AcceleratedSpeed.Location = new System.Drawing.Point(294, 63);
+            this.textBox_AcceleratedSpeed.Name = "textBox_AcceleratedSpeed";
+            this.textBox_AcceleratedSpeed.Size = new System.Drawing.Size(140, 28);
+            this.textBox_AcceleratedSpeed.TabIndex = 1;
             // 
             // label23
             // 
@@ -154,12 +154,12 @@
             this.label21.TabIndex = 0;
             this.label21.Text = "mm/s³";
             // 
-            // textBox4
+            // textBox_MaxSpeed
             // 
-            this.textBox4.Location = new System.Drawing.Point(294, 32);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(140, 28);
-            this.textBox4.TabIndex = 1;
+            this.textBox_MaxSpeed.Location = new System.Drawing.Point(294, 32);
+            this.textBox_MaxSpeed.Name = "textBox_MaxSpeed";
+            this.textBox_MaxSpeed.Size = new System.Drawing.Size(140, 28);
+            this.textBox_MaxSpeed.TabIndex = 1;
             // 
             // label19
             // 
@@ -238,11 +238,11 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox textBox_AcceleratedSpeed;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox_MaxSpeed;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label17;

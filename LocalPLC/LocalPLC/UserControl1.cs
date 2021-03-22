@@ -1314,8 +1314,13 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_LIMIT_SIGNAL")
                     {
+                        if (e.Node.Parent.Parent == null)
+                        {
+                            return;
+                        }
+
                         //限位信号
-                        UserControlLimitSignal para = new UserControlLimitSignal();
+                        UserControlLimitSignal para = new UserControlLimitSignal(e.Node.Parent);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;
@@ -1323,8 +1328,12 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_DYNAMIC_PARA")
                     {
+                        if (e.Node.Parent.Parent == null)
+                        {
+                            return;
+                        }
                         //动态参数
-                        UserControlDynamicPara para = new UserControlDynamicPara();
+                        UserControlDynamicPara para = new UserControlDynamicPara(e.Node.Parent);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;
@@ -1332,8 +1341,13 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BACK_ORIGIN")
                     {
+                        if (e.Node.Parent.Parent == null)
+                        {
+                            return;
+                        }
+
                         //回原点
-                        UserControlBackOrigin para = new UserControlBackOrigin();
+                        UserControlBackOrigin para = new UserControlBackOrigin(e.Node.Parent);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;
@@ -1341,7 +1355,12 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_REVERSE_COMPENSATION")
                     {
-                        UserControlReverseCompensation para = new UserControlReverseCompensation();
+                        if (e.Node.Parent.Parent == null)
+                        {
+                            return;
+                        }
+
+                        UserControlReverseCompensation para = new UserControlReverseCompensation(e.Node.Parent);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;
