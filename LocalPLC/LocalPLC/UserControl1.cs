@@ -1301,8 +1301,12 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_PULSE_EQUIVALENT")
                     {
+                        if (e.Node.Parent.Parent == null)
+                        {
+                            return;
+                        }
                         //脉冲当量
-                        UserControlPulseEquivalent para = new UserControlPulseEquivalent();
+                        UserControlPulseEquivalent para = new UserControlPulseEquivalent(e.Node.Parent);
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.None;

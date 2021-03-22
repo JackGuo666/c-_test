@@ -67,8 +67,6 @@
             this.label33 = new System.Windows.Forms.Label();
             this.textBox_ReverseCompensation = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
-            this.button_cancel = new System.Windows.Forms.Button();
-            this.button_valid = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -81,6 +79,8 @@
             this.comboBox_BackOriginal = new System.Windows.Forms.ComboBox();
             this.comboBox_ZPulseSignal = new System.Windows.Forms.ComboBox();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -417,26 +417,6 @@
             this.label34.TabIndex = 0;
             this.label34.Text = "mm";
             // 
-            // button_cancel
-            // 
-            this.button_cancel.BackColor = System.Drawing.Color.White;
-            this.button_cancel.Location = new System.Drawing.Point(130, 3);
-            this.button_cancel.Name = "button_cancel";
-            this.button_cancel.Size = new System.Drawing.Size(120, 35);
-            this.button_cancel.TabIndex = 6;
-            this.button_cancel.Text = "取消";
-            this.button_cancel.UseVisualStyleBackColor = false;
-            // 
-            // button_valid
-            // 
-            this.button_valid.BackColor = System.Drawing.Color.White;
-            this.button_valid.Location = new System.Drawing.Point(4, 3);
-            this.button_valid.Name = "button_valid";
-            this.button_valid.Size = new System.Drawing.Size(120, 35);
-            this.button_valid.TabIndex = 7;
-            this.button_valid.Text = "生效";
-            this.button_valid.UseVisualStyleBackColor = false;
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -446,9 +426,9 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.textBox_pulsePerRevolutionMotor);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(6, 44);
+            this.groupBox2.Location = new System.Drawing.Point(6, 66);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(775, 111);
+            this.groupBox2.Size = new System.Drawing.Size(1153, 111);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "脉冲当量";
@@ -473,7 +453,7 @@
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.checkBox1);
-            this.groupBox3.Location = new System.Drawing.Point(6, 161);
+            this.groupBox3.Location = new System.Drawing.Point(6, 183);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(775, 261);
             this.groupBox3.TabIndex = 9;
@@ -499,9 +479,9 @@
             this.groupBox4.Controls.Add(this.label21);
             this.groupBox4.Controls.Add(this.label23);
             this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Location = new System.Drawing.Point(3, 428);
+            this.groupBox4.Location = new System.Drawing.Point(3, 450);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(778, 193);
+            this.groupBox4.Size = new System.Drawing.Size(1153, 193);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "动态参数";
@@ -517,12 +497,12 @@
             this.groupBox5.Controls.Add(this.comboBox_BackOriginalSelectLevel);
             this.groupBox5.Controls.Add(this.label26);
             this.groupBox5.Controls.Add(this.label30);
-            this.groupBox5.Location = new System.Drawing.Point(3, 627);
+            this.groupBox5.Location = new System.Drawing.Point(3, 649);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(778, 106);
+            this.groupBox5.Size = new System.Drawing.Size(778, 100);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "groupBox5";
+            this.groupBox5.Text = "回原点";
             // 
             // label26
             // 
@@ -566,9 +546,9 @@
             this.groupBox6.Controls.Add(this.textBox_ReverseCompensation);
             this.groupBox6.Controls.Add(this.label33);
             this.groupBox6.Controls.Add(this.label34);
-            this.groupBox6.Location = new System.Drawing.Point(6, 739);
+            this.groupBox6.Location = new System.Drawing.Point(4, 755);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(772, 85);
+            this.groupBox6.Size = new System.Drawing.Size(737, 85);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "反向间隙补偿";
@@ -597,6 +577,26 @@
             this.comboBox4.Size = new System.Drawing.Size(141, 26);
             this.comboBox4.TabIndex = 3;
             // 
+            // button_cancel
+            // 
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(130, 3);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 6;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = false;
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(4, 3);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 7;
+            this.button_valid.Text = "生效";
+            this.button_valid.UseVisualStyleBackColor = false;
+            // 
             // UserControlMotionPara
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -610,7 +610,7 @@
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlMotionPara";
-            this.Size = new System.Drawing.Size(781, 889);
+            this.Size = new System.Drawing.Size(781, 934);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -664,8 +664,6 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox textBox_ReverseCompensation;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Button button_cancel;
-        private System.Windows.Forms.Button button_valid;
         private System.Windows.Forms.ComboBox comboBox_hardUpLimitLevel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -679,5 +677,7 @@
         private System.Windows.Forms.ComboBox comboBox_BackOriginal;
         private System.Windows.Forms.ComboBox comboBox_ZPulseSignal;
         private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }

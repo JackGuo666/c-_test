@@ -374,6 +374,7 @@ namespace LocalPLC
                         var groups = resource.Variables.Groups;
                         foreach (VariableGroup ttt in groups)
                         {
+                            
                             var name = ttt.Name;
                             if (name == "Master")
                             {

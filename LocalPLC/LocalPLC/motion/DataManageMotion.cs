@@ -55,17 +55,17 @@ namespace LocalPLC.motion
     public class BackOriginal
     {
         //原点输入信号
-        string orginInputSignal = "";
+        public string orginInputSignal = "";
 
         //选择电平
-        int selectLevel = 0;
+        public int selectLevel = 0;
         //Z脉冲信号
-        string ZPulseSignal;
+        public string ZPulseSignal;
     }
 
     public class ReverseCompensation
     {
-        int reverseCompensation = 1;
+        public int reverseCompensation = 1;
     }
     //反向间隙补偿
 
@@ -76,6 +76,8 @@ namespace LocalPLC.motion
         public PulseEquivalent pulseEquivalent = new PulseEquivalent();
         public LimitSignal limitSignal = new LimitSignal();
         public DynamicPara dynamicPara = new DynamicPara();
+        public BackOriginal backOriginal = new BackOriginal();
+        public ReverseCompensation reverseCompensation = new ReverseCompensation();
     }
 
     public class Axis
