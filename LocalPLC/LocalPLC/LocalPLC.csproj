@@ -290,6 +290,7 @@
     <Compile Include="motion\UserControlLimitSignal.Designer.cs">
       <DependentUpon>UserControlLimitSignal.cs</DependentUpon>
     </Compile>
+    <Compile Include="motion\UserControlMotion.cs" />
     <Compile Include="motion\UserControlMotionBasePara.cs">
       <SubType>UserControl</SubType>
     </Compile>

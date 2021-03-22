@@ -52,8 +52,8 @@ namespace LocalPLC
         //public static IoGroups iog { get; set; } = null;
         public static UserControlBase UC { get; set; } = new UserControlBase();
 
-        //运控参数数据管理
-        public static LocalPLC.motion.DataManageBase motionDataManage = new LocalPLC.motion.DataManageBase();
+        public static LocalPLC.motion.UserControlMotion motion = new UserControlMotion();
+        
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
@@ -1132,9 +1132,14 @@ namespace LocalPLC
             XmlElement elemAxis = doc.CreateElement("axis");
             elemAxis.SetAttribute("name", "axis");
             elem.AppendChild(elemAxis);
-            foreach (var axis in motionDataManage.axisList)
+            foreach (var axis in motion.motionDataManage.axisList)
             {
+                //axis元素
 
+
+                //axis基本参数
+
+                //axis运动参数
             }
         }
 
@@ -2142,11 +2147,11 @@ namespace LocalPLC
             }
             else if(e.Node.Tag.ToString() == "ADDCOMMANDTABLE")
             {
-                var motion = e.Node.Parent;
+                var motionNode = e.Node.Parent;
                 TreeNode command  = null;
                 LocalPLC.motion.Axis axis = new Axis();
-                motionDataManage.axisList.Add(axis);
-                createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motion, 3);
+                motion.motionDataManage.axisList.Add(axis);
+                createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motionNode, 3);
 
             }
         }
