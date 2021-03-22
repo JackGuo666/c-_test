@@ -27,9 +27,9 @@ namespace LocalPLC.motion
     public class LimitSignal
     {
         public bool hardLimitChecked = false;
-        public int hardUpLimitInput;
+        public string hardUpLimitInput = "";
         public int hardUpLimitInputLevel = 0;
-        public int hardDownLimitInput;
+        public string hardDownLimitInput = "";
         public int hardDownLimitInputLevel = 0;
 
         public bool softLimitChecked = false;
@@ -60,7 +60,7 @@ namespace LocalPLC.motion
         //选择电平
         public int selectLevel = 0;
         //Z脉冲信号
-        public string ZPulseSignal;
+        public string ZPulseSignal = "";
     }
 
     public class ReverseCompensation
@@ -83,6 +83,7 @@ namespace LocalPLC.motion
     public class Axis
     {
         public string name = "";
+        public string key = "";
 
         public AxisBasePara axisBasePara = new AxisBasePara();
         public AxisMotionPara axisMotionPara = new AxisMotionPara();

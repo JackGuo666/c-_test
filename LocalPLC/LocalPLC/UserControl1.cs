@@ -1179,9 +1179,11 @@ namespace LocalPLC
             elemRoot.AppendChild(elemBase);
             UC.saveXml(ref elemBase, ref xDoc);
 
+
             XmlElement elemMotion = xDoc.CreateElement("motion");
             elemRoot.AppendChild(elemMotion);
-            saveMotionXml(ref elemMotion, ref xDoc);
+            motion.saveMotionXml(ref elemMotion, ref xDoc);
+            //saveMotionXml(ref elemMotion, ref xDoc);
 
 
 
@@ -2118,13 +2120,14 @@ namespace LocalPLC
             {
                 //添加轴对象
                 //基本参数 运动参数
-                var motion = e.Node.Parent;
+                var motionNode = e.Node.Parent;
                 TreeNode axis = null;
                 LocalPLC.motion.Axis axisData = new Axis();
                 string name = "轴1";
-                createNode(ref axis, name, "MOTION_AXIS", motion, 3);
+                createNode(ref axis, name, "MOTION_AXIS", motionNode, 3);
                 axisData.name = name;
                 axis.Tag = axisData;
+                motion.motionDataManage.axisList.Add(axisData);
 
                 TreeNode basePara = null;
                 TreeNode motionMotionPara = null;
