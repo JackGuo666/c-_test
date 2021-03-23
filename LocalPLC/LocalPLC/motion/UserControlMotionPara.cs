@@ -134,5 +134,24 @@ namespace LocalPLC.motion
             initBackOriginal();
             reverseCompensation();
         }
+
+        private void button_valid_Click(object sender, EventArgs e)
+        {
+
+            int.TryParse(textBox_pulsePerRevolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+            int.TryParse(textBox_offsetPerReolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+
+
+            data.axisMotionPara.limitSignal.hardLimitChecked = checkBox1.Checked;
+            data.axisMotionPara.limitSignal.hardUpLimitInput = comboBox1.Text;
+
+
+
+            int.TryParse(comboBox_hardUpLimitLevel.Text, out data.axisMotionPara.limitSignal.hardUpLimitInputLevel);
+            data.axisMotionPara.limitSignal.hardDownLimitInput = comboBox2.Text;
+            int.TryParse(comboBox_hardDownLimitLevel.Text, out data.axisMotionPara.limitSignal.hardDownLimitInputLevel);
+
+            data.axisMotionPara.limitSignal.softLimitChecked = checkBox_softLimit.Checked;
+        }
     }
 }

@@ -361,7 +361,10 @@ namespace LocalPLC
                                 }
                             }
                         }
-
+                        else if(name == "motion")
+                        {
+                            motion.loadXml(xn);
+                        }
 
                     }
 
@@ -1601,6 +1604,8 @@ namespace LocalPLC
             if (multiprogApp.IsProjectOpen())
             {
                 projectName = multiprogApp.ActiveProject.FullName;
+                //动态刷新DI DO数据
+                UC.refreshUserBaseUI();
                 saveXml();
                 saveJson();
                 multiprogApp.ActiveProject.Save();
@@ -2118,16 +2123,27 @@ namespace LocalPLC
         {
             if (e.Node.Tag.ToString() == "ADDAXIS")
             {
+                FormAddAxis form = new FormAddAxis();
+                form.StartPosition = FormStartPosition.CenterScreen;
+                if(form.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
                 //添加轴对象
                 //基本参数 运动参数
                 var motionNode = e.Node.Parent;
                 TreeNode axis = null;
                 LocalPLC.motion.Axis axisData = new Axis();
                 string name = "轴1";
+                name = motion.addAxisName();
                 createNode(ref axis, name, "MOTION_AXIS", motionNode, 3);
                 axisData.name = name;
+                var count = motion.motionDataManage.axisList.Count;
                 axis.Tag = axisData;
                 motion.motionDataManage.axisList.Add(axisData);
+                //key刷新
+                motion.refreshNodeKey(motion.motionDataManage.axisList);
 
                 TreeNode basePara = null;
                 TreeNode motionMotionPara = null;

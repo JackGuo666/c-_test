@@ -266,6 +266,12 @@
       <DependentUpon>modbusslavemain.cs</DependentUpon>
     </Compile>
     <Compile Include="motion\DataManageMotion.cs" />
+    <Compile Include="motion\FormAddAxis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="motion\FormAddAxis.Designer.cs">
+      <DependentUpon>FormAddAxis.cs</DependentUpon>
+    </Compile>
     <Compile Include="motion\UserControlBackOrigin.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -431,6 +437,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusSlave\modbusslavemain.resx">
       <DependentUpon>modbusslavemain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\FormAddAxis.resx">
+      <DependentUpon>FormAddAxis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="motion\UserControlBackOrigin.resx">
       <DependentUpon>UserControlBackOrigin.cs</DependentUpon>

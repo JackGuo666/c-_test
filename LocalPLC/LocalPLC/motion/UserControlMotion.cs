@@ -15,6 +15,172 @@ namespace LocalPLC.motion
 
         #region
         ///function
+        ///
+        public void refreshNodeKey(List<LocalPLC.motion.Axis> list)
+        {
+            for(int i = 0; i < list.Count; i++)
+            {
+                list[i].key = string.Format("axis_{0}", i);
+            }
+        }
+        public string addAxisName()
+        {
+            int count = motionDataManage.axisList.Count;
+            string name = string.Format("轴{0}", count);
+            bool flag = true;
+            do
+            {
+                int interCount = 0;
+                foreach (var axis in motionDataManage.axisList)
+                {
+                    if (axis.name == name)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        interCount++;
+                    }
+                }
+
+
+
+                if(interCount == motionDataManage.axisList.Count)
+                {
+                    flag = false;
+                }
+                else
+                {
+                    name = string.Format("轴{0}", count);
+                }
+            }
+            while (flag);
+
+
+            return name;
+        }
+
+
+        public void loadBaseData(XmlNode xn, Axis axis)
+        {
+            XmlNodeList childList = xn.ChildNodes;
+            XmlElement childElement = (XmlElement)xn;
+            foreach (XmlNode nChild in childList)
+            {
+                childElement = (XmlElement)nChild;
+                string name = childElement.Name;
+                if(name == "basepara")
+                {
+                    axis.axisBasePara.axisName = childElement.GetAttribute("axisname");
+                    string temp = childElement.GetAttribute("axistype");
+                    int.TryParse(temp, out axis.axisBasePara.axisType);
+                    temp = childElement.GetAttribute("meaunit");
+                    int.TryParse(temp, out axis.axisBasePara.meaUnit);
+                    axis.axisBasePara.hardwareInterface = childElement.GetAttribute("hardwareinterface");
+
+                    temp = childElement.GetAttribute("signaltype");
+                    int.TryParse(temp, out axis.axisBasePara.signalType);
+
+
+                    axis.axisBasePara.pulseoutput = childElement.GetAttribute("pulseoutput");
+                    axis.axisBasePara.dirOutput = childElement.GetAttribute("diroutput");
+                }
+                else if(name == "motionpara")
+                {
+                    //脉冲当量
+                    //电机每转脉冲数
+                    string temp = childElement.GetAttribute("pulseperrevolutionmotor");
+                    int.TryParse(temp, out axis.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+                    //电机每转的负载位移
+                    temp = childElement.GetAttribute("offsetperreolutionmotor");
+                    int.TryParse(temp, out axis.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+
+                    //限位信号
+                    //启动硬限位
+                    temp = childElement.GetAttribute("hardlimitchecked");
+                    bool.TryParse(temp, out axis.axisMotionPara.limitSignal.hardLimitChecked);
+
+                    axis.axisMotionPara.limitSignal.hardUpLimitInput = childElement.GetAttribute("harduplimitinput");
+
+                    temp = childElement.GetAttribute("harduplimitinputlevel");
+                    int.TryParse(temp, out axis.axisMotionPara.limitSignal.hardUpLimitInputLevel);
+
+                    axis.axisMotionPara.limitSignal.hardDownLimitInput = childElement.GetAttribute("harddownlimitinput");
+                    temp = childElement.GetAttribute("harddownlimitinputlevel");
+                    int.TryParse(temp, out axis.axisMotionPara.limitSignal.hardDownLimitInputLevel);
+
+                    //启动软限位
+                    temp = childElement.GetAttribute("softlimitchecked");
+                    bool.TryParse(temp, out axis.axisMotionPara.limitSignal.softLimitChecked);
+                    //软件上限位位置
+                    temp = childElement.GetAttribute("softuplimitinputoffset");
+                    int.TryParse(temp, out axis.axisMotionPara.limitSignal.softUpLimitInputOffset);
+                    //软件下限位位置
+                    temp = childElement.GetAttribute("softdownlimitoffset");
+                    int.TryParse(temp, out axis.axisMotionPara.limitSignal.softDownLimitOffset);
+
+                    //动态参数
+                    //最大速度
+                    temp = childElement.GetAttribute("maxspeed");
+                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.maxSpeed);
+                    //加速度
+                    temp = childElement.GetAttribute("acceleratedspeed");
+                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.acceleratedSpeed);
+                    //减速度
+                    temp = childElement.GetAttribute("decelerationspeed");
+                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.decelerationSpeed);
+                    //jerk
+                    temp = childElement.GetAttribute("jerk");
+                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.jerk);
+                    //急停减速度
+                    temp = childElement.GetAttribute("emestopdeceleration");
+                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.emeStopDeceleration);
+
+
+
+
+
+                    //回原点
+                    axis.axisMotionPara.backOriginal.orginInputSignal = childElement.GetAttribute("orgininputsignal");
+                    //选择电平
+                    temp = childElement.GetAttribute("selectlevel");
+                    int.TryParse(temp, out axis.axisMotionPara.backOriginal.selectLevel);
+                    //Z脉冲信号
+                    axis.axisMotionPara.backOriginal.ZPulseSignal = childElement.GetAttribute("zpulsesignal");
+
+                    temp = childElement.GetAttribute("reversecompensation");
+                    int.TryParse(temp, out axis.axisMotionPara.reverseCompensation.reverseCompensation);
+                }
+            }
+        }
+        public void loadXml(XmlNode xn)
+        {
+            XmlNodeList childList = xn.ChildNodes;
+            XmlElement childElement = (XmlElement)xn;
+            var localPLCType = childElement.GetAttribute("Type");
+            foreach (XmlNode nChild in childList)
+            {
+                XmlElement eChild = (XmlElement)nChild;
+                string childname = eChild.Name;
+                if(childname == "axis")
+                {
+                    childElement = (XmlElement)eChild;
+
+                    foreach(XmlNode nChildAxis in eChild.ChildNodes)
+                    {
+                        XmlElement eChildAxis = (XmlElement)nChildAxis;
+                        string name = eChildAxis.Name;
+
+                        Axis axis = new Axis();
+                        axis.name = eChildAxis.GetAttribute("name");
+                        axis.key = eChildAxis.GetAttribute("key");
+                        loadBaseData(nChildAxis, axis);
+                    }
+                }
+            }
+        }
+
+
         public void saveMotionXml(ref XmlElement elem, ref XmlDocument doc)
         {
             //运控
@@ -26,6 +192,7 @@ namespace LocalPLC.motion
                 //axis元素
                 XmlElement elemChild = doc.CreateElement("axiselem");
                 elemChild.SetAttribute("name", axis.name);
+                elemChild.SetAttribute("key", axis.key);
                 elemAxis.AppendChild(elemChild);
 
                 //axis基本参数
@@ -63,7 +230,7 @@ namespace LocalPLC.motion
                 elemMotionPara.SetAttribute("harduplimitinputlevel", axis.axisMotionPara.limitSignal.hardUpLimitInputLevel.ToString());
                 //硬件下限位输入
                 elemMotionPara.SetAttribute("harddownlimitinput", axis.axisMotionPara.limitSignal.hardDownLimitInput);
-                elemMotionPara.SetAttribute("harduplimitinputlevel", axis.axisMotionPara.limitSignal.hardDownLimitInputLevel.ToString());
+                elemMotionPara.SetAttribute("harddownlimitinputlevel", axis.axisMotionPara.limitSignal.hardDownLimitInputLevel.ToString());
 
                 //启动软限位
                 elemMotionPara.SetAttribute("softlimitchecked", axis.axisMotionPara.limitSignal.softLimitChecked.ToString());

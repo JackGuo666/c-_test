@@ -596,6 +596,7 @@
             this.button_valid.TabIndex = 7;
             this.button_valid.Text = "生效";
             this.button_valid.UseVisualStyleBackColor = false;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // UserControlMotionPara
             // 
