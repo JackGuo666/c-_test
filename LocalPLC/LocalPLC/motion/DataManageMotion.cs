@@ -84,6 +84,7 @@ namespace LocalPLC.motion
     {
         public string name = "";
         public string key = "";
+        public string axisKey = "";
 
         public AxisBasePara axisBasePara = new AxisBasePara();
         public AxisMotionPara axisMotionPara = new AxisMotionPara();
@@ -93,6 +94,11 @@ namespace LocalPLC.motion
     {
         //public AxisBasePara axisBasePara = new AxisBasePara();
         public DataManageBase()
+        {
+            axisList.Clear();
+        }
+
+        public void clear()
         {
             axisList.Clear();
         }

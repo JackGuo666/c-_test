@@ -141,7 +141,15 @@ namespace LocalPLC.motion
 
             node_ = node;
 
+
+
+
             richTextBox_AxisName.Text = data.name;
+            //轴类型
+            comboBox_AxisType.SelectedIndex = data.axisBasePara.axisType;
+
+            comboBox_MeasureUnit.SelectedIndex = data.axisBasePara.meaUnit;
+            comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

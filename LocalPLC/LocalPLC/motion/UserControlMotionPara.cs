@@ -51,8 +51,8 @@ namespace LocalPLC.motion
             {
                 if(!di.used)
                 {
-                    comboBox1.Items.Add(di.channelName);
-                    comboBox2.Items.Add(di.channelName);
+                    comboBox_hardUpLimitInput.Items.Add(di.channelName);
+                    comboBox_hardDownLimitInput.Items.Add(di.channelName);
                 }
             }
 
@@ -68,8 +68,8 @@ namespace LocalPLC.motion
             comboBox_hardDownLimitLevel.SelectedIndex = (int)TypeLevel.HIGH_LEVEL;
 
             checkBox_softLimit.Checked = data.axisMotionPara.limitSignal.softLimitChecked;
-            textBox3.Text = data.axisMotionPara.limitSignal.hardUpLimitInput.ToString();
-            textBox5.Text = data.axisMotionPara.limitSignal.hardDownLimitInput.ToString();
+            textBox_HardUpLimitOffset.Text = data.axisMotionPara.limitSignal.hardUpLimitInput.ToString();
+            textBox_SoftDownLimitOffset.Text = data.axisMotionPara.limitSignal.hardDownLimitInput.ToString();
         }
 
         void initDynamic()
@@ -79,11 +79,11 @@ namespace LocalPLC.motion
             //加速度
             textBox_AcceleratedSpeed.Text = data.axisMotionPara.dynamicPara.acceleratedSpeed.ToString();
             //减速度
-            textBox7.Text = data.axisMotionPara.dynamicPara.decelerationSpeed.ToString();
+            textBox_DecelerationSpeed.Text = data.axisMotionPara.dynamicPara.decelerationSpeed.ToString();
             //跃度
-            textBox8.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
+            textBox_Jerk.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
             //急停减速度
-            textBox9.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
+            textBox_EmeStopDeceSpeed.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
         }
 
         void initBackOriginal()
@@ -128,11 +128,11 @@ namespace LocalPLC.motion
             data = node.Parent.Tag as Axis;
             node_ = node;
 
-            initPulseEquient();
-            initLimitSignal();
-            initDynamic();
-            initBackOriginal();
-            reverseCompensation();
+            //initPulseEquient();
+            //initLimitSignal();
+            //initDynamic();
+            //initBackOriginal();
+            //reverseCompensation();
         }
 
         private void button_valid_Click(object sender, EventArgs e)
@@ -143,15 +143,63 @@ namespace LocalPLC.motion
 
 
             data.axisMotionPara.limitSignal.hardLimitChecked = checkBox1.Checked;
-            data.axisMotionPara.limitSignal.hardUpLimitInput = comboBox1.Text;
+            data.axisMotionPara.limitSignal.hardUpLimitInput = comboBox_hardUpLimitInput.Text;
 
 
 
             int.TryParse(comboBox_hardUpLimitLevel.Text, out data.axisMotionPara.limitSignal.hardUpLimitInputLevel);
-            data.axisMotionPara.limitSignal.hardDownLimitInput = comboBox2.Text;
+            data.axisMotionPara.limitSignal.hardDownLimitInput = comboBox_hardDownLimitInput.Text;
             int.TryParse(comboBox_hardDownLimitLevel.Text, out data.axisMotionPara.limitSignal.hardDownLimitInputLevel);
 
+
+            //启动硬限位
             data.axisMotionPara.limitSignal.softLimitChecked = checkBox_softLimit.Checked;
+            //硬件上限位输入点
+            data.axisMotionPara.limitSignal.hardUpLimitInput = comboBox_hardUpLimitInput.Text;
+            data.axisMotionPara.limitSignal.hardUpLimitInputLevel = comboBox_hardUpLimitLevel.SelectedIndex;
+            //硬件下限位输入点
+            data.axisMotionPara.limitSignal.hardDownLimitInput = comboBox_hardDownLimitInput.Text;
+            data.axisMotionPara.limitSignal.hardDownLimitInputLevel = comboBox_hardUpLimitLevel.SelectedIndex;
+
+
+            //启动软限位
+            data.axisMotionPara.limitSignal.softLimitChecked = checkBox_softLimit.Checked;
+            int.TryParse(textBox_HardUpLimitOffset.Text, out data.axisMotionPara.limitSignal.softUpLimitInputOffset);
+            int.TryParse(textBox_SoftDownLimitOffset.Text, out data.axisMotionPara.limitSignal.softDownLimitOffset);
+
+
+
+            //动态参数
+            var dynamic = data.axisMotionPara.dynamicPara;
+            //最大速度
+            int.TryParse(textBox_MaxSpeed.Text, out dynamic.maxSpeed);
+            //加速度
+            int.TryParse(textBox_AcceleratedSpeed.Text, out dynamic.acceleratedSpeed);
+            //减速度
+            int.TryParse(textBox_DecelerationSpeed.Text, out dynamic.decelerationSpeed);
+            //Jerk
+            int.TryParse(textBox_Jerk.Text, out dynamic.jerk);
+            //最大速度
+            int.TryParse(textBox_EmeStopDeceSpeed.Text, out dynamic.emeStopDeceleration);
+
+            //回原点
+            var orginal = data.axisMotionPara.backOriginal;
+            orginal.orginInputSignal = comboBox_BackOriginal.Text;
+            orginal.selectLevel = comboBox_BackOriginalSelectLevel.SelectedIndex;
+            orginal.ZPulseSignal = comboBox_ZPulseSignal.Text;
+
+            //反向间隙补偿
+            var reverse = data.axisMotionPara.reverseCompensation;
+            int.TryParse(textBox_ReverseCompensation.Text, out reverse.reverseCompensation);
+
+        }
+
+        private void textBox_pulsePerRevolutionMotor_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox_pulsePerRevolutionMotor.Text != data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString())
+            {
+                //button_valid.BackColor = Color.Red;
+            }
         }
     }
 }

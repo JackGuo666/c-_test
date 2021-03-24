@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace LocalPLC.motion
 {
@@ -11,11 +12,37 @@ namespace LocalPLC.motion
     {
         //运控参数数据管理
         public LocalPLC.motion.DataManageBase motionDataManage = new LocalPLC.motion.DataManageBase();
-
+        TreeView treeView_ = null;
+        public Control parent_ = null;
+        public TreeNode axisNode = null;
+        //public UserControlMotionBasePara usBasePara = new UserControlMotionBasePara();
 
         #region
         ///function
         ///
+
+
+        public void clear()
+        {
+            motionDataManage.clear();
+        }
+
+        //清空树节点
+        public void clearUI()
+        {
+            axisNode.Nodes.Clear();
+        }
+
+        public void getTreeView(TreeView treeView)
+        {
+            
+        }
+
+        public void getParent(UserControl parent)
+        {
+            parent_ = parent;
+        }
+
         public void refreshNodeKey(List<LocalPLC.motion.Axis> list)
         {
             for(int i = 0; i < list.Count; i++)
@@ -171,15 +198,18 @@ namespace LocalPLC.motion
                         XmlElement eChildAxis = (XmlElement)nChildAxis;
                         string name = eChildAxis.Name;
 
+
                         Axis axis = new Axis();
                         axis.name = eChildAxis.GetAttribute("name");
                         axis.key = eChildAxis.GetAttribute("key");
+                        axis.axisKey = eChildAxis.GetAttribute("axiskey");
                         loadBaseData(nChildAxis, axis);
+
+                        motionDataManage.axisList.Add(axis);
                     }
                 }
             }
         }
-
 
         public void saveMotionXml(ref XmlElement elem, ref XmlDocument doc)
         {
@@ -193,6 +223,8 @@ namespace LocalPLC.motion
                 XmlElement elemChild = doc.CreateElement("axiselem");
                 elemChild.SetAttribute("name", axis.name);
                 elemChild.SetAttribute("key", axis.key);
+                //PTO轴
+                elemChild.SetAttribute("axiskey", axis.axisKey);
                 elemAxis.AppendChild(elemChild);
 
                 //axis基本参数
@@ -256,6 +288,31 @@ namespace LocalPLC.motion
                 elemChild.AppendChild(elemMotionPara);
             }
         }
+
+        public void createAxisTree()
+        {
+
+            var list = motionDataManage.axisList;
+
+            foreach(var axisElem in list)
+            {
+                TreeNode axisPara = new TreeNode(axisElem.axisBasePara.axisName, 1, 1);
+                axisPara.Tag = axisElem;
+                axisPara.Text = axisElem.name;
+                axisNode.Nodes.Add(axisPara);
+
+
+                TreeNode basePara = new TreeNode("基本参数", 4, 4);
+                basePara.Tag = "MOTION_BASE_PARA";
+                axisPara.Nodes.Add(basePara);
+
+                TreeNode motionMotionPara = new TreeNode("运动参数", 5, 5);
+                motionMotionPara.Tag = "MOTION_MOTION_PARA";
+                axisPara.Nodes.Add(motionMotionPara);
+            }
+
+        }
+        
         #endregion
     }
 }
