@@ -496,7 +496,7 @@ namespace LocalPLC.ModbusServer
                     ModbusServer.modbusserver mss = new modbusserver(e.RowIndex);
                     ModbusServerData data = serverDataManager.listServer.ElementAt(e.RowIndex);
                     data.serverstartaddr = utility.modbusAddr + UserControl1.mci.clientManage.modbusClientList.Count * utility.modbusMudule;
-                    mss.getServerData(ref data);
+                    mss.getServerData(ref data,data.ID);
                     mss.StartPosition = FormStartPosition.CenterScreen;
                    
                     mss.ShowDialog();

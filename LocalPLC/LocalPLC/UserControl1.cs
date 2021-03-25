@@ -496,7 +496,7 @@ namespace LocalPLC
                 modmaster.Dock = DockStyle.Fill;
                 ModbusWindow.Controls.Add(modmaster);
             }
-            else if (name == "ModbusTCP-Server")
+            else if (name == "Modbus-Server")
 		{
                 if (msi == null)
                 {
@@ -1017,7 +1017,7 @@ namespace LocalPLC
             writer.WriteStartObject();// { modbus大括号左边
             //writer.WriteValue("1");
             modmaster.saveJson(writer);
-            msi.saveJson(writer);          
+            //msi.saveJson(writer);          
             mci.saveJson(writer);
             //============================
             ////第一级节点
@@ -1319,7 +1319,7 @@ namespace LocalPLC
                     modmaster.Dock = DockStyle.Fill;
                     ModbusWindow.Controls.Add(modmaster);
                 }
-                else if (name == "ModbusTCP-Server")
+                else if (name == "Modbus-Server")
                 {
                     if (msi == null)
                     {
@@ -1471,6 +1471,8 @@ namespace LocalPLC
             if (multiprogApp.IsProjectOpen())
             {
                 projectName = multiprogApp.ActiveProject.FullName;
+                //动态刷新DI DO数据
+                UC.refreshUserBaseUI();
                 saveXml();
                 saveJson();
                 multiprogApp.ActiveProject.Save();

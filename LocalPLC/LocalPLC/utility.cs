@@ -49,7 +49,7 @@ namespace LocalPLC
             }
             else if(type == ArrayDataType.DataWord)
             {
-                if (!utility.varTypeDicWord2.ContainsKey(count))
+                if (!utility.varTypeDicWord.ContainsKey(count))
                 {
                     string varTypeName = string.Format("ARRAY_word_{0}", name);
 
@@ -388,7 +388,7 @@ namespace LocalPLC
                                         if (device.resetVaraible != "")
                                         {
                                             var resetvariable = ttt.Variables.Create(device.resetVaraible, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "复位变量", "", "%IB" + device.curDeviceAddr.ToString());
+                                                        "复位变量", "", "%QB" + device.curDeviceAddr.ToString());
                                             string a = device.resetkey[0];
                                             string b = device.resetkey[1];
                                             resetvariable.SetAttribute(20, device.resetkey[0] + "m" + device.resetkey[1]);
@@ -408,7 +408,7 @@ namespace LocalPLC
                                                 if (channel.trigger != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "触发变量", "", "%IB" + channel.curChannelAddr.ToString());
+                                                        "触发变量", "", "%QB" + channel.curChannelAddr.ToString());
                                                     string a = channel.offsetkey[0];
                                                     string b = channel.offsetkey[1];
                                                     string c = channel.offsetkey[2];
@@ -444,7 +444,7 @@ namespace LocalPLC
                                                 if (channel.trigger != "")
                                                 {
                                                     var triggeroffset = ttt.Variables.Create(channel.trigger, "BYTE", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                        "触发变量", "", "%IB" + channel.curChannelAddr.ToString());
+                                                        "触发变量", "", "%QB" + channel.curChannelAddr.ToString());
                                                     string a = channel.offsetkey[0];
                                                     string b = channel.offsetkey[1];
                                                     string c = channel.offsetkey[2];
@@ -1021,11 +1021,13 @@ namespace LocalPLC
                     {
                         if (SplicedDataType.hashSetBit.Contains(channel.msgType))
                         {
-                            strSave += SplicedDataType.splicedDataTypeArray(channel.readLength.ToString()+"m", ArrayDataType.DataBit, channel.readLength);
+                            string name = channel.readLength.ToString() + "m";
+                            strSave += SplicedDataType.splicedDataTypeArray(name, ArrayDataType.DataBit, channel.readLength);
                         }
                         else if (SplicedDataType.hashSetWord.Contains(channel.msgType))
                         {
-                            strSave += SplicedDataType.splicedDataTypeArray(channel.readLength.ToString()+"m", ArrayDataType.DataWord, channel.readLength);
+                            string name = channel.readLength.ToString() + "m";
+                            strSave += SplicedDataType.splicedDataTypeArray(name, ArrayDataType.DataWord, channel.readLength);
                         }
 
                     }

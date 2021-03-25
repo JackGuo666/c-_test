@@ -510,6 +510,7 @@ namespace LocalPLC.ModbusClient
                     // cc1.getClientData(ref data);
                     mct1.StartPosition = FormStartPosition.CenterScreen;
                     mct1.ShowDialog();
+                    
                 }
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "info")

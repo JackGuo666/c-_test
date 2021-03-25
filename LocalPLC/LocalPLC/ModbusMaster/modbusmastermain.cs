@@ -213,7 +213,7 @@ namespace LocalPLC.ModbusMaster
         }
         public void saveJson(JsonTextWriter writer)
         {
-            //添加modbusslave节点
+            //添加modbusmaster节点
             ModbusMasterManage master = masterManage;
             if (master.modbusMastrList.Count > 0)
             {
@@ -335,7 +335,7 @@ namespace LocalPLC.ModbusMaster
                     writer.WriteEndObject();//} client节点下device
                 }
                 writer.WriteEndArray();//] client节点下conf数组
-                writer.WriteEndObject();//添加}  client节点
+                writer.WriteEndObject();//添加}  master节点
             }
         }
 

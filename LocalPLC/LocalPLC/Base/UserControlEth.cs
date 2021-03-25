@@ -41,7 +41,7 @@ namespace LocalPLC.Base
                 //gateway
                 ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
                 //sntp
-                ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
+                ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.sntpServerIp);
 
                 //1 dhcp    0固定
                 if (ethernetValueData_.ipMode == 1)
@@ -192,7 +192,7 @@ namespace LocalPLC.Base
                                     {
                                         if (configured_)
                                         {
-                                            ethernetValueData_.gatewayAddress = ethernetValueData_.maskAddress;
+                                            ethernetValueData_.gatewayAddress = ethernetData.defaultValue;
                                         }
                                     }
                                     else if(ethernetData.name == "SNTP")
@@ -206,7 +206,7 @@ namespace LocalPLC.Base
                                     {
                                         if (configured_)
                                         {
-                                            ethernetValueData_.gatewayAddress = ethernetData.defaultValue;
+                                            ethernetValueData_.sntpServerIp = ethernetData.defaultValue;
                                         }
                                     }
                                 }

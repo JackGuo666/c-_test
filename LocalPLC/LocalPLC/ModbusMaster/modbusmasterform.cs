@@ -285,11 +285,19 @@ namespace LocalPLC.ModbusMaster
 
             if (e.ColumnIndex == (int)COLUMNNAME.ID)
             {
-                masterData_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
+                //masterData_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.NAME)
             {
-                masterData_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
+                //masterData_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    if (str == dataGridView1.Rows[i].Cells[1].Value.ToString() && i!=e.RowIndex)
+                    {
+                        MessageBox.Show("设备名有重复，请重新设置！");
+                        //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                    }
+                }
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
             {
@@ -306,7 +314,7 @@ namespace LocalPLC.ModbusMaster
                     }
                     if (flag == 0)
                     {
-                        masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                        //masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
                     }
                     else
                     {
@@ -331,17 +339,19 @@ namespace LocalPLC.ModbusMaster
                     int value = Convert.ToInt32(str);
                     if (value >= 0 && value <= 10)
                     {
-                        int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
+                        //int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
                     }
                     else
                     {
                         MessageBox.Show("请输入0-10的数字");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 10;
                         return;
                     }
                 }
                 catch
                 {
                     MessageBox.Show("请输入0-10的数字");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 10;
                     return;
                 }
                 //int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).permitTimeoutCount);
@@ -353,17 +363,19 @@ namespace LocalPLC.ModbusMaster
                     int value = Convert.ToInt32(str);
                     if (value >= 100 && value <= 10000)
                     {
-                        int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
+                        //int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
                     }
                     else
                     {
                         MessageBox.Show("请输入100-10000的数字");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
                         return;
                     }
                 }
                 catch
                 {
                     MessageBox.Show("请输入100-10000的数字");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
                     return;
                 }
                 //int.TryParse(str, out masterData_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
@@ -390,16 +402,22 @@ namespace LocalPLC.ModbusMaster
                         }
                     }
                 }
-
+                for (int l = 0; l < dataGridView1.Rows.Count; l++)
+                {
+                    if (dataGridView1.Rows[l].Cells[5].Value.ToString() == str && l != e.RowIndex)
+                    {
+                        flag++;
+                    }
+                }
                 if (flag == 0)
                 {
-                    masterData_.modbusDeviceList[e.RowIndex].resetVaraible = str;
+                    //masterData_.modbusDeviceList[e.RowIndex].resetVaraible = str;
                     //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = dataGridView1.Rows[0].Cells[0].Style.BackColor;
                 }
                 else
                 {
                     MessageBox.Show("复位变量名有重复，请检查后重新输入");
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = masterData_.modbusDeviceList[e.RowIndex].resetVaraible;
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Red;
                 }
             //masterData_.modbusDeviceList.ElementAt(e.RowIndex).resetVaraible = str;
@@ -468,11 +486,48 @@ namespace LocalPLC.ModbusMaster
             {
                 e.Cancel = false;
             }
-            
+            int flag = 0;
+            for (int j =0;j<dataGridView1.Rows.Count;j++)
+            {
+                if(dataGridView1.Rows[j].Cells["从站地址"].Value.ToString() == "")
+                {
+                    flag++;
+                }
+            }
+            if(flag>0)
+            {
+                MessageBox.Show("从站地址还未设置，请设置");
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i <dataGridView1.Rows.Count;i++)
+            {
+                masterData_.modbusDeviceList[i].ID = int.Parse(dataGridView1.Rows[i].Cells[0].Value.ToString());
+                masterData_.modbusDeviceList[i].nameDev = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                masterData_.modbusDeviceList[i].slaveAddr = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                int.TryParse(dataGridView1.Rows[i].Cells[3].Value.ToString(), out masterData_.modbusDeviceList[i].permitTimeoutCount);
+                int.TryParse(dataGridView1.Rows[i].Cells[4].Value.ToString(), out masterData_.modbusDeviceList[i].reconnectInterval);
+                masterData_.modbusDeviceList[i].resetVaraible = dataGridView1.Rows[i].Cells[5].Value.ToString();
+
+            }
+           
 
         }
     }

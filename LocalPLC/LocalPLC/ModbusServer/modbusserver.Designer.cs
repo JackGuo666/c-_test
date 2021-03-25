@@ -109,6 +109,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -383,6 +384,7 @@
             this.textBox25.Size = new System.Drawing.Size(84, 28);
             this.textBox25.TabIndex = 7;
             this.textBox25.TextChanged += new System.EventHandler(this.textBox25_TextChanged);
+            this.textBox25.Leave += new System.EventHandler(this.textBox25_Leave);
             // 
             // textBox26
             // 
@@ -391,6 +393,7 @@
             this.textBox26.Size = new System.Drawing.Size(84, 28);
             this.textBox26.TabIndex = 7;
             this.textBox26.TextChanged += new System.EventHandler(this.textBox26_TextChanged);
+            this.textBox26.Leave += new System.EventHandler(this.textBox26_Leave);
             // 
             // textBox27
             // 
@@ -399,6 +402,7 @@
             this.textBox27.Size = new System.Drawing.Size(84, 28);
             this.textBox27.TabIndex = 7;
             this.textBox27.TextChanged += new System.EventHandler(this.textBox27_TextChanged);
+            this.textBox27.Leave += new System.EventHandler(this.textBox27_Leave);
             // 
             // textBox28
             // 
@@ -407,6 +411,7 @@
             this.textBox28.Size = new System.Drawing.Size(84, 28);
             this.textBox28.TabIndex = 7;
             this.textBox28.TextChanged += new System.EventHandler(this.textBox28_TextChanged);
+            this.textBox28.Leave += new System.EventHandler(this.textBox28_Leave);
             // 
             // panel1
             // 
@@ -434,7 +439,7 @@
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(379, 128);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(107, 27);
+            this.label26.Size = new System.Drawing.Size(71, 18);
             this.label26.TabIndex = 10;
             this.label26.Text = "(0-500)";
             // 
@@ -644,6 +649,7 @@
             this.textBox17.Size = new System.Drawing.Size(84, 28);
             this.textBox17.TabIndex = 19;
             this.textBox17.TextChanged += new System.EventHandler(this.textBox17_TextChanged);
+            this.textBox17.Leave += new System.EventHandler(this.textBox17_Leave);
             // 
             // label16
             // 
@@ -661,6 +667,7 @@
             this.textBox13.Size = new System.Drawing.Size(84, 28);
             this.textBox13.TabIndex = 19;
             this.textBox13.TextChanged += new System.EventHandler(this.textBox13_TextChanged);
+            this.textBox13.Leave += new System.EventHandler(this.textBox13_Leave);
             // 
             // textBox18
             // 
@@ -669,6 +676,7 @@
             this.textBox18.Size = new System.Drawing.Size(84, 28);
             this.textBox18.TabIndex = 20;
             this.textBox18.TextChanged += new System.EventHandler(this.textBox18_TextChanged);
+            this.textBox18.Leave += new System.EventHandler(this.textBox18_Leave);
             // 
             // label8
             // 
@@ -686,6 +694,7 @@
             this.textBox14.Size = new System.Drawing.Size(84, 28);
             this.textBox14.TabIndex = 20;
             this.textBox14.TextChanged += new System.EventHandler(this.textBox14_TextChanged);
+            this.textBox14.Leave += new System.EventHandler(this.textBox14_Leave);
             // 
             // textBox20
             // 
@@ -694,6 +703,7 @@
             this.textBox20.Size = new System.Drawing.Size(84, 28);
             this.textBox20.TabIndex = 21;
             this.textBox20.TextChanged += new System.EventHandler(this.textBox20_TextChanged);
+            this.textBox20.Leave += new System.EventHandler(this.textBox20_Leave);
             // 
             // textBox9
             // 
@@ -702,6 +712,7 @@
             this.textBox9.Size = new System.Drawing.Size(84, 28);
             this.textBox9.TabIndex = 19;
             this.textBox9.TextChanged += new System.EventHandler(this.textBox9_TextChanged);
+            this.textBox9.Leave += new System.EventHandler(this.textBox9_Leave);
             // 
             // textBox16
             // 
@@ -710,6 +721,7 @@
             this.textBox16.Size = new System.Drawing.Size(84, 28);
             this.textBox16.TabIndex = 21;
             this.textBox16.TextChanged += new System.EventHandler(this.textBox16_TextChanged);
+            this.textBox16.Leave += new System.EventHandler(this.textBox16_Leave);
             // 
             // textBox19
             // 
@@ -718,6 +730,7 @@
             this.textBox19.Size = new System.Drawing.Size(84, 28);
             this.textBox19.TabIndex = 22;
             this.textBox19.TextChanged += new System.EventHandler(this.textBox19_TextChanged);
+            this.textBox19.Leave += new System.EventHandler(this.textBox19_Leave);
             // 
             // textBox10
             // 
@@ -726,6 +739,7 @@
             this.textBox10.Size = new System.Drawing.Size(84, 28);
             this.textBox10.TabIndex = 20;
             this.textBox10.TextChanged += new System.EventHandler(this.textBox10_TextChanged);
+            this.textBox10.Leave += new System.EventHandler(this.textBox10_Leave);
             // 
             // textBox15
             // 
@@ -734,6 +748,7 @@
             this.textBox15.Size = new System.Drawing.Size(84, 28);
             this.textBox15.TabIndex = 22;
             this.textBox15.TextChanged += new System.EventHandler(this.textBox15_TextChanged);
+            this.textBox15.Leave += new System.EventHandler(this.textBox15_Leave);
             // 
             // textBox12
             // 
@@ -742,6 +757,7 @@
             this.textBox12.Size = new System.Drawing.Size(84, 28);
             this.textBox12.TabIndex = 21;
             this.textBox12.TextChanged += new System.EventHandler(this.textBox12_TextChanged);
+            this.textBox12.Leave += new System.EventHandler(this.textBox12_Leave);
             // 
             // textBox11
             // 
@@ -750,6 +766,7 @@
             this.textBox11.Size = new System.Drawing.Size(84, 28);
             this.textBox11.TabIndex = 22;
             this.textBox11.TextChanged += new System.EventHandler(this.textBox11_TextChanged);
+            this.textBox11.Leave += new System.EventHandler(this.textBox11_Leave);
             // 
             // groupBox2
             // 
@@ -902,19 +919,30 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1058, 831);
+            this.button1.Location = new System.Drawing.Point(991, 836);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(82, 39);
             this.button1.TabIndex = 27;
-            this.button1.Text = "生效";
+            this.button1.Text = "应用";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1097, 838);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(80, 37);
+            this.button2.TabIndex = 28;
+            this.button2.Text = "取消";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // modbusserver
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1243, 896);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel5);
@@ -925,6 +953,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "modbusserver";
             this.Text = "modbusserver";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.modbusserver_FormClosing);
             this.Load += new System.EventHandler(this.modbusserver_Load);
             this.Shown += new System.EventHandler(this.modbusserver_Shown);
             this.groupBox1.ResumeLayout(false);
@@ -1034,5 +1063,6 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }

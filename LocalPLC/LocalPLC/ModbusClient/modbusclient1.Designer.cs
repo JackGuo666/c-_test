@@ -43,12 +43,16 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,8 +60,10 @@
             // 
             this.ClientSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.ClientSettings.Location = new System.Drawing.Point(0, 0);
+            this.ClientSettings.Margin = new System.Windows.Forms.Padding(4);
             this.ClientSettings.Name = "ClientSettings";
-            this.ClientSettings.Size = new System.Drawing.Size(793, 32);
+            this.ClientSettings.Padding = new System.Windows.Forms.Padding(4);
+            this.ClientSettings.Size = new System.Drawing.Size(1625, 72);
             this.ClientSettings.TabIndex = 22;
             this.ClientSettings.TabStop = false;
             this.ClientSettings.Text = "设备设置：";
@@ -66,18 +72,18 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(868, 179);
-            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Location = new System.Drawing.Point(1302, 268);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.Size = new System.Drawing.Size(62, 18);
             this.label5.TabIndex = 2;
             this.label5.Text = "label5";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(82, 3);
+            this.button2.Location = new System.Drawing.Point(123, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(112, 34);
             this.button2.TabIndex = 1;
             this.button2.Text = "删除";
             this.button2.UseVisualStyleBackColor = true;
@@ -90,11 +96,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 56);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 84);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(787, 195);
+            this.dataGridView1.Size = new System.Drawing.Size(2019, 397);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -103,9 +110,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(0, 3);
+            this.button1.Location = new System.Drawing.Point(0, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(112, 34);
             this.button1.TabIndex = 1;
             this.button1.Text = "添加";
             this.button1.UseVisualStyleBackColor = true;
@@ -115,9 +123,11 @@
             // 
             this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Location = new System.Drawing.Point(72, 3);
+            this.groupBox1.Location = new System.Drawing.Point(108, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(239, 41);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(358, 62);
             this.groupBox1.TabIndex = 20;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -125,9 +135,10 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(2, 20);
+            this.radioButton1.Location = new System.Drawing.Point(3, 30);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(41, 16);
+            this.radioButton1.Size = new System.Drawing.Size(60, 22);
             this.radioButton1.TabIndex = 3;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "TCP";
@@ -137,9 +148,10 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(194, 18);
+            this.radioButton2.Location = new System.Drawing.Point(291, 27);
+            this.radioButton2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(41, 16);
+            this.radioButton2.Size = new System.Drawing.Size(60, 22);
             this.radioButton2.TabIndex = 3;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "UDP";
@@ -149,36 +161,40 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(76, 26);
+            this.comboBox1.Location = new System.Drawing.Point(114, 39);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 20);
+            this.comboBox1.Size = new System.Drawing.Size(148, 26);
             this.comboBox1.TabIndex = 19;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 23);
+            this.label3.Location = new System.Drawing.Point(4, 34);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.Size = new System.Drawing.Size(98, 18);
             this.label3.TabIndex = 15;
             this.label3.Text = "传输方式：";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 30);
+            this.label2.Location = new System.Drawing.Point(4, 45);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.Size = new System.Drawing.Size(98, 18);
             this.label2.TabIndex = 16;
             this.label2.Text = "传输通道：";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 0);
+            this.label1.Location = new System.Drawing.Point(6, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
+            this.label1.Size = new System.Drawing.Size(80, 18);
             this.label1.TabIndex = 18;
             this.label1.Text = "通讯配置";
             // 
@@ -188,10 +204,9 @@
             this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 32);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
+            this.panel1.Location = new System.Drawing.Point(0, 72);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(793, 56);
+            this.panel1.Size = new System.Drawing.Size(1625, 126);
             this.panel1.TabIndex = 23;
             // 
             // panel2
@@ -199,44 +214,78 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.groupBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 88);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2);
+            this.panel2.Location = new System.Drawing.Point(0, 198);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(793, 56);
+            this.panel2.Size = new System.Drawing.Size(1625, 126);
             this.panel2.TabIndex = 24;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.panel4);
             this.groupBox2.Controls.Add(this.panel3);
             this.groupBox2.Controls.Add(this.dataGridView1);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 144);
+            this.groupBox2.Location = new System.Drawing.Point(0, 324);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(793, 257);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(1625, 421);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button3);
+            this.panel4.Controls.Add(this.button4);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(4, 360);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1617, 57);
+            this.panel4.TabIndex = 3;
+            // 
+            // button3
+            // 
+            this.button3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button3.Location = new System.Drawing.Point(1251, 0);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(189, 57);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "应用";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button4.Location = new System.Drawing.Point(1440, 0);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(177, 57);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "取消";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // panel3
             // 
             this.panel3.Controls.Add(this.button1);
             this.panel3.Controls.Add(this.button2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(3, 17);
+            this.panel3.Location = new System.Drawing.Point(4, 25);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(787, 33);
+            this.panel3.Size = new System.Drawing.Size(1617, 50);
             this.panel3.TabIndex = 2;
             // 
             // modbusclient1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(793, 401);
+            this.ClientSize = new System.Drawing.Size(1625, 745);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ClientSettings);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "modbusclient1";
             this.Text = "modbusclient1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.modbusclient1_FormClosing);
@@ -250,6 +299,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -274,5 +324,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
     }
 }
