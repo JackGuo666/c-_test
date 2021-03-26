@@ -103,6 +103,17 @@ namespace LocalPLC.motion
             axisList.Clear();
         }
 
+        public void delete(Axis axis)
+        {
+            for (int i = axisList.Count - 1; i >= 0; i--)
+            {
+                if (axisList[i] == axis)
+                {
+                    axisList.RemoveAt(i);
+                }
+            }
+        }
+
         public List<Axis> axisList = new List<Axis>();
 
     }

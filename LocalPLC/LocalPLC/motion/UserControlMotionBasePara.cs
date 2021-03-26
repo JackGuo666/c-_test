@@ -52,7 +52,8 @@ namespace LocalPLC.motion
         void initCombo()
         {
             //comboBox_AxisType.Items
-            foreach(var axis in axisTypeDescDic)
+            comboBox_AxisType.Items.Clear();
+            foreach (var axis in axisTypeDescDic)
             {
                 ComboboxItem item = new ComboboxItem();
                 item.Text = axis.Value;
@@ -62,10 +63,10 @@ namespace LocalPLC.motion
             }
             if(comboBox_AxisType.Items.Count > 0)
             {
-                comboBox_AxisType.SelectedIndex = 0;
+                //comboBox_AxisType.SelectedIndex = 0;
             }
 
-
+            comboBox_MeasureUnit.Items.Clear();
             foreach (var mea in axisMeaUnitDescDic)
             {
                 ComboboxItem item = new ComboboxItem();
@@ -77,9 +78,11 @@ namespace LocalPLC.motion
 
             if (comboBox_MeasureUnit.Items.Count > 0)
             {
-                comboBox_MeasureUnit.SelectedIndex = 0;
+                //comboBox_MeasureUnit.SelectedIndex = 0;
             }
 
+
+            comboBox_HardwareInterface.Items.Clear();
             List<string> list = new List<string>();
             getPTOFromHSP(ref list);
             foreach(var pto in list)
@@ -121,7 +124,55 @@ namespace LocalPLC.motion
             }
         }
 
+        void setEnableButton(bool enable, Button btn)
+        {
+            if(enable)
+            {
+                btn.Enabled = enable;
+                //btn.BackColor = Color.DarkOliveGreen;
+            }
+            else
+            {
+                btn.Enabled = enable;
+                //btn.BackColor = Color.White;
+            }
+
+        }
+
         #endregion
+
+        public UserControlMotionBasePara()
+        {
+            InitializeComponent();
+
+            button_valid.Enabled = false;
+            
+            button_cancel.Enabled = false;
+        }
+
+        public void initData(TreeNode node)
+        {
+            if (node.Parent == null)
+            {
+                utility.PrintInfo("{0}节点没有父节点!");
+                return;
+            }
+
+            data = node.Parent.Tag as Axis;
+            node_ = node;
+
+
+            initDic();
+
+            initCombo();
+
+            richTextBox_AxisName.Text = data.name;
+            //轴类型
+            comboBox_AxisType.SelectedIndex = data.axisBasePara.axisType;
+
+            comboBox_MeasureUnit.SelectedIndex = data.axisBasePara.meaUnit;
+            comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
+        }
 
         public UserControlMotionBasePara(TreeNode node, string axisName)
         {
@@ -154,13 +205,53 @@ namespace LocalPLC.motion
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            if(comboBox_AxisType.SelectedIndex != data.axisBasePara.axisType)
+            {
+                setEnableButton(true, button_valid);
+                setEnableButton(true, button_cancel);
+            }
         }
+
+
 
         private void richTextBox_AxisName_TextChanged(object sender, EventArgs e)
         {
-            data.name = (sender as RichTextBox).Text;
-            node_.Parent.Text = data.name;
+            //Regex reg = new Regex(@"^\d{1,12}(?:\.\d{1,4})?$");
+
+            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^\w{0,8}$");
+            string str = (sender as RichTextBox).Text;
+
+
+            if (!reg.IsMatch(str))
+            {
+                (sender as RichTextBox).Text = data.name;
+
+                (sender as RichTextBox).SelectionStart = data.name.Length;
+
+                return;
+            }
+
+
+            if (data.axisBasePara.axisName != (sender as RichTextBox).Text)
+            {
+                if ((sender as RichTextBox).Text.Length == 0)
+                {
+                    (sender as RichTextBox).Text = data.name;
+                    MessageBox.Show("轴名称不可以为空!");
+                    return;
+                }
+
+                data.name = (sender as RichTextBox).Text;
+                node_.Parent.Text = data.name;
+                setEnableButton(true, button_valid);
+                setEnableButton(true, button_cancel);
+
+
+            }
+
+
+
+
         }
 
         private void comboBox_HardwareInterface_SelectedIndexChanged(object sender, EventArgs e)
@@ -181,6 +272,12 @@ namespace LocalPLC.motion
 
                     }
                 }
+
+                if(comboBox_HardwareInterface.SelectedItem.ToString() != data.axisBasePara.hardwareInterface)
+                {
+                    setEnableButton(true, button_valid);
+                    setEnableButton(true, button_cancel);
+                }
             }
         }
 
@@ -197,7 +294,7 @@ namespace LocalPLC.motion
 
             }
 
-
+           
             data.axisBasePara.axisName = richTextBox_AxisName.Text;
             data.axisBasePara.axisType = comboBox_AxisType.SelectedIndex;
             data.axisBasePara.meaUnit = comboBox_MeasureUnit.SelectedIndex;
@@ -262,17 +359,23 @@ namespace LocalPLC.motion
                     comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
                 }
             }
+
+            node_.Parent.Text = data.name;
         }
 
 
         private void button_valid_Click(object sender, EventArgs e)
         {
             setDataFromUI();
+            setEnableButton(false, button_valid);
+            setEnableButton(false, button_cancel);
         }
 
         private void button_cancel_Click(object sender, EventArgs e)
         {
             refreshData();
+            setEnableButton(false, button_valid);
+            setEnableButton(false, button_cancel);
         }
 
         private void comboBox_MeasureUnit_DataSourceChanged(object sender, EventArgs e)
@@ -303,6 +406,15 @@ namespace LocalPLC.motion
         private void comboBox_MeasureUnit_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void comboBox_MeasureUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_MeasureUnit.SelectedIndex != data.axisBasePara.meaUnit)
+            {
+                setEnableButton(true, button_valid);
+                setEnableButton(true, button_cancel);
+            }
         }
     }
 }

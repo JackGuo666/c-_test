@@ -14,12 +14,19 @@ namespace LocalPLC.motion
         public LocalPLC.motion.DataManageBase motionDataManage = new LocalPLC.motion.DataManageBase();
         TreeView treeView_ = null;
         public Control parent_ = null;
-        public TreeNode axisNode = null;
-        //public UserControlMotionBasePara usBasePara = new UserControlMotionBasePara();
+        public TreeNode axisNode_ = null;
+        public UserControlMotionBasePara basePara = new UserControlMotionBasePara();
+
+        public UserControlMotionPara motionPara = new UserControlMotionPara();
 
         #region
         ///function
         ///
+
+        public UserControlMotion()
+        {
+
+        }
 
 
         public void clear()
@@ -30,12 +37,18 @@ namespace LocalPLC.motion
         //清空树节点
         public void clearUI()
         {
-            axisNode.Nodes.Clear();
+            axisNode_.Nodes.Clear();
         }
 
         public void getTreeView(TreeView treeView)
         {
-            
+            treeView_ = treeView;
+        }
+
+
+        public void getTreeNode(TreeNode axisNode)
+        {
+            axisNode_ = axisNode;
         }
 
         public void getParent(UserControl parent)
@@ -289,9 +302,22 @@ namespace LocalPLC.motion
             }
         }
 
+        public void deleteAxisData(Axis axis)
+        {
+            motionDataManage.delete(axis);
+        }
+
+        void createNode(ref TreeNode retNode, string name, string tag, TreeNode parent, int index)
+        {
+            TreeNode basePara = new TreeNode(name, index, index);
+            basePara.Tag = tag;
+            retNode = basePara;
+            parent.Nodes.Add(basePara);
+        }
+
         public void createAxisTree()
         {
-
+            createAddAxisNode();
             var list = motionDataManage.axisList;
 
             foreach(var axisElem in list)
@@ -299,7 +325,7 @@ namespace LocalPLC.motion
                 TreeNode axisPara = new TreeNode(axisElem.axisBasePara.axisName, 1, 1);
                 axisPara.Tag = axisElem;
                 axisPara.Text = axisElem.name;
-                axisNode.Nodes.Add(axisPara);
+                axisNode_.Nodes.Add(axisPara);
 
 
                 TreeNode basePara = new TreeNode("基本参数", 4, 4);
@@ -309,10 +335,30 @@ namespace LocalPLC.motion
                 TreeNode motionMotionPara = new TreeNode("运动参数", 5, 5);
                 motionMotionPara.Tag = "MOTION_MOTION_PARA";
                 axisPara.Nodes.Add(motionMotionPara);
+
+                //运控参数下的分支
+                //脉冲当量
+                TreeNode motionPulseEquivalent = null;
+                TreeNode motionLimitSignal = null;
+                TreeNode motionDynamicParameter = null;
+                TreeNode motionBackOrigin = null;
+                TreeNode motionReverseCompensation = null;
+                createNode(ref motionPulseEquivalent, "脉冲当量", "MOTION_PULSE_EQUIVALENT", motionMotionPara, 6);
+                createNode(ref motionLimitSignal, "限位信号", "MOTION_LIMIT_SIGNAL", motionMotionPara, 7);
+                createNode(ref motionDynamicParameter, "动态参数", "MOTION_DYNAMIC_PARA", motionMotionPara, 8);
+                createNode(ref motionBackOrigin, "回原点", "MOTION_BACK_ORIGIN", motionMotionPara, 9);
+                createNode(ref motionReverseCompensation, "反向间隙补偿", "MOTION_REVERSE_COMPENSATION", motionMotionPara, 9);
             }
 
         }
         
+        void createAddAxisNode()
+        {
+            //添加轴对象
+            TreeNode addAxis = new TreeNode("添加轴对象", 2, 2);
+            addAxis.Tag = "ADDAXIS";
+            axisNode_.Nodes.Add(addAxis);
+        }
         #endregion
     }
 }

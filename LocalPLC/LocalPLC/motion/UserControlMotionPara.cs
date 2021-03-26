@@ -115,6 +115,32 @@ namespace LocalPLC.motion
         }
         #endregion
 
+        public UserControlMotionPara()
+        {
+            InitializeComponent();
+
+
+            setButtonEnable(false);
+        }
+
+        public void initData(TreeNode node)
+        {
+            if (node.Parent == null)
+            {
+                LocalPLC.utility.PrintInfo(string.Format("{0}节点没有父节点!", node.Parent));
+                return;
+            }
+
+            data = node.Parent.Tag as Axis;
+            node_ = node;
+
+            initPulseEquient();
+            initLimitSignal();
+            initDynamic();
+            initBackOriginal();
+            reverseCompensation();
+        }
+
         public UserControlMotionPara(TreeNode node)
         {
             InitializeComponent();
@@ -128,11 +154,19 @@ namespace LocalPLC.motion
             data = node.Parent.Tag as Axis;
             node_ = node;
 
-            //initPulseEquient();
-            //initLimitSignal();
-            //initDynamic();
-            //initBackOriginal();
-            //reverseCompensation();
+            initPulseEquient();
+            initLimitSignal();
+            initDynamic();
+            initBackOriginal();
+            reverseCompensation();
+        }
+
+
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
         }
 
         private void button_valid_Click(object sender, EventArgs e)

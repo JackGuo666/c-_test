@@ -85,7 +85,7 @@
             this.button_cancel.Size = new System.Drawing.Size(120, 35);
             this.button_cancel.TabIndex = 4;
             this.button_cancel.Text = "取消";
-            this.button_cancel.UseVisualStyleBackColor = false;
+            this.button_cancel.UseVisualStyleBackColor = true;
             this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             // 
             // button_valid
@@ -96,7 +96,7 @@
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 4;
             this.button_valid.Text = "生效";
-            this.button_valid.UseVisualStyleBackColor = false;
+            this.button_valid.UseVisualStyleBackColor = true;
             this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // pictureBox1
@@ -153,6 +153,7 @@
             this.comboBox_MeasureUnit.Name = "comboBox_MeasureUnit";
             this.comboBox_MeasureUnit.Size = new System.Drawing.Size(121, 26);
             this.comboBox_MeasureUnit.TabIndex = 2;
+            this.comboBox_MeasureUnit.SelectedIndexChanged += new System.EventHandler(this.comboBox_MeasureUnit_SelectedIndexChanged);
             this.comboBox_MeasureUnit.DataSourceChanged += new System.EventHandler(this.comboBox_MeasureUnit_DataSourceChanged);
             this.comboBox_MeasureUnit.TextChanged += new System.EventHandler(this.comboBox_MeasureUnit_TextChanged);
             this.comboBox_MeasureUnit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox_MeasureUnit_KeyDown);
@@ -225,6 +226,7 @@
             // richTextBox_AxisName
             // 
             this.richTextBox_AxisName.Location = new System.Drawing.Point(177, 101);
+            this.richTextBox_AxisName.MaxLength = 500;
             this.richTextBox_AxisName.Multiline = false;
             this.richTextBox_AxisName.Name = "richTextBox_AxisName";
             this.richTextBox_AxisName.Size = new System.Drawing.Size(120, 26);

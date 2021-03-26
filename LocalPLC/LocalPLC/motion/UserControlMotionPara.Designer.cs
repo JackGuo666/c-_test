@@ -429,7 +429,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(6, 66);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1153, 111);
+            this.groupBox2.Size = new System.Drawing.Size(775, 111);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "脉冲当量";
@@ -482,7 +482,7 @@
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Location = new System.Drawing.Point(3, 450);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(1153, 193);
+            this.groupBox4.Size = new System.Drawing.Size(778, 193);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "动态参数";
@@ -586,7 +586,7 @@
             this.button_cancel.Size = new System.Drawing.Size(120, 35);
             this.button_cancel.TabIndex = 6;
             this.button_cancel.Text = "取消";
-            this.button_cancel.UseVisualStyleBackColor = false;
+            this.button_cancel.UseVisualStyleBackColor = true;
             // 
             // button_valid
             // 
@@ -596,7 +596,7 @@
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 7;
             this.button_valid.Text = "生效";
-            this.button_valid.UseVisualStyleBackColor = false;
+            this.button_valid.UseVisualStyleBackColor = true;
             this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // UserControlMotionPara
