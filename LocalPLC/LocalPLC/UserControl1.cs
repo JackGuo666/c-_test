@@ -31,6 +31,9 @@ namespace LocalPLC
         {
             InitializeComponent();
 
+
+            this.treeView1.ContextMenuStrip = null;
+
             i++;
         }
 
@@ -62,6 +65,8 @@ namespace LocalPLC
             //mct = new ModbusClient.modbusclient();
             //msi = new ModbusServer.ServerIndex();
 
+
+
             TreeNode tnRet = null;
             string s1 = "MOTION_CONTROL";
             foreach (TreeNode tn in treeView1.Nodes)
@@ -73,11 +78,12 @@ namespace LocalPLC
                 }
             }
 
-            if(tnRet != null)
+            if (tnRet != null)
             {
                 TreeNode axis = new TreeNode("轴", 1, 1);
                 axis.Tag = "AXIS";
                 tnRet.Nodes.Add(axis);
+                motion.getTreeNode(axis);
 
                 //添加轴对象
                 TreeNode addAxis = new TreeNode("添加轴对象", 2, 2);
@@ -104,10 +110,13 @@ namespace LocalPLC
             }
 
 
+
             UC.Parent = this;
             UC.getTreeView(treeView1);
             UC.getParent(this);
 
+            motion.getParent(this);
+            motion.getTreeView(treeView1);
 
             return;
          }
@@ -262,7 +271,7 @@ namespace LocalPLC
         void IAdeProjectObserver.AfterProjectOpen(string Name)
         {
             //MessageBox.Show(Name + "has opened");
-            
+
 			//获得当前工程路径
             XmlDocument xDoc = new XmlDocument();
             string projectPath = multiprogApp.ActiveProject.Path;
@@ -327,7 +336,7 @@ namespace LocalPLC
                         }
                         else if (name == "base")
                         {
-                            
+
                             XmlNodeList childList = xn.ChildNodes;
                             XmlElement childElement = (XmlElement)xn;
                             localPLCType = childElement.GetAttribute("Type");
@@ -351,17 +360,17 @@ namespace LocalPLC
                                 {
                                     UC.loadXmlEthernet(nChild);
                                 }
-                                else if(childname == "HSC")
+                                else if (childname == "HSC")
                                 {
                                     UC.loadXmlHsc(nChild);
                                 }
-                                else if(childname == "HSP")
+                                else if (childname == "HSP")
                                 {
                                     UC.loadXmlHsp(nChild);
                                 }
                             }
                         }
-                        else if(name == "motion")
+                        else if (name == "motion")
                         {
                             motion.loadXml(xn);
                         }
@@ -370,6 +379,11 @@ namespace LocalPLC
 
                     UC.loadControler();
                     UC.createControlerConfigured(/*"LocalPLC24P"*/ localPLCType);
+
+                    //根据xml创建运控轴分支
+                    motion.createAxisTree();
+
+                    ModbusWindow.Controls.Clear();
                 }
                 else
                 {
@@ -378,9 +392,6 @@ namespace LocalPLC
                     UC.createControler(/*"LocalPLC24P"*/ type);
                     return;
                 }
-
-
-
             }
             catch(Exception e)
             {
@@ -1086,7 +1097,7 @@ namespace LocalPLC
             defaultjson(writer);
             writer.WritePropertyName("modbus");
             writer.WriteStartObject();// { modbus大括号左边
-            //writer.WriteValue("1");
+            //writer.WriteValue("1");  
             modmaster.saveJson(writer);
             msi.saveJson(writer);          
             mci.saveJson(writer);
@@ -1238,6 +1249,13 @@ namespace LocalPLC
                 
                 //加载控制器文件
             }
+
+
+            if(motion != null)
+            {
+                motion.clear();
+                motion.clearUI();
+            }
         }
         private void ModbusWindow_Enter(object sender, EventArgs e)
         {        
@@ -1292,7 +1310,9 @@ namespace LocalPLC
                             return;
                         }
 
-                        UserControlMotionBasePara para = new UserControlMotionBasePara(e.Node, name);
+                        //UserControlMotionBasePara para = new UserControlMotionBasePara(e.Node, name);
+                        motion.basePara.initData(e.Node);
+                        var para = motion.basePara;
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.Fill;
@@ -1302,7 +1322,9 @@ namespace LocalPLC
                     else if(e.Node.Tag.ToString() == "MOTION_MOTION_PARA")
                     {
                         //运控参数
-                        UserControlMotionPara para = new UserControlMotionPara(e.Node);
+                        //UserControlMotionPara para = new UserControlMotionPara(e.Node);
+                        motion.motionPara.initData(e.Node);
+                        var para = motion.motionPara;
                         para.Show();
                         ModbusWindow.Controls.Clear();
                         para.Dock = DockStyle.Fill;
@@ -1385,6 +1407,7 @@ namespace LocalPLC
                         para.Dock = DockStyle.Fill;
                         ModbusWindow.Controls.Add(para);
                     }
+
                 }
 
                 if (name == "Modbus")
@@ -1584,7 +1607,38 @@ namespace LocalPLC
                 return;
             }
 
-            if(e.Node.Text == "Modbus")
+            Type ttt = e.Node.GetType();
+
+            if(e.Node.Tag == "CONFIG")
+            {
+                Point ClickPoint = new Point(e.X, e.Y);
+                TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+
+                if (CurrentNode != null)//判断你点的是不是一个节点
+                {
+                    CurrentNode.ContextMenuStrip = contextMenuStrip1;
+                    string name = treeView1.SelectedNode.Text.ToString();//存储节点的文本
+                    treeView1.SelectedNode = CurrentNode;//选中这个节点
+                }
+            }
+
+            if(e.Node.Parent != null)
+            {
+                if(e.Node.Parent.Tag == "AXIS" && e.Node.Tag != "ADDAXIS")
+                {
+                    Point ClickPoint = new Point(e.X, e.Y);
+                    TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+
+                    if (CurrentNode != null)//判断你点的是不是一个节点
+                    {
+                        CurrentNode.ContextMenuStrip = contextMenuStrip2;
+                        string name = treeView1.SelectedNode.Text.ToString();//存储节点的文本
+                        treeView1.SelectedNode = CurrentNode;//选中这个节点
+                    }
+                }
+            }
+
+            if (e.Node.Text == "Modbus")
             {
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
@@ -1608,6 +1662,10 @@ namespace LocalPLC
                 UC.refreshUserBaseUI();
                 saveXml();
                 saveJson();
+
+                ModbusWindow.Controls.Clear();
+
+
                 multiprogApp.ActiveProject.Save();
                 multiprogApp.ActiveProject.Close();
                 multiprogApp.OpenProject(projectName, AdeConfirmRule.adeCrNotConfirm);
@@ -2135,6 +2193,8 @@ namespace LocalPLC
                 var motionNode = e.Node.Parent;
                 TreeNode axis = null;
                 LocalPLC.motion.Axis axisData = new Axis();
+                axisData.axisKey = form.axisKey;
+                axisData.axisBasePara.hardwareInterface = form.hardwareinterface;
                 string name = "轴1";
                 name = motion.addAxisName();
                 createNode(ref axis, name, "MOTION_AXIS", motionNode, 3);
@@ -2173,6 +2233,15 @@ namespace LocalPLC
                 createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motionNode, 3);
 
             }
+        }
+
+        private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            var axisDeleteNode = treeView1.SelectedNode;
+            var axisDeleteData = axisDeleteNode.Tag as Axis;
+            motion.deleteAxisData(axisDeleteData);
+            axisDeleteNode.Remove();
         }
     }
 
