@@ -68,8 +68,8 @@ namespace LocalPLC.motion
             comboBox_hardDownLimitLevel.SelectedIndex = (int)TypeLevel.HIGH_LEVEL;
 
             checkBox_softLimit.Checked = data.axisMotionPara.limitSignal.softLimitChecked;
-            textBox_HardUpLimitOffset.Text = data.axisMotionPara.limitSignal.hardUpLimitInput.ToString();
-            textBox_SoftDownLimitOffset.Text = data.axisMotionPara.limitSignal.hardDownLimitInput.ToString();
+            textBox_softUpLimitOffset.Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
+            textBox_SoftDownLimitOffset.Text = data.axisMotionPara.limitSignal.softDownLimitOffset.ToString();
         }
 
         void initDynamic()
@@ -198,7 +198,7 @@ namespace LocalPLC.motion
 
             //启动软限位
             data.axisMotionPara.limitSignal.softLimitChecked = checkBox_softLimit.Checked;
-            int.TryParse(textBox_HardUpLimitOffset.Text, out data.axisMotionPara.limitSignal.softUpLimitInputOffset);
+            int.TryParse(textBox_softUpLimitOffset.Text, out data.axisMotionPara.limitSignal.softUpLimitInputOffset);
             int.TryParse(textBox_SoftDownLimitOffset.Text, out data.axisMotionPara.limitSignal.softDownLimitOffset);
 
 
@@ -228,11 +228,283 @@ namespace LocalPLC.motion
 
         }
 
+        private void textBox_pulsePerRevolutionMotor_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        void setValidButtonRed(TextBox text)
+        {
+            button_valid.Enabled = false;
+            text.BackColor = Color.Red;
+        }
+
+        void setValidButtonWhite(TextBox text)
+        {
+            button_valid.Enabled = true;
+            text.BackColor = Color.White;
+        }
+
+        int upLimitValue = 100000;
+
+        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+        System.Text.RegularExpressions.Regex regZF = new System.Text.RegularExpressions.Regex(@"^((-\d+)|(0+))|(\d+)$");
         private void textBox_pulsePerRevolutionMotor_TextChanged(object sender, EventArgs e)
         {
-            if(textBox_pulsePerRevolutionMotor.Text != data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString())
+            if (textBox_pulsePerRevolutionMotor.Text != data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString())
             {
-                //button_valid.BackColor = Color.Red;
+                setButtonEnable(true);
+
+                
+                string str = (sender as TextBox).Text;
+
+
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_offsetPerReolutionMotor_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox_offsetPerReolutionMotor.Text !=
+                data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString())
+            {
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString();
+
+                    setValidButtonRed(sender as TextBox);
+
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_HardUpLimitOffset_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox_softUpLimitOffset.Text !=
+                data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString())
+            {
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+                bool btest = regZF.IsMatch(str);
+                //btest = Int64.Parse(str) < -2147483648;
+                //btest = Int64.Parse(str) > 2147483647;
+                if (!regZF.IsMatch(str) || Int64.Parse(str) < -2147483648 || Int64.Parse(str) > 2147483647)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    var tempUp = textBox_softUpLimitOffset.Text;
+                    var tempDown = textBox_SoftDownLimitOffset.Text;
+                    int upLimit;
+                    int downLimit;
+                    int.TryParse(tempUp, out upLimit);
+                    int.TryParse(tempDown, out downLimit);
+                    if(downLimit > upLimit)
+                    {
+                        setValidButtonRed(sender as TextBox);
+                        MessageBox.Show("上限值要大于下限值");
+                    }
+                    else
+                    {
+                        setValidButtonWhite(sender as TextBox);
+                    }
+                }
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_SoftDownLimitOffset_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox_SoftDownLimitOffset.Text != 
+                data.axisMotionPara.limitSignal.softDownLimitOffset.ToString())
+            {
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+                if(!regZF.IsMatch(str) || Int64.Parse(str) <= -2147483648 || Int64.Parse(str) > 2147483647)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.limitSignal.softDownLimitOffset.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    var tempUp = textBox_softUpLimitOffset.Text;
+                    var tempDown = textBox_SoftDownLimitOffset.Text;
+                    int upLimit;
+                    int downLimit;
+                    int.TryParse(tempUp, out upLimit);
+                    int.TryParse(tempDown, out downLimit);
+                    if (downLimit > upLimit)
+                    {
+                        setValidButtonRed(sender as TextBox);
+                        MessageBox.Show("上限值要大于下限值");
+                    }
+                    else
+                    {
+                        setValidButtonWhite(sender as TextBox);
+                    }
+                }
+
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_MaxSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox_MaxSpeed.Text != 
+                data.axisMotionPara.dynamicPara.maxSpeed.ToString())
+            {
+                string str = (sender as TextBox).Text;
+                if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.maxSpeed.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_DecelerationSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if(textBox_DecelerationSpeed.Text !=
+                data.axisMotionPara.dynamicPara.decelerationSpeed.ToString())
+            {
+
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+                if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.decelerationSpeed.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_Jerk_TextChanged(object sender, EventArgs e)
+        {
+            setButtonEnable(true);
+            string str = (sender as TextBox).Text;
+            if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+            {
+                //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.jerk.ToString();
+                setValidButtonRed(sender as TextBox);
+                return;
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+
+        }
+
+
+        private void textBox_EmeStopDeceSpeed_TextChanged(object sender, EventArgs e)
+        {
+            setButtonEnable(true);
+            string str = (sender as TextBox).Text;
+            if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+            {
+                //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
+                setValidButtonRed(sender as TextBox);
+                return;
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void textBox_ReverseCompensation_TextChanged(object sender, EventArgs e)
+        {
+            setButtonEnable(true);
+            string str = (sender as TextBox).Text;
+            if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+            {
+                //(sender as TextBox).Text = data.axisMotionPara.reverseCompensation.reverseCompensation.ToString();
+                setValidButtonRed(sender as TextBox);
+                return;
+            }
+            else
+            {
+                setValidButtonWhite(sender as TextBox);
+            }
+        }
+
+        private void comboBox_hardUpLimitInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void textBox_HardUpLimitOffset_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8 && e.KeyChar != '-')
+            {
+                e.Handled = true;
+            }
+
+
+        }
+
+        private void textBox_SoftDownLimitOffset_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8 && e.KeyChar != '-')
+            {
+                e.Handled = true;
             }
         }
     }

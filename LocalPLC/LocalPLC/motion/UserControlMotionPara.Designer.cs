@@ -38,7 +38,7 @@
             this.comboBox_hardDownLimitInput = new System.Windows.Forms.ComboBox();
             this.comboBox_hardUpLimitInput = new System.Windows.Forms.ComboBox();
             this.textBox_SoftDownLimitOffset = new System.Windows.Forms.TextBox();
-            this.textBox_HardUpLimitOffset = new System.Windows.Forms.TextBox();
+            this.textBox_softUpLimitOffset = new System.Windows.Forms.TextBox();
             this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -100,10 +100,12 @@
             // textBox_pulsePerRevolutionMotor
             // 
             this.textBox_pulsePerRevolutionMotor.Location = new System.Drawing.Point(219, 30);
+            this.textBox_pulsePerRevolutionMotor.MaxLength = 10;
             this.textBox_pulsePerRevolutionMotor.Name = "textBox_pulsePerRevolutionMotor";
             this.textBox_pulsePerRevolutionMotor.Size = new System.Drawing.Size(140, 28);
             this.textBox_pulsePerRevolutionMotor.TabIndex = 1;
             this.textBox_pulsePerRevolutionMotor.TextChanged += new System.EventHandler(this.textBox_pulsePerRevolutionMotor_TextChanged);
+            this.textBox_pulsePerRevolutionMotor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label2
             // 
@@ -117,9 +119,12 @@
             // textBox_offsetPerReolutionMotor
             // 
             this.textBox_offsetPerReolutionMotor.Location = new System.Drawing.Point(219, 64);
+            this.textBox_offsetPerReolutionMotor.MaxLength = 10;
             this.textBox_offsetPerReolutionMotor.Name = "textBox_offsetPerReolutionMotor";
             this.textBox_offsetPerReolutionMotor.Size = new System.Drawing.Size(140, 28);
             this.textBox_offsetPerReolutionMotor.TabIndex = 1;
+            this.textBox_offsetPerReolutionMotor.TextChanged += new System.EventHandler(this.textBox_offsetPerReolutionMotor_TextChanged);
+            this.textBox_offsetPerReolutionMotor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label3
             // 
@@ -137,6 +142,7 @@
             this.comboBox_hardDownLimitLevel.Name = "comboBox_hardDownLimitLevel";
             this.comboBox_hardDownLimitLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardDownLimitLevel.TabIndex = 3;
+            this.comboBox_hardDownLimitLevel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_hardUpLimitLevel
             // 
@@ -145,6 +151,7 @@
             this.comboBox_hardUpLimitLevel.Name = "comboBox_hardUpLimitLevel";
             this.comboBox_hardUpLimitLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardUpLimitLevel.TabIndex = 3;
+            this.comboBox_hardUpLimitLevel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_hardDownLimitInput
             // 
@@ -153,6 +160,7 @@
             this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
             this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardDownLimitInput.TabIndex = 3;
+            this.comboBox_hardDownLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_hardUpLimitInput
             // 
@@ -161,20 +169,27 @@
             this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
             this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardUpLimitInput.TabIndex = 3;
+            this.comboBox_hardUpLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // textBox_SoftDownLimitOffset
             // 
             this.textBox_SoftDownLimitOffset.Location = new System.Drawing.Point(209, 209);
+            this.textBox_SoftDownLimitOffset.MaxLength = 11;
             this.textBox_SoftDownLimitOffset.Name = "textBox_SoftDownLimitOffset";
             this.textBox_SoftDownLimitOffset.Size = new System.Drawing.Size(140, 28);
             this.textBox_SoftDownLimitOffset.TabIndex = 1;
+            this.textBox_SoftDownLimitOffset.TextChanged += new System.EventHandler(this.textBox_SoftDownLimitOffset_TextChanged);
+            this.textBox_SoftDownLimitOffset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SoftDownLimitOffset_KeyPress);
             // 
-            // textBox_HardUpLimitOffset
+            // textBox_softUpLimitOffset
             // 
-            this.textBox_HardUpLimitOffset.Location = new System.Drawing.Point(209, 172);
-            this.textBox_HardUpLimitOffset.Name = "textBox_HardUpLimitOffset";
-            this.textBox_HardUpLimitOffset.Size = new System.Drawing.Size(140, 28);
-            this.textBox_HardUpLimitOffset.TabIndex = 1;
+            this.textBox_softUpLimitOffset.Location = new System.Drawing.Point(209, 172);
+            this.textBox_softUpLimitOffset.MaxLength = 11;
+            this.textBox_softUpLimitOffset.Name = "textBox_softUpLimitOffset";
+            this.textBox_softUpLimitOffset.Size = new System.Drawing.Size(140, 28);
+            this.textBox_softUpLimitOffset.TabIndex = 1;
+            this.textBox_softUpLimitOffset.TextChanged += new System.EventHandler(this.textBox_HardUpLimitOffset_TextChanged);
+            this.textBox_softUpLimitOffset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HardUpLimitOffset_KeyPress);
             // 
             // checkBox_softLimit
             // 
@@ -271,9 +286,12 @@
             // textBox_EmeStopDeceSpeed
             // 
             this.textBox_EmeStopDeceSpeed.Location = new System.Drawing.Point(210, 148);
+            this.textBox_EmeStopDeceSpeed.MaxLength = 10;
             this.textBox_EmeStopDeceSpeed.Name = "textBox_EmeStopDeceSpeed";
             this.textBox_EmeStopDeceSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_EmeStopDeceSpeed.TabIndex = 1;
+            this.textBox_EmeStopDeceSpeed.TextChanged += new System.EventHandler(this.textBox_EmeStopDeceSpeed_TextChanged);
+            this.textBox_EmeStopDeceSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label24
             // 
@@ -287,9 +305,12 @@
             // textBox_Jerk
             // 
             this.textBox_Jerk.Location = new System.Drawing.Point(210, 117);
+            this.textBox_Jerk.MaxLength = 10;
             this.textBox_Jerk.Name = "textBox_Jerk";
             this.textBox_Jerk.Size = new System.Drawing.Size(140, 28);
             this.textBox_Jerk.TabIndex = 1;
+            this.textBox_Jerk.TextChanged += new System.EventHandler(this.textBox_Jerk_TextChanged);
+            this.textBox_Jerk.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label22
             // 
@@ -303,9 +324,12 @@
             // textBox_DecelerationSpeed
             // 
             this.textBox_DecelerationSpeed.Location = new System.Drawing.Point(210, 86);
+            this.textBox_DecelerationSpeed.MaxLength = 10;
             this.textBox_DecelerationSpeed.Name = "textBox_DecelerationSpeed";
             this.textBox_DecelerationSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_DecelerationSpeed.TabIndex = 1;
+            this.textBox_DecelerationSpeed.TextChanged += new System.EventHandler(this.textBox_DecelerationSpeed_TextChanged);
+            this.textBox_DecelerationSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label20
             // 
@@ -319,6 +343,7 @@
             // textBox_AcceleratedSpeed
             // 
             this.textBox_AcceleratedSpeed.Location = new System.Drawing.Point(210, 55);
+            this.textBox_AcceleratedSpeed.MaxLength = 10;
             this.textBox_AcceleratedSpeed.Name = "textBox_AcceleratedSpeed";
             this.textBox_AcceleratedSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_AcceleratedSpeed.TabIndex = 1;
@@ -353,9 +378,12 @@
             // textBox_MaxSpeed
             // 
             this.textBox_MaxSpeed.Location = new System.Drawing.Point(210, 24);
+            this.textBox_MaxSpeed.MaxLength = 10;
             this.textBox_MaxSpeed.Name = "textBox_MaxSpeed";
             this.textBox_MaxSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_MaxSpeed.TabIndex = 1;
+            this.textBox_MaxSpeed.TextChanged += new System.EventHandler(this.textBox_MaxSpeed_TextChanged);
+            this.textBox_MaxSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label19
             // 
@@ -405,9 +433,12 @@
             // textBox_ReverseCompensation
             // 
             this.textBox_ReverseCompensation.Location = new System.Drawing.Point(210, 17);
+            this.textBox_ReverseCompensation.MaxLength = 10;
             this.textBox_ReverseCompensation.Name = "textBox_ReverseCompensation";
             this.textBox_ReverseCompensation.Size = new System.Drawing.Size(140, 28);
             this.textBox_ReverseCompensation.TabIndex = 1;
+            this.textBox_ReverseCompensation.TextChanged += new System.EventHandler(this.textBox_ReverseCompensation_TextChanged);
+            this.textBox_ReverseCompensation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
             // label34
             // 
@@ -447,7 +478,7 @@
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.textBox_SoftDownLimitOffset);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.textBox_HardUpLimitOffset);
+            this.groupBox3.Controls.Add(this.textBox_softUpLimitOffset);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox_softLimit);
             this.groupBox3.Controls.Add(this.label14);
@@ -521,6 +552,7 @@
             this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
             this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
             this.comboBox_ZPulseSignal.TabIndex = 3;
+            this.comboBox_ZPulseSignal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox4
             // 
@@ -537,6 +569,7 @@
             this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
             this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
             this.comboBox_BackOriginal.TabIndex = 3;
+            this.comboBox_BackOriginal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_BackOriginalSelectLevel
             // 
@@ -545,6 +578,7 @@
             this.comboBox_BackOriginalSelectLevel.Name = "comboBox_BackOriginalSelectLevel";
             this.comboBox_BackOriginalSelectLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_BackOriginalSelectLevel.TabIndex = 3;
+            this.comboBox_BackOriginalSelectLevel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // label26
             // 
@@ -595,7 +629,7 @@
             this.button_valid.Name = "button_valid";
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 7;
-            this.button_valid.Text = "生效";
+            this.button_valid.Text = "应用";
             this.button_valid.UseVisualStyleBackColor = true;
             this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
@@ -633,7 +667,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox_HardUpLimitOffset;
+        private System.Windows.Forms.TextBox textBox_softUpLimitOffset;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBox_hardDownLimitInput;

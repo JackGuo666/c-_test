@@ -218,17 +218,24 @@ namespace LocalPLC.motion
         {
             //Regex reg = new Regex(@"^\d{1,12}(?:\.\d{1,4})?$");
 
-            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^\w{0,8}$");
+            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^\w+$");
             string str = (sender as RichTextBox).Text;
 
 
             if (!reg.IsMatch(str))
             {
-                (sender as RichTextBox).Text = data.name;
+                //(sender as RichTextBox).Text = data.name;
 
-                (sender as RichTextBox).SelectionStart = data.name.Length;
+                (sender as RichTextBox).BackColor = Color.Red;
+                button_valid.Enabled = false;
+                //(sender as RichTextBox).SelectionStart = data.name.Length;
 
                 return;
+            }
+            else
+            {
+                (sender as RichTextBox).BackColor = Color.White;
+                button_valid.Enabled = true;
             }
 
 
@@ -241,8 +248,8 @@ namespace LocalPLC.motion
                     return;
                 }
 
-                data.name = (sender as RichTextBox).Text;
-                node_.Parent.Text = data.name;
+                //data.name = (sender as RichTextBox).Text;
+                //node_.Parent.Text = data.name;
                 setEnableButton(true, button_valid);
                 setEnableButton(true, button_cancel);
 
@@ -283,8 +290,6 @@ namespace LocalPLC.motion
 
         void setDataFromUI()
         {
-
-
             if (comboBox_HardwareInterface.SelectedItem != null)
             {
                 data.axisBasePara.hardwareInterface = comboBox_HardwareInterface.SelectedItem.ToString();
@@ -294,11 +299,12 @@ namespace LocalPLC.motion
 
             }
 
-           
+            data.name = richTextBox_AxisName.Text;
             data.axisBasePara.axisName = richTextBox_AxisName.Text;
             data.axisBasePara.axisType = comboBox_AxisType.SelectedIndex;
             data.axisBasePara.meaUnit = comboBox_MeasureUnit.SelectedIndex;
 
+            node_.Parent.Text = data.name;
 
             foreach (var outputPulse in outputPluseDic)
             {

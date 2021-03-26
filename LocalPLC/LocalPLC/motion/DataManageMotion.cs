@@ -28,13 +28,13 @@ namespace LocalPLC.motion
     {
         public bool hardLimitChecked = false;
         public string hardUpLimitInput = "";
-        public int hardUpLimitInputLevel = 0;
+        public int hardUpLimitInputLevel = 1;
         public string hardDownLimitInput = "";
-        public int hardDownLimitInputLevel = 0;
+       public int hardDownLimitInputLevel = 1;
 
         public bool softLimitChecked = false;
-        public int softUpLimitInputOffset = 1;
-        public int softDownLimitOffset = 1;
+        public int softUpLimitInputOffset = 2147483647;
+        public int softDownLimitOffset = -2147483648;
     }
 
 

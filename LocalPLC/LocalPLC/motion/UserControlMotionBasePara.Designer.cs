@@ -95,7 +95,7 @@
             this.button_valid.Name = "button_valid";
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 4;
-            this.button_valid.Text = "生效";
+            this.button_valid.Text = "应用";
             this.button_valid.UseVisualStyleBackColor = true;
             this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
@@ -226,7 +226,7 @@
             // richTextBox_AxisName
             // 
             this.richTextBox_AxisName.Location = new System.Drawing.Point(177, 101);
-            this.richTextBox_AxisName.MaxLength = 500;
+            this.richTextBox_AxisName.MaxLength = 32;
             this.richTextBox_AxisName.Multiline = false;
             this.richTextBox_AxisName.Name = "richTextBox_AxisName";
             this.richTextBox_AxisName.Size = new System.Drawing.Size(120, 26);
