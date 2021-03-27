@@ -197,7 +197,6 @@
             this.richTextBox_PulseOutput.TabIndex = 1;
             this.richTextBox_PulseOutput.Text = "";
             this.richTextBox_PulseOutput.WordWrap = false;
-            this.richTextBox_PulseOutput.TextChanged += new System.EventHandler(this.richTextBox_AxisName_TextChanged);
             // 
             // richTextBox_DirOutput
             // 
@@ -209,7 +208,6 @@
             this.richTextBox_DirOutput.TabIndex = 1;
             this.richTextBox_DirOutput.Text = "";
             this.richTextBox_DirOutput.WordWrap = false;
-            this.richTextBox_DirOutput.TextChanged += new System.EventHandler(this.richTextBox_AxisName_TextChanged);
             // 
             // richTextBox_SignalType
             // 
@@ -221,7 +219,6 @@
             this.richTextBox_SignalType.TabIndex = 1;
             this.richTextBox_SignalType.Text = "";
             this.richTextBox_SignalType.WordWrap = false;
-            this.richTextBox_SignalType.TextChanged += new System.EventHandler(this.richTextBox_AxisName_TextChanged);
             // 
             // richTextBox_AxisName
             // 

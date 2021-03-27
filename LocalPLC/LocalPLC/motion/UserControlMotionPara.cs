@@ -47,7 +47,8 @@ namespace LocalPLC.motion
 
             LocalPLC.Base.xml.DataManageBase dataManage = null;
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
-            foreach(var di in dataManage.diList)
+            comboBox_hardUpLimitInput.Items.Clear();
+            foreach (var di in dataManage.diList)
             {
                 if(!di.used)
                 {
@@ -59,7 +60,8 @@ namespace LocalPLC.motion
             levelDic.Clear();
             levelDic.Add((int)TypeLevel.HIGH_LEVEL, "高电平有效");
             levelDic.Add((int)TypeLevel.LOW_LEVEL, "低电平有效");
-            foreach(var level in levelDic)
+            comboBox_hardUpLimitLevel.Items.Clear();
+            foreach (var level in levelDic)
             {
                 comboBox_hardUpLimitLevel.Items.Add(level.Value);
                 comboBox_hardDownLimitLevel.Items.Add(level.Value);
@@ -141,6 +143,50 @@ namespace LocalPLC.motion
             reverseCompensation();
         }
 
+        
+        void refreshData()
+        {
+            //电机每转脉冲数
+            var pulseEquivalent = data.axisMotionPara.pulseEquivalent;
+            textBox_pulsePerRevolutionMotor.Text = pulseEquivalent.pulsePerRevolutionMotor.ToString();
+            //
+            textBox_offsetPerReolutionMotor.Text = pulseEquivalent.offsetPerReolutionMotor.ToString();
+
+
+            var limitSignal = data.axisMotionPara.limitSignal;
+            //启动硬限位
+            checkBox1.Checked = limitSignal.hardLimitChecked;
+            //硬件上限位
+            comboBox_hardUpLimitInput.Text = limitSignal.hardUpLimitInput;
+            comboBox_hardUpLimitLevel.SelectedIndex = limitSignal.hardUpLimitInputLevel;
+            //硬件下限位
+            comboBox_hardDownLimitInput.Text = limitSignal.hardDownLimitInput;
+            comboBox_hardDownLimitLevel.SelectedIndex = limitSignal.hardDownLimitInputLevel;
+
+
+
+            checkBox_softLimit.Checked = limitSignal.softLimitChecked;
+            textBox_softUpLimitOffset.Text = limitSignal.softUpLimitInputOffset.ToString();
+            textBox_SoftDownLimitOffset.Text = limitSignal.softDownLimitOffset.ToString();
+
+
+
+
+            var dynamic = data.axisMotionPara.dynamicPara;
+            textBox_MaxSpeed.Text = dynamic.maxSpeed.ToString();
+            textBox_AcceleratedSpeed.Text = dynamic.acceleratedSpeed.ToString();
+            textBox_DecelerationSpeed.Text = dynamic.decelerationSpeed.ToString();
+            textBox_Jerk.Text = dynamic.jerk.ToString();
+            textBox_EmeStopDeceSpeed.Text = dynamic.emeStopDeceleration.ToString();
+
+            var original = data.axisMotionPara.backOriginal;
+            comboBox_BackOriginal.Text = original.orginInputSignal;
+            comboBox_BackOriginalSelectLevel.SelectedIndex = original.selectLevel;
+            comboBox_ZPulseSignal.Text = original.ZPulseSignal;
+
+            var reverseCompensation = data.axisMotionPara.reverseCompensation;
+            textBox_ReverseCompensation.Text = reverseCompensation.reverseCompensation.ToString();
+        }
         public UserControlMotionPara(TreeNode node)
         {
             InitializeComponent();
@@ -169,9 +215,8 @@ namespace LocalPLC.motion
             button_cancel.Enabled = enable;
         }
 
-        private void button_valid_Click(object sender, EventArgs e)
+        void setDataFromUI()
         {
-
             int.TryParse(textBox_pulsePerRevolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
             int.TryParse(textBox_offsetPerReolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
 
@@ -225,7 +270,13 @@ namespace LocalPLC.motion
             //反向间隙补偿
             var reverse = data.axisMotionPara.reverseCompensation;
             int.TryParse(textBox_ReverseCompensation.Text, out reverse.reverseCompensation);
+        }
 
+        private void button_valid_Click(object sender, EventArgs e)
+        {
+            setDataFromUI();
+            setEnableButton(false, button_valid);
+            setEnableButton(false, button_cancel);
         }
 
         private void textBox_pulsePerRevolutionMotor_KeyPress(object sender, KeyPressEventArgs e)
@@ -275,7 +326,8 @@ namespace LocalPLC.motion
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
         }
 
@@ -302,7 +354,8 @@ namespace LocalPLC.motion
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
         }
 
@@ -343,7 +396,8 @@ namespace LocalPLC.motion
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
         }
 
@@ -382,7 +436,8 @@ namespace LocalPLC.motion
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
         }
 
@@ -405,7 +460,8 @@ namespace LocalPLC.motion
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
         }
 
@@ -431,58 +487,92 @@ namespace LocalPLC.motion
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
         }
 
         private void textBox_Jerk_TextChanged(object sender, EventArgs e)
         {
-            setButtonEnable(true);
-            string str = (sender as TextBox).Text;
-            if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+            if(textBox_Jerk.Text != data.axisMotionPara.dynamicPara.jerk.ToString())
             {
-                //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.jerk.ToString();
-                setValidButtonRed(sender as TextBox);
-                return;
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.jerk.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
+
+            
 
         }
 
 
         private void textBox_EmeStopDeceSpeed_TextChanged(object sender, EventArgs e)
         {
-            setButtonEnable(true);
-            string str = (sender as TextBox).Text;
-            if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+
+            if(textBox_EmeStopDeceSpeed.Text !=
+                data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString())
             {
-                //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
-                setValidButtonRed(sender as TextBox);
-                return;
+
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
+
         }
 
         private void textBox_ReverseCompensation_TextChanged(object sender, EventArgs e)
         {
-            setButtonEnable(true);
-            string str = (sender as TextBox).Text;
-            if(!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+            if(textBox_ReverseCompensation.Text != 
+                data.axisMotionPara.reverseCompensation.reverseCompensation.ToString())
             {
-                //(sender as TextBox).Text = data.axisMotionPara.reverseCompensation.reverseCompensation.ToString();
-                setValidButtonRed(sender as TextBox);
-                return;
+
+                setButtonEnable(true);
+                string str = (sender as TextBox).Text;
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.reverseCompensation.reverseCompensation.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
             }
             else
             {
-                setValidButtonWhite(sender as TextBox);
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
             }
+
         }
 
         private void comboBox_hardUpLimitInput_KeyPress(object sender, KeyPressEventArgs e)
@@ -506,6 +596,27 @@ namespace LocalPLC.motion
             {
                 e.Handled = true;
             }
+        }
+
+        void setEnableButton(bool enable, Button btn)
+        {
+            if (enable)
+            {
+                btn.Enabled = enable;
+                //btn.BackColor = Color.DarkOliveGreen;
+            }
+            else
+            {
+                btn.Enabled = enable;
+                //btn.BackColor = Color.White;
+            }
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            refreshData();
+            setEnableButton(false, button_valid);
+            setEnableButton(false, button_cancel);
         }
     }
 }

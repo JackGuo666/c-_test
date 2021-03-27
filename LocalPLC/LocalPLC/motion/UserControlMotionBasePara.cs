@@ -334,6 +334,7 @@ namespace LocalPLC.motion
                 if(current.Value.ToString() == data.axisBasePara.axisType.ToString())
                 {
                     comboBox_AxisType.SelectedItem = current.Text;
+                    comboBox_AxisType.SelectedIndex = data.axisBasePara.axisType;
                 }
             }
 
@@ -348,23 +349,33 @@ namespace LocalPLC.motion
 
                 if(current.Value.ToString() == data.axisBasePara.meaUnit.ToString())
                 {
-                    comboBox_MeasureUnit.SelectedItem = current.Text;
+                    //comboBox_MeasureUnit.SelectedItem = current.Text;
+                    comboBox_MeasureUnit.SelectedIndex = data.axisBasePara.meaUnit;
                 }
             }
 
-            foreach (var item in comboBox_HardwareInterface.Items)
+            for(int i = 0; i < comboBox_HardwareInterface.Items.Count; i++)
             {
-                var current = item;
-                if (current == null)
+                if(comboBox_HardwareInterface.Items[i].ToString() == data.axisBasePara.hardwareInterface)
                 {
-                    return;
-                }
-
-                if (current.ToString() == data.axisBasePara.hardwareInterface)
-                {
-                    comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
+                    comboBox_HardwareInterface.SelectedIndex = i;
                 }
             }
+
+
+            //foreach (var item in comboBox_HardwareInterface.Items)
+            //{
+            //    var current = item;
+            //    if (current == null)
+            //    {
+            //        return;
+            //    }
+
+            //    if (current.ToString() == data.axisBasePara.hardwareInterface)
+            //    {
+            //        comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
+            //    }
+            //}
 
             node_.Parent.Text = data.name;
         }
