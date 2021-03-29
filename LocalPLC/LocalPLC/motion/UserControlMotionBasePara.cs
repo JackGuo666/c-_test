@@ -124,6 +124,7 @@ namespace LocalPLC.motion
             }
         }
 
+
         void setEnableButton(bool enable, Button btn)
         {
             if(enable)

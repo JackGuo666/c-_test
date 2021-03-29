@@ -32,7 +32,11 @@ namespace LocalPLC.motion
         public UserControlPulseEquivalent(TreeNode node)
         {
             InitializeComponent();
+            textBox1.MaxLength = 10;
+            textBox2.MaxLength = 10;
 
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
 
             if (node.Parent == null)
             {
@@ -47,6 +51,142 @@ namespace LocalPLC.motion
 
 
             initPulseEquient();
+        }
+
+        void setEnableButton(bool enable, Button btn)
+        {
+            if (enable)
+            {
+                btn.Enabled = enable;
+                //btn.BackColor = Color.DarkOliveGreen;
+            }
+            else
+            {
+                btn.Enabled = enable;
+                //btn.BackColor = Color.White;
+            }
+
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+            
+
+            if (data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString()
+                != (sender as TextBox).Text)
+            {
+                setButtonEnable(true);
+
+                System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+                string str = (sender as TextBox).Text;
+
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                (sender as TextBox).BackColor = Color.White;
+            }
+        }
+
+        void setValidButtonRed(TextBox text)
+        {
+            button_valid.Enabled = false;
+            text.BackColor = Color.Red;
+        }
+
+        void setValidButtonWhite(TextBox text)
+        {
+            button_valid.Enabled = true;
+            text.BackColor = Color.White;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            //模板
+            if (textBox2.Text != data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString())
+            {
+               setButtonEnable(true);
+
+
+                string str = (sender as TextBox).Text;
+                System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        void setDataFromUI()
+        {
+            int.TryParse(textBox1.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+            int.TryParse(textBox2.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+        }
+
+        private void button_valid_Click(object sender, EventArgs e)
+        {
+            setDataFromUI();
+            setButtonEnable(false);
+        }
+
+
+        void refreshData()
+        {
+            //电机每转脉冲数
+            var pulseEquivalent = data.axisMotionPara.pulseEquivalent;
+            textBox1.Text = pulseEquivalent.pulsePerRevolutionMotor.ToString();
+            //
+            textBox2.Text = pulseEquivalent.offsetPerReolutionMotor.ToString();
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            refreshData();
+
+            setButtonEnable(false);
         }
     }
 }
