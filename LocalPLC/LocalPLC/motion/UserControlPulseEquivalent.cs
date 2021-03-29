@@ -154,10 +154,7 @@ namespace LocalPLC.motion
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
-            {
-                e.Handled = true;
-            }
+
         }
 
         void setDataFromUI()

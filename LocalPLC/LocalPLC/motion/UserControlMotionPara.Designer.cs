@@ -347,6 +347,7 @@
             this.textBox_AcceleratedSpeed.Name = "textBox_AcceleratedSpeed";
             this.textBox_AcceleratedSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_AcceleratedSpeed.TabIndex = 1;
+            this.textBox_AcceleratedSpeed.TextChanged += new System.EventHandler(this.textBox_AcceleratedSpeed_TextChanged);
             // 
             // label23
             // 

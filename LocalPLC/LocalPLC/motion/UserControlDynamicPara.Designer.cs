@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.panel3 = new System.Windows.Forms.Panel();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox_EmeStopDeceSpeed = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.textBox_Jerk = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox_DecelerationSpeed = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox_AcceleratedSpeed = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
@@ -46,16 +46,20 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.textBox9);
+            this.panel3.Controls.Add(this.textBox_EmeStopDeceSpeed);
             this.panel3.Controls.Add(this.label24);
-            this.panel3.Controls.Add(this.textBox8);
+            this.panel3.Controls.Add(this.textBox_Jerk);
             this.panel3.Controls.Add(this.label22);
-            this.panel3.Controls.Add(this.textBox7);
+            this.panel3.Controls.Add(this.textBox_DecelerationSpeed);
             this.panel3.Controls.Add(this.label20);
             this.panel3.Controls.Add(this.textBox_AcceleratedSpeed);
             this.panel3.Controls.Add(this.label23);
@@ -67,17 +71,19 @@
             this.panel3.Controls.Add(this.label17);
             this.panel3.Controls.Add(this.label15);
             this.panel3.Controls.Add(this.label16);
-            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Location = new System.Drawing.Point(6, 55);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(874, 197);
+            this.panel3.Size = new System.Drawing.Size(719, 212);
             this.panel3.TabIndex = 4;
             // 
-            // textBox9
+            // textBox_EmeStopDeceSpeed
             // 
-            this.textBox9.Location = new System.Drawing.Point(294, 156);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(140, 28);
-            this.textBox9.TabIndex = 1;
+            this.textBox_EmeStopDeceSpeed.Location = new System.Drawing.Point(294, 156);
+            this.textBox_EmeStopDeceSpeed.MaxLength = 10;
+            this.textBox_EmeStopDeceSpeed.Name = "textBox_EmeStopDeceSpeed";
+            this.textBox_EmeStopDeceSpeed.Size = new System.Drawing.Size(140, 28);
+            this.textBox_EmeStopDeceSpeed.TabIndex = 1;
+            this.textBox_EmeStopDeceSpeed.TextChanged += new System.EventHandler(this.textBox_EmeStopDeceSpeed_TextChanged);
             // 
             // label24
             // 
@@ -88,12 +94,14 @@
             this.label24.TabIndex = 0;
             this.label24.Text = "最大速度";
             // 
-            // textBox8
+            // textBox_Jerk
             // 
-            this.textBox8.Location = new System.Drawing.Point(294, 125);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(140, 28);
-            this.textBox8.TabIndex = 1;
+            this.textBox_Jerk.Location = new System.Drawing.Point(294, 125);
+            this.textBox_Jerk.MaxLength = 10;
+            this.textBox_Jerk.Name = "textBox_Jerk";
+            this.textBox_Jerk.Size = new System.Drawing.Size(140, 28);
+            this.textBox_Jerk.TabIndex = 1;
+            this.textBox_Jerk.TextChanged += new System.EventHandler(this.textBox_Jerk_TextChanged);
             // 
             // label22
             // 
@@ -104,12 +112,14 @@
             this.label22.TabIndex = 0;
             this.label22.Text = "跃度Jerk";
             // 
-            // textBox7
+            // textBox_DecelerationSpeed
             // 
-            this.textBox7.Location = new System.Drawing.Point(294, 94);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(140, 28);
-            this.textBox7.TabIndex = 1;
+            this.textBox_DecelerationSpeed.Location = new System.Drawing.Point(294, 94);
+            this.textBox_DecelerationSpeed.MaxLength = 10;
+            this.textBox_DecelerationSpeed.Name = "textBox_DecelerationSpeed";
+            this.textBox_DecelerationSpeed.Size = new System.Drawing.Size(140, 28);
+            this.textBox_DecelerationSpeed.TabIndex = 1;
+            this.textBox_DecelerationSpeed.TextChanged += new System.EventHandler(this.textBox_DecelerationSpeed_TextChanged);
             // 
             // label20
             // 
@@ -126,6 +136,7 @@
             this.textBox_AcceleratedSpeed.Name = "textBox_AcceleratedSpeed";
             this.textBox_AcceleratedSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_AcceleratedSpeed.TabIndex = 1;
+            this.textBox_AcceleratedSpeed.TextChanged += new System.EventHandler(this.textBox_AcceleratedSpeed_TextChanged);
             // 
             // label23
             // 
@@ -157,9 +168,11 @@
             // textBox_MaxSpeed
             // 
             this.textBox_MaxSpeed.Location = new System.Drawing.Point(294, 32);
+            this.textBox_MaxSpeed.MaxLength = 10;
             this.textBox_MaxSpeed.Name = "textBox_MaxSpeed";
             this.textBox_MaxSpeed.Size = new System.Drawing.Size(140, 28);
             this.textBox_MaxSpeed.TabIndex = 1;
+            this.textBox_MaxSpeed.TextChanged += new System.EventHandler(this.textBox_MaxSpeed_TextChanged);
             // 
             // label19
             // 
@@ -208,23 +221,58 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 204);
+            this.richTextBox1.Location = new System.Drawing.Point(6, 273);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(873, 373);
+            this.richTextBox1.Size = new System.Drawing.Size(716, 305);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "图片";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button_cancel);
+            this.groupBox1.Controls.Add(this.button_valid);
+            this.groupBox1.Controls.Add(this.richTextBox1);
+            this.groupBox1.Controls.Add(this.panel3);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(728, 578);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            // 
+            // button_cancel
+            // 
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(132, 14);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 10;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(6, 14);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 11;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // UserControlDynamicPara
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.groupBox1);
             this.Name = "UserControlDynamicPara";
-            this.Size = new System.Drawing.Size(877, 578);
+            this.Size = new System.Drawing.Size(728, 578);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -232,11 +280,11 @@
         #endregion
 
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox_EmeStopDeceSpeed;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBox_Jerk;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox_DecelerationSpeed;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox textBox_AcceleratedSpeed;
         private System.Windows.Forms.Label label23;
@@ -249,5 +297,8 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }

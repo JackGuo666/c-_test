@@ -465,6 +465,31 @@ namespace LocalPLC.motion
             }
         }
 
+
+        private void textBox_AcceleratedSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox_AcceleratedSpeed.Text !=
+                data.axisMotionPara.dynamicPara.acceleratedSpeed.ToString())
+            {
+                string str = (sender as TextBox).Text;
+                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                {
+                    //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.maxSpeed.ToString();
+                    setValidButtonRed(sender as TextBox);
+                    return;
+                }
+                else
+                {
+                    setValidButtonWhite(sender as TextBox);
+                }
+            }
+            else
+            {
+                //setValidButtonWhite(sender as TextBox);
+                (sender as TextBox).BackColor = Color.White;
+            }
+        }
+
         private void textBox_DecelerationSpeed_TextChanged(object sender, EventArgs e)
         {
             if(textBox_DecelerationSpeed.Text !=
@@ -618,5 +643,7 @@ namespace LocalPLC.motion
             setEnableButton(false, button_valid);
             setEnableButton(false, button_cancel);
         }
+
+
     }
 }
