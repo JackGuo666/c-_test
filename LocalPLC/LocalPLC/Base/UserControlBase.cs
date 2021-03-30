@@ -101,7 +101,7 @@ namespace LocalPLC.Base
                 string varName = e.GetAttribute("varname");
                 diData.varName = varName;
                 string filterName = e.GetAttribute("fitertime");
-                int.TryParse(filterName, out diData.filterTime);
+                uint.TryParse(filterName, out diData.filterTime);
                 string channelName = e.GetAttribute("channelname");
                 diData.channelName = channelName;
                 string address = e.GetAttribute("address");
@@ -292,8 +292,9 @@ namespace LocalPLC.Base
                 return;
             }
 
-            //DI、DO、HOUT、HIN数据datatable到data manage
-            curWeaponType.getDataFromUI();
+            //不从界面获取值了
+            ////DI、DO、HOUT、HIN数据datatable到data manage
+            //curWeaponType.getDataFromUI();
 
             foreach (var di in dataManage.diList)
             {
