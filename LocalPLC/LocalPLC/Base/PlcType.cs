@@ -256,7 +256,7 @@ namespace LocalPLC.Base
 
                 utility.PrintInfo(string.Format("{0} {1}", listDI[row].channelName, listDI[row].used));
                 listDI[row].varName = dr[(int)COLUMN_DI.VARNAME].ToString();
-                listDI[row].filterTime = int.Parse(dr[(int)COLUMN_DI.FITERTIME].ToString());
+                uint.TryParse(dr[(int)COLUMN_DI.FITERTIME].ToString(), out listDI[row].filterTime);
                 listDI[row].channelName = dr[(int)COLUMN_DI.CHANNELNAME].ToString();
                 listDI[row].address = dr[(int)COLUMN_DI.ADDRESS].ToString();
                 listDI[row].note = dr[(int)COLUMN_DI.NOTE].ToString();
