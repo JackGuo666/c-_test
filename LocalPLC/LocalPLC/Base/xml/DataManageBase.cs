@@ -172,7 +172,7 @@ namespace LocalPLC.Base.xml
     {
         public bool used = false;
         public string varName = "";
-        public int filterTime = 3;
+        public  uint filterTime = 3;
         public string channelName = "";
         public string address = "";
         public string note = "";
