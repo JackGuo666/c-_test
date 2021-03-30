@@ -1659,7 +1659,7 @@ namespace LocalPLC
             {
                 projectName = multiprogApp.ActiveProject.FullName;
                 //动态刷新DI DO数据
-                UC.refreshUserBaseUI();
+                
                 saveXml();
                 saveJson();
 
