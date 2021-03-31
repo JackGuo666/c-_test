@@ -91,7 +91,7 @@
             this.button_valid.Name = "button_valid";
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 1;
-            this.button_valid.Text = "生效";
+            this.button_valid.Text = "应用";
             this.button_valid.UseVisualStyleBackColor = true;
             this.button_valid.Click += new System.EventHandler(this.button1_Click_1);
             // 

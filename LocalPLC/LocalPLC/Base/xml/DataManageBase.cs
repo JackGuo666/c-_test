@@ -74,6 +74,8 @@ namespace LocalPLC.Base.xml
     public class DeviceModuleElem
     {
         public string baseName;
+        //串口特别字段
+        public string terminalResis = "2";
         public string moduleID;
     }
     public class Connector
@@ -190,6 +192,9 @@ namespace LocalPLC.Base.xml
         public int stopBit = 1;
 
         public int polR = 1;
+
+        //终端电阻
+        public string terminalResis = "2";
     }
 
     public class ETHERNETData

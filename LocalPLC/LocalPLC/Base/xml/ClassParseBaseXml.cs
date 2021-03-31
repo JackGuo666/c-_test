@@ -289,6 +289,7 @@ namespace LocalPLC.Base.xml
                                 {
                                     DeviceModuleElem moduleElem = new DeviceModuleElem();
                                     moduleElem.baseName = elemChild1.GetAttribute("basename");
+                                    moduleElem.terminalResis = elemChild1.GetAttribute("terminalresis");
                                     foreach (XmlNode xnChild11 in xnChild1.ChildNodes)
                                     {
                                         XmlElement elemChild11 = (XmlElement)xnChild11;

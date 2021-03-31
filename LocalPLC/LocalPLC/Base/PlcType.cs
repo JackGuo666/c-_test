@@ -81,7 +81,7 @@ namespace LocalPLC.Base
                 Serial_Line_1.Parent = pictureBox1;
                 Serial_Line_1.Tag = "COM1";
                 Ethernet_1.Parent = pictureBox1;
-                Ethernet_1.Tag = "ethif_0";
+                Ethernet_1.Tag = "NET1";
 
                 Serial_Line_2.Parent = pictureBox1;
                 Serial_Line_2.Tag = "COM2";
@@ -90,7 +90,7 @@ namespace LocalPLC.Base
                 //com1 comobject 从配置文件读
                 picArray.Add("COM1", Serial_Line_1);
                 picArray.Add("COM2", Serial_Line_2);
-                picArray.Add("ethif_0", Ethernet_1);
+                picArray.Add("NET1", Ethernet_1);
                 picArray.Add("DO", pictest1);
                 picArray.Add("DI", pictest2);
 

@@ -21,6 +21,11 @@ namespace LocalPLC.Base
         List<EnumElem> mediumList_ = null;
         List<EnumElem> polList_ = null;
         bool initDone = false;
+        
+        string HAS_RS232 = "0";
+        string HAS_RS485 = "1";
+        string HAS_BOTH = "2";
+        enum TERMINALRESIS { HAS_RS232, HAS_RS485, HAS_BOTH}
         public UserControlCom(string com, SERIALData serialValueData, bool configured = false)
         {
             InitializeComponent();
@@ -31,6 +36,17 @@ namespace LocalPLC.Base
             //configured为false，串口数据加载控制器模板数据
             configured_ = configured;
             setButtonEnable(false);
+
+
+            if(serialValueData_.terminalResis == HAS_BOTH)
+            {
+
+            }
+            else if(serialValueData_.terminalResis == HAS_RS232)
+            {
+                radioButton2.Enabled = false;
+            }
+
 
 
             initDone = false;
@@ -106,6 +122,15 @@ namespace LocalPLC.Base
                 radioButton1.Checked = true;
             }
 
+            foreach(var combo in comboBox1.Items)
+            {
+                var item = combo as ComboboxItem;
+                if(item.Value.ToString() == serialValueData_.polR.ToString())
+                {
+                    comboBox1.SelectedItem = item;
+                }
+            }
+
         }
 
         enum SerialMode { RS232, RS485};
@@ -131,11 +156,12 @@ namespace LocalPLC.Base
                 serialValueData_.rsMode = (int)SerialMode.RS485;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
-                foreach(var value in list)
+                foreach (var combo in comboBox1.Items)
                 {
-                    if(value.value == serialValueData_.rsMode.ToString())
+                    var item = combo as ComboboxItem;
+                    if (item.Text == comboBox1.SelectedItem.ToString())
                     {
-                        serialValueData_.polR = serialValueData_.rsMode;
+                        int.TryParse(item.Value.ToString(), out serialValueData_.polR);
                     }
                 }
 
@@ -145,11 +171,13 @@ namespace LocalPLC.Base
                 serialValueData_.rsMode = (int)SerialMode.RS232;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
-                foreach (var value in list)
+
+                foreach(var combo in comboBox1.Items)
                 {
-                    if (value.value == serialValueData_.rsMode.ToString())
+                    var item = combo as ComboboxItem;
+                    if(item.Text == comboBox1.SelectedItem.ToString())
                     {
-                        serialValueData_.polR = serialValueData_.rsMode;
+                        int.TryParse(item.Value.ToString(), out serialValueData_.polR);
                     }
                 }
             }
@@ -304,7 +332,7 @@ namespace LocalPLC.Base
                                         else
                                         {
                                             //已配置，不要设置默认值
-                                            continue;
+                                            //continue;
                                         }
 
                                         //在enumType里找到对应的描述
@@ -316,11 +344,21 @@ namespace LocalPLC.Base
                                             {
                                                 var polList = UserControlBase.dataManage.dicEnum[strPolarization].list;
                                                 polList_ = polList;
+
                                                 foreach (var pol in polList)
                                                 {
-                                                    if (pol.value == serialValueData_.polR.ToString())
+                                                    ComboboxItem item = new ComboboxItem();
+                                                    item.Value = pol.value;
+                                                    item.Text = pol.name;
+                                                    comboBox1.Items.Add(item);
+                                                }
+
+                                                foreach (var item in comboBox1.Items)
+                                                {
+                                                    ComboboxItem cur = (item as ComboboxItem);
+                                                    if ((item as ComboboxItem).Value.ToString() == serialValueData_.polR.ToString())
                                                     {
-                                                        textBox_Pol.Text = pol.name;
+                                                        comboBox1.SelectedItem = cur;
                                                     }
                                                 }
                                             }
@@ -484,30 +522,35 @@ namespace LocalPLC.Base
             //rs232
             if (radioButton1.Checked)
             {
-                serialValueData_.rsMode = (int)SerialMode.RS485;
+                //serialValueData_.rsMode = (int)SerialMode.RS485;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
                 foreach (var value in list)
                 {
-                    if (value.value == serialValueData_.rsMode.ToString())
+                    int temp = (int)SerialMode.RS485;
+                    if (value.value == temp.ToString())
                     {
-                        serialValueData_.polR = serialValueData_.rsMode;
-                        textBox_Pol.Text = value.name;
+                        //serialValueData_.polR = serialValueData_.rsMode;
+                        comboBox1.Text = value.name;
+                        comboBox1.Enabled = true;
                     }
                 }
 
             }
             else if (radioButton2.Checked)
             {
-                serialValueData_.rsMode = (int)SerialMode.RS232;
+                //serialValueData_.rsMode = (int)SerialMode.RS232;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
                 foreach (var value in list)
                 {
-                    if (value.value == serialValueData_.rsMode.ToString())
+                    int temp = (int)SerialMode.RS232;
+
+                    if (value.value.ToString() == temp.ToString())
                     {
-                        serialValueData_.polR = serialValueData_.rsMode;
-                        textBox_Pol.Text = value.name;
+                        //serialValueData_.polR = serialValueData_.rsMode;
+                        comboBox1.Text = value.name;
+                        comboBox1.Enabled = false;
                     }
                 }
             }
@@ -528,30 +571,35 @@ namespace LocalPLC.Base
         {
             if (radioButton1.Checked)
             {
-                serialValueData_.rsMode = (int)SerialMode.RS485;
+                //serialValueData_.rsMode = (int)SerialMode.RS485;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
                 foreach (var value in list)
                 {
-                    if (value.value == serialValueData_.rsMode.ToString())
+                    int temp = (int)SerialMode.RS485;
+                    if (value.value == temp.ToString())
                     {
-                        serialValueData_.polR = serialValueData_.rsMode;
-                        textBox_Pol.Text = value.name;
+                        //serialValueData_.polR = serialValueData_.rsMode;
+                        comboBox1.Text = value.name;
+                        comboBox1.Enabled = true;
                     }
                 }
 
             }
             else if (radioButton2.Checked)
             {
-                serialValueData_.rsMode = (int)SerialMode.RS232;
+                //serialValueData_.rsMode = (int)SerialMode.RS232;
                 //极化电阻
                 var list = UserControlBase.dataManage.dicEnum["SerialBus.ModPol"].list;
                 foreach (var value in list)
                 {
-                    if (value.value == serialValueData_.polR.ToString())
+                    int temp = (int)SerialMode.RS232;
+
+                    if (value.value.ToString() == temp.ToString())
                     {
-                        serialValueData_.polR = serialValueData_.polR;
-                        textBox_Pol.Text = value.name;
+                        //serialValueData_.polR = serialValueData_.rsMode;
+                        comboBox1.Text = value.name;
+                        comboBox1.Enabled = false;
                     }
                 }
             }
@@ -646,6 +694,26 @@ namespace LocalPLC.Base
                 if(serialValueData_.dataBit.ToString() != ttt.Value.ToString())
                 {
                     if (initDone)
+                    {
+                        setButtonEnable(true);
+                    }
+                }
+            }
+        }
+
+        private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ttt = comboBox1.SelectedItem as ComboboxItem;
+            if(ttt != null)
+            {
+                if(serialValueData_.polR.ToString() != ttt.Value.ToString())
+                {
+                    if(initDone)
                     {
                         setButtonEnable(true);
                     }

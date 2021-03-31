@@ -615,6 +615,8 @@ namespace LocalPLC.Base
                 {
                     SERIALData data = new SERIALData();
                     data.name = elem.baseName;
+                    data.terminalResis = elem.terminalResis;
+
                     UserControlCom com = new UserControlCom(elem.baseName, data, false);
                     comDic.Add(elem.baseName, com);
                     dataManage.serialDic.Add(elem.baseName, data);
@@ -645,6 +647,7 @@ namespace LocalPLC.Base
                 if (elem.moduleID == "ETHERNET")
                 {
                     ETHERNETData data = new ETHERNETData();
+                    data.name = elem.baseName;
                     UserControlEth eth = new UserControlEth(elem.baseName, data, dataManage.newControlerFlag);
                     ethDic.Add(elem.baseName, eth);
                     UserControlBase.dataManage.ethernetDic.Add(elem.baseName, data);

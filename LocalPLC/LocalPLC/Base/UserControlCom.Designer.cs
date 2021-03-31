@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.button_cancel = new System.Windows.Forms.Button();
-            this.textBox_Pol = new System.Windows.Forms.TextBox();
             this.button_valid = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -47,6 +46,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,14 +60,6 @@
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
             this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
-            // 
-            // textBox_Pol
-            // 
-            this.textBox_Pol.Enabled = false;
-            this.textBox_Pol.Location = new System.Drawing.Point(290, 351);
-            this.textBox_Pol.Name = "textBox_Pol";
-            this.textBox_Pol.Size = new System.Drawing.Size(81, 28);
-            this.textBox_Pol.TabIndex = 6;
             // 
             // button_valid
             // 
@@ -219,10 +211,10 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Controls.Add(this.button_cancel);
             this.panel1.Controls.Add(this.button_valid);
-            this.panel1.Controls.Add(this.textBox_Pol);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label6);
@@ -251,6 +243,16 @@
             this.richTextBox1.TabIndex = 7;
             this.richTextBox1.Text = "";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(290, 349);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(95, 26);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox1_KeyPress);
+            // 
             // UserControlCom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -273,7 +275,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_Com;
-        private System.Windows.Forms.TextBox textBox_Pol;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
@@ -285,5 +286,6 @@
         private System.Windows.Forms.Button button_valid;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
