@@ -15,6 +15,7 @@ namespace LocalPLC.Base
         public UserControlDO(string name)
         {
             InitializeComponent();
+            setButtonEnable(false);
             //this.DoubleBuffered = true;
             //this.DoubleBuffered = true;//设置本窗体
             //SetStyle(ControlStyles.UserPaint, true);
@@ -340,12 +341,101 @@ namespace LocalPLC.Base
         private void button1_Click_1(object sender, EventArgs e)
         {
             getDataFromUI();
-            utility.PrintInfo("DO数据生效!");
+            //utility.PrintInfo("DO数据生效!");
+            setButtonEnable(false);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
+            setButtonEnable(false);
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+
+        System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
+        System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^[\w]{0,32}$");
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = e.RowIndex;
+            var column = e.ColumnIndex;
+            if (row < 0 || column < 0)
+            {
+                return;
+            }
+
+            var cell = sender as DataGridView;
+            var value = dataGridView1.CurrentCell.Value.ToString();
+            var listDO = UserControlBase.dataManage.doList;
+            if(cell == null || listDO.Count == 0)
+            {
+                return;
+            }
+
+            if(column == columnVarIndex)
+            {
+                if(listDO[row].varName != value.ToString())
+                {
+                    if(!regStr.IsMatch(value))
+                    {
+                        MessageBox.Show("输入格式错误!");
+
+
+                        if(value.Length != 0)
+                        {
+                            text_Temp.Text = listDO[row].varName;
+                            dataGridView1.CurrentCell.Value = text_Temp.Text;
+                        }
+
+                        text_Temp.Focus();
+                        text_Temp.SelectionStart = text_Temp.TextLength;
+                        setButtonEnable(true);
+                    }
+                    else
+                    {
+                        char[] c = value.ToCharArray();
+                        if (c[0] >= '0' && c[0] <= '9')
+                        {
+                            MessageBox.Show("输入格式错误,第一个字符不可以为数字!");
+
+
+                            if (value.Length != 0)
+                            {
+                                text_Temp.Text = listDO[row].varName;
+                                dataGridView1.CurrentCell.Value = text_Temp.Text;
+                            }
+                            text_Temp.Focus();
+                            text_Temp.SelectionStart = text_Temp.TextLength;
+                            setButtonEnable(true);
+                        }
+                        setButtonEnable(true);
+                    }
+                }
+            }
+            else if(column == columnNoteIndex)
+            {
+
+
+                //注释
+                if(listDO[row].note != value.ToString())
+                {
+                    var note = value.ToString();
+                    if(!regStrNote.IsMatch(note))
+                    {
+                        MessageBox.Show("输入格式错误或超过输入个数限制!");
+                        text_Temp.Text = listDO[e.RowIndex].note;
+                        text_Temp.Focus();
+                        text_Temp.SelectionStart = text_Temp.TextLength;
+                        dataGridView1.CurrentCell.Value = text_Temp.Text;
+                    }
+                }
+
+                setButtonEnable(true);
+            }
         }
     }
 }

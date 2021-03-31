@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace LocalPLC.Base
 {
@@ -19,6 +20,7 @@ namespace LocalPLC.Base
         private ComboBox cmb_Temp = new ComboBox();
         //
         private RichTextBox text_Temp = new RichTextBox();
+        const int columnUsed = 0;
         const int columnVarIndex = 1;
         const int columnNoteIndex = 5;
         const int columnFilterIndex = 2;
@@ -26,6 +28,7 @@ namespace LocalPLC.Base
         const int columnAddressIndex = 4;
         public void initData()
         {
+            setButtonEnable(false);
             string diType = "";
             foreach(var modbule in UserControlBase.dataManage.deviceInfoElem.connector.moduleList)
             {
@@ -115,6 +118,7 @@ namespace LocalPLC.Base
 
         public void refreshData()
         {
+            setButtonEnable(false);
             dtData.Clear();
             foreach (var diData in UserControlBase.dataManage.diList)
             {
@@ -179,7 +183,8 @@ namespace LocalPLC.Base
             //DataTable dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
             dtData.Columns.Add("变量名");
-            dtData.Columns.Add("滤波");
+            var temp = dtData.Columns.Add("滤波");
+
             dtData.Columns.Add("通道名");
             dtData.Columns.Add("地址");
             dtData.Columns.Add("注释");
@@ -271,6 +276,8 @@ namespace LocalPLC.Base
         public UserControlDI(string name)
         {
             InitializeComponent();
+
+            //text_Temp.MaxLength = 5;
 
             //InitDatable();
             //InitTableData();
@@ -487,6 +494,12 @@ namespace LocalPLC.Base
             //}
         }
 
+
+
+
+  static private Regex r = new Regex("^[0-9]{1,10}$");       //这个可以写成静态的，就不用老是构造   
+        System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
+        System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^[\w]{0,32}$");
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (this.dataGridView1.CurrentCell == null)
@@ -496,10 +509,27 @@ namespace LocalPLC.Base
 
             if (this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
-                Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
-                string varName = dataGridView1.CurrentCell.Value.ToString();
+                //Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                //string varName = dataGridView1.CurrentCell.Value.ToString();
+                //if(!regStr.IsMatch(varName))
+                //{
+                //    text_Temp.Text = this.dataGridView1.CurrentCell.Value.ToString();
+                //}
 
-                text_Temp.Text = this.dataGridView1.CurrentCell.Value.ToString();
+
+                //text_Temp.Text = this.dataGridView1.CurrentCell.Value.ToString();
+            }
+            else if(this.dataGridView1.CurrentCell.ColumnIndex == columnFilterIndex)
+            {
+                //var str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                //if (!r.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
+                //{
+                //    MessageBox.Show("输入格式错误!");
+
+                //    var listDI = UserControlBase.dataManage.diList;
+                //    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = listDI[e.RowIndex].filterTime.ToString();
+                //    //dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                //}
             }
         }
 
@@ -515,9 +545,32 @@ namespace LocalPLC.Base
         }
 
         MyRichTextBox btn = new MyRichTextBox();
+        public DataGridViewTextBoxEditingControl CellEdit = null;
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
+            if(dataGridView1.CurrentCellAddress.X == columnFilterIndex)
+            {
+                //过滤时间
+                CellEdit = (DataGridViewTextBoxEditingControl)e.Control;
+                CellEdit.SelectAll();
+                CellEdit.KeyPress += Cells_KeyPress; //绑定事件
+            }
+        }
 
+
+        private void Cells_KeyPress(object sender, KeyPressEventArgs e) //自定义事件
+        {
+            if (this.dataGridView1.CurrentCellAddress.X == columnFilterIndex)//获取当前处于活动状态的单元格索引
+            {
+                if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+                {
+                    e.Handled = true;
+                }
+            }
+            else if(this.dataGridView1.CurrentCellAddress.X == columnVarIndex)
+            {
+
+            }
         }
 
         private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -561,7 +614,8 @@ namespace LocalPLC.Base
 
                 utility.PrintInfo(string.Format("{0} {1}", listDI[row].channelName, listDI[row].used));
                 listDI[row].varName = dr[(int)COLUMN_DI.VARNAME].ToString();
-                listDI[row].filterTime = int.Parse(dr[(int)COLUMN_DI.FITERTIME].ToString());
+                uint.TryParse(dr[(int)COLUMN_DI.FITERTIME].ToString(), out listDI[row].filterTime);
+
                 listDI[row].channelName = dr[(int)COLUMN_DI.CHANNELNAME].ToString();
                 listDI[row].address = dr[(int)COLUMN_DI.ADDRESS].ToString();
                 listDI[row].note = dr[(int)COLUMN_DI.NOTE].ToString();
@@ -574,11 +628,128 @@ namespace LocalPLC.Base
         private void button1_Click_1(object sender, EventArgs e)
         {
             getDataFromUI();
+            setButtonEnable(false);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
+            setButtonEnable(false);
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = e.RowIndex;
+            var column = e.ColumnIndex;
+            if(row < 0 || column < 0)
+            {
+                return;
+            }
+
+            var cell = sender as DataGridView;
+            var value = dataGridView1.CurrentCell.Value;
+            var listDI = UserControlBase.dataManage.diList;
+
+            if(cell == null || listDI.Count == 0)
+            {
+                return;
+            }
+
+            if (column == columnUsed)
+            {
+
+            }
+            else if (column == columnVarIndex)
+            {
+                //column 1变量名
+                if (listDI[row].varName.ToString() != value.ToString())
+                {
+                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                    string varName = dataGridView1.CurrentCell.Value.ToString();
+                    if (!regStr.IsMatch(varName))
+                    {
+                        MessageBox.Show("输入格式错误!");
+
+
+                        if(varName.Length != 0)
+                        {
+                            text_Temp.Text = listDI[e.RowIndex].varName;
+                            dataGridView1.CurrentCell.Value = text_Temp.Text;
+                        }
+                        text_Temp.Focus();
+                        text_Temp.SelectionStart = text_Temp.TextLength;
+                    }
+                    else
+                    {
+                        char[] c = varName.ToCharArray();
+                        if (c[0] >= '0' && c[0] <= '9')
+                        {
+                            MessageBox.Show("输入格式错误,第一个字符不可以为数字!");
+
+
+                            if (varName.Length != 0)
+                            {
+                                text_Temp.Text = listDI[row].varName;
+                                dataGridView1.CurrentCell.Value = text_Temp.Text;
+                            }
+
+                            text_Temp.Focus();
+                            text_Temp.SelectionStart = text_Temp.TextLength;
+                        }
+                    }
+
+                    setButtonEnable(true);
+                }
+            }
+            else if (column == columnFilterIndex)
+            {
+                //滤波时间
+                if (listDI[row].filterTime.ToString() != value.ToString())
+                {
+                    var str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                    if (!r.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
+                    {
+                        MessageBox.Show("输入格式错误!");
+
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = listDI[e.RowIndex].filterTime.ToString();
+                        //dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                    }
+                    setButtonEnable(true);
+                }
+            }
+            else if (column == columnChannelIndex)
+            {
+                //通道名
+            }
+            else if (column == columnAddressIndex)
+            {
+                //通道地址
+            }
+            else if (column == columnNoteIndex)
+            {
+                //注释
+                if (listDI[row].note.ToString() != value.ToString())
+                {
+                    Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
+                    string note = dataGridView1.CurrentCell.Value.ToString();
+                    if (!regStrNote.IsMatch(note))
+                    {
+                        MessageBox.Show("输入格式错误或超过输入个数限制!");
+                        text_Temp.Text = listDI[e.RowIndex].note;
+                        text_Temp.Focus();
+                        text_Temp.SelectionStart = text_Temp.TextLength;
+                        dataGridView1.CurrentCell.Value = text_Temp.Text;
+                    }
+
+                    setButtonEnable(true);
+                }
+            }
+
         }
     }
 }

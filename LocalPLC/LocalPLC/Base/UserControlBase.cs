@@ -330,7 +330,7 @@ namespace LocalPLC.Base
             elem.AppendChild(elemSerial);
             foreach (var comUI in comDic)
             {
-                comUI.Value.getDataFromUI();
+                //comUI.Value.getDataFromUI();
                 if(dataManage.serialDic.ContainsKey(comUI.Key))
                 {
                     dataManage.serialDic[comUI.Key] = comUI.Value.serialValueData_;
@@ -354,11 +354,11 @@ namespace LocalPLC.Base
             elem.AppendChild(elemEthnet);
             foreach (var etherUI in ethDic)
             {
-                bool ret = etherUI.Value.getDataFromUI();
-                if(!ret)
-                {
-                    break;
-                }
+                //bool ret = etherUI.Value.getDataFromUI();
+                //if(!ret)
+                //{
+                //    break;
+                //}
                 if (dataManage.ethernetDic.ContainsKey(etherUI.Key))
                 {
                     dataManage.ethernetDic[etherUI.Key] = etherUI.Value.ethernetValueData_;
@@ -614,6 +614,7 @@ namespace LocalPLC.Base
                 if(elem.moduleID == "SERIAL_LINE")
                 {
                     SERIALData data = new SERIALData();
+                    data.name = elem.baseName;
                     UserControlCom com = new UserControlCom(elem.baseName, data, false);
                     comDic.Add(elem.baseName, com);
                     dataManage.serialDic.Add(elem.baseName, data);

@@ -16,6 +16,7 @@ namespace LocalPLC.Base
         public ETHERNETData ethernetValueData_ = null;
         bool configured_ = false;
         string etherName = "";
+        bool initDone = false;
         public UserControlEth(string name, ETHERNETData ethernetValueData, bool configured = false)
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace LocalPLC.Base
             etherName = name;
             var v = ipAddressControl_ipaddr.IPAddress;
 
-
+            setButtonEnable(false);
 
             init();
             //数据管理里的网口数组 LocalPLC一般是1个网口
@@ -70,7 +71,8 @@ namespace LocalPLC.Base
             {
                 MessageBox.Show(string.Format("{1}模块{0}", e.Message, etherName));
             }
-            
+
+            initDone = true;
         }
 
         enum EthernetMode { FIXED, DHCP };
@@ -87,39 +89,65 @@ namespace LocalPLC.Base
                 ethernetValueData_.ipMode = (int)EthernetMode.FIXED;
             }
 
-            ethernetValueData_.ipAddress = ipAddressControl_ipaddr.Text.ToString();
-            ethernetValueData_.maskAddress = ipAddressControl_maskaddr.Text.ToString();
-            ethernetValueData_.gatewayAddress = ipAddressControl_gateway.Text.ToString();
-            ethernetValueData_.sntpServerIp = ipAddressControl_sntpaddr.Text.ToString();
-
-            if(!System.Net.IPAddress.TryParse(ethernetValueData_.ipAddress, out ip))
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_ipaddr.Text.ToString(), out ip))
             {
-                string str = string.Format("{0} IPAddress 无效!", ethernetValueData_.name);
-                utility.PrintError(str);
+                string str = string.Format("{0} IP地址 无效!", ethernetValueData_.name);
+                //utility.PrintError(str);
+                MessageBox.Show(str);
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
                 return false;
             }
-
-            if (!System.Net.IPAddress.TryParse(ethernetValueData_.maskAddress, out ip))
+            else
             {
-                string str = string.Format("{0} IP Address 无效!", ethernetValueData_.name);
-                utility.PrintError(str);
-                return false;
+                ethernetValueData_.ipAddress = ipAddressControl_ipaddr.Text.ToString();
             }
 
-            if (!System.Net.IPAddress.TryParse(ethernetValueData_.maskAddress, out ip))
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_maskaddr.Text.ToString(), out ip))
             {
-                string str = string.Format("{0} Mask Address 无效!", ethernetValueData_.name);
-                utility.PrintError(str);
+                string str = string.Format("{0} 子网掩码地址 无效!", ethernetValueData_.name);
+                //utility.PrintError(str);
+                MessageBox.Show(str);
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
                 return false;
             }
-
-            if (!System.Net.IPAddress.TryParse(ethernetValueData_.gatewayAddress, out ip))
+            else
             {
-                string str = string.Format("{0} Gateway Address 无效!", ethernetValueData_.name);
-                utility.PrintError(str);
+                ethernetValueData_.maskAddress = ipAddressControl_maskaddr.Text.ToString();
+            }
+
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_gateway.Text.ToString(), out ip))
+            {
+                string str = string.Format("{0} 网关地址 无效!", ethernetValueData_.name);
+                //utility.PrintError(str);
+
+                MessageBox.Show(str);
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
 
                 return false;
             }
+            else
+            {
+                ethernetValueData_.gatewayAddress = ipAddressControl_gateway.Text.ToString();
+            }
+
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_sntpaddr.Text.ToString(), out ip))
+            {
+                string str = string.Format("{0} sntp地址 无效!", ethernetValueData_.name);
+                //utility.PrintError(str);
+                MessageBox.Show(str);
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+
+                return false;
+            }
+            else
+            {
+                ethernetValueData_.sntpServerIp = ipAddressControl_sntpaddr.Text.ToString();
+            }
+
 
             if(checkBox_SNTP.Checked)
             {
@@ -131,17 +159,45 @@ namespace LocalPLC.Base
             }
 
             
-            if (!System.Net.IPAddress.TryParse(ethernetValueData_.sntpServerIp, out ip))
-            {
-                string str = string.Format("{0} sntp Address 无效!", ethernetValueData_.name);
-                utility.PrintError(str);
 
-                return false;
-            }
 
             return true;
         }
 
+        void refreshData()
+        {
+            textBox_eth.Text = ethernetValueData_.name;
+            //1 dhcp    0固定
+            if (ethernetValueData_.ipMode == 1)
+            {
+                radioButton_dhcp.Checked = true;
+                radioButton_fixed.Checked = false;
+            }
+            else
+            {
+                radioButton_dhcp.Checked = false;
+                radioButton_fixed.Checked = true;
+            }
+
+            //IP
+            ipAddressControl_ipaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.ipAddress);
+            //mask
+            ipAddressControl_maskaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.maskAddress);
+            //gateway
+            ipAddressControl_gateway.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
+            //sntp
+            ipAddressControl_sntpaddr.IPAddress = System.Net.IPAddress.Parse(ethernetValueData_.gatewayAddress);
+
+
+            if (ethernetValueData_.checkSNTP == 0)
+            {
+                checkBox_SNTP.Checked = false;
+            }
+            else
+            {
+                checkBox_SNTP.Checked = true;
+            }
+        }
 
         void init()
         {
@@ -266,6 +322,95 @@ namespace LocalPLC.Base
             if(textBox_eth.Text != str)
             {
                 //textBox1.Text = str;
+            }
+
+        }
+
+        private void radioButton_dhcp_CheckedChanged(object sender, EventArgs e)
+        {
+            if(radioButton_dhcp.Checked)
+            {
+                if(initDone)
+                {
+                    setButtonEnable(true);
+                }
+            }
+        }
+
+        private void radioButton_fixed_CheckedChanged(object sender, EventArgs e)
+        {
+            if(radioButton_fixed.Checked)
+            {
+                if(initDone)
+                {
+                    setButtonEnable(true);
+                }
+            }
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+        private void ipAddressControl_ipaddr_TextChanged(object sender, EventArgs e)
+        {
+            if(ipAddressControl_ipaddr.Text != ethernetValueData_.ipAddress)
+            {
+                if(initDone)
+                {
+
+                    
+                   setButtonEnable(true);
+                }
+            }
+        }
+
+        private void ipAddressControl_maskaddr_TextChanged(object sender, EventArgs e)
+        {
+            if(ipAddressControl_maskaddr.Text != ethernetValueData_.maskAddress)
+            {
+                if (initDone)
+                {
+                    setButtonEnable(true);
+                }
+            }
+        }
+
+        private void ipAddressControl_gateway_TextChanged(object sender, EventArgs e)
+        {
+            if(initDone)
+            {
+                setButtonEnable(true);
+            }
+        }
+
+        private void ipAddressControl_sntpaddr_TextChanged(object sender, EventArgs e)
+        {
+            if (initDone)
+            {
+                setButtonEnable(true);
+            }
+        }
+
+        private void button_valid_Click(object sender, EventArgs e)
+        {
+            setButtonEnable(false);
+            getDataFromUI();
+
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            refreshData();
+            setButtonEnable(false);
+        }
+
+        private void checkBox_SNTP_CheckedChanged(object sender, EventArgs e)
+        {
+            if(initDone)
+            {
+                setButtonEnable(true);
             }
 
         }

@@ -20,6 +20,7 @@ namespace LocalPLC.Base
         //string polKey = "ModPol";
         List<EnumElem> mediumList_ = null;
         List<EnumElem> polList_ = null;
+        bool initDone = false;
         public UserControlCom(string com, SERIALData serialValueData, bool configured = false)
         {
             InitializeComponent();
@@ -29,7 +30,11 @@ namespace LocalPLC.Base
             //configured为true，串口数据加载config_project
             //configured为false，串口数据加载控制器模板数据
             configured_ = configured;
-            if(configured_)
+            setButtonEnable(false);
+
+
+            initDone = false;
+            if (configured_)
             {
                 Init();
                 setDataToUI();
@@ -40,6 +45,8 @@ namespace LocalPLC.Base
             }
 
 
+
+            initDone = true;
             //数据管理里的串口数组
             //UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
 
@@ -74,7 +81,7 @@ namespace LocalPLC.Base
             foreach (var dataBit in collection)
             {
                 ComboboxItem combo = (ComboboxItem)dataBit;
-                if (combo.Value == combo.Value)
+                if (combo.Value.ToString() == serialValueData_.dataBit.ToString())
                 {
                     comboBox_Databit.SelectedItem = combo;
                 }
@@ -84,7 +91,7 @@ namespace LocalPLC.Base
             foreach (var stopBit in collectionStopBit)
             {
                 ComboboxItem combo = (ComboboxItem)stopBit;
-                if (combo.Value == combo.Value)
+                if (combo.Value.ToString() == serialValueData_.stopBit.ToString())
                 {
                     comboBox_StopBit.SelectedItem = combo;
                 }
@@ -504,6 +511,17 @@ namespace LocalPLC.Base
                     }
                 }
             }
+
+            if (initDone)
+            {
+                setButtonEnable(true);
+            }
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
@@ -534,6 +552,102 @@ namespace LocalPLC.Base
                     {
                         serialValueData_.polR = serialValueData_.polR;
                         textBox_Pol.Text = value.name;
+                    }
+                }
+            }
+
+            if (initDone)
+            {
+                setButtonEnable(true);
+            }
+        }
+
+        private void comboBox_Baud_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_Parity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_Databit_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_StopBit_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void button_valid_Click(object sender, EventArgs e)
+        {
+            getDataFromUI();
+            setButtonEnable(false);
+        }
+
+        private void comboBox_Baud_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(serialValueData_.baud.ToString() != comboBox_Baud.SelectedItem.ToString())
+            {
+                if (initDone)
+                {
+                    setButtonEnable(true);
+                }
+            }
+        }
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            setDataToUI();
+            setButtonEnable(false);
+        }
+
+        private void comboBox_Parity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ttt = comboBox_Parity.SelectedItem as ComboboxItem;
+            if(ttt != null)
+            {
+                if (serialValueData_.Parity.ToString() != ttt.Value.ToString())
+                {
+                    if(initDone)
+                    {
+                        setButtonEnable(true);
+                    }
+
+                }
+            }
+
+
+        }
+
+        private void comboBox_StopBit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ttt = comboBox_StopBit.SelectedItem as ComboboxItem;
+            if (ttt != null)
+            {
+                if (serialValueData_.stopBit.ToString() != ttt.Value.ToString())
+                {
+                    if (initDone)
+                    {
+                        setButtonEnable(true);
+                    }
+                }
+            }
+        }
+
+        private void comboBox_Databit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ttt = comboBox_StopBit.SelectedItem as ComboboxItem;
+            if (ttt != null)
+            {
+                if(serialValueData_.dataBit.ToString() != ttt.Value.ToString())
+                {
+                    if (initDone)
+                    {
+                        setButtonEnable(true);
                     }
                 }
             }

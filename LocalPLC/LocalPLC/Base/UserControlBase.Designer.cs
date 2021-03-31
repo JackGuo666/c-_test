@@ -158,6 +158,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.splitContainer1);
             this.Name = "UserControlBase";
             this.Size = new System.Drawing.Size(1069, 546);
