@@ -38,7 +38,7 @@ namespace LocalPLC
         public static string projectPath = "test";
         private static string projectName = null;
 
-        private LocalPLC.Base.xml.DataManageBase basedata { get; set; }
+        //private LocalPLC.Base.xml.DataManageBase basedata { get; set; }
         static int i = 0; 
 
         public empty e1;
@@ -626,10 +626,10 @@ namespace LocalPLC
             }
             
     }
-        public void getbasedata(ref LocalPLC.Base.xml.DataManageBase data)
-        {
-            basedata = data;
-        }
+        //public void getbasedata(ref LocalPLC.Base.xml.DataManageBase data)
+        //{
+        //    basedata = data;
+        //}
         public void defaultjson(JsonTextWriter writer)//基础配置
         {
            
@@ -750,52 +750,96 @@ namespace LocalPLC
             writer.WriteEndObject(); //} can节点下portcfg数组下节点1
             writer.WriteEndArray(); //] can节点下portcfg数组
             writer.WriteEndObject(); //} can节点
+
+
+
+            //======================高速计数器======================
             //HSC高速脉冲输入组
             writer.WritePropertyName("HSC");
             writer.WriteStartObject(); //{ HSC节点
             writer.WritePropertyName("grp_total");
-            writer.WriteValue(3);
+
+            int grpCount = baseData.getUsedHscCount();
+            writer.WriteValue(grpCount);
             writer.WritePropertyName("conf");
             writer.WriteStartArray(); //[ HSC下的conf数组
-            writer.WriteStartObject(); //{ HSC下的conf数组下节点1组合输入模式
-            writer.WritePropertyName("opr_mode");
-            writer.WriteValue("grouped");
-            writer.WritePropertyName("cnt_mode");
-            writer.WriteValue("quad");//正交编码
-            writer.WritePropertyName("grp_no");
-            writer.WriteValue(0);
-            writer.WritePropertyName("grp_member");
-            writer.WriteStartArray(); //[ grp_member 高速脉冲输入数组
-            writer.WriteValue("DI00");
-            writer.WriteValue("DI01");
-            writer.WriteEndArray(); //] grp_member 高速脉冲输入数组
-            writer.WriteEndObject(); //} HSC下的conf数组下节点1组合输入模式
-            writer.WriteStartObject(); //{ HSC下的conf数组下节点2单路脉冲计数模式1
-            writer.WritePropertyName("opr_mode");
-            writer.WriteValue("single");
-            writer.WritePropertyName("cnt_mode");
-            writer.WriteValue("");
-            writer.WritePropertyName("grp_no");//单路脉冲计数模式下，该项无意义
-            writer.WriteValue(128);
-            writer.WritePropertyName("grp_member");
-            writer.WriteStartArray(); //[ grp_member 单路脉冲计数组
-            writer.WriteValue("DI02");
-            writer.WriteEndArray(); //] grp_member 单路脉冲计数组
-            writer.WriteEndObject(); //} HSC下的conf数组下节点2单路脉冲计数模式1
-            writer.WriteStartObject(); //{ HSC下的conf数组下节点3单路脉冲计数模式2
-            writer.WritePropertyName("opr_mode");
-            writer.WriteValue("simple");
-            writer.WritePropertyName("cnt_mode");
-            writer.WriteValue("");
-            writer.WritePropertyName("grp_no");//单路脉冲计数模式下，该项无意义
-            writer.WriteValue(128);
-            writer.WritePropertyName("grp_member");
-            writer.WriteStartArray(); //[ grp_member 单路脉冲计数组
-            writer.WriteValue("DI03");
-            writer.WriteEndArray(); //] grp_member 单路脉冲计数组
-            writer.WriteEndObject(); //} HSC下的conf数组下节点3单路脉冲计数模式2
+
+
+            foreach(var hsc in baseData.hscList)
+            {
+                writer.WriteStartObject(); //{ HSC下的conf数组下节点1组合输入模式
+                if(hsc.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+                {
+                    writer.WritePropertyName("grp_no");
+                    writer.WriteValue(hsc.name);
+                    writer.WritePropertyName("opr_mode");
+                    writer.WriteValue(hsc.opr_mode);
+                    writer.WritePropertyName("phaseA");
+                    writer.WriteValue(hsc.pulsePort);
+                    writer.WritePropertyName("phaseB");
+                    writer.WriteValue(hsc.dirPort);
+                    writer.WritePropertyName("capture");
+                    if (hsc.captureChecked)
+                    {
+                        writer.WriteValue(hsc.capturePort);
+                    }
+                    writer.WritePropertyName("preset");
+                    if (hsc.presetChecked)
+                    {
+                        writer.WriteValue(hsc.presetPort);
+                    }
+                }
+                else if(hsc.type == (int)UserControlHighIn.TYPE.FREQUENCY)
+                {
+                    writer.WritePropertyName("grp_no");
+                    writer.WriteValue(hsc.name);
+                    writer.WritePropertyName("opr_mode");
+                    writer.WriteValue(hsc.opr_mode);
+                    writer.WritePropertyName("phaseA");
+                    writer.WriteValue(hsc.pulseFrequencyInputPort);
+                }
+
+                
+                writer.WriteEndObject(); //} HSC下的conf数组下节点3单路脉冲计数模式2
+            }
+            
+
+
+
+            //writer.WriteStartArray(); //[ grp_member 高速脉冲输入数组
+            //writer.WriteValue("DI00");
+            //writer.WriteValue("DI01");
+            //writer.WriteEndArray(); //] grp_member 高速脉冲输入数组
+            //writer.WriteEndObject(); //} HSC下的conf数组下节点1组合输入模式
+            //writer.WriteStartObject(); //{ HSC下的conf数组下节点2单路脉冲计数模式1
+            //writer.WritePropertyName("opr_mode");
+            //writer.WriteValue("single");
+            //writer.WritePropertyName("cnt_mode");
+            //writer.WriteValue("");
+            //writer.WritePropertyName("grp_no");//单路脉冲计数模式下，该项无意义
+            //writer.WriteValue(128);
+            //writer.WritePropertyName("grp_member");
+            //writer.WriteStartArray(); //[ grp_member 单路脉冲计数组
+            //writer.WriteValue("DI02");
+            //writer.WriteEndArray(); //] grp_member 单路脉冲计数组
+            //writer.WriteEndObject(); //} HSC下的conf数组下节点2单路脉冲计数模式1
+            //writer.WriteStartObject(); //{ HSC下的conf数组下节点3单路脉冲计数模式2
+            //writer.WritePropertyName("opr_mode");
+            //writer.WriteValue("simple");
+            //writer.WritePropertyName("cnt_mode");
+            //writer.WriteValue("");
+            //writer.WritePropertyName("grp_no");//单路脉冲计数模式下，该项无意义
+            //writer.WriteValue(128);
+            //writer.WritePropertyName("grp_member");
+            //writer.WriteStartArray(); //[ grp_member 单路脉冲计数组
+            //writer.WriteValue("DI03");
+            //writer.WriteEndArray(); //] grp_member 单路脉冲计数组
+
+
             writer.WriteEndArray();//] HSC下的conf数组
             writer.WriteEndObject();//} HSC节点
+
+
             //PTO高速脉冲输出组
             writer.WritePropertyName("PTO");
             writer.WriteStartObject(); //{ PTO节点
@@ -818,6 +862,8 @@ namespace LocalPLC
             writer.WriteEndObject(); //} PTO conf数组下节点组合脉冲输入模式
             writer.WriteEndArray(); //]PTO下conf数组
             writer.WriteEndObject(); //} PTO节点
+            //==========================================================
+
             //general_io
             
             writer.WritePropertyName("general_io");
