@@ -626,6 +626,7 @@ namespace LocalPLC
                                     }
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
                                                     "DI变量", "", di.address);
+                                    resetvariable.SetAttribute(20, di.channelName);
                                 }
                             }
 
@@ -652,6 +653,7 @@ namespace LocalPLC
 
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
                                                     "DO变量", "", dout.address);
+                                    resetvariable.SetAttribute(20, dout.channelName);
                                 }
                             }
                         }

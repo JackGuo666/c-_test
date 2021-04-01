@@ -342,9 +342,15 @@ namespace LocalPLC.Base
             }
         }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
         {
+
             if(this.dataGridView1.CurrentCell == null)
             {
                 return;
@@ -701,6 +707,20 @@ namespace LocalPLC.Base
                             text_Temp.Focus();
                             text_Temp.SelectionStart = text_Temp.TextLength;
                         }
+                        else
+                        {
+                            bool ret = UserControlBase.dataManage.checkVarName(varName, listDI[row].channelName);
+                            
+                            if(!ret)
+                            {
+                                MessageBox.Show("变量名字重复!");
+                                text_Temp.Text = listDI[row].varName;
+                                dataGridView1.CurrentCell.Value = text_Temp.Text;
+
+                                text_Temp.Focus();
+                                text_Temp.SelectionStart = text_Temp.TextLength;
+                        }
+                        }
                     }
 
                     setButtonEnable(true);
@@ -751,5 +771,23 @@ namespace LocalPLC.Base
             }
 
         }
+
+        private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
+        {
+            //text_Temp.Hide();
+            //dataGridView1_CurrentCellChanged(null, null);
+            //text_Temp.Show();
+
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
+        }
+
+        private void dataGridView1_Resize(object sender, EventArgs e)
+        {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
+        }
+
+
     }
 }

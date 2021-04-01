@@ -30,6 +30,7 @@ namespace LocalPLC.Base
         void refreshData();
 
         void refreshDIData();
+        void refreshDOData();
     }
 
     public partial class LocalPLC24P : UserControl, IWeapon
@@ -123,6 +124,11 @@ namespace LocalPLC.Base
         public void refreshDIData()
         {
             di.refreshData();
+        }
+
+        public void refreshDOData()
+        {
+            dout.refreshData();
         }
 
         void initDIDO()
