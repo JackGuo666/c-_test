@@ -49,10 +49,11 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.button_cancel);
-            this.panel1.Controls.Add(this.button_valid);
             this.panel1.Controls.Add(this.checkBox_SNTP);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label5);
@@ -66,16 +67,15 @@
             this.panel1.Controls.Add(this.ipAddressControl_ipaddr);
             this.panel1.Controls.Add(this.textBox_eth);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1050, 438);
+            this.panel1.Size = new System.Drawing.Size(751, 471);
             this.panel1.TabIndex = 4;
             // 
             // button_cancel
             // 
             this.button_cancel.BackColor = System.Drawing.Color.White;
-            this.button_cancel.Location = new System.Drawing.Point(129, 3);
+            this.button_cancel.Location = new System.Drawing.Point(126, 3);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(120, 35);
             this.button_cancel.TabIndex = 11;
@@ -86,7 +86,7 @@
             // button_valid
             // 
             this.button_valid.BackColor = System.Drawing.Color.White;
-            this.button_valid.Location = new System.Drawing.Point(3, 3);
+            this.button_valid.Location = new System.Drawing.Point(0, 3);
             this.button_valid.Name = "button_valid";
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 12;
@@ -256,9 +256,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.button_valid);
             this.Name = "UserControlEth";
-            this.Size = new System.Drawing.Size(1050, 438);
+            this.Size = new System.Drawing.Size(757, 523);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

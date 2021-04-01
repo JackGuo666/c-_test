@@ -52,7 +52,7 @@
             // button_cancel
             // 
             this.button_cancel.BackColor = System.Drawing.Color.White;
-            this.button_cancel.Location = new System.Drawing.Point(129, 0);
+            this.button_cancel.Location = new System.Drawing.Point(126, 4);
             this.button_cancel.Name = "button_cancel";
             this.button_cancel.Size = new System.Drawing.Size(120, 35);
             this.button_cancel.TabIndex = 2;
@@ -63,7 +63,7 @@
             // button_valid
             // 
             this.button_valid.BackColor = System.Drawing.Color.White;
-            this.button_valid.Location = new System.Drawing.Point(3, -1);
+            this.button_valid.Location = new System.Drawing.Point(0, 3);
             this.button_valid.Name = "button_valid";
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 3;
@@ -208,11 +208,12 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.button_cancel);
-            this.panel1.Controls.Add(this.button_valid);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label6);
@@ -227,10 +228,9 @@
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.comboBox_StopBit);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(654, 469);
+            this.panel1.Size = new System.Drawing.Size(895, 623);
             this.panel1.TabIndex = 1;
             // 
             // comboBox1
@@ -247,10 +247,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.button_cancel);
+            this.Controls.Add(this.button_valid);
             this.Name = "UserControlCom";
-            this.Size = new System.Drawing.Size(654, 469);
+            this.Size = new System.Drawing.Size(901, 670);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
