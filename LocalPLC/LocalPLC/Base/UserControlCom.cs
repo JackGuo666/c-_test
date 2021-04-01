@@ -446,7 +446,7 @@ namespace LocalPLC.Base
                                 foreach(var dataBit in collection)
                                 {
                                     ComboboxItem combo = (ComboboxItem)dataBit;
-                                    if(combo.Value == combo.Value)
+                                    if(combo.Value.ToString() == /*combo.Value*/ serialValueData_.dataBit.ToString())
                                     {
                                         comboBox_Databit.SelectedItem = combo;
                                     }
@@ -456,7 +456,7 @@ namespace LocalPLC.Base
                                 foreach (var stopBit in collectionStopBit)
                                 {
                                     ComboboxItem combo = (ComboboxItem)stopBit;
-                                    if (combo.Value == combo.Value)
+                                    if (combo.Value.ToString() == /*combo.Value*/ serialValueData_.stopBit.ToString())
                                     {
                                         comboBox_StopBit.SelectedItem = combo;
                                     }

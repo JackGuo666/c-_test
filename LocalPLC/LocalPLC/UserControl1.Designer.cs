@@ -41,7 +41,7 @@
             treeNode4,
             treeNode5});
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("ModbusTCP-Client", 16, 16);
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("ModbusTCP-Server", 15, 15);
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Modbus-Server", 15, 15);
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("ModbusRTU-Master", 17, 17);
             System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Modbus", 14, 14, new System.Windows.Forms.TreeNode[] {
             treeNode7,
@@ -152,7 +152,7 @@
             treeNode8.Name = "节点01";
             treeNode8.SelectedImageIndex = 15;
             treeNode8.Tag = "MODBUS_SERVER";
-            treeNode8.Text = "ModbusTCP-Server";
+            treeNode8.Text = "Modbus-Server";
             treeNode9.ImageIndex = 17;
             treeNode9.Name = "节点02";
             treeNode9.SelectedImageIndex = 17;

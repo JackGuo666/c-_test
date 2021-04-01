@@ -213,7 +213,7 @@ namespace LocalPLC.ModbusMaster
         }
         public void saveJson(JsonTextWriter writer)
         {
-            //添加modbusslave节点
+            //添加modbusmaster节点
             ModbusMasterManage master = masterManage;
             if (master.modbusMastrList.Count > 0)
             {
@@ -232,6 +232,7 @@ namespace LocalPLC.ModbusMaster
 
                     writer.WriteStartObject();//{  master节点下device
                     writer.WritePropertyName("port");
+                    //if(data.transformChannel == "ser_port")
                     writer.WriteValue(data.transformChannel);
                     writer.WritePropertyName("response_timeout");
                     writer.WriteValue(data.responseTimeout);
@@ -264,7 +265,15 @@ namespace LocalPLC.ModbusMaster
 
                         writer.WriteStartObject();//{  conf数组下节点，从设备信息
                         writer.WritePropertyName("slave_id");
-                        writer.WriteValue(dataDev.slaveAddr);
+                        try
+                        {
+                            int sid = Convert.ToInt32(dataDev.slaveAddr);
+                        }
+                        catch
+                        {
+                            return;
+                        }
+                        writer.WriteValue(Convert.ToInt32(dataDev.slaveAddr));
 
 
                         writer.WritePropertyName("timeout_cnt_max");
@@ -327,7 +336,7 @@ namespace LocalPLC.ModbusMaster
                     writer.WriteEndObject();//} client节点下device
                 }
                 writer.WriteEndArray();//] client节点下conf数组
-                writer.WriteEndObject();//添加}  client节点
+                writer.WriteEndObject();//添加}  master节点
             }
         }
 
@@ -633,9 +642,9 @@ namespace LocalPLC.ModbusMaster
 
                     modbusmasterDeviceform form = new modbusmasterDeviceform();
                     ModbusMasterData data = masterManage.modbusMastrList.ElementAt(e.RowIndex);
-
+                    ModbusMasterManage a = masterManage;
                     int masterStartAddr = masterManage.getMasterStartAddr();
-                    form.getMasterData(ref data, masterStartAddr);
+                    form.getMasterData(ref data, masterStartAddr,a,e.RowIndex);
                     form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
                 }
@@ -689,23 +698,30 @@ namespace LocalPLC.ModbusMaster
 
         private void button_delete_Click(object sender, EventArgs e)
         {
-            // int row = dataGridView1.SelectedRows[0];
-            if (dataGridView1.SelectedRows.Count <= 0)
+            try
             {
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
-                // show the output window and activate the "Infos" tab
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+                int n = dataGridView1.SelectedCells[0].RowIndex;
+                if (dataGridView1.SelectedRows.Count <= 0)
+                {
+                    LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                    // show the output window and activate the "Infos" tab
+                    LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
 
+                    MessageBox.Show("请选择一整行进行删除");
+                    return;
+                }
 
-                return;
+                for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+                {
+                    int index = dataGridView1.SelectedRows[i].Index;
+
+                    dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                    masterManage.modbusMastrList.RemoveAt(index);
+                }
             }
-
-            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+            catch
             {
-                int index = dataGridView1.SelectedRows[i].Index;
-
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                masterManage.modbusMastrList.RemoveAt(index);
+                return;
             }
         }
 

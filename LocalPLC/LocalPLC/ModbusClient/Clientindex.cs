@@ -251,7 +251,7 @@ namespace LocalPLC.ModbusClient
 
                     writer.WriteStartObject();//{  client节点下device
                     writer.WritePropertyName("port");
-                    writer.WriteValue("ethif_" + data.ID.ToString());
+                    writer.WriteValue(data.transformChannel);
                     //writer.WritePropertyName("response_timeout");
                     //writer.WriteValue(data.responseTimeout);
                     string mode = null;
@@ -389,25 +389,36 @@ namespace LocalPLC.ModbusClient
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            // int row = dataGridView1.SelectedRows[0];
-            if (dataGridView1.SelectedRows.Count <= 0)
+            try
             {
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
-                // show the output window and activate the "Infos" tab
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+                int row = dataGridView1.SelectedCells[0].RowIndex;
+                if (dataGridView1.SelectedRows.Count != 1)
+                {
+                    MessageBox.Show("请选择一整行进行删除");
+                    return;
+                    LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                    // show the output window and activate the "Infos" tab
+                    LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
 
 
+
+                }
+                else
+                {
+                    for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+                    {
+                        int index = dataGridView1.SelectedRows[i].Index;
+
+                        dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                        clientManage.modbusClientList.RemoveAt(index);
+                    }
+                    refreshID();
+                }
+            }
+            catch
+            {
                 return;
             }
-
-            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
-            {
-                int index = dataGridView1.SelectedRows[i].Index;
-
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                clientManage.modbusClientList.RemoveAt(index);
-            }
-            refreshID();
         }
 
         //UserControl1 user1 = new UserControl1();
@@ -497,15 +508,17 @@ namespace LocalPLC.ModbusClient
                     ModbusClient.ClientChannel cc1 = new ClientChannel();
                     //modbusclientDeviceform form = new modbusmasterDeviceform();
                     ModbusClientData data = clientManage.modbusClientList.ElementAt(e.RowIndex);
+                    //ModbusClientManage datamanage = clientManage;
                     this.label1.Text = this.dataGridView1.SelectedRows[0].Index.ToString();
                     
                     mct1.ClientNumber(this.label1.Text);
                     
-                    mct1.getClientData(ref data);
+                    mct1.getClientData(ref data,clientManage,e.RowIndex);
                     //cc1.ClientNumber(this.label1.Text);
                     // cc1.getClientData(ref data);
                     mct1.StartPosition = FormStartPosition.CenterScreen;
                     mct1.ShowDialog();
+                    
                 }
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "info")
@@ -514,7 +527,7 @@ namespace LocalPLC.ModbusClient
                 ModbusClientData data = clientManage.modbusClientList[index];
                 int devcount = data.modbusDeviceList.Count;
                 int channelcount = 0;
-                int [] devchannelnum = new int[8];
+                int [] devchannelnum = new int[16];
                 for (int i = 0; i<devcount;i++)
                 {
                     channelcount += data.modbusDeviceList[i].modbusChannelList.Count;

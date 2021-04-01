@@ -55,12 +55,13 @@
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.ButtonShadow;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 3);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(368, 401);
+            this.dataGridView1.Size = new System.Drawing.Size(558, 605);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -133,12 +134,13 @@
             this.length,
             this.trigger_offset,
             this.error_offset});
+            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView2.GridColor = System.Drawing.SystemColors.ButtonShadow;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 6);
+            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(1026, 394);
+            this.dataGridView2.Size = new System.Drawing.Size(1548, 605);
             this.dataGridView2.TabIndex = 7;
             // 
             // Devname
@@ -163,7 +165,7 @@
             this.msg_type.HeaderText = "功能码";
             this.msg_type.MinimumWidth = 8;
             this.msg_type.Name = "msg_type";
-            this.msg_type.Width = 98;
+            this.msg_type.Width = 91;
             // 
             // startaddr
             // 
@@ -207,7 +209,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Name = "Clientindex";
-            this.Size = new System.Drawing.Size(1414, 449);
+            this.Size = new System.Drawing.Size(1703, 606);
             this.Load += new System.EventHandler(this.Clientindex_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);

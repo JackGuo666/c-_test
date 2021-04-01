@@ -12,28 +12,28 @@ namespace LocalPLC.ModbusServer
             //coilCount = 0;
         }
 
-        public int coilCount;
+        public int coilCount = 0;
         public string coilIoAddrStart = "1";
         public string coilIoAddrEnd;
         public string coilIoVarNameIn;
         public string coilIoVarNameOut;
         public int iocoilstart;
 
-        public int holdingCount;
+        public int holdingCount = 0;
         public string holdingIoAddrStart = "40001";
         public string holdingIoAddrEnd;
         public string holdingVarNameIn;
         public string holdingVarNameOut;
         public int mholdingstart;
 
-        public int decreteCount;
+        public int decreteCount = 0;
         public string decreteIoAddrStart = "10001";
         public string decreteIoAddrEnd;
         public string decreteVarNameIn;
         public string decreteVarNameOut;
         public string mdiscretestart;
 
-        public int statusCount;
+        public int statusCount = 0;
         public string statusIoAddrStart = "30001";
         public string statusIoAddrEnd;
         public string statusVarNameIn;
@@ -47,18 +47,19 @@ namespace LocalPLC.ModbusServer
         public int transformMode;  //0 TCP 1 UDP
         public int deviceAddr = 0;
         public int transform;
-        public int transformport;
+        public int transformport = -1;
+        public string transformportdescribe;
         public bool ipfixed = false;
         //public int connectnum = 1;
         public int slavetansformMode; //0 RTU 1ASCII
-        public int port = 502;
+        public int port = 0;
         public int maxconnectnumber = 1;
         public int ipconnect; //0 false 1true
         public bool isready = true; // 冲突检测，是否可以生成配置文件
-        public int ip0, ip1 , ip2 , ip3;
-        public int ip10, ip11, ip12, ip13;
-        public int ip20, ip21, ip22, ip23;
-        public int ip30, ip31, ip32, ip33;
+        public int ip0=255, ip1=255 , ip2=255 , ip3=255;
+        public int ip10=255, ip11=255, ip12=255, ip13=255;
+        public int ip20=255, ip21=255, ip22=255, ip23=255;
+        public int ip30=255, ip31=255, ip32=255, ip33=255;
 
     }
 
