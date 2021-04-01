@@ -695,11 +695,32 @@ namespace LocalPLC
             {
                 writer.WriteStartObject(); //{ 串口portcfg 数组下节点1
                 writer.WritePropertyName("namestr");
-                writer.WriteValue(serialname);
+                if (serialname == "COM1")
+                { writer.WriteValue("ser_port7"); }
+                else if (serialname == "COM2")
+                { writer.WriteValue("ser_port1"); }
+                else if (serialname == "COM3")
+                { writer.WriteValue("ser_port0"); }
+                else if (serialname == "COM4")
+                { writer.WriteValue("ser_port2"); }
+                else if (serialname == "COM5")
+                { writer.WriteValue("ser_port3"); }
+                else if (serialname == "COM6")
+                { writer.WriteValue("ser_port8"); }
+                else
+                { writer.WriteValue(""); }
+
                 writer.WritePropertyName("baudrate");
                 writer.WriteValue(baseData.serialDic[serialname].baud);
                 writer.WritePropertyName("parity");
-                writer.WriteValue(baseData.serialDic[serialname].Parity);
+                if(baseData.serialDic[serialname].Parity == 0)
+                { writer.WriteValue("none"); }
+                else if (baseData.serialDic[serialname].Parity == 1)
+                { writer.WriteValue("odd"); }
+                else if (baseData.serialDic[serialname].Parity == 2)
+                { writer.WriteValue("even"); }
+                else
+                { writer.WriteValue(""); }
                 writer.WritePropertyName("data_bits");
                 writer.WriteValue(baseData.serialDic[serialname].dataBit);
                 writer.WritePropertyName("stop_bits");
@@ -724,7 +745,10 @@ namespace LocalPLC
             {
                 writer.WriteStartObject(); //{ 网口portcfg 数组下节点1
                 writer.WritePropertyName("namestr");
-                writer.WriteValue(ethname);
+                if (ethname == "NET1")
+                { writer.WriteValue("ethif_0"); }
+                else
+                { writer.WriteValue("") }
                 writer.WritePropertyName("mac");
                 writer.WriteValue("aa-aa-aa-aa-aa-aa");
                 writer.WritePropertyName("is_dhcp");
