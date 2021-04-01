@@ -45,6 +45,44 @@ namespace LocalPLC.Base
             return dataManage;
         }
 
+        public bool modifyDINameByKey(string key, string modifyName)
+        {
+            var diList = dataManage.diList;
+            foreach (var di in diList)
+            {
+
+                if(di.channelName == key)
+                {
+                    if(di.varName != modifyName)
+                    {
+                        di.varName = modifyName;
+                        refreshDIUserBaseUI();
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool modifyDONameByKey(string key, string modifyName)
+        {
+            var doList = dataManage.doList;
+            foreach (var dout in doList)
+            {
+
+                if (dout.channelName == key)
+                {
+                    dout.varName = modifyName;
+                    refreshDOUserBaseUI();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         public bool checkVarName(String varName)
         {
             var diList = dataManage.diList;
@@ -74,6 +112,15 @@ namespace LocalPLC.Base
             if (curWeaponType != null)
             {
                 curWeaponType.refreshDIData();
+            }
+
+        }
+
+        public void refreshDOUserBaseUI()
+        {
+            if (curWeaponType != null)
+            {
+                curWeaponType.refreshDOData();
             }
 
         }
