@@ -359,6 +359,20 @@ namespace LocalPLC.ModbusServer
                             {
                                 writer.WriteStartObject(); // { 串口数组下设备左括号
                                 writer.WritePropertyName("port");
+                                if (data_.dataDevice_.transformportdescribe == "COM1")
+                                { writer.WriteValue("ser_port7"); }
+                                else if (data_.dataDevice_.transformportdescribe == "COM2")
+                                { writer.WriteValue("ser_port1"); }
+                                else if (data_.dataDevice_.transformportdescribe == "COM3")
+                                { writer.WriteValue("ser_port0"); }
+                                else if (data_.dataDevice_.transformportdescribe == "COM4")
+                                { writer.WriteValue("ser_port2"); }
+                                else if (data_.dataDevice_.transformportdescribe == "COM5")
+                                { writer.WriteValue("ser_port3"); }
+                                else if (data_.dataDevice_.transformportdescribe == "COM6")
+                                { writer.WriteValue("ser_port8"); }
+                                else
+                                { writer.WriteValue(""); }
                                 writer.WriteValue(data_.dataDevice_.transformportdescribe);
                                 writer.WritePropertyName("mode");
                                 if (data_.dataDevice_.slavetansformMode == 0)

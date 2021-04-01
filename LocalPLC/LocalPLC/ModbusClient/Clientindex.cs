@@ -251,7 +251,10 @@ namespace LocalPLC.ModbusClient
 
                     writer.WriteStartObject();//{  client节点下device
                     writer.WritePropertyName("port");
-                    writer.WriteValue(data.transformChannel);
+                    if (data.transformChannel == "NET1") 
+                    { writer.WriteValue("ethif_0"); }
+                    else
+                    { writer.WriteValue(""); }
                     //writer.WritePropertyName("response_timeout");
                     //writer.WriteValue(data.responseTimeout);
                     string mode = null;
