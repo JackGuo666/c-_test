@@ -45,7 +45,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -64,7 +63,7 @@
             // button_valid
             // 
             this.button_valid.BackColor = System.Drawing.Color.White;
-            this.button_valid.Location = new System.Drawing.Point(3, 0);
+            this.button_valid.Location = new System.Drawing.Point(3, -1);
             this.button_valid.Name = "button_valid";
             this.button_valid.Size = new System.Drawing.Size(120, 35);
             this.button_valid.TabIndex = 3;
@@ -212,7 +211,6 @@
             this.panel1.AutoScroll = true;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.richTextBox1);
             this.panel1.Controls.Add(this.button_cancel);
             this.panel1.Controls.Add(this.button_valid);
             this.panel1.Controls.Add(this.label1);
@@ -234,14 +232,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(654, 469);
             this.panel1.TabIndex = 1;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(70, 14);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(8, 8);
-            this.richTextBox1.TabIndex = 7;
-            this.richTextBox1.Text = "";
             // 
             // comboBox1
             // 
@@ -285,7 +275,6 @@
         private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.Button button_valid;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ComboBox comboBox1;
     }
 }
