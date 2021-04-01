@@ -340,31 +340,39 @@ namespace LocalPLC.ModbusMaster
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
             {
-                bool number = isNumber(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-                if(number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
+                try
                 {
-                    int flag = 0;
-                    for (int i =0;i< masterData_.modbusDeviceList.Count;i++)
+                    bool number = isNumber(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+
+                    if (number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
                     {
-                        if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr)
+                        int flag = 0;
+                        for (int i = 0; i < masterData_.modbusDeviceList.Count; i++)
                         {
-                            flag++;
+                            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr)
+                            {
+                                flag++;
+                            }
                         }
-                    }
-                    if (flag == 0)
-                    {
-                        //masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                        if (flag == 0)
+                        {
+                            //masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                        }
+                        else
+                        {
+                            MessageBox.Show("从站地址有重复，请重新设置");
+                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("从站地址有重复，请重新设置");
+                        MessageBox.Show("请输入1-100的数字作为从站地址");
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
                     }
                 }
-                else 
+                catch
                 {
-                    MessageBox.Show("请输入1-100的数字作为从站地址");
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                    return;
                 }
             }
             //else if(e.ColumnIndex == (int)COLUMNNAME.REPONSE_TIMEOUT)

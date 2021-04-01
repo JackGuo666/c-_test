@@ -748,7 +748,7 @@ namespace LocalPLC
                 if (ethname == "NET1")
                 { writer.WriteValue("ethif_0"); }
                 else
-                { writer.WriteValue("") }
+                { writer.WriteValue(""); }
                 writer.WritePropertyName("mac");
                 writer.WriteValue("aa-aa-aa-aa-aa-aa");
                 writer.WritePropertyName("is_dhcp");
