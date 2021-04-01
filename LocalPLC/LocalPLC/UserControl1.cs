@@ -653,6 +653,7 @@ namespace LocalPLC
            
             List<string> serialnames = new List<string> ();
             List<string> ethnames = new List<string> ();
+            
             int a = 0;
             LocalPLC.Base.xml.DataManageBase baseData = null;
             UC.getDataManager(ref baseData);
@@ -698,7 +699,7 @@ namespace LocalPLC
                 writer.WritePropertyName("baudrate");
                 writer.WriteValue(baseData.serialDic[serialname].baud);
                 writer.WritePropertyName("parity");
-                writer.WriteValue("none");
+                writer.WriteValue(baseData.serialDic[serialname].Parity);
                 writer.WritePropertyName("data_bits");
                 writer.WriteValue(baseData.serialDic[serialname].dataBit);
                 writer.WritePropertyName("stop_bits");

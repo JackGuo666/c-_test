@@ -232,8 +232,20 @@ namespace LocalPLC.ModbusMaster
 
                     writer.WriteStartObject();//{  master节点下device
                     writer.WritePropertyName("port");
-                    //if(data.transformChannel == "ser_port")
-                    writer.WriteValue(data.transformChannel);
+                    if (data.transformChannel == "COM1")
+                    { writer.WriteValue("ser_port7"); }
+                    else if (data.transformChannel == "COM2")
+                    { writer.WriteValue("ser_port1"); }
+                    else if (data.transformChannel == "COM3")
+                    { writer.WriteValue("ser_port0"); }
+                    else if (data.transformChannel == "COM4")
+                    { writer.WriteValue("ser_port2"); }
+                    else if (data.transformChannel == "COM5")
+                    { writer.WriteValue("ser_port3"); }
+                    else if (data.transformChannel == "COM6")
+                    { writer.WriteValue("ser_port8"); }
+                    else
+                    { writer.WriteValue(""); }
                     writer.WritePropertyName("response_timeout");
                     writer.WriteValue(data.responseTimeout);
                     string mode = null;
