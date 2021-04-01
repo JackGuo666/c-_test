@@ -112,7 +112,7 @@ namespace LocalPLC
         //modbus总起始地址
         public static int modbusAddr = 10000;
         //每个单位间隔1000字节
-        public static int modbusMudule= 1000;
+        public static int modbusMudule= 2000;
         public static void PrintBuild(string str)
         {
             //for (int i = 0; i < LocalPLC.UserControl1.multiprogApp.OutputWindows.Count; i++)
@@ -672,7 +672,9 @@ namespace LocalPLC
             }
             catch(Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("变量内存冲突!");
+                //System.Windows.Forms.MessageBox.Show("变量内存冲突!");
+                System.Windows.Forms.MessageBox.Show(e.ToString());
+
             }
 
 

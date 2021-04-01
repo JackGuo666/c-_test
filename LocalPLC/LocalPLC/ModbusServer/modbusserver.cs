@@ -552,7 +552,9 @@ namespace LocalPLC.ModbusServer
             textBox29.ReadOnly = true;
             textBox22.Text = dataManager.listServer[0].dataDevice_.IOAddrLength.ToString();
             textBox29.Text = dataManager.listServer[0].dataDevice_.shmlength.ToString();
-            textBox23.Text = (502 + data_.ID).ToString();
+            if(data_.dataDevice_.port == 0)
+            data_.dataDevice_.port = 502 + data_.ID;
+            textBox23.Text = data_.dataDevice_.port.ToString();
 
         }
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -636,7 +638,7 @@ namespace LocalPLC.ModbusServer
                 int port = Convert.ToInt32(textBox23.Text);
                 for(int i = 0;i<dataManager.listServer.Count;i++)
                 {
-                    if (port == dataManager.listServer[i].dataDevice_.port)
+                    if (port == dataManager.listServer[i].dataDevice_.port && i!=SID && port != 0)
                     {
                         flag++;
                     }
@@ -656,206 +658,213 @@ namespace LocalPLC.ModbusServer
 
         private void textBox24_TextChanged(object sender, EventArgs e)
         {
-            bool number = isNumber(textBox24.Text);
-            if (radioButton3.Checked == true && number == true)
+            try
             {
-                int connectnumber = Convert.ToInt32(textBox24.Text);
-                switch (connectnumber)
+                bool number = isNumber(textBox24.Text);
+                if (radioButton3.Checked == true && number == true)
                 {
-                    case 1:
-                        {
-                            textBox25.ReadOnly = false;
-                            textBox25.Enabled = true;
-                            textBox26.ReadOnly = false;
-                            textBox26.Enabled = true;
-                            textBox27.ReadOnly = false;
-                            textBox27.Enabled = true;
-                            textBox28.ReadOnly = false;
-                            textBox28.Enabled = true;
-                            textBox9.ReadOnly = true;
-                            textBox9.Enabled = false;
-                            textBox10.ReadOnly = true;
-                            textBox10.Enabled = false;
-                            textBox12.ReadOnly = true;
-                            textBox12.Enabled = false;
-                            textBox11.ReadOnly = true;
-                            textBox11.Enabled = false;
-                            textBox13.ReadOnly = true;
-                            textBox13.Enabled = false;
-                            textBox14.ReadOnly = true;
-                            textBox14.Enabled = false;
-                            textBox15.ReadOnly = true;
-                            textBox15.Enabled = false;
-                            textBox16.ReadOnly = true;
-                            textBox16.Enabled = false;
-                            textBox17.ReadOnly = true;
-                            textBox17.Enabled = false;
-                            textBox18.ReadOnly = true;
-                            textBox18.Enabled = false;
-                            textBox19.ReadOnly = true;
-                            textBox19.Enabled = false;
-                            textBox20.ReadOnly = true;
-                            textBox20.Enabled = false;
-                            textBox25.Text = data_.dataDevice_.ip0.ToString();
-                            textBox26.Text = data_.dataDevice_.ip1.ToString();
-                            textBox27.Text = data_.dataDevice_.ip2.ToString();
-                            textBox28.Text = data_.dataDevice_.ip3.ToString();
-                        }
-                        break;
-                    case 2:
-                        {
-                            textBox25.ReadOnly = false;
-                            textBox25.Enabled = true;
-                            textBox26.ReadOnly = false;
-                            textBox26.Enabled = true;
-                            textBox27.ReadOnly = false;
-                            textBox27.Enabled = true;
-                            textBox28.ReadOnly = false;
-                            textBox28.Enabled = true;
-                            textBox9.ReadOnly = false;
-                            textBox9.Enabled = true;
-                            textBox10.ReadOnly = false;
-                            textBox10.Enabled = true;
-                            textBox12.ReadOnly = false;
-                            textBox12.Enabled = true;
-                            textBox11.ReadOnly = false;
-                            textBox11.Enabled = true;
-                            textBox13.ReadOnly = true;
-                            textBox13.Enabled = false;
-                            textBox14.ReadOnly = true;
-                            textBox14.Enabled = false;
-                            textBox15.ReadOnly = true;
-                            textBox15.Enabled = false;
-                            textBox16.ReadOnly = true;
-                            textBox16.Enabled = false;
-                            textBox17.ReadOnly = true;
-                            textBox17.Enabled = false;
-                            textBox18.ReadOnly = true;
-                            textBox18.Enabled = false;
-                            textBox19.ReadOnly = true;
-                            textBox19.Enabled = false;
-                            textBox20.ReadOnly = true;
-                            textBox20.Enabled = false;
-                            textBox25.Text = data_.dataDevice_.ip0.ToString();
-                            textBox26.Text = data_.dataDevice_.ip1.ToString();
-                            textBox27.Text = data_.dataDevice_.ip2.ToString();
-                            textBox28.Text = data_.dataDevice_.ip3.ToString();
-                            textBox9.Text = data_.dataDevice_.ip10.ToString();
-                            textBox10.Text = data_.dataDevice_.ip11.ToString();
-                            textBox11.Text = data_.dataDevice_.ip12.ToString();
-                            textBox12.Text = data_.dataDevice_.ip13.ToString();
-                        }
-                        break;
-                    case 3:
-                        {
-                            textBox25.ReadOnly = false;
-                            textBox25.Enabled = true;
-                            textBox26.ReadOnly = false;
-                            textBox26.Enabled = true;
-                            textBox27.ReadOnly = false;
-                            textBox27.Enabled = true;
-                            textBox28.ReadOnly = false;
-                            textBox28.Enabled = true;
-                            textBox9.ReadOnly = false;
-                            textBox9.Enabled = true;
-                            textBox10.ReadOnly = false;
-                            textBox10.Enabled = true;
-                            textBox12.ReadOnly = false;
-                            textBox12.Enabled = true;
-                            textBox11.ReadOnly = false;
-                            textBox11.Enabled = true;
-                            textBox13.ReadOnly = false;
-                            textBox13.Enabled = true;
-                            textBox14.ReadOnly = false;
-                            textBox14.Enabled = true;
-                            textBox15.ReadOnly = false;
-                            textBox15.Enabled = true;
-                            textBox16.ReadOnly = false;
-                            textBox16.Enabled = true;
-                            textBox17.ReadOnly = true;
-                            textBox17.Enabled = false;
-                            textBox18.ReadOnly = true;
-                            textBox18.Enabled = false;
-                            textBox19.ReadOnly = true;
-                            textBox19.Enabled = false;
-                            textBox20.ReadOnly = true;
-                            textBox20.Enabled = false;
-                            textBox25.Text = data_.dataDevice_.ip0.ToString();
-                            textBox26.Text = data_.dataDevice_.ip1.ToString();
-                            textBox27.Text = data_.dataDevice_.ip2.ToString();
-                            textBox28.Text = data_.dataDevice_.ip3.ToString();
-                            textBox9.Text = data_.dataDevice_.ip10.ToString();
-                            textBox10.Text = data_.dataDevice_.ip11.ToString();
-                            textBox11.Text = data_.dataDevice_.ip12.ToString();
-                            textBox12.Text = data_.dataDevice_.ip13.ToString();
-                            textBox13.Text = data_.dataDevice_.ip20.ToString();
-                            textBox14.Text = data_.dataDevice_.ip21.ToString();
-                            textBox15.Text = data_.dataDevice_.ip22.ToString();
-                            textBox16.Text = data_.dataDevice_.ip23.ToString();
-                        }
-                        break;
-                    case 4:
-                        {
-                            textBox25.ReadOnly = false;
-                            textBox25.Enabled = true;
-                            textBox26.ReadOnly = false;
-                            textBox26.Enabled = true;
-                            textBox27.ReadOnly = false;
-                            textBox27.Enabled = true;
-                            textBox28.ReadOnly = false;
-                            textBox28.Enabled = true;
-                            textBox9.ReadOnly = false;
-                            textBox9.Enabled = true;
-                            textBox10.ReadOnly = false;
-                            textBox10.Enabled = true;
-                            textBox12.ReadOnly = false;
-                            textBox12.Enabled = true;
-                            textBox11.ReadOnly = false;
-                            textBox11.Enabled = true;
-                            textBox13.ReadOnly = false;
-                            textBox13.Enabled = true;
-                            textBox14.ReadOnly = false;
-                            textBox14.Enabled = true;
-                            textBox15.ReadOnly = false;
-                            textBox15.Enabled = true;
-                            textBox16.ReadOnly = false;
-                            textBox16.Enabled = true;
-                            textBox17.ReadOnly = false;
-                            textBox17.Enabled = true;
-                            textBox18.ReadOnly = false;
-                            textBox18.Enabled = true;
-                            textBox19.ReadOnly = false;
-                            textBox19.Enabled = true;
-                            textBox20.ReadOnly = false;
-                            textBox20.Enabled = true;
-                            textBox25.Text = data_.dataDevice_.ip0.ToString();
-                            textBox26.Text = data_.dataDevice_.ip1.ToString();
-                            textBox27.Text = data_.dataDevice_.ip2.ToString();
-                            textBox28.Text = data_.dataDevice_.ip3.ToString();
-                            textBox9.Text = data_.dataDevice_.ip10.ToString();
-                            textBox10.Text = data_.dataDevice_.ip11.ToString();
-                            textBox11.Text = data_.dataDevice_.ip12.ToString();
-                            textBox12.Text = data_.dataDevice_.ip13.ToString();
-                            textBox13.Text = data_.dataDevice_.ip20.ToString();
-                            textBox14.Text = data_.dataDevice_.ip21.ToString();
-                            textBox15.Text = data_.dataDevice_.ip22.ToString();
-                            textBox16.Text = data_.dataDevice_.ip23.ToString();
-                            textBox17.Text = data_.dataDevice_.ip30.ToString();
-                            textBox18.Text = data_.dataDevice_.ip31.ToString();
-                            textBox19.Text = data_.dataDevice_.ip32.ToString();
-                            textBox20.Text = data_.dataDevice_.ip33.ToString();
-                        }
-                        break;
+                    int connectnumber = Convert.ToInt32(textBox24.Text);
+                    switch (connectnumber)
+                    {
+                        case 1:
+                            {
+                                textBox25.ReadOnly = false;
+                                textBox25.Enabled = true;
+                                textBox26.ReadOnly = false;
+                                textBox26.Enabled = true;
+                                textBox27.ReadOnly = false;
+                                textBox27.Enabled = true;
+                                textBox28.ReadOnly = false;
+                                textBox28.Enabled = true;
+                                textBox9.ReadOnly = true;
+                                textBox9.Enabled = false;
+                                textBox10.ReadOnly = true;
+                                textBox10.Enabled = false;
+                                textBox12.ReadOnly = true;
+                                textBox12.Enabled = false;
+                                textBox11.ReadOnly = true;
+                                textBox11.Enabled = false;
+                                textBox13.ReadOnly = true;
+                                textBox13.Enabled = false;
+                                textBox14.ReadOnly = true;
+                                textBox14.Enabled = false;
+                                textBox15.ReadOnly = true;
+                                textBox15.Enabled = false;
+                                textBox16.ReadOnly = true;
+                                textBox16.Enabled = false;
+                                textBox17.ReadOnly = true;
+                                textBox17.Enabled = false;
+                                textBox18.ReadOnly = true;
+                                textBox18.Enabled = false;
+                                textBox19.ReadOnly = true;
+                                textBox19.Enabled = false;
+                                textBox20.ReadOnly = true;
+                                textBox20.Enabled = false;
+                                textBox25.Text = data_.dataDevice_.ip0.ToString();
+                                textBox26.Text = data_.dataDevice_.ip1.ToString();
+                                textBox27.Text = data_.dataDevice_.ip2.ToString();
+                                textBox28.Text = data_.dataDevice_.ip3.ToString();
+                            }
+                            break;
+                        case 2:
+                            {
+                                textBox25.ReadOnly = false;
+                                textBox25.Enabled = true;
+                                textBox26.ReadOnly = false;
+                                textBox26.Enabled = true;
+                                textBox27.ReadOnly = false;
+                                textBox27.Enabled = true;
+                                textBox28.ReadOnly = false;
+                                textBox28.Enabled = true;
+                                textBox9.ReadOnly = false;
+                                textBox9.Enabled = true;
+                                textBox10.ReadOnly = false;
+                                textBox10.Enabled = true;
+                                textBox12.ReadOnly = false;
+                                textBox12.Enabled = true;
+                                textBox11.ReadOnly = false;
+                                textBox11.Enabled = true;
+                                textBox13.ReadOnly = true;
+                                textBox13.Enabled = false;
+                                textBox14.ReadOnly = true;
+                                textBox14.Enabled = false;
+                                textBox15.ReadOnly = true;
+                                textBox15.Enabled = false;
+                                textBox16.ReadOnly = true;
+                                textBox16.Enabled = false;
+                                textBox17.ReadOnly = true;
+                                textBox17.Enabled = false;
+                                textBox18.ReadOnly = true;
+                                textBox18.Enabled = false;
+                                textBox19.ReadOnly = true;
+                                textBox19.Enabled = false;
+                                textBox20.ReadOnly = true;
+                                textBox20.Enabled = false;
+                                textBox25.Text = data_.dataDevice_.ip0.ToString();
+                                textBox26.Text = data_.dataDevice_.ip1.ToString();
+                                textBox27.Text = data_.dataDevice_.ip2.ToString();
+                                textBox28.Text = data_.dataDevice_.ip3.ToString();
+                                textBox9.Text = data_.dataDevice_.ip10.ToString();
+                                textBox10.Text = data_.dataDevice_.ip11.ToString();
+                                textBox11.Text = data_.dataDevice_.ip12.ToString();
+                                textBox12.Text = data_.dataDevice_.ip13.ToString();
+                            }
+                            break;
+                        case 3:
+                            {
+                                textBox25.ReadOnly = false;
+                                textBox25.Enabled = true;
+                                textBox26.ReadOnly = false;
+                                textBox26.Enabled = true;
+                                textBox27.ReadOnly = false;
+                                textBox27.Enabled = true;
+                                textBox28.ReadOnly = false;
+                                textBox28.Enabled = true;
+                                textBox9.ReadOnly = false;
+                                textBox9.Enabled = true;
+                                textBox10.ReadOnly = false;
+                                textBox10.Enabled = true;
+                                textBox12.ReadOnly = false;
+                                textBox12.Enabled = true;
+                                textBox11.ReadOnly = false;
+                                textBox11.Enabled = true;
+                                textBox13.ReadOnly = false;
+                                textBox13.Enabled = true;
+                                textBox14.ReadOnly = false;
+                                textBox14.Enabled = true;
+                                textBox15.ReadOnly = false;
+                                textBox15.Enabled = true;
+                                textBox16.ReadOnly = false;
+                                textBox16.Enabled = true;
+                                textBox17.ReadOnly = true;
+                                textBox17.Enabled = false;
+                                textBox18.ReadOnly = true;
+                                textBox18.Enabled = false;
+                                textBox19.ReadOnly = true;
+                                textBox19.Enabled = false;
+                                textBox20.ReadOnly = true;
+                                textBox20.Enabled = false;
+                                textBox25.Text = data_.dataDevice_.ip0.ToString();
+                                textBox26.Text = data_.dataDevice_.ip1.ToString();
+                                textBox27.Text = data_.dataDevice_.ip2.ToString();
+                                textBox28.Text = data_.dataDevice_.ip3.ToString();
+                                textBox9.Text = data_.dataDevice_.ip10.ToString();
+                                textBox10.Text = data_.dataDevice_.ip11.ToString();
+                                textBox11.Text = data_.dataDevice_.ip12.ToString();
+                                textBox12.Text = data_.dataDevice_.ip13.ToString();
+                                textBox13.Text = data_.dataDevice_.ip20.ToString();
+                                textBox14.Text = data_.dataDevice_.ip21.ToString();
+                                textBox15.Text = data_.dataDevice_.ip22.ToString();
+                                textBox16.Text = data_.dataDevice_.ip23.ToString();
+                            }
+                            break;
+                        case 4:
+                            {
+                                textBox25.ReadOnly = false;
+                                textBox25.Enabled = true;
+                                textBox26.ReadOnly = false;
+                                textBox26.Enabled = true;
+                                textBox27.ReadOnly = false;
+                                textBox27.Enabled = true;
+                                textBox28.ReadOnly = false;
+                                textBox28.Enabled = true;
+                                textBox9.ReadOnly = false;
+                                textBox9.Enabled = true;
+                                textBox10.ReadOnly = false;
+                                textBox10.Enabled = true;
+                                textBox12.ReadOnly = false;
+                                textBox12.Enabled = true;
+                                textBox11.ReadOnly = false;
+                                textBox11.Enabled = true;
+                                textBox13.ReadOnly = false;
+                                textBox13.Enabled = true;
+                                textBox14.ReadOnly = false;
+                                textBox14.Enabled = true;
+                                textBox15.ReadOnly = false;
+                                textBox15.Enabled = true;
+                                textBox16.ReadOnly = false;
+                                textBox16.Enabled = true;
+                                textBox17.ReadOnly = false;
+                                textBox17.Enabled = true;
+                                textBox18.ReadOnly = false;
+                                textBox18.Enabled = true;
+                                textBox19.ReadOnly = false;
+                                textBox19.Enabled = true;
+                                textBox20.ReadOnly = false;
+                                textBox20.Enabled = true;
+                                textBox25.Text = data_.dataDevice_.ip0.ToString();
+                                textBox26.Text = data_.dataDevice_.ip1.ToString();
+                                textBox27.Text = data_.dataDevice_.ip2.ToString();
+                                textBox28.Text = data_.dataDevice_.ip3.ToString();
+                                textBox9.Text = data_.dataDevice_.ip10.ToString();
+                                textBox10.Text = data_.dataDevice_.ip11.ToString();
+                                textBox11.Text = data_.dataDevice_.ip12.ToString();
+                                textBox12.Text = data_.dataDevice_.ip13.ToString();
+                                textBox13.Text = data_.dataDevice_.ip20.ToString();
+                                textBox14.Text = data_.dataDevice_.ip21.ToString();
+                                textBox15.Text = data_.dataDevice_.ip22.ToString();
+                                textBox16.Text = data_.dataDevice_.ip23.ToString();
+                                textBox17.Text = data_.dataDevice_.ip30.ToString();
+                                textBox18.Text = data_.dataDevice_.ip31.ToString();
+                                textBox19.Text = data_.dataDevice_.ip32.ToString();
+                                textBox20.Text = data_.dataDevice_.ip33.ToString();
+                            }
+                            break;
+                    }
+                }
+                if (Convert.ToInt32(textBox24.Text) < 1 || Convert.ToInt32(textBox24.Text) > 4)
+                {
+                    MessageBox.Show("超出范围");
+                    textBox24.Text = data_.dataDevice_.maxconnectnumber.ToString();
+                }
+                else
+                {
+                    //int.TryParse(textBox24.Text, out data_.dataDevice_.maxconnectnumber);
                 }
             }
-            if(Convert.ToInt32( textBox24.Text )< 1 || Convert.ToInt32(textBox24.Text) > 4)
+            catch
             {
-                MessageBox.Show("超出范围");
-                textBox24.Text = data_.dataDevice_.maxconnectnumber.ToString();
-            }
-            else
-            {
-                //int.TryParse(textBox24.Text, out data_.dataDevice_.maxconnectnumber);
+                return;
             }
          }
         
@@ -1499,39 +1508,42 @@ namespace LocalPLC.ModbusServer
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             int flag = 0;
-            close = 0;
+
             //data_.dataDevice_.transformport = comboBox2.SelectedIndex;
             //data_.dataDevice_.transformportdescribe = comboBox2.SelectedItem.ToString();
-            //串口
-            if(comboBox1.SelectedIndex == 0)
+            try
             {
-                for (int i =0;i<dataManager.listServer.Count;i++)
+                //串口
+                if (comboBox1.SelectedIndex == 0)
                 {
-                    if(dataManager.listServer[i].dataDevice_.transformMode == 0 && dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.Items.ToString())
+                    for (int i = 0; i < dataManager.listServer.Count; i++)
                     {
-                        flag++;
+                        if (dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.SelectedItem.ToString() && i!=SID)
+                        {
+                            flag++;
+                        }
                     }
                 }
-            }
-            else if (comboBox1.SelectedIndex == 1)
-            {
-                for (int i = 0; i < dataManager.listServer.Count; i++)
+                else if (comboBox1.SelectedIndex == 1)
                 {
-                    if (dataManager.listServer[i].dataDevice_.transformMode == 1 && dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.Items.ToString())
+                    for (int i = 0; i < dataManager.listServer.Count; i++)
                     {
-                        flag++;
+                        if (dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.SelectedItem.ToString() && i!=SID)
+                        {
+                            flag++;
+                        }
                     }
                 }
+                if (flag > 0)
+                {
+                    MessageBox.Show("串口/网口端口选择有重复，请检查后重新配置");
+                    comboBox2.SelectedIndex = -1;
+
+                }
             }
-            if(flag > 0)
+            catch
             {
-                MessageBox.Show("串口/网口端口选择有重复，请检查后重新配置");
-                comboBox2.SelectedIndex = -1;
-                
-            }
-            if (comboBox2.SelectedIndex == -1)
-            {
-                close = 1;
+                return;
             }
         }
 
@@ -1728,7 +1740,12 @@ namespace LocalPLC.ModbusServer
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            close = 0;
+
+            if(comboBox2.SelectedIndex == -1)
+            {
+                MessageBox.Show("请设置传输端口");
+                return;
+            }
             //各个server的通用配置保存（寄存器线圈等）
             dataManager.listServer[0].dataDevice_.coilCount = Convert.ToInt32(textBox1.Text);
             dataManager.listServer[0].dataDevice_.holdingCount = Convert.ToInt32(textBox2.Text);
@@ -1743,6 +1760,7 @@ namespace LocalPLC.ModbusServer
             //传输端口
             data_.dataDevice_.transform = comboBox1.SelectedIndex;
             data_.dataDevice_.transformport = comboBox2.SelectedIndex;
+            data_.dataDevice_.transformportdescribe = comboBox2.SelectedItem.ToString();
             try
             { 
                 data_.dataDevice_.transformportdescribe = comboBox2.SelectedItem.ToString(); 
@@ -1752,13 +1770,13 @@ namespace LocalPLC.ModbusServer
                 data_.dataDevice_.transformportdescribe = "";
             }
             //传输模式选择
-            if (radioButton2.Checked == true)
+            if (radioButton5.Checked == true)
             {
-                data_.dataDevice_.transformMode = (int)TRANSFORMMODE.UDP;
+                data_.dataDevice_.slavetansformMode = (int)SLAVETRANS.ASCII;
             }
             if (radioButton6.Checked == true)
             {
-                data_.dataDevice_.slavetansformMode = (int)TRANSFORMMODE.TCP;
+                data_.dataDevice_.slavetansformMode = (int)SLAVETRANS.RTU;
             }
             if (radioButton1.Checked == true)
             {
@@ -1770,6 +1788,14 @@ namespace LocalPLC.ModbusServer
             }
             data_.dataDevice_.deviceAddr = Convert.ToInt32(textBox30.Text);
             // 网口模式下的配置信息
+            if(textBox23.Visible == true)
+            {
+                data_.dataDevice_.port = Convert.ToInt32(textBox23.Text);
+            }
+            else
+            {
+                data_.dataDevice_.port = 0;
+            }
             string ip0 = textBox25.Text + textBox26.Text + textBox27.Text + textBox28.Text;
             string ip1 = textBox9.Text + textBox10.Text + textBox11.Text + textBox12.Text;
             string ip2 = textBox13.Text + textBox14.Text + textBox15.Text + textBox16.Text;
@@ -1780,7 +1806,7 @@ namespace LocalPLC.ModbusServer
             ip[2] = ip2;
             ip[3] = ip3;
             int flag = 0;
-            data_.dataDevice_.port =Convert.ToInt32(textBox23.Text);
+            //data_.dataDevice_.port =Convert.ToInt32(textBox23.Text);
             if (radioButton3.Checked == true)
             { 
                 data_.dataDevice_.ipfixed = true;
@@ -1801,7 +1827,7 @@ namespace LocalPLC.ModbusServer
                 if (flag>0)
                 {
                     MessageBox.Show("ip有重复，请重新设置");
-                    close = 1;
+                    
                 }
                 else
                 {
@@ -1872,7 +1898,7 @@ namespace LocalPLC.ModbusServer
         //modbusserver msv = new modbusserver(0);
         private void button2_Click(object sender, EventArgs e)
         {
-            modbusserver msv = new modbusserver(0);
+            
             this.Close();
 
         }
@@ -2183,35 +2209,38 @@ namespace LocalPLC.ModbusServer
 
         private void modbusserver_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(close == 1 && comboBox2.SelectedIndex == -1)
-            {
-                MessageBox.Show("配置存在错误！");
-                e.Cancel = true;
-            }
- 
-            else
-            {
-                try
-                {
-                    for (int i = 0; i < dataManager.listServer.Count; i++)
-                    {
-                        if (dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.SelectedItem.ToString() && i != SID)
-                        {
-                            MessageBox.Show("端口使用重复，请更换！");
-                            e.Cancel = true;
+            //if(close == 1 && comboBox2.SelectedIndex == -1)
+            //{
+            //    MessageBox.Show("配置存在错误！");
+            //    e.Cancel = true;
+            //}
 
-                        }
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("端口未设置，请设置！");
-                    //e.Cancel = true;
-                }
-                e.Cancel = false;
+            //else
+            //{
+            //    try
+            //    {
+            //        for (int i = 0; i < dataManager.listServer.Count; i++)
+            //        {
+            //            if (dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.SelectedItem.ToString() && i != SID)
+            //            {
+            //                MessageBox.Show("端口使用重复，请更换！");
+            //                e.Cancel = true;
+
+            //            }
+            //        }
+            //    }
+            //    catch
+            //    {
+            //        MessageBox.Show("端口未设置，请设置！");
+            //        //e.Cancel = true;
+            //    }
+            //    e.Cancel = false;
+            //}
+            if (textBox23.Visible == false)
+            {
+                data_.dataDevice_.port = 0;
             }
 
-           
         }
     }
 }

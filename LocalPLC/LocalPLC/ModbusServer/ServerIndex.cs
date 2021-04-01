@@ -162,9 +162,9 @@ namespace LocalPLC.ModbusServer
         {
             if (dataGridView1.SelectedRows.Count <= 0)
             {
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                //LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
                 // show the output window and activate the "Infos" tab
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+                //LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
 
                 return;
             }
@@ -210,6 +210,8 @@ namespace LocalPLC.ModbusServer
                 elem1_s.SetAttribute("transform", data.dataDevice_.transform.ToString());
                 elem1_s.SetAttribute("transformport", data.dataDevice_.transformport.ToString());
                 elem1_s.SetAttribute("transformmode", data.dataDevice_.transformMode.ToString());
+                elem1_s.SetAttribute("transformmodediscrib", data.dataDevice_.transformportdescribe.ToString());
+                elem1_s.SetAttribute("transforslavemmode", data.dataDevice_.slavetansformMode.ToString());
                 elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
                 elem1_s.SetAttribute("port", data.dataDevice_.port.ToString());
                 elem1_s.SetAttribute("maxconnect", data.dataDevice_.maxconnectnumber.ToString());
@@ -357,9 +359,12 @@ namespace LocalPLC.ModbusServer
                             {
                                 writer.WriteStartObject(); // { 串口数组下设备左括号
                                 writer.WritePropertyName("port");
-                                writer.WriteValue("ser_port" + (data_.dataDevice_.transformport));
+                                writer.WriteValue(data_.dataDevice_.transformportdescribe);
                                 writer.WritePropertyName("mode");
-                                writer.WriteValue("rtu");
+                                if (data_.dataDevice_.slavetansformMode == 0)
+                                { writer.WriteValue("rtu"); }
+                                else if(data_.dataDevice_.slavetansformMode == 1)
+                                { writer.WriteValue("ascii"); }
                                 writer.WritePropertyName("time_unit");
                                 writer.WriteValue("ms");
                                 writer.WritePropertyName("dev_id");
@@ -409,6 +414,15 @@ namespace LocalPLC.ModbusServer
                                 writer.WriteStartObject(); // { 网口数组下设备左括号
                                 writer.WritePropertyName("port");
                                 writer.WriteValue(data_.dataDevice_.transformportdescribe);
+                                writer.WritePropertyName("mode");
+                                if(data_.dataDevice_.transformMode == 0)
+                                {
+                                    writer.WriteValue("TCP");
+                                }
+                                else if(data_.dataDevice_.transformMode == 1)
+                                {
+                                    writer.WriteValue("UDP");
+                                }
                                 writer.WritePropertyName("remote_ip_fixed");
                                 writer.WriteValue(ipfixed);
                                 writer.WritePropertyName("max_connection");
@@ -505,7 +519,7 @@ namespace LocalPLC.ModbusServer
             if (dataGridView1.Columns[e.ColumnIndex].Name == "info")
             {
                 int index = dataGridView1.SelectedRows[0].Index;
-                ModbusServerData data = serverDataManager.listServer[index];
+                ModbusServerData data = serverDataManager.listServer[0];
                 dataGridView2.RowCount = 4;
                 dataGridView2.Rows[0].Cells[0].Value = "线圈寄存器";
                 dataGridView2.Rows[0].Cells[1].Value = data.dataDevice_.coilCount;
@@ -550,11 +564,13 @@ namespace LocalPLC.ModbusServer
                 int.TryParse(e.GetAttribute("transformmode"), out data.dataDevice_.transformMode);
                 //传输端口
                 int.TryParse(e.GetAttribute("transformport"), out data.dataDevice_.transformport);
+                //传输端口2
+                int.TryParse(e.GetAttribute("transforslavemmode"), out data.dataDevice_.slavetansformMode);
                 //设备地址
                 int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
                 //端口号
                 int.TryParse(e.GetAttribute("port"), out data.dataDevice_.port);
-                data.dataDevice_.transformportdescribe = e.GetAttribute("transformportdescribe");
+                data.dataDevice_.transformportdescribe = e.GetAttribute("transformmodediscrib");
                 //最大连接数量
                 int.TryParse(e.GetAttribute("maxconnect"), out data.dataDevice_.maxconnectnumber);
                 //指定ip

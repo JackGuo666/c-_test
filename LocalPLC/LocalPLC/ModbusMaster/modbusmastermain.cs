@@ -232,6 +232,7 @@ namespace LocalPLC.ModbusMaster
 
                     writer.WriteStartObject();//{  master节点下device
                     writer.WritePropertyName("port");
+                    //if(data.transformChannel == "ser_port")
                     writer.WriteValue(data.transformChannel);
                     writer.WritePropertyName("response_timeout");
                     writer.WriteValue(data.responseTimeout);
@@ -697,23 +698,30 @@ namespace LocalPLC.ModbusMaster
 
         private void button_delete_Click(object sender, EventArgs e)
         {
-            int n = dataGridView1.SelectedCells[0].RowIndex;
-            if (dataGridView1.SelectedRows.Count <= 0)
+            try
             {
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
-                // show the output window and activate the "Infos" tab
-                LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
+                int n = dataGridView1.SelectedCells[0].RowIndex;
+                if (dataGridView1.SelectedRows.Count <= 0)
+                {
+                    LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").AddEntry("Hello world! (from C#)", AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+                    // show the output window and activate the "Infos" tab
+                    LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Infos").Activate();
 
-                MessageBox.Show("请选择一整行进行删除");
-                return;
+                    MessageBox.Show("请选择一整行进行删除");
+                    return;
+                }
+
+                for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+                {
+                    int index = dataGridView1.SelectedRows[i].Index;
+
+                    dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                    masterManage.modbusMastrList.RemoveAt(index);
+                }
             }
-
-            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+            catch
             {
-                int index = dataGridView1.SelectedRows[i].Index;
-
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                masterManage.modbusMastrList.RemoveAt(index);
+                return;
             }
         }
 

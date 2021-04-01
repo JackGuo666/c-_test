@@ -94,15 +94,9 @@ namespace LocalPLC.ModbusMaster
             MDID = masterdevid;
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
+       
 
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -110,6 +104,7 @@ namespace LocalPLC.ModbusMaster
             {
                 return;
             }
+            this.dataGridView1.BeginEdit(true);
         }
 
         private void modbusmasterchannel_Load(object sender, EventArgs e)
@@ -117,7 +112,7 @@ namespace LocalPLC.ModbusMaster
             DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
             cellColumnID.Name = "ID";
             textBox2.Text = MID.ToString();
-            textBox4.Text = MID.ToString();
+            textBox4.Text = deviceData_.slaveAddr.ToString();
             
 
             DataGridViewComboBoxColumn columnMsgType = new DataGridViewComboBoxColumn();
@@ -227,6 +222,7 @@ namespace LocalPLC.ModbusMaster
         {
             dn = a;
         }
+        private int[] temrow = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         private void button_add_Click(object sender, EventArgs e)
         {
             if (utility.masterDeviceChannleCountMax <= dataGridView1.RowCount)
@@ -263,7 +259,7 @@ namespace LocalPLC.ModbusMaster
             data.note = "";
             //
 
-            //data_.modbusChannelList.Add(data);
+            //deviceData_.modbusChannelList.Add(data);
             if (!checkMasterLenthValid())
             {
                 deviceData_.removeChannel(data);
@@ -285,32 +281,49 @@ namespace LocalPLC.ModbusMaster
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.WRITELENGTH].Value = "";
 
                 dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value = "";
-                data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
+                //data.note = dataGridView1.Rows[i].Cells[(int)COLUMNNAME_CHANNLE.NOTE].Value.ToString();
 
+            }
+            for (int j = 0; j < 16; j++)
+            {
+                if (temrow[j] == -1)
+                {
+                    temrow[j] = row;
+                    break;
+                }
             }
 
         }
 
         private void button_delete_Click(object sender, EventArgs e)
         {
-            // int row = dataGridView1.SelectedRows[0];
-            if (dataGridView1.SelectedRows.Count <= 0)
+            int row = dataGridView1.SelectedRows[0].Index;
+            try
             {
-                MessageBox.Show("请选择一整行进行删除");
+                if (dataGridView1.SelectedRows.Count <= 0)
+                {
+                    MessageBox.Show("请选择一整行进行删除");
+                    return;
+                }
+                else
+                {
+                    dataGridView1.Rows[row].Visible = false;
+                }
+                //for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
+                //{
+                //    int index = dataGridView1.SelectedRows[i].Index;
+
+                //    dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
+                //    //deviceData_.modbusChannelList.RemoveAt(index);
+                //    deviceData_.removeChannel(deviceData_.modbusChannelList[index]);
+                //}
+            }
+            catch
+            {
                 return;
             }
-
-            for (int i = dataGridView1.SelectedRows.Count - 1; i >= 0; i--)
-            {
-                int index = dataGridView1.SelectedRows[i].Index;
-
-                dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
-                //deviceData_.modbusChannelList.RemoveAt(index);
-                deviceData_.removeChannel(deviceData_.modbusChannelList[index]);
-            }
-
-            deviceData_.refreshAddr(deviceData_.curDeviceAddr);
-            refreshGridTableTwoVarAddr();
+            //deviceData_.refreshAddr(deviceData_.curDeviceAddr);
+            //refreshGridTableTwoVarAddr();
         }
 
         private void refreshGridTableTwoVarAddr()
@@ -459,15 +472,15 @@ namespace LocalPLC.ModbusMaster
                     //int lastLength = deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength;
                     //int.TryParse(str, out deviceData_.modbusChannelList.ElementAt(e.RowIndex).readLength);
                     //通道长度
-                    var channel = deviceData_.modbusChannelList.ElementAt(e.RowIndex);
-                    if (bitMsgTypeSet.Contains(channel.msgType))
-                    {
-                        channel.setChannelLengthBit(channel.readLength);
-                    }
-                    else if (byteMsgTypeSet.Contains(channel.msgType))
-                    {
-                        channel.setChannelLengthWord(channel.readLength);
-                    }
+                    //var channel = deviceData_.modbusChannelList.ElementAt(e.RowIndex);
+                    //if (bitMsgTypeSet.Contains(channel.msgType))
+                    //{
+                    //    channel.setChannelLengthBit(channel.readLength);
+                    //}
+                    //else if (byteMsgTypeSet.Contains(channel.msgType))
+                    //{
+                    //    channel.setChannelLengthWord(channel.readLength);
+                    //}
 
                     //if (!checkMasterLenthValid())
                     //{
@@ -486,13 +499,10 @@ namespace LocalPLC.ModbusMaster
                     //    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = lastLength.ToString();
 
                     //}
-                    else
-                    {
-
-                    }
+                   
 
                     //通道地址刷新
-                    deviceData_.refreshAddr(deviceData_.curDeviceAddr);
+                    //deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                     //变量地址 错误变量 界面刷新
                     //refreshGridTableTwoVarAddr();
                 }
@@ -518,8 +528,8 @@ namespace LocalPLC.ModbusMaster
                         }
                         for (int k = 0; k < mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
                         {
-                            if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger ||
-                            str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error && str!=""&&
+                            if ((str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger ||
+                            str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error) && str!=""&&
                             (i != MID || j!= MDID || k != e.RowIndex))
                             {
                                 flag++;
@@ -530,7 +540,11 @@ namespace LocalPLC.ModbusMaster
                 }
                 for (int l = 0;l<dataGridView1.Rows.Count;l++)
                 {
-                    if(dataGridView1.Rows[l].Cells[6].Value.ToString() == str && l != e.RowIndex)
+                    if(dataGridView1.Rows[l].Cells[6].Value.ToString() == str && l != e.RowIndex && str!="")
+                    {
+                        flag++;
+                    }
+                    if (dataGridView1.Rows[l].Cells[7].Value.ToString() == str  && str != "")
                     {
                         flag++;
                     }
@@ -542,8 +556,8 @@ namespace LocalPLC.ModbusMaster
                 else
                 {
                     MessageBox.Show("输入的变量名有重复，请检查后重新输入");
-                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = deviceData_.modbusChannelList[e.RowIndex].trigger;
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = deviceData_.modbusChannelList[e.RowIndex].trigger;
+                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                 }
 
                 //deviceData_.modbusChannelList[e.RowIndex].trigger = str;
@@ -564,8 +578,8 @@ namespace LocalPLC.ModbusMaster
                         }
                         for (int k = 0; k < mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
                         {
-                            if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger ||
-                            str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error && str !="" 
+                            if ((str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger ||
+                            str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error) && str !="" 
                             && (i != MID || j != MDID || k != e.RowIndex))
                             {
                                 flag++;
@@ -576,7 +590,11 @@ namespace LocalPLC.ModbusMaster
                 }
                 for (int l = 0; l < dataGridView1.Rows.Count; l++)
                 {
-                    if (dataGridView1.Rows[l].Cells[6].Value.ToString() == str && l != e.RowIndex)
+                    if (dataGridView1.Rows[l].Cells[6].Value.ToString() == str&& str!="")
+                    {
+                        flag++;
+                    }
+                    if (str == dataGridView1.Rows[l].Cells[7].Value.ToString() && l != e.RowIndex && str != "")
                     {
                         flag++;
                     }
@@ -588,8 +606,8 @@ namespace LocalPLC.ModbusMaster
                 else
                 {
                     MessageBox.Show("输入的变量名有重复，请检查后重新输入");
-                    // dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = deviceData_.modbusChannelList[e.RowIndex].error;
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = deviceData_.modbusChannelList[e.RowIndex].error;
+                    //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                 }
             }
             else if(e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NOTE)
@@ -600,13 +618,41 @@ namespace LocalPLC.ModbusMaster
 
         private void button1_Click(object sender, EventArgs e)
         {
+            for (int i = 15; i >= 0; i--)
+            {
+                if (temrow[i] != -1)
+                {
+                    dataGridView1.Rows.RemoveAt(temrow[i]);
+                    deviceData_.modbusChannelList.RemoveAt(temrow[i]);
+                    
+                }
+            }
             this.Close();
 
         }
-
+        private void refreshtemrow()
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                temrow[i] = -1;
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
-            for(int i = 0; i < dataGridView1.Rows.Count;i++)
+            
+            refreshtemrow();
+            for (int m = 0; m < dataGridView1.Rows.Count; m++)
+            {
+                if (dataGridView1.Rows[m].Visible == false)
+                {
+                    dataGridView1.Rows.RemoveAt(m);
+                    deviceData_.modbusChannelList.RemoveAt(m);
+                    masterData_.refreshAddr();
+                    deviceData_.refreshAddr(deviceData_.curDeviceAddr);
+                }
+            }
+            int sum = 1;
+            for (int i = 0; i < dataGridView1.Rows.Count;i++)
             {
                 deviceData_.modbusChannelList[i].ID = int.Parse(dataGridView1.Rows[i].Cells[0].Value.ToString());
                 deviceData_.modbusChannelList[i].nameChannel = dataGridView1.Rows[i].Cells[8].Value.ToString();
@@ -643,13 +689,46 @@ namespace LocalPLC.ModbusMaster
                 //长度
                 int lastLength = deviceData_.modbusChannelList[i].readLength;
                 int.TryParse(dataGridView1.Rows[i].Cells[5].Value.ToString(), out deviceData_.modbusChannelList[i].readLength);
+                deviceData_.refreshAddr(deviceData_.curDeviceAddr);
+                //通道长度
+                //var channel = deviceData_.modbusChannelList[i];
+                if (bitMsgTypeSet.Contains(channel.msgType))
+                {
+                    channel.setChannelLengthBit(channel.readLength);
+                }
+                else if (byteMsgTypeSet.Contains(channel.msgType))
+                {
+                    channel.setChannelLengthWord(channel.readLength);
+                }
                 //通道长度
                 // 触发变量
                 deviceData_.modbusChannelList[i].trigger = dataGridView1.Rows[i].Cells[6].Value.ToString();
                 //错误变量
                 deviceData_.modbusChannelList[i].error = dataGridView1.Rows[i].Cells[7].Value.ToString();
                 deviceData_.modbusChannelList[i].note = dataGridView1.Rows[i].Cells[9].Value.ToString();
+                masterData_.refreshAddr();
+                deviceData_.refreshAddr(deviceData_.curDeviceAddr);
+
+                sum += deviceData_.modbusChannelList[i].curChannelLength;
             }
+            deviceData_.curDeviceLength = sum;
+
+            //int a = deviceData_.curDeviceLength;
+        }
+
+        private void modbusmasterchannel_Shown(object sender, EventArgs e)
+        {
+            for (int l = 0; l < dataGridView1.Rows.Count; l++)
+            {
+                if (dataGridView1.Rows[l].Cells["功能码"].Value.ToString() == "写单个位(线圈) - 0x05" || dataGridView1.Rows[l].Cells["功能码"].Value.ToString() == "写单个字(寄存器) - 0x06")
+                {
+                    dataGridView1.Rows[l].Cells["长度"].ReadOnly = true;
+                    dataGridView1.Rows[l].Cells["长度"].Style.BackColor = Color.Gainsboro;
+                    dataGridView1.Rows[l].Cells["长度"].Value = 1;
+
+                }
+            }
+       
         }
     }
 }

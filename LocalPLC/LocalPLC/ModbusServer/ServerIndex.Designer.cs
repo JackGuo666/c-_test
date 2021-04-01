@@ -33,10 +33,10 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.number = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startaddr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -70,11 +70,12 @@
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 5);
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(386, 477);
+            this.dataGridView1.Size = new System.Drawing.Size(588, 725);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -97,12 +98,34 @@
             this.type,
             this.number,
             this.startaddr});
-            this.dataGridView2.Location = new System.Drawing.Point(-1, 0);
+            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 62;
             this.dataGridView2.RowTemplate.Height = 30;
-            this.dataGridView2.Size = new System.Drawing.Size(566, 483);
+            this.dataGridView2.Size = new System.Drawing.Size(852, 725);
             this.dataGridView2.TabIndex = 7;
+            // 
+            // type
+            // 
+            this.type.HeaderText = "寄存器类型";
+            this.type.MinimumWidth = 8;
+            this.type.Name = "type";
+            this.type.Width = 107;
+            // 
+            // number
+            // 
+            this.number.HeaderText = "寄存器个数";
+            this.number.MinimumWidth = 8;
+            this.number.Name = "number";
+            this.number.Width = 107;
+            // 
+            // startaddr
+            // 
+            this.startaddr.HeaderText = "寄存器modbus起始地址";
+            this.startaddr.MinimumWidth = 8;
+            this.startaddr.Name = "startaddr";
+            this.startaddr.Width = 156;
             // 
             // splitContainer1
             // 
@@ -120,27 +143,6 @@
             this.splitContainer1.SplitterDistance = 392;
             this.splitContainer1.TabIndex = 8;
             // 
-            // type
-            // 
-            this.type.HeaderText = "寄存器类型";
-            this.type.MinimumWidth = 8;
-            this.type.Name = "type";
-            this.type.Width = 134;
-            // 
-            // number
-            // 
-            this.number.HeaderText = "寄存器个数";
-            this.number.MinimumWidth = 8;
-            this.number.Name = "number";
-            this.number.Width = 134;
-            // 
-            // startaddr
-            // 
-            this.startaddr.HeaderText = "寄存器modbus起始地址";
-            this.startaddr.MinimumWidth = 8;
-            this.startaddr.Name = "startaddr";
-            this.startaddr.Width = 156;
-            // 
             // ServerIndex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -148,7 +150,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel1);
             this.Name = "ServerIndex";
-            this.Size = new System.Drawing.Size(970, 533);
+            this.Size = new System.Drawing.Size(975, 535);
             this.Load += new System.EventHandler(this.ServerIndex_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);

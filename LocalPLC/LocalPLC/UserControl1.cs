@@ -1017,7 +1017,7 @@ namespace LocalPLC
             writer.WriteStartObject();// { modbus大括号左边
             //writer.WriteValue("1");
             modmaster.saveJson(writer);
-            //msi.saveJson(writer);          
+            msi.saveJson(writer);          
             mci.saveJson(writer);
             //============================
             ////第一级节点
@@ -1488,8 +1488,8 @@ namespace LocalPLC
 
             {
 
-                saveXml();
-                saveJson();
+                //saveXml();
+                //saveJson();
 
                 utility.addIOGroups();
 
