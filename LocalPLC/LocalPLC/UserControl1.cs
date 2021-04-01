@@ -748,7 +748,7 @@ namespace LocalPLC
                 if (ethname == "NET1")
                 { writer.WriteValue("ethif_0"); }
                 else
-                { writer.WriteValue("") }
+                { writer.WriteValue(""); }
                 writer.WritePropertyName("mac");
                 writer.WriteValue("aa-aa-aa-aa-aa-aa");
                 writer.WritePropertyName("is_dhcp");
@@ -2140,6 +2140,32 @@ namespace LocalPLC
                                                       = variable.Name;
                                             }
                                         }
+                                    }
+                                }
+                            }
+                            if(clientgroup.Name == "Base_DI")
+                            {
+                                object key = NewVariable.GetAttribute(20);
+                                if(key != null)
+                                {
+                                    bool ret = UC.modifyDINameByKey(key.ToString(), NewVariable.Name);
+                                    if(ret)
+                                    {
+                                        saveXml();
+                                        utility.PrintInfo("参数修改，请重新生成配置文件，再下载到PLC");
+                                    }
+                                }
+                            }
+                            else if(clientgroup.Name == "Base_DO")
+                            {
+                                object key = NewVariable.GetAttribute(20);
+                                if(key != null)
+                                {
+                                    bool ret = UC.modifyDONameByKey(key.ToString(), NewVariable.Name);
+                                    if (ret)
+                                    {
+                                        saveXml();
+                                        utility.PrintInfo("参数修改，请重新生成配置文件，再下载到PLC");
                                     }
                                 }
                             }

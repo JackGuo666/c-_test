@@ -412,6 +412,21 @@ namespace LocalPLC.Base
                             text_Temp.SelectionStart = text_Temp.TextLength;
                             setButtonEnable(true);
                         }
+                        else
+                        {
+                            bool ret = UserControlBase.dataManage.checkVarName(value, listDO[row].channelName);
+                            if(!ret)
+                            {
+                                MessageBox.Show("变量名字重复!");
+                                //text_Temp.BackColor = Color.Red;
+                                text_Temp.Text = listDO[row].varName;
+                                dataGridView1.CurrentCell.Value = text_Temp.Text;
+
+                                text_Temp.Focus();
+                                text_Temp.SelectionStart = text_Temp.TextLength;
+                            }
+                        }
+
                         setButtonEnable(true);
                     }
                 }
@@ -436,6 +451,18 @@ namespace LocalPLC.Base
 
                 setButtonEnable(true);
             }
+        }
+
+        private void dataGridView1_Resize(object sender, EventArgs e)
+        {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
+        }
+
+        private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
+        {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
         }
     }
 }
