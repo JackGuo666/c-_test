@@ -373,7 +373,7 @@ namespace LocalPLC.ModbusServer
                                 { writer.WriteValue("ser_port8"); }
                                 else
                                 { writer.WriteValue(""); }
-                                
+
                                 writer.WritePropertyName("mode");
                                 if (data_.dataDevice_.slavetansformMode == 0)
                                 { writer.WriteValue("rtu"); }
