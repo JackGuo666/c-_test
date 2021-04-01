@@ -373,7 +373,7 @@ namespace LocalPLC.ModbusServer
                                 { writer.WriteValue("ser_port8"); }
                                 else
                                 { writer.WriteValue(""); }
-                                writer.WriteValue(data_.dataDevice_.transformportdescribe);
+                                
                                 writer.WritePropertyName("mode");
                                 if (data_.dataDevice_.slavetansformMode == 0)
                                 { writer.WriteValue("rtu"); }
@@ -427,7 +427,10 @@ namespace LocalPLC.ModbusServer
                             {
                                 writer.WriteStartObject(); // { 网口数组下设备左括号
                                 writer.WritePropertyName("port");
-                                writer.WriteValue(data_.dataDevice_.transformportdescribe);
+                                if (data_.dataDevice_.transformportdescribe == "NET1")
+                                { writer.WriteValue("ethif_0"); }
+                                else
+                                { writer.WriteValue(""); }    
                                 writer.WritePropertyName("mode");
                                 if(data_.dataDevice_.transformMode == 0)
                                 {
