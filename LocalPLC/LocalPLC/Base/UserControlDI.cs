@@ -337,6 +337,11 @@ namespace LocalPLC.Base
         {
             if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
+                if(text_Temp.Text.Length == 0)
+                {
+                    return;
+                }
+
                 if (!regStr.IsMatch(text_Temp.Text))
                 {
 
@@ -375,11 +380,46 @@ namespace LocalPLC.Base
 
         void checkTextInput()
         {
-            bool ret = UserControl1.UC.checkVarName(text_Temp.Text);
-            if (!ret)
+            if(dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
+
+            //先判断本界面
+
+            bool ret = false;
+
+            var channel = UserControlBase.dataManage.diList[dataGridView1.CurrentCell.RowIndex].channelName;
+
+            foreach (DataRow row in dtData.Rows)
+            {
+                string curUiVarName = row[columnVarIndex].ToString();
+                string curUiChannelName = row[columnChannelIndex].ToString();
+                if (channel != curUiChannelName)
+                {
+                    if (text_Temp.Text == curUiVarName)
+                    {
+                        ret = true;
+                    }
+                }
+            }
+
+            if(ret)
             {
                 setCellColor(Color.Red, string.Format("{0}已被使用", text_Temp.Text));
+                return;
             }
+            else
+            {
+                ret = UserControl1.UC.getReDataManager().checkVarNameDO(text_Temp.Text, channel);
+                if (ret)
+                {
+                    setCellColor(Color.Red, string.Format("{0}已被使用", text_Temp.Text));
+                    return;
+                }
+            }
+
+
 
             if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
@@ -801,7 +841,7 @@ namespace LocalPLC.Base
 
 
                 //column 1变量名
-                checkTextInput();
+                //checkTextInput();
                 //setButtonEnable(true);
             }
             else if (column == columnFilterIndex)

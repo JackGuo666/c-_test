@@ -82,19 +82,8 @@ namespace LocalPLC.Base
             return false;
         }
 
-
         public bool checkVarName(String varName)
         {
-            var diList = dataManage.diList;
-            foreach(var di in diList)
-            {
-                if(di.varName == varName)
-                {
-
-                }
-            }
-
-
             return true;
         }
 

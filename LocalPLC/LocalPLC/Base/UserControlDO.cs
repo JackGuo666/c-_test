@@ -15,6 +15,9 @@ namespace LocalPLC.Base
         public UserControlDO(string name)
         {
             InitializeComponent();
+
+            text_Temp.MaxLength = 32;
+
             setButtonEnable(false);
             //this.DoubleBuffered = true;
             //this.DoubleBuffered = true;//设置本窗体
@@ -262,8 +265,11 @@ namespace LocalPLC.Base
 
         void checkTextInput()
         {
-            bool ret = UserControl1.UC.checkVarName(text_Temp.Text);
-            if (!ret)
+            var channel = UserControlBase.dataManage.doList[dataGridView1.CurrentCell.RowIndex].channelName;
+
+
+            bool ret = UserControl1.UC.getReDataManager().checkVarNameDI(text_Temp.Text, channel);
+            if (ret)
             {
                 setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
             }
@@ -463,6 +469,8 @@ namespace LocalPLC.Base
         
         private void button1_Click_1(object sender, EventArgs e)
         {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
             getDataFromUI();
             //utility.PrintInfo("DO数据生效!");
             setButtonEnable(false);
