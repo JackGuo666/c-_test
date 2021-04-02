@@ -183,7 +183,7 @@ namespace LocalPLC.Base
             //DataTable dtData = new DataTable();
             dtData.Columns.Add("已使用", typeof(bool));
             dtData.Columns.Add("变量名");
-            var temp = dtData.Columns.Add("滤波");
+            var temp = dtData.Columns.Add("滤波(ms)");
             //temp.MaxLength = 10;
 
             dtData.Columns.Add("通道名");
@@ -622,9 +622,9 @@ namespace LocalPLC.Base
 
 
 
-
-  static private Regex r = new Regex("^[0-9]{1,10}$");       //这个可以写成静态的，就不用老是构造   
-        System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
+        
+    private Regex rNum = new Regex("^[0-9]{1,4}$");       //这个可以写成静态的，就不用老是构造
+    System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
         System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^[\w]{0,32}$");
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -806,17 +806,17 @@ namespace LocalPLC.Base
                 if (listDI[row].filterTime.ToString() != value.ToString())
                 {
                     var str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                    if (!r.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
+                    if (!rNum.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                     {
-                        if(!r.IsMatch(str))
+                        if(!rNum.IsMatch(str))
                         {
-                            if(str.Length > 10)
+                            if(str.Length > 4)
                             {
-                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = UInt32.MaxValue.ToString();
+                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "1000";
                             }
                             else if(str.Length == 0)
                             {
-                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = UInt32.MinValue.ToString();
+                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "0";
                             }
                         }
                         else
