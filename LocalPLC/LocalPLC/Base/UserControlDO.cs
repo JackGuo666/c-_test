@@ -227,6 +227,11 @@ namespace LocalPLC.Base
         {
             if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
+                if(text_Temp.Text.Length == 0)
+                {
+                    return;
+                }
+
                 if (!regStr.IsMatch(text_Temp.Text))
                 {
 
@@ -265,14 +270,45 @@ namespace LocalPLC.Base
 
         void checkTextInput()
         {
-            var channel = UserControlBase.dataManage.doList[dataGridView1.CurrentCell.RowIndex].channelName;
-
-
-            bool ret = UserControl1.UC.getReDataManager().checkVarNameDI(text_Temp.Text, channel);
-            if (ret)
+            if (dataGridView1.CurrentCell == null)
             {
-                setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
+                return;
             }
+
+            //先判断界面
+            var channel = UserControlBase.dataManage.doList[dataGridView1.CurrentCell.RowIndex].channelName;
+            bool ret = false;
+
+            foreach (DataRow row in dtData.Rows)
+            {
+                string curUiVarName = row[columnVarIndex].ToString();
+                string curUiChannelName = row[columnChannelIndex].ToString();
+                if (channel != curUiChannelName)
+                {
+                    if (text_Temp.Text == curUiVarName)
+                    {
+                        ret = true;
+                    }
+                }
+            }
+
+            if(ret)
+            {
+                //界面有重复的
+                setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
+                return;
+            }
+           else
+            {
+                ret = UserControl1.UC.getReDataManager().checkVarNameDI(text_Temp.Text, channel);
+                if (ret)
+                {
+                    setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
+                    return;
+                }
+            }
+
+
 
             if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
