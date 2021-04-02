@@ -47,7 +47,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(999, 633);
+            this.dataGridView1.Size = new System.Drawing.Size(997, 631);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.DataSourceChanged += new System.EventHandler(this.dataGridView1_DataSourceChanged_1);
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
@@ -89,18 +89,19 @@
             this.panel1.Controls.Add(this.dataGridView1);
             this.panel1.Location = new System.Drawing.Point(10, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(999, 633);
+            this.panel1.Size = new System.Drawing.Size(997, 631);
             this.panel1.TabIndex = 2;
             // 
             // UserControlDO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlDO";
-            this.Size = new System.Drawing.Size(1012, 680);
+            this.Size = new System.Drawing.Size(1010, 678);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);

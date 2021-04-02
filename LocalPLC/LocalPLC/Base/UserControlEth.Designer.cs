@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button_cancel = new System.Windows.Forms.Button();
-            this.button_valid = new System.Windows.Forms.Button();
             this.checkBox_SNTP = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,6 +42,8 @@
             this.ipAddressControl_ipaddr = new IPAddressControlLib.IPAddressControl();
             this.textBox_eth = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,30 +69,8 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(751, 471);
+            this.panel1.Size = new System.Drawing.Size(749, 469);
             this.panel1.TabIndex = 4;
-            // 
-            // button_cancel
-            // 
-            this.button_cancel.BackColor = System.Drawing.Color.White;
-            this.button_cancel.Location = new System.Drawing.Point(126, 3);
-            this.button_cancel.Name = "button_cancel";
-            this.button_cancel.Size = new System.Drawing.Size(120, 35);
-            this.button_cancel.TabIndex = 11;
-            this.button_cancel.Text = "取消";
-            this.button_cancel.UseVisualStyleBackColor = true;
-            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
-            // 
-            // button_valid
-            // 
-            this.button_valid.BackColor = System.Drawing.Color.White;
-            this.button_valid.Location = new System.Drawing.Point(0, 3);
-            this.button_valid.Name = "button_valid";
-            this.button_valid.Size = new System.Drawing.Size(120, 35);
-            this.button_valid.TabIndex = 12;
-            this.button_valid.Text = "应用";
-            this.button_valid.UseVisualStyleBackColor = true;
-            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // checkBox_SNTP
             // 
@@ -252,15 +230,38 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "网口1";
             // 
+            // button_cancel
+            // 
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(126, 3);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 11;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(0, 3);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 12;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
+            // 
             // UserControlEth
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlEth";
-            this.Size = new System.Drawing.Size(757, 523);
+            this.Size = new System.Drawing.Size(755, 521);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);

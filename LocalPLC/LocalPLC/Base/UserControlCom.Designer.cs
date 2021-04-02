@@ -230,7 +230,7 @@
             this.panel1.Controls.Add(this.comboBox_StopBit);
             this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(895, 623);
+            this.panel1.Size = new System.Drawing.Size(893, 621);
             this.panel1.TabIndex = 1;
             // 
             // comboBox1
@@ -247,11 +247,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlCom";
-            this.Size = new System.Drawing.Size(901, 670);
+            this.Size = new System.Drawing.Size(899, 668);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
