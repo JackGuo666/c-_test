@@ -74,18 +74,35 @@ namespace LocalPLC.Base
                 UserControl1 us1 = (UserControl1)userBase.parent_;
                 myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
+
+                // Create the ToolTip and associate with the Form container.
+                ToolTip toolTip1 = new ToolTip();
+                // Set up the delays for the ToolTip.
+                toolTip1.AutoPopDelay = 5000;
+                toolTip1.InitialDelay = 500;
+                toolTip1.ReshowDelay = 200;
+                // Force the ToolTip text to be displayed whether or not the form is active.
+                toolTip1.ShowAlways = true;
+
                 //pictureBox2.Parent = pictureBox1;
                 //pictureBox3.Parent = pictureBox1;
 
                 pictest1.Parent = pictureBox1;
+                toolTip1.SetToolTip(pictest1, "DO");
                 pictest2.Parent = pictureBox1;
+                toolTip1.SetToolTip(pictest2, "DI");
+
                 Serial_Line_1.Parent = pictureBox1;
                 Serial_Line_1.Tag = "COM1";
+                // Set up the ToolTip text for the Button and Checkbox.
+                toolTip1.SetToolTip(this.Serial_Line_1, Serial_Line_1.Tag.ToString());
                 Ethernet_1.Parent = pictureBox1;
                 Ethernet_1.Tag = "NET1";
+                toolTip1.SetToolTip(Ethernet_1, Ethernet_1.Tag.ToString());
 
                 Serial_Line_2.Parent = pictureBox1;
                 Serial_Line_2.Tag = "COM2";
+                toolTip1.SetToolTip(this.Serial_Line_2, Serial_Line_2.Tag.ToString());
 
                 //key value
                 //com1 comobject 从配置文件读
