@@ -193,9 +193,130 @@ namespace LocalPLC.Base
             this.dataGridView1.DataSource = dtData;
         }
 
+        ToolTip tip = new ToolTip();
+        void setCellColor(Color color, string str)
+        {
+            if (color == Color.Red)
+            {
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+            }
+            else
+            {
+                setButtonEnable(true);
+            }
+
+            text_Temp.BackColor = color;
+            dataGridView1.CurrentCell.Style.BackColor = color;
+            tip.SetToolTip(text_Temp, str);
+
+        }
+
+
+        void onlyTextBoxSetColor(Color color)
+        {
+            text_Temp.BackColor = color;
+            tip.SetToolTip(text_Temp, "");
+        }
+
+
+        void firstClickTextBoxCheckInput()
+        {
+            if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
+            {
+                if (!regStr.IsMatch(text_Temp.Text))
+                {
+
+                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+
+                }
+                else
+                {
+                    char[] c = text_Temp.Text.ToCharArray();
+                    if (c[0] >= '0' && c[0] <= '9')
+                    {
+                        setCellColor(Color.Red, string.Format("{0} 第一个字符不可以为数", text_Temp.Text));
+
+                        text_Temp.Focus();
+                        text_Temp.SelectionStart = text_Temp.TextLength;
+                    }
+                    else
+                    {
+                        onlyTextBoxSetColor(Color.White);
+                    }
+
+                }
+            }
+            else if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+            {
+                if (!regStrNote.IsMatch(text_Temp.Text))
+                {
+                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+                }
+                else
+                {
+                    onlyTextBoxSetColor(Color.White);
+                }
+            }
+        }
+
+        void checkTextInput()
+        {
+            bool ret = UserControl1.UC.checkVarName(text_Temp.Text);
+            if (!ret)
+            {
+                setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
+            }
+
+            if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
+            {
+                if (!regStr.IsMatch(text_Temp.Text))
+                {
+
+                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+
+                }
+                else
+                {
+                    char[] c = text_Temp.Text.ToCharArray();
+                    if (c[0] >= '0' && c[0] <= '9')
+                    {
+                        setCellColor(Color.Red, string.Format("{0} 第一个字符不可以为数", text_Temp.Text));
+
+                        text_Temp.Focus();
+                        text_Temp.SelectionStart = text_Temp.TextLength;
+                    }
+                    else
+                    {
+
+                        setCellColor(Color.White, "");
+                    }
+
+                }
+            }
+            else if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+            {
+                if (!regStrNote.IsMatch(text_Temp.Text))
+                {
+                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+                }
+                else
+                {
+                    setCellColor(Color.White, "");
+                }
+            }
+        }
+
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            dataGridView1.CurrentCell.Value = text_Temp.Text;
+            if (dataGridView1.CurrentCell.Value.ToString() != text_Temp.Text)
+            {
+                //
+                checkTextInput();
+
+                dataGridView1.CurrentCell.Value = text_Temp.Text;
+            }
         }
 
         private void dataGridView1_CurrentCellChanged(object sender, EventArgs e)
@@ -225,6 +346,8 @@ namespace LocalPLC.Base
                     text_Temp.Select(text_Temp.SelectionStart, 0);
                     text_Temp.SelectionStart = text_Temp.TextLength;
                     text_Temp.ScrollToCaret();
+
+                    firstClickTextBoxCheckInput();
                 }
                 else
                 {
@@ -378,78 +501,11 @@ namespace LocalPLC.Base
 
             if(column == columnVarIndex)
             {
-                if(listDO[row].varName != value.ToString())
-                {
-                    if(!regStr.IsMatch(value))
-                    {
-                        MessageBox.Show("输入格式错误!");
-
-
-                        if(value.Length != 0)
-                        {
-                            text_Temp.Text = listDO[row].varName;
-                            dataGridView1.CurrentCell.Value = text_Temp.Text;
-                        }
-
-                        text_Temp.Focus();
-                        text_Temp.SelectionStart = text_Temp.TextLength;
-                        setButtonEnable(true);
-                    }
-                    else
-                    {
-                        char[] c = value.ToCharArray();
-                        if (c[0] >= '0' && c[0] <= '9')
-                        {
-                            MessageBox.Show("输入格式错误,第一个字符不可以为数字!");
-
-
-                            if (value.Length != 0)
-                            {
-                                text_Temp.Text = listDO[row].varName;
-                                dataGridView1.CurrentCell.Value = text_Temp.Text;
-                            }
-                            text_Temp.Focus();
-                            text_Temp.SelectionStart = text_Temp.TextLength;
-                            setButtonEnable(true);
-                        }
-                        else
-                        {
-                            bool ret = UserControlBase.dataManage.checkVarName(value, listDO[row].channelName);
-                            if(!ret)
-                            {
-                                MessageBox.Show("变量名字重复!");
-                                //text_Temp.BackColor = Color.Red;
-                                text_Temp.Text = listDO[row].varName;
-                                dataGridView1.CurrentCell.Value = text_Temp.Text;
-
-                                text_Temp.Focus();
-                                text_Temp.SelectionStart = text_Temp.TextLength;
-                            }
-                        }
-
-                        setButtonEnable(true);
-                    }
-                }
+                //checkTextInput();
             }
             else if(column == columnNoteIndex)
             {
 
-
-                //注释
-                if(listDO[row].note != value.ToString())
-                {
-                    var note = value.ToString();
-                    if(!regStrNote.IsMatch(note))
-                    {
-                        MessageBox.Show("输入格式错误或超过输入个数限制!");
-                        text_Temp.Text = listDO[e.RowIndex].note;
-                        text_Temp.Focus();
-                        text_Temp.SelectionStart = text_Temp.TextLength;
-                        dataGridView1.CurrentCell.Value = text_Temp.Text;
-                    }
-                }
-
-                setButtonEnable(true);
             }
         }
 
