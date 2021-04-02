@@ -73,8 +73,8 @@ namespace LocalPLC.Base
                 {
                     xml.DIData diData = new xml.DIData();
 
-                    DataRow drData;
-                    drData = dtData.NewRow();
+                    DataRow drData; 
+                     drData = dtData.NewRow();
 
                     diData.used = false;
                     drData[0] = diData.used;
@@ -184,7 +184,7 @@ namespace LocalPLC.Base
             dtData.Columns.Add("已使用", typeof(bool));
             dtData.Columns.Add("变量名");
             var temp = dtData.Columns.Add("滤波(ms)");
-            //temp.MaxLength = 10;
+            //temp.MaxLength = 4;
 
             dtData.Columns.Add("通道名");
             dtData.Columns.Add("地址");
@@ -217,6 +217,7 @@ namespace LocalPLC.Base
             //dtData.Rows.Add(drData);
             
             this.dataGridView1.DataSource = dtData;
+            ((DataGridViewTextBoxColumn)dataGridView1.Columns["滤波(ms)"]).MaxInputLength = 4;
         }
 
 
@@ -278,7 +279,7 @@ namespace LocalPLC.Base
         {
             InitializeComponent();
 
-            //text_Temp.MaxLength = 5;
+            text_Temp.MaxLength = 32;
 
             //InitDatable();
             //InitTableData();
@@ -754,7 +755,10 @@ namespace LocalPLC.Base
         enum COLUMN_DI { USED, VARNAME, FITERTIME, CHANNELNAME, ADDRESS, NOTE };
         private void button1_Click_1(object sender, EventArgs e)
         {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
             getDataFromUI();
+
             setButtonEnable(false);
         }
 
@@ -806,7 +810,7 @@ namespace LocalPLC.Base
                 if (listDI[row].filterTime.ToString() != value.ToString())
                 {
                     var str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                    if (!rNum.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
+                    if (!rNum.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 1000)
                     {
                         if(!rNum.IsMatch(str))
                         {
@@ -818,10 +822,14 @@ namespace LocalPLC.Base
                             {
                                 dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "0";
                             }
+                            else
+                            {
+                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "1000";
+                            }
                         }
                         else
                         {
-                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = listDI[e.RowIndex].filterTime.ToString();
+                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "1000";
                         }
 
                         //dataGridView1.CurrentCell.Style.BackColor = Color.Red;
