@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LocalPLC.ModbusClient
@@ -490,6 +487,8 @@ namespace LocalPLC.ModbusClient
             {
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].ID = i;
                 ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i][0] = i;
+                data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].nameChannel = "client_" + cn + "_device_" + label3.Text + "_channel_" + i;
+                ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["名称"] = "client_" + cn + "_device_" + label3.Text + "_channel_" + i;
                 //data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i - 1].Channellength = 2 + 
                 if (i > 0)
                 {
@@ -566,7 +565,7 @@ namespace LocalPLC.ModbusClient
         private void button1_Click(object sender, EventArgs e)
         {
             refreshtemrow();
-            for(int m = 0;m<dataGridView2.Rows.Count;m++)
+            for(int m = dataGridView2.Rows.Count-1;m>=0;m--)
             {
                 if(dataGridView2.Rows[m].Visible == false)
                 {
