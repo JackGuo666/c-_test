@@ -184,6 +184,7 @@ namespace LocalPLC.Base
             dtData.Columns.Add("已使用", typeof(bool));
             dtData.Columns.Add("变量名");
             var temp = dtData.Columns.Add("滤波");
+            //temp.MaxLength = 10;
 
             dtData.Columns.Add("通道名");
             dtData.Columns.Add("地址");
@@ -691,6 +692,7 @@ namespace LocalPLC.Base
                 {
                     e.Handled = true;
                 }
+
             }
             else if(this.dataGridView1.CurrentCellAddress.X == columnVarIndex)
             {
@@ -806,10 +808,27 @@ namespace LocalPLC.Base
                     var str = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
                     if (!r.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                     {
-                        MessageBox.Show("输入格式错误!");
+                        if(!r.IsMatch(str))
+                        {
+                            if(str.Length > 10)
+                            {
+                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = UInt32.MaxValue.ToString();
+                            }
+                            else if(str.Length == 0)
+                            {
+                                dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = UInt32.MinValue.ToString();
+                            }
+                        }
+                        else
+                        {
+                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = listDI[e.RowIndex].filterTime.ToString();
+                        }
 
-                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = listDI[e.RowIndex].filterTime.ToString();
                         //dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                    }
+                    else
+                    {
+
                     }
                     setButtonEnable(true);
                 }
