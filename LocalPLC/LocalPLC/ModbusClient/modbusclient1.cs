@@ -770,6 +770,24 @@ namespace LocalPLC.ModbusClient
                 temrow[i] = -1;
             }
         }
+        public void refresheachchannel()
+        {
+            for(int i =0;i<data_.modbusDeviceList.Count;i++)
+            {
+                for (int j = 0; j < data_.modbusDeviceList[i].modbusChannelList.Count; j++)
+                {
+                    if (j == 0)
+                    {
+                        data_.modbusDeviceList[i].modbusChannelList[j].channelstartaddr = data_.modbusDeviceList[i].devstartaddr + 1;
+                    }
+                    else if (j>=1)
+                    {
+                        data_.modbusDeviceList[i].modbusChannelList[j].channelstartaddr = data_.modbusDeviceList[i].modbusChannelList[j - 1].channelstartaddr +
+                            data_.modbusDeviceList[i].modbusChannelList[j - 1].Channellength;
+                    }
+                }
+            }
+        }
         private void button3_Click(object sender, EventArgs e)
         {
             refreshtemrow();
@@ -785,9 +803,12 @@ namespace LocalPLC.ModbusClient
                         data_.modbusDeviceList[i].ID = i;
                     }
                     refresh();
+                    
                 }
             }
-            if(comboBox1.SelectedIndex == -1)
+            refresh();
+            refresheachchannel();
+            if (comboBox1.SelectedIndex == -1)
             {
                 MessageBox.Show("传输通道未配置！");
                 return;

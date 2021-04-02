@@ -637,11 +637,21 @@ namespace LocalPLC.ModbusMaster
                 temrow[i] = -1;
             }
         }
+        private void refresh()
+        {
+            for (int i =0;i<deviceData_.modbusChannelList.Count;i++)
+            {
+                deviceData_.modbusChannelList[i].ID = i;
+                dataGridView1.Rows[i].Cells[0].Value = i;
+                deviceData_.modbusChannelList[i].nameChannel = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
+                dataGridView1.Rows[i].Cells["名称"].Value = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
+            }
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             
             refreshtemrow();
-            for (int m = 0; m < dataGridView1.Rows.Count; m++)
+            for (int m = dataGridView1.Rows.Count-1; m >= 0; m--)
             {
                 if (dataGridView1.Rows[m].Visible == false)
                 {
@@ -651,6 +661,7 @@ namespace LocalPLC.ModbusMaster
                     deviceData_.refreshAddr(deviceData_.curDeviceAddr);
                 }
             }
+            refresh();
             int sum = 1;
             for (int i = 0; i < dataGridView1.Rows.Count;i++)
             {
