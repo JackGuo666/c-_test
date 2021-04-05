@@ -697,7 +697,15 @@ namespace LocalPLC.Base
                     if(port.channelName == diPort)
                     {
                         port.used = isChecked;
-                        port.hscUsed = hscData_.name;
+                        if(!isChecked)
+                        {
+                            port.hscUsed = "";
+                        }
+                        else
+                        {
+                            port.hscUsed = hscData_.name;
+                        }
+
                         ret = true;
                         break;
                     }

@@ -355,6 +355,7 @@ namespace LocalPLC.Base
             {
                 if(text_Temp.Text.Length == 0)
                 {
+                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
                     return;
                 }
 
@@ -503,6 +504,19 @@ namespace LocalPLC.Base
             }
         }
 
+        bool checkDataGridView()
+        {
+            for(int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                if(dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor == Color.Red)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         void checkTextInput()
         {
             if(dataGridView1.CurrentCell == null)
@@ -516,6 +530,11 @@ namespace LocalPLC.Base
             {
                 setCellColor(Color.Red, string.Format("{0} 格式无效", dataGridView1.CurrentCell.Value.ToString()));
                 return;
+            }
+            else
+            {
+                //当前输入有效
+                setCellColor(Color.White, "");
             }
 
 
@@ -980,8 +999,18 @@ namespace LocalPLC.Base
 
         void setButtonEnable(bool enable)
         {
-            button_valid.Enabled = enable;
+            if (enable)
+            {
+                bool ret = checkDataGridView();
+                button_valid.Enabled = ret;
+            }
+            else
+            {
+                button_valid.Enabled = enable;
+            }
+
             button_cancel.Enabled = enable;
+
         }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
