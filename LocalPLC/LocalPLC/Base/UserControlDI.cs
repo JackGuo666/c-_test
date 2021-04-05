@@ -289,7 +289,7 @@ namespace LocalPLC.Base
         {
             InitializeComponent();
 
-            text_Temp.MaxLength = 32;
+            text_Temp.MaxLength = 30;
 
             //InitDatable();
             //InitTableData();
@@ -556,7 +556,7 @@ namespace LocalPLC.Base
 
                         if(dataGridView1.CurrentCell.RowIndex == i)
                         {
-                            setCellColor(Color.Red, string.Format("{0}已被使用", text_Temp.Text));
+                            setCellColor(Color.Red, string.Format("{0}已被使用", curUiVarName));
                         }
 
                         buttonStatus = true;
@@ -565,7 +565,7 @@ namespace LocalPLC.Base
                     else
                     {
                         //其他模块判断
-                        ret = UserControl1.UC.getReDataManager().checkVarNameDO(text_Temp.Text, channel);
+                        ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, channel);
                         if (ret)
                         {
                             dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.Red;
@@ -573,7 +573,7 @@ namespace LocalPLC.Base
 
                             if (dataGridView1.CurrentCell.RowIndex == i)
                             {
-                                setCellColor(Color.Red, string.Format("{0}已被使用", text_Temp.Text));
+                                setCellColor(Color.Red, string.Format("{0}已被使用", curUiVarName));
                             }
                             buttonStatus = true;
                             return;
@@ -664,10 +664,11 @@ namespace LocalPLC.Base
             //dataGridView1.CurrentCell.Style.SelectionBackColor = color;
             tip.SetToolTip(text_Temp, str);
 
-            text_Temp.Focus();
+            //text_Temp.Focus();
             //text_Temp.AutoSize = false;
+            text_Temp.SelectAll();
             this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
-            this.text_Temp.ScrollToCaret();
+            //this.text_Temp.ScrollToCaret();
 
         }
 
@@ -696,6 +697,7 @@ namespace LocalPLC.Base
                     text_Temp.Visible = true;
                     text_Temp.Focus();
                     //text_Temp.AutoSize = false;
+                    text_Temp.SelectAll();
                     this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
                     this.text_Temp.ScrollToCaret();
 
@@ -873,6 +875,7 @@ namespace LocalPLC.Base
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
+            dataGridView1.Columns[columnVarIndex].ReadOnly = true;
             dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
             dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
         }

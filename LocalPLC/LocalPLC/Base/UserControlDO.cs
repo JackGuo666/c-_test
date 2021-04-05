@@ -16,7 +16,7 @@ namespace LocalPLC.Base
         {
             InitializeComponent();
 
-            text_Temp.MaxLength = 32;
+            text_Temp.MaxLength = 30;
 
             setButtonEnable(false);
             //this.DoubleBuffered = true;
@@ -29,7 +29,7 @@ namespace LocalPLC.Base
             // 设置下拉列表框不可见
             text_Temp.Visible = false;
             text_Temp.TextChanged += new System.EventHandler(textBox1_TextChanged);
-            text_Temp.Visible = false;
+            //this.text_Temp.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.richTextBox1_PreviewKeyDown);
             text_Temp.WordWrap = false;
             text_Temp.ScrollBars = RichTextBoxScrollBars.None;
 
@@ -520,7 +520,7 @@ namespace LocalPLC.Base
 
                         if (dataGridView1.CurrentCell.RowIndex == i)
                         {
-                            setCellColor(Color.Red, string.Format("{0}已被使用", text_Temp.Text));
+                            setCellColor(Color.Red, string.Format("{0}已被使用", curUiVarName));
                         }
 
                         buttonStatus = true;
@@ -529,7 +529,7 @@ namespace LocalPLC.Base
                     else
                     {
                         //其他模块判断
-                        ret = UserControl1.UC.getReDataManager().checkVarNameDI(text_Temp.Text, channel);
+                        ret = UserControl1.UC.getReDataManager().checkVarNameDI(curUiVarName, channel);
                         if (ret)
                         {
                             dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.Red;
@@ -537,7 +537,7 @@ namespace LocalPLC.Base
 
                             if (dataGridView1.CurrentCell.RowIndex == i)
                             {
-                                setCellColor(Color.Red, string.Format("{0}已被使用", text_Temp.Text));
+                                setCellColor(Color.Red, string.Format("{0}已被使用", curUiVarName));
                             }
                             buttonStatus = true;
                             return;
@@ -583,7 +583,6 @@ namespace LocalPLC.Base
                 }
             }
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentCell.Value.ToString() != text_Temp.Text)
@@ -619,7 +618,7 @@ namespace LocalPLC.Base
                     text_Temp.Height = rect.Height - 5;
                     text_Temp.Visible = true;
                     text_Temp.Focus();
-                    text_Temp.Select(text_Temp.SelectionStart, 0);
+                    //text_Temp.Select(text_Temp.SelectionStart, 0);
                     text_Temp.SelectionStart = text_Temp.TextLength;
                     text_Temp.ScrollToCaret();
 
@@ -822,5 +821,29 @@ namespace LocalPLC.Base
             text_Temp.Hide();
             dataGridView1.CurrentCell = null;
         }
+
+        //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)//取消方向键对控件的焦点的控件，用自己自定义的函数处理各个方向键的处理函数
+        //{
+        //    switch (keyData)
+        //    {
+        //        case Keys.Up:
+        //            //UpKey();
+        //            if(text_Temp.Visible)
+        //            {
+        //                text_Temp.SelectionStart = text_Temp.SelectionStart - 1;
+        //            }
+        //            return true;//不继续处理
+        //        case Keys.Down:
+        //            //DownKey();
+        //            return true;
+        //        case Keys.Left:
+        //            //LeftKey();
+        //            return true;
+        //        case Keys.Right:
+        //            //RightKey();
+        //            return true;
+        //    }
+        //    return base.ProcessCmdKey(ref msg, keyData);
+        //}
     }
 }
