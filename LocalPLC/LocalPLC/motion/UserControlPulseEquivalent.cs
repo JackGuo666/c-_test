@@ -159,8 +159,8 @@ namespace LocalPLC.motion
 
         void setDataFromUI()
         {
-            int.TryParse(textBox1.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
-            int.TryParse(textBox2.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+            UInt32.TryParse(textBox1.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+            UInt32.TryParse(textBox2.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
         }
 
         private void button_valid_Click(object sender, EventArgs e)

@@ -38,6 +38,13 @@ namespace LocalPLC.motion
         public void clearUI()
         {
             axisNode_.Nodes.Clear();
+            //foreach(TreeNode node in axisNode_.Nodes)
+            //{
+            //    if(node.Tag.ToString() != "ADDAXIS")
+            //    {
+            //        axisNode_.Nodes.Remove(node);
+            //    }
+            //}
         }
 
         public void getTreeView(TreeView treeView)
@@ -130,10 +137,10 @@ namespace LocalPLC.motion
                     //脉冲当量
                     //电机每转脉冲数
                     string temp = childElement.GetAttribute("pulseperrevolutionmotor");
-                    int.TryParse(temp, out axis.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
                     //电机每转的负载位移
                     temp = childElement.GetAttribute("offsetperreolutionmotor");
-                    int.TryParse(temp, out axis.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
 
                     //限位信号
                     //启动硬限位

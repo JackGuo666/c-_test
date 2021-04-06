@@ -20,8 +20,8 @@ namespace LocalPLC.motion
 
     public class PulseEquivalent
     {
-        public int pulsePerRevolutionMotor = 1000;         //电机每转脉冲数
-        public int offsetPerReolutionMotor = 1;          //电机每转的负载位移
+        public UInt32 pulsePerRevolutionMotor = 1000;         //电机每转脉冲数
+        public UInt32 offsetPerReolutionMotor = 1;          //电机每转的负载位移
     }
 
     public class LimitSignal

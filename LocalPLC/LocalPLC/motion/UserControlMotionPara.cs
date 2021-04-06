@@ -24,7 +24,7 @@ namespace LocalPLC.motion
         #region
         Axis data = null;
         TreeNode node_ = null;
-
+        ToolTip tip = new ToolTip();
         enum TypeLevel { HIGH_LEVEL, LOW_LEVEL}
 
         Dictionary<int, string> levelDic = new Dictionary<int, string>();
@@ -44,6 +44,21 @@ namespace LocalPLC.motion
         {
             //是否启动限位信号
             checkBox1.Checked = data.axisMotionPara.limitSignal.hardLimitChecked;
+            //启动硬信号
+            if (checkBox1.Checked)
+            {
+                comboBox_hardUpLimitInput.Enabled = true;
+                comboBox_hardDownLimitInput.Enabled = true;
+                comboBox_hardUpLimitLevel.Enabled = true;
+                comboBox_hardDownLimitLevel.Enabled = true;
+            }
+            else
+            {
+                comboBox_hardUpLimitInput.Enabled = false;
+                comboBox_hardDownLimitInput.Enabled = false;
+                comboBox_hardUpLimitLevel.Enabled = false;
+                comboBox_hardDownLimitLevel.Enabled = false;
+            }
 
             LocalPLC.Base.xml.DataManageBase dataManage = null;
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
@@ -122,6 +137,11 @@ namespace LocalPLC.motion
             InitializeComponent();
 
 
+            tip.AutoPopDelay = 5000;
+            tip.InitialDelay = 500;
+            tip.ReshowDelay = 500;
+
+            tip.ShowAlways = true;
             setButtonEnable(false);
         }
 
@@ -217,8 +237,8 @@ namespace LocalPLC.motion
 
         void setDataFromUI()
         {
-            int.TryParse(textBox_pulsePerRevolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
-            int.TryParse(textBox_offsetPerReolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+            UInt32.TryParse(textBox_pulsePerRevolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+            UInt32.TryParse(textBox_offsetPerReolutionMotor.Text, out data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
 
 
             data.axisMotionPara.limitSignal.hardLimitChecked = checkBox1.Checked;
@@ -317,17 +337,24 @@ namespace LocalPLC.motion
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值0到4294967295范围", str));
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
             {
                 //setValidButtonWhite(sender as TextBox);
                 (sender as TextBox).BackColor = Color.White;
+
             }
         }
 
@@ -344,12 +371,17 @@ namespace LocalPLC.motion
                     //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString();
 
                     setValidButtonRed(sender as TextBox);
-
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值0到4294967295范围", str));
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -373,6 +405,9 @@ namespace LocalPLC.motion
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值-2147483648到2147483647范围", str));
                     return;
                 }
                 else
@@ -386,11 +421,17 @@ namespace LocalPLC.motion
                     if(downLimit > upLimit)
                     {
                         setValidButtonRed(sender as TextBox);
-                        MessageBox.Show("上限值要大于下限值");
+                        //MessageBox.Show("上限值要大于下限值");
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 上限值要大于下限值 {1}", str, tempDown));
                     }
                     else
                     {
                         setValidButtonWhite(sender as TextBox);
+                        button_cancel.Enabled = true;
+                        button_valid.Enabled = true;
+                        tip.SetToolTip((sender as TextBox), "");
                     }
                 }
             }
@@ -644,6 +685,24 @@ namespace LocalPLC.motion
             setEnableButton(false, button_cancel);
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            //启动硬信号
+            if(checkBox1.Checked)
+            {
+                comboBox_hardUpLimitInput.Enabled = true;
+                comboBox_hardDownLimitInput.Enabled = true;
+                comboBox_hardUpLimitLevel.Enabled = true;
+                comboBox_hardDownLimitLevel.Enabled = true;
+            }
+            else
+            {
+                comboBox_hardUpLimitInput.Enabled = false;
+                comboBox_hardDownLimitInput.Enabled = false;
+                comboBox_hardUpLimitLevel.Enabled = false;
+                comboBox_hardDownLimitLevel.Enabled = false;
+            }
 
+        }
     }
 }

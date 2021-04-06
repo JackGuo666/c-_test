@@ -73,6 +73,12 @@ namespace LocalPLC.Base
 
                 if (dout.channelName == key)
                 {
+                    if(dout.varName == modifyName)
+                    {
+                        //相等不用修改
+                        return false;
+                    }
+
                     dout.varName = modifyName;
                     refreshDOUserBaseUI();
                     return true;

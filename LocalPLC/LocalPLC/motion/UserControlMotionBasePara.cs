@@ -18,6 +18,8 @@ namespace LocalPLC.motion
 
         Axis data = null;
         //AxisBasePara axisBasePara = null;
+
+        ToolTip tip = new ToolTip();
         #endregion
 
         #region
@@ -146,9 +148,16 @@ namespace LocalPLC.motion
         {
             InitializeComponent();
 
+            richTextBox_AxisName.MaxLength = 30;
+
             button_valid.Enabled = false;
-            
             button_cancel.Enabled = false;
+
+            tip.AutoPopDelay = 10000;
+            tip.InitialDelay = 500;
+            tip.ReshowDelay = 500;
+
+            tip.ShowAlways = true;
         }
 
         public void initData(TreeNode node)
@@ -158,6 +167,9 @@ namespace LocalPLC.motion
                 utility.PrintInfo("{0}节点没有父节点!");
                 return;
             }
+
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
 
             data = node.Parent.Tag as Axis;
             node_ = node;
@@ -173,6 +185,9 @@ namespace LocalPLC.motion
 
             comboBox_MeasureUnit.SelectedIndex = data.axisBasePara.meaUnit;
             comboBox_HardwareInterface.SelectedItem = data.axisBasePara.hardwareInterface;
+
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
 
         public UserControlMotionBasePara(TreeNode node, string axisName)
@@ -219,6 +234,7 @@ namespace LocalPLC.motion
         {
             //Regex reg = new Regex(@"^\d{1,12}(?:\.\d{1,4})?$");
 
+
             System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^\w+$");
             string str = (sender as RichTextBox).Text;
 
@@ -229,6 +245,8 @@ namespace LocalPLC.motion
 
                 (sender as RichTextBox).BackColor = Color.Red;
                 button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+                tip.SetToolTip((sender as RichTextBox), string.Format("{0} 格式不对", str));
                 //(sender as RichTextBox).SelectionStart = data.name.Length;
 
                 return;
@@ -236,26 +254,14 @@ namespace LocalPLC.motion
             else
             {
                 (sender as RichTextBox).BackColor = Color.White;
+                button_cancel.Enabled = true;
                 button_valid.Enabled = true;
+                
+                tip.SetToolTip((sender as RichTextBox), "");
             }
 
 
-            if (data.axisBasePara.axisName != (sender as RichTextBox).Text)
-            {
-                if ((sender as RichTextBox).Text.Length == 0)
-                {
-                    (sender as RichTextBox).Text = data.name;
-                    MessageBox.Show("轴名称不可以为空!");
-                    return;
-                }
-
-                //data.name = (sender as RichTextBox).Text;
-                //node_.Parent.Text = data.name;
-                setEnableButton(true, button_valid);
-                setEnableButton(true, button_cancel);
-
-
-            }
+           
 
 
 
@@ -394,6 +400,7 @@ namespace LocalPLC.motion
             refreshData();
             setEnableButton(false, button_valid);
             setEnableButton(false, button_cancel);
+            richTextBox_AxisName.BackColor = Color.White;
         }
 
         private void comboBox_MeasureUnit_DataSourceChanged(object sender, EventArgs e)

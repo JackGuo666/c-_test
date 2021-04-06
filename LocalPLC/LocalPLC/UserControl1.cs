@@ -390,6 +390,7 @@ namespace LocalPLC
                     //新建工程加载默认控制器
                     string type = UC.loadControler();
                     UC.createControler(/*"LocalPLC24P"*/ type);
+                    motion.createAxisTree();
                     return;
                 }
             }
@@ -2145,6 +2146,15 @@ namespace LocalPLC
                             }
                             if(clientgroup.Name == "Base_DI")
                             {
+                                if(NewVariable.Group != null)
+                                {
+                                    var name = NewVariable.Group.Name;
+                                    if(name != "Base_DI")
+                                    {
+                                        continue;
+                                    }
+                                }
+
                                 object key = NewVariable.GetAttribute(20);
                                 if(key != null)
                                 {
@@ -2158,6 +2168,16 @@ namespace LocalPLC
                             }
                             else if(clientgroup.Name == "Base_DO")
                             {
+                                if (NewVariable.Group != null)
+                                {
+                                    var name = NewVariable.Group.Name;
+                                    if (name != "Base_DO")
+                                    {
+                                        continue;
+                                    }
+                                }
+
+
                                 object key = NewVariable.GetAttribute(20);
                                 if(key != null)
                                 {
