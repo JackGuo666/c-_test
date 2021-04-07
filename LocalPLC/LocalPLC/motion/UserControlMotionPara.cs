@@ -85,6 +85,19 @@ namespace LocalPLC.motion
             comboBox_hardDownLimitLevel.SelectedIndex = (int)TypeLevel.HIGH_LEVEL;
 
             checkBox_softLimit.Checked = data.axisMotionPara.limitSignal.softLimitChecked;
+
+            //启动软限位
+            if (checkBox_softLimit.Checked)
+            {
+                textBox_softUpLimitOffset.Enabled = true;
+                textBox_SoftDownLimitOffset.Enabled = true;
+            }
+            else
+            {
+                textBox_softUpLimitOffset.Enabled = false;
+                textBox_SoftDownLimitOffset.Enabled = false;
+            }
+
             textBox_softUpLimitOffset.Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
             textBox_SoftDownLimitOffset.Text = data.axisMotionPara.limitSignal.softDownLimitOffset.ToString();
         }
@@ -333,13 +346,26 @@ namespace LocalPLC.motion
                 string str = (sender as TextBox).Text;
 
 
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
                     setValidButtonRed(sender as TextBox);
                     button_valid.Enabled = false;
                     button_cancel.Enabled = true;
-                    tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值0到4294967295范围", str));
+                    if(!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if(Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_pulsePerRevolutionMotor.Text = 4294967295.ToString();
+                    }
+                    else if(Int64.Parse(str) < 0)
+                    {
+                        textBox_pulsePerRevolutionMotor.Text = 0.ToString();
+                    }
+
+                    //tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值0到4294967295范围", str));
                     return;
                 }
                 else
@@ -373,7 +399,22 @@ namespace LocalPLC.motion
                     setValidButtonRed(sender as TextBox);
                     button_valid.Enabled = false;
                     button_cancel.Enabled = true;
-                    tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值0到4294967295范围", str));
+
+                    if(!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if(Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_offsetPerReolutionMotor.Text = 4294967295.ToString();
+                    }
+                    else if(Int64.Parse(str) <= 0)
+                    {
+                        textBox_offsetPerReolutionMotor.Text = 0.ToString();
+                    }
+
+
+                    //tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值0到4294967295范围", str));
                     return;
                 }
                 else
@@ -391,7 +432,7 @@ namespace LocalPLC.motion
             }
         }
 
-        private void textBox_HardUpLimitOffset_TextChanged(object sender, EventArgs e)
+        private void textBox_softUpLimitOffset_TextChanged(object sender, EventArgs e)
         {
             if(textBox_softUpLimitOffset.Text !=
                 data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString())
@@ -401,13 +442,31 @@ namespace LocalPLC.motion
                 bool btest = regZF.IsMatch(str);
                 //btest = Int64.Parse(str) < -2147483648;
                 //btest = Int64.Parse(str) > 2147483647;
+
                 if (!regZF.IsMatch(str) || Int64.Parse(str) < -2147483648 || Int64.Parse(str) > 2147483647)
                 {
-                    //(sender as TextBox).Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
                     setValidButtonRed(sender as TextBox);
                     button_valid.Enabled = false;
                     button_cancel.Enabled = true;
-                    tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值-2147483648到2147483647范围", str));
+                    if (!regZF.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                        //MessageBox.Show((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if(Int64.Parse(str) < -2147483648)
+                    {
+                        textBox_softUpLimitOffset.Text = (-2147483648).ToString();
+                    }
+                    else if(Int64.Parse(str) > 2147483647)
+                    {
+                        textBox_softUpLimitOffset.Text = (2147483647).ToString();
+                    }
+
+                    //(sender as TextBox).Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
+                   
+                    //tip.SetToolTip((sender as TextBox), string.Format("{0} 超出值-2147483648到2147483647范围", str));
+
+
                     return;
                 }
                 else
@@ -418,7 +477,7 @@ namespace LocalPLC.motion
                     int downLimit;
                     int.TryParse(tempUp, out upLimit);
                     int.TryParse(tempDown, out downLimit);
-                    if(downLimit > upLimit)
+                    if(downLimit >= upLimit)
                     {
                         setValidButtonRed(sender as TextBox);
                         //MessageBox.Show("上限值要大于下限值");
@@ -429,9 +488,11 @@ namespace LocalPLC.motion
                     else
                     {
                         setValidButtonWhite(sender as TextBox);
+                        textBox_SoftDownLimitOffset.BackColor = Color.White;
                         button_cancel.Enabled = true;
                         button_valid.Enabled = true;
                         tip.SetToolTip((sender as TextBox), "");
+                        tip.SetToolTip(textBox_SoftDownLimitOffset, "");
                     }
                 }
             }
@@ -449,10 +510,27 @@ namespace LocalPLC.motion
             {
                 setButtonEnable(true);
                 string str = (sender as TextBox).Text;
-                if(!regZF.IsMatch(str) || Int64.Parse(str) <= -2147483648 || Int64.Parse(str) > 2147483647)
+
+                if (!regZF.IsMatch(str) || Int64.Parse(str) < -2147483648 || Int64.Parse(str) > 2147483647)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.limitSignal.softDownLimitOffset.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if (!regZF.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                        //MessageBox.Show((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if (Int64.Parse(str) < -2147483648)
+                    {
+                        textBox_SoftDownLimitOffset.Text = (-2147483648).ToString();
+                    }
+                    else if (Int64.Parse(str) > 2147483647)
+                    {
+                        textBox_SoftDownLimitOffset.Text = (2147483647).ToString();
+                    }
+
                     return;
                 }
                 else
@@ -463,14 +541,22 @@ namespace LocalPLC.motion
                     int downLimit;
                     int.TryParse(tempUp, out upLimit);
                     int.TryParse(tempDown, out downLimit);
-                    if (downLimit > upLimit)
+                    if (downLimit >= upLimit)
                     {
                         setValidButtonRed(sender as TextBox);
-                        MessageBox.Show("上限值要大于下限值");
+                        //MessageBox.Show("上限值要大于下限值");
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 上限值要大于下限值 {1}", str, upLimit));
                     }
                     else
                     {
                         setValidButtonWhite(sender as TextBox);
+                        textBox_softUpLimitOffset.BackColor = Color.White;
+                        button_cancel.Enabled = true;
+                        button_valid.Enabled = true;
+                        tip.SetToolTip((sender as TextBox), "");
+                        tip.SetToolTip(textBox_softUpLimitOffset, "");
                     }
                 }
 
@@ -646,14 +732,13 @@ namespace LocalPLC.motion
             e.Handled = true;
         }
 
-        private void textBox_HardUpLimitOffset_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBox_SoftUpLimitOffset_KeyPress(object sender, KeyPressEventArgs e)
         {
+
             if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8 && e.KeyChar != '-')
             {
                 e.Handled = true;
             }
-
-
         }
 
         private void textBox_SoftDownLimitOffset_KeyPress(object sender, KeyPressEventArgs e)
@@ -703,6 +788,21 @@ namespace LocalPLC.motion
                 comboBox_hardDownLimitLevel.Enabled = false;
             }
 
+        }
+
+        private void checkBox_softLimit_CheckedChanged(object sender, EventArgs e)
+        {
+            //启动软限位
+            if(checkBox_softLimit.Checked)
+            {
+                textBox_softUpLimitOffset.Enabled = true;
+                textBox_SoftDownLimitOffset.Enabled = true;
+            }
+            else
+            {
+                textBox_softUpLimitOffset.Enabled = false;
+                textBox_SoftDownLimitOffset.Enabled = false;
+            }
         }
     }
 }

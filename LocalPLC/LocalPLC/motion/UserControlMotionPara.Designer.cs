@@ -188,8 +188,8 @@
             this.textBox_softUpLimitOffset.Name = "textBox_softUpLimitOffset";
             this.textBox_softUpLimitOffset.Size = new System.Drawing.Size(140, 28);
             this.textBox_softUpLimitOffset.TabIndex = 1;
-            this.textBox_softUpLimitOffset.TextChanged += new System.EventHandler(this.textBox_HardUpLimitOffset_TextChanged);
-            this.textBox_softUpLimitOffset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_HardUpLimitOffset_KeyPress);
+            this.textBox_softUpLimitOffset.TextChanged += new System.EventHandler(this.textBox_softUpLimitOffset_TextChanged);
+            this.textBox_softUpLimitOffset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_SoftUpLimitOffset_KeyPress);
             // 
             // checkBox_softLimit
             // 
@@ -200,6 +200,7 @@
             this.checkBox_softLimit.TabIndex = 2;
             this.checkBox_softLimit.Text = "启动软限位";
             this.checkBox_softLimit.UseVisualStyleBackColor = true;
+            this.checkBox_softLimit.CheckedChanged += new System.EventHandler(this.checkBox_softLimit_CheckedChanged);
             // 
             // label12
             // 
