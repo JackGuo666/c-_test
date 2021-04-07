@@ -169,19 +169,19 @@ namespace LocalPLC.motion
                     //动态参数
                     //最大速度
                     temp = childElement.GetAttribute("maxspeed");
-                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.maxSpeed);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.dynamicPara.maxSpeed);
                     //加速度
                     temp = childElement.GetAttribute("acceleratedspeed");
-                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.acceleratedSpeed);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.dynamicPara.acceleratedSpeed);
                     //减速度
                     temp = childElement.GetAttribute("decelerationspeed");
-                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.decelerationSpeed);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.dynamicPara.decelerationSpeed);
                     //jerk
                     temp = childElement.GetAttribute("jerk");
-                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.jerk);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.dynamicPara.jerk);
                     //急停减速度
                     temp = childElement.GetAttribute("emestopdeceleration");
-                    int.TryParse(temp, out axis.axisMotionPara.dynamicPara.emeStopDeceleration);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.dynamicPara.emeStopDeceleration);
 
 
 
@@ -196,7 +196,7 @@ namespace LocalPLC.motion
                     axis.axisMotionPara.backOriginal.ZPulseSignal = childElement.GetAttribute("zpulsesignal");
 
                     temp = childElement.GetAttribute("reversecompensation");
-                    int.TryParse(temp, out axis.axisMotionPara.reverseCompensation.reverseCompensation);
+                    UInt32.TryParse(temp, out axis.axisMotionPara.reverseCompensation.reverseCompensation);
                 }
             }
         }

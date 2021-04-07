@@ -16,7 +16,7 @@ namespace LocalPLC.motion
         #region
         Axis data = null;
         TreeNode node_ = null;
-
+        ToolTip tip = new ToolTip();
         #endregion
 
 
@@ -51,6 +51,12 @@ namespace LocalPLC.motion
 
 
             initPulseEquient();
+
+            tip.AutoPopDelay = 5000;
+            tip.InitialDelay = 500;
+            tip.ReshowDelay = 500;
+
+            tip.ShowAlways = true;
         }
 
         void setEnableButton(bool enable, Button btn)
@@ -74,6 +80,8 @@ namespace LocalPLC.motion
             button_cancel.Enabled = enable;
         }
 
+        //System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^[1-9]([0-9]*)$|^[0-9]$");
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -82,19 +90,37 @@ namespace LocalPLC.motion
             if (data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString()
                 != (sender as TextBox).Text)
             {
-                setButtonEnable(true);
+                //setButtonEnable(true);
 
-                System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+                //System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
                 string str = (sender as TextBox).Text;
 
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if(!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if(Int64.Parse(str) > 4294967295)
+                    {
+                        textBox1.Text = 4294967295.ToString();
+                    }
+                    else if(Int64.Parse(str) < 0)
+                    {
+                        textBox1.Text = 0.ToString();
+                    }
+
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -120,21 +146,39 @@ namespace LocalPLC.motion
             //模板
             if (textBox2.Text != data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString())
             {
-               setButtonEnable(true);
+               //setButtonEnable(true);
 
 
                 string str = (sender as TextBox).Text;
-                System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+                //System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
 
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if(!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if(Int64.Parse(str) > 4294967295)
+                    {
+                        textBox2.Text = 4294967295.ToString();
+                    }
+                    else if(Int64.Parse(str) < 0)
+                    {
+                        textBox2.Text = 0.ToString();
+                    }
+
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -154,7 +198,10 @@ namespace LocalPLC.motion
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
         }
 
         void setDataFromUI()

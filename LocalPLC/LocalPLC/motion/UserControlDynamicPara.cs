@@ -59,15 +59,15 @@ namespace LocalPLC.motion
             //动态参数
             var dynamic = data.axisMotionPara.dynamicPara;
             //最大速度
-            int.TryParse(textBox_MaxSpeed.Text, out dynamic.maxSpeed);
+            UInt32.TryParse(textBox_MaxSpeed.Text, out dynamic.maxSpeed);
             //加速度
-            int.TryParse(textBox_AcceleratedSpeed.Text, out dynamic.acceleratedSpeed);
+            UInt32.TryParse(textBox_AcceleratedSpeed.Text, out dynamic.acceleratedSpeed);
             //减速度
-            int.TryParse(textBox_DecelerationSpeed.Text, out dynamic.decelerationSpeed);
+            UInt32.TryParse(textBox_DecelerationSpeed.Text, out dynamic.decelerationSpeed);
             //Jerk
-            int.TryParse(textBox_Jerk.Text, out dynamic.jerk);
+            UInt32.TryParse(textBox_Jerk.Text, out dynamic.jerk);
             //最大速度
-            int.TryParse(textBox_EmeStopDeceSpeed.Text, out dynamic.emeStopDeceleration);
+            UInt32.TryParse(textBox_EmeStopDeceSpeed.Text, out dynamic.emeStopDeceleration);
         }
 
 

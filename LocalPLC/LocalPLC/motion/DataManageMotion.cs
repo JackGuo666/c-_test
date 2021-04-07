@@ -41,15 +41,15 @@ namespace LocalPLC.motion
     public class DynamicPara
     {
         //最大速度
-        public int maxSpeed = 1;
+        public UInt32 maxSpeed = 1;
         //加速度
-        public int acceleratedSpeed = 1;
+        public UInt32 acceleratedSpeed = 1;
         //减速度
-        public int decelerationSpeed = 1;
+        public UInt32 decelerationSpeed = 1;
         //跃度Jerk
-        public int jerk = 1;
+        public UInt32 jerk = 1;
         //急停减速度
-        public int emeStopDeceleration = 1;
+        public UInt32 emeStopDeceleration = 1;
     }
 
     public class BackOriginal
@@ -65,7 +65,7 @@ namespace LocalPLC.motion
 
     public class ReverseCompensation
     {
-        public int reverseCompensation = 1;
+        public UInt32 reverseCompensation = 1;
     }
     //反向间隙补偿
 

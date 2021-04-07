@@ -29,97 +29,102 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox_hardDownLimitLevel = new System.Windows.Forms.ComboBox();
-            this.comboBox_hardUpLimitLevel = new System.Windows.Forms.ComboBox();
-            this.textBox_hardDownLimitInput = new System.Windows.Forms.TextBox();
-            this.textBox_checkBox_softLimit = new System.Windows.Forms.TextBox();
+            this.comboBox_hardDownLimitSelectLevel = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardUpLimitSelectLevel = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardDownLimitInput = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardUpLimitInput = new System.Windows.Forms.ComboBox();
+            this.textBox_softDownLimitOffset = new System.Windows.Forms.TextBox();
+            this.textBox_softUpLimitOffset = new System.Windows.Forms.TextBox();
             this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.软件下限位位置 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.软件上限位位置 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.comboBox4);
-            this.panel2.Controls.Add(this.comboBox3);
-            this.panel2.Controls.Add(this.comboBox_hardDownLimitLevel);
-            this.panel2.Controls.Add(this.comboBox_hardUpLimitLevel);
-            this.panel2.Controls.Add(this.textBox_hardDownLimitInput);
-            this.panel2.Controls.Add(this.textBox_checkBox_softLimit);
+            this.panel2.AutoScroll = true;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.pictureBox1);
+            this.panel2.Controls.Add(this.comboBox_hardDownLimitSelectLevel);
+            this.panel2.Controls.Add(this.comboBox_hardUpLimitSelectLevel);
+            this.panel2.Controls.Add(this.comboBox_hardDownLimitInput);
+            this.panel2.Controls.Add(this.comboBox_hardUpLimitInput);
+            this.panel2.Controls.Add(this.textBox_softDownLimitOffset);
+            this.panel2.Controls.Add(this.textBox_softUpLimitOffset);
             this.panel2.Controls.Add(this.checkBox_softLimit);
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.checkBox1);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label14);
-            this.panel2.Controls.Add(this.label11);
+            this.panel2.Controls.Add(this.软件下限位位置);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label13);
-            this.panel2.Controls.Add(this.label10);
+            this.panel2.Controls.Add(this.软件上限位位置);
             this.panel2.Controls.Add(this.label7);
-            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Location = new System.Drawing.Point(3, 44);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(857, 262);
+            this.panel2.Size = new System.Drawing.Size(873, 583);
             this.panel2.TabIndex = 3;
             // 
-            // comboBox4
+            // comboBox_hardDownLimitSelectLevel
             // 
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(637, 117);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(141, 26);
-            this.comboBox4.TabIndex = 3;
+            this.comboBox_hardDownLimitSelectLevel.FormattingEnabled = true;
+            this.comboBox_hardDownLimitSelectLevel.Location = new System.Drawing.Point(637, 117);
+            this.comboBox_hardDownLimitSelectLevel.Name = "comboBox_hardDownLimitSelectLevel";
+            this.comboBox_hardDownLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitSelectLevel.TabIndex = 3;
             // 
-            // comboBox3
+            // comboBox_hardUpLimitSelectLevel
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(637, 80);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(141, 26);
-            this.comboBox3.TabIndex = 3;
+            this.comboBox_hardUpLimitSelectLevel.FormattingEnabled = true;
+            this.comboBox_hardUpLimitSelectLevel.Location = new System.Drawing.Point(637, 80);
+            this.comboBox_hardUpLimitSelectLevel.Name = "comboBox_hardUpLimitSelectLevel";
+            this.comboBox_hardUpLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitSelectLevel.TabIndex = 3;
             // 
-            // comboBox_hardDownLimitLevel
+            // comboBox_hardDownLimitInput
             // 
-            this.comboBox_hardDownLimitLevel.FormattingEnabled = true;
-            this.comboBox_hardDownLimitLevel.Location = new System.Drawing.Point(297, 117);
-            this.comboBox_hardDownLimitLevel.Name = "comboBox_hardDownLimitLevel";
-            this.comboBox_hardDownLimitLevel.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_hardDownLimitLevel.TabIndex = 3;
+            this.comboBox_hardDownLimitInput.FormattingEnabled = true;
+            this.comboBox_hardDownLimitInput.Location = new System.Drawing.Point(297, 117);
+            this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
+            this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitInput.TabIndex = 3;
             // 
-            // comboBox_hardUpLimitLevel
+            // comboBox_hardUpLimitInput
             // 
-            this.comboBox_hardUpLimitLevel.FormattingEnabled = true;
-            this.comboBox_hardUpLimitLevel.Location = new System.Drawing.Point(297, 80);
-            this.comboBox_hardUpLimitLevel.Name = "comboBox_hardUpLimitLevel";
-            this.comboBox_hardUpLimitLevel.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_hardUpLimitLevel.TabIndex = 3;
+            this.comboBox_hardUpLimitInput.FormattingEnabled = true;
+            this.comboBox_hardUpLimitInput.Location = new System.Drawing.Point(297, 80);
+            this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
+            this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitInput.TabIndex = 3;
             // 
-            // textBox_hardDownLimitInput
+            // textBox_softDownLimitOffset
             // 
-            this.textBox_hardDownLimitInput.Location = new System.Drawing.Point(297, 225);
-            this.textBox_hardDownLimitInput.Name = "textBox_hardDownLimitInput";
-            this.textBox_hardDownLimitInput.Size = new System.Drawing.Size(140, 28);
-            this.textBox_hardDownLimitInput.TabIndex = 1;
+            this.textBox_softDownLimitOffset.Location = new System.Drawing.Point(297, 225);
+            this.textBox_softDownLimitOffset.Name = "textBox_softDownLimitOffset";
+            this.textBox_softDownLimitOffset.Size = new System.Drawing.Size(140, 28);
+            this.textBox_softDownLimitOffset.TabIndex = 1;
             // 
-            // textBox_checkBox_softLimit
+            // textBox_softUpLimitOffset
             // 
-            this.textBox_checkBox_softLimit.Location = new System.Drawing.Point(297, 188);
-            this.textBox_checkBox_softLimit.Name = "textBox_checkBox_softLimit";
-            this.textBox_checkBox_softLimit.Size = new System.Drawing.Size(140, 28);
-            this.textBox_checkBox_softLimit.TabIndex = 1;
+            this.textBox_softUpLimitOffset.Location = new System.Drawing.Point(297, 188);
+            this.textBox_softUpLimitOffset.Name = "textBox_softUpLimitOffset";
+            this.textBox_softUpLimitOffset.Size = new System.Drawing.Size(140, 28);
+            this.textBox_softUpLimitOffset.TabIndex = 1;
             // 
             // checkBox_softLimit
             // 
@@ -130,6 +135,7 @@
             this.checkBox_softLimit.TabIndex = 2;
             this.checkBox_softLimit.Text = "启动软限位";
             this.checkBox_softLimit.UseVisualStyleBackColor = true;
+            this.checkBox_softLimit.CheckedChanged += new System.EventHandler(this.checkBox_softLimit_CheckedChanged);
             // 
             // label12
             // 
@@ -149,6 +155,7 @@
             this.checkBox1.TabIndex = 2;
             this.checkBox1.Text = "启动硬限位";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label8
             // 
@@ -177,14 +184,14 @@
             this.label14.TabIndex = 0;
             this.label14.Text = "选择电平";
             // 
-            // label11
+            // 软件下限位位置
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(94, 235);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(152, 18);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "硬件下限位输入点";
+            this.软件下限位位置.AutoSize = true;
+            this.软件下限位位置.Location = new System.Drawing.Point(94, 235);
+            this.软件下限位位置.Name = "软件下限位位置";
+            this.软件下限位位置.Size = new System.Drawing.Size(134, 18);
+            this.软件下限位位置.TabIndex = 0;
+            this.软件下限位位置.Text = "软件下限位位置";
             // 
             // label9
             // 
@@ -204,14 +211,14 @@
             this.label13.TabIndex = 0;
             this.label13.Text = "选择电平";
             // 
-            // label10
+            // 软件上限位位置
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(94, 198);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(152, 18);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "硬件上限位输入点";
+            this.软件上限位位置.AutoSize = true;
+            this.软件上限位位置.Location = new System.Drawing.Point(94, 198);
+            this.软件上限位位置.Name = "软件上限位位置";
+            this.软件上限位位置.Size = new System.Drawing.Size(134, 18);
+            this.软件上限位位置.TabIndex = 0;
+            this.软件上限位位置.Text = "软件上限位位置";
             // 
             // label7
             // 
@@ -224,25 +231,47 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox1.BackgroundImage = global::LocalPLC.Properties.Resources.LocalPLC24P;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 273);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 273);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(857, 301);
+            this.pictureBox1.Size = new System.Drawing.Size(865, 305);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
+            // 
+            // button_cancel
+            // 
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(135, 3);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 4;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(3, 3);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 5;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
             // 
             // UserControlLimitSignal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.pictureBox1);
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.button_cancel);
+            this.Controls.Add(this.button_valid);
             this.Controls.Add(this.panel2);
             this.Name = "UserControlLimitSignal";
-            this.Size = new System.Drawing.Size(860, 575);
+            this.Size = new System.Drawing.Size(879, 630);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -253,23 +282,25 @@
         #endregion
 
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox_hardDownLimitLevel;
-        private System.Windows.Forms.ComboBox comboBox_hardUpLimitLevel;
-        private System.Windows.Forms.TextBox textBox_hardDownLimitInput;
-        private System.Windows.Forms.TextBox textBox_checkBox_softLimit;
+        private System.Windows.Forms.ComboBox comboBox_hardDownLimitSelectLevel;
+        private System.Windows.Forms.ComboBox comboBox_hardUpLimitSelectLevel;
+        private System.Windows.Forms.ComboBox comboBox_hardDownLimitInput;
+        private System.Windows.Forms.ComboBox comboBox_hardUpLimitInput;
+        private System.Windows.Forms.TextBox textBox_softDownLimitOffset;
+        private System.Windows.Forms.TextBox textBox_softUpLimitOffset;
         private System.Windows.Forms.CheckBox checkBox_softLimit;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label 软件下限位位置;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label 软件上限位位置;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }
