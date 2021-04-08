@@ -15,7 +15,7 @@ namespace LocalPLC.motion
         #region
         Axis data = null;
         TreeNode node_ = null;
-
+        ToolTip tip = new ToolTip();
         #endregion
 
         #region
@@ -39,8 +39,6 @@ namespace LocalPLC.motion
         {
             InitializeComponent();
 
-            setButtonEnable(false);
-
             if (node.Parent == null)
             {
                 LocalPLC.utility.PrintInfo(string.Format("{0}节点没有父节点!", node.Parent));
@@ -51,6 +49,13 @@ namespace LocalPLC.motion
             node_ = node;
 
             initDynamic();
+
+            tip.AutoPopDelay = 5000;
+            tip.InitialDelay = 500;
+            tip.ReshowDelay = 500;
+
+            tip.ShowAlways = true;
+            setButtonEnable(false);
 
         }
 
@@ -113,24 +118,41 @@ namespace LocalPLC.motion
             text.BackColor = Color.White;
         }
 
-        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[1-9]\d*$");
+        System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^[1-9]([0-9]*)$|^[0-9]$");
         private void textBox_MaxSpeed_TextChanged(object sender, EventArgs e)
         {
             if (textBox_MaxSpeed.Text !=
                 data.axisMotionPara.dynamicPara.maxSpeed.ToString())
             {
-                setButtonEnable(true);
+                //setButtonEnable(true);
 
                 string str = (sender as TextBox).Text;
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.maxSpeed.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if (!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if (Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_MaxSpeed.Text = 4294967295.ToString();
+                    }
+                    else if (Int64.Parse(str) < 0)
+                    {
+                        textBox_MaxSpeed.Text = 0.ToString();
+                    }
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -148,15 +170,32 @@ namespace LocalPLC.motion
 
                 setButtonEnable(true);
                 string str = (sender as TextBox).Text;
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.maxSpeed.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if (!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if (Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_AcceleratedSpeed.Text = 4294967295.ToString();
+                    }
+                    else if (Int64.Parse(str) < 0)
+                    {
+                        textBox_AcceleratedSpeed.Text = 0.ToString();
+                    }
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -174,15 +213,31 @@ namespace LocalPLC.motion
 
                 setButtonEnable(true);
                 string str = (sender as TextBox).Text;
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if (!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if (Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_DecelerationSpeed.Text = 4294967295.ToString();
+                    }
+                    else if (Int64.Parse(str) < 0)
+                    {
+                        textBox_DecelerationSpeed.Text = 0.ToString();
+                    }
                     return;
                 }
                 else
                 {
-
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -197,15 +252,32 @@ namespace LocalPLC.motion
             {
                 setButtonEnable(true);
                 string str = (sender as TextBox).Text;
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.jerk.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if (!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if (Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_Jerk.Text = 4294967295.ToString();
+                    }
+                    else if (Int64.Parse(str) < 0)
+                    {
+                        textBox_Jerk.Text = 0.ToString();
+                    }
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
@@ -221,23 +293,80 @@ namespace LocalPLC.motion
                 data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString())
             {
 
-                setButtonEnable(true);
+                //setButtonEnable(true);
                 string str = (sender as TextBox).Text;
-                if (!reg.IsMatch(str) || Int64.Parse(str) <= 0 || Int64.Parse(str) > 4294967295)
+                if (!reg.IsMatch(str) || Int64.Parse(str) < 0 || Int64.Parse(str) > 4294967295)
                 {
                     //(sender as TextBox).Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
                     setValidButtonRed(sender as TextBox);
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    if (!reg.IsMatch(str))
+                    {
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
+                    }
+                    else if (Int64.Parse(str) > 4294967295)
+                    {
+                        textBox_EmeStopDeceSpeed.Text = 4294967295.ToString();
+                    }
+                    else if (Int64.Parse(str) < 0)
+                    {
+                        textBox_EmeStopDeceSpeed.Text = 0.ToString();
+                    }
                     return;
                 }
                 else
                 {
                     setValidButtonWhite(sender as TextBox);
+                    button_cancel.Enabled = true;
+                    button_valid.Enabled = true;
+                    tip.SetToolTip((sender as TextBox), "");
                 }
             }
             else
             {
                 //setValidButtonWhite(sender as TextBox);
                 (sender as TextBox).BackColor = Color.White;
+            }
+        }
+
+        private void textBox_MaxSpeed_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_AcceleratedSpeed_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_DecelerationSpeed_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Jerk_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_EmeStopDeceSpeed_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8)
+            {
+                e.Handled = true;
             }
         }
     }

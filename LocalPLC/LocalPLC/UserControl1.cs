@@ -1381,7 +1381,8 @@ namespace LocalPLC
                         UserControlLimitSignal para = new UserControlLimitSignal(e.Node.Parent);
                         para.Show();
                         ModbusWindow.Controls.Clear();
-                        para.Dock = DockStyle.None;
+                        para.Dock = DockStyle.Fill;
+                        //para.Anchor = AnchorStyles.
                         ModbusWindow.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_DYNAMIC_PARA")
