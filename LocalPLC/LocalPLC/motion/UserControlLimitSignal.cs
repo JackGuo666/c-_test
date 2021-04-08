@@ -68,7 +68,7 @@ namespace LocalPLC.motion
         public UserControlLimitSignal(TreeNode node)
         {
             InitializeComponent();
-
+            //panel2.HorizontalScroll.Visible = false;
             if (node.Parent == null)
             {
                 LocalPLC.utility.PrintInfo(string.Format("{0}节点没有父节点!", node.Parent));
