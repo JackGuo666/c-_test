@@ -162,6 +162,7 @@
             this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
             this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardDownLimitInput.TabIndex = 3;
+            this.comboBox_hardDownLimitInput.SelectedIndexChanged += new System.EventHandler(this.comboBox_hardDownLimitInput_SelectedIndexChanged);
             this.comboBox_hardDownLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_hardUpLimitInput
@@ -171,6 +172,7 @@
             this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
             this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardUpLimitInput.TabIndex = 3;
+            this.comboBox_hardUpLimitInput.SelectedIndexChanged += new System.EventHandler(this.comboBox_hardUpLimitInput_SelectedIndexChanged);
             this.comboBox_hardUpLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // textBox_SoftDownLimitOffset

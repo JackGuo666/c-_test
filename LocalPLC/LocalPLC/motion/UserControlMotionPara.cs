@@ -173,7 +173,9 @@ namespace LocalPLC.motion
             node_ = node;
 
             initPulseEquient();
+            init = true;
             initLimitSignal();
+            init = false;
             initDynamic();
             initBackOriginal();
             reverseCompensation();
@@ -342,7 +344,7 @@ namespace LocalPLC.motion
         //^[1-9] ([0 - 9]*)$|^[0-9]$
         //System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"[0-9]\d*$");
         System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex(@"^[1-9]([0-9]*)$|^[0-9]$");
-        System.Text.RegularExpressions.Regex regZF = new System.Text.RegularExpressions.Regex(@"^((-\d+)|(0+))|(\d+)$");
+        System.Text.RegularExpressions.Regex regZF = new System.Text.RegularExpressions.Regex(@"^(-|\+)?\d+$");  //^((-\d+)|(0+))|(\d+)$
         private void textBox_pulsePerRevolutionMotor_TextChanged(object sender, EventArgs e)
         {
             if (textBox_pulsePerRevolutionMotor.Text != data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString())
@@ -438,15 +440,22 @@ namespace LocalPLC.motion
                 (sender as TextBox).BackColor = Color.White;
             }
         }
-
+        bool init = false;
         private void textBox_softUpLimitOffset_TextChanged(object sender, EventArgs e)
         {
-            if(textBox_softUpLimitOffset.Text !=
-                data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString())
+            //if (textBox_softUpLimitOffset.Text !=
+                //data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString())
             {
-                setButtonEnable(true);
+
+
+                if(init)
+                {
+                    return;
+                }
+                //setButtonEnable(true);
                 string str = (sender as TextBox).Text;
-                bool btest = regZF.IsMatch(str);
+                bool flag = regZF.IsMatch(str);
+
                 //btest = Int64.Parse(str) < -2147483648;
                 //btest = Int64.Parse(str) > 2147483647;
 
@@ -455,7 +464,8 @@ namespace LocalPLC.motion
                     setValidButtonRed(sender as TextBox);
                     button_valid.Enabled = false;
                     button_cancel.Enabled = true;
-                    if (!regZF.IsMatch(str))
+                    if (!regZF.IsMatch(str)
+                       /* || System.Text.RegularExpressions.Regex.Matches(str, "-").Count > 1*/)
                     {
                         tip.SetToolTip((sender as TextBox), string.Format("{0} 格式不对", str));
                         //MessageBox.Show((sender as TextBox), string.Format("{0} 格式不对", str));
@@ -503,19 +513,23 @@ namespace LocalPLC.motion
                     }
                 }
             }
-            else
-            {
-                //setValidButtonWhite(sender as TextBox);
-                (sender as TextBox).BackColor = Color.White;
-            }
+            //else
+            //{
+            //    //setValidButtonWhite(sender as TextBox);
+            //    (sender as TextBox).BackColor = Color.White;
+            //}
         }
 
         private void textBox_SoftDownLimitOffset_TextChanged(object sender, EventArgs e)
         {
-            if(textBox_SoftDownLimitOffset.Text != 
-                data.axisMotionPara.limitSignal.softDownLimitOffset.ToString())
+            //if(textBox_SoftDownLimitOffset.Text != 
+               // data.axisMotionPara.limitSignal.softDownLimitOffset.ToString())
             {
-                setButtonEnable(true);
+                if (init)
+                {
+                    return;
+                }
+                //setButtonEnable(true);
                 string str = (sender as TextBox).Text;
 
                 if (!regZF.IsMatch(str) || Int64.Parse(str) < -2147483648 || Int64.Parse(str) > 2147483647)
@@ -554,7 +568,7 @@ namespace LocalPLC.motion
                         //MessageBox.Show("上限值要大于下限值");
                         button_valid.Enabled = false;
                         button_cancel.Enabled = true;
-                        tip.SetToolTip((sender as TextBox), string.Format("{0} 上限值要大于下限值 {1}", str, upLimit));
+                        tip.SetToolTip((sender as TextBox), string.Format("{0} 下限值要小于上限值 {1}", str, upLimit));
                     }
                     else
                     {
@@ -568,11 +582,11 @@ namespace LocalPLC.motion
                 }
 
             }
-            else
-            {
-                //setValidButtonWhite(sender as TextBox);
-                (sender as TextBox).BackColor = Color.White;
-            }
+            //else
+            //{
+            //    //setValidButtonWhite(sender as TextBox);
+            //    (sender as TextBox).BackColor = Color.White;
+            //}
         }
 
         private void textBox_MaxSpeed_TextChanged(object sender, EventArgs e)
@@ -848,7 +862,6 @@ namespace LocalPLC.motion
 
         private void textBox_SoftUpLimitOffset_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (!(Char.IsNumber(e.KeyChar)) && e.KeyChar != (char)8 && e.KeyChar != '-')
             {
                 e.Handled = true;
@@ -902,6 +915,8 @@ namespace LocalPLC.motion
                 comboBox_hardDownLimitLevel.Enabled = false;
             }
 
+            setButtonEnable(true);
+
         }
 
         private void checkBox_softLimit_CheckedChanged(object sender, EventArgs e)
@@ -917,6 +932,9 @@ namespace LocalPLC.motion
                 textBox_softUpLimitOffset.Enabled = false;
                 textBox_SoftDownLimitOffset.Enabled = false;
             }
+
+
+            setButtonEnable(true);
         }
 
         private void textBox_AcceleratedSpeed_KeyPress(object sender, KeyPressEventArgs e)
@@ -934,6 +952,18 @@ namespace LocalPLC.motion
         }
 
         private void comboBox_hardDownLimitLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
+        }
+
+        private void comboBox_hardUpLimitInput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
+        }
+
+        private void comboBox_hardDownLimitInput_SelectedIndexChanged(object sender, EventArgs e)
         {
             button_valid.Enabled = true;
             button_cancel.Enabled = true;

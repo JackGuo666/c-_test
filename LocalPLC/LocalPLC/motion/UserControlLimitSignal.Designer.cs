@@ -100,6 +100,7 @@
             this.comboBox_hardDownLimitSelectLevel.Name = "comboBox_hardDownLimitSelectLevel";
             this.comboBox_hardDownLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardDownLimitSelectLevel.TabIndex = 3;
+            this.comboBox_hardDownLimitSelectLevel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardDownLimitSelectLevel_KeyPress);
             // 
             // comboBox_hardUpLimitSelectLevel
             // 
@@ -108,6 +109,7 @@
             this.comboBox_hardUpLimitSelectLevel.Name = "comboBox_hardUpLimitSelectLevel";
             this.comboBox_hardUpLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardUpLimitSelectLevel.TabIndex = 3;
+            this.comboBox_hardUpLimitSelectLevel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitSelectLevel_KeyPress);
             // 
             // comboBox_hardDownLimitInput
             // 
@@ -116,6 +118,8 @@
             this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
             this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardDownLimitInput.TabIndex = 3;
+            this.comboBox_hardDownLimitInput.SelectedIndexChanged += new System.EventHandler(this.comboBox_hardDownLimitInput_SelectedIndexChanged);
+            this.comboBox_hardDownLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardDownLimitInput_KeyPress);
             // 
             // comboBox_hardUpLimitInput
             // 
@@ -124,20 +128,28 @@
             this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
             this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
             this.comboBox_hardUpLimitInput.TabIndex = 3;
+            this.comboBox_hardUpLimitInput.SelectedIndexChanged += new System.EventHandler(this.comboBox_hardUpLimitInput_SelectedIndexChanged);
+            this.comboBox_hardUpLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // textBox_softDownLimitOffset
             // 
             this.textBox_softDownLimitOffset.Location = new System.Drawing.Point(297, 225);
+            this.textBox_softDownLimitOffset.MaxLength = 11;
             this.textBox_softDownLimitOffset.Name = "textBox_softDownLimitOffset";
             this.textBox_softDownLimitOffset.Size = new System.Drawing.Size(140, 28);
             this.textBox_softDownLimitOffset.TabIndex = 1;
+            this.textBox_softDownLimitOffset.TextChanged += new System.EventHandler(this.textBox_softDownLimitOffset_TextChanged);
+            this.textBox_softDownLimitOffset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_softDownLimitOffset_KeyPress);
             // 
             // textBox_softUpLimitOffset
             // 
             this.textBox_softUpLimitOffset.Location = new System.Drawing.Point(297, 188);
+            this.textBox_softUpLimitOffset.MaxLength = 11;
             this.textBox_softUpLimitOffset.Name = "textBox_softUpLimitOffset";
             this.textBox_softUpLimitOffset.Size = new System.Drawing.Size(140, 28);
             this.textBox_softUpLimitOffset.TabIndex = 1;
+            this.textBox_softUpLimitOffset.TextChanged += new System.EventHandler(this.textBox_softUpLimitOffset_TextChanged);
+            this.textBox_softUpLimitOffset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_softUpLimitOffset_KeyPress);
             // 
             // checkBox_softLimit
             // 
@@ -251,6 +263,7 @@
             this.button_cancel.TabIndex = 4;
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             // 
             // button_valid
             // 
@@ -261,6 +274,7 @@
             this.button_valid.TabIndex = 5;
             this.button_valid.Text = "应用";
             this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // UserControlLimitSignal
             // 
