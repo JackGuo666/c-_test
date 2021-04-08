@@ -25,6 +25,9 @@ namespace LocalPLC.Base
         string HAS_RS232 = "0";
         string HAS_RS485 = "1";
         string HAS_BOTH = "2";
+
+        string DATABIE_DISENABLE = "0";
+        string DATABIE_ENABLE = "1";
         enum TERMINALRESIS { HAS_RS232, HAS_RS485, HAS_BOTH}
         public UserControlCom(string com, SERIALData serialValueData, bool configured = false)
         {
@@ -47,6 +50,17 @@ namespace LocalPLC.Base
             {
                 radioButton2.Enabled = false;
             }
+
+
+            if(serialValueData.databitEnable == DATABIE_DISENABLE)
+            {
+                comboBox_Databit.Enabled = false;
+            }
+            else if(serialValueData_.databitEnable == DATABIE_ENABLE)
+            {
+                comboBox_Databit.Enabled = true;
+            }
+
 
 
 

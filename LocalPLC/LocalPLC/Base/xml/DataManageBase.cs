@@ -76,6 +76,7 @@ namespace LocalPLC.Base.xml
         public string baseName;
         //串口特别字段
         public string terminalResis = "2";
+        public string databitEnable = "1";
         public string moduleID;
     }
     public class Connector
@@ -195,6 +196,8 @@ namespace LocalPLC.Base.xml
 
         //终端电阻
         public string terminalResis = "2";
+        //数据位是否eanble
+        public string databitEnable = "1";
     }
 
     public class ETHERNETData

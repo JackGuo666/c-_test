@@ -216,6 +216,8 @@ namespace LocalPLC.Base
 
                 //终端电阻
                 serialData.terminalResis = e.GetAttribute("terminalresis");
+                //数据位是否enable
+                serialData.databitEnable = e.GetAttribute("databitenable");
 
                 dataManage.serialDic.Add(serialData.name, serialData);
             }
@@ -388,6 +390,8 @@ namespace LocalPLC.Base
                     elem_serialChid.SetAttribute("rsmode", dataManage.serialDic[comUI.Key].rsMode.ToString());
                     elem_serialChid.SetAttribute("polr", dataManage.serialDic[comUI.Key].polR.ToString());
                     elem_serialChid.SetAttribute("terminalresis", dataManage.serialDic[comUI.Key].terminalResis.ToString());
+                    //数据位是否启用
+                    elem_serialChid.SetAttribute("databitenable", dataManage.serialDic[comUI.Key].databitEnable);
 
                     elemSerial.AppendChild(elem_serialChid);
                 }
@@ -662,6 +666,7 @@ namespace LocalPLC.Base
                     SERIALData data = new SERIALData();
                     data.name = elem.baseName;
                     data.terminalResis = elem.terminalResis;
+                    data.databitEnable = elem.databitEnable;
 
                     UserControlCom com = new UserControlCom(elem.baseName, data, false);
                     comDic.Add(elem.baseName, com);
