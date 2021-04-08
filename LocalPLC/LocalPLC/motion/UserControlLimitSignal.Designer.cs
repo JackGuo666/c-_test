@@ -29,24 +29,24 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
-            this.comboBox_hardDownLimitSelectLevel = new System.Windows.Forms.ComboBox();
-            this.comboBox_hardUpLimitSelectLevel = new System.Windows.Forms.ComboBox();
-            this.comboBox_hardDownLimitInput = new System.Windows.Forms.ComboBox();
-            this.comboBox_hardUpLimitInput = new System.Windows.Forms.ComboBox();
-            this.textBox_softDownLimitOffset = new System.Windows.Forms.TextBox();
-            this.textBox_softUpLimitOffset = new System.Windows.Forms.TextBox();
-            this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.软件下限位位置 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.软件上限位位置 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.软件上限位位置 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.软件下限位位置 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
+            this.textBox_softUpLimitOffset = new System.Windows.Forms.TextBox();
+            this.textBox_softDownLimitOffset = new System.Windows.Forms.TextBox();
+            this.comboBox_hardUpLimitInput = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardDownLimitInput = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardUpLimitSelectLevel = new System.Windows.Forms.ComboBox();
+            this.comboBox_hardDownLimitSelectLevel = new System.Windows.Forms.ComboBox();
             this.button_cancel = new System.Windows.Forms.Button();
             this.button_valid = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
@@ -55,6 +55,8 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panel2.AutoScroll = true;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.pictureBox1);
@@ -77,74 +79,93 @@
             this.panel2.Controls.Add(this.label7);
             this.panel2.Location = new System.Drawing.Point(3, 44);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(873, 583);
+            this.panel2.Size = new System.Drawing.Size(784, 553);
             this.panel2.TabIndex = 3;
             // 
-            // comboBox_hardDownLimitSelectLevel
+            // pictureBox1
             // 
-            this.comboBox_hardDownLimitSelectLevel.FormattingEnabled = true;
-            this.comboBox_hardDownLimitSelectLevel.Location = new System.Drawing.Point(637, 117);
-            this.comboBox_hardDownLimitSelectLevel.Name = "comboBox_hardDownLimitSelectLevel";
-            this.comboBox_hardDownLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_hardDownLimitSelectLevel.TabIndex = 3;
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.pictureBox1.BackgroundImage = global::LocalPLC.Properties.Resources.LocalPLC24P;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 273);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(776, 272);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
             // 
-            // comboBox_hardUpLimitSelectLevel
+            // label7
             // 
-            this.comboBox_hardUpLimitSelectLevel.FormattingEnabled = true;
-            this.comboBox_hardUpLimitSelectLevel.Location = new System.Drawing.Point(637, 80);
-            this.comboBox_hardUpLimitSelectLevel.Name = "comboBox_hardUpLimitSelectLevel";
-            this.comboBox_hardUpLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_hardUpLimitSelectLevel.TabIndex = 3;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(94, 83);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(152, 18);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "硬件上限位输入点";
             // 
-            // comboBox_hardDownLimitInput
+            // 软件上限位位置
             // 
-            this.comboBox_hardDownLimitInput.FormattingEnabled = true;
-            this.comboBox_hardDownLimitInput.Location = new System.Drawing.Point(297, 117);
-            this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
-            this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_hardDownLimitInput.TabIndex = 3;
+            this.软件上限位位置.AutoSize = true;
+            this.软件上限位位置.Location = new System.Drawing.Point(94, 198);
+            this.软件上限位位置.Name = "软件上限位位置";
+            this.软件上限位位置.Size = new System.Drawing.Size(134, 18);
+            this.软件上限位位置.TabIndex = 0;
+            this.软件上限位位置.Text = "软件上限位位置";
             // 
-            // comboBox_hardUpLimitInput
+            // label13
             // 
-            this.comboBox_hardUpLimitInput.FormattingEnabled = true;
-            this.comboBox_hardUpLimitInput.Location = new System.Drawing.Point(297, 80);
-            this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
-            this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
-            this.comboBox_hardUpLimitInput.TabIndex = 3;
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(513, 83);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(80, 18);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "选择电平";
             // 
-            // textBox_softDownLimitOffset
+            // label9
             // 
-            this.textBox_softDownLimitOffset.Location = new System.Drawing.Point(297, 225);
-            this.textBox_softDownLimitOffset.Name = "textBox_softDownLimitOffset";
-            this.textBox_softDownLimitOffset.Size = new System.Drawing.Size(140, 28);
-            this.textBox_softDownLimitOffset.TabIndex = 1;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(94, 120);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(152, 18);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "硬件下限位输入点";
             // 
-            // textBox_softUpLimitOffset
+            // 软件下限位位置
             // 
-            this.textBox_softUpLimitOffset.Location = new System.Drawing.Point(297, 188);
-            this.textBox_softUpLimitOffset.Name = "textBox_softUpLimitOffset";
-            this.textBox_softUpLimitOffset.Size = new System.Drawing.Size(140, 28);
-            this.textBox_softUpLimitOffset.TabIndex = 1;
+            this.软件下限位位置.AutoSize = true;
+            this.软件下限位位置.Location = new System.Drawing.Point(94, 235);
+            this.软件下限位位置.Name = "软件下限位位置";
+            this.软件下限位位置.Size = new System.Drawing.Size(134, 18);
+            this.软件下限位位置.TabIndex = 0;
+            this.软件下限位位置.Text = "软件下限位位置";
             // 
-            // checkBox_softLimit
+            // label14
             // 
-            this.checkBox_softLimit.AutoSize = true;
-            this.checkBox_softLimit.Location = new System.Drawing.Point(97, 157);
-            this.checkBox_softLimit.Name = "checkBox_softLimit";
-            this.checkBox_softLimit.Size = new System.Drawing.Size(124, 22);
-            this.checkBox_softLimit.TabIndex = 2;
-            this.checkBox_softLimit.Text = "启动软限位";
-            this.checkBox_softLimit.UseVisualStyleBackColor = true;
-            this.checkBox_softLimit.CheckedChanged += new System.EventHandler(this.checkBox_softLimit_CheckedChanged);
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(513, 120);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(80, 18);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "选择电平";
             // 
-            // label12
+            // label6
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(443, 228);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(26, 18);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "mm";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(45, 7);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(80, 18);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "限位信号";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(443, 198);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(26, 18);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "mm";
             // 
             // checkBox1
             // 
@@ -157,89 +178,71 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // label8
+            // label12
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(443, 198);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(26, 18);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "mm";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(443, 228);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(26, 18);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "mm";
             // 
-            // label6
+            // checkBox_softLimit
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(45, 7);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 18);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "限位信号";
+            this.checkBox_softLimit.AutoSize = true;
+            this.checkBox_softLimit.Location = new System.Drawing.Point(97, 157);
+            this.checkBox_softLimit.Name = "checkBox_softLimit";
+            this.checkBox_softLimit.Size = new System.Drawing.Size(124, 22);
+            this.checkBox_softLimit.TabIndex = 2;
+            this.checkBox_softLimit.Text = "启动软限位";
+            this.checkBox_softLimit.UseVisualStyleBackColor = true;
+            this.checkBox_softLimit.CheckedChanged += new System.EventHandler(this.checkBox_softLimit_CheckedChanged);
             // 
-            // label14
+            // textBox_softUpLimitOffset
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(513, 120);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(80, 18);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "选择电平";
+            this.textBox_softUpLimitOffset.Location = new System.Drawing.Point(297, 188);
+            this.textBox_softUpLimitOffset.Name = "textBox_softUpLimitOffset";
+            this.textBox_softUpLimitOffset.Size = new System.Drawing.Size(140, 28);
+            this.textBox_softUpLimitOffset.TabIndex = 1;
             // 
-            // 软件下限位位置
+            // textBox_softDownLimitOffset
             // 
-            this.软件下限位位置.AutoSize = true;
-            this.软件下限位位置.Location = new System.Drawing.Point(94, 235);
-            this.软件下限位位置.Name = "软件下限位位置";
-            this.软件下限位位置.Size = new System.Drawing.Size(134, 18);
-            this.软件下限位位置.TabIndex = 0;
-            this.软件下限位位置.Text = "软件下限位位置";
+            this.textBox_softDownLimitOffset.Location = new System.Drawing.Point(297, 225);
+            this.textBox_softDownLimitOffset.Name = "textBox_softDownLimitOffset";
+            this.textBox_softDownLimitOffset.Size = new System.Drawing.Size(140, 28);
+            this.textBox_softDownLimitOffset.TabIndex = 1;
             // 
-            // label9
+            // comboBox_hardUpLimitInput
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(94, 120);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(152, 18);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "硬件下限位输入点";
+            this.comboBox_hardUpLimitInput.FormattingEnabled = true;
+            this.comboBox_hardUpLimitInput.Location = new System.Drawing.Point(297, 80);
+            this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
+            this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitInput.TabIndex = 3;
             // 
-            // label13
+            // comboBox_hardDownLimitInput
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(513, 83);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(80, 18);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "选择电平";
+            this.comboBox_hardDownLimitInput.FormattingEnabled = true;
+            this.comboBox_hardDownLimitInput.Location = new System.Drawing.Point(297, 117);
+            this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
+            this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitInput.TabIndex = 3;
             // 
-            // 软件上限位位置
+            // comboBox_hardUpLimitSelectLevel
             // 
-            this.软件上限位位置.AutoSize = true;
-            this.软件上限位位置.Location = new System.Drawing.Point(94, 198);
-            this.软件上限位位置.Name = "软件上限位位置";
-            this.软件上限位位置.Size = new System.Drawing.Size(134, 18);
-            this.软件上限位位置.TabIndex = 0;
-            this.软件上限位位置.Text = "软件上限位位置";
+            this.comboBox_hardUpLimitSelectLevel.FormattingEnabled = true;
+            this.comboBox_hardUpLimitSelectLevel.Location = new System.Drawing.Point(637, 80);
+            this.comboBox_hardUpLimitSelectLevel.Name = "comboBox_hardUpLimitSelectLevel";
+            this.comboBox_hardUpLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitSelectLevel.TabIndex = 3;
             // 
-            // label7
+            // comboBox_hardDownLimitSelectLevel
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(94, 83);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(152, 18);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "硬件上限位输入点";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBox1.BackgroundImage = global::LocalPLC.Properties.Resources.LocalPLC24P;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 273);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(865, 305);
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
+            this.comboBox_hardDownLimitSelectLevel.FormattingEnabled = true;
+            this.comboBox_hardDownLimitSelectLevel.Location = new System.Drawing.Point(637, 117);
+            this.comboBox_hardDownLimitSelectLevel.Name = "comboBox_hardDownLimitSelectLevel";
+            this.comboBox_hardDownLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitSelectLevel.TabIndex = 3;
             // 
             // button_cancel
             // 
@@ -265,13 +268,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_valid);
             this.Controls.Add(this.panel2);
             this.Name = "UserControlLimitSignal";
-            this.Size = new System.Drawing.Size(879, 630);
+            this.Size = new System.Drawing.Size(791, 600);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -282,6 +286,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ComboBox comboBox_hardDownLimitSelectLevel;
         private System.Windows.Forms.ComboBox comboBox_hardUpLimitSelectLevel;
         private System.Windows.Forms.ComboBox comboBox_hardDownLimitInput;
@@ -299,7 +304,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label 软件上限位位置;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.Button button_valid;
     }
