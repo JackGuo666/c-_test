@@ -469,7 +469,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(1, 1);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(932, 100);
+            this.groupBox2.Size = new System.Drawing.Size(934, 100);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "脉冲当量";
@@ -496,7 +496,7 @@
             this.groupBox3.Controls.Add(this.checkBox1);
             this.groupBox3.Location = new System.Drawing.Point(4, 107);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(929, 174);
+            this.groupBox3.Size = new System.Drawing.Size(931, 174);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "限位信号";
@@ -522,7 +522,7 @@
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Location = new System.Drawing.Point(4, 289);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(929, 183);
+            this.groupBox4.Size = new System.Drawing.Size(931, 183);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "动态参数";
@@ -539,7 +539,7 @@
             this.groupBox5.Controls.Add(this.label30);
             this.groupBox5.Location = new System.Drawing.Point(5, 478);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(928, 101);
+            this.groupBox5.Size = new System.Drawing.Size(930, 101);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "回原点";
@@ -603,12 +603,14 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.Controls.Add(this.textBox_ReverseCompensation);
             this.groupBox6.Controls.Add(this.label33);
             this.groupBox6.Controls.Add(this.label34);
-            this.groupBox6.Location = new System.Drawing.Point(3, 585);
+            this.groupBox6.Location = new System.Drawing.Point(5, 585);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(931, 55);
+            this.groupBox6.Size = new System.Drawing.Size(930, 55);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "反向间隙补偿";
@@ -648,7 +650,7 @@
             this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(943, 654);
+            this.panel1.Size = new System.Drawing.Size(945, 651);
             this.panel1.TabIndex = 12;
             // 
             // UserControlMotionPara
@@ -660,7 +662,7 @@
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlMotionPara";
-            this.Size = new System.Drawing.Size(949, 715);
+            this.Size = new System.Drawing.Size(954, 691);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
