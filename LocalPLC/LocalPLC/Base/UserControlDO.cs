@@ -15,6 +15,9 @@ namespace LocalPLC.Base
         public UserControlDO(string name)
         {
             InitializeComponent();
+
+            text_Temp.MaxLength = 30;
+
             setButtonEnable(false);
             //this.DoubleBuffered = true;
             //this.DoubleBuffered = true;//设置本窗体
@@ -26,8 +29,11 @@ namespace LocalPLC.Base
             // 设置下拉列表框不可见
             text_Temp.Visible = false;
             text_Temp.TextChanged += new System.EventHandler(textBox1_TextChanged);
-            text_Temp.Visible = false;
+            //this.text_Temp.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.richTextBox1_PreviewKeyDown);
             text_Temp.WordWrap = false;
+            text_Temp.ScrollBars = RichTextBoxScrollBars.None;
+
+
 
             this.dataGridView1.Controls.Add(text_Temp);
 
@@ -66,6 +72,11 @@ namespace LocalPLC.Base
             }
 
             this.dataGridView1.DataSource = dtData;
+
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                dataGridView1.Rows[i].Cells[columnVarIndex].Style.SelectionBackColor = Color.White;
+            }
         }
         public void initData()
         {
@@ -148,6 +159,11 @@ namespace LocalPLC.Base
 
                 this.dataGridView1.DataSource = dtData;
             }
+
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                dataGridView1.Rows[i].Cells[columnVarIndex].Style.SelectionBackColor = Color.White;
+            }
         }
 
 
@@ -198,18 +214,24 @@ namespace LocalPLC.Base
         {
             if (color == Color.Red)
             {
+                //utility.PrintError(str);
                 button_valid.Enabled = false;
                 button_cancel.Enabled = true;
             }
             else
             {
-                setButtonEnable(true);
+                //setButtonEnable(true);
             }
 
-            text_Temp.BackColor = color;
-            dataGridView1.CurrentCell.Style.BackColor = color;
+            //text_Temp.BackColor = color;
+            //dataGridView1.CurrentCell.Style.BackColor = color;
+            //dataGridView1.CurrentCell.Style.SelectionBackColor = color;
             tip.SetToolTip(text_Temp, str);
 
+            text_Temp.Focus();
+            //text_Temp.AutoSize = false;
+            this.text_Temp.SelectionStart = this.text_Temp.Text.Length;
+            this.text_Temp.ScrollToCaret();
         }
 
 
@@ -222,11 +244,23 @@ namespace LocalPLC.Base
 
         void firstClickTextBoxCheckInput()
         {
+            if (dataGridView1.CurrentCell.Style.SelectionBackColor != Color.Red)
+            {
+                this.dataGridView1.CurrentCell.Style.SelectionBackColor = Color.White;
+            }
+
             if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
             {
+                if(text_Temp.Text.Length == 0)
+                {
+                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+                    return;
+                }
+
                 if (!regStr.IsMatch(text_Temp.Text))
                 {
-
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                    dataGridView1.CurrentCell.Style.SelectionBackColor = Color.Red;
                     setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
 
                 }
@@ -235,6 +269,8 @@ namespace LocalPLC.Base
                     char[] c = text_Temp.Text.ToCharArray();
                     if (c[0] >= '0' && c[0] <= '9')
                     {
+                        dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                        dataGridView1.CurrentCell.Style.SelectionBackColor = Color.Red;
                         setCellColor(Color.Red, string.Format("{0} 第一个字符不可以为数", text_Temp.Text));
 
                         text_Temp.Focus();
@@ -242,7 +278,45 @@ namespace LocalPLC.Base
                     }
                     else
                     {
-                        onlyTextBoxSetColor(Color.White);
+                        //判断是否重复 tip设置 不设置颜色
+                        bool ret = false;
+                        int rowIndex = this.dataGridView1.CurrentCell.RowIndex;
+                        string channel = dataGridView1.Rows[rowIndex].Cells[columnChannelIndex].Value.ToString();
+                        string name = dataGridView1.Rows[rowIndex].Cells[columnVarIndex].Value.ToString();
+                        foreach (DataRow row in dtData.Rows)
+                        {
+                            string curUiVarName = row[columnVarIndex].ToString();
+                            string curUiChannelName = row[columnChannelIndex].ToString();
+                            if (channel != curUiChannelName)
+                            {
+                                if (name == curUiVarName)
+                                {
+                                    dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                                    dataGridView1.CurrentCell.Style.SelectionBackColor = Color.Red;
+                                    setCellColor(Color.Red, string.Format("{0} 已使用", name));
+                                    ret = true;
+                                }
+                            }
+                        }
+
+                        //判断其他模块
+                        if (ret == false)
+                        {
+                            ret = UserControl1.UC.getReDataManager().checkVarNameDI(name, channel);
+                        }
+
+
+                        if (!ret)
+                        {
+                            onlyTextBoxSetColor(Color.White);
+                        }
+                        else
+                        {
+                            dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                            dataGridView1.CurrentCell.Style.SelectionBackColor = Color.Red;
+                            setCellColor(Color.Red, string.Format("{0} 已使用", name));
+                        }
+
                     }
 
                 }
@@ -260,45 +334,269 @@ namespace LocalPLC.Base
             }
         }
 
-        void checkTextInput()
+        void checkCurUICellColor(string name, string channel, ref bool ret)
         {
-            bool ret = UserControl1.UC.checkVarName(text_Temp.Text);
-            if (!ret)
-            {
-                setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
-            }
 
-            if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
+            int i = 0;
+            foreach (DataRow row in dtData.Rows)
             {
-                if (!regStr.IsMatch(text_Temp.Text))
+                string curUiVarName = row[columnVarIndex].ToString();
+                string curUiChannelName = row[columnChannelIndex].ToString();
+                if (channel != curUiChannelName)
                 {
+                    if (name == curUiVarName)
+                    {
+                        ret = true;
+                    }
+                }
 
-                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+                i++;
+            }
+        }
 
+        bool checkVarNameStrValid(string name, int row)
+        {
+            if (!regStr.IsMatch(name))
+            {
+                dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
+                dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
+
+
+                return true;
+            }
+            else
+            {
+                char[] c = name.ToCharArray();
+                if (c[0] >= '0' && c[0] <= '9')
+                {
+                    dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
+                    dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
+
+                    return true;
                 }
                 else
                 {
-                    char[] c = text_Temp.Text.ToCharArray();
-                    if (c[0] >= '0' && c[0] <= '9')
-                    {
-                        setCellColor(Color.Red, string.Format("{0} 第一个字符不可以为数", text_Temp.Text));
+                    //setCellColor(Color.White, "");
 
-                        text_Temp.Focus();
-                        text_Temp.SelectionStart = text_Temp.TextLength;
+                    return false;
+                }
+
+            }
+        }
+
+
+
+
+        //void checkTextInput()
+        //{
+        //    if (dataGridView1.CurrentCell == null)
+        //    {
+        //        return;
+        //    }
+
+        //    //先判断界面
+        //    var channel = UserControlBase.dataManage.doList[dataGridView1.CurrentCell.RowIndex].channelName;
+        //    bool ret = false;
+
+        //    foreach (DataRow row in dtData.Rows)
+        //    {
+        //        string curUiVarName = row[columnVarIndex].ToString();
+        //        string curUiChannelName = row[columnChannelIndex].ToString();
+        //        if (channel != curUiChannelName)
+        //        {
+        //            if (text_Temp.Text == curUiVarName)
+        //            {
+        //                ret = true;
+        //            }
+        //        }
+        //    }
+
+        //    if(ret)
+        //    {
+        //        //界面有重复的
+        //        setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
+        //        return;
+        //    }
+        //   else
+        //    {
+        //        ret = UserControl1.UC.getReDataManager().checkVarNameDI(text_Temp.Text, channel);
+        //        if (ret)
+        //        {
+        //            setCellColor(Color.Red, string.Format("{0} 已被使用", text_Temp.Text));
+        //            return;
+        //        }
+        //    }
+
+
+
+        //    if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
+        //    {
+        //        if (!regStr.IsMatch(text_Temp.Text))
+        //        {
+
+        //            setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+
+        //        }
+        //        else
+        //        {
+        //            char[] c = text_Temp.Text.ToCharArray();
+        //            if (c[0] >= '0' && c[0] <= '9')
+        //            {
+        //                setCellColor(Color.Red, string.Format("{0} 第一个字符不可以为数", text_Temp.Text));
+
+        //                text_Temp.Focus();
+        //                text_Temp.SelectionStart = text_Temp.TextLength;
+        //            }
+        //            else
+        //            {
+
+        //                setCellColor(Color.White, "");
+        //            }
+
+        //        }
+        //    }
+        //    else if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+        //    {
+        //        if (!regStrNote.IsMatch(text_Temp.Text))
+        //        {
+        //            setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+        //        }
+        //        else
+        //        {
+        //            setCellColor(Color.White, "");
+        //        }
+        //    }
+        //}
+
+
+        bool checkDataGridView()
+        {
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor == Color.Red)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        void checkTextInput()
+        {
+            if (dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
+
+
+            //先判断当前字符串格式是否有效
+            //判断输入是否有效
+            if (checkVarNameStrValid(dataGridView1.CurrentCell.Value.ToString(), dataGridView1.CurrentCell.RowIndex))
+            {
+                setCellColor(Color.Red, string.Format("{0} 格式无效", dataGridView1.CurrentCell.Value.ToString()));
+                return;
+            }
+            else
+            {
+                //当前输入有效
+                setCellColor(Color.White, "");
+            }
+
+
+            if (dataGridView1.CurrentCell.ColumnIndex == columnVarIndex)
+            {
+                //先判断本界面
+
+
+
+                var channel = UserControlBase.dataManage.doList[dataGridView1.CurrentCell.RowIndex].channelName;
+
+                int i = 0;
+                bool buttonStatus = false;
+                foreach (DataRow row in dtData.Rows)
+                {
+                    bool ret = false;
+                    string curUiVarName = row[columnVarIndex].ToString();
+                    string curUiChannelName = row[columnChannelIndex].ToString();
+                    if (curUiVarName.Length == 0)
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    //判断不是currentcell字段字符是否有效
+                    if (checkVarNameStrValid(curUiVarName, i))
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    checkCurUICellColor(curUiVarName, curUiChannelName, ref ret);
+
+                    if (ret)
+                    {
+                        dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.Red;
+                        dataGridView1.Rows[i].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
+
+                        if (dataGridView1.CurrentCell.RowIndex == i)
+                        {
+                            setCellColor(Color.Red, string.Format("{0}已被使用", curUiVarName));
+                        }
+
+                        buttonStatus = true;
+                        //return;
                     }
                     else
                     {
+                        //其他模块判断
+                        ret = UserControl1.UC.getReDataManager().checkVarNameDI(curUiVarName, channel);
+                        if (ret)
+                        {
+                            dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.Red;
+                            dataGridView1.Rows[i].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
 
-                        setCellColor(Color.White, "");
+                            if (dataGridView1.CurrentCell.RowIndex == i)
+                            {
+                                setCellColor(Color.Red, string.Format("{0}已被使用", curUiVarName));
+                            }
+                            buttonStatus = true;
+                            return;
+                        }
+                        else
+                        {
+                            dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.White;
+                            dataGridView1.Rows[i].Cells[columnVarIndex].Style.SelectionBackColor = Color.White;
+
+
+
+                        }
                     }
-
+                    i++;
                 }
+
+
+
+                if (!buttonStatus)
+                {
+                    //数据没有重复
+
+                    setButtonEnable(true);
+                }
+
             }
-            else if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
+
+
+
+
+
+            if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
             {
                 if (!regStrNote.IsMatch(text_Temp.Text))
                 {
-                    setCellColor(Color.Red, string.Format("{0} 格式不对", text_Temp.Text));
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Red;
+                    dataGridView1.CurrentCell.Style.SelectionBackColor = Color.Red;
+                    setCellColor(Color.Red, string.Format("{0}格式不对", text_Temp.Text));
                 }
                 else
                 {
@@ -306,14 +604,12 @@ namespace LocalPLC.Base
                 }
             }
         }
-
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentCell.Value.ToString() != text_Temp.Text)
             {
                 //
-                checkTextInput();
+                //checkTextInput();
 
                 dataGridView1.CurrentCell.Value = text_Temp.Text;
             }
@@ -337,13 +633,13 @@ namespace LocalPLC.Base
                     text_Temp.Text = this.dataGridView1.CurrentCell.Value.ToString();
 
 
-                    text_Temp.Left = rect.Left;
-                    text_Temp.Top = rect.Top;
-                    text_Temp.Width = rect.Width;
-                    text_Temp.Height = rect.Height;
+                    text_Temp.Left = rect.Left + 3;
+                    text_Temp.Top = rect.Top + 3;
+                    text_Temp.Width = rect.Width - 5;
+                    text_Temp.Height = rect.Height - 5;
                     text_Temp.Visible = true;
                     text_Temp.Focus();
-                    text_Temp.Select(text_Temp.SelectionStart, 0);
+                    //text_Temp.Select(text_Temp.SelectionStart, 0);
                     text_Temp.SelectionStart = text_Temp.TextLength;
                     text_Temp.ScrollToCaret();
 
@@ -463,6 +759,8 @@ namespace LocalPLC.Base
         
         private void button1_Click_1(object sender, EventArgs e)
         {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
             getDataFromUI();
             //utility.PrintInfo("DO数据生效!");
             setButtonEnable(false);
@@ -476,9 +774,33 @@ namespace LocalPLC.Base
 
         void setButtonEnable(bool enable)
         {
-            button_valid.Enabled = enable;
+            if (enable)
+            {
+                bool ret = checkDataGridView();
+                button_valid.Enabled = ret;
+            }
+            else
+            {
+                button_valid.Enabled = enable;
+            }
+
             button_cancel.Enabled = enable;
         }
+
+        bool checkNoteStrValid(string name, int row)
+        {
+            if (!regStrNote.IsMatch(name))
+            {
+                dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
+                dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
+
+
+                return true;
+            }
+
+            return false;
+        }
+
 
         System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
         System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^[\w]{0,32}$");
@@ -501,11 +823,20 @@ namespace LocalPLC.Base
 
             if(column == columnVarIndex)
             {
-                //checkTextInput();
+                checkTextInput();
             }
             else if(column == columnNoteIndex)
             {
-
+                //注释
+                if (!checkNoteStrValid(value.ToString(), e.RowIndex))
+                {
+                    setButtonEnable(true);
+                }
+                else
+                {
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                }
             }
         }
 
@@ -520,5 +851,29 @@ namespace LocalPLC.Base
             text_Temp.Hide();
             dataGridView1.CurrentCell = null;
         }
+
+        //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)//取消方向键对控件的焦点的控件，用自己自定义的函数处理各个方向键的处理函数
+        //{
+        //    switch (keyData)
+        //    {
+        //        case Keys.Up:
+        //            //UpKey();
+        //            if(text_Temp.Visible)
+        //            {
+        //                text_Temp.SelectionStart = text_Temp.SelectionStart - 1;
+        //            }
+        //            return true;//不继续处理
+        //        case Keys.Down:
+        //            //DownKey();
+        //            return true;
+        //        case Keys.Left:
+        //            //LeftKey();
+        //            return true;
+        //        case Keys.Right:
+        //            //RightKey();
+        //            return true;
+        //    }
+        //    return base.ProcessCmdKey(ref msg, keyData);
+        //}
     }
 }

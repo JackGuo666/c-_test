@@ -353,32 +353,36 @@ namespace LocalPLC.Base.xml
             return count;
         }
 
-        public bool checkVarName(string name, string channel)
+        public bool checkVarNameDI(string name, string channel)
         {
-            foreach(var di in diList)
+            foreach (var di in diList)
             {
                 if (channel != di.channelName)
                 {
                     if (di.varName == name)
                     {
-                        return false;
+                        return true;
                     }
                 }
             }
 
+            return false;
+        }
+
+        public bool checkVarNameDO(string name, string channel)
+        {
             foreach (var dout in doList)
             {
                 if (channel != dout.channelName)
                 {
                     if (dout.varName == name)
                     {
-                            return false;
+                        return true;
                     }
                 }
             }
 
-
-            return true;
+            return false;
         }
     }
 }

@@ -40,9 +40,10 @@ namespace LocalPLC.Base
 
             if(serialValueData_.terminalResis == HAS_BOTH)
             {
-
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
             }
-            else if(serialValueData_.terminalResis == HAS_RS232)
+            else if(serialValueData_.terminalResis == HAS_RS485)
             {
                 radioButton2.Enabled = false;
             }

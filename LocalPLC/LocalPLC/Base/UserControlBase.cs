@@ -82,19 +82,8 @@ namespace LocalPLC.Base
             return false;
         }
 
-
         public bool checkVarName(String varName)
         {
-            var diList = dataManage.diList;
-            foreach(var di in diList)
-            {
-                if(di.varName == varName)
-                {
-
-                }
-            }
-
-
             return true;
         }
 
@@ -218,6 +207,9 @@ namespace LocalPLC.Base
                 //极化电阻
                 string polR = e.GetAttribute("polr");
                 int.TryParse(polR, out serialData.polR);
+
+                //终端电阻
+                serialData.terminalResis = e.GetAttribute("terminalresis");
 
                 dataManage.serialDic.Add(serialData.name, serialData);
             }
@@ -389,6 +381,7 @@ namespace LocalPLC.Base
                     elem_serialChid.SetAttribute("stopbit", dataManage.serialDic[comUI.Key].stopBit.ToString());
                     elem_serialChid.SetAttribute("rsmode", dataManage.serialDic[comUI.Key].rsMode.ToString());
                     elem_serialChid.SetAttribute("polr", dataManage.serialDic[comUI.Key].polR.ToString());
+                    elem_serialChid.SetAttribute("terminalresis", dataManage.serialDic[comUI.Key].terminalResis.ToString());
 
                     elemSerial.AppendChild(elem_serialChid);
                 }
