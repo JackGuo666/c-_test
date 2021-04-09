@@ -912,7 +912,7 @@ namespace LocalPLC.ModbusClient
                 {
                     int value = Convert.ToInt32(str);
                     //int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).Offset);
-                    if(value < 0 && value > 9999)
+                    if(value < 0 || value > 9999)
                     {
                         MessageBox.Show("超出偏移范围0-9999,");
                         dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
