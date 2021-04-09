@@ -146,6 +146,11 @@ namespace LocalPLC.Base
                 }
             }
 
+
+            if(comboBox_Databit.SelectedItem.ToString() == "7")
+            {
+                comboBox_Parity.Enabled = false;
+            }
         }
 
         enum SerialMode { RS232, RS485};
@@ -703,14 +708,31 @@ namespace LocalPLC.Base
 
         private void comboBox_Databit_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var ttt = comboBox_StopBit.SelectedItem as ComboboxItem;
+            var ttt = comboBox_Databit.SelectedItem as ComboboxItem;
             if (ttt != null)
             {
-                if(serialValueData_.dataBit.ToString() != ttt.Value.ToString())
+                //if(serialValueData_.dataBit.ToString() != ttt.Value.ToString())
                 {
                     if (initDone)
                     {
+                        if(ttt.ToString() == "7")
+                        {
+                            comboBox_Parity.Enabled = false;
+                            comboBox_Parity.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            comboBox_Parity.Enabled = true;
+                        }
+
                         setButtonEnable(true);
+                    }
+                    else
+                    {
+                        if (ttt.ToString() == "7")
+                        {
+                            comboBox_Parity.Enabled = false;
+                        }
                     }
                 }
             }
