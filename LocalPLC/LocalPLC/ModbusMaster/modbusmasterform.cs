@@ -39,6 +39,7 @@ namespace LocalPLC.ModbusMaster
         {
             LocalPLC.Base.xml.DataManageBase baseData = null;
             UserControl1.UC.getDataManager(ref baseData);
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             comboBox_transform_channel.Items.Clear();
             foreach (string serialname in baseData.serialDic.Keys)
             {
@@ -285,6 +286,8 @@ namespace LocalPLC.ModbusMaster
                     DeviceData data = masterData_.modbusDeviceList.ElementAt(e.RowIndex);
                     form.getDeviceData(ref data, masterStartAddr_, ref masterData_,ref mastermanage,MID,e.RowIndex);
                     form.devicenumber(data.ID);
+                    form.devaddr(dataGridView1.Rows[e.RowIndex].Cells["从站地址"].Value.ToString());
+                    form.devname(dataGridView1.Rows[e.RowIndex].Cells["名称"].Value.ToString());
                     form.StartPosition = FormStartPosition.CenterScreen;
                     form.ShowDialog();
                 }
@@ -340,16 +343,21 @@ namespace LocalPLC.ModbusMaster
             }
             else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
             {
+                bool number;
                 try
                 {
-                    bool number = isNumber(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
-
+                    number = isNumber(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                }
+                catch
+                {
+                    number = false;
+                }
                     if (number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
                     {
                         int flag = 0;
                         for (int i = 0; i < masterData_.modbusDeviceList.Count; i++)
                         {
-                            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr)
+                            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr && e.RowIndex!=i)
                             {
                                 flag++;
                             }
@@ -369,11 +377,8 @@ namespace LocalPLC.ModbusMaster
                         MessageBox.Show("请输入1-100的数字作为从站地址");
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
                     }
-                }
-                catch
-                {
-                    return;
-                }
+                
+               
             }
             //else if(e.ColumnIndex == (int)COLUMNNAME.REPONSE_TIMEOUT)
             //{   
@@ -612,70 +617,81 @@ namespace LocalPLC.ModbusMaster
                 MessageBox.Show("传输通道未配置！");
                 return;
             }
-            int flag = 0;
-            int flag1 = 0;
-            for (int j = 0; j < dataGridView1.Rows.Count; j++)
-            {
-                if (dataGridView1.Rows[j].Cells["从站地址"].Value.ToString() == "" && dataGridView1.Rows[j].Visible == true)
+            
+                int flag = 0;
+                int flag1 = 0;
+                for (int j = dataGridView1.Rows.Count-1; j >= 0; j--)
                 {
-                    flag++;
-                }
-                if(dataGridView1.Rows[j].Cells["名称"].Value.ToString() == "")
-                {
-                    flag1++;
-                }
-            }
-            if (flag > 0)
-            {
-                MessageBox.Show("从站地址还未设置，请设置");
-                return;
-            }
-            else if(flag1>0)
-            {
-                MessageBox.Show("请输入设备名称");
-                return;
-            }
-            else
-            {
-                refreshtemrow();
-                for (int m = dataGridView1.Rows.Count-1; m >0; m--)
-                {
-                    if (dataGridView1.Rows[m].Visible == false)
+                    try
                     {
-                        dataGridView1.Rows.RemoveAt(m);
-                        masterData_.modbusDeviceList.RemoveAt(m);
-                        for (int i = 0; i < dataGridView1.Rows.Count; i++)
-                        {
-                            dataGridView1.Rows[i].Cells[0].Value = i;
-                            masterData_.modbusDeviceList[i].ID = i;
-                        }
-                        masterData_.refreshAddr();
+                        string text = dataGridView1.Rows[j].Cells["从站地址"].Value.ToString();
+                    }
+                    catch
+                    {
+                        dataGridView1.Rows[j].Cells["从站地址"].Value = "";
+                    }
+                if (dataGridView1.Rows[j].Cells["从站地址"].Value.ToString() == "" || dataGridView1.Rows[j].Cells["从站地址"].Value == null 
+                        && dataGridView1.Rows[j].Visible == true )
+                    {
+                        flag++;
+                    }
+                    if (dataGridView1.Rows[j].Cells["名称"].Value.ToString() == "")
+                    {
+                        flag1++;
                     }
                 }
-                if (radioButton1.Checked == true)
+                if (flag > 0)
                 {
-                    masterData_.transformMode = 0;
+                    MessageBox.Show("从站地址还未设置，请设置");
+                    return;
+                }
+                else if (flag1 > 0)
+                {
+                    MessageBox.Show("请输入设备名称");
+                    return;
                 }
                 else
                 {
-                    masterData_.transformMode = 1;
+                    refreshtemrow();
+                    for (int m = dataGridView1.Rows.Count - 1; m > 0; m--)
+                    {
+                        if (dataGridView1.Rows[m].Visible == false)
+                        {
+                            dataGridView1.Rows.RemoveAt(m);
+                            masterData_.modbusDeviceList.RemoveAt(m);
+                            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                            {
+                                dataGridView1.Rows[i].Cells[0].Value = i;
+                                masterData_.modbusDeviceList[i].ID = i;
+                            }
+                            masterData_.refreshAddr();
+                        }
+                    }
+                    if (radioButton1.Checked == true)
+                    {
+                        masterData_.transformMode = 0;
+                    }
+                    else
+                    {
+                        masterData_.transformMode = 1;
+                    }
+
+                    masterData_.transformChannel = comboBox_transform_channel.SelectedItem.ToString();
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        masterData_.transformChannel = comboBox_transform_channel.Text;
+                        masterData_.modbusDeviceList[i].ID = int.Parse(dataGridView1.Rows[i].Cells[0].Value.ToString());
+                        masterData_.modbusDeviceList[i].nameDev = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                        masterData_.modbusDeviceList[i].slaveAddr = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                        int.TryParse(dataGridView1.Rows[i].Cells[3].Value.ToString(), out masterData_.modbusDeviceList[i].permitTimeoutCount);
+                        int.TryParse(dataGridView1.Rows[i].Cells[4].Value.ToString(), out masterData_.modbusDeviceList[i].reconnectInterval);
+                        masterData_.modbusDeviceList[i].resetVaraible = dataGridView1.Rows[i].Cells[5].Value.ToString();
+
+                    }
+
+
                 }
-
-                masterData_.transformChannel = comboBox_transform_channel.SelectedItem.ToString();
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
-                {
-                    masterData_.transformChannel = comboBox_transform_channel.Text;
-                    masterData_.modbusDeviceList[i].ID = int.Parse(dataGridView1.Rows[i].Cells[0].Value.ToString());
-                    masterData_.modbusDeviceList[i].nameDev = dataGridView1.Rows[i].Cells[1].Value.ToString();
-                    masterData_.modbusDeviceList[i].slaveAddr = dataGridView1.Rows[i].Cells[2].Value.ToString();
-                    int.TryParse(dataGridView1.Rows[i].Cells[3].Value.ToString(), out masterData_.modbusDeviceList[i].permitTimeoutCount);
-                    int.TryParse(dataGridView1.Rows[i].Cells[4].Value.ToString(), out masterData_.modbusDeviceList[i].reconnectInterval);
-                    masterData_.modbusDeviceList[i].resetVaraible = dataGridView1.Rows[i].Cells[5].Value.ToString();
-
-                }
-
-
-            }
+           
         }
     }
 }

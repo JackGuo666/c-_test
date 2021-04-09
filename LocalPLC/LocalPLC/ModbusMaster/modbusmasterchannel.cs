@@ -111,10 +111,13 @@ namespace LocalPLC.ModbusMaster
         {
             DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
             cellColumnID.Name = "ID";
+            textBox1.Text = devicename;
             textBox2.Text = MID.ToString();
-            textBox4.Text = deviceData_.slaveAddr.ToString();
-            
-
+            textBox4.Text = deviceaddr;
+            textBox1.ReadOnly = true;
+            textBox2.ReadOnly = true;
+            textBox4.ReadOnly = true;
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             DataGridViewComboBoxColumn columnMsgType = new DataGridViewComboBoxColumn();
             columnMsgType.Name = "功能码";
             columnMsgType.Items.Add("读多个位(线圈) - 0x01");
@@ -221,6 +224,16 @@ namespace LocalPLC.ModbusMaster
         public void devicenumber(int a)
         {
             dn = a;
+        }
+        string deviceaddr;
+        public void devaddr(string b)
+        {
+            deviceaddr = b;
+        }
+        string devicename;
+        public void devname(string c)
+        {
+            devicename = c;
         }
         private int[] temrow = new int[16] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         private void button_add_Click(object sender, EventArgs e)

@@ -63,7 +63,7 @@
             this.ClientSettings.Margin = new System.Windows.Forms.Padding(4);
             this.ClientSettings.Name = "ClientSettings";
             this.ClientSettings.Padding = new System.Windows.Forms.Padding(4);
-            this.ClientSettings.Size = new System.Drawing.Size(1704, 72);
+            this.ClientSettings.Size = new System.Drawing.Size(1672, 72);
             this.ClientSettings.TabIndex = 22;
             this.ClientSettings.TabStop = false;
             this.ClientSettings.Text = "设备设置：";
@@ -99,7 +99,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1696, 392);
+            this.dataGridView1.Size = new System.Drawing.Size(1664, 396);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -204,7 +204,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 72);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1704, 126);
+            this.panel1.Size = new System.Drawing.Size(1672, 126);
             this.panel1.TabIndex = 23;
             // 
             // panel2
@@ -214,19 +214,19 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 198);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1704, 88);
+            this.panel2.Size = new System.Drawing.Size(1672, 88);
             this.panel2.TabIndex = 24;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.panel4);
             this.groupBox2.Controls.Add(this.dataGridView1);
+            this.groupBox2.Controls.Add(this.panel4);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 330);
+            this.groupBox2.Location = new System.Drawing.Point(0, 328);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1704, 421);
+            this.groupBox2.Size = new System.Drawing.Size(1672, 478);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             // 
@@ -235,17 +235,17 @@
             this.panel4.Controls.Add(this.button3);
             this.panel4.Controls.Add(this.button4);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(4, 357);
+            this.panel4.Location = new System.Drawing.Point(4, 421);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1696, 60);
+            this.panel4.Size = new System.Drawing.Size(1664, 53);
             this.panel4.TabIndex = 3;
             // 
             // button3
             // 
             this.button3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button3.Location = new System.Drawing.Point(1330, 0);
+            this.button3.Location = new System.Drawing.Point(1298, 0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(189, 60);
+            this.button3.Size = new System.Drawing.Size(189, 53);
             this.button3.TabIndex = 2;
             this.button3.Text = "应用";
             this.button3.UseVisualStyleBackColor = true;
@@ -254,9 +254,9 @@
             // button4
             // 
             this.button4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button4.Location = new System.Drawing.Point(1519, 0);
+            this.button4.Location = new System.Drawing.Point(1487, 0);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(177, 60);
+            this.button4.Size = new System.Drawing.Size(177, 53);
             this.button4.TabIndex = 2;
             this.button4.Text = "取消";
             this.button4.UseVisualStyleBackColor = true;
@@ -270,14 +270,14 @@
             this.panel3.Location = new System.Drawing.Point(0, 286);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1704, 44);
+            this.panel3.Size = new System.Drawing.Size(1672, 42);
             this.panel3.TabIndex = 2;
             // 
             // modbusclient1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1704, 751);
+            this.ClientSize = new System.Drawing.Size(1672, 806);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label5);
