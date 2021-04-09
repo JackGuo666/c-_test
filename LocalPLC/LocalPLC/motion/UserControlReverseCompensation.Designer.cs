@@ -33,7 +33,8 @@
             this.label31 = new System.Windows.Forms.Label();
             this.textBox_ReverseCompensation = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,7 +44,7 @@
             this.panel5.Controls.Add(this.label31);
             this.panel5.Controls.Add(this.textBox_ReverseCompensation);
             this.panel5.Controls.Add(this.label34);
-            this.panel5.Location = new System.Drawing.Point(3, 3);
+            this.panel5.Location = new System.Drawing.Point(3, 44);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(741, 94);
             this.panel5.TabIndex = 6;
@@ -69,9 +70,12 @@
             // textBox_ReverseCompensation
             // 
             this.textBox_ReverseCompensation.Location = new System.Drawing.Point(309, 53);
+            this.textBox_ReverseCompensation.MaxLength = 10;
             this.textBox_ReverseCompensation.Name = "textBox_ReverseCompensation";
             this.textBox_ReverseCompensation.Size = new System.Drawing.Size(140, 28);
             this.textBox_ReverseCompensation.TabIndex = 1;
+            this.textBox_ReverseCompensation.TextChanged += new System.EventHandler(this.textBox_ReverseCompensation_TextChanged);
+            this.textBox_ReverseCompensation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_ReverseCompensation_KeyPress);
             // 
             // label34
             // 
@@ -82,20 +86,35 @@
             this.label34.TabIndex = 0;
             this.label34.Text = "mm";
             // 
-            // richTextBox1
+            // button_cancel
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(1, 90);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(745, 487);
-            this.richTextBox1.TabIndex = 7;
-            this.richTextBox1.Text = "图片";
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(129, 3);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 8;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(3, 3);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 9;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // UserControlReverseCompensation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.button_cancel);
+            this.Controls.Add(this.button_valid);
             this.Controls.Add(this.panel5);
             this.Name = "UserControlReverseCompensation";
             this.Size = new System.Drawing.Size(747, 578);
@@ -112,6 +131,7 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox textBox_ReverseCompensation;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }

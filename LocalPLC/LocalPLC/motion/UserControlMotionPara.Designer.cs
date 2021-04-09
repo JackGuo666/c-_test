@@ -560,6 +560,7 @@
             this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
             this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
             this.comboBox_ZPulseSignal.TabIndex = 3;
+            this.comboBox_ZPulseSignal.SelectedIndexChanged += new System.EventHandler(this.comboBox_ZPulseSignal_SelectedIndexChanged);
             this.comboBox_ZPulseSignal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox4
@@ -577,6 +578,7 @@
             this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
             this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
             this.comboBox_BackOriginal.TabIndex = 3;
+            this.comboBox_BackOriginal.SelectedIndexChanged += new System.EventHandler(this.comboBox_BackOriginal_SelectedIndexChanged);
             this.comboBox_BackOriginal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_BackOriginalSelectLevel
@@ -586,6 +588,7 @@
             this.comboBox_BackOriginalSelectLevel.Name = "comboBox_BackOriginalSelectLevel";
             this.comboBox_BackOriginalSelectLevel.Size = new System.Drawing.Size(141, 26);
             this.comboBox_BackOriginalSelectLevel.TabIndex = 3;
+            this.comboBox_BackOriginalSelectLevel.SelectedIndexChanged += new System.EventHandler(this.comboBox_BackOriginalSelectLevel_SelectedIndexChanged);
             this.comboBox_BackOriginalSelectLevel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // label26

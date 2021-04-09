@@ -123,6 +123,8 @@ namespace LocalPLC.motion
         {
             LocalPLC.Base.xml.DataManageBase dataManage = null;
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+            comboBox_BackOriginal.Items.Clear();
+            comboBox_ZPulseSignal.Items.Clear();
             foreach (var di in dataManage.diList)
             {
                 if (!di.used)
@@ -132,13 +134,19 @@ namespace LocalPLC.motion
                 }
             }
 
+            comboBox_BackOriginal.Text = data.axisMotionPara.backOriginal.orginInputSignal;
+            comboBox_ZPulseSignal.Text = data.axisMotionPara.backOriginal.ZPulseSignal;
+
             levelDic.Clear();
             levelDic.Add((int)TypeLevel.HIGH_LEVEL, "高电平有效");
             levelDic.Add((int)TypeLevel.LOW_LEVEL, "低电平有效");
+            comboBox_BackOriginalSelectLevel.Items.Clear();
             foreach (var level in levelDic)
             {
                 comboBox_BackOriginalSelectLevel.Items.Add(level.Value);
             }
+
+            comboBox_BackOriginalSelectLevel.SelectedIndex = data.axisMotionPara.backOriginal.selectLevel;
         }
 
 
@@ -228,25 +236,25 @@ namespace LocalPLC.motion
             var reverseCompensation = data.axisMotionPara.reverseCompensation;
             textBox_ReverseCompensation.Text = reverseCompensation.reverseCompensation.ToString();
         }
-        public UserControlMotionPara(TreeNode node)
-        {
-            InitializeComponent();
+        //public UserControlMotionPara(TreeNode node)
+        //{
+        //    InitializeComponent();
 
-            if (node.Parent == null)
-            {
-                LocalPLC.utility.PrintInfo(string.Format("{0}节点没有父节点!", node.Parent));
-                return;
-            }
+        //    if (node.Parent == null)
+        //    {
+        //        LocalPLC.utility.PrintInfo(string.Format("{0}节点没有父节点!", node.Parent));
+        //        return;
+        //    }
 
-            data = node.Parent.Tag as Axis;
-            node_ = node;
+        //    data = node.Parent.Tag as Axis;
+        //    node_ = node;
 
-            initPulseEquient();
-            initLimitSignal();
-            initDynamic();
-            initBackOriginal();
-            reverseCompensation();
-        }
+        //    initPulseEquient();
+        //    initLimitSignal();
+        //    initDynamic();
+        //    initBackOriginal();
+        //    reverseCompensation();
+        //}
 
 
 
@@ -964,6 +972,24 @@ namespace LocalPLC.motion
         }
 
         private void comboBox_hardDownLimitInput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
+        }
+
+        private void comboBox_BackOriginal_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
+        }
+
+        private void comboBox_BackOriginalSelectLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
+        }
+
+        private void comboBox_ZPulseSignal_SelectedIndexChanged(object sender, EventArgs e)
         {
             button_valid.Enabled = true;
             button_cancel.Enabled = true;
