@@ -662,6 +662,8 @@ namespace LocalPLC.Base
         private void button1_Click(object sender, EventArgs e)
         {
             getDataFromUI();
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
 
         void getDataFromUI()
@@ -681,6 +683,8 @@ namespace LocalPLC.Base
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
     }
 }
