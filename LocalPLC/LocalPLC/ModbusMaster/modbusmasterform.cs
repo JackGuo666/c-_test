@@ -17,7 +17,7 @@ namespace LocalPLC.ModbusMaster
 
            
         }
-
+        public static ModbusServer.ServerIndex serverdata { get; set; } = new ModbusServer.ServerIndex();
         private ModbusMasterData masterData_;
         private int masterStartAddr_ = 0;
         private ModbusMasterManage mastermanage;
@@ -484,6 +484,8 @@ namespace LocalPLC.ModbusMaster
 
         private void comboBox_transform_channel_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LocalPLC.ModbusServer.DataManager servermanage = null;
+            serverdata.getservermanage(ref servermanage);
             try
             {
                 for (int i = 0; i < mastermanage.modbusMastrList.Count; i++)
@@ -492,6 +494,14 @@ namespace LocalPLC.ModbusMaster
                     {
                         comboBox_transform_channel.SelectedIndex = -1;
                         MessageBox.Show("该传输通道已被占用，请选择其他通道");
+                    }
+                }
+                for (int j = 0;j<servermanage.listServer.Count;j++)
+                {
+                    if(servermanage.listServer[j].dataDevice_.transformportdescribe == comboBox_transform_channel.SelectedItem.ToString())
+                    {
+                        comboBox_transform_channel.SelectedIndex = -1;
+                        MessageBox.Show("该传输通道已被server占用，请选择其他通道");
                     }
                 }
             }

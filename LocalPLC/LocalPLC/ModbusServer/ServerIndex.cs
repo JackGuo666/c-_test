@@ -18,15 +18,19 @@ namespace LocalPLC.ModbusServer
     public partial class ServerIndex : UserControl
     {
         public DataManager serverDataManager = null;
+        public static DataManager serverdatamanage1 = null;
         public ServerIndex()
         {
             InitializeComponent();
             
 
             serverDataManager = DataManager.GetInstance();
-            
+            serverdatamanage1 = serverDataManager;
         }
-
+        public void getservermanage(ref ModbusServer.DataManager datamanage)
+        {
+            datamanage = serverdatamanage1;
+        }
         public void deleteTableRow()
         {
             for (int i = dataGridView1.Rows.Count - 1; i >= 0; i--)
@@ -155,6 +159,7 @@ namespace LocalPLC.ModbusServer
                     serverDataManager.TCPnum++;
                 }
                 serverDataManager.listServer.Add(data);
+                serverdatamanage1 = serverDataManager;
             }
         }
 
@@ -175,6 +180,7 @@ namespace LocalPLC.ModbusServer
 
                 dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
                 serverDataManager.listServer.RemoveAt(index);
+                serverdatamanage1 = serverDataManager;
             }
         }
         
