@@ -24,6 +24,8 @@ namespace LocalPLC.ModbusMaster
         private string columnConfig = "配置";
         private string columnDetail = "详细信息";
         public ModbusMasterManage masterManage = new ModbusMasterManage();
+        public static ModbusMasterManage mastermanege1 = new ModbusMasterManage();
+        
         private Dictionary<int, string> dicMsg = new Dictionary<int, string>();
         public modbusmastermain()
         {
@@ -41,7 +43,7 @@ namespace LocalPLC.ModbusMaster
             dicMsg.Add(0x0F, "写多个位(线圈) - 0x0F");
             dicMsg.Add(0x10, "写多个字(寄存器) - 0x10");
         }
-
+       
         public void deleteTableRow()
         {
             for (int i = dataGridView1.RowCount - 1; i >= 0; i--)
@@ -50,6 +52,7 @@ namespace LocalPLC.ModbusMaster
 
                 dataGridView1.Rows.RemoveAt(i);
                 masterManage.modbusMastrList.RemoveAt(i);
+                mastermanege1 = masterManage;
             }
         }
 
@@ -128,10 +131,10 @@ namespace LocalPLC.ModbusMaster
                 }
 
                 masterManage.add(data);//添加进xml
+                mastermanege1 = masterManage;
 
 
 
-                
 
             }
         }
@@ -477,6 +480,8 @@ namespace LocalPLC.ModbusMaster
                 masterManage.add(data);
 
                 //utility.addIOGroups();
+                mastermanege1 = masterManage;
+                
             }
         }
 
@@ -730,6 +735,7 @@ namespace LocalPLC.ModbusMaster
                     dataGridView1.Rows.Remove(dataGridView1.SelectedRows[i]);
                     masterManage.modbusMastrList.RemoveAt(index);
                 }
+                mastermanege1 = masterManage;
             }
             catch
             {
@@ -776,12 +782,18 @@ namespace LocalPLC.ModbusMaster
 
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
-
+            
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
+            
+        }
+        public void getmastermain(ref ModbusMasterManage refmodbusmastermange)
+        {
+            ModbusMasterManage master = mastermanege1;           
+            refmodbusmastermange = master;
+            
         }
     }
 
@@ -896,6 +908,7 @@ namespace LocalPLC.ModbusMaster
 
             return deviceLength;
         }
+        
     }
     public class ModbusMasterData
     {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using LocalPLC;
+using LocalPLC.Base;
 
 namespace LocalPLC.ModbusServer
 {
@@ -51,7 +52,8 @@ namespace LocalPLC.ModbusServer
         ModbusServerData data_;
         public modbusserver server;
         private int close = 0;
-
+        public static UserControlBase UC { get; set; } = new UserControlBase();
+        public static ModbusMaster.modbusmastermain master { get; set; } = new ModbusMaster.modbusmastermain();
         enum TRANSFORMMODE : int
         { TCP, UDP }
         enum SLAVETRANS : int
@@ -1508,7 +1510,11 @@ namespace LocalPLC.ModbusServer
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             int flag = 0;
-
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UC.getDataManager(ref baseData);
+            LocalPLC.ModbusMaster.ModbusMasterManage mastermange = null;
+            master.getmastermain(ref mastermange);
+            
             //data_.dataDevice_.transformport = comboBox2.SelectedIndex;
             //data_.dataDevice_.transformportdescribe = comboBox2.SelectedItem.ToString();
             try
@@ -1521,6 +1527,19 @@ namespace LocalPLC.ModbusServer
                         if (dataManager.listServer[i].dataDevice_.transformportdescribe == comboBox2.SelectedItem.ToString() && i!=SID)
                         {
                             flag++;
+                        }
+                    }
+                    if(baseData.serialDic[comboBox2.SelectedItem.ToString()].dataBit != 8 && radioButton6.Checked == true)
+                    {
+                        MessageBox.Show("RTU模式下，串口的数据位不能为7");
+                        comboBox2.SelectedIndex = -1;
+                    }
+                    for(int j =0;j<mastermange.modbusMastrList.Count;j++)
+                    {
+                        if(mastermange.modbusMastrList[j].transformChannel == comboBox2.SelectedItem.ToString())
+                        {
+                            MessageBox.Show("该串口已在master中配置，请重新选择串口");
+                            comboBox2.SelectedIndex = -1;
                         }
                     }
                 }
@@ -1540,6 +1559,7 @@ namespace LocalPLC.ModbusServer
                     comboBox2.SelectedIndex = -1;
 
                 }
+               
             }
             catch
             {
