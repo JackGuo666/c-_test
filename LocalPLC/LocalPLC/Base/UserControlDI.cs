@@ -290,7 +290,7 @@ namespace LocalPLC.Base
             InitializeComponent();
 
             text_Temp.MaxLength = 30;
-
+            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             //InitDatable();
             //InitTableData();
 
@@ -810,6 +810,16 @@ namespace LocalPLC.Base
                     //    dataGridView1.Rows[i].Cells[4].Value = "女";
                     //}
                 }
+            }
+        }
+
+
+        private void MyDataGridView_MouseUp(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hitInfo = this.dataGridView1.HitTest(e.X, e.Y);
+            if (hitInfo.Type == DataGridViewHitTestType.TopLeftHeader)
+            {
+                dataGridView1.ClearSelection();
             }
         }
 

@@ -15,7 +15,7 @@ namespace LocalPLC.Base
         public UserControlDO(string name)
         {
             InitializeComponent();
-
+            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             text_Temp.MaxLength = 30;
 
             setButtonEnable(false);
@@ -850,6 +850,15 @@ namespace LocalPLC.Base
         {
             text_Temp.Hide();
             dataGridView1.CurrentCell = null;
+        }
+
+        private void dataGridView1_MouseUp(object sender, MouseEventArgs e)
+        {
+            DataGridView.HitTestInfo hitInfo = this.dataGridView1.HitTest(e.X, e.Y);
+            if (hitInfo.Type == DataGridViewHitTestType.TopLeftHeader)
+            {
+                dataGridView1.ClearSelection();
+            }
         }
 
         //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)//取消方向键对控件的焦点的控件，用自己自定义的函数处理各个方向键的处理函数

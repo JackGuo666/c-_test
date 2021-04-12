@@ -60,6 +60,7 @@
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dataGridView1_DataBindingComplete);
             this.dataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dataGridView1_EditingControlShowing);
             this.dataGridView1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.dataGridView1_Scroll);
+            this.dataGridView1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MyDataGridView_MouseUp);
             this.dataGridView1.Resize += new System.EventHandler(this.dataGridView1_Resize);
             // 
             // button_cancel
