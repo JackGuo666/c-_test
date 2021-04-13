@@ -799,7 +799,7 @@ namespace LocalPLC
 
             //======================高速计数器======================
             //HSC高速脉冲输入组
-            writer.WritePropertyName("HSC");
+            writer.WritePropertyName("hsc");
             writer.WriteStartObject(); //{ HSC节点
             writer.WritePropertyName("grp_total");
 
@@ -952,7 +952,7 @@ namespace LocalPLC
             writer.WritePropertyName("input");
             writer.WriteStartObject(); //{ input节点
             writer.WritePropertyName("num");
-            writer.WriteValue(baseData.diList.Count);
+            writer.WriteValue(baseData.getNotUsedDiCount());
             writer.WritePropertyName("conf");
             writer.WriteStartArray(); //[input下conf数组
             for(int i = 0; i<baseData.diList.Count;i++)
