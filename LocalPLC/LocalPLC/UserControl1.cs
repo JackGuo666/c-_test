@@ -820,7 +820,7 @@ namespace LocalPLC
                     hsc.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
                 {
                     writer.WritePropertyName("grp_no");
-                    writer.WriteValue(hsc.name);
+                    writer.WriteValue(hsc.name.ToLower());
                     writer.WritePropertyName("opr_mode");
                     writer.WriteValue(hsc.opr_mode);
                     writer.WritePropertyName("phaseA");
@@ -829,6 +829,11 @@ namespace LocalPLC
                     {
                         writer.WritePropertyName("phaseB");
                         writer.WriteValue(hsc.dirPort);
+                    }
+                    else
+                    {
+                        writer.WritePropertyName("phaseB");
+                        writer.WriteValue("");
                     }
 
                     writer.WritePropertyName("capture");
@@ -854,11 +859,17 @@ namespace LocalPLC
                 else if(hsc.type == (int)UserControlHighIn.TYPE.FREQUENCY)
                 {
                     writer.WritePropertyName("grp_no");
-                    writer.WriteValue(hsc.name);
+                    writer.WriteValue(hsc.name.ToLower());
                     writer.WritePropertyName("opr_mode");
                     writer.WriteValue(hsc.opr_mode);
                     writer.WritePropertyName("phaseA");
                     writer.WriteValue(hsc.pulseFrequencyInputPort);
+                    writer.WritePropertyName("phaseB");
+                    writer.WriteValue("");
+                    writer.WritePropertyName("capture");
+                    writer.WriteValue("");
+                    writer.WritePropertyName("preset");
+                    writer.WriteValue("");
                 }
 
                 
