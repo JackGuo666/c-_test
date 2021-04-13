@@ -662,8 +662,8 @@ namespace LocalPLC.Base
         private void button1_Click(object sender, EventArgs e)
         {
             getDataFromUI();
-            button_valid.Enabled = false;
-            button_cancel.Enabled = false;
+            //button_valid.Enabled = false;
+            //button_cancel.Enabled = false;
         }
 
         void getDataFromUI()
@@ -673,18 +673,20 @@ namespace LocalPLC.Base
             foreach (DataRow dr in dtData.Rows)
             {
                 bool.TryParse(dr[columnUsedIndex].ToString(), out hscList[row].used);
-                hscList[columnVarIndex].name = dr[columnVarIndex].ToString();
-                hscList[columnAddressIndex].address = dr[columnAddressIndex].ToString();
+                hscList[row].name = dr[columnVarIndex].ToString();
+                hscList[row].address = dr[columnAddressIndex].ToString();
                 //type
-                hscList[columnNoteIndex].note = dr[columnNoteIndex].ToString();
+                hscList[row].note = dr[columnNoteIndex].ToString();
+
+                row++;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
-            button_valid.Enabled = false;
-            button_cancel.Enabled = false;
+            //button_valid.Enabled = false;
+            //button_cancel.Enabled = false;
         }
     }
 }
