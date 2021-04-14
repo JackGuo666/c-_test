@@ -614,6 +614,11 @@ namespace LocalPLC
 
                                 foreach(var di in LocalPLC.Base.UserControlBase.dataManage.diList)
                                 {
+                                    if(di.used)
+                                    {
+                                        continue;
+                                    }
+
                                     string varName = "";
                                     if(di.varName == "")
                                     {
@@ -640,6 +645,12 @@ namespace LocalPLC
 
                                 foreach (var dout in LocalPLC.Base.UserControlBase.dataManage.doList)
                                 {
+
+                                    if(dout.used)
+                                    {
+                                        continue;
+                                    }
+
                                     string varName = "";
                                     if (dout.varName == "")
                                     {
