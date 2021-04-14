@@ -47,7 +47,7 @@ namespace LocalPLC.Base
             InitializeComponent();
 
 
-
+            /////========================
             init = true;
             setButtonEanble(false);
             textBox_presetValue.MaxLength = 5;
@@ -57,6 +57,9 @@ namespace LocalPLC.Base
             tip.ReshowDelay = 500;
             tip.ShowAlways = true;
 
+            textBox_eventName0.MaxLength = 7;
+            textBox_eventName1.MaxLength = 7;
+            /////=========================
 
             posRegular = groupBox2.Location;
             posInput = groupBox3.Location;
@@ -802,6 +805,21 @@ namespace LocalPLC.Base
                     }
                 }
             }
+            else if(port == "DI07")
+            {
+                foreach (var di in diData_)
+                {
+                    if (di.channelName == port)
+                    {
+                        if(di.hscUsed == "HSC7")
+                        {
+                            //HSC7已使用DI07，HSC3不对DI07进行判断
+
+                            return false;
+                        }
+                    }
+                }
+            }
 
             return true;
         }
@@ -834,7 +852,13 @@ namespace LocalPLC.Base
 
                 //di判断是否已用
                 checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
-                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                //checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                bool flag = getPulseDirIsJudge(hscData_.dirChecked, hscData_.dirPort);
+                if (flag)
+                {
+                    checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                }
+
 
                 //辅助端口，false不处理
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
@@ -1020,7 +1044,13 @@ namespace LocalPLC.Base
                 checkBaseDIUse(hscData_.pulseFrequencyChecked, hscData_.pulseFrequencyInputPort);
 
                 hscData_.dirChecked = false;
-                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                //方向端口是否判断
+                bool flag = getPulseDirIsJudge(hscData_.dirChecked, hscData_.dirPort);
+                if(flag)
+                {
+                    checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                }
+
 
                 //双相 辅助接点为false不做判断
                 hscData_.presetChecked = false;
