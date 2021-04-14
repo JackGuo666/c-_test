@@ -34,6 +34,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_Type = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBox_pulseFrequencyPort = new System.Windows.Forms.TextBox();
             this.checkBox_frequencyPulse = new System.Windows.Forms.CheckBox();
@@ -123,10 +125,14 @@
             this.comboBox_Type.Name = "comboBox_Type";
             this.comboBox_Type.Size = new System.Drawing.Size(143, 26);
             this.comboBox_Type.TabIndex = 3;
+            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged);
+            this.comboBox_Type.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_Type_KeyPress);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Controls.Add(this.button_cancel);
+            this.panel2.Controls.Add(this.button_valid);
             this.panel2.Controls.Add(this.groupBox4);
             this.panel2.Controls.Add(this.groupBox3);
             this.panel2.Controls.Add(this.groupBox2);
@@ -134,8 +140,27 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(939, 804);
+            this.panel2.Size = new System.Drawing.Size(939, 838);
             this.panel2.TabIndex = 5;
+            // 
+            // button_cancel
+            // 
+            this.button_cancel.Location = new System.Drawing.Point(785, 786);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(101, 40);
+            this.button_cancel.TabIndex = 8;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            // 
+            // button_valid
+            // 
+            this.button_valid.Location = new System.Drawing.Point(662, 786);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(101, 40);
+            this.button_valid.TabIndex = 8;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // groupBox4
             // 
@@ -407,6 +432,8 @@
             this.textBox_threshold1.Name = "textBox_threshold1";
             this.textBox_threshold1.Size = new System.Drawing.Size(107, 28);
             this.textBox_threshold1.TabIndex = 2;
+            this.textBox_threshold1.TextChanged += new System.EventHandler(this.textBox_threshold1_TextChanged);
+            this.textBox_threshold1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_threshold1_KeyPress);
             // 
             // textBox_threshold0
             // 
@@ -414,6 +441,8 @@
             this.textBox_threshold0.Name = "textBox_threshold0";
             this.textBox_threshold0.Size = new System.Drawing.Size(107, 28);
             this.textBox_threshold0.TabIndex = 2;
+            this.textBox_threshold0.TextChanged += new System.EventHandler(this.textBox_threshold0_TextChanged);
+            this.textBox_threshold0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_threshold0_KeyPress);
             // 
             // textBox_presetValue
             // 
@@ -421,6 +450,8 @@
             this.textBox_presetValue.Name = "textBox_presetValue";
             this.textBox_presetValue.Size = new System.Drawing.Size(107, 28);
             this.textBox_presetValue.TabIndex = 2;
+            this.textBox_presetValue.TextChanged += new System.EventHandler(this.textBox_presetValue_TextChanged);
+            this.textBox_presetValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_presetValue_KeyPress);
             // 
             // label_limite1
             // 
@@ -512,6 +543,7 @@
             this.checkBox_doubleWord.TabIndex = 0;
             this.checkBox_doubleWord.Text = "双字";
             this.checkBox_doubleWord.UseVisualStyleBackColor = true;
+            this.checkBox_doubleWord.CheckedChanged += new System.EventHandler(this.checkBox_doubleWord_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -534,12 +566,13 @@
             this.comboBox_inputmode.Size = new System.Drawing.Size(141, 26);
             this.comboBox_inputmode.TabIndex = 2;
             this.comboBox_inputmode.SelectedIndexChanged += new System.EventHandler(this.comboBox_inputmode_SelectedIndexChanged);
+            this.comboBox_inputmode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_inputmode_KeyPress);
             // 
             // FormHighInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 804);
+            this.ClientSize = new System.Drawing.Size(939, 838);
             this.Controls.Add(this.panel2);
             this.Name = "FormHighInput";
             this.Text = "FormHighInput";
@@ -604,5 +637,7 @@
         private System.Windows.Forms.CheckBox checkBox_frequencyDoubleWord;
         private System.Windows.Forms.TextBox textBox_presetPort;
         private System.Windows.Forms.TextBox textBox_capturePort;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }

@@ -36,12 +36,27 @@ namespace LocalPLC.Base
         public enum TIMEBASE { T100ms, T1s }
 
         List<Base.xml.DIData> diData_ = null;
+        bool init = false;
+
+        ToolTip tip = new ToolTip();
         public FormHighInput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSCData hscData)
         {
             Base.xml.DataManageBase retDataManageBase = null;
             UserControl1.UC.getDataManager(ref retDataManageBase);
             diData_ = retDataManageBase.diList;
             InitializeComponent();
+
+
+
+            init = true;
+            setButtonEanble(false);
+            textBox_presetValue.MaxLength = 5;
+
+            tip.AutoPopDelay = 10000;
+            tip.InitialDelay = 500;
+            tip.ReshowDelay = 500;
+            tip.ShowAlways = true;
+
 
             posRegular = groupBox2.Location;
             posInput = groupBox3.Location;
@@ -199,6 +214,8 @@ namespace LocalPLC.Base
 
                 checkBox_frequencyDoubleWord.Checked = hscData_.frequencyDoubleWord;
             }
+
+            init = false;
         }
 
         #region
@@ -643,6 +660,12 @@ namespace LocalPLC.Base
                 label_pulse.Text = "脉冲输入相位A";
                 label_direction.Text = "脉冲输入相位B";
             }
+
+            if(!init)
+            {
+                setButtonEanble(true);
+            }
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -717,6 +740,70 @@ namespace LocalPLC.Base
                 }
             }
 
+        }
+
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="check"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        bool getPulseDirIsJudge(bool check, string port)
+        {
+            if(check)
+            {
+                return true;
+            }
+
+            if(port == "DI01")
+            {
+                //DI01可以是HSC4的端口
+                foreach (var di in diData_)
+                {
+                    if(di.channelName == port)
+                    {
+                        if(di.hscUsed == "HSC4")
+                        {
+                            //HSC4已使用DI01，HSC0里不对DI01进行判断
+                            return false;
+                        }
+                    }
+                }
+            }
+            else if(port == "DI03")
+            {
+                foreach (var di in diData_)
+                {
+                    if (di.channelName == port)
+                    {
+                        if(di.hscUsed == "HSC5")
+                        {
+                            //HSC5脉冲端口已使用DI03，HSC1不对DI03进行判断
+                            return false;
+                        }
+                    }
+                }
+            }
+            else if(port == "DI05")
+            {
+                foreach (var di in diData_)
+                {
+                    if (di.channelName == port)
+                    {
+                        if(di.hscUsed == "HSC6")
+                        {
+                            //HSC6已使用DI05，HSC2不对DI05进行判断
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         private void FormHighInput_FormClosing(object sender, FormClosingEventArgs e)
@@ -803,8 +890,13 @@ namespace LocalPLC.Base
 
                 //di判断是否已用
                 checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
-                //单相没有方向，下面代码注释
-                checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                //方向端口是否判断，下面代码注释
+                bool flag = getPulseDirIsJudge(hscData_.dirChecked, hscData_.dirPort);
+                if(flag)
+                {
+                    checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
+                }
+
 
                 //辅助端口，false不处理
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
@@ -989,6 +1081,221 @@ namespace LocalPLC.Base
         }
 
         private void FormHighInput_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        void setButtonEanble(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+
+        private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void checkBox_doubleWord_CheckedChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void comboBox_Type_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_inputmode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void textBox_presetValue_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar))//如果不是输入数字就不让输入
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_presetValue_TextChanged(object sender, EventArgs e)
+        {
+            int max = 65535;//首先设置上限值
+            if (textBox_presetValue.Text != null && textBox_presetValue.Text != "")//判断TextBox的内容不为空，如果不判断会导致后面的非数字对比异常
+            {
+                int temp = 0;
+                bool flag = int.TryParse(textBox_presetValue.Text, out temp);
+                if(flag)
+                {
+                    if (temp > max)//num就是传进来的值,如果大于上限（输入的值），那就强制为上限-1，或者就是上限值？
+                    {
+                        textBox_presetValue.Text = max.ToString();
+                    }
+                }
+                else
+                {
+                    textBox_presetValue.Text = temp.ToString();
+                }
+                textBox_presetValue.BackColor = Color.White;
+                setButtonEanble(true);
+                tip.SetToolTip(textBox_presetValue, "");
+            }
+            else
+            {
+                if(textBox_presetValue.Text == "")
+                {
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    textBox_presetValue.BackColor = Color.Red;
+                    tip.SetToolTip(textBox_presetValue, "输入值必须为整数!");
+                }
+            }
+
+        }
+
+        private void textBox_threshold0_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar))//如果不是输入数字就不让输入
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_threshold0_TextChanged(object sender, EventArgs e)
+        {
+            if(init)
+            {
+                return;
+            }
+
+            int max = 65535;//首先设置上限值
+            if(textBox_threshold0.Text != "")
+            {
+                int temp = 0;
+                bool flag = int.TryParse(textBox_threshold0.Text, out temp);
+                if(flag)
+                {
+                    if(temp > max)
+                    {
+                        textBox_threshold0.Text = max.ToString();
+                        temp = max;
+                    }
+                    else
+                    {
+                        textBox_threshold0.Text = temp.ToString();
+                    }
+
+                    int temp1 = 0;
+                    flag = int.TryParse(textBox_threshold1.Text, out temp1);
+                    if(!flag)
+                    {
+                        MessageBox.Show("阈值E1输入值无效,请在阈值1输入有效整数!");
+                    }
+                    else
+                    {
+                        if(temp >= temp1)
+                        {
+                            button_valid.Enabled = false;
+                            button_cancel.Enabled = true;
+                            textBox_threshold0.BackColor = Color.Red;
+                            tip.SetToolTip(textBox_threshold0, "阈值E0要小于阈值E1");
+                            return;
+                        }
+                    }
+
+                    textBox_threshold0.BackColor = Color.White;
+                    setButtonEanble(true);
+                    tip.SetToolTip(textBox_threshold0, "");
+                }
+            }
+            else
+            {
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+                textBox_threshold0.BackColor = Color.Red;
+                tip.SetToolTip(textBox_threshold0, "输入值必须为整数!");
+            }
+        }
+
+        private void textBox_threshold1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar))//如果不是输入数字就不让输入
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_threshold1_TextChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            int max = 65535;//首先设置上限值
+            if(textBox_threshold1.Text != "")
+            {
+                int temp = 0;
+                bool flag = int.TryParse(textBox_threshold1.Text, out temp);
+                if(flag)
+                {
+                    if(temp > max)
+                    {
+                        textBox_threshold1.Text = max.ToString();
+                        temp = max;
+                    }
+                    else
+                    {
+                        textBox_threshold1.Text = temp.ToString();
+                    }
+
+
+                    int temp0 = 0;
+                    flag = int.TryParse(textBox_threshold0.Text, out temp0);
+                    if (!flag)
+                    {
+                        MessageBox.Show("阈值E0输入值无效,请在阈值E0输入有效整数!");
+                    }
+                    else
+                    {
+                        //有效判断E0、E1大小
+                        if(temp0 >= temp)
+                        {
+                            button_valid.Enabled = false;
+                            button_cancel.Enabled = true;
+                            textBox_threshold1.BackColor = Color.Red;
+                            tip.SetToolTip(textBox_threshold1, "阈值E1要大于阈值E0");
+
+                            return;
+                        }
+                    }
+
+                    textBox_threshold1.BackColor = Color.White;
+                    setButtonEanble(true);
+                    tip.SetToolTip(textBox_threshold1, "");
+                }
+            }
+            else
+            {
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+                textBox_threshold1.BackColor = Color.Red;
+                tip.SetToolTip(textBox_threshold1, "输入值必须为整数!");
+            }
+        }
+
+        private void button_valid_Click(object sender, EventArgs e)
         {
 
         }
