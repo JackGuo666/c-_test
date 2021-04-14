@@ -342,6 +342,22 @@ namespace LocalPLC.Base.xml
         public List<HSCData> hscList = new List<HSCData>();
 
 
+
+        public int getNotUsedDiCount()
+        {
+            int count = 0;
+            foreach(var di in diList)
+            {
+                if(!di.used)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+
         public int getUsedHscCount()
         {
             int count = 0;
