@@ -49,7 +49,7 @@ namespace LocalPLC.Base
 
             /////========================
             init = true;
-            setButtonEanble(false);
+
             textBox_presetValue.MaxLength = 5;
 
             tip.AutoPopDelay = 10000;
@@ -219,6 +219,8 @@ namespace LocalPLC.Base
             }
 
             init = false;
+
+            setButtonEanble(false);
         }
 
         #region
@@ -500,6 +502,13 @@ namespace LocalPLC.Base
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if(!init)
+            {
+                setButtonEnable(true);
+            }
+
+
+
             var item = (ComboboxItem)this.comboBox_Type.SelectedItem;
             if (item == null)
             {
@@ -827,12 +836,6 @@ namespace LocalPLC.Base
 
         void getDataFromUI()
         {
-
-        }
-
-
-        private void FormHighInput_FormClosing(object sender, FormClosingEventArgs e)
-        {
             var item = (ComboboxItem)this.comboBox_Type.SelectedItem;
             int currentIndex = 0;
             try
@@ -847,6 +850,10 @@ namespace LocalPLC.Base
             if (currentIndex == (int)UserControlHighIn.TYPE.NOTUSED)
             {
                 hscData_.type = comboBox_Type.SelectedIndex;
+                //输入模式
+                hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
+                hscData_.opr_mode = "";
+
                 hscData_.pulseChecked = false;
                 hscData_.dirChecked = false;
                 hscData_.presetChecked = false;
@@ -875,7 +882,7 @@ namespace LocalPLC.Base
             {
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
-
+                hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
                 hscData_.opr_mode = "single_pulse";
 
                 //双字
@@ -1028,7 +1035,7 @@ namespace LocalPLC.Base
             {
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
-
+                hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
                 hscData_.opr_mode = "freq_calc";
 
 
@@ -1067,6 +1074,12 @@ namespace LocalPLC.Base
 
                 utility.PrintError(string.Format("频率计{0}不勾选", hscData_.dirPort));
             }
+        }
+
+
+        private void FormHighInput_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            refreshData();
         }
 
         private void checkBox_preset_CheckedChanged(object sender, EventArgs e)
@@ -1329,7 +1342,7 @@ namespace LocalPLC.Base
 
         private void button_valid_Click(object sender, EventArgs e)
         {
-            FormHighInput_FormClosing(null, null);
+            getDataFromUI();
             setButtonEanble(false);
         }
 
@@ -1549,6 +1562,28 @@ namespace LocalPLC.Base
                 checkBox_frequencyPulse.Checked = hscData_.pulseFrequencyChecked;
                 //脉冲端口
                 textBox_pulseFrequencyPort.Text = hscData_.pulseFrequencyInputPort;
+            }
+            else if(hscData_.type == (int)UserControlHighIn.TYPE.NOTUSED)
+            {
+                foreach (var type in comboBox_Type.Items)
+                {
+                    var comboItem = type as ComboboxItem;
+                    if (comboItem.Value.ToString() == hscData_.type.ToString())
+                    {
+                        comboBox_Type.SelectedItem = comboItem;
+                    }
+                }
+
+                //hscData_.type = comboBox_Type.SelectedIndex;
+                //hscData_.pulseChecked = false;
+                //hscData_.dirChecked = false;
+                //hscData_.presetChecked = false;
+                //hscData_.captureChecked = false;
+
+                //hscData_.pulsePort = textBox_pulseInputPort.Text;
+                //hscData_.dirPort = textBox_dirInputPort.Text;
+                //hscData_.presetPort = textBox_presetPort.Text;
+                //hscData_.capturePort = textBox_capturePort.Text;
             }
 
         }
