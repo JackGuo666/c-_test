@@ -125,7 +125,6 @@
             this.comboBox_Type.Name = "comboBox_Type";
             this.comboBox_Type.Size = new System.Drawing.Size(143, 26);
             this.comboBox_Type.TabIndex = 3;
-            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged);
             this.comboBox_Type.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_Type_KeyPress);
             // 
             // panel2
@@ -151,6 +150,7 @@
             this.button_cancel.TabIndex = 8;
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             // 
             // button_valid
             // 
@@ -403,6 +403,7 @@
             this.comboBox_trigger1.Name = "comboBox_trigger1";
             this.comboBox_trigger1.Size = new System.Drawing.Size(111, 26);
             this.comboBox_trigger1.TabIndex = 4;
+            this.comboBox_trigger1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_trigger1_KeyPress);
             // 
             // comboBox_trigger0
             // 
@@ -411,6 +412,7 @@
             this.comboBox_trigger0.Name = "comboBox_trigger0";
             this.comboBox_trigger0.Size = new System.Drawing.Size(111, 26);
             this.comboBox_trigger0.TabIndex = 4;
+            this.comboBox_trigger0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_trigger0_KeyPress);
             // 
             // textBox_eventName1
             // 
@@ -418,6 +420,7 @@
             this.textBox_eventName1.Name = "textBox_eventName1";
             this.textBox_eventName1.Size = new System.Drawing.Size(109, 28);
             this.textBox_eventName1.TabIndex = 3;
+            this.textBox_eventName1.TextChanged += new System.EventHandler(this.textBox_eventName1_TextChanged);
             // 
             // textBox_eventName0
             // 
@@ -425,6 +428,7 @@
             this.textBox_eventName0.Name = "textBox_eventName0";
             this.textBox_eventName0.Size = new System.Drawing.Size(109, 28);
             this.textBox_eventName0.TabIndex = 3;
+            this.textBox_eventName0.TextChanged += new System.EventHandler(this.textBox_eventName0_TextChanged);
             // 
             // textBox_threshold1
             // 

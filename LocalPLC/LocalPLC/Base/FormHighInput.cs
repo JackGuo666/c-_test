@@ -31,7 +31,7 @@ namespace LocalPLC.Base
 
         Dictionary<int, string> inputDic = new Dictionary<int, string>();
         Dictionary<int, string> triggerDic = new Dictionary<int, string>();
-        enum INPUTMODE {PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
+        enum INPUTMODE { PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
         enum TRIGGER { NOTUSED, FAILING_EDGE, RSIING_EDGE, FAILING_RSIING_EDGE }
         public enum TIMEBASE { T100ms, T1s }
 
@@ -92,10 +92,10 @@ namespace LocalPLC.Base
             // }
 
 
-                //comboBox_Type.Items.Add("未配置");
-                //comboBox_Type.Items.Add("单脉冲计数");
-                //comboBox_Type.Items.Add("双相脉冲计数");
-                //comboBox_Type.Items.Add("正交编码器");
+            //comboBox_Type.Items.Add("未配置");
+            //comboBox_Type.Items.Add("单脉冲计数");
+            //comboBox_Type.Items.Add("双相脉冲计数");
+            //comboBox_Type.Items.Add("正交编码器");
 
 
 
@@ -191,17 +191,17 @@ namespace LocalPLC.Base
 
 
 
-            if(hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            if (hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
                 //双相 判断预设和捕获是否被别处使用
 
 
             }
-            else if(hscData_.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
+            else if (hscData_.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
 
             }
-            else if(hscData_.type == (int)UserControlHighIn.TYPE.FREQUENCY)
+            else if (hscData_.type == (int)UserControlHighIn.TYPE.FREQUENCY)
             {
                 //频率计
                 checkBox_frequencyPulse.Checked = hscData_.pulseFrequencyChecked;
@@ -268,7 +268,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if(hscData_.name == "HSC1")
+            else if (hscData_.name == "HSC1")
             {
                 foreach (var di in diData_)
                 {
@@ -284,7 +284,7 @@ namespace LocalPLC.Base
                             addTypeCombo(typeDescDic);
                         }
                     }
-                }   
+                }
             }
             else if (hscData_.name == "HSC2")
             {
@@ -302,9 +302,9 @@ namespace LocalPLC.Base
                             addTypeCombo(typeDescDic);
                         }
                     }
-                }  
+                }
             }
-            else if(hscData_.name == "HSC3")
+            else if (hscData_.name == "HSC3")
             {
                 foreach (var di in diData_)
                 {
@@ -322,7 +322,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if(hscData_.name == "HSC4" || hscData_.name == "HSC5" ||
+            else if (hscData_.name == "HSC4" || hscData_.name == "HSC5" ||
                 hscData_.name == "HSC6" || hscData_.name == "HSC7")
             {
                 //HSC4没有双相
@@ -378,14 +378,14 @@ namespace LocalPLC.Base
                     textBox_presetPort.Text = "DI06";
                     textBox_capturePort.Text = "DI07";
                 }
-                else if(name == "HSC2")
+                else if (name == "HSC2")
                 {
                     textBox_pulseInputPort.Text = "DI04";
                     textBox_dirInputPort.Text = "DI05";
                     //隐藏textBox_presetPort
                     setPresetCapureVisble(false);
                 }
-                else if(name == "HSC3")
+                else if (name == "HSC3")
                 {
                     textBox_pulseInputPort.Text = "DI06";
                     textBox_dirInputPort.Text = "DI07";
@@ -406,19 +406,19 @@ namespace LocalPLC.Base
                 textBox_presetPort.Text = "DI04";
                 textBox_capturePort.Text = "DI05";
             }
-            else if(name == "HSC1")
+            else if (name == "HSC1")
             {
                 //有预设和捕获端口
                 textBox_pulseInputPort.Text = "DI02";
                 textBox_presetPort.Text = "DI06";
                 textBox_capturePort.Text = "DI07";
             }
-            else if(name == "HSC2")
+            else if (name == "HSC2")
             {
                 textBox_pulseInputPort.Text = "DI04";
                 setPresetCapureVisble(false);
             }
-            else if(name == "HSC3")
+            else if (name == "HSC3")
             {
                 textBox_pulseInputPort.Text = "DI06";
                 setPresetCapureVisble(false);
@@ -461,7 +461,7 @@ namespace LocalPLC.Base
                 textBox_pulseFrequencyPort.Text = "DI00";
                 setFrequecyPortVisible(false);
             }
-            else if(name == "HSC1")
+            else if (name == "HSC1")
             {
                 textBox_pulseFrequencyPort.Text = "DI02";
                 setFrequecyPortVisible(false);
@@ -481,7 +481,7 @@ namespace LocalPLC.Base
                 textBox_pulseFrequencyPort.Text = "DI01";
                 setFrequecyPortVisible(false);
             }
-            else if(name == "HSC5")
+            else if (name == "HSC5")
             {
                 textBox_pulseFrequencyPort.Text = "DI03";
                 setFrequecyPortVisible(false);
@@ -500,8 +500,8 @@ namespace LocalPLC.Base
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var item =  (ComboboxItem)this.comboBox_Type.SelectedItem;
-            if(item == null)
+            var item = (ComboboxItem)this.comboBox_Type.SelectedItem;
+            if (item == null)
             {
                 return;
             }
@@ -511,7 +511,7 @@ namespace LocalPLC.Base
             {
                 currentIndex = Convert.ToInt32(item.Value);
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
@@ -519,7 +519,7 @@ namespace LocalPLC.Base
 
             if (currentIndex < 0) return;
 
-            if(currentIndex == 0)
+            if (currentIndex == 0)
             {
                 label_inputmode.Visible = false;
                 comboBox_inputmode.Visible = false;
@@ -627,7 +627,7 @@ namespace LocalPLC.Base
                     groupBox4.Location = posRegular;
                 }
             }
-            
+
 
 
         }
@@ -639,13 +639,13 @@ namespace LocalPLC.Base
 
         private void comboBox_inputmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(((int)INPUTMODE.PULSE_DIR) == comboBox_inputmode.SelectedIndex &&
+            if (((int)INPUTMODE.PULSE_DIR) == comboBox_inputmode.SelectedIndex &&
                 comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
                 label_pulse.Text = "脉冲输入";
                 label_direction.Text = "方向输入";
             }
-            else if(((int)INPUTMODE.INTEGRAL_1) == comboBox_inputmode.SelectedIndex &&
+            else if (((int)INPUTMODE.INTEGRAL_1) == comboBox_inputmode.SelectedIndex &&
                 comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
                 label_pulse.Text = "脉冲输入相位A";
@@ -664,7 +664,7 @@ namespace LocalPLC.Base
                 label_direction.Text = "脉冲输入相位B";
             }
 
-            if(!init)
+            if (!init)
             {
                 setButtonEanble(true);
             }
@@ -681,17 +681,17 @@ namespace LocalPLC.Base
         void checkBaseDIAssistUse(bool isChecked, string diPort)
         {
             //if(di)
-            if(diPort == "DI04" | diPort == "DI05" | diPort == "DI06" | diPort == "DI07")
+            if (diPort == "DI04" | diPort == "DI05" | diPort == "DI06" | diPort == "DI07")
             {
-                
-                if(!isChecked)
+
+                if (!isChecked)
                 {
                     //辅助接点不做修改
                     foreach (var port in diData_)
                     {
-                        if (port.channelName == diPort && 
-                            (port.hscUsed != "HSC2" && port.hscUsed != "HSC3" 
-                            && port.hscUsed != "HSC6" && port.hscUsed != "HSC7" ) )
+                        if (port.channelName == diPort &&
+                            (port.hscUsed != "HSC2" && port.hscUsed != "HSC3"
+                            && port.hscUsed != "HSC6" && port.hscUsed != "HSC7"))
                         {
                             port.used = isChecked;
                             port.hscUsed = /*hscData_.name*/ "";
@@ -710,7 +710,7 @@ namespace LocalPLC.Base
         void checkBaseDIUse(bool isChecked, string diPort)
         {
 
-            if(diPort.Length == 0)
+            if (diPort.Length == 0)
             {
                 return;
             }
@@ -718,12 +718,12 @@ namespace LocalPLC.Base
             bool ret = false;
             //if(isChecked)
             {
-                foreach(var port in diData_)
+                foreach (var port in diData_)
                 {
-                    if(port.channelName == diPort)
+                    if (port.channelName == diPort)
                     {
                         port.used = isChecked;
-                        if(!isChecked)
+                        if (!isChecked)
                         {
                             port.hscUsed = "";
                         }
@@ -757,19 +757,19 @@ namespace LocalPLC.Base
         /// <returns></returns>
         bool getPulseDirIsJudge(bool check, string port)
         {
-            if(check)
+            if (check)
             {
                 return true;
             }
 
-            if(port == "DI01")
+            if (port == "DI01")
             {
                 //DI01可以是HSC4的端口
                 foreach (var di in diData_)
                 {
-                    if(di.channelName == port)
+                    if (di.channelName == port)
                     {
-                        if(di.hscUsed == "HSC4")
+                        if (di.hscUsed == "HSC4")
                         {
                             //HSC4已使用DI01，HSC0里不对DI01进行判断
                             return false;
@@ -777,13 +777,13 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if(port == "DI03")
+            else if (port == "DI03")
             {
                 foreach (var di in diData_)
                 {
                     if (di.channelName == port)
                     {
-                        if(di.hscUsed == "HSC5")
+                        if (di.hscUsed == "HSC5")
                         {
                             //HSC5脉冲端口已使用DI03，HSC1不对DI03进行判断
                             return false;
@@ -791,13 +791,13 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if(port == "DI05")
+            else if (port == "DI05")
             {
                 foreach (var di in diData_)
                 {
                     if (di.channelName == port)
                     {
-                        if(di.hscUsed == "HSC6")
+                        if (di.hscUsed == "HSC6")
                         {
                             //HSC6已使用DI05，HSC2不对DI05进行判断
                             return false;
@@ -805,13 +805,13 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if(port == "DI07")
+            else if (port == "DI07")
             {
                 foreach (var di in diData_)
                 {
                     if (di.channelName == port)
                     {
-                        if(di.hscUsed == "HSC7")
+                        if (di.hscUsed == "HSC7")
                         {
                             //HSC7已使用DI07，HSC3不对DI07进行判断
 
@@ -824,6 +824,13 @@ namespace LocalPLC.Base
             return true;
         }
 
+
+        void getDataFromUI()
+        {
+
+        }
+
+
         private void FormHighInput_FormClosing(object sender, FormClosingEventArgs e)
         {
             var item = (ComboboxItem)this.comboBox_Type.SelectedItem;
@@ -834,7 +841,7 @@ namespace LocalPLC.Base
             }
             catch (Exception)
             {
-                
+
             }
 
             if (currentIndex == (int)UserControlHighIn.TYPE.NOTUSED)
@@ -864,7 +871,7 @@ namespace LocalPLC.Base
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
                 checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
             }
-            else if(currentIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
+            else if (currentIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
@@ -916,7 +923,7 @@ namespace LocalPLC.Base
                 checkBaseDIUse(hscData_.pulseChecked, hscData_.pulsePort);
                 //方向端口是否判断，下面代码注释
                 bool flag = getPulseDirIsJudge(hscData_.dirChecked, hscData_.dirPort);
-                if(flag)
+                if (flag)
                 {
                     checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
                 }
@@ -937,20 +944,20 @@ namespace LocalPLC.Base
                 if (comboBox_inputmode.SelectedItem != null)
                 {
                     hscData_.inputMode = comboBox_inputmode.SelectedIndex;
-                    if(hscData_.inputMode == (int)INPUTMODE.PULSE_DIR)
+                    if (hscData_.inputMode == (int)INPUTMODE.PULSE_DIR)
                     {
                         //脉冲方向
                         hscData_.opr_mode = "pulse_dir";
                     }
-                    else if(hscData_.inputMode == (int)INPUTMODE.INTEGRAL_1)
+                    else if (hscData_.inputMode == (int)INPUTMODE.INTEGRAL_1)
                     {
                         hscData_.opr_mode = "pulse_x1";
                     }
-                    else if(hscData_.inputMode == (int)INPUTMODE.INTEGRAL_2)
+                    else if (hscData_.inputMode == (int)INPUTMODE.INTEGRAL_2)
                     {
                         hscData_.opr_mode = "pulse_x2";
                     }
-                    else if(hscData_.inputMode == (int)INPUTMODE.INTEGRAL_4)
+                    else if (hscData_.inputMode == (int)INPUTMODE.INTEGRAL_4)
                     {
                         hscData_.opr_mode = "pulse_x4";
                     }
@@ -1017,7 +1024,7 @@ namespace LocalPLC.Base
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
                 checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
             }
-            else if(currentIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
+            else if (currentIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
@@ -1046,7 +1053,7 @@ namespace LocalPLC.Base
                 hscData_.dirChecked = false;
                 //方向端口是否判断
                 bool flag = getPulseDirIsJudge(hscData_.dirChecked, hscData_.dirPort);
-                if(flag)
+                if (flag)
                 {
                     checkBaseDIUse(hscData_.dirChecked, hscData_.dirPort);
                 }
@@ -1064,12 +1071,12 @@ namespace LocalPLC.Base
 
         private void checkBox_preset_CheckedChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void checkBox_caputre_CheckedChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void checkBox_preset_MouseDown(object sender, MouseEventArgs e)
@@ -1123,12 +1130,7 @@ namespace LocalPLC.Base
 
         private void comboBox_Type_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(init)
-            {
-                return;
-            }
 
-            setButtonEanble(true);
         }
 
         private void checkBox_doubleWord_CheckedChanged(object sender, EventArgs e)
@@ -1166,7 +1168,7 @@ namespace LocalPLC.Base
             {
                 int temp = 0;
                 bool flag = int.TryParse(textBox_presetValue.Text, out temp);
-                if(flag)
+                if (flag)
                 {
                     if (temp > max)//num就是传进来的值,如果大于上限（输入的值），那就强制为上限-1，或者就是上限值？
                     {
@@ -1183,7 +1185,7 @@ namespace LocalPLC.Base
             }
             else
             {
-                if(textBox_presetValue.Text == "")
+                if (textBox_presetValue.Text == "")
                 {
                     button_valid.Enabled = false;
                     button_cancel.Enabled = true;
@@ -1204,19 +1206,19 @@ namespace LocalPLC.Base
 
         private void textBox_threshold0_TextChanged(object sender, EventArgs e)
         {
-            if(init)
+            if (init)
             {
                 return;
             }
 
             int max = 65535;//首先设置上限值
-            if(textBox_threshold0.Text != "")
+            if (textBox_threshold0.Text != "")
             {
                 int temp = 0;
                 bool flag = int.TryParse(textBox_threshold0.Text, out temp);
-                if(flag)
+                if (flag)
                 {
-                    if(temp > max)
+                    if (temp > max)
                     {
                         textBox_threshold0.Text = max.ToString();
                         temp = max;
@@ -1228,13 +1230,13 @@ namespace LocalPLC.Base
 
                     int temp1 = 0;
                     flag = int.TryParse(textBox_threshold1.Text, out temp1);
-                    if(!flag)
+                    if (!flag)
                     {
                         MessageBox.Show("阈值E1输入值无效,请在阈值1输入有效整数!");
                     }
                     else
                     {
-                        if(temp >= temp1)
+                        if (temp >= temp1)
                         {
                             button_valid.Enabled = false;
                             button_cancel.Enabled = true;
@@ -1274,13 +1276,13 @@ namespace LocalPLC.Base
             }
 
             int max = 65535;//首先设置上限值
-            if(textBox_threshold1.Text != "")
+            if (textBox_threshold1.Text != "")
             {
                 int temp = 0;
                 bool flag = int.TryParse(textBox_threshold1.Text, out temp);
-                if(flag)
+                if (flag)
                 {
-                    if(temp > max)
+                    if (temp > max)
                     {
                         textBox_threshold1.Text = max.ToString();
                         temp = max;
@@ -1300,7 +1302,7 @@ namespace LocalPLC.Base
                     else
                     {
                         //有效判断E0、E1大小
-                        if(temp0 >= temp)
+                        if (temp0 >= temp)
                         {
                             button_valid.Enabled = false;
                             button_cancel.Enabled = true;
@@ -1327,9 +1329,240 @@ namespace LocalPLC.Base
 
         private void button_valid_Click(object sender, EventArgs e)
         {
+            FormHighInput_FormClosing(null, null);
+            setButtonEanble(false);
+        }
+
+        private void comboBox_trigger0_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_trigger1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+
+        System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{0,7}$");
+        private void textBox_eventName0_TextChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            if (!regStr.IsMatch(textBox_eventName0.Text))
+            {
+                textBox_eventName0.BackColor = Color.Red;
+                tip.SetToolTip(textBox_eventName0, string.Format("{0} 格式不对", textBox_eventName0.Text));
+
+            }
+            else
+            {
+                if (textBox_eventName0.Text.Length == 0)
+                {
+                    textBox_eventName0.BackColor = Color.White;
+                    tip.SetToolTip(textBox_eventName0, "");
+                }
+                else
+                {
+                    char[] c = textBox_eventName0.Text.ToCharArray();
+                    if (c[0] >= '0' && c[0] <= '9')
+                    {
+                        textBox_eventName0.BackColor = Color.Red;
+                        tip.SetToolTip(textBox_eventName0, string.Format("{0} 第一个字符不可以为数", textBox_eventName0.Text));
+                    }
+                    else
+                    {
+                        textBox_eventName0.BackColor = Color.White;
+                        tip.SetToolTip(textBox_eventName0, "");
+                    }
+                }
+
+
+            }
+        }
+
+        private void textBox_eventName1_TextChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            if (!regStr.IsMatch(textBox_eventName1.Text))
+            {
+                textBox_eventName1.BackColor = Color.Red;
+                tip.SetToolTip(textBox_eventName1, string.Format("{0} 格式不对", textBox_eventName1.Text));
+
+            }
+            else
+            {
+                if (textBox_eventName1.Text.Length == 0)
+                {
+                    textBox_eventName1.BackColor = Color.White;
+                    tip.SetToolTip(textBox_eventName1, "");
+                }
+                else
+                {
+                    char[] c = textBox_eventName1.Text.ToCharArray();
+                    if (c[0] >= '0' && c[0] <= '9')
+                    {
+                        textBox_eventName1.BackColor = Color.Red;
+                        tip.SetToolTip(textBox_eventName1, string.Format("{0} 第一个字符不可以为数", textBox_eventName1.Text));
+                    }
+                    else
+                    {
+                        textBox_eventName1.BackColor = Color.White;
+                        tip.SetToolTip(textBox_eventName1, "");
+                    }
+                }
+            }
+        }
+
+
+
+        void refreshData()
+        {
+            foreach(var type in comboBox_Type.Items)
+            {
+                var comboItem = type as ComboboxItem;
+                if(comboItem.Value.ToString() == hscData_.type.ToString())
+                {
+                    comboBox_Type.SelectedItem = comboItem;
+                }
+            }
+
+            if (hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE
+                || hscData_.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
+            {
+                //双相
+                //inputMode
+                if (hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+                {
+                    comboBox_inputmode.SelectedIndex = hscData_.inputMode;
+                }
+
+                //foreach(var inputMode in comboBox_inputmode.Items)
+                //{
+                //    var item = inputMode as ComboboxItem;
+                //    if(item.Value.ToString() == hscData_.inputMode.ToString())
+                //    {
+                //        comboBox_inputmode.SelectedItem = item;
+                //    }
+
+                //}
+
+                //双字
+                checkBox_doubleWord.Checked = hscData_.doubleWord;
+                //预设
+                textBox_presetValue.Text = hscData_.preset.ToString();
+                //阈值E0
+                textBox_threshold0.Text = hscData_.thresholdS0.ToString();
+                //阈值E1
+                textBox_threshold1.Text = hscData_.thresholdS1.ToString();
+                //事件名E0
+                textBox_eventName0.Text = hscData_.eventName0.ToString();
+                //事件名E1
+                textBox_eventName1.Text = hscData_.eventName1.ToString();
+                //事件ID E0
+                EVENT_1.Text = hscData_.eventID0;
+                //事件ID E1
+                EVENT_2.Text = hscData_.eventID1;
+
+                //comboBox_trigger0
+                //触发器E0
+                comboBox_trigger0.SelectedIndex = hscData_.trigger0;
+                //foreach(var trigger in comboBox_trigger0.Items)
+                //{
+                //    var item = trigger as ComboboxItem;
+                //    if(item.Value.ToString() == hscData_.trigger0.ToString())
+                //    {
+                //        comboBox_trigger0.SelectedItem = item;
+                //    }
+                //}
+
+
+
+                //comboBox_trigger1
+                //触发器E1
+                comboBox_trigger1.SelectedIndex = hscData_.trigger1;
+                //foreach (var trigger in comboBox_trigger1.Items)
+                //{
+                //    var item = trigger as ComboboxItem;
+                //    if(item.Value.ToString() == hscData_.trigger1.ToString())
+                //    {
+                //        comboBox_trigger1.SelectedItem = item;
+                //    }
+                //}
+
+                //脉冲输入
+                checkBox_pulse.Checked = hscData_.pulseChecked;
+                //脉冲端口
+                textBox_pulseInputPort.Text = hscData_.pulsePort;
+
+                if (hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+                {
+                    //方向输入
+                    checkBox_direction.Checked = hscData_.dirChecked;
+                    //方向端口
+                    textBox_dirInputPort.Text = hscData_.dirPort;
+                }
+
+
+                //预设输入
+                checkBox_preset.Checked = hscData_.presetChecked;
+                //预设端口
+                textBox_presetPort.Text = hscData_.presetPort;
+
+                //捕捉输入
+                checkBox_caputre.Checked = hscData_.captureChecked;
+                //捕捉端口
+                textBox_capturePort.Text = hscData_.capturePort;
+
+
+            }
+            else if(hscData_.type == (int)UserControlHighIn.TYPE.FREQUENCY)
+            {
+                //频率计
+                //双字
+                checkBox_frequencyDoubleWord.Checked = hscData_.frequencyDoubleWord;
+                //时间窗口
+                if(hscData_.timeWindow == (int)TIMEBASE.T100ms)
+                {
+                    radioButton_100ms.Checked = true;
+                    radioButton_1s.Checked = false;
+                }
+                else
+                {
+                    radioButton_100ms.Checked = false;
+                    radioButton_1s.Checked = true;
+                }
+
+                //脉冲输入
+                checkBox_frequencyPulse.Checked = hscData_.pulseFrequencyChecked;
+                //脉冲端口
+                textBox_pulseFrequencyPort.Text = hscData_.pulseFrequencyInputPort;
+            }
 
         }
+
+
+
+
+
+
+
+
+        private void button_cancel_Click(object sender, EventArgs e)
+        {
+            refreshData();
+        }
     }
-
-
 }
