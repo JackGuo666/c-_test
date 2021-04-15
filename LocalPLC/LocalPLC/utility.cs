@@ -616,6 +616,11 @@ namespace LocalPLC
                                 {
                                     if(di.used)
                                     {
+                                        if (di.varName == "")
+                                        {
+                                            di.varName = di.channelName;
+                                        }
+
                                         continue;
                                     }
 
@@ -632,6 +637,30 @@ namespace LocalPLC
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
                                                     "DI变量", "", di.address);
                                     resetvariable.SetAttribute(20, di.channelName);
+                                }
+                            }
+
+                            if(name == "Hsc")
+                            {
+                                //删除变量组下的变量
+                                foreach (Variable variable in ttt.Variables)
+                                {
+                                    variable.Delete();
+                                }
+
+
+
+                                int i = 0;
+                                foreach(var hsc in LocalPLC.Base.UserControlBase.dataManage.hscList)
+                                {
+                                    if(hsc.used)
+                                    {
+                                        string initValue = LocalPLC.Base.UserControlBase.dataManage.getHscVarInitValue(hsc, i);
+                                        var hscVariable = ttt.Variables.Create(hsc.name, "HSC_REF_t", AdeVariableBlockType.adeVarBlockVarGlobal,
+                                                    "hsc变量", initValue);
+                                    }
+
+                                    i++;
                                 }
                             }
 
