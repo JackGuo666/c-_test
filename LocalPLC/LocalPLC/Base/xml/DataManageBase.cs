@@ -263,7 +263,7 @@ namespace LocalPLC.Base.xml
 
 
         //时间窗口
-        public int timeWindow = 0;  //0-100ms 1-1s
+        public int timeWindow = 0;  //0-100ms 1-1s 2 - none
         public bool frequencyDoubleWord = false;
 
         public string note = "";
@@ -402,6 +402,29 @@ namespace LocalPLC.Base.xml
             }
 
             return false;
+        }
+
+
+
+        public string getHscVarInitValue(HSCData hsc, int axis)
+        {
+            int timeBase = 0;
+            if (hsc.timeWindow == 0)
+            {
+                timeBase = 100;
+            }
+            else if (hsc.timeWindow == 1)
+            {
+                timeBase = 1000;
+            }
+            else if (hsc.timeWindow == 2)
+            {
+                timeBase = 0;
+            }
+
+            string initValue = string.Format("( axis_no := {0}, preset_val := {1}, threshold0 := {2}, threshold1 := {3}, time_base := {4} )",
+                                            axis, hsc.preset, hsc.thresholdS0, hsc.thresholdS1, timeBase);
+            return initValue;
         }
     }
 }

@@ -877,6 +877,8 @@ namespace LocalPLC.Base
                 //辅助端口，false不处理
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
                 checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
+
+                hscData_.timeWindow = 2;
             }
             else if (currentIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
@@ -940,7 +942,7 @@ namespace LocalPLC.Base
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
                 checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
 
-
+                hscData_.timeWindow = 2;
 
             }
             else if (currentIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
@@ -1030,6 +1032,8 @@ namespace LocalPLC.Base
                 //双相 辅助接点为false不做判断
                 checkBaseDIAssistUse(hscData_.presetChecked, hscData_.presetPort);
                 checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
+
+                hscData_.timeWindow = 2;
             }
             else if (currentIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {
@@ -1344,6 +1348,7 @@ namespace LocalPLC.Base
         {
             getDataFromUI();
             setButtonEanble(false);
+            Close();
         }
 
         private void comboBox_trigger0_KeyPress(object sender, KeyPressEventArgs e)
@@ -1598,6 +1603,7 @@ namespace LocalPLC.Base
         private void button_cancel_Click(object sender, EventArgs e)
         {
             refreshData();
+            Close();
         }
     }
 }

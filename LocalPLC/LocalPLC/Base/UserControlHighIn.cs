@@ -133,6 +133,7 @@ namespace LocalPLC.Base
             text_Temp.TextChanged += new System.EventHandler(textBox1_TextChanged);
             text_Temp.Visible = false;
             text_Temp.WordWrap = false;
+            text_Temp.MaxLength = 30;
 
             dataGridView1.Controls.Add(text_Temp);
 

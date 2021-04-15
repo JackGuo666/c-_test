@@ -93,6 +93,8 @@ namespace LocalPLC.Base
             return true;
         }
 
+        
+
         public void refreshUserBaseUI()
         {
             if(curWeaponType != null)
