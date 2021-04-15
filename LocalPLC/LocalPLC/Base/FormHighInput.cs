@@ -1264,8 +1264,10 @@ namespace LocalPLC.Base
                     }
 
                     textBox_threshold0.BackColor = Color.White;
+                    textBox_threshold1.BackColor = Color.White;
                     setButtonEanble(true);
                     tip.SetToolTip(textBox_threshold0, "");
+                    tip.SetToolTip(textBox_threshold1, "");
                 }
             }
             else
@@ -1331,8 +1333,10 @@ namespace LocalPLC.Base
                     }
 
                     textBox_threshold1.BackColor = Color.White;
+                    textBox_threshold0.BackColor = Color.White;
                     setButtonEanble(true);
                     tip.SetToolTip(textBox_threshold1, "");
+                    tip.SetToolTip(textBox_threshold0, "");
                 }
             }
             else
@@ -1379,7 +1383,8 @@ namespace LocalPLC.Base
             {
                 textBox_eventName0.BackColor = Color.Red;
                 tip.SetToolTip(textBox_eventName0, string.Format("{0} 格式不对", textBox_eventName0.Text));
-
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
             }
             else
             {
@@ -1387,6 +1392,7 @@ namespace LocalPLC.Base
                 {
                     textBox_eventName0.BackColor = Color.White;
                     tip.SetToolTip(textBox_eventName0, "");
+                    setButtonEanble(true);
                 }
                 else
                 {
@@ -1395,11 +1401,15 @@ namespace LocalPLC.Base
                     {
                         textBox_eventName0.BackColor = Color.Red;
                         tip.SetToolTip(textBox_eventName0, string.Format("{0} 第一个字符不可以为数", textBox_eventName0.Text));
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
                     }
                     else
                     {
                         textBox_eventName0.BackColor = Color.White;
                         tip.SetToolTip(textBox_eventName0, "");
+
+                        setButtonEanble(true);
                     }
                 }
 
@@ -1418,7 +1428,9 @@ namespace LocalPLC.Base
             {
                 textBox_eventName1.BackColor = Color.Red;
                 tip.SetToolTip(textBox_eventName1, string.Format("{0} 格式不对", textBox_eventName1.Text));
-
+                
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
             }
             else
             {
@@ -1426,6 +1438,7 @@ namespace LocalPLC.Base
                 {
                     textBox_eventName1.BackColor = Color.White;
                     tip.SetToolTip(textBox_eventName1, "");
+                    setButtonEanble(true);
                 }
                 else
                 {
@@ -1434,11 +1447,15 @@ namespace LocalPLC.Base
                     {
                         textBox_eventName1.BackColor = Color.Red;
                         tip.SetToolTip(textBox_eventName1, string.Format("{0} 第一个字符不可以为数", textBox_eventName1.Text));
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
                     }
                     else
                     {
                         textBox_eventName1.BackColor = Color.White;
                         tip.SetToolTip(textBox_eventName1, "");
+
+                        setButtonEanble(true);
                     }
                 }
             }
@@ -1604,6 +1621,76 @@ namespace LocalPLC.Base
         {
             refreshData();
             Close();
+        }
+
+        private void checkBox_frequencyDoubleWord_CheckedChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void radioButton_100ms_CheckedChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void radioButton_1s_CheckedChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void checkBox_preset_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void checkBox_caputre_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void comboBox_trigger0_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
+        }
+
+        private void comboBox_trigger1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (init)
+            {
+                return;
+            }
+
+            setButtonEanble(true);
         }
     }
 }

@@ -217,6 +217,7 @@
             this.radioButton_1s.TabStop = true;
             this.radioButton_1s.Text = "1s";
             this.radioButton_1s.UseVisualStyleBackColor = true;
+            this.radioButton_1s.CheckedChanged += new System.EventHandler(this.radioButton_1s_CheckedChanged);
             // 
             // radioButton_100ms
             // 
@@ -228,6 +229,7 @@
             this.radioButton_100ms.TabStop = true;
             this.radioButton_100ms.Text = "100ms";
             this.radioButton_100ms.UseVisualStyleBackColor = true;
+            this.radioButton_100ms.CheckedChanged += new System.EventHandler(this.radioButton_100ms_CheckedChanged);
             // 
             // label13
             // 
@@ -247,6 +249,7 @@
             this.checkBox_frequencyDoubleWord.TabIndex = 0;
             this.checkBox_frequencyDoubleWord.Text = "双字";
             this.checkBox_frequencyDoubleWord.UseVisualStyleBackColor = true;
+            this.checkBox_frequencyDoubleWord.CheckedChanged += new System.EventHandler(this.checkBox_frequencyDoubleWord_CheckedChanged);
             // 
             // groupBox3
             // 
@@ -312,6 +315,7 @@
             this.checkBox_caputre.TabIndex = 3;
             this.checkBox_caputre.Text = "启用";
             this.checkBox_caputre.UseVisualStyleBackColor = true;
+            this.checkBox_caputre.CheckedChanged += new System.EventHandler(this.checkBox_caputre_CheckedChanged_1);
             this.checkBox_caputre.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkBox_caputre_MouseDown);
             // 
             // checkBox_preset
@@ -323,6 +327,7 @@
             this.checkBox_preset.TabIndex = 3;
             this.checkBox_preset.Text = "启用";
             this.checkBox_preset.UseVisualStyleBackColor = true;
+            this.checkBox_preset.CheckedChanged += new System.EventHandler(this.checkBox_preset_CheckedChanged_1);
             this.checkBox_preset.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkBox_preset_MouseDown);
             // 
             // checkBox_direction
@@ -403,6 +408,7 @@
             this.comboBox_trigger1.Name = "comboBox_trigger1";
             this.comboBox_trigger1.Size = new System.Drawing.Size(111, 26);
             this.comboBox_trigger1.TabIndex = 4;
+            this.comboBox_trigger1.SelectedIndexChanged += new System.EventHandler(this.comboBox_trigger1_SelectedIndexChanged);
             this.comboBox_trigger1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_trigger1_KeyPress);
             // 
             // comboBox_trigger0
@@ -412,6 +418,7 @@
             this.comboBox_trigger0.Name = "comboBox_trigger0";
             this.comboBox_trigger0.Size = new System.Drawing.Size(111, 26);
             this.comboBox_trigger0.TabIndex = 4;
+            this.comboBox_trigger0.SelectedIndexChanged += new System.EventHandler(this.comboBox_trigger0_SelectedIndexChanged);
             this.comboBox_trigger0.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_trigger0_KeyPress);
             // 
             // textBox_eventName1
