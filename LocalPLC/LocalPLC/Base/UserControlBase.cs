@@ -323,6 +323,9 @@ namespace LocalPLC.Base
                 bool.TryParse(e.GetAttribute("frequencypulseinputchecked"), out hscData.pulseFrequencyChecked);
                 hscData.pulseFrequencyInputPort = e.GetAttribute("frequencypulseinputport");
 
+                //note
+                hscData.note = e.GetAttribute("note");
+
                 dataManage.hscList.Add(hscData);
             }
 

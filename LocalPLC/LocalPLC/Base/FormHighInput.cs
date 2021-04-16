@@ -533,7 +533,7 @@ namespace LocalPLC.Base
                 label_inputmode.Visible = false;
                 comboBox_inputmode.Visible = false;
 
-                hscData_.used = false;
+                //hscData_.used = false;
 
                 groupBox2.Visible = false;
                 groupBox3.Visible = false;
@@ -850,6 +850,7 @@ namespace LocalPLC.Base
             if (currentIndex == (int)UserControlHighIn.TYPE.NOTUSED)
             {
                 hscData_.type = comboBox_Type.SelectedIndex;
+                hscData_.used = false;
                 //输入模式
                 hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
                 hscData_.opr_mode = "";
@@ -1077,6 +1078,8 @@ namespace LocalPLC.Base
                 checkBaseDIAssistUse(hscData_.captureChecked, hscData_.capturePort);
 
                 utility.PrintError(string.Format("频率计{0}不勾选", hscData_.dirPort));
+
+                //
             }
         }
 

@@ -118,9 +118,15 @@ namespace LocalPLC.Base
 
 
         public enum TYPE { NOTUSED, SINGLEPULSE, DOUBLEPULSE, FREQUENCY}
+
+
+        bool init = false;
+
         public UserControlHighIn()
         {
             InitializeComponent();
+
+            init = true;
 
             typeDescDic.Clear();
             typeDescDic.Add(((int)TYPE.NOTUSED), "未配置");
@@ -148,6 +154,12 @@ namespace LocalPLC.Base
 
             // 禁止用户改变列头的高度  
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+
+            init = false;
+
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
 
         # region
@@ -545,11 +557,15 @@ namespace LocalPLC.Base
                 var row = e.RowIndex;
                 var col = e.ColumnIndex;
 
+
+
+
                 var type = UserControlBase.dataManage.hscList[e.RowIndex].type;
                 if(typeDescDic.ContainsKey(type))
                 {
                     //dtData.Rows[row][col] = typeDescDic[type];
                     dtData.Rows[row][columnTypeIndex] = typeDescDic[type];
+
                     dtData.Rows[row][columnUsedIndex] = UserControlBase.dataManage.hscList[e.RowIndex].used;
                 }
 
@@ -569,7 +585,14 @@ namespace LocalPLC.Base
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            if(init)
+            {
+                return;
+            }
+
             dataGridView1.CurrentCell.Value = text_Temp.Text;
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
         }
         #endregion
 
@@ -662,9 +685,11 @@ namespace LocalPLC.Base
 
         private void button1_Click(object sender, EventArgs e)
         {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
             getDataFromUI();
-            //button_valid.Enabled = false;
-            //button_cancel.Enabled = false;
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
 
         void getDataFromUI()
@@ -686,8 +711,8 @@ namespace LocalPLC.Base
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
-            //button_valid.Enabled = false;
-            //button_cancel.Enabled = false;
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
     }
 }
