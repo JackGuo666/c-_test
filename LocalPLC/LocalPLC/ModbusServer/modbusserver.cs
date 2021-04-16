@@ -625,9 +625,23 @@ namespace LocalPLC.ModbusServer
         }
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UC.getDataManager(ref baseData);
             if (radioButton6.Checked == true)
             {
                 data_.dataDevice_.slavetansformMode = (int)TRANSFORMMODE.TCP;
+            }
+            try
+            {
+                if (baseData.serialDic[comboBox2.SelectedItem.ToString()].dataBit != 8 && radioButton1.Checked == true)
+                {
+                    MessageBox.Show("RTU模式下，串口的数据位不能为7");
+                    comboBox2.SelectedIndex = -1;
+                }
+            }
+            catch
+            {
+
             }
         }
         private void textBox23_TextChanged(object sender, EventArgs e)

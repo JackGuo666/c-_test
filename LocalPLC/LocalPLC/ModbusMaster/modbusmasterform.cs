@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LocalPLC.Base;
 
 namespace LocalPLC.ModbusMaster
 {
@@ -18,6 +19,7 @@ namespace LocalPLC.ModbusMaster
            
         }
         public static ModbusServer.ServerIndex serverdata { get; set; } = new ModbusServer.ServerIndex();
+        public static UserControlBase UC { get; set; } = new UserControlBase();
         private ModbusMasterData masterData_;
         private int masterStartAddr_ = 0;
         private ModbusMasterManage mastermanage;
@@ -329,19 +331,19 @@ namespace LocalPLC.ModbusMaster
             {
                 //masterData_.modbusDeviceList.ElementAt(e.RowIndex).ID = int.Parse(str);
             }
-            else if(e.ColumnIndex == (int)COLUMNNAME.NAME)
+            else if (e.ColumnIndex == (int)COLUMNNAME.NAME)
             {
                 //masterData_.modbusDeviceList.ElementAt(e.RowIndex).nameDev = str;
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
-                    if (str == dataGridView1.Rows[i].Cells[1].Value.ToString() && i!=e.RowIndex)
+                    if (str == dataGridView1.Rows[i].Cells[1].Value.ToString() && i != e.RowIndex)
                     {
                         MessageBox.Show("设备名有重复，请重新设置！");
                         //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     }
                 }
             }
-            else if(e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
+            else if (e.ColumnIndex == (int)COLUMNNAME.SLAVE_ADDR)
             {
                 bool number;
                 try
@@ -352,26 +354,31 @@ namespace LocalPLC.ModbusMaster
                 {
                     number = false;
                 }
-                    if (number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
-                    {
-                        int flag = 0;
-                        for (int i = 0; i < masterData_.modbusDeviceList.Count; i++)
-                        {
-                            if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr && e.RowIndex!=i)
-                            {
-                                flag++;
-                            }
-                        }
-                        if (flag == 0)
-                        {
-                            //masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
-                        }
-                        else
-                        {
-                            MessageBox.Show("从站地址有重复，请重新设置");
-                            dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
-                        }
-                    }
+                //if (number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
+                //{
+                //    int flag = 0;
+                //    for (int i = 0; i < masterData_.modbusDeviceList.Count; i++)
+                //    {
+                //        if (dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() == masterData_.modbusDeviceList[i].slaveAddr && e.RowIndex!=i)
+                //        {
+                //            flag++;
+                //        }
+                //    }
+                //    if (flag == 0)
+                //    {
+                //        //masterData_.modbusDeviceList.ElementAt(e.RowIndex).slaveAddr = str;
+                //    }
+                //    else
+                //    {
+                //        MessageBox.Show("从站地址有重复，请重新设置");
+                //        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
+                //    }
+            //}
+                    if(number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
+                {
+
+                }
+                    
                     else
                     {
                         MessageBox.Show("请输入1-100的数字作为从站地址");
@@ -456,7 +463,7 @@ namespace LocalPLC.ModbusMaster
                 }
                 for (int l = 0; l < dataGridView1.Rows.Count; l++)
                 {
-                    if (dataGridView1.Rows[l].Cells[5].Value.ToString() == str && l != e.RowIndex)
+                    if (dataGridView1.Rows[l].Cells[5].Value.ToString() == str && l != e.RowIndex && str != "")
                     {
                         flag++;
                     }
@@ -486,6 +493,8 @@ namespace LocalPLC.ModbusMaster
         {
             LocalPLC.ModbusServer.DataManager servermanage = null;
             serverdata.getservermanage(ref servermanage);
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UC.getDataManager(ref baseData);
             try
             {
                 for (int i = 0; i < mastermanage.modbusMastrList.Count; i++)
@@ -503,6 +512,11 @@ namespace LocalPLC.ModbusMaster
                         comboBox_transform_channel.SelectedIndex = -1;
                         MessageBox.Show("该传输通道已被server占用，请选择其他通道");
                     }
+                }
+                if (baseData.serialDic[comboBox_transform_channel.SelectedItem.ToString()].dataBit != 8 && radioButton1.Checked == true)
+                {
+                    MessageBox.Show("RTU模式下，串口的数据位不能为7");
+                    comboBox_transform_channel.SelectedIndex = -1;
                 }
             }
             catch
@@ -531,6 +545,21 @@ namespace LocalPLC.ModbusMaster
             //{
             //    masterData_.transformMode = 1;
             //}
+
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UC.getDataManager(ref baseData);
+            try
+            {
+                if (baseData.serialDic[comboBox_transform_channel.SelectedItem.ToString()].dataBit != 8 && radioButton1.Checked == true)
+                {
+                    MessageBox.Show("RTU模式下，串口的数据位不能为7");
+                    comboBox_transform_channel.SelectedIndex = -1;
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
@@ -663,7 +692,7 @@ namespace LocalPLC.ModbusMaster
                 else
                 {
                     refreshtemrow();
-                    for (int m = dataGridView1.Rows.Count - 1; m > 0; m--)
+                    for (int m = dataGridView1.Rows.Count - 1; m >= 0; m--)
                     {
                         if (dataGridView1.Rows[m].Visible == false)
                         {
