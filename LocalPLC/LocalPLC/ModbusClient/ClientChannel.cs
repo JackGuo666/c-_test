@@ -332,6 +332,7 @@ namespace LocalPLC.ModbusClient
             //dataGridView2.Columns[6].ReadOnly = true;
             //dataGridView2.Columns[7].ReadOnly = true;
             devnumber = Convert.ToInt32(mc1.clientnumber);
+            
         }
         public int clientstartaddr;
         public int devstartaddr;
@@ -470,6 +471,7 @@ namespace LocalPLC.ModbusClient
                 cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                 dataGridView2.Rows[i].Cells["功能码"] = cell;
             }
+
             for (int j =0;j<16;j++)
             {
                 if(temrow[j] == -1)
@@ -486,6 +488,7 @@ namespace LocalPLC.ModbusClient
             for (int i = 0; i < data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.Count;i++)
             {
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].ID = i;
+                //temrow[i] = i;
                 ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i][0] = i;
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList[i].nameChannel = "client_" + cn + "_device_" + label3.Text + "_channel_" + i;
                 ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[i]["名称"] = "client_" + cn + "_device_" + label3.Text + "_channel_" + i;
@@ -565,7 +568,10 @@ namespace LocalPLC.ModbusClient
         private void button1_Click(object sender, EventArgs e)
         {
             refreshtemrow();
-            for(int m = dataGridView2.Rows.Count-1;m>=0;m--)
+            bool b = true;
+            if (dataGridView2.Rows.Count > 0)
+            { b = dataGridView2.Rows[0].Visible; }
+            for (int m = dataGridView2.Rows.Count-1;m>=0;m--)
             {
                 if(dataGridView2.Rows[m].Visible == false)
                 {
@@ -575,7 +581,12 @@ namespace LocalPLC.ModbusClient
                     refresh();
                 }
             }
-            
+            if (b == false)
+            {
+                ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[0].Delete();
+                data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(0);
+            }
+            refresh();
             int rowcount = this.dataGridView2.RowCount;
             a = rowcount;
             //for (int row = 1; row < rowcount; row++)
@@ -672,37 +683,61 @@ namespace LocalPLC.ModbusClient
         private void button2_Click(object sender, EventArgs e)
         {
             //data2.modbusDeviceList.Add(data_);
-            for(int i = 15; i >= 0;i--)
+            try
             {
-                if(temrow[i] != -1)
+                if (dataGridView2.Rows.Count > 0)
                 {
-                    ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[temrow[i]].Delete();
-                    data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(temrow[i]);
+                    for (int i = 15; i >= 0; i--)
+                    {
+                        int a = temrow[i];
+                        if (temrow[i] != -1)
+                        {
+                            ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[temrow[i]].Delete();
+                            data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(temrow[i]);
+                        }
+                    }
+                    refreshtemrow();
+                    this.Close();
+                }
+                else
+                {
+                    refreshtemrow();
+                    this.Close();
                 }
             }
-            this.Close();
+            catch
+            {
+                refreshtemrow();
+                this.Close();
+            }
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            for (int i = 0; i < dataGridView2.RowCount; i++)
-            {
-                DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
-                cell.DataSource = dc.Tables[0];
-                cell.DisplayMember = "functioncode";
-                cell.ValueMember = "displayvalue";
-                cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
-                dataGridView2.Rows[i].Cells["功能码"] = cell;
-            }
+            
             if (e.RowIndex == -1)
             {
-                return;
+                for (int i = 0; i < dataGridView2.RowCount; i++)
+                {
+                    DataGridViewComboBoxCell cell = new DataGridViewComboBoxCell();
+                    cell.DataSource = dc.Tables[0];
+                    cell.DisplayMember = "functioncode";
+                    cell.ValueMember = "displayvalue";
+                    cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                    dataGridView2.Rows[i].Cells["功能码"] = cell;
+                }
+                //return;
             }
+            else
+            {
+                
 
-            DataRowView row1 = (DataRowView)dataGridView2.Rows[e.RowIndex].DataBoundItem;
-            if (row1.Row.RowState == DataRowState.Unchanged)
-                return;
-            row1.Row.AcceptChanges();
+
+                DataRowView row1 = (DataRowView)dataGridView2.Rows[e.RowIndex].DataBoundItem;
+                if (row1.Row.RowState == DataRowState.Unchanged)
+                    return;
+                row1.Row.AcceptChanges();
+            }
         }
 
         private void ClientChannel_Shown(object sender, EventArgs e)
@@ -735,7 +770,7 @@ namespace LocalPLC.ModbusClient
             //{
             //    this.dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             //}
-
+            
             if (e.RowIndex == -1)
             {
                 //for (int i = 0; i < dataGridView2.RowCount; i++)
@@ -748,18 +783,25 @@ namespace LocalPLC.ModbusClient
                 //    dataGridView2.Rows[i].Cells["功能码"] = cell;
                 //}
 
-                return;
+                //return;
+                for (int i = 0; i < dataGridView2.Columns.Count; i++)
+                {
+                    dataGridView2.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                }
             }
-            if (e.ColumnIndex < 0)
-            { 
-                selectrow = dataGridView2.SelectedRows[0].Index;
-                
+            else
+            {
+                if (e.ColumnIndex < 0)
+                {
+                    selectrow = dataGridView2.SelectedRows[0].Index;
+
+                }
+                else if (e.ColumnIndex >= 0)
+                {
+                    selectrow = e.RowIndex;
+                }
+                this.dataGridView2.BeginEdit(true);
             }
-            else if (e.ColumnIndex >= 0)
-            { 
-                selectrow = e.RowIndex; 
-            }
-            this.dataGridView2.BeginEdit(true);
         }
 
         ModbusMaster.ModbusMasterManage masterManage = new ModbusMaster.ModbusMasterManage();
@@ -908,6 +950,7 @@ namespace LocalPLC.ModbusClient
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.偏移)
             {
                 //int.TryParse(str, out data_.modbusChannelList.ElementAt(e.RowIndex).Offset);
+
                 try
                 {
                     int value = Convert.ToInt32(str);
