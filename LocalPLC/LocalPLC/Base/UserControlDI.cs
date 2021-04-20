@@ -79,7 +79,7 @@ namespace LocalPLC.Base
                     diData.used = false;
                     drData[0] = diData.used;
 
-                    diData.varName = "";
+                    diData.varName = elem.name;
                     drData[1] = diData.varName;
 
                     diData.filterTime = 3;
