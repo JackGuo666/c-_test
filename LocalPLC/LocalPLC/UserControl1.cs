@@ -2188,7 +2188,7 @@ namespace LocalPLC
                                     bool ret = UC.modifyDINameByKey(key.ToString(), NewVariable.Name);
                                     if(ret)
                                     {
-                                        saveXml();
+                                        //saveXml();
                                         utility.PrintInfo("参数修改，请重新生成配置文件，再下载到PLC");
                                     }
                                 }
@@ -2211,7 +2211,7 @@ namespace LocalPLC
                                     bool ret = UC.modifyDONameByKey(key.ToString(), NewVariable.Name);
                                     if (ret)
                                     {
-                                        saveXml();
+                                        //saveXml();
                                         utility.PrintInfo("参数修改，请重新生成配置文件，再下载到PLC");
                                     }
                                 }
