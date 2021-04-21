@@ -25,7 +25,7 @@ namespace LocalPLC
     [ComVisible(true)]
     [Guid("4D23925D-E5C1-40A8-9D69-AAD815FDCECE")]
     [ProgId("LocalPLC.CONTROLBAR.PROGID")]
-    public partial class UserControl1 : UserControl,IAdeAddIn,IAdeProjectObserver,IAdeCompileExtension,IAdeVariableObserver2
+    public partial class UserControl1 : UserControl, IAdeAddIn, IAdeProjectObserver, IAdeCompileExtension, IAdeVariableObserver2, IAdeSaveObserver
     {
         public UserControl1()
         {
@@ -42,21 +42,21 @@ namespace LocalPLC
         private static string projectName = null;
 
         //private LocalPLC.Base.xml.DataManageBase basedata { get; set; }
-        static int i = 0; 
+        static int i = 0;
 
         public empty e1;
         public static ModbusClient.Clientindex mci = new Clientindex();
         public static ModbusClient.modbusclient mct = new modbusclient();
-        public  static modbusmastermain modmaster = new modbusmastermain();
-		public  static modbusslavemain modslave = new modbusslavemain();
-	
-		public static ModbusServer.ServerIndex msi = new ServerIndex();
+        public static modbusmastermain modmaster = new modbusmastermain();
+        public static modbusslavemain modslave = new modbusslavemain();
+
+        public static ModbusServer.ServerIndex msi = new ServerIndex();
 
         //public static IoGroups iog { get; set; } = null;
         public static UserControlBase UC { get; set; } = new UserControlBase();
 
         public static LocalPLC.motion.UserControlMotion motion = new UserControlMotion();
-        
+
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
@@ -119,7 +119,7 @@ namespace LocalPLC
             motion.getTreeView(treeView1);
 
             return;
-         }
+        }
 
         /// <summary>
         /// 设置TreeView选中节点
@@ -133,12 +133,12 @@ namespace LocalPLC
             {
                 for (int j = 0; j < treeView.Nodes[i].Nodes.Count; j++)
                 {
-                    for(int k = 0; k < treeView.Nodes[i].Nodes.Count; k++)
-                    { 
+                    for (int k = 0; k < treeView.Nodes[i].Nodes.Count; k++)
+                    {
                         if (treeView.Nodes[i].Nodes[j].Nodes[k].Text == selectStr)
                         {
                             treeView1.SelectedNode = treeView.Nodes[i].Nodes[j].Nodes[k];//选中
-                                                                                //treeView.Nodes[i].Nodes[j].Checked = true;
+                                                                                         //treeView.Nodes[i].Nodes[j].Checked = true;
                             treeView.Nodes[i].Nodes[j].Expand();//展开父级
                             return;
                         }
@@ -234,9 +234,23 @@ namespace LocalPLC
             adviceProjectCookie = multiprogApp.AdviseProjectObserver(this);
             object[] SafeArrayOfObjectType = new object[1];
             SafeArrayOfObjectType[0] = AdeObjectType.adeOtResource;
-            multiprogApp.AdviseVariableObserver2(this, (int)AdeVariableAction.adeVaChange,SafeArrayOfObjectType);
+            multiprogApp.AdviseVariableObserver2(this, (int)AdeVariableAction.adeVaChange, SafeArrayOfObjectType);
 
-			multiprogApp.AdviseCompileExtension(this, AdeObjectType.adeOtProject);
+            multiprogApp.AdviseCompileExtension(this, AdeObjectType.adeOtProject);
+
+            object[] SafeArrayOfObjectTypeProject = new object[1];
+            SafeArrayOfObjectTypeProject[0] = AdeObjectType.adeOtProject;
+            multiprogApp.AdviseSaveObserver(this, SafeArrayOfObjectTypeProject);
+
+            //监视extension command menu multiprogApp.AdviseFrameworkExtension2("LocalPLC.CONTROLBAR.PROGID", this, this);
+        }
+
+        public void OnSaveSubtree(object Object, AdeObjectType ObjectType, AdeConfirmRule ConfirmSave, ref bool Saved)
+        {
+            if(multiprogApp != null && multiprogApp.ActiveProject != null)
+            {
+                saveXml();
+            }
         }
 
         void IAdeAddIn.OnDisconnection(AdeDisconnectMode RemoveMode, ref Array Custom)
@@ -404,6 +418,7 @@ namespace LocalPLC
         void IAdeProjectObserver.BeforeProjectClose(string Name, ref bool Cancel)
         {
             //Cancel = true;
+            //saveXml();
         }
 
         void IAdeProjectObserver.AfterProjectClose(string Name)
