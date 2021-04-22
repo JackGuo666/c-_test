@@ -31,7 +31,7 @@ namespace LocalPLC.Base
 
         Dictionary<int, string> inputDic = new Dictionary<int, string>();
         Dictionary<int, string> triggerDic = new Dictionary<int, string>();
-        enum INPUTMODE { PULSE_DIR, INTEGRAL_1, INTEGRAL_2, INTEGRAL_4 }
+        enum INPUTMODE { PULSE_DIR, /*INTEGRAL_1,*/ INTEGRAL_2, INTEGRAL_4 }
         enum TRIGGER { NOTUSED, FAILING_EDGE, RSIING_EDGE, FAILING_RSIING_EDGE }
         public enum TIMEBASE { T100ms, T1s }
 
@@ -101,7 +101,7 @@ namespace LocalPLC.Base
 
             inputDic.Clear();
             inputDic.Add((int)INPUTMODE.PULSE_DIR, "脉冲 / 方向");
-            inputDic.Add((int)INPUTMODE.INTEGRAL_1, "积分 X1");
+            //inputDic.Add((int)INPUTMODE.INTEGRAL_1, "积分 X1");
             inputDic.Add((int)INPUTMODE.INTEGRAL_2, "积分 X2");
             inputDic.Add((int)INPUTMODE.INTEGRAL_4, "积分 X4");
 
@@ -366,31 +366,31 @@ namespace LocalPLC.Base
                 if (name == "HSC0")
                 {
                     //双相
-                    textBox_pulseInputPort.Text = "DI00";
-                    textBox_dirInputPort.Text = "DI01";
+                    textBox_pulseInputPort.Text = "DI01";
+                    textBox_dirInputPort.Text = "DI00";
                     textBox_presetPort.Text = "DI04";
                     textBox_capturePort.Text = "DI05";
                 }
                 else if (name == "HSC1")
                 {
                     checkBox_pulse.Checked = true;
-                    textBox_pulseInputPort.Text = "DI02";
+                    textBox_pulseInputPort.Text = "DI03";
                     checkBox_direction.Checked = true;
-                    textBox_dirInputPort.Text = "DI03";
+                    textBox_dirInputPort.Text = "DI02";
                     textBox_presetPort.Text = "DI06";
                     textBox_capturePort.Text = "DI07";
                 }
                 else if (name == "HSC2")
                 {
-                    textBox_pulseInputPort.Text = "DI04";
-                    textBox_dirInputPort.Text = "DI05";
+                    textBox_pulseInputPort.Text = "DI05";
+                    textBox_dirInputPort.Text = "DI04";
                     //隐藏textBox_presetPort
                     setPresetCapureVisble(false);
                 }
                 else if (name == "HSC3")
                 {
-                    textBox_pulseInputPort.Text = "DI06";
-                    textBox_dirInputPort.Text = "DI07";
+                    textBox_pulseInputPort.Text = "DI07";
+                    textBox_dirInputPort.Text = "DI06";
                     //隐藏textBox_presetPort
                     setPresetCapureVisble(false);
                 }
@@ -654,12 +654,12 @@ namespace LocalPLC.Base
                 label_pulse.Text = "脉冲输入";
                 label_direction.Text = "方向输入";
             }
-            else if (((int)INPUTMODE.INTEGRAL_1) == comboBox_inputmode.SelectedIndex &&
-                comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
-            {
-                label_pulse.Text = "脉冲输入相位A";
-                label_direction.Text = "脉冲输入相位B";
-            }
+            //else if (((int)INPUTMODE.INTEGRAL_1) == comboBox_inputmode.SelectedIndex &&
+            //    comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            //{
+            //    label_pulse.Text = "脉冲输入相位A";
+            //    label_direction.Text = "脉冲输入相位B";
+            //}
             else if (((int)INPUTMODE.INTEGRAL_2) == comboBox_inputmode.SelectedIndex &&
                 comboBox_Type.SelectedIndex == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
             {
@@ -959,10 +959,10 @@ namespace LocalPLC.Base
                         //脉冲方向
                         hscData_.opr_mode = "pulse_dir";
                     }
-                    else if (hscData_.inputMode == (int)INPUTMODE.INTEGRAL_1)
-                    {
-                        hscData_.opr_mode = "pulse_x1";
-                    }
+                    //else if (hscData_.inputMode == (int)INPUTMODE.INTEGRAL_1)
+                    //{
+                    //    hscData_.opr_mode = "pulse_x1";
+                    //}
                     else if (hscData_.inputMode == (int)INPUTMODE.INTEGRAL_2)
                     {
                         hscData_.opr_mode = "pulse_x2";
@@ -1694,6 +1694,11 @@ namespace LocalPLC.Base
             }
 
             setButtonEanble(true);
+        }
+
+        private void comboBox_Type_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

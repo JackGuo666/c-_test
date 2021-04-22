@@ -125,6 +125,7 @@
             this.comboBox_Type.Name = "comboBox_Type";
             this.comboBox_Type.Size = new System.Drawing.Size(143, 26);
             this.comboBox_Type.TabIndex = 3;
+            this.comboBox_Type.SelectedIndexChanged += new System.EventHandler(this.comboBox_Type_SelectedIndexChanged_1);
             this.comboBox_Type.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_Type_KeyPress);
             // 
             // panel2
