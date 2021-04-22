@@ -136,9 +136,9 @@ namespace LocalPLC.Base
             label6.Parent = panel1;
 
             label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(75, 74);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(80, 18);
+            label6.Location = new System.Drawing.Point(label1.Location.X, 74);
+            //label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(label1.Width, label1.Height);
             label6.TabIndex = 0;
             label6.Text = "输出模式";
 
@@ -147,9 +147,9 @@ namespace LocalPLC.Base
 
             comboBox_outputMode.Parent = panel1;
             this.comboBox_outputMode.FormattingEnabled = true;
-            this.comboBox_outputMode.Location = new System.Drawing.Point(170, 71);
+            this.comboBox_outputMode.Location = new System.Drawing.Point(comboBox_outputType.Location.X, 71);
             this.comboBox_outputMode.Name = "comboBox_outputMode";
-            this.comboBox_outputMode.Size = new System.Drawing.Size(133, 26);
+            this.comboBox_outputMode.Size = new System.Drawing.Size(comboBox_outputType.Width, comboBox_outputType.Height);
             this.comboBox_outputMode.TabIndex = 3;
             panel1.Controls.Add(comboBox_outputMode);
 
@@ -157,9 +157,10 @@ namespace LocalPLC.Base
             // label_diretion
             // 
             this.label_diretion.AutoSize = true;
-            this.label_diretion.Location = new System.Drawing.Point(456, 74);
+            this.label_diretion.Location = new System.Drawing.Point(label_pulse.Location.X, 74);
             this.label_diretion.Name = "label_diretion";
-            this.label_diretion.Size = new System.Drawing.Size(44, 18);
+            this.label_diretion.Text = "ttt";
+            this.label_diretion.Size = new System.Drawing.Size(label_pulse.Width, label_pulse.Height);
             this.label_diretion.TabIndex = 4;
             panel1.Controls.Add(label_diretion);
 
@@ -167,9 +168,9 @@ namespace LocalPLC.Base
             // comboBox_direction
             // 
             this.comboBox_direction.FormattingEnabled = true;
-            this.comboBox_direction.Location = new System.Drawing.Point(506, 69);
+            this.comboBox_direction.Location = new System.Drawing.Point(comboBox_pulse.Location.X, 69);
             this.comboBox_direction.Name = "comboBox_direction";
-            this.comboBox_direction.Size = new System.Drawing.Size(85, 26);
+            this.comboBox_direction.Size = new System.Drawing.Size(comboBox_pulse.Width, comboBox_pulse.Height);
             this.comboBox_direction.TabIndex = 3;
 
             panel1.Controls.Add(comboBox_direction);
