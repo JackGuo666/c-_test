@@ -31,7 +31,6 @@ namespace LocalPLC
         {
             InitializeComponent();
 
-
             this.treeView1.ContextMenuStrip = null;
 
             i++;
@@ -57,7 +56,7 @@ namespace LocalPLC
 
         public static LocalPLC.motion.UserControlMotion motion = new UserControlMotion();
 
-
+        static GroupBox ModbusWindow_ = null;
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -66,7 +65,7 @@ namespace LocalPLC
             //msi = new ModbusServer.ServerIndex();
 
 
-
+            ModbusWindow_ = ModbusWindow;
             TreeNode tnRet = null;
             string s1 = "MOTION_CONTROL";
             foreach (TreeNode tn in treeView1.Nodes)
@@ -397,7 +396,7 @@ namespace LocalPLC
                     //根据xml创建运控轴分支
                     motion.createAxisTree();
 
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                 }
                 else
                 {
@@ -440,26 +439,26 @@ namespace LocalPLC
                 //动态创建节点
                 if(e.Node.Tag.ToString() == "SERIAL_LINE")
                 {
-                    if (!ModbusWindow.Controls.Contains(UC))
+                    if (!ModbusWindow_.Controls.Contains(UC))
                     {
                         UC.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         UC.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(UC);
+                        ModbusWindow_.Controls.Add(UC);
                     }
                     //显示串口信息
                     UC.setCOMShow(name);
                 }
                 else if(e.Node.Tag.ToString() == "ETHERNET")
                 {
-                    if (!ModbusWindow.Controls.Contains(UC))
+                    if (!ModbusWindow_.Controls.Contains(UC))
                     {
                         UC.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         UC.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(UC);
+                        ModbusWindow_.Controls.Add(UC);
                     }
                     UC.setETHShow(name);
                 }
@@ -468,8 +467,8 @@ namespace LocalPLC
             if (name == "Modbus")
             {
                 //e1.Show();
-                //ModbusWindow.Controls.Clear();
-                //ModbusWindow.Controls.Add(e1);
+                //ModbusWindow_.Controls.Clear();
+                //ModbusWindow_.Controls.Add(e1);
 
 
             }
@@ -486,8 +485,8 @@ namespace LocalPLC
             //    saveXml();
 
             //    e1.Show();
-            //    ModbusWindow.Controls.Clear();
-            //    ModbusWindow.Controls.Add(e1);
+            //    ModbusWindow_.Controls.Clear();
+            //    ModbusWindow_.Controls.Add(e1);
 
             //}
             else if (name == "ModbusTCP-Client")
@@ -506,8 +505,8 @@ namespace LocalPLC
                 //saveXml();
                 //================
                 mci.Show();			
-				ModbusWindow.Controls.Clear();
-				ModbusWindow.Controls.Add(mci);
+				ModbusWindow_.Controls.Clear();
+				ModbusWindow_.Controls.Add(mci);
 			}
 			else if(name == "ModbusRTU-Master")
             {
@@ -526,9 +525,9 @@ namespace LocalPLC
                 //saveXml();
                 //====================
                 modmaster.Show();
-                ModbusWindow.Controls.Clear();
+                ModbusWindow_.Controls.Clear();
                 modmaster.Dock = DockStyle.Fill;
-                ModbusWindow.Controls.Add(modmaster);
+                ModbusWindow_.Controls.Add(modmaster);
             }
             else if (name == "Modbus-Server")
 		{
@@ -541,8 +540,8 @@ namespace LocalPLC
                 //saveXml();
                 //================
                 msi.Show();
-					   ModbusWindow.Controls.Clear();
-		               ModbusWindow.Controls.Add(msi);
+					   ModbusWindow_.Controls.Clear();
+		               ModbusWindow_.Controls.Add(msi);
 		}
 			
 			else if(name == "ModbusRTU-Slave")
@@ -556,40 +555,40 @@ namespace LocalPLC
                 //saveXml();
                 //==================
                 modslave.Show(); 
-						ModbusWindow.Controls.Clear();
+						ModbusWindow_.Controls.Clear();
                 modslave.Dock = DockStyle.Fill;
-                ModbusWindow.Controls.Add(modslave);
+                ModbusWindow_.Controls.Add(modslave);
 		}
         else if(name == "基本配置")
             {
                 UC.Show();
-                ModbusWindow.Controls.Clear();
+                ModbusWindow_.Controls.Clear();
                 UC.Dock = DockStyle.Fill;
                 ////UC.Size = new Size(472, 336);
-                ModbusWindow.Controls.Add(UC);
+                ModbusWindow_.Controls.Add(UC);
             }
 			else if(name == ConstVariable.DO)
             {
-                if(!ModbusWindow.Controls.Contains(UC))
+                if(!ModbusWindow_.Controls.Contains(UC))
                 {
                     UC.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     UC.Dock = DockStyle.Fill;
                     ////UC.Size = new Size(472, 336);
-                    ModbusWindow.Controls.Add(UC);
+                    ModbusWindow_.Controls.Add(UC);
                 }
 
                 UC.setDOShow(name);
             }
             else if(name == ConstVariable.DI)
             {
-                if (!ModbusWindow.Controls.Contains(UC))
+                if (!ModbusWindow_.Controls.Contains(UC))
                 {
                     UC.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     UC.Dock = DockStyle.Fill;
                     ////UC.Size = new Size(472, 336);
-                    ModbusWindow.Controls.Add(UC);
+                    ModbusWindow_.Controls.Add(UC);
                 }
 
                 UC.setDIShow(name);
@@ -604,13 +603,13 @@ namespace LocalPLC
             }
             else if(name == "高速计数器")
             {
-                if (!ModbusWindow.Controls.Contains(UC))
+                if (!ModbusWindow_.Controls.Contains(UC))
                 {
                     UC.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     UC.Dock = DockStyle.Fill;
                     ////UC.Size = new Size(472, 336);
-                    ModbusWindow.Controls.Add(UC);
+                    ModbusWindow_.Controls.Add(UC);
                 }
 
                 UC.setHighInput(name);
@@ -618,13 +617,13 @@ namespace LocalPLC
             else if(name == "高速输出")
             {
 
-                if (!ModbusWindow.Controls.Contains(UC))
+                if (!ModbusWindow_.Controls.Contains(UC))
                 {
                     UC.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     UC.Dock = DockStyle.Fill;
                     ////UC.Size = new Size(472, 336);
-                    ModbusWindow.Controls.Add(UC);
+                    ModbusWindow_.Controls.Add(UC);
                 }
 
                 UC.setHighOutput(name);
@@ -1266,7 +1265,13 @@ namespace LocalPLC
 
         void clean()
         {
-            if(modmaster != null)
+            if(ModbusWindow_ != null)
+            {
+                ModbusWindow_.Controls.Clear();
+            }
+
+
+            if (modmaster != null)
             {
                 modmaster.deleteTableRow();
                 modmaster.masterManage.modbusMastrList.Clear();
@@ -1332,26 +1337,26 @@ namespace LocalPLC
                     //动态创建节点
                     if (e.Node.Tag.ToString() == "SERIAL_LINE")
                     {
-                        if (!ModbusWindow.Controls.Contains(UC))
+                        if (!ModbusWindow_.Controls.Contains(UC))
                         {
                             UC.Show();
-                            ModbusWindow.Controls.Clear();
+                            ModbusWindow_.Controls.Clear();
                             UC.Dock = DockStyle.Fill;
                             ////UC.Size = new Size(472, 336);
-                            ModbusWindow.Controls.Add(UC);
+                            ModbusWindow_.Controls.Add(UC);
                         }
                         //显示串口信息
                         UC.setCOMShow(name);
                     }
                     else if (e.Node.Tag.ToString() == "ETHERNET")
                     {
-                        if (!ModbusWindow.Controls.Contains(UC))
+                        if (!ModbusWindow_.Controls.Contains(UC))
                         {
                             UC.Show();
-                            ModbusWindow.Controls.Clear();
+                            ModbusWindow_.Controls.Clear();
                             UC.Dock = DockStyle.Fill;
                             ////UC.Size = new Size(472, 336);
-                            ModbusWindow.Controls.Add(UC);
+                            ModbusWindow_.Controls.Add(UC);
                         }
                         UC.setETHShow(name);
                     }
@@ -1366,10 +1371,10 @@ namespace LocalPLC
                         motion.basePara.initData(e.Node);
                         var para = motion.basePara;
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_MOTION_PARA")
                     {
@@ -1378,9 +1383,9 @@ namespace LocalPLC
                         motion.motionPara.initData(e.Node);
                         var para = motion.motionPara;
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.Fill;
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
 
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_PULSE_EQUIVALENT")
@@ -1392,9 +1397,9 @@ namespace LocalPLC
                         //脉冲当量
                         UserControlPulseEquivalent para = new UserControlPulseEquivalent(e.Node.Parent);
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.None;
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_LIMIT_SIGNAL")
                     {
@@ -1406,10 +1411,10 @@ namespace LocalPLC
                         //限位信号
                         UserControlLimitSignal para = new UserControlLimitSignal(e.Node.Parent);
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.Fill;
                         //para.Anchor = AnchorStyles.
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_DYNAMIC_PARA")
                     {
@@ -1420,9 +1425,9 @@ namespace LocalPLC
                         //动态参数
                         UserControlDynamicPara para = new UserControlDynamicPara(e.Node.Parent);
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.None;
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BACK_ORIGIN")
                     {
@@ -1434,9 +1439,9 @@ namespace LocalPLC
                         //回原点
                         UserControlBackOrigin para = new UserControlBackOrigin(e.Node.Parent);
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.None;
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_REVERSE_COMPENSATION")
                     {
@@ -1447,18 +1452,18 @@ namespace LocalPLC
 
                         UserControlReverseCompensation para = new UserControlReverseCompensation(e.Node.Parent);
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.None;
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
                     {
                         //添加命令表
                         UserControlCommandTable para = new UserControlCommandTable();
                         para.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.Fill;
-                        ModbusWindow.Controls.Add(para);
+                        ModbusWindow_.Controls.Add(para);
                     }
 
                 }
@@ -1466,8 +1471,8 @@ namespace LocalPLC
                 if (name == "Modbus")
                 {
                     //e1.Show();
-                    //ModbusWindow.Controls.Clear();
-                    //ModbusWindow.Controls.Add(e1);
+                    //ModbusWindow_.Controls.Clear();
+                    //ModbusWindow_.Controls.Add(e1);
 
 
                 }
@@ -1484,8 +1489,8 @@ namespace LocalPLC
                 //    saveXml();
 
                 //    e1.Show();
-                //    ModbusWindow.Controls.Clear();
-                //    ModbusWindow.Controls.Add(e1);
+                //    ModbusWindow_.Controls.Clear();
+                //    ModbusWindow_.Controls.Add(e1);
 
                 //}
                 else if (name == "ModbusTCP-Client")
@@ -1504,8 +1509,8 @@ namespace LocalPLC
                     //saveXml();
                     //================
                     mci.Show();
-                    ModbusWindow.Controls.Clear();
-                    ModbusWindow.Controls.Add(mci);
+                    ModbusWindow_.Controls.Clear();
+                    ModbusWindow_.Controls.Add(mci);
                 }
                 else if (name == "ModbusRTU-Master")
                 {
@@ -1524,9 +1529,9 @@ namespace LocalPLC
                     //saveXml();
                     //====================
                     modmaster.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     modmaster.Dock = DockStyle.Fill;
-                    ModbusWindow.Controls.Add(modmaster);
+                    ModbusWindow_.Controls.Add(modmaster);
                 }
                 else if (name == "Modbus-Server")
                 {
@@ -1539,8 +1544,8 @@ namespace LocalPLC
                     //saveXml();
                     //================
                     msi.Show();
-                    ModbusWindow.Controls.Clear();
-                    ModbusWindow.Controls.Add(msi);
+                    ModbusWindow_.Controls.Clear();
+                    ModbusWindow_.Controls.Add(msi);
                 }
 
                 else if (name == "ModbusRTU-Slave")
@@ -1554,40 +1559,40 @@ namespace LocalPLC
                     //saveXml();
                     //==================
                     modslave.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     modslave.Dock = DockStyle.Fill;
-                    ModbusWindow.Controls.Add(modslave);
+                    ModbusWindow_.Controls.Add(modslave);
                 }
                 else if (name == "基本配置")
                 {
                     UC.Show();
-                    ModbusWindow.Controls.Clear();
+                    ModbusWindow_.Controls.Clear();
                     UC.Dock = DockStyle.Fill;
                     ////UC.Size = new Size(472, 336);
-                    ModbusWindow.Controls.Add(UC);
+                    ModbusWindow_.Controls.Add(UC);
                 }
                 else if (name == ConstVariable.DO)
                 {
-                    if (!ModbusWindow.Controls.Contains(UC))
+                    if (!ModbusWindow_.Controls.Contains(UC))
                     {
                         UC.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         UC.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(UC);
+                        ModbusWindow_.Controls.Add(UC);
                     }
 
                     UC.setDOShow(name);
                 }
                 else if (name == ConstVariable.DI)
                 {
-                    if (!ModbusWindow.Controls.Contains(UC))
+                    if (!ModbusWindow_.Controls.Contains(UC))
                     {
                         UC.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         UC.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(UC);
+                        ModbusWindow_.Controls.Add(UC);
                     }
 
                     UC.setDIShow(name);
@@ -1602,13 +1607,13 @@ namespace LocalPLC
                 }
                 else if (name == "高速计数器")
                 {
-                    if (!ModbusWindow.Controls.Contains(UC))
+                    if (!ModbusWindow_.Controls.Contains(UC))
                     {
                         UC.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         UC.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(UC);
+                        ModbusWindow_.Controls.Add(UC);
                     }
 
                     UC.setHighInput(name);
@@ -1616,13 +1621,13 @@ namespace LocalPLC
                 else if (name == "高速输出")
                 {
 
-                    if (!ModbusWindow.Controls.Contains(UC))
+                    if (!ModbusWindow_.Controls.Contains(UC))
                     {
                         UC.Show();
-                        ModbusWindow.Controls.Clear();
+                        ModbusWindow_.Controls.Clear();
                         UC.Dock = DockStyle.Fill;
                         ////UC.Size = new Size(472, 336);
-                        ModbusWindow.Controls.Add(UC);
+                        ModbusWindow_.Controls.Add(UC);
                     }
 
                     UC.setHighOutput(name);
@@ -1717,7 +1722,7 @@ namespace LocalPLC
                 saveXml();
                 saveJson();
 
-                ModbusWindow.Controls.Clear();
+                ModbusWindow_.Controls.Clear();
 
                 multiprogApp.ActiveProject.Save();
                 multiprogApp.ActiveProject.Close();

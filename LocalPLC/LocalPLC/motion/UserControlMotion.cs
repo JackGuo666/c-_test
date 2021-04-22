@@ -38,6 +38,7 @@ namespace LocalPLC.motion
         public void clearUI()
         {
             axisNode_.Nodes.Clear();
+            
             //foreach(TreeNode node in axisNode_.Nodes)
             //{
             //    if(node.Tag.ToString() != "ADDAXIS")
