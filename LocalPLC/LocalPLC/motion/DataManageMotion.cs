@@ -90,17 +90,24 @@ namespace LocalPLC.motion
         public AxisMotionPara axisMotionPara = new AxisMotionPara();
     }
 
+    public class CommandTable
+    {
+
+    }
+
     public class DataManageBase
     {
         //public AxisBasePara axisBasePara = new AxisBasePara();
         public DataManageBase()
         {
             axisList.Clear();
+            commandTableList.Clear();
         }
 
         public void clear()
         {
             axisList.Clear();
+            commandTableList.Clear();
         }
 
         public void delete(Axis axis)
@@ -115,6 +122,6 @@ namespace LocalPLC.motion
         }
 
         public List<Axis> axisList = new List<Axis>();
-
+        public List<CommandTable> commandTableList = new List<CommandTable>();
     }
 }
