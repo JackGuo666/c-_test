@@ -538,14 +538,18 @@ namespace LocalPLC.ModbusServer
             //textBox15.Enabled = false;
             //textBox16.ReadOnly = true;
             //textBox16.Enabled = false;
-            //for (int i = 0; i < dataManager.listServer.Count; i++)
-            //{
-            //    if (data_.dataDevice_.deviceAddr == dataManager.listServer[i].dataDevice_.deviceAddr && data_.ID != dataManager.listServer[i].ID)
-            //    {
-            //        data_.dataDevice_.deviceAddr++;
-            //    }
-            //}
-            data_.dataDevice_.deviceAddr = data_.ID+1;
+
+            if (data_.dataDevice_.deviceAddr == 0)
+            {
+                data_.dataDevice_.deviceAddr = data_.ID + 1;
+                for (int i = 0; i < dataManager.listServer.Count; i++)
+                {
+                    if (data_.dataDevice_.deviceAddr == dataManager.listServer[i].dataDevice_.deviceAddr && data_.ID != dataManager.listServer[i].ID)
+                    {
+                        data_.dataDevice_.deviceAddr++;
+                    }
+                }
+            }
             textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
             comboBox1.SelectedIndex = data_.dataDevice_.transform;
             comboBox2.SelectedIndex = data_.dataDevice_.transformport;
@@ -557,7 +561,7 @@ namespace LocalPLC.ModbusServer
             if(data_.dataDevice_.port == 0)
             data_.dataDevice_.port = 502 + data_.ID;
             textBox23.Text = data_.dataDevice_.port.ToString();
-
+            textBox31.Text = data_.dataDevice_.packet_interval.ToString();
         }
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
@@ -1821,6 +1825,7 @@ namespace LocalPLC.ModbusServer
                 data_.dataDevice_.transformMode = (int)TRANSFORMMODE.UDP;
             }
             data_.dataDevice_.deviceAddr = Convert.ToInt32(textBox30.Text);
+            data_.dataDevice_.packet_interval = Convert.ToInt32(textBox31.Text);
             // 网口模式下的配置信息
             if(textBox23.Visible == true)
             {
@@ -2274,7 +2279,40 @@ namespace LocalPLC.ModbusServer
             {
                 data_.dataDevice_.port = 0;
             }
+            if (comboBox2.SelectedIndex == -1)
+            {
+                data_.dataDevice_.isready = false;
+            }
+            else
+            {
+                data_.dataDevice_.isready = true;
+            }
+        }
 
+        private void textBox31_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBox31_Leave(object sender, EventArgs e)
+        {
+            int value;
+            try
+            {
+                value = Convert.ToInt32(textBox31.Text);
+            }
+            catch
+            {
+                MessageBox.Show("请输入0-1000的数字");
+                textBox31.Text = data_.dataDevice_.packet_interval.ToString();
+                return;
+            }
+            if (value < 0 || value > 1000)
+            {
+                MessageBox.Show("请输入0-1000的数字");
+                textBox31.Text = data_.dataDevice_.packet_interval.ToString();
+                return;
+            }
         }
     }
 }

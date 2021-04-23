@@ -219,6 +219,7 @@ namespace LocalPLC.ModbusServer
                 elem1_s.SetAttribute("transformmodediscrib", data.dataDevice_.transformportdescribe.ToString());
                 elem1_s.SetAttribute("transforslavemmode", data.dataDevice_.slavetansformMode.ToString());
                 elem1_s.SetAttribute("deviceaddr", data.dataDevice_.deviceAddr.ToString());
+                elem1_s.SetAttribute("packet_interval", data.dataDevice_.packet_interval.ToString());
                 elem1_s.SetAttribute("port", data.dataDevice_.port.ToString());
                 elem1_s.SetAttribute("maxconnect", data.dataDevice_.maxconnectnumber.ToString());
                 elem1_s.SetAttribute("ipfixed", data.dataDevice_.ipfixed.ToString());
@@ -389,6 +390,8 @@ namespace LocalPLC.ModbusServer
                                 writer.WriteValue("ms");
                                 writer.WritePropertyName("dev_id");
                                 writer.WriteValue(data_.dataDevice_.deviceAddr);
+                                writer.WritePropertyName("packet_inerval");
+                                writer.WriteValue(data_.dataDevice_.packet_interval);
                                 writer.WritePropertyName("dev_namestr");
                                 writer.WriteValue("mbrtu_slave" + j.ToString());
                                 writer.WriteEndObject(); // } 串口数组下设备右括号
@@ -591,6 +594,8 @@ namespace LocalPLC.ModbusServer
                 int.TryParse(e.GetAttribute("transforslavemmode"), out data.dataDevice_.slavetansformMode);
                 //设备地址
                 int.TryParse(e.GetAttribute("deviceaddr"), out data.dataDevice_.deviceAddr);
+                // 帧间时间
+                int.TryParse(e.GetAttribute("packet_interval"), out data.dataDevice_.packet_interval);
                 //端口号
                 int.TryParse(e.GetAttribute("port"), out data.dataDevice_.port);
                 data.dataDevice_.transformportdescribe = e.GetAttribute("transformmodediscrib");

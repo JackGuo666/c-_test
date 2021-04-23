@@ -1713,7 +1713,15 @@ namespace LocalPLC
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (multiprogApp.IsProjectOpen())
+            bool isready = true;
+            for(int i =0;i< msi.serverDataManager.listServer.Count;i++)
+            {
+                if(msi.serverDataManager.listServer[i].dataDevice_.isready == false)
+                {
+                    isready = false;
+                }
+            }
+            if (multiprogApp.IsProjectOpen() && isready == true)
             {
                 projectName = multiprogApp.ActiveProject.FullName;
                 //动态刷新DI DO数据
@@ -1730,14 +1738,14 @@ namespace LocalPLC
             }
             else
             {
-
+                utility.PrintError("server配置存在问题，请检查");
 
             }
 
 
 
 
-            if (msi.serverDataManager.listServer.Count == 0 || msi.serverDataManager.listServer[0].dataDevice_.isready == true)
+            if (msi.serverDataManager.listServer.Count == 0 || isready == true)
 
             {
                 //
