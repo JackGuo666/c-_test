@@ -2293,10 +2293,21 @@ namespace LocalPLC
 
         void createNode(ref TreeNode retNode, string name, string tag, TreeNode parent, int index)
         {
-            TreeNode basePara = new TreeNode(name, index, index);
-            basePara.Tag = tag;
-            retNode = basePara;
-            parent.Nodes.Add(basePara);
+            if(tag == "MOTION_BASE_PARA")
+            {
+                TreeNode basePara = new TreeNode(name, index, index);
+                basePara.Tag = tag;
+                retNode = basePara;
+                parent.Nodes.Add(basePara);
+            }
+            else if(tag == "MOTION_COMMAND_TABLE")
+            {
+                TreeNode basePara = new TreeNode(name, index, index);
+                basePara.Tag = tag;
+                retNode = basePara;
+                parent.Nodes.Add(basePara);
+            }
+
         }
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -2321,6 +2332,7 @@ namespace LocalPLC
                 name = motion.addAxisName();
                 createNode(ref axis, name, "MOTION_AXIS", motionNode, 3);
                 axisData.name = name;
+                axisData.axisBasePara.axisName = name;
                 var count = motion.motionDataManage.axisList.Count;
                 axis.Tag = axisData;
                 motion.motionDataManage.axisList.Add(axisData);
@@ -2350,8 +2362,8 @@ namespace LocalPLC
             {
                 var motionNode = e.Node.Parent;
                 TreeNode command  = null;
-                LocalPLC.motion.Axis axis = new Axis();
-                motion.motionDataManage.axisList.Add(axis);
+                LocalPLC.motion.CommandTable commandTable = new CommandTable();
+                motion.motionDataManage.commandTableList.Add(commandTable);
                 createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motionNode, 3);
 
             }
