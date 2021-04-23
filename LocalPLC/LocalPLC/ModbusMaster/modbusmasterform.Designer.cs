@@ -39,27 +39,31 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_add = new System.Windows.Forms.Button();
             this.button_delete = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox_packet_interval = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.textBox_packet_interval);
             this.groupBox1.Controls.Add(this.textBox_reponse_timeout);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.comboBox_transform_channel);
             this.groupBox1.Controls.Add(this.label3);
@@ -163,6 +167,38 @@
             this.panel2.Size = new System.Drawing.Size(1160, 372);
             this.panel2.TabIndex = 3;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.button2);
+            this.panel3.Controls.Add(this.button1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 325);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1160, 47);
+            this.panel3.TabIndex = 1;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button2.Location = new System.Drawing.Point(916, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(121, 47);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "应用";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Location = new System.Drawing.Point(1037, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(123, 47);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "取消";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
@@ -213,37 +249,22 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // panel3
+            // label4
             // 
-            this.panel3.Controls.Add(this.button2);
-            this.panel3.Controls.Add(this.button1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 325);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1160, 47);
-            this.panel3.TabIndex = 1;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(622, 32);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 18);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "帧间时间(毫秒)";
             // 
-            // button1
+            // textBox_packet_interval
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(1037, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(123, 47);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "取消";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button2.Location = new System.Drawing.Point(916, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(121, 47);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "应用";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.textBox_packet_interval.Location = new System.Drawing.Point(772, 27);
+            this.textBox_packet_interval.Name = "textBox_packet_interval";
+            this.textBox_packet_interval.Size = new System.Drawing.Size(134, 28);
+            this.textBox_packet_interval.TabIndex = 3;
+            this.textBox_packet_interval.Leave += new System.EventHandler(this.textBox_packet_interval_Leave);
             // 
             // modbusmasterDeviceform
             // 
@@ -260,9 +281,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -287,5 +308,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox_packet_interval;
+        private System.Windows.Forms.Label label4;
     }
 }

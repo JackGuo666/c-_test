@@ -49,6 +49,7 @@ namespace LocalPLC.ModbusMaster
 
             }
             comboBox_transform_channel.SelectedIndex = -1;
+            textBox_packet_interval.Text = masterData_.packet_interval.ToString();
             try
             {
                 DataGridViewTextBoxColumn cellColumnID = new DataGridViewTextBoxColumn();
@@ -716,6 +717,7 @@ namespace LocalPLC.ModbusMaster
                     }
 
                     masterData_.transformChannel = comboBox_transform_channel.SelectedItem.ToString();
+                    masterData_.packet_interval = Convert.ToInt32( textBox_packet_interval.Text);
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
                         masterData_.transformChannel = comboBox_transform_channel.Text;
@@ -731,6 +733,27 @@ namespace LocalPLC.ModbusMaster
 
                 }
            
+        }
+
+        private void textBox_packet_interval_Leave(object sender, EventArgs e)
+        {
+            int value;
+            try
+            {
+                value = Convert.ToInt32(textBox_packet_interval.Text);
+            }
+            catch
+            {
+                MessageBox.Show("请输入0-1000的数字");
+                textBox_packet_interval.Text = masterData_.packet_interval.ToString();
+                return;
+            }
+            if (value < 0 || value > 1000)
+            {
+                MessageBox.Show("请输入0-1000的数字");
+                textBox_packet_interval.Text = masterData_.packet_interval.ToString();
+                return;
+            }
         }
     }
 }

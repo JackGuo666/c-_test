@@ -45,14 +45,15 @@ namespace LocalPLC.ModbusServer
         public int shmrange = 0;
         public int shmlength;
         public int transformMode;  //0 TCP 1 UDP
-        public int deviceAddr = 0;
+        public int deviceAddr;
         public int transform;
         public int transformport = -1;
-        public string transformportdescribe;
+        public string transformportdescribe = "";
         public bool ipfixed = false;
         //public int connectnum = 1;
         public int slavetansformMode; //0 RTU 1ASCII
         public int port = 0;
+        public int packet_interval = 0;
         public int maxconnectnumber = 1;
         public int ipconnect; //0 false 1true
         public bool isready = true; // 冲突检测，是否可以生成配置文件

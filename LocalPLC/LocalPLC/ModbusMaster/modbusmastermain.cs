@@ -72,7 +72,7 @@ namespace LocalPLC.ModbusMaster
                 data.transformChannel = e.GetAttribute("transformchannel");
                 int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
-
+                int.TryParse(e.GetAttribute("packet_interval"), out data.packet_interval);
                 //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
                 //读取device数据
                 XmlNodeList nodeDeviceList = childNode.ChildNodes;//创建当前子设备节点下的所有子节点集合
@@ -160,9 +160,9 @@ namespace LocalPLC.ModbusMaster
                 //0 RTU    1 ASCII
                 elem1_m.SetAttribute("transformmode", data.transformMode.ToString());
                 elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
-
+                elem1_m.SetAttribute("packet_interval", data.packet_interval.ToString());
                 //create devices
-                for(int j = 0; j < data.modbusDeviceList.Count; j ++)//循环添加每个设备的各参数值至xml
+                for (int j = 0; j < data.modbusDeviceList.Count; j ++)//循环添加每个设备的各参数值至xml
                 {
                     DeviceData dataDev = data.modbusDeviceList.ElementAt(j);
                     XmlElement elem1_m_d = doc.CreateElement("device");
@@ -251,6 +251,8 @@ namespace LocalPLC.ModbusMaster
                     { writer.WriteValue(""); }
                     writer.WritePropertyName("response_timeout");
                     writer.WriteValue(data.responseTimeout);
+                    writer.WritePropertyName("packet_interval");
+                    writer.WriteValue(data.packet_interval);
                     string mode = null;
                     if (data.transformMode == 0)
                     {
@@ -920,6 +922,7 @@ namespace LocalPLC.ModbusMaster
         public string transformChannel;
         public int responseTimeout = 1000;  //ms
         public int transformMode;
+        public int packet_interval;
         public List<DeviceData> modbusDeviceList = new List<DeviceData>();
         public ModbusMasterData()
         {

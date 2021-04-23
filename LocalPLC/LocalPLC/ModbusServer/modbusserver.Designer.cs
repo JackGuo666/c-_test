@@ -110,6 +110,8 @@
             this.label18 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBox31 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -534,7 +536,7 @@
             // 
             this.panel3.Controls.Add(this.label13);
             this.panel3.Controls.Add(this.groupBox1);
-            this.panel3.Location = new System.Drawing.Point(22, 560);
+            this.panel3.Location = new System.Drawing.Point(19, 667);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(628, 113);
             this.panel3.TabIndex = 21;
@@ -794,12 +796,14 @@
             // 
             this.panel5.Controls.Add(this.label28);
             this.panel5.Controls.Add(this.label27);
+            this.panel5.Controls.Add(this.textBox31);
             this.panel5.Controls.Add(this.textBox30);
+            this.panel5.Controls.Add(this.label29);
             this.panel5.Controls.Add(this.label7);
             this.panel5.Controls.Add(this.groupBox3);
             this.panel5.Location = new System.Drawing.Point(22, 442);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(623, 112);
+            this.panel5.Size = new System.Drawing.Size(625, 202);
             this.panel5.TabIndex = 25;
             // 
             // label28
@@ -937,6 +941,24 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(3, 136);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(228, 27);
+            this.label29.TabIndex = 19;
+            this.label29.Text = "帧间时间（ms）：";
+            // 
+            // textBox31
+            // 
+            this.textBox31.Location = new System.Drawing.Point(151, 133);
+            this.textBox31.Name = "textBox31";
+            this.textBox31.Size = new System.Drawing.Size(84, 28);
+            this.textBox31.TabIndex = 20;
+            this.textBox31.TextChanged += new System.EventHandler(this.textBox31_TextChanged);
+            this.textBox31.Leave += new System.EventHandler(this.textBox31_Leave);
+            // 
             // modbusserver
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -1064,5 +1086,7 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox textBox31;
+        private System.Windows.Forms.Label label29;
     }
 }
