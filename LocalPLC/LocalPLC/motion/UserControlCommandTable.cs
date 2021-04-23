@@ -45,12 +45,23 @@ namespace LocalPLC.motion
 
 		enum Type {None, MC_MoveAbsolute, MC_Relative, MC_SetPosition, MC_MoveVelocity, MC_Halt}
 		enum NextStep {Done, Blending_previous, Probe_input_event, SW_event, Delay}
-		Dictionary<int, string> typeDic = new Dictionary<int, string>();
+		List<string> typeList = new List<string>();
+		List<string> noneList = new List<string>();
 
 		Dictionary<int, string> nextStepDic = new Dictionary<int, string>();
 
-		int typeColumn = 1;
+		int nextColumn = 0;
+		//int typeColumn = 1;
+		int disColumn = 1;
+		int speedColumn = 2;
+		int accColumn = 3;
+		int decColumn = 4;
+		int jerkColumn = 5;
+		int eventColumn = 6;
+		int delayColumn = 7;
+		int noteColumn = 8;
 
+		int typeColumn = 1;
 		int nextStepColumn = 6;
 
 		int defaultRows = 16;
@@ -59,6 +70,7 @@ namespace LocalPLC.motion
 		#region
 		string columnStepName = "步骤";
 		string columnTypeName = "类型";
+		string columnNextStepName = "下一步";
 		#endregion
 
 		public class ComboboxItem
@@ -75,18 +87,18 @@ namespace LocalPLC.motion
 		public UserControlCommandTable()
         {
             InitializeComponent();
+			this.dataGridView1.DataError += delegate (object sender, DataGridViewDataErrorEventArgs e) { };
 
+			typeList.Clear();
+			typeList.Add(Type.None.ToString());
+			typeList.Add(Type.MC_MoveAbsolute.ToString());
+			typeList.Add(Type.MC_Relative.ToString());
+			typeList.Add(Type.MC_SetPosition.ToString());
+			typeList.Add(Type.MC_MoveVelocity.ToString());
+			typeList.Add(Type.MC_Halt.ToString());
 
-			typeDic.Clear();
-			typeDic.Add((int)Type.None, Type.None.ToString());
-			typeDic.Add((int)Type.MC_MoveAbsolute, Type.MC_MoveAbsolute.ToString());
-			typeDic.Add((int)Type.MC_Relative, Type.MC_Relative.ToString());
-			typeDic.Add((int)Type.MC_SetPosition, Type.MC_SetPosition.ToString());
-			typeDic.Add((int)Type.MC_MoveVelocity, Type.MC_MoveVelocity.ToString());
-			typeDic.Add((int)Type.MC_Halt, Type.MC_Halt.ToString());
-
-			nextStepDic.Clear();
-			nextStepDic.Add((int)NextStep.Done, "Done");
+			noneList.Clear();
+			noneList.Add("Done");
 
 			this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
 			bindData();
@@ -166,17 +178,35 @@ namespace LocalPLC.motion
 
             this.dataGridView1.DataSource = dtData;
 
-			//插入combobox列
+			
+
+			for (int i = 0; i < 16; i++)
+			{
+				DataRow drData;
+				drData = dtData.NewRow();
+				drData[nextColumn] = i.ToString();
+				drData[disColumn] = i.ToString();
+				drData[speedColumn] = i.ToString();
+				drData[accColumn] = i.ToString();
+				drData[decColumn] = i.ToString();
+				drData[jerkColumn] = i.ToString();
+				drData[eventColumn] = i.ToString();
+				drData[delayColumn] = i.ToString();
+				drData[noteColumn] = i.ToString();
+
+
+				dtData.Rows.Add(drData);
+				//((DataGridViewComboBoxColumn)dataGridView1.Columns[columnTypeName]).DefaultCellStyle.NullValue = "None";
+			}
+
+			this.dataGridView1.DataSource = dtData;
+
+			//插入类型combobox列
 			DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
 			comboBoxColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
 			comboBoxColumn.Name = columnTypeName;
-			foreach(var elem in typeDic)
-            {
-				//ComboboxItem item = new ComboboxItem();
-				//item.Value = elem.Key;
-				comboBoxColumn.Items.Add(elem.Value);
-			}
-
+			dgvCombobox(ref comboBoxColumn, typeList);
+			comboBoxColumn.DefaultCellStyle.NullValue = "None";
 
 
 			int columnIndex = typeColumn;
@@ -188,49 +218,115 @@ namespace LocalPLC.motion
 			comboBoxColumn = new DataGridViewComboBoxColumn();
 			comboBoxColumn.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
 			comboBoxColumn.Name = "下一步";
-			foreach(var elem in nextStepDic)
-            {
-				comboBoxColumn.Items.Add(elem.Value);
-			}
+			dgvCombobox(ref comboBoxColumn, noneList);
+			comboBoxColumn.DefaultCellStyle.NullValue = "None";
+
 			if (dataGridView1.Columns["下一步"] == null)
 			{
 				dataGridView1.Columns.Insert(nextStepColumn, comboBoxColumn);
 			}
 
-			for (int i = 0; i < 16; i++)
+
+		}
+
+		public void dgvCombobox(ref DataGridViewComboBoxColumn column, List<string> strTmp)
+		{
+			DataTable dt = new DataTable();
+			DataColumn dc = new DataColumn("tmp", typeof(string));
+			dt.Columns.Add(dc);
+			dt.Columns.Add(new DataColumn("ID", typeof(string)));
+			DataRow dr;
+			for (int i = 0; i < strTmp.Count; i++)
 			{
-				DataRow drData;
-				drData = dtData.NewRow();
-				drData[columnStepName] = i.ToString();
-				dtData.Rows.Add(drData);
-				((DataGridViewComboBoxColumn)dataGridView1.Columns[columnTypeName]).DefaultCellStyle.NullValue = "None";
+				dr = dt.NewRow();
+				dr["tmp"] = strTmp[i];
+				dr["id"] = i;
+				dt.Rows.Add(dr);
 			}
-
-			this.dataGridView1.DataSource = dtData;
-
-
-		}
-
-        private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
+			//为combobox绑定生成的表  
+			column.DataSource = dt; //combobox列的数据源，绑定为生成的表  
+			column.DisplayMember = "tmp";//要显示的名称，表的文字例  
+			column.ValueMember = dt.Columns[1].ToString();//文字对应的值，此列将和columns2.DataPropertyName 属性的值对应来显示选中的值  
 
 		}
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+		private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-			if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-				DataGridViewComboBoxColumn combo = dataGridView1.Columns[e.ColumnIndex] as DataGridViewComboBoxColumn;
-				if (combo != null)  //如果该列是ComboBox列
-				{
-					dataGridView1.BeginEdit(false); //结束该列的编辑状态
-					DataGridViewComboBoxEditingControl comboEdite = dataGridView1.EditingControl as DataGridViewComboBoxEditingControl;
-					if (comboEdite != null)
+			if (this.dataGridView1.CurrentCell.OwningColumn.Name == columnTypeName)
+			{
+				((ComboBox)e.Control).SelectedIndexChanged +=
+									new EventHandler(comboBox_SelectedIndexChanged);
+			}
+		}
+
+		private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (this.dataGridView1.CurrentCell.OwningColumn.Name == columnTypeName)
+			{
+				string str = ((ComboBox)sender).Text.ToString();
+				//绑定第二个COMBOX  
+				DataTable dt = new DataTable();
+				dt.Columns.Add(new DataColumn("id"));
+				dt.Columns.Add(new DataColumn("text"));
+
+				string tmp = "";
+				if (str == "None")
+                {
+
+					DataRow dr = dt.NewRow();
+					dr[0] = str;
+					dr[1] = str;
+					dt.Rows.Add(dr);
+
+					tmp = str;
+				}
+				else
+                {
+					for (int i = 0; i < 20; i++)
 					{
-						comboEdite.DroppedDown = true; //展现下拉列表
+						if (i == 0)
+						{
+							tmp = str + i;
+						}
+
+						DataRow dr = dt.NewRow();
+						dr[0] = str + i;
+						dr[1] = str + i;
+						dt.Rows.Add(dr);
 					}
 				}
+
+
+				((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnNextStepName]).DataSource = dt;
+				((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnNextStepName]).DisplayMember = "text";
+				((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnNextStepName]).ValueMember = "id";
+				//((ComboBox)sender).SelectedIndexChanged -= new EventHandler(comboBox_SelectedIndexChanged);
+				//这里比较重要
+				((ComboBox)sender).Leave += new EventHandler(combox_Leave);
+				DataGridViewComboBoxCell cell = ((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnNextStepName]);
+				if(cell.Items.Count > 0)
+                {
+					cell.Value = (cell.Items[0] as DataRowView)["id"].ToString();
+                }
+
+
+				DataGridViewCell normalCell = ((DataGridViewCell)this.dataGridView1.CurrentRow.Cells[columnStepName]);
+				normalCell.ReadOnly = true;
 			}
+		}
+
+		public void combox_Leave(object sender, EventArgs e)
+		{
+			ComboBox combox = sender as ComboBox;
+			//做完处理，须撤销动态事件
+			combox.SelectedIndexChanged -= new EventHandler(comboBox_SelectedIndexChanged);
+			((ComboBox)sender).Leave -= new EventHandler(combox_Leave);
+		}
+
+		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
 		}
 
         private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -240,44 +336,58 @@ namespace LocalPLC.motion
 				return;
             }
 
-			DataGridView dgv = (DataGridView)sender;
-            //判断是否可以编辑  
-            if (dgv.Columns[e.ColumnIndex].Name == columnTypeName /*&&
-                !(bool)dgv["Column2", e.RowIndex].Value*/)
-            {
-				//编辑不能  
-				//e.Cancel = true;
-			}
-			
-
-			var typeName = dgv[columnTypeName, e.RowIndex].EditedFormattedValue.ToString();
 
 
-			if (typeName == "None" && columnTypeName != (dgv.Columns[e.ColumnIndex].Name))
+            DataGridViewComboBoxCell cell = ((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnNextStepName]);
+            DataGridViewComboBoxCell cellType = ((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnTypeName]);
+            if (cellType.FormattedValue.ToString() == "None")
             {
-				e.Cancel = true;
-				var next = dgv.Columns["下一步"] as DataGridViewComboBoxColumn;
-				next.Items.Clear();
-				//DataGridViewComboBoxCell dd = (DataGridViewComboBoxCell)dataGridView1[e.ColumnIndex, e.RowIndex];
-				//dd.ReadOnly = true;
-			}
-			else if(typeName != "None" &&columnTypeName != (dgv.Columns[e.ColumnIndex].Name))
+				if(dataGridView1.CurrentCell.OwningColumn.Name != columnTypeName)
+                {
+					e.Cancel = true;
+                }
+                //
+                //cellType.ReadOnly = false;
+            }
+            else if (cellType.FormattedValue.ToString() != "None")
             {
-				var next = dgv.Columns["下一步"] as DataGridViewComboBoxColumn;
-				next.Items.Clear();
-				next.Items.Add("test");
-			}
-		}
+                //cell.DisplayMember = "test1";
+            }
+
+
+
+
+            //DataGridView dgv = (DataGridView)sender;
+            ////判断是否可以编辑  
+            //if (dgv.Columns[e.ColumnIndex].Name == columnTypeName /*&&
+            //             !(bool)dgv["Column2", e.RowIndex].Value*/)
+            //{
+            //	//编辑不能  
+            //	//e.Cancel = true;
+            //}
+
+
+            //var typeName = dgv[columnTypeName, e.RowIndex].EditedFormattedValue.ToString();
+
+
+            //if (typeName == "None" && columnTypeName != (dgv.Columns[e.ColumnIndex].Name))
+            //         {
+            //	e.Cancel = true;
+            //	var next = dgv.Columns["下一步"] as DataGridViewComboBoxColumn;
+            //	next.Items.Clear();
+            //	//DataGridViewComboBoxCell dd = (DataGridViewComboBoxCell)dataGridView1[e.ColumnIndex, e.RowIndex];
+            //	//dd.ReadOnly = true;
+            //}
+            //else if(typeName != "None" &&columnTypeName != (dgv.Columns[e.ColumnIndex].Name))
+            //         {
+            //	var next = dgv.Columns["下一步"] as DataGridViewComboBoxColumn;
+            //	next.Items.Clear();
+            //	next.Items.Add("test");
+            //}
+        }
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
-			int index = e.RowIndex;
-			//实现单击一次显示下拉列表框
-			if (dataGridView1.Columns[e.ColumnIndex] is DataGridViewComboBoxColumn && e.RowIndex != -1)
-			{
-				//SendKeys.Send("{F4}");
-				SendKeys.SendWait("{F4}");
-			}
 
 		}
 
