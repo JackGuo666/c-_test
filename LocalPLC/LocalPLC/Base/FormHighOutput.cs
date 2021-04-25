@@ -159,7 +159,6 @@ namespace LocalPLC.Base
             this.label_diretion.AutoSize = true;
             this.label_diretion.Location = new System.Drawing.Point(label_pulse.Location.X, 74);
             this.label_diretion.Name = "label_diretion";
-            this.label_diretion.Text = "ttt";
             this.label_diretion.Size = new System.Drawing.Size(label_pulse.Width, label_pulse.Height);
             this.label_diretion.TabIndex = 4;
             panel1.Controls.Add(label_diretion);
