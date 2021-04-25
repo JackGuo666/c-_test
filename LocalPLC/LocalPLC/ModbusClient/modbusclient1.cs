@@ -571,7 +571,7 @@ namespace LocalPLC.ModbusClient
                         {
                             for (int j = 0; j < mcm.modbusClientList[i].modbusDeviceList.Count; j++)
                             {
-                                if (str == mcm.modbusClientList[i].modbusDeviceList[j].port.ToString())
+                                if (str == mcm.modbusClientList[i].modbusDeviceList[j].port.ToString() && j!=e.RowIndex)
                                 {
                                     flag++;
                                 }
