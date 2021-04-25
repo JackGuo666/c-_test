@@ -581,7 +581,7 @@ namespace LocalPLC.ModbusClient
                     refresh();
                 }
             }
-            if (b == false)
+            if (b == false && dataGridView2.Rows.Count>0)
             {
                 ds.Tables[Convert.ToInt32(this.label3.Text)].Rows[0].Delete();
                 data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.RemoveAt(0);
