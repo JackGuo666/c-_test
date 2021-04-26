@@ -76,9 +76,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(240, 357);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 18);
+            this.label6.Size = new System.Drawing.Size(80, 18);
             this.label6.TabIndex = 5;
-            this.label6.Text = "极化";
+            this.label6.Text = "终端电阻";
             // 
             // radioButton2
             // 
@@ -236,7 +236,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(290, 349);
+            this.comboBox1.Location = new System.Drawing.Point(326, 354);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(95, 26);
             this.comboBox1.TabIndex = 8;

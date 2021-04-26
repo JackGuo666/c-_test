@@ -59,10 +59,10 @@
             // Ethernet_1
             // 
             this.Ethernet_1.BackColor = System.Drawing.Color.Transparent;
-            this.Ethernet_1.Location = new System.Drawing.Point(46, 206);
+            this.Ethernet_1.Location = new System.Drawing.Point(7, 206);
             this.Ethernet_1.MValue = false;
             this.Ethernet_1.Name = "Ethernet_1";
-            this.Ethernet_1.Size = new System.Drawing.Size(37, 46);
+            this.Ethernet_1.Size = new System.Drawing.Size(76, 46);
             this.Ethernet_1.TabIndex = 6;
             this.Ethernet_1.TabStop = false;
             this.Ethernet_1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest4_MouseDoubleClick);
@@ -70,10 +70,10 @@
             // Serial_Line_2
             // 
             this.Serial_Line_2.BackColor = System.Drawing.Color.Transparent;
-            this.Serial_Line_2.Location = new System.Drawing.Point(89, 206);
+            this.Serial_Line_2.Location = new System.Drawing.Point(7, 27);
             this.Serial_Line_2.MValue = false;
             this.Serial_Line_2.Name = "Serial_Line_2";
-            this.Serial_Line_2.Size = new System.Drawing.Size(33, 46);
+            this.Serial_Line_2.Size = new System.Drawing.Size(52, 30);
             this.Serial_Line_2.TabIndex = 5;
             this.Serial_Line_2.TabStop = false;
             this.Serial_Line_2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
@@ -81,10 +81,10 @@
             // Serial_Line_1
             // 
             this.Serial_Line_1.BackColor = System.Drawing.Color.Transparent;
-            this.Serial_Line_1.Location = new System.Drawing.Point(3, 206);
+            this.Serial_Line_1.Location = new System.Drawing.Point(89, 206);
             this.Serial_Line_1.MValue = false;
             this.Serial_Line_1.Name = "Serial_Line_1";
-            this.Serial_Line_1.Size = new System.Drawing.Size(37, 46);
+            this.Serial_Line_1.Size = new System.Drawing.Size(34, 46);
             this.Serial_Line_1.TabIndex = 5;
             this.Serial_Line_1.TabStop = false;
             this.Serial_Line_1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
