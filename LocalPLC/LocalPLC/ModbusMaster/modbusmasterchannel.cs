@@ -374,6 +374,19 @@ namespace LocalPLC.ModbusMaster
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.NAME)
             {
                 //deviceData_.modbusChannelList.ElementAt(e.RowIndex).nameChannel = str;
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    if (str == dataGridView1.Rows[i].Cells[8].Value.ToString() && str != "" && i != e.RowIndex)
+                    {
+                        MessageBox.Show("设备名有重复");
+                        dataGridView1.Rows[e.RowIndex].Cells[8].Value = deviceData_.modbusChannelList[e.RowIndex].nameChannel;
+                        return;
+                    }
+                }
+                if (dataGridView1.Rows[e.RowIndex].Cells[8].Value.ToString() != deviceData_.modbusChannelList[e.RowIndex].nameChannel)
+                {
+                    deviceData_.modbusChannelList[e.RowIndex].edit = 1;
+                }
             }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.MSGTYPE)
             {
@@ -656,8 +669,11 @@ namespace LocalPLC.ModbusMaster
             {
                 deviceData_.modbusChannelList[i].ID = i;
                 dataGridView1.Rows[i].Cells[0].Value = i;
-                deviceData_.modbusChannelList[i].nameChannel = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
-                dataGridView1.Rows[i].Cells["名称"].Value = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
+                if (deviceData_.modbusChannelList[i].edit == 0)
+                {
+                    deviceData_.modbusChannelList[i].nameChannel = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
+                    dataGridView1.Rows[i].Cells["名称"].Value = "master" + masterData_.ID.ToString() + "_d" + dn + "_c" + i.ToString();
+                }
             }
         }
         private void button2_Click(object sender, EventArgs e)

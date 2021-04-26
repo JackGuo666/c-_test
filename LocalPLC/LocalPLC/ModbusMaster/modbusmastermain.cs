@@ -14,6 +14,7 @@ using LocalPLC;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text.RegularExpressions;
+using LocalPLC.Base;
 
 namespace LocalPLC.ModbusMaster
 {
@@ -27,6 +28,8 @@ namespace LocalPLC.ModbusMaster
         public static ModbusMasterManage mastermanege1 = new ModbusMasterManage();
         
         private Dictionary<int, string> dicMsg = new Dictionary<int, string>();
+        public static ModbusServer.ServerIndex serverdata { get; set; } = new ModbusServer.ServerIndex();
+        public static UserControlBase UC { get; set; } = new UserControlBase();
         public modbusmastermain()
         {
             InitializeComponent();
@@ -122,7 +125,7 @@ namespace LocalPLC.ModbusMaster
 
 
                         channelData.note = e.GetAttribute("note");
-
+                        int.TryParse(e.GetAttribute("edit"), out channelData.edit);
                         deviceData.modbusChannelList.Add(channelData);
                     }
 
@@ -199,7 +202,7 @@ namespace LocalPLC.ModbusMaster
                        // elem1_m_d_c.SetAttribute("writeoffset", dataChannel.writeOffset.ToString());
                         //elem1_m_d_c.SetAttribute("writelength", dataChannel.writeLength.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note.ToString());
-
+                        elem1_m_d_c.SetAttribute("edit", dataChannel.edit.ToString());
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
                     }
 
@@ -365,6 +368,7 @@ namespace LocalPLC.ModbusMaster
         //ttest
         private void button_add_Click(object sender, EventArgs e)
         {
+
             // 动态添加创建数组刷新
             //C: \Users\Public\Documents\MULTIPROG\Projects\ttt13579\DT\datatype
             // 从文件中读取并显示每行
@@ -453,14 +457,40 @@ namespace LocalPLC.ModbusMaster
 
 
             //UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
-
+            LocalPLC.ModbusServer.DataManager servermanage = null;
+            serverdata.getservermanage(ref servermanage);
+            LocalPLC.Base.xml.DataManageBase baseData = null;
+            UC.getDataManager(ref baseData);
+            int num = 0;
+            foreach(string serialname in baseData.serialDic.Keys)
+            {
+                for(int k=0;k<masterManage.modbusMastrList.Count;k++)
+                {
+                    if(masterManage.modbusMastrList[k].transformChannel == serialname)
+                    {
+                        num++;
+                    }
+                }
+                for(int j =0;j< servermanage.listServer.Count;j++)
+                {
+                    if(servermanage.listServer[j].dataDevice_.transformportdescribe == serialname)
+                    {
+                        num++;
+                    }
+                }
+            }
             if (dataGridView1.RowCount >= utility.masterCount)
             {
                 string err = string.Format("master最大个数是{0}", utility.masterCount);
                 utility.PrintError(err);
                 return;
             }
-
+            if(num>=baseData.serialDic.Count)
+            {
+                string err = string.Format("串口已用完");
+                utility.PrintError(err);
+                return;
+            }
             int row = dataGridView1.RowCount;
             dataGridView1.RowCount += 1;
             
@@ -821,7 +851,7 @@ namespace LocalPLC.ModbusMaster
         public string offsetkey1 = "0";
         public string offsetkey2 = "1";
         public string note;
-        
+        public int edit;
 
         public void setChannelLengthBit(int length)
         {

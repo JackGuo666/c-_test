@@ -94,7 +94,7 @@ namespace LocalPLC.ModbusClient
             
             get { return channelNo; }
         }
-        
+        int width = 0;
         private void modbusclient1_Load(object sender, EventArgs e)
         {
             Clientindex mci = new Clientindex();
@@ -118,6 +118,7 @@ namespace LocalPLC.ModbusClient
             //dataGridView1.Columns.Add(btn);
             //dataGridView1.RowCount = 1 + data_.modbusDeviceList.Count;
             //ds.Tables[Convert.ToInt32(cn)].Rows.Count = 1 + data_.modbusDeviceList.Count;
+           
             if (ds.Tables[Convert.ToInt32(cn)].Rows.Count < data_.modbusDeviceList.Count)
             {
                 int c = data_.modbusDeviceList.Count - ds.Tables[Convert.ToInt32(cn)].Rows.Count;
@@ -169,6 +170,7 @@ namespace LocalPLC.ModbusClient
                 radioButton2.Checked = true;
                 radioButton1.Checked = false;
             }
+            
         }
         public string clientnumber
         {
@@ -254,49 +256,50 @@ namespace LocalPLC.ModbusClient
                 //}
                 dr[(int)COLUMNNAME.IP地址] = "";
                 data.ipaddr = dr[(int)COLUMNNAME.IP地址].ToString();
-                if (rowcount >= 1)
-                {
-                    for (int k = 502; k < 601; k++)
-                    {
-                        for (int j = 0; j < dataGridView1.Rows.Count; j++)
-                        {
-                            if (k == Convert.ToInt32(dataGridView1.Rows[j].Cells["端口号"].Value.ToString()))
-                            {
-                                break;
-                            }
-                            //if (Convert.ToInt32(dataGridView1.Rows[j].Cells["端口号"].Value.ToString()) == 502 + rowcount)
-                            //{
-                            //    flag1++;
-                            //}
-                            else
-                            {
-                                if(j == dataGridView1.Rows.Count-1)
-                                {
-                                    flag1 = k;
-                                }
-                                else
-                                {
-                                    continue;
-                                }
-                            }
-                        }
+                //if (rowcount >= 1)
+                //{
+                //    for (int k = 502; k < 601; k++)
+                //    {
+                //        for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                //        {
+                //            if (k == Convert.ToInt32(dataGridView1.Rows[j].Cells["端口号"].Value.ToString()))
+                //            {
+                //                break;
+                //            }
+                //            //if (Convert.ToInt32(dataGridView1.Rows[j].Cells["端口号"].Value.ToString()) == 502 + rowcount)
+                //            //{
+                //            //    flag1++;
+                //            //}
+                //            else
+                //            {
+                //                if(j == dataGridView1.Rows.Count-1)
+                //                {
+                //                    flag1 = k;
+                //                }
+                //                else
+                //                {
+                //                    continue;
+                //                }
+                //            }
+                //        }
 
-                        if (flag1 != 0)
-                        {
-                            break;
-                        }
-                    }
+                //        if (flag1 != 0)
+                //        {
+                //            break;
+                //        }
+                //    }
 
 
-                    dr[(int)COLUMNNAME.端口号] = flag1;
-                    data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
-                }
-                else if (rowcount ==0)
-                {
-                    dr[(int)COLUMNNAME.端口号] = 502;
-                    data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
-                }
-               
+                //    dr[(int)COLUMNNAME.端口号] = flag1;
+                //    data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
+                //}
+                //else if (rowcount ==0)
+                //{
+                //    dr[(int)COLUMNNAME.端口号] = 502;
+                //    data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
+                //}
+                dr[(int)COLUMNNAME.端口号] = 502;
+                data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
                 dr[(int)COLUMNNAME.响应超时] = 1000;
                 data.reponseTimeout = Convert.ToInt32(dr[(int)COLUMNNAME.响应超时]);
                 dr[(int)COLUMNNAME.允许超时的次数] = 5;
@@ -491,6 +494,7 @@ namespace LocalPLC.ModbusClient
             //DeviceData data = data_.modbusDeviceList.ElementAt(e.RowIndex);
             //CCl.getDeviceData(ref data);
             //CCl.ShowDialog(this);
+            
             for (int i = 0; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -557,6 +561,15 @@ namespace LocalPLC.ModbusClient
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
                     return;
                 }
+                for(int i =0;i< dataGridView1.Rows.Count; i++)
+                {
+                    if(str == dataGridView1.Rows[i].Cells["IP地址"].Value.ToString() && i!= e.RowIndex && str!="")
+                    {
+                        MessageBox.Show("IP地址有重复");
+                        dataGridView1.Rows[e.RowIndex].Cells["IP地址"].Value = data_.modbusDeviceList[e.RowIndex].ipaddr;
+                        return;
+                    }
+                }
                 //data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
             }
             else if (e.ColumnIndex == (int)COLUMNNAME.端口号)
@@ -567,23 +580,23 @@ namespace LocalPLC.ModbusClient
                     if (Convert.ToInt32(str) >= 500 && Convert.ToInt32(str) <= 600)
                     {
                         //data_.modbusDeviceList.ElementAt(e.RowIndex).port = Convert.ToInt32(str); 
-                        for (int i = 0; i < mcm.modbusClientList.Count; i++)
-                        {
-                            for (int j = 0; j < mcm.modbusClientList[i].modbusDeviceList.Count; j++)
-                            {
-                                if (str == mcm.modbusClientList[i].modbusDeviceList[j].port.ToString() && j!=e.RowIndex)
-                                {
-                                    flag++;
-                                }
-                            }
-                        }
-                        for (int k = 0; k < dataGridView1.Rows.Count; k++)
-                        {
-                            if (str == dataGridView1.Rows[k].Cells[3].Value.ToString() && k != e.RowIndex)
-                            {
-                                flag++;
-                            }
-                        }
+                        //for (int i = 0; i < mcm.modbusClientList.Count; i++)
+                        //{
+                        //    for (int j = 0; j < mcm.modbusClientList[i].modbusDeviceList.Count; j++)
+                        //    {
+                        //        if (str == mcm.modbusClientList[i].modbusDeviceList[j].port.ToString() && j!=e.RowIndex)
+                        //        {
+                        //            flag++;
+                        //        }
+                        //    }
+                        //}
+                        //for (int k = 0; k < dataGridView1.Rows.Count; k++)
+                        //{
+                        //    if (str == dataGridView1.Rows[k].Cells[3].Value.ToString() && k != e.RowIndex)
+                        //    {
+                        //        flag++;
+                        //    }
+                        //}
                     }
                     else
                     {
@@ -688,8 +701,8 @@ namespace LocalPLC.ModbusClient
                         }
                         for(int k =0; k< mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList.Count;k++)
                         {
-                            if (str == mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].trigger_offset || 
-                                str == mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].error_offset)
+                            if ((str == mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].trigger_offset || 
+                                str == mcm.modbusClientList[i].modbusDeviceList[j].modbusChannelList[k].error_offset) && str!="" )
                             {
                                 flag++;
                             }
@@ -698,7 +711,7 @@ namespace LocalPLC.ModbusClient
                 }
                 for (int l = 0;l<dataGridView1.Rows.Count;l++)
                 {
-                    if (str == dataGridView1.Rows[l].Cells[7].Value.ToString() && l != e.RowIndex)
+                    if (str == dataGridView1.Rows[l].Cells[7].Value.ToString() && l != e.RowIndex && str!="")
                     {
                         flag++;
                     }
@@ -730,7 +743,7 @@ namespace LocalPLC.ModbusClient
                 else
                 {
                     MessageBox.Show("复位变量名有重复，请检查后重新输入");
-                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = "";
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data_.modbusDeviceList[e.RowIndex].resetVaraible;
                     //dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Red;
                 }
 
@@ -838,28 +851,35 @@ namespace LocalPLC.ModbusClient
         private void button3_Click(object sender, EventArgs e)
         {
             refreshtemrow();
-            bool b = dataGridView1.Rows[0].Visible;
-            
-            for (int m = dataGridView1.Rows.Count-1; m>=0;m--)
+            try
             {
-                bool a = dataGridView1.Rows[m].Visible;
-                if (dataGridView1.Rows[m].Visible == false)
+                bool b = dataGridView1.Rows[0].Visible;
+
+                for (int m = dataGridView1.Rows.Count - 1; m >= 0; m--)
                 {
-                    ds.Tables[Convert.ToInt32(cn)].Rows[m].Delete();
-                    data_.modbusDeviceList.RemoveAt(m);
-                    for (int i = 0; i < ds.Tables[Convert.ToInt32(cn)].Rows.Count; i++)
+                    bool a = dataGridView1.Rows[m].Visible;
+                    if (dataGridView1.Rows[m].Visible == false)
                     {
-                        ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = i;
-                        data_.modbusDeviceList[i].ID = i;
+                        ds.Tables[Convert.ToInt32(cn)].Rows[m].Delete();
+                        data_.modbusDeviceList.RemoveAt(m);
+                        for (int i = 0; i < ds.Tables[Convert.ToInt32(cn)].Rows.Count; i++)
+                        {
+                            ds.Tables[Convert.ToInt32(cn)].Rows[i][0] = i;
+                            data_.modbusDeviceList[i].ID = i;
+                        }
+                        refresh();
+
                     }
-                    refresh();
-                    
+                }
+                if (b == false)
+                {
+                    ds.Tables[Convert.ToInt32(cn)].Rows[0].Delete();
+                    data_.modbusDeviceList.RemoveAt(0);
                 }
             }
-            if (b == false)
+            catch
             {
-                ds.Tables[Convert.ToInt32(cn)].Rows[0].Delete();
-                data_.modbusDeviceList.RemoveAt(0);
+                
             }
             refresh();
             refresheachchannel();
@@ -871,14 +891,14 @@ namespace LocalPLC.ModbusClient
             int flag1 = 0;
             for (int j = 0; j < dataGridView1.Rows.Count; j++)
             {
-                if (dataGridView1.Rows[j].Cells["名称"].Value.ToString() == "" || dataGridView1.Rows[j].Cells["名称"].Value.ToString() == "")
+                if (dataGridView1.Rows[j].Cells["名称"].Value.ToString() == "" || dataGridView1.Rows[j].Cells["端口号"].Value.ToString() == "" || dataGridView1.Rows[j].Cells["IP地址"].Value.ToString() == "")
                 {
                     flag1++;
                 }
             }
             if (flag1 > 0)
             {
-                MessageBox.Show("还有设备名称和端口号未填写");
+                MessageBox.Show("还有设备名称，端口号和IP地址未填写");
                 return;
             }
             else

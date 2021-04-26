@@ -99,7 +99,9 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.label28 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
+            this.textBox31 = new System.Windows.Forms.TextBox();
             this.textBox30 = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
@@ -110,8 +112,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label29 = new System.Windows.Forms.Label();
-            this.textBox31 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -813,7 +813,7 @@
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(89, 18);
             this.label28.TabIndex = 22;
-            this.label28.Text = "（1-100）";
+            this.label28.Text = "（1-247）";
             // 
             // label27
             // 
@@ -824,6 +824,15 @@
             this.label27.TabIndex = 21;
             this.label27.Text = "设备id:";
             // 
+            // textBox31
+            // 
+            this.textBox31.Location = new System.Drawing.Point(151, 133);
+            this.textBox31.Name = "textBox31";
+            this.textBox31.Size = new System.Drawing.Size(84, 28);
+            this.textBox31.TabIndex = 20;
+            this.textBox31.TextChanged += new System.EventHandler(this.textBox31_TextChanged);
+            this.textBox31.Leave += new System.EventHandler(this.textBox31_Leave);
+            // 
             // textBox30
             // 
             this.textBox30.Location = new System.Drawing.Point(429, 42);
@@ -832,6 +841,15 @@
             this.textBox30.TabIndex = 20;
             this.textBox30.TextChanged += new System.EventHandler(this.textBox30_TextChanged);
             this.textBox30.Leave += new System.EventHandler(this.textBox30_Leave);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(3, 136);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(152, 18);
+            this.label29.TabIndex = 19;
+            this.label29.Text = "帧间时间（ms）：";
             // 
             // label7
             // 
@@ -940,24 +958,6 @@
             this.button2.Text = "取消";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(3, 136);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(228, 27);
-            this.label29.TabIndex = 19;
-            this.label29.Text = "帧间时间（ms）：";
-            // 
-            // textBox31
-            // 
-            this.textBox31.Location = new System.Drawing.Point(151, 133);
-            this.textBox31.Name = "textBox31";
-            this.textBox31.Size = new System.Drawing.Size(84, 28);
-            this.textBox31.TabIndex = 20;
-            this.textBox31.TextChanged += new System.EventHandler(this.textBox31_TextChanged);
-            this.textBox31.Leave += new System.EventHandler(this.textBox31_Leave);
             // 
             // modbusserver
             // 

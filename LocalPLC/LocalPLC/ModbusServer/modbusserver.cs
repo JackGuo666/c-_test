@@ -671,8 +671,8 @@ namespace LocalPLC.ModbusServer
             }
             if(flag != 0)
             {
-                MessageBox.Show("端口号有重复，请检查");
-                textBox23.Text = data_.dataDevice_.port.ToString();
+                //MessageBox.Show("端口号有重复，请检查");
+                //textBox23.Text = data_.dataDevice_.port.ToString();
             }
         }
 
@@ -1663,7 +1663,7 @@ namespace LocalPLC.ModbusServer
                     //textBox30.Text = data_.dataDevice_.deviceAddr.ToString();
                     x = 0;
                 }
-                else if (Convert.ToInt32(textBox30.Text) >= 0 && Convert.ToInt32(textBox30.Text) > 100)
+                else if (Convert.ToInt32(textBox30.Text) >= 0 && Convert.ToInt32(textBox30.Text) > 247)
                 {
                     MessageBox.Show("设备id超出范围");
                     //textBox30.BackColor = Color.Red;
