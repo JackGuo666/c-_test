@@ -1127,6 +1127,61 @@ namespace LocalPLC
             //UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
 
+        public static void setDebugIP(string ip)
+        {
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+
+
+                Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
+                foreach (Configuration configuration in physicalHardware.Configurations)
+                {
+                    foreach (Resource resource in configuration.Resources)
+                    {
+
+
+
+                        Resource res = null;
+                        Configuration cfg = null;
+
+                        cfg = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1);
+                        res = cfg.Resources.Item(1);
+
+                        //C\配置\R\资源\资源.SET
+                        string res_set_file = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path + "\\" +
+                                              LocalPLC.UserControl1.multiprogApp.ActiveProject.Name + "\\" +
+                                              "\\C\\" +
+                                              cfg.Name + "\\R\\" +
+                                              res.Name + "\\" +
+                                              res.Name + ".SET";
+
+                        FileStream fs = new FileStream(res_set_file, FileMode.Create);
+                        StreamWriter sw = new StreamWriter(fs);
+
+                        //开始写入
+                        string IP = ip;
+                        sw.WriteLine("RESOURCE");
+                        sw.WriteLine(@"	COMPORT: DLL .\plc\socomm.dll -ip" +
+                                         IP +
+                                         " -p41100 -TO2000");
+                        //sw.WriteLine(@"	COMPORT: DLL .\plc\socomm.dll -ip 192.168.1.10 -p41100 -TO2000");
+                        sw.WriteLine("END_RESOURCE");
+                        //清空缓冲区
+                        sw.Flush();
+
+                        //关闭流
+                        sw.Close();
+                        fs.Close();
+
+                        //res.ShowControlDialog(false);
+
+                        //res.ShowControlDialog(true);
+                    }
+                }
+            }
+        }
+
+
         //日志接口
         public static void WriteLogs(string fileName, string type, string content)
         {
