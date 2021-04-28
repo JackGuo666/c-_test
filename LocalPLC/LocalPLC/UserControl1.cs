@@ -397,6 +397,8 @@ namespace LocalPLC
                     motion.createAxisTree();
 
                     ModbusWindow_.Controls.Clear();
+
+                    multiprogApp.WorkspaceManager.SwitchTo(1);
                 }
                 else
                 {
@@ -404,6 +406,7 @@ namespace LocalPLC
                     string type = UC.loadControler();
                     UC.createControler(/*"LocalPLC24P"*/ type);
                     motion.createAxisTree();
+                    multiprogApp.WorkspaceManager.SwitchTo(1);
                     return;
                 }
             }
