@@ -5,6 +5,7 @@ using System.Text;
 using ADELib;
 using LocalPLC.ModbusMaster;
 using System.IO;
+using System.Xml;
 
 namespace LocalPLC
 {
@@ -1133,6 +1134,7 @@ namespace LocalPLC
             {
 
 
+
                 Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
                 foreach (Configuration configuration in physicalHardware.Configurations)
                 {
@@ -1173,8 +1175,28 @@ namespace LocalPLC
                         sw.Close();
                         fs.Close();
 
-                        //res.ShowControlDialog(false);
+                        res_set_file = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path + "\\" +
+                                              LocalPLC.UserControl1.multiprogApp.ActiveProject.Name + "\\" +
+                                              "C\\" +
+                                              cfg.Name + "\\R\\" +
+                                              res.Name + "\\eCLRIpAddressAssignments.set";
 
+                        System.Xml.XmlDocument xmlDocument = new System.Xml.XmlDocument();
+
+                        if (File.Exists(res_set_file))
+                        {
+                            xmlDocument.Load(res_set_file);
+
+                            XmlNode node = xmlDocument.SelectSingleNode(@"ArrayOfIpAddressAssignment/IpAddressAssignment");//获取bookstore节点的所有子节点
+                            XmlElement xe = (XmlElement)node;//将子节点类型转换为XmlElement类型
+                            xe.SetAttribute("IpAddress", IP);
+                            xmlDocument.Save(res_set_file);
+                        }
+
+
+
+
+                        //res.ShowControlDialog(false);
                         //res.ShowControlDialog(true);
                     }
                 }
