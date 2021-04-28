@@ -635,7 +635,7 @@ namespace LocalPLC
                                         varName = di.varName;
                                     }
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "DI变量", "", di.address);
+                                                    di.note, "", di.address);
                                     resetvariable.SetAttribute(20, di.channelName);
                                 }
                             }
@@ -692,7 +692,7 @@ namespace LocalPLC
                                     }
 
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "DO变量", "", dout.address);
+                                                    dout.note, "", dout.address);
                                     resetvariable.SetAttribute(20, dout.channelName);
                                 }
                             }
@@ -1210,6 +1210,24 @@ namespace LocalPLC
                     sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + type + "-->" + content);
                     //  sw.WriteLine("----------------------------------------");
                     sw.Close();
+                }
+            }
+        }
+
+        public static void getDataTypeLength()
+        {
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+                foreach (DataType dataType in LocalPLC.UserControl1.multiprogApp.ActiveProject.DataTypes)
+                {
+                    string name = dataType.Name;
+                    Resource res = null;
+                    Configuration cfg = null;
+
+                    cfg = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1);
+                    res = cfg.Resources.Item(1);
+
+                    int count = dataType.GetSizeOnPlc(cfg.PlcType, res.ProcessorType);
                 }
             }
         }
