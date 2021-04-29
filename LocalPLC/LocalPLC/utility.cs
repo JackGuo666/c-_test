@@ -5,6 +5,7 @@ using System.Text;
 using ADELib;
 using LocalPLC.ModbusMaster;
 using System.IO;
+using System.Xml;
 
 namespace LocalPLC
 {
@@ -635,7 +636,7 @@ namespace LocalPLC
                                         varName = di.varName;
                                     }
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "DI变量", "", di.address);
+                                                    di.note, "", di.address);
                                     resetvariable.SetAttribute(20, di.channelName);
                                 }
                             }
@@ -692,7 +693,7 @@ namespace LocalPLC
                                     }
 
                                     var resetvariable = ttt.Variables.Create(varName, "BOOL", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "DO变量", "", dout.address);
+                                                    dout.note, "", dout.address);
                                     resetvariable.SetAttribute(20, dout.channelName);
                                 }
                             }
@@ -1127,6 +1128,82 @@ namespace LocalPLC
             //UserControl1.multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
         }
 
+        public static void setDebugIP(string ip)
+        {
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+
+
+
+                Hardware physicalHardware = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware;
+                foreach (Configuration configuration in physicalHardware.Configurations)
+                {
+                    foreach (Resource resource in configuration.Resources)
+                    {
+
+
+
+                        Resource res = null;
+                        Configuration cfg = null;
+
+                        cfg = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1);
+                        res = cfg.Resources.Item(1);
+
+                        //C\配置\R\资源\资源.SET
+                        string res_set_file = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path + "\\" +
+                                              LocalPLC.UserControl1.multiprogApp.ActiveProject.Name + "\\" +
+                                              "\\C\\" +
+                                              cfg.Name + "\\R\\" +
+                                              res.Name + "\\" +
+                                              res.Name + ".SET";
+
+                        FileStream fs = new FileStream(res_set_file, FileMode.Create);
+                        StreamWriter sw = new StreamWriter(fs);
+
+                        //开始写入
+                        string IP = ip;
+                        sw.WriteLine("RESOURCE");
+                        sw.WriteLine(@"	COMPORT: DLL .\plc\socomm.dll -ip" +
+                                         IP +
+                                         " -p41100 -TO2000");
+                        //sw.WriteLine(@"	COMPORT: DLL .\plc\socomm.dll -ip 192.168.1.10 -p41100 -TO2000");
+                        sw.WriteLine("END_RESOURCE");
+                        //清空缓冲区
+                        sw.Flush();
+
+                        //关闭流
+                        sw.Close();
+                        fs.Close();
+
+                        res_set_file = LocalPLC.UserControl1.multiprogApp.ActiveProject.Path + "\\" +
+                                              LocalPLC.UserControl1.multiprogApp.ActiveProject.Name + "\\" +
+                                              "C\\" +
+                                              cfg.Name + "\\R\\" +
+                                              res.Name + "\\eCLRIpAddressAssignments.set";
+
+                        System.Xml.XmlDocument xmlDocument = new System.Xml.XmlDocument();
+
+                        if (File.Exists(res_set_file))
+                        {
+                            xmlDocument.Load(res_set_file);
+
+                            XmlNode node = xmlDocument.SelectSingleNode(@"ArrayOfIpAddressAssignment/IpAddressAssignment");//获取bookstore节点的所有子节点
+                            XmlElement xe = (XmlElement)node;//将子节点类型转换为XmlElement类型
+                            xe.SetAttribute("IpAddress", IP);
+                            xmlDocument.Save(res_set_file);
+                        }
+
+
+
+
+                        //res.ShowControlDialog(false);
+                        //res.ShowControlDialog(true);
+                    }
+                }
+            }
+        }
+
+
         //日志接口
         public static void WriteLogs(string fileName, string type, string content)
         {
@@ -1155,6 +1232,24 @@ namespace LocalPLC
                     sw.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + type + "-->" + content);
                     //  sw.WriteLine("----------------------------------------");
                     sw.Close();
+                }
+            }
+        }
+
+        public static void getDataTypeLength()
+        {
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+                foreach (DataType dataType in LocalPLC.UserControl1.multiprogApp.ActiveProject.DataTypes)
+                {
+                    string name = dataType.Name;
+                    Resource res = null;
+                    Configuration cfg = null;
+
+                    cfg = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1);
+                    res = cfg.Resources.Item(1);
+
+                    int count = dataType.GetSizeOnPlc(cfg.PlcType, res.ProcessorType);
                 }
             }
         }

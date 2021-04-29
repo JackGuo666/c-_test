@@ -74,6 +74,7 @@ namespace LocalPLC.Base
                 UserControl1 us1 = (UserControl1)userBase.parent_;
                 myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
+                di = new UserControlDI(us1);
 
                 // Create the ToolTip and associate with the Form container.
                 ToolTip toolTip1 = new ToolTip();
@@ -335,7 +336,7 @@ namespace LocalPLC.Base
             }
         }
 
-        private UserControlDI di = new UserControlDI(null);
+        private UserControlDI di = null;/*new UserControlDI(null);*/
         public void setDIInfo(string name)
         {
             //pic2Selected = true;

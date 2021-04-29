@@ -398,6 +398,8 @@ namespace LocalPLC.Base
             setButtonEnable(false);
             getDataFromUI();
 
+            utility.setDebugIP(ipAddressControl_ipaddr.IPAddress.ToString());
+
         }
 
         private void button_cancel_Click(object sender, EventArgs e)
