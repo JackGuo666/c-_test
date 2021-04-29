@@ -791,8 +791,8 @@ namespace LocalPLC.Base
         {
             if (!regStrNote.IsMatch(name))
             {
-                dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
-                dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
+                dataGridView1.Rows[row].Cells[columnNoteIndex].Style.BackColor = Color.Red;
+                dataGridView1.Rows[row].Cells[columnNoteIndex].Style.SelectionBackColor = Color.Red;
 
 
                 return true;
@@ -803,7 +803,7 @@ namespace LocalPLC.Base
 
 
         System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
-        System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^[\w]{0,32}$");
+        System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^(.{0,32})$");
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             var row = e.RowIndex;

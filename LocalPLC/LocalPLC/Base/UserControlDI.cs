@@ -26,6 +26,12 @@ namespace LocalPLC.Base
         const int columnFilterIndex = 2;
         const int columnChannelIndex = 3;
         const int columnAddressIndex = 4;
+
+        #region 
+        //代理
+        public delegate void setTreeNodeStatusEventHandler(string s1, Color color);
+        setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
+        #endregion
         public void initData()
         {
             setButtonEnable(false);
@@ -285,9 +291,11 @@ namespace LocalPLC.Base
         //    dataGridView1.DataSource = dt;
         //}
 
-        public UserControlDI(string name)
+        public UserControlDI(UserControl1 us)
         {
             InitializeComponent();
+
+            setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeNodeStatus);
 
             text_Temp.MaxLength = 30;
             this.dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -463,8 +471,8 @@ namespace LocalPLC.Base
         {
             if (!regStrNote.IsMatch(name))
             {
-                dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
-                dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
+                dataGridView1.Rows[row].Cells[columnNoteIndex].Style.BackColor = Color.Red;
+                dataGridView1.Rows[row].Cells[columnNoteIndex].Style.SelectionBackColor = Color.Red;
 
 
                 return true;
@@ -918,6 +926,7 @@ namespace LocalPLC.Base
                 //过滤时间
                 CellEdit = (DataGridViewTextBoxEditingControl)e.Control;
                 CellEdit.SelectAll();
+                CellEdit.KeyPress -= Cells_KeyPress; //绑定事件
                 CellEdit.KeyPress += Cells_KeyPress; //绑定事件
             }
         }
@@ -978,7 +987,7 @@ namespace LocalPLC.Base
             {
                 listDI[row].used = bool.Parse(dr[(int)COLUMN_DI.USED].ToString());
 
-                utility.PrintInfo(string.Format("{0} {1}", listDI[row].channelName, listDI[row].used));
+                //utility.PrintInfo(string.Format("{0} {1}", listDI[row].channelName, listDI[row].used));
                 listDI[row].varName = dr[(int)COLUMN_DI.VARNAME].ToString();
                 uint.TryParse(dr[(int)COLUMN_DI.FITERTIME].ToString(), out listDI[row].filterTime);
 
@@ -1005,6 +1014,7 @@ namespace LocalPLC.Base
             refreshData();
             setCellColor(Color.White, "");
             setButtonEnable(false);
+            setTreeNodeStatusDelegate(ConstVariable.DI, Color.White);
         }
 
         void setButtonEnable(bool enable)
@@ -1048,6 +1058,9 @@ namespace LocalPLC.Base
             {
                 checkTextInput();
 
+
+                setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
+
                 //column 1变量名
                 //checkTextInput();
                 //setButtonEnable(true);
@@ -1087,6 +1100,9 @@ namespace LocalPLC.Base
 
                     }
                     setButtonEnable(true);
+
+
+                    setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
                 }
             }
             else if (column == columnChannelIndex)
