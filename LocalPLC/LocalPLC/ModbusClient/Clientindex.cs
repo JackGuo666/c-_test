@@ -221,7 +221,7 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("Channellength", dataChannel.Channellength.ToString());
                         elem1_m_d_c.SetAttribute("type", dataChannel.type.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note);
-                        elem1_m_d_c.SetAttribute("note", dataChannel.edit.ToString());
+                        elem1_m_d_c.SetAttribute("edit", dataChannel.edit.ToString());
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
                     }
                     elem1_m.AppendChild(elem1_m_d);
