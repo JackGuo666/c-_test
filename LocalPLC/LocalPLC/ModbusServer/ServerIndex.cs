@@ -475,7 +475,7 @@ namespace LocalPLC.ModbusServer
                                 }
                                 writer.WriteEndArray();//] 指定ip的数组
                                 writer.WritePropertyName("ip_port");
-                                writer.WriteValue(502);
+                                writer.WriteValue(data.dataDevice_.port);
                                 writer.WritePropertyName("time_unit");
                                 writer.WriteValue("ms");
                                 writer.WritePropertyName("dev_id");

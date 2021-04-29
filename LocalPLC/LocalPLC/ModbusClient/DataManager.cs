@@ -33,6 +33,7 @@ namespace LocalPLC.ModbusClient
         public string offsetkey1 = "0";
         public string offsetkey2 = "1";
         public string note;
+        public int edit = 0;
     }
     public class DeviceData
     {

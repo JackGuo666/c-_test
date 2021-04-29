@@ -375,14 +375,14 @@ namespace LocalPLC.ModbusMaster
                 //        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
                 //    }
             //}
-                    if(number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 100))
+                    if(number == true && (Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) >= 1 && Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value) <= 247))
                 {
 
                 }
                     
                     else
                     {
-                        MessageBox.Show("请输入1-100的数字作为从站地址");
+                        MessageBox.Show("请输入1-247的数字作为从站地址");
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = null;
                     }
                 

@@ -276,7 +276,7 @@
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode32});
             this.treeView1.SelectedImageIndex = 0;
-            this.treeView1.Size = new System.Drawing.Size(358, 750);
+            this.treeView1.Size = new System.Drawing.Size(519, 750);
             this.treeView1.TabIndex = 6;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -292,7 +292,7 @@
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(240, 30);
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
             this.testToolStripMenuItem.Text = "生成配置文件";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
@@ -335,11 +335,11 @@
             // 
             this.ModbusWindow.BackColor = System.Drawing.Color.White;
             this.ModbusWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ModbusWindow.Location = new System.Drawing.Point(358, 0);
+            this.ModbusWindow.Location = new System.Drawing.Point(519, 0);
             this.ModbusWindow.Margin = new System.Windows.Forms.Padding(4);
             this.ModbusWindow.Name = "ModbusWindow";
             this.ModbusWindow.Padding = new System.Windows.Forms.Padding(4);
-            this.ModbusWindow.Size = new System.Drawing.Size(1145, 750);
+            this.ModbusWindow.Size = new System.Drawing.Size(984, 750);
             this.ModbusWindow.TabIndex = 7;
             this.ModbusWindow.TabStop = false;
             this.ModbusWindow.Text = "配置";
@@ -350,12 +350,12 @@
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.删除ToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(241, 67);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(171, 34);
             // 
             // 删除ToolStripMenuItem
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(240, 30);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(170, 30);
             this.删除ToolStripMenuItem.Text = "删除轴节点";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 

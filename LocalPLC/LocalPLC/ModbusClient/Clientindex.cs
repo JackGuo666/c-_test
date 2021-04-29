@@ -16,11 +16,13 @@ namespace LocalPLC.ModbusClient
     public partial class Clientindex : UserControl
     {
         public ModbusClientManage clientManage = new ModbusClientManage();
+        LocalPLC.Base.xml.DataManageBase baseData = null;
         public Clientindex()
         {
             InitializeComponent();
             //dataGridView1.AllowUserToAddRows = false;
             //this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+           
         }
 
         public void deleteTableRow()
@@ -145,7 +147,7 @@ namespace LocalPLC.ModbusClient
                         int.TryParse(e.GetAttribute("Channellength"), out channelData.Channellength);
                         int.TryParse(e.GetAttribute("type"), out channelData.type);
                         channelData.note = e.GetAttribute("note");
-                        
+                        int.TryParse(e.GetAttribute("edit"), out channelData.edit);
                         deviceData.modbusChannelList.Add(channelData);
                     }
 
@@ -219,7 +221,7 @@ namespace LocalPLC.ModbusClient
                         elem1_m_d_c.SetAttribute("Channellength", dataChannel.Channellength.ToString());
                         elem1_m_d_c.SetAttribute("type", dataChannel.type.ToString());
                         elem1_m_d_c.SetAttribute("note", dataChannel.note);
-
+                        elem1_m_d_c.SetAttribute("note", dataChannel.edit.ToString());
                         elem1_m_d.AppendChild(elem1_m_d_c);//将通道节点作为子节点加入设备节点
                     }
                     elem1_m.AppendChild(elem1_m_d);
@@ -361,6 +363,24 @@ namespace LocalPLC.ModbusClient
         };
         private void button1_Click(object sender, EventArgs e)
         {
+            UserControl1.UC.getDataManager(ref baseData);
+            int num = 0;
+            foreach (string ethname in baseData.ethernetDic.Keys)
+            {
+                for(int j =0;j<clientManage.modbusClientList.Count;j++)
+                {
+                    if(clientManage.modbusClientList[j].transformChannel == baseData.ethernetDic[ethname].name)
+                    {
+                        num++;
+                    }
+                }
+            }
+            if(num >= baseData.ethernetDic.Count)
+            {
+                string err = string.Format("网口已用完，无法继续添加client");
+                utility.PrintError(err);
+                return;
+            }
             int rowcount = dataGridView1.RowCount;
             if (dataGridView1.RowCount >= utility.clientCount)
             {
@@ -526,6 +546,12 @@ namespace LocalPLC.ModbusClient
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "info")
             {
+                int count = dataGridView2.Rows.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    dataGridView2.Rows.RemoveAt(0);
+                }
+
                 int index = dataGridView1.SelectedRows[0].Index;
                 ModbusClientData data = clientManage.modbusClientList[index];
                 int devcount = data.modbusDeviceList.Count;
@@ -545,10 +571,8 @@ namespace LocalPLC.ModbusClient
                     {
                         a  = a+devchannelnum[m-1];
                     }
- 
                     for (int n =0;n< data.modbusDeviceList[m].modbusChannelList.Count;n++)
-                    {
-                        
+                    {                       
                         dataGridView2.Rows[a + n].Cells[0].Value = data.modbusDeviceList[m].nameDev;
                         dataGridView2.Rows[a + n].Cells[1].Value = data.modbusDeviceList[m].modbusChannelList[n].nameChannel;
                         dataGridView2.Rows[a + n].Cells[2].Value = data.modbusDeviceList[m].modbusChannelList[n].msgdiscrib;
@@ -556,7 +580,6 @@ namespace LocalPLC.ModbusClient
                         dataGridView2.Rows[a + n].Cells[4].Value = data.modbusDeviceList[m].modbusChannelList[n].Length;
                         dataGridView2.Rows[a + n].Cells[5].Value = data.modbusDeviceList[m].modbusChannelList[n].channelstartaddr;
                         dataGridView2.Rows[a + n].Cells[6].Value = data.modbusDeviceList[m].modbusChannelList[n].channelstartaddr+1;
-
                     }
                 }
             }
