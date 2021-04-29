@@ -189,7 +189,7 @@ namespace LocalPLC
             return tnRet;
         }
 
-        private TreeNode FindNode(TreeNode tnParent, string strValue)
+        private TreeNode FindNode(TreeNode tnParent, string strValue, bool select = true)
         {
             if (tnParent == null) return null;
             if (tnParent.Text == strValue) return tnParent;
@@ -200,8 +200,12 @@ namespace LocalPLC
                 tnRet = FindNode(tn, strValue);
                 if (tnRet != null)
                 {
-                    treeView1.SelectedNode = tnRet;
-                    treeView1.SelectedNode.Expand();//展开找到的节点
+                    if(select)
+                    {
+                        treeView1.SelectedNode = tnRet;
+                        treeView1.SelectedNode.Expand();//展开找到的节点
+                    }
+
                     break;
                 }
             }
@@ -221,6 +225,24 @@ namespace LocalPLC
                 tnRet = FindNode(tn, s1);
                 if (tnRet != null)
                     return;
+            }
+        }
+
+        public void setTreeNodeStatus(string name, Color color)
+        {
+            //SelectTreeView(treeView1, s1);
+            //treeView1.Focus();
+            //FindEvery(treeView1, treeView1.Nodes, s1);
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in treeView1.Nodes)
+            {
+                tnRet = FindNode(tn, name, false);
+                
+                if (tnRet != null)
+                {
+                    tnRet.BackColor = color;
+                    break;
+                }
             }
         }
 
