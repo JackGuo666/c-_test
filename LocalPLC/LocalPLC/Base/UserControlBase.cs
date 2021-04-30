@@ -23,7 +23,7 @@ namespace LocalPLC.Base
         public Dictionary<string, UserControlCom> comDic = new Dictionary<string, UserControlCom>();
         public Dictionary<string, UserControlEth> ethDic = new Dictionary<string, UserControlEth>();
 
-        TreeView treeView_ = null;
+        public TreeView treeView_ = null;
 
         public Control parent_ = null;
         //DataManageBase数据管理

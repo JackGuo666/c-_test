@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
+
 namespace LocalPLC.Base
 {
     public partial class UserControlDI : UserControl
@@ -296,6 +297,8 @@ namespace LocalPLC.Base
             InitializeComponent();
 
             setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeNodeStatus);
+
+            Pub.CRichTestBoxMenu richMenu = new Pub.CRichTestBoxMenu(text_Temp, dataGridView1);
 
             text_Temp.MaxLength = 30;
             this.dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
@@ -1059,7 +1062,7 @@ namespace LocalPLC.Base
                 checkTextInput();
 
 
-                setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
+//                setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
 
                 //column 1变量名
                 //checkTextInput();
@@ -1102,7 +1105,7 @@ namespace LocalPLC.Base
                     setButtonEnable(true);
 
 
-                    setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
+//                    setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
                 }
             }
             else if (column == columnChannelIndex)
@@ -1144,7 +1147,9 @@ namespace LocalPLC.Base
             text_Temp.Hide();
             dataGridView1.CurrentCell = null;
         }
-
-
     }
+
+
+
+
 }

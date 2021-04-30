@@ -38,7 +38,7 @@ namespace LocalPLC.Base
             //configured为true，串口数据加载config_project
             //configured为false，串口数据加载控制器模板数据
             configured_ = configured;
-            setButtonEnable(false);
+
 
 
             if(serialValueData_.terminalResis == HAS_BOTH)
@@ -82,6 +82,7 @@ namespace LocalPLC.Base
             //UserControlBase.dataManage.serialDic.Add(com_, serialValueData);
 
 
+            setButtonEnable(false);
         }
 
         private void setDataToUI()

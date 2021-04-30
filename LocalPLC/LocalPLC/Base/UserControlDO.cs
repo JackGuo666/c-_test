@@ -26,6 +26,8 @@ namespace LocalPLC.Base
             //SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲
             BindData();
 
+            Pub.CRichTestBoxMenu richMenu = new Pub.CRichTestBoxMenu(text_Temp, dataGridView1);
+
             // 设置下拉列表框不可见
             text_Temp.Visible = false;
             text_Temp.TextChanged += new System.EventHandler(textBox1_TextChanged);

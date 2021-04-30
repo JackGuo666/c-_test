@@ -345,7 +345,7 @@ namespace LocalPLC.Base
             //pictureBox3_MouseDoubleClick(null, null);
 
             //UserControlDI di = new UserControlDI(name);
-            di.refreshData();
+ //gw暂时去掉不刷新           di.refreshData();
             split.Panel2.Controls.Clear();
             di.Dock = DockStyle.Fill;
             split.Panel2.Controls.Add(di);
