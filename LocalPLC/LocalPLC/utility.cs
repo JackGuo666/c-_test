@@ -1203,7 +1203,6 @@ namespace LocalPLC
             }
         }
 
-
         //日志接口
         public static void WriteLogs(string fileName, string type, string content)
         {

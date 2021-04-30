@@ -25,7 +25,7 @@ namespace LocalPLC
     [ComVisible(true)]
     [Guid("4D23925D-E5C1-40A8-9D69-AAD815FDCECE")]
     [ProgId("LocalPLC.CONTROLBAR.PROGID")]
-    public partial class UserControl1 : UserControl, IAdeAddIn, IAdeProjectObserver, IAdeCompileExtension, IAdeVariableObserver2, IAdeSaveObserver
+    public partial class UserControl1 : UserControl, IAdeAddIn, IAdeProjectObserver, IAdeCompileExtension, IAdeVariableObserver2, IAdeSaveObserver, IAdePropertyObserver
     {
         public UserControl1()
         {
@@ -228,6 +228,35 @@ namespace LocalPLC
             }
         }
 
+        void ShowAllNodes(TreeNodeCollection nodes, ref bool modified)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                if(node.BackColor == Color.Red)
+                {
+                    modified = true;
+                    return;
+                }
+
+                if (node.Nodes.Count > 0)
+                {
+                    ShowAllNodes(node.Nodes, ref modified);
+                }
+            }
+        }
+
+        public bool getConfigModifyFlag()
+        {
+            bool modified = false;
+            if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
+            {
+
+                ShowAllNodes(UC.treeView_.Nodes, ref modified);
+            }
+
+            return modified;
+        }
+
         public void setTreeNodeStatus(string name, Color color)
         {
             //SelectTreeView(treeView1, s1);
@@ -263,13 +292,33 @@ namespace LocalPLC
             SafeArrayOfObjectTypeProject[0] = AdeObjectType.adeOtProject;
             multiprogApp.AdviseSaveObserver(this, SafeArrayOfObjectTypeProject);
 
+            //multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtProject, AdeObjectType.adePpCurrentLocale)
+            multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, AdeApplicationProperty.adeApOnlineOn);
+
+
+            multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, SafeArrayOfObjectTypeProject);
+
             //监视extension command menu multiprogApp.AdviseFrameworkExtension2("LocalPLC.CONTROLBAR.PROGID", this, this);
+        }
+
+        public void BeforePropertyChange(object Object, AdeObjectType ObjectType, int PropertyId, object OldValue, object NewValue, ref bool Cancel)
+        {
+
+        }
+        public void AfterPropertyChange(object Object, AdeObjectType ObjectType, int PropertyId, object OldValue, object NewValue)
+        {
+
         }
 
         public void OnSaveSubtree(object Object, AdeObjectType ObjectType, AdeConfirmRule ConfirmSave, ref bool Saved)
         {
             if(multiprogApp != null && multiprogApp.ActiveProject != null)
             {
+                /*bool modify = getConfigModifyFlag();
+                if(modify && ConfirmSave == AdeConfirmRule.adeCrAskUserWithCancel)
+                {
+
+                }*/
                 saveXml();
             }
         }
@@ -1776,7 +1825,7 @@ namespace LocalPLC
                 //
                 //saveXml();
                 //saveJson();
-
+                
                 utility.addIOGroups();
 
                 //utility.addServerIOGroups();
@@ -2326,21 +2375,10 @@ namespace LocalPLC
 
         void createNode(ref TreeNode retNode, string name, string tag, TreeNode parent, int index)
         {
-            if(tag == "MOTION_BASE_PARA")
-            {
                 TreeNode basePara = new TreeNode(name, index, index);
                 basePara.Tag = tag;
                 retNode = basePara;
                 parent.Nodes.Add(basePara);
-            }
-            else if(tag == "MOTION_COMMAND_TABLE")
-            {
-                TreeNode basePara = new TreeNode(name, index, index);
-                basePara.Tag = tag;
-                retNode = basePara;
-                parent.Nodes.Add(basePara);
-            }
-
         }
 
         private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
