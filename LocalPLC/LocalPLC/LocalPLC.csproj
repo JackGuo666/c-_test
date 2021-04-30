@@ -13,17 +13,20 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
+    <SonarQubeExclude>True</SonarQubeExclude>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>true</RegisterForComInterop>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.ADELib">
@@ -196,6 +200,7 @@
       <DependentUpon>empty.cs</DependentUpon>
     </Compile>
     <Compile Include="interface\ICheckVarName.cs" />
+    <Compile Include="MenuRight.cs" />
     <Compile Include="ModbusClient\ClientChannel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -336,6 +341,9 @@
     <Compile Include="utility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.sonarlint\aaaaaaaaaacsharp.ruleset">
+      <Link>aaaaaaaaaacsharp.ruleset</Link>
+    </None>
     <None Include="LocalPLC.CFG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -475,6 +483,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="pic\TM221C16R.jpg" />
+    <AdditionalFiles Include="..\.sonarlint\aaaaaaaaaa\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
     <Content Include="pic\LocalPLC24P.png" />
     <Content Include="Properties\Interop.ADELib.dll" />
   </ItemGroup>
