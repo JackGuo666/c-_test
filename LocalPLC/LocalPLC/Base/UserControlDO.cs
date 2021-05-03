@@ -679,6 +679,8 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].ReadOnly = true;
             //背景设置灰色只读
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
+
+
         }
 
         private void dataGridView1_DataSourceChanged_1(object sender, EventArgs e)
@@ -692,7 +694,9 @@ namespace LocalPLC.Base
 
             //绑定事件DataBindingComplete 之后设置才有效果
             dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
+            dataGridView1.Columns[columnChannelIndex].DefaultCellStyle.BackColor = Color.Lavender;
             dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].DefaultCellStyle.BackColor = Color.Lavender;
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)

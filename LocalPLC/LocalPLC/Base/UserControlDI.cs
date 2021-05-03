@@ -917,7 +917,10 @@ namespace LocalPLC.Base
 
             dataGridView1.Columns[columnVarIndex].ReadOnly = true;
             dataGridView1.Columns[columnChannelIndex].ReadOnly = true;
+            dataGridView1.Columns[columnChannelIndex].DefaultCellStyle.BackColor = Color.Lavender;
             dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].DefaultCellStyle.BackColor = Color.Lavender;
+
         }
 
         MyRichTextBox btn = new MyRichTextBox();
