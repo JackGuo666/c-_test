@@ -44,22 +44,26 @@ namespace LocalPLC.motion
         DataTable dtData = null;
 
 		enum Type {None, MC_MoveAbsolute, MC_Relative, MC_SetPosition, MC_MoveVelocity, MC_Halt}
+		
+		
 		enum NextStep {Done, Blending_previous, Probe_input_event, SW_event, Delay}
 		List<string> typeList = new List<string>();
 		List<string> noneList = new List<string>();
+		List<string> noneListVel = new List<string>();
 
 		Dictionary<int, string> nextStepDic = new Dictionary<int, string>();
 
 		int nextColumn = 0;
 		//int typeColumn = 1;
-		int disColumn = 1;
-		int speedColumn = 2;
-		int accColumn = 3;
-		int decColumn = 4;
-		int jerkColumn = 5;
-		int eventColumn = 6;
-		int delayColumn = 7;
-		int noteColumn = 8;
+		int posColumn = 1;
+		int disColumn = 2;
+		int speedColumn = 3;
+		int accColumn = 4;
+		int decColumn = 5;
+		int jerkColumn = 6;
+		int eventColumn = 7;
+		int delayColumn = 8;
+		int noteColumn = 9;
 
 		int typeColumn = 1;
 		int nextStepColumn = 6;
@@ -71,6 +75,16 @@ namespace LocalPLC.motion
 		string columnStepName = "步骤";
 		string columnTypeName = "类型";
 		string columnNextStepName = "下一步";
+		string columnPosName = "位置";
+		string columnDisName = "距离";
+		string columnSpeedName = "速度";
+		string columnAccName = "加速度";
+
+		string columnDecName = "减速度";
+		string columnJerkName = "Jerk";
+		string columnEventVarName = "事件变量";
+		string columnDelayName = "延迟时间(ms)";
+
 		#endregion
 
 		public class ComboboxItem
@@ -87,7 +101,9 @@ namespace LocalPLC.motion
 		public UserControlCommandTable()
         {
             InitializeComponent();
-			this.dataGridView1.DataError += delegate (object sender, DataGridViewDataErrorEventArgs e) { };
+			this.dataGridView1.DataError += delegate (object sender, DataGridViewDataErrorEventArgs e)
+			{
+			};
 
 			typeList.Clear();
 			typeList.Add(Type.None.ToString());
@@ -99,6 +115,13 @@ namespace LocalPLC.motion
 
 			noneList.Clear();
 			noneList.Add("Done");
+
+			noneListVel.Add("In velocity");
+			noneListVel.Add("Blending previous");
+			noneListVel.Add("Blending next");
+			noneListVel.Add("Probe input event");
+			noneListVel.Add("SW event");
+			noneListVel.Add("Delay");
 
 			this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
 			bindData();
@@ -164,16 +187,17 @@ namespace LocalPLC.motion
         {
 			dtData = new DataTable();
             dtData.Columns.Add(columnStepName, typeof(string));
-            //类型
-            //dtData.Columns.Add("类型", typeof(string));
-            dtData.Columns.Add("距离", typeof(string));
-            dtData.Columns.Add("速度", typeof(float));
-            dtData.Columns.Add("加速度", typeof(int));
-            dtData.Columns.Add("减速度", typeof(float));
-            dtData.Columns.Add("Jerk", typeof(string));
+			//类型
+			//dtData.Columns.Add("类型", typeof(string));
+			dtData.Columns.Add(/*"距离"*/columnPosName, typeof(string));
+			dtData.Columns.Add(/*"距离"*/columnDisName, typeof(string));
+            dtData.Columns.Add(/*"速度"*/columnSpeedName, typeof(string));
+            dtData.Columns.Add(/*"加速度"*/columnAccName, typeof(string));
+            dtData.Columns.Add(/*"减速度"*/columnDecName, typeof(string));
+            dtData.Columns.Add(/*"Jerk"*/columnJerkName, typeof(string));
             //dtData.Columns.Add("下一步", typeof(string));
             dtData.Columns.Add("事件变量", typeof(string));
-            dtData.Columns.Add("延迟时间(ms)", typeof(float));
+            dtData.Columns.Add(/*"延迟时间(ms)"*/columnDelayName, typeof(string));
             dtData.Columns.Add("备注", typeof(string));
 
             this.dataGridView1.DataSource = dtData;
@@ -185,6 +209,7 @@ namespace LocalPLC.motion
 				DataRow drData;
 				drData = dtData.NewRow();
 				drData[nextColumn] = i.ToString();
+				drData[posColumn] = i.ToString();
 				drData[disColumn] = i.ToString();
 				drData[speedColumn] = i.ToString();
 				drData[accColumn] = i.ToString();
@@ -258,6 +283,94 @@ namespace LocalPLC.motion
 				((ComboBox)e.Control).SelectedIndexChanged +=
 									new EventHandler(comboBox_SelectedIndexChanged);
 			}
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnNextStepName)
+            {
+				((ComboBox)e.Control).SelectedIndexChanged +=
+					new EventHandler(comboBox_SelectedIndexChanged);
+			}
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnPosName)
+            {
+
+            }
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName)
+            {
+				TextBox control = (TextBox)e.Control;
+				control.KeyPress -= new KeyPressEventHandler(control_KeyPress);
+				control.KeyPress += new KeyPressEventHandler(control_KeyPress);
+
+			}
+		}
+
+		void control_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			//if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar))//如果不是输入数字就不让输入
+			//{
+			//	e.Handled = true;
+			//}
+
+			//该事件用于控制只接收数字、小数点和退格键输入，别且不能输入两个小数点。
+
+			System.Text.RegularExpressions.Regex rg = new System.Text.RegularExpressions.Regex(@"\.");
+
+			string textBoxStr = ((TextBox)sender).Text;
+
+			var mc = rg.Matches(textBoxStr);
+
+			int textBoxCount = mc.Count;
+
+			//允许输入数字，小数点，退格键，不允许输入大于18为的数字，不允许输入两个小数点
+
+			if ((int)e.KeyChar >= 48 && (int)e.KeyChar <= 57 || (int)e.KeyChar == 8 || e.KeyChar == '.')//只能输入0-9数字和BackSpace
+			{
+				if (textBoxStr.Length < 18 && textBoxCount < 2)
+
+				{
+					if (e.KeyChar != '.' || textBoxCount == 0)
+
+					{
+						e.Handled = false;
+
+					}
+
+					else
+
+					{
+						e.Handled = true;
+
+					}
+
+				}
+
+				else
+
+				{
+					e.Handled = true;
+
+				}
+
+			}
+
+			else
+
+			{
+				e.Handled = true;
+
+			}
+
+			//小数点后2位
+			string[] ddrs = textBoxStr.Split('.');
+			if (textBoxStr.Contains(".") && ddrs[1].Length == 2)
+			{
+				e.Handled = true;
+			}
+		}
+
+		void setCellValue(string columnName, string value, bool readOnly = false)
+        {
+			var disCell = ((DataGridViewCell)this.dataGridView1.CurrentRow.Cells[columnName]);
+			var column = disCell.ColumnIndex;
+			disCell.Value = value;
+			disCell.ReadOnly = readOnly;
 		}
 
 		private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -270,9 +383,88 @@ namespace LocalPLC.motion
 				dt.Columns.Add(new DataColumn("id"));
 				dt.Columns.Add(new DataColumn("text"));
 
+				if(str == Type.MC_MoveAbsolute.ToString() ||
+					str == Type.MC_Relative.ToString())
+                {
+					if(str == Type.MC_MoveAbsolute.ToString())
+                    {
+						//位置
+						setCellValue(columnPosName, "0", false);
+						//距离
+						setCellValue(columnDisName, "", true);
+					}
+					else if(str == Type.MC_Relative.ToString())
+                    {
+						//位置
+						setCellValue(columnPosName, "", true);
+						//距离
+						setCellValue(columnDisName, "0", false);
+					}
+
+					//速度
+					setCellValue(columnSpeedName, "0");
+					//加速度
+					setCellValue(columnAccName, "1");
+					//减速度
+					setCellValue(columnDecName, "1");
+					//Jerk
+					setCellValue(columnJerkName, "0");
+					//事件变量
+					setCellValue(columnEventVarName, "", true);
+					//延时时间
+					setCellValue(columnDelayName, "0");
+					
+				}
+				else if(str == Type.MC_Halt.ToString())
+                {
+					setCellValue(columnPosName, "", true);
+					setCellValue(columnDisName, "", true);
+					setCellValue(columnSpeedName, "", true);
+					setCellValue(columnAccName, "", true);
+					//减速度
+					setCellValue(columnDecName, "1");
+					//Jerk
+					setCellValue(columnJerkName, "0");
+					//事件变量
+					setCellValue(columnEventVarName, "", true);
+					//延时时间
+					setCellValue(columnDelayName, "0");
+				}
+				else if(str == Type.MC_SetPosition.ToString())
+                {
+                    setCellValue(columnPosName, "0", false);
+                    setCellValue(columnDisName, "", true);
+                    setCellValue(columnSpeedName, "", true);
+                    setCellValue(columnAccName, "", true);
+                    setCellValue(columnDecName, "", true);
+                    setCellValue(columnJerkName, "", true);
+                    setCellValue(columnEventVarName, "", true);
+					setCellValue(columnDelayName, "0", false);
+				}
+				else if(str == Type.MC_MoveVelocity.ToString())
+                {
+					setCellValue(columnPosName, "", true);
+					setCellValue(columnDisName, "", true);
+					setCellValue(columnSpeedName, "0", false);
+					setCellValue(columnAccName, "1", false);
+					setCellValue(columnDecName, "1", false);
+					setCellValue(columnJerkName, "0", true);
+					setCellValue(columnEventVarName, "", true);
+					setCellValue(columnDelayName, "0", false);
+				}
+
 				string tmp = "";
 				if (str == "None")
                 {
+					setCellValue(columnPosName, "", true);
+					setCellValue(columnDisName, "", true);
+					setCellValue(columnSpeedName, "", true);
+					setCellValue(columnAccName, "", true);
+					setCellValue(columnDecName, "", true);
+					setCellValue(columnJerkName, "", true);
+					setCellValue(columnEventVarName, "", true);
+					setCellValue(columnDelayName, "", true);
+
 
 					DataRow dr = dt.NewRow();
 					dr[0] = str;
@@ -283,16 +475,11 @@ namespace LocalPLC.motion
 				}
 				else
                 {
-					for (int i = 0; i < 20; i++)
+					foreach(var step in noneListVel)
 					{
-						if (i == 0)
-						{
-							tmp = str + i;
-						}
-
 						DataRow dr = dt.NewRow();
-						dr[0] = str + i;
-						dr[1] = str + i;
+						dr[0] = step;
+						dr[1] = step;
 						dt.Rows.Add(dr);
 					}
 				}
@@ -313,7 +500,12 @@ namespace LocalPLC.motion
 
 				DataGridViewCell normalCell = ((DataGridViewCell)this.dataGridView1.CurrentRow.Cells[columnStepName]);
 				normalCell.ReadOnly = true;
+
 			}
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnNextStepName)
+            {
+
+            }
 		}
 
 		public void combox_Leave(object sender, EventArgs e)
@@ -329,7 +521,24 @@ namespace LocalPLC.motion
 
 		}
 
-        private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+
+		private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		{
+			if (this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName)
+			{
+				DataGridViewTextBoxCell cell = ((DataGridViewTextBoxCell)this.dataGridView1.CurrentRow.Cells[columnDisName]);
+				var value = cell.FormattedValue.ToString();
+				float res = 0;
+				if(value.EndsWith(@"."))
+                {
+					cell.Value = res;
+					MessageBox.Show("输入格式错误!");
+				}
+
+			}
+		}
+
+		private void dataGridView1_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
 			if(e.RowIndex < 0 || e.ColumnIndex < 0)
             {
@@ -395,5 +604,7 @@ namespace LocalPLC.motion
         {
 
         }
+
+
     }
 }
