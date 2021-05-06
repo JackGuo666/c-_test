@@ -84,6 +84,7 @@ namespace LocalPLC.motion
 		string columnJerkName = "Jerk";
 		string columnEventVarName = "事件变量";
 		string columnDelayName = "延迟时间(ms)";
+		string columnNoteName = "备注";
 
 		#endregion
 
@@ -115,6 +116,11 @@ namespace LocalPLC.motion
 
 			noneList.Clear();
 			noneList.Add("Done");
+			noneList.Add("Blending previous");
+			noneList.Add("Blending next");
+			noneList.Add("Probe input event");
+			noneList.Add("SW event");
+			noneList.Add("Delay");
 
 			noneListVel.Add("In velocity");
 			noneListVel.Add("Blending previous");
@@ -196,9 +202,9 @@ namespace LocalPLC.motion
             dtData.Columns.Add(/*"减速度"*/columnDecName, typeof(string));
             dtData.Columns.Add(/*"Jerk"*/columnJerkName, typeof(string));
             //dtData.Columns.Add("下一步", typeof(string));
-            dtData.Columns.Add("事件变量", typeof(string));
+            dtData.Columns.Add(/*"事件变量"*/columnEventVarName, typeof(string));
             dtData.Columns.Add(/*"延迟时间(ms)"*/columnDelayName, typeof(string));
-            dtData.Columns.Add("备注", typeof(string));
+            dtData.Columns.Add(/*"备注"*/columnNoteName, typeof(string));
 
             this.dataGridView1.DataSource = dtData;
 
@@ -292,13 +298,24 @@ namespace LocalPLC.motion
             {
 
             }
-			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName)
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnPosName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnSpeedName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnAccName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnDecName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnJerkName)
             {
 				TextBox control = (TextBox)e.Control;
 				control.KeyPress -= new KeyPressEventHandler(control_KeyPress);
 				control.KeyPress += new KeyPressEventHandler(control_KeyPress);
-
+				//control.TextChanged -= new EventHandler(control_TextChange);
+				//control.TextChanged += new EventHandler(control_TextChange);
 			}
+		}
+
+		void control_TextChange(object sender, EventArgs e)
+        {
+
 		}
 
 		void control_KeyPress(object sender, KeyPressEventArgs e)
@@ -357,12 +374,12 @@ namespace LocalPLC.motion
 
 			}
 
-			//小数点后2位
-			string[] ddrs = textBoxStr.Split('.');
-			if (textBoxStr.Contains(".") && ddrs[1].Length == 2)
-			{
-				e.Handled = true;
-			}
+			////小数点后2位
+			//string[] ddrs = textBoxStr.Split('.');
+			//if (textBoxStr.Contains(".")/* && ddrs[1].Length == 5*/)
+			//{
+			//	e.Handled = true;
+			//}
 		}
 
 		void setCellValue(string columnName, string value, bool readOnly = false)
@@ -371,6 +388,7 @@ namespace LocalPLC.motion
 			var column = disCell.ColumnIndex;
 			disCell.Value = value;
 			disCell.ReadOnly = readOnly;
+			//disCell.Style.BackColor = Color.Red;
 		}
 
 		private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -473,15 +491,29 @@ namespace LocalPLC.motion
 
 					tmp = str;
 				}
-				else
-                {
-					foreach(var step in noneListVel)
-					{
-						DataRow dr = dt.NewRow();
-						dr[0] = step;
-						dr[1] = step;
-						dt.Rows.Add(dr);
+					else if(str == Type.MC_MoveVelocity.ToString())
+                    {
+						foreach (var step in noneListVel)
+						{
+							if(step == "Probe input event")
+							{
+								continue;
+							}
+							DataRow dr = dt.NewRow();
+							dr[0] = step;
+							dr[1] = step;
+							dt.Rows.Add(dr);
+						}
 					}
+				else
+				{
+					foreach (var step in noneList)
+					{
+                        DataRow dr = dt.NewRow();
+                        dr[0] = step;
+                        dr[1] = step;
+                        dt.Rows.Add(dr);
+                    }
 				}
 
 
@@ -504,8 +536,33 @@ namespace LocalPLC.motion
 			}
 			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnNextStepName)
             {
+				//下一步
+				string str = ((ComboBox)sender).Text.ToString();
+				if(str == "Done")
+                {
+					setCellValue(columnEventVarName, "", true);
+					setCellValue(columnDelayName, "0", false);
+				}
+				else if(str == "Blending previous" || str == "Blending next")
+                {
+					setCellValue(columnEventVarName, "", true);
+					setCellValue(columnDelayName, "", true);
+				}
+				else if(str == "Probe input event" || str == "SW event")
+                {
+					setCellValue(columnEventVarName, "", false);
+					setCellValue(columnDelayName, "0", false);
+                }
+				else if(str == "Delay")
+                {
+					setCellValue(columnEventVarName, "", false);
+					setCellValue(columnDelayName, "0", false);
+                }
+				else
+                {
 
-            }
+                }
+			}
 		}
 
 		public void combox_Leave(object sender, EventArgs e)
@@ -524,12 +581,30 @@ namespace LocalPLC.motion
 
 		private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
-			if (this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName)
+			if (this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnPosName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnSpeedName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnAccName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnDecName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnJerkName)
 			{
-				DataGridViewTextBoxCell cell = ((DataGridViewTextBoxCell)this.dataGridView1.CurrentRow.Cells[columnDisName]);
+				DataGridViewTextBoxCell cell = ((DataGridViewTextBoxCell)this.dataGridView1.CurrentRow.Cells[this.dataGridView1.CurrentCell.OwningColumn.Name]);
 				var value = cell.FormattedValue.ToString();
-				float res = 0;
+				double res = 0;
 				if(value.EndsWith(@"."))
+                {
+					cell.Value = res;
+					MessageBox.Show("输入格式错误!");
+					
+
+					return;
+				}
+
+				//^([1-9][0-9]*)+(.[0-9]{1,2})?$
+				//System.Text.RegularExpressions.Regex rg = new System.Text.RegularExpressions.Regex(@"^([1-9][0-9]*)+(.[0-9]{1,2})?$");
+
+				bool flag = double.TryParse(value, out res);
+				if(!flag)
                 {
 					cell.Value = res;
 					MessageBox.Show("输入格式错误!");
