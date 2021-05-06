@@ -13,6 +13,7 @@ namespace LocalPLC.ModbusClient
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
         DataSet dc = new DataSet();
+        DataSet dc1 = new DataSet();
         int rownumber;
         //ClientChannel CC2;
         //public struct channeldate
@@ -73,7 +74,7 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("ID", Type.GetType("System.Int32"));
 
                 ds.Tables[i].Columns.Add("功能码", Type.GetType("System.String"));
-                ds.Tables[i].Columns.Add("触发方式", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("触发方式(手动/自动)", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("循环触发时间", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("偏移", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("长度", Type.GetType("System.Int32"));
@@ -85,20 +86,24 @@ namespace LocalPLC.ModbusClient
             dc.Tables.Add(new DataTable());
             dc.Tables[0].Columns.Add("functioncode");
             dc.Tables[0].Columns.Add("displayvalue");
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个位(线圈)-0x01", dc.Tables[0].NewRow()[1] = 0x01);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个位(离散输入)-0x02", dc.Tables[0].NewRow()[1] = 0x02);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个字（保持寄存器）-0x03", dc.Tables[0].NewRow()[1] = 0x03);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个字（输入寄存器）-0x04", dc.Tables[0].NewRow()[1] = 0x04);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写单个位（线圈）-0x05", dc.Tables[0].NewRow()[1] = 0x05);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写单个字（寄存器）-0x06", dc.Tables[0].NewRow()[1] = 0x06);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写多个位（线圈）-0x0F", dc.Tables[0].NewRow()[1] = 0x0F);
-            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写多个字（寄存器）-0x10", dc.Tables[0].NewRow()[1] = 0x10);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个位(线圈)-Fc01", dc.Tables[0].NewRow()[1] = 0x01);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个位(离散输入)-Fc02", dc.Tables[0].NewRow()[1] = 0x02);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个字（保持寄存器）-Fc03", dc.Tables[0].NewRow()[1] = 0x03);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "读多个字（输入寄存器）-Fc04", dc.Tables[0].NewRow()[1] = 0x04);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写单个位（线圈）-Fc05", dc.Tables[0].NewRow()[1] = 0x05);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写单个字（寄存器）-Fc06", dc.Tables[0].NewRow()[1] = 0x06);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写多个位（线圈）-Fc0F", dc.Tables[0].NewRow()[1] = 0x0F);
+            dc.Tables[0].Rows.Add(dc.Tables[0].NewRow()[0] = "写多个字（寄存器）-Fc10", dc.Tables[0].NewRow()[1] = 0x10);
             //for (int i = 0; i < a; i++)
             //{
 
             //    dataGridView2[0, i].Value = CD[i].CID;
             //}
-
+            dc1.Tables.Add(new DataTable());
+            dc1.Tables[0].Columns.Add("functioncode");
+            dc1.Tables[0].Columns.Add("displayvalue");
+            dc1.Tables[0].Rows.Add(dc1.Tables[0].NewRow()[0] = "自动", dc1.Tables[0].NewRow()[1] = 0);
+            dc1.Tables[0].Rows.Add(dc1.Tables[0].NewRow()[0] = "手动", dc1.Tables[0].NewRow()[1] = 1);
         }
         public string cn = null;
         public void ClientNumber(string a)
@@ -133,6 +138,7 @@ namespace LocalPLC.ModbusClient
             ModbusClient.modbusclient1 mc1 = (modbusclient1)this.Owner;
             this.label3.Text = mc1.channelnumber.ToString();
             this.label5.Text = mc1.channelnumber.ToString();
+            this.label8.Text = data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].serverAddr.ToString();
             //data2.modbusDeviceList.Add(data_);
             //data2.modbusDeviceList.Insert(Convert.ToInt32(this.label3.Text),data_);
             dataGridView2.AllowUserToAddRows = false;
@@ -470,6 +476,12 @@ namespace LocalPLC.ModbusClient
                 cell.ValueMember = "displayvalue";
                 cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                 dataGridView2.Rows[i].Cells["功能码"] = cell;
+                DataGridViewComboBoxCell cell1 = new DataGridViewComboBoxCell();
+                cell1.DataSource = dc1.Tables[0];
+                cell1.DisplayMember = "functioncode";
+                cell1.ValueMember = "displayvalue";
+                cell1.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                dataGridView2.Rows[i].Cells["触发方式(手动/自动)"] = cell1;
             }
 
             for (int j =0;j<16;j++)
@@ -680,6 +692,7 @@ namespace LocalPLC.ModbusClient
                 }
                
             }
+            this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -752,7 +765,12 @@ namespace LocalPLC.ModbusClient
                 cell.ValueMember = "displayvalue";
                 cell.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
                 dataGridView2.Rows[i].Cells["功能码"] = cell;
-
+                DataGridViewComboBoxCell cell1 = new DataGridViewComboBoxCell();
+                cell1.DataSource = dc1.Tables[0];
+                cell1.DisplayMember = "functioncode";
+                cell1.ValueMember = "displayvalue";
+                cell1.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+                dataGridView2.Rows[i].Cells["触发方式(手动/自动)"] = cell1;
             }
             for (int l = 0; l < dataGridView2.Rows.Count; l++)
             {
@@ -925,12 +943,22 @@ namespace LocalPLC.ModbusClient
             {
                 if (Convert.ToInt32(str) != 0 && Convert.ToInt32(str) != 1)
                 { 
-                    MessageBox.Show("触发方式只能为0或者1");
+                    MessageBox.Show("请选择手动或者自动");
                     dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
                 }
                 else
                 { 
                     //int.TryParse(str, out data2.modbusDeviceList[Convert.ToInt32(this.label3.Text)].modbusChannelList.ElementAt(e.RowIndex).trig_mode); 
+                    if(Convert.ToInt32(str) == 1)
+                    {
+                        dataGridView2.Rows[e.RowIndex].Cells["循环触发时间"].Style.BackColor = Color.Gainsboro;
+                        dataGridView2.Rows[e.RowIndex].Cells["循环触发时间"].ReadOnly = true;
+                    }
+                    else
+                    {
+                        dataGridView2.Rows[e.RowIndex].Cells["循环触发时间"].Style.BackColor = dataGridView2.Rows[e.RowIndex].Cells[0].Style.BackColor;
+                        dataGridView2.Rows[e.RowIndex].Cells["循环触发时间"].ReadOnly = false;
+                    }
                 }
              }
             else if (e.ColumnIndex == (int)COLUMNNAME_CHANNLE.循环触发时间)

@@ -427,14 +427,14 @@ namespace LocalPLC.ModbusMaster
                     }
                     else
                     {
-                        MessageBox.Show("请输入100-10000的数字");
+                        MessageBox.Show("请输入300-10000的数字");
                         dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
                         return;
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("请输入100-10000的数字");
+                    MessageBox.Show("请输入300-10000的数字");
                     dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 1000;
                     return;
                 }
@@ -530,9 +530,32 @@ namespace LocalPLC.ModbusMaster
         {
 
             string str = textBox_reponse_timeout.Text;
-            if(!int.TryParse(str.ToString(), out masterData_.responseTimeout))
+            //try
+            //{
+            //    int value = Convert.ToInt32(str);
+            //    if(value < 100 || value >10000)
+            //    {
+            //        MessageBox.Show("请输入100-10000的数字");
+            //        textBox_reponse_timeout.Text = "1000";
+            //    }
+            //}
+            //catch
+            //{
+
+            //}
+            int value;
+            if(!int.TryParse(str.ToString(), out value))
             {
+                
                 textBox_reponse_timeout.Text = "1000";
+            }
+           else
+            {
+                if(Convert.ToInt32(str)<100|| Convert.ToInt32(str)>10000)
+                {
+                    MessageBox.Show("请输入100-10000的数字");
+                    textBox_reponse_timeout.Text = "1000";
+                }
             }
         }
 
@@ -732,7 +755,7 @@ namespace LocalPLC.ModbusMaster
 
 
                 }
-           
+            this.Close();
         }
 
         private void textBox_packet_interval_Leave(object sender, EventArgs e)

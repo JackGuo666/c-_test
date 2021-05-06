@@ -819,6 +819,8 @@ namespace LocalPLC
                 { writer.WriteValue("rs232"); }
                 else if (baseData.serialDic[serialname].rsMode == 1)
                 { writer.WriteValue("rs485"); }
+                writer.WritePropertyName("polar_R");
+                writer.WriteValue(baseData.serialDic[serialname].polR);
                 writer.WriteEndObject(); //} portcfg 数组下节点1
             }
             writer.WriteEndArray(); //] portcfg 数组
@@ -1923,8 +1925,8 @@ namespace LocalPLC
                                 {
                                     object mda = variable.GetAttribute(19);
                                     int modbusaddr = Convert.ToInt32(mda);
-
-                                    for (int i = 0; i < coillength; i++)
+                                   
+                                        for (int i = 0; i < coillength; i++)
                                     {
                                         if (modbusaddr == coilstart + i)
                                         {
@@ -1976,8 +1978,9 @@ namespace LocalPLC
                                             //variable.DataType = "WORD";
                                         }
                                     }
+                                    
                                 }
-
+                                utility.getDataTypeLength(servergroup);
                             }
                             else if (servergroup.Name == "Client")
                             {

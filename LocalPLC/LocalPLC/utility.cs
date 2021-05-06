@@ -139,7 +139,13 @@ namespace LocalPLC
             LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Errors").Activate();
             
         }
+        public static void PrintWarning(string str)
+        {
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Warnings").AddEntry(str, AdeOutputWindowMessageType.adeOwMsgInfo, "", "", 0, "");
+            // show the output window and activate the "Infos" tab
+            LocalPLC.UserControl1.multiprogApp.OutputWindows.Item("Warnings").Activate();
 
+        }
 
         public static void PrintInfo(string str)
         {
@@ -1235,20 +1241,80 @@ namespace LocalPLC
             }
         }
 
-        public static void getDataTypeLength()
+        public static void getDataTypeLength(VariableGroup group)
         {
+            int[][] count = new int[group.Variables.Count][];
+            string[] vname = new string[group.Variables.Count];
+            for (int k =0;k< group.Variables.Count;k++)
+            {
+                count[k] = new int[2] { 0,0 };
+                vname[k] = null;
+            }
+            int i = 0;
+            
             if (LocalPLC.UserControl1.multiprogApp != null && LocalPLC.UserControl1.multiprogApp.IsProjectOpen())
             {
                 foreach (DataType dataType in LocalPLC.UserControl1.multiprogApp.ActiveProject.DataTypes)
                 {
-                    string name = dataType.Name;
+                    string name = dataType.Name;                 
                     Resource res = null;
                     Configuration cfg = null;
-
                     cfg = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1);
                     res = cfg.Resources.Item(1);
+                    foreach (Variable variable in group.Variables)
+                    {
+                        if(name == variable.DataType)
+                        {
+                            vname[i] = variable.Name;
+                        //cfg = LocalPLC.UserControl1.multiprogApp.ActiveProject.Hardware.Configurations.Item(1);
+                        //res = cfg.Resources.Item(1);
+                        try
+                        {
+                            if (variable.IecAddress.Contains("MB"))
+                            {
+                                count[i][1] = dataType.GetSizeOnPlc(cfg.PlcType, res.ProcessorType);
+                                string[] start = variable.IecAddress.Split('.');
+                                count[i][0] = Convert.ToInt32(start[1]);
+                                vname[i] = variable.Name;
+                                i++;
+                            }
+                            else if (variable.IecAddress.Contains("MX"))
+                            {
+                                count[i][1] = dataType.GetSizeOnPlc(cfg.PlcType, res.ProcessorType);
+                                string[] start = variable.IecAddress.Split('.');
+                                count[i][0] = Convert.ToInt32(Convert.ToSingle(start[1]) * 10) / 10;
+                                vname[i] = variable.Name;
+                                i++;
+                            }
+                            else if (variable.IecAddress.Contains("MW"))
+                            {
+                                count[i][1] = dataType.GetSizeOnPlc(cfg.PlcType, res.ProcessorType) * 2;
+                                string[] start = variable.IecAddress.Split('.');
+                                count[i][0] = Convert.ToInt32(start[1]);
+                                vname[i] = variable.Name;
+                                i++;
+                            }
+                        }
+                        catch
+                        {
 
-                    int count = dataType.GetSizeOnPlc(cfg.PlcType, res.ProcessorType);
+                        }
+                        }
+                    }                    
+                }
+                for(int m = 0;m<i;m++)
+                {
+                    for (int n = m+1;n<i;n++)
+                    {
+                        int a = count[m][0];
+                        int b = count[n][0];
+                        int c = count[m][1];
+                        int d = count[n][1];
+                        if ((count[m][0]>count[n][0] && count[m][0]< count[n][0] + count[n][1]) || (count[m][0] + count[m][1] > count[n][0] && count[m][0] + count[m][1] < count[n][0] + count[n][1]))
+                        {
+                            PrintWarning("变量" + vname[m] + "地址存在冲突，请检查该变量的数组起止范围");
+                        }
+                    }
                 }
             }
         }
