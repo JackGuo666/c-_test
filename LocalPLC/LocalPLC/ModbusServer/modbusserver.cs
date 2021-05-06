@@ -1896,8 +1896,8 @@ namespace LocalPLC.ModbusServer
             { 
                 data_.dataDevice_.ipfixed = false; 
             }
-            
 
+            this.Close();
             
             
             

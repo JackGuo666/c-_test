@@ -105,7 +105,7 @@ namespace LocalPLC.ModbusClient
                     int.TryParse(e.GetAttribute("ID"), out deviceData.ID);//为各子节点赋值
                     deviceData.nameDev = e.GetAttribute("namedev");
                     deviceData.ipaddr = e.GetAttribute("ipaddr");
-                    //deviceData.serverAddr = e.GetAttribute("serveraddr");
+                    int.TryParse(e.GetAttribute("serveraddr"), out deviceData.serverAddr);
                     int.TryParse(e.GetAttribute("port"), out deviceData.port);
                     int.TryParse(e.GetAttribute("responsetimeout"), out deviceData.reponseTimeout);
                     int.TryParse(e.GetAttribute("permittimeoutcount"), out deviceData.permitTimeoutCount);
@@ -190,7 +190,7 @@ namespace LocalPLC.ModbusClient
                     elem1_m_d.SetAttribute("ID", dataDev.ID.ToString());
                     elem1_m_d.SetAttribute("namedev", dataDev.nameDev.ToString());
                     elem1_m_d.SetAttribute("ipaddr", dataDev.ipaddr.ToString());
-                   // elem1_m_d.SetAttribute("serveraddr", dataDev.serverAddr.ToString());
+                    elem1_m_d.SetAttribute("serveraddr", dataDev.serverAddr.ToString());
                     elem1_m_d.SetAttribute("port", dataDev.port.ToString());
                     elem1_m_d.SetAttribute("responsetimeout", dataDev.reponseTimeout.ToString());
                     elem1_m_d.SetAttribute("permittimeoutcount", dataDev.permitTimeoutCount.ToString());
@@ -291,6 +291,8 @@ namespace LocalPLC.ModbusClient
                         writer.WriteValue(dataDev.ipaddr);
                         writer.WritePropertyName("slave_port");
                         writer.WriteValue(dataDev.port);
+                        writer.WritePropertyName("slave_id");
+                        writer.WriteValue(dataDev.serverAddr);
                         writer.WritePropertyName("response_timeout");
                         writer.WriteValue(dataDev.reponseTimeout);
                         writer.WritePropertyName("retry_interval");

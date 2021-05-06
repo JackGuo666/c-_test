@@ -50,6 +50,7 @@ namespace LocalPLC.ModbusClient
                 ds.Tables[i].Columns.Add("ID", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("名称", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("IP地址", Type.GetType("System.String"));
+                ds.Tables[i].Columns.Add("设备ID", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("端口号", Type.GetType("System.String"));
                 ds.Tables[i].Columns.Add("响应超时", Type.GetType("System.Int32"));
                 ds.Tables[i].Columns.Add("重连间隔", Type.GetType("System.Int32"));
@@ -73,7 +74,7 @@ namespace LocalPLC.ModbusClient
 
         public enum COLUMNNAME : int
         {
-            ID, 名称, IP地址,端口号, 响应超时, 重连间隔, 允许超时的次数
+            ID, 名称, IP地址,从站地址,端口号, 响应超时, 重连间隔, 允许超时的次数
                                         , 复位变量, 通道
         };
 
@@ -139,6 +140,7 @@ namespace LocalPLC.ModbusClient
                 //
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.IP地址].Value = devData.serverAddr;
                 ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.IP地址] = devData.ipaddr;
+                ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.从站地址] = devData.serverAddr;
                 ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.端口号] = devData.port;
                 //dataGridView1.Rows[i].Cells[(int)COLUMNNAME.响应超时].Value = devData.reponseTimeout;
                 ds.Tables[Convert.ToInt32(cn)].Rows[i][(int)COLUMNNAME.响应超时] = devData.reponseTimeout;
@@ -298,13 +300,15 @@ namespace LocalPLC.ModbusClient
                 //    dr[(int)COLUMNNAME.端口号] = 502;
                 //    data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
                 //}
+                dr[(int)COLUMNNAME.从站地址] = 1;
+                data.serverAddr = Convert.ToInt32(dr[(int)COLUMNNAME.从站地址]);
                 dr[(int)COLUMNNAME.端口号] = 502;
                 data.port = Convert.ToInt32(dr[(int)COLUMNNAME.端口号]);
                 dr[(int)COLUMNNAME.响应超时] = 1000;
                 data.reponseTimeout = Convert.ToInt32(dr[(int)COLUMNNAME.响应超时]);
                 dr[(int)COLUMNNAME.允许超时的次数] = 5;
                 data.permitTimeoutCount = Convert.ToInt32(dr[(int)COLUMNNAME.允许超时的次数]);
-                dr[(int)COLUMNNAME.重连间隔] = 1000;
+                dr[(int)COLUMNNAME.重连间隔] = 3000;
                 data.reconnectInterval = Convert.ToInt32(dr[(int)COLUMNNAME.重连间隔]);
                 dr[(int)COLUMNNAME.复位变量] = "";
                 data.resetVaraible = dr[(int)COLUMNNAME.复位变量].ToString();
@@ -572,6 +576,23 @@ namespace LocalPLC.ModbusClient
                 }
                 //data_.modbusDeviceList.ElementAt(e.RowIndex).ipaddr = str;
             }
+            else if((e.ColumnIndex == (int)COLUMNNAME.从站地址))
+            {
+                try
+                {
+                    int value = Convert.ToInt32(str);
+                    if(value <1 || value>247)
+                    {
+                        MessageBox.Show("设备id范围为1-247");
+                        dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data_.modbusDeviceList[e.RowIndex].serverAddr;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("请输入1-247的数字");
+                    dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = data_.modbusDeviceList[e.RowIndex].serverAddr;
+                }
+            }
             else if (e.ColumnIndex == (int)COLUMNNAME.端口号)
             {
                 int flag = 0;
@@ -620,20 +641,20 @@ namespace LocalPLC.ModbusClient
                 try 
                 {
                    int value = Convert.ToInt32(str);
-                    if (value >= 0 && value<=10000)
+                    if (value >= 100 && value<=10000)
                     {
                         //int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reponseTimeout);
                     }
                     else
                     {
-                        MessageBox.Show("请输入0-10000的数字");
+                        MessageBox.Show("请输入100-10000的数字");
                         dataGridView1.Rows[e.RowIndex].Cells[4].Value = "";
                         return;
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("请输入0-10000的数字");
+                    MessageBox.Show("请输入100-10000的数字");
                     dataGridView1.Rows[e.RowIndex].Cells[4].Value = "";
                     return;
                 }
@@ -644,20 +665,20 @@ namespace LocalPLC.ModbusClient
                 try
                 {
                     int value = Convert.ToInt32(str);
-                    if (value >= 0 && value <= 10000)
+                    if (value >= 3000 && value <= 10000)
                     {
                         //int.TryParse(str, out data_.modbusDeviceList.ElementAt(e.RowIndex).reconnectInterval);
                     }
                     else
                     {
-                        MessageBox.Show("请输入0-10000的数字");
+                        MessageBox.Show("请输入3000-10000的数字");
                         dataGridView1.Rows[e.RowIndex].Cells[5].Value = "";
                         return;
                     }
                 }
                 catch
                 {
-                    MessageBox.Show("请输入0-10000的数字");
+                    MessageBox.Show("请输入3000-10000的数字");
                     dataGridView1.Rows[e.RowIndex].Cells[5].Value = "";
                     return;
                 }
@@ -910,13 +931,15 @@ namespace LocalPLC.ModbusClient
                     data_.modbusDeviceList[i].ID = int.Parse(dataGridView1.Rows[i].Cells[0].Value.ToString());
                     data_.modbusDeviceList[i].nameDev = dataGridView1.Rows[i].Cells[1].Value.ToString();
                     data_.modbusDeviceList[i].ipaddr = dataGridView1.Rows[i].Cells[2].Value.ToString();
-                    data_.modbusDeviceList[i].port = Convert.ToInt32(dataGridView1.Rows[i].Cells[3].Value.ToString());
-                    int.TryParse(dataGridView1.Rows[i].Cells[4].Value.ToString(), out data_.modbusDeviceList[i].reponseTimeout);
-                    int.TryParse(dataGridView1.Rows[i].Cells[5].Value.ToString(), out data_.modbusDeviceList[i].reconnectInterval);
-                    int.TryParse(dataGridView1.Rows[i].Cells[6].Value.ToString(), out data_.modbusDeviceList[i].permitTimeoutCount);
-                    data_.modbusDeviceList[i].resetVaraible = dataGridView1.Rows[i].Cells[7].Value.ToString();
+                    data_.modbusDeviceList[i].serverAddr = Convert.ToInt32( dataGridView1.Rows[i].Cells[3].Value);
+                    data_.modbusDeviceList[i].port = Convert.ToInt32(dataGridView1.Rows[i].Cells[4].Value.ToString());
+                    int.TryParse(dataGridView1.Rows[i].Cells[5].Value.ToString(), out data_.modbusDeviceList[i].reponseTimeout);
+                    int.TryParse(dataGridView1.Rows[i].Cells[6].Value.ToString(), out data_.modbusDeviceList[i].reconnectInterval);
+                    int.TryParse(dataGridView1.Rows[i].Cells[7].Value.ToString(), out data_.modbusDeviceList[i].permitTimeoutCount);
+                    data_.modbusDeviceList[i].resetVaraible = dataGridView1.Rows[i].Cells[8].Value.ToString();
                 }
             }
+            this.Close();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace LocalPLC.ModbusClient
         public int ID;
         public string nameDev;
         public string ipaddr;
-        public string serverAddr;
+        public int serverAddr;
         public int port = 502;
         public int reponseTimeout;
         public int permitTimeoutCount;

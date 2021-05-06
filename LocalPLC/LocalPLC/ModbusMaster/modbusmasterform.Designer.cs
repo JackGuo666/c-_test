@@ -32,7 +32,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.textBox_packet_interval = new System.Windows.Forms.TextBox();
             this.textBox_reponse_timeout = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox_transform_channel = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,8 +49,6 @@
             this.button_add = new System.Windows.Forms.Button();
             this.button_delete = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox_packet_interval = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -101,13 +101,30 @@
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
+            // textBox_packet_interval
+            // 
+            this.textBox_packet_interval.Location = new System.Drawing.Point(772, 27);
+            this.textBox_packet_interval.Name = "textBox_packet_interval";
+            this.textBox_packet_interval.Size = new System.Drawing.Size(134, 28);
+            this.textBox_packet_interval.TabIndex = 3;
+            this.textBox_packet_interval.Leave += new System.EventHandler(this.textBox_packet_interval_Leave);
+            // 
             // textBox_reponse_timeout
             // 
             this.textBox_reponse_timeout.Location = new System.Drawing.Point(446, 28);
             this.textBox_reponse_timeout.Name = "textBox_reponse_timeout";
             this.textBox_reponse_timeout.Size = new System.Drawing.Size(134, 28);
             this.textBox_reponse_timeout.TabIndex = 3;
-            this.textBox_reponse_timeout.TextChanged += new System.EventHandler(this.textBox_reponse_timeout_TextChanged);
+            this.textBox_reponse_timeout.Leave += new System.EventHandler(this.textBox_reponse_timeout_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(622, 32);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 18);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "帧间时间(毫秒)";
             // 
             // label2
             // 
@@ -248,23 +265,6 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(622, 32);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 18);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "帧间时间(毫秒)";
-            // 
-            // textBox_packet_interval
-            // 
-            this.textBox_packet_interval.Location = new System.Drawing.Point(772, 27);
-            this.textBox_packet_interval.Name = "textBox_packet_interval";
-            this.textBox_packet_interval.Size = new System.Drawing.Size(134, 28);
-            this.textBox_packet_interval.TabIndex = 3;
-            this.textBox_packet_interval.Leave += new System.EventHandler(this.textBox_packet_interval_Leave);
             // 
             // modbusmasterDeviceform
             // 
