@@ -13,35 +13,35 @@ namespace LocalPLC.motion
 {
     public partial class UserControlCommandTable : UserControl
     {
-        //public class DataGridViewComboBoxColumnEx : DataGridViewComboBoxColumn
-        //{
-        //    public DataGridViewComboBoxColumnEx()
-        //    {
-        //        this.CellTemplate = new DataGridViewComboBoxCellEx();
-        //    }
-        //}
+		//public class DataGridViewComboBoxColumnEx : DataGridViewComboBoxColumn
+		//{
+		//    public DataGridViewComboBoxColumnEx()
+		//    {
+		//        this.CellTemplate = new DataGridViewComboBoxCellEx();
+		//    }
+		//}
 
-        //public class DataGridViewComboBoxCellEx : DataGridViewComboBoxCell
-        //{
+		//public class DataGridViewComboBoxCellEx : DataGridViewComboBoxCell
+		//{
 
-        //    // Override the Clone method so that the Enabled property is copied.
-        //    public override object Clone()
-        //    {
-        //        DataGridViewComboBoxCellEx cell =
-        //            (DataGridViewComboBoxCellEx)base.Clone();
-        //        return cell;
-        //    }
+		//    // Override the Clone method so that the Enabled property is copied.
+		//    public override object Clone()
+		//    {
+		//        DataGridViewComboBoxCellEx cell =
+		//            (DataGridViewComboBoxCellEx)base.Clone();
+		//        return cell;
+		//    }
 
-        //    // By default, enable the button cell.
-        //    public DataGridViewComboBoxCellEx()
-        //    {
+		//    // By default, enable the button cell.
+		//    public DataGridViewComboBoxCellEx()
+		//    {
 
-        //    }
-        //}
+		//    }
+		//}
 
-        #region 
-        //变量
-        DataTable dtData = null;
+		#region 
+		//变量
+		DataTable dtData = null;
 
 		enum Type {None, MC_MoveAbsolute, MC_Relative, MC_SetPosition, MC_MoveVelocity, MC_Halt}
 		
@@ -53,7 +53,9 @@ namespace LocalPLC.motion
 
 		Dictionary<int, string> nextStepDic = new Dictionary<int, string>();
 
-		int nextColumn = 0;
+		TreeNode node_ = null;
+		CommandTable data = null;
+		int stepColumn = 0;
 		//int typeColumn = 1;
 		int posColumn = 1;
 		int disColumn = 2;
@@ -70,6 +72,8 @@ namespace LocalPLC.motion
 
 		int defaultRows = 16;
 		#endregion
+
+
 
 		#region
 		string columnStepName = "步骤";
@@ -189,6 +193,58 @@ namespace LocalPLC.motion
 			zedGraphControl1.AxisChange();
 		}
 
+		public void initData(TreeNode node)
+        {
+			button_valid.Enabled = false;
+			button_cancel.Enabled = false;
+			node_ = node;
+			data = node.Tag as CommandTable;
+
+			string empty = "";
+			dtData.Clear();
+			for (int i = 0; i < data.stepList.Count; i++)
+			{
+				DataRow drData;
+				drData = dtData.NewRow();
+				drData[stepColumn] = data.stepList[i].step;
+				drData[posColumn] = data.stepList[i].pos;
+				drData[disColumn] = data.stepList[i].dis;
+				drData[speedColumn] = data.stepList[i].speed;
+				drData[accColumn] = data.stepList[i].acc;
+				drData[decColumn] = data.stepList[i].dec;
+				drData[jerkColumn] = data.stepList[i].jerk;
+				drData[eventColumn] = data.stepList[i].eventVar;
+				drData[delayColumn] = data.stepList[i].delay;
+				drData[noteColumn] = data.stepList[i].note;
+
+
+				dtData.Rows.Add(drData);
+				//((DataGridViewComboBoxColumn)dataGridView1.Columns[columnTypeName]).DefaultCellStyle.NullValue = "None";
+
+
+				var temp = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells[columnTypeName];
+				var count = temp.Items.Count;
+				//temp.DisplayMember = "MC_Halt";
+				//temp.ValueMember = "MC_Halt";
+				var column = dataGridView1.Columns[columnTypeName] as DataGridViewComboBoxColumn;
+				DataTable dt = column.DataSource as DataTable;
+				
+				for (int j = 0; j < column.Items.Count; j++)
+                {
+					//column.Items[i]
+
+				}
+
+				//((DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells[columnTypeName]).Style.NullValue = "MC_Halt";
+				//((DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells[columnTypeName]).Value = "MC_Halt";
+			}
+
+			this.dataGridView1.DataSource = dtData;
+
+			
+
+		}
+
         private void bindData()
         {
 			dtData = new DataTable();
@@ -208,22 +264,22 @@ namespace LocalPLC.motion
 
             this.dataGridView1.DataSource = dtData;
 
-			
 
+			string empty = "";
 			for (int i = 0; i < 16; i++)
 			{
 				DataRow drData;
 				drData = dtData.NewRow();
-				drData[nextColumn] = i.ToString();
-				drData[posColumn] = i.ToString();
-				drData[disColumn] = i.ToString();
-				drData[speedColumn] = i.ToString();
-				drData[accColumn] = i.ToString();
-				drData[decColumn] = i.ToString();
-				drData[jerkColumn] = i.ToString();
-				drData[eventColumn] = i.ToString();
-				drData[delayColumn] = i.ToString();
-				drData[noteColumn] = i.ToString();
+				drData[stepColumn] = i.ToString();
+				drData[posColumn] = empty;
+				drData[disColumn] = empty;
+				drData[speedColumn] = empty;
+				drData[accColumn] = empty;
+				drData[decColumn] = empty;
+				drData[jerkColumn] = empty;
+				drData[eventColumn] = empty;
+				drData[delayColumn] = empty;
+				drData[noteColumn] = empty;
 
 
 				dtData.Rows.Add(drData);
@@ -239,7 +295,6 @@ namespace LocalPLC.motion
 			dgvCombobox(ref comboBoxColumn, typeList);
 			comboBoxColumn.DefaultCellStyle.NullValue = "None";
 
-
 			int columnIndex = typeColumn;
 			if (dataGridView1.Columns[columnTypeName] == null)
 			{
@@ -254,10 +309,25 @@ namespace LocalPLC.motion
 
 			if (dataGridView1.Columns["下一步"] == null)
 			{
-				dataGridView1.Columns.Insert(nextStepColumn, comboBoxColumn);
+				dataGridView1.Columns.Insert(nextStepColumn + 2, comboBoxColumn);
 			}
 
+			for (int i = 0; i < dataGridView1.RowCount; i++)
+			{
+				try
+				{
+					var temp = (DataGridViewComboBoxCell)dataGridView1.Rows[i].Cells[columnTypeName];
+					if (temp.Items.Count > 0)
+					{
+						temp.ValueMember = (temp.Items[3] as DataRowView)["id"].ToString();
+						//temp.Style.NullValue = (temp.Items[3] as DataRowView)["tmp"].ToString();
+					}
+				}
+				catch (Exception e)
+				{
 
+				}
+			}
 		}
 
 		public void dgvCombobox(ref DataGridViewComboBoxColumn column, List<string> strTmp)
@@ -388,7 +458,15 @@ namespace LocalPLC.motion
 			var column = disCell.ColumnIndex;
 			disCell.Value = value;
 			disCell.ReadOnly = readOnly;
-			//disCell.Style.BackColor = Color.Red;
+			if(readOnly)
+            {
+				disCell.Style.BackColor = Color.Lavender;
+			}
+			else
+            {
+				disCell.Style.BackColor = Color.White;
+			}
+
 		}
 
 		private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -525,7 +603,7 @@ namespace LocalPLC.motion
 				((ComboBox)sender).Leave += new EventHandler(combox_Leave);
 				DataGridViewComboBoxCell cell = ((DataGridViewComboBoxCell)this.dataGridView1.CurrentRow.Cells[columnNextStepName]);
 				if(cell.Items.Count > 0)
-                {
+                {//very important
 					cell.Value = (cell.Items[0] as DataRowView)["id"].ToString();
                 }
 

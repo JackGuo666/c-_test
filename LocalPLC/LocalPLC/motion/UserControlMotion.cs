@@ -15,10 +15,12 @@ namespace LocalPLC.motion
         TreeView treeView_ = null;
         public Control parent_ = null;
         public TreeNode axisNode_ = null;
+        public TreeNode commandNode_ = null;
         public UserControlMotionBasePara basePara = new UserControlMotionBasePara();
 
         public UserControlMotionPara motionPara = new UserControlMotionPara();
 
+        public UserControlCommandTable commandPara = new UserControlCommandTable();
         #region
         ///function
         ///
@@ -38,7 +40,7 @@ namespace LocalPLC.motion
         public void clearUI()
         {
             axisNode_.Nodes.Clear();
-            
+            commandNode_.Nodes.Clear();
             //foreach(TreeNode node in axisNode_.Nodes)
             //{
             //    if(node.Tag.ToString() != "ADDAXIS")
@@ -54,9 +56,14 @@ namespace LocalPLC.motion
         }
 
 
-        public void getTreeNode(TreeNode axisNode)
+        public void getAxisTreeNode(TreeNode axisNode)
         {
             axisNode_ = axisNode;
+        }
+
+        public void getCommandTreeNode(TreeNode commandNode)
+        {
+            commandNode_ = commandNode;
         }
 
         public void getParent(UserControl parent)
@@ -64,13 +71,22 @@ namespace LocalPLC.motion
             parent_ = parent;
         }
 
-        public void refreshNodeKey(List<LocalPLC.motion.Axis> list)
+        public void refreshAxisNodeKey(List<LocalPLC.motion.Axis> list)
         {
             for(int i = 0; i < list.Count; i++)
             {
                 list[i].key = string.Format("axis_{0}", i);
             }
         }
+
+        public void refreshCommandNodeKey(List<LocalPLC.motion.CommandTable> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].commandKey = string.Format("command_{0}", i);
+            }
+        }
+
         public string addAxisName()
         {
             int count = motionDataManage.axisList.Count;
@@ -108,6 +124,40 @@ namespace LocalPLC.motion
             return name;
         }
 
+        public string addCommandName()
+        {
+            int count = motionDataManage.commandTableList.Count;
+            string name = string.Format("命令表{0}", count);
+            bool flag = true;
+
+            do
+            {
+                int interCount = 0;
+                foreach(var command in motionDataManage.commandTableList)
+                {
+                    if (command.name == name)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        interCount++;
+                    }
+                }
+
+                if (interCount == motionDataManage.commandTableList.Count)
+                {
+                    flag = false;
+                }
+                else
+                {
+                    name = string.Format("命令表{0}", count);
+                }
+            }
+            while(flag);
+
+            return name;
+        }
 
         public void loadBaseData(XmlNode xn, Axis axis)
         {
@@ -229,6 +279,43 @@ namespace LocalPLC.motion
                         motionDataManage.axisList.Add(axis);
                     }
                 }
+                else if(childname == "commandtable")
+                {
+                    childElement = (XmlElement)eChild;
+                    foreach (XmlNode nChildCommand in eChild.ChildNodes)
+                    {
+                        XmlElement eChildCommand = (XmlElement)nChildCommand;
+
+
+                        CommandTable command = new CommandTable();
+                        command.clear();
+
+                        command.name = eChildCommand.GetAttribute("name");
+                        command.commandKey = eChildCommand.GetAttribute("key");
+                        //command.step
+                        foreach(XmlNode nChildElem in eChildCommand)
+                        {
+                            XmlElement eChildElem = (XmlElement)nChildElem;
+                            Step step = new Step();
+                            step.step = eChildElem.GetAttribute("step");
+                            step.type = eChildElem.GetAttribute("type");
+                            step.pos = eChildElem.GetAttribute("pos");
+                            step.dis = eChildElem.GetAttribute("dis");
+                            step.speed = eChildElem.GetAttribute("speed");
+                            step.acc = eChildElem.GetAttribute("acc");
+                            step.dec = eChildElem.GetAttribute("dec");
+                            step.nextStep = eChildElem.GetAttribute("nextstep");
+                            step.jerk = eChildElem.GetAttribute("jerk");
+                            step.eventVar = eChildElem.GetAttribute("eventvar");
+                            step.delay = eChildElem.GetAttribute("delay");
+                            step.note = eChildElem.GetAttribute("note");
+
+                            command.stepList.Add(step);
+                        }
+
+                        motionDataManage.commandTableList.Add(command);
+                    }
+                }
             }
         }
 
@@ -308,6 +395,41 @@ namespace LocalPLC.motion
 
                 elemChild.AppendChild(elemMotionPara);
             }
+
+
+
+            XmlElement elemCommandTable = doc.CreateElement("commandtable");
+            elem.AppendChild(elemCommandTable);
+            utility.PrintInfo(motionDataManage.commandTableList.Count.ToString());
+            foreach(var command in motionDataManage.commandTableList)
+            {
+                XmlElement elemChild = doc.CreateElement("commandtableelem");
+                elemChild.SetAttribute("name", command.name);
+                elemChild.SetAttribute("key", command.commandKey);
+                foreach(var step in command.stepList)
+                {
+                    XmlElement elemCommand = doc.CreateElement("elem");
+
+                    elemCommand.SetAttribute("step", step.step);
+                    elemCommand.SetAttribute("type", step.type);
+                    elemCommand.SetAttribute("pos", step.pos);
+                    elemCommand.SetAttribute("dis", step.dis);
+                    elemCommand.SetAttribute("speed", step.speed);
+                    elemCommand.SetAttribute("acc", step.acc);
+                    elemCommand.SetAttribute("dec", step.dec);
+                    elemCommand.SetAttribute("nextstep", step.nextStep);
+                    elemCommand.SetAttribute("jerk", step.jerk);
+                    elemCommand.SetAttribute("eventvar", step.eventVar);
+                    elemCommand.SetAttribute("delay", step.eventVar);
+                    elemCommand.SetAttribute("note", step.note);
+
+                    elemChild.AppendChild(elemCommand);
+
+                }
+
+                elemCommandTable.AppendChild(elemChild);
+            }
+
         }
 
         public void deleteAxisData(Axis axis)
@@ -366,6 +488,30 @@ namespace LocalPLC.motion
             TreeNode addAxis = new TreeNode("添加轴对象", 2, 2);
             addAxis.Tag = "ADDAXIS";
             axisNode_.Nodes.Add(addAxis);
+        }
+
+
+
+        public void createCommandTableTree()
+        {
+            createAddCommandNode();
+
+            var list = motionDataManage.commandTableList;
+            foreach(var command in list)
+            {
+                TreeNode commandPara = new TreeNode(command.name, 3, 3);
+                commandPara.Tag = command;
+                commandNode_.Nodes.Add(commandPara);
+            }
+        }
+
+
+        void createAddCommandNode()
+        {
+            //添加命令表对象
+            TreeNode addCommandTable = new TreeNode("添加命令表对象", 2, 2);
+            addCommandTable.Tag = "ADDCOMMANDTABLE";
+            commandNode_.Nodes.Add(addCommandTable);
         }
         #endregion
     }

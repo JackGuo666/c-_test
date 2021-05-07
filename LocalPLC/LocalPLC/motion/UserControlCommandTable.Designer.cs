@@ -32,6 +32,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -49,7 +51,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 30;
-            this.dataGridView1.Size = new System.Drawing.Size(902, 254);
+            this.dataGridView1.Size = new System.Drawing.Size(902, 236);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridView1_CellBeginEdit);
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
@@ -71,13 +73,15 @@
             this.zedGraphControl1.ScrollMinX = 0D;
             this.zedGraphControl1.ScrollMinY = 0D;
             this.zedGraphControl1.ScrollMinY2 = 0D;
-            this.zedGraphControl1.Size = new System.Drawing.Size(902, 390);
+            this.zedGraphControl1.Size = new System.Drawing.Size(902, 364);
             this.zedGraphControl1.TabIndex = 1;
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(0, 44);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -88,14 +92,36 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.zedGraphControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(902, 648);
-            this.splitContainer1.SplitterDistance = 254;
+            this.splitContainer1.Size = new System.Drawing.Size(902, 604);
+            this.splitContainer1.SplitterDistance = 236;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // button_cancel
+            // 
+            this.button_cancel.BackColor = System.Drawing.Color.White;
+            this.button_cancel.Location = new System.Drawing.Point(135, 3);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(120, 35);
+            this.button_cancel.TabIndex = 3;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            // 
+            // button_valid
+            // 
+            this.button_valid.BackColor = System.Drawing.Color.White;
+            this.button_valid.Location = new System.Drawing.Point(3, 3);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(120, 35);
+            this.button_valid.TabIndex = 4;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
             // 
             // UserControlCommandTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button_cancel);
+            this.Controls.Add(this.button_valid);
             this.Controls.Add(this.splitContainer1);
             this.Name = "UserControlCommandTable";
             this.Size = new System.Drawing.Size(902, 648);
@@ -113,5 +139,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }

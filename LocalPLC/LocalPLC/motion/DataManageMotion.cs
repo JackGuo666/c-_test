@@ -90,9 +90,45 @@ namespace LocalPLC.motion
         public AxisMotionPara axisMotionPara = new AxisMotionPara();
     }
 
+    public class Step
+    {
+        public string step;
+        public string type;
+        public string pos;
+        public string dis;
+        public string speed;
+        public string acc;
+        public string dec;
+        public string nextStep;
+        public string jerk;
+        public string eventVar;
+        public string delay;
+        public string note;
+    }
+
     public class CommandTable
     {
+        public CommandTable()
+        {
+            stepList.Clear();
+            for(int i = 0; i < 16; i++)
+            {
+                Step step = new Step();
+                step.step = i.ToString();
+                stepList.Add(step);
+            }
+        }
+        
 
+        public void clear()
+        {
+            stepList.Clear();
+        }
+
+        public string name = "";
+        public string commandKey = "";
+
+        public List<Step> stepList = new List<Step>();
     }
 
     public class DataManageBase
