@@ -93,7 +93,7 @@ namespace LocalPLC.motion
     public class Step
     {
         public string step;
-        public string type;
+        public string type = "None";
         public string pos;
         public string dis;
         public string speed;
