@@ -129,6 +129,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "UserControlCommandTable";
             this.Size = new System.Drawing.Size(902, 648);
+            this.Load += new System.EventHandler(this.UserControlCommandTable_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

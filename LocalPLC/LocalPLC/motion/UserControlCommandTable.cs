@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZedGraph;
+using LocalPLC.custom;
 
 namespace LocalPLC.motion
 {
@@ -44,8 +45,8 @@ namespace LocalPLC.motion
 		DataTable dtData = null;
 
 		enum Type {None, MC_MoveAbsolute, MC_Relative, MC_SetPosition, MC_MoveVelocity, MC_Halt}
-		
-		
+
+		RichTextBoxEx richTextBox = new RichTextBoxEx();
 		enum NextStep {Done, Blending_previous, Probe_input_event, SW_event, Delay}
 		List<string> typeList = new List<string>();
 		List<string> noneList = new List<string>();
@@ -354,6 +355,11 @@ namespace LocalPLC.motion
 
 		}
 
+		private void comboBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			e.Handled = true;
+		}
+
 		Panel p;
 		private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -370,6 +376,10 @@ namespace LocalPLC.motion
 				p.Controls.Add(combo);
 				combo.DataSource = typeList;
 				combo.Text = text;
+
+				combo.KeyPress -= new KeyPressEventHandler(comboBox_KeyPress);
+				combo.KeyPress += new KeyPressEventHandler(comboBox_KeyPress);
+
 				combo.SelectedIndexChanged +=
 									new EventHandler(comboBox_SelectedIndexChanged);
 			}
@@ -407,19 +417,37 @@ namespace LocalPLC.motion
 						combo.DataSource = noneList;
 					}
 
+					
+					//this.comboBox_BackOriginal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_BackOriginal_KeyPress);//禁止用户改变DataGridView1の所有行的行高
+
 
 					combo.Text = text;
+					combo.KeyPress -= new KeyPressEventHandler(comboBox_KeyPress);
+					combo.KeyPress += new KeyPressEventHandler(comboBox_KeyPress);
 					combo.SelectedIndexChanged +=
 										new EventHandler(comboBox_SelectedIndexChanged);
+
 				}
 
 				//((ComboBox)e.Control).SelectedIndexChanged +=
 				//	new EventHandler(comboBox_SelectedIndexChanged);
 			}
-			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnPosName)
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnNoteName)
             {
+				TextBox control = (TextBox)e.Control;
+				richTextBox.Text = control.Text;
+				p = (Panel)e.Control.Parent;
+				p.Controls.Clear();
+				richTextBox.Dock = DockStyle.Fill;
+				richTextBox.Parent = dataGridView1;
+				p.Controls.Add(richTextBox);
+				richTextBox.Focus();
+				richTextBox.SelectAll();
+				richTextBox.SelectionStart = this.Text.Length;
 
-            }
+
+				control.MaxLength = 30;
+			}
 			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName ||
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnPosName ||
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnSpeedName ||
@@ -433,6 +461,10 @@ namespace LocalPLC.motion
 				//control.TextChanged -= new EventHandler(control_TextChange);
 				//control.TextChanged += new EventHandler(control_TextChange);
 			}
+			else
+            {
+
+            }
 		}
 
 		void control_TextChange(object sender, EventArgs e)
@@ -614,7 +646,7 @@ namespace LocalPLC.motion
 					setCellValue(columnSpeedName, "0", false);
 					setCellValue(columnAccName, "1", false);
 					setCellValue(columnDecName, "1", false);
-					setCellValue(columnJerkName, "0", true);
+					setCellValue(columnJerkName, "0", false);
 					setCellValue(columnNextStepName, "In velocity");
 					setCellValue(columnEventVarName, "", true);
 					setCellValue(columnDelayName, "0", false);
@@ -731,6 +763,7 @@ namespace LocalPLC.motion
 			//做完处理，须撤销动态事件
 			combox.SelectedIndexChanged -= new EventHandler(comboBox_SelectedIndexChanged);
 			((ComboBox)sender).Leave -= new EventHandler(combox_Leave);
+			((ComboBox)sender).KeyPress -= new KeyPressEventHandler(comboBox_KeyPress);
 		}
 
 		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -738,9 +771,13 @@ namespace LocalPLC.motion
 
 		}
 
-
 		private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
+			if(this.dataGridView1.CurrentCell == null)
+            {
+				return;
+            }
+
 			if (this.dataGridView1.CurrentCell.OwningColumn.Name == columnDisName ||
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnPosName ||
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnSpeedName ||
@@ -783,6 +820,14 @@ namespace LocalPLC.motion
 					p.Controls.Clear();
 				}
 
+			}
+			else if (this.dataGridView1.CurrentCell.OwningColumn.Index == noteColumn)
+            {
+				if (p != null)
+				{
+					p.Controls.Clear();
+					this.dataGridView1.CurrentCell.Value = richTextBox.Text;
+				}
 			}
 		}
 
@@ -886,8 +931,10 @@ namespace LocalPLC.motion
 			{
 				int i = e.RowIndex;
 				var str = dataGridView1.Rows[i].Cells[columnTypeName].Value.ToString();
-				if (dataGridView1.Rows[i].Cells[columnTypeName].Value.ToString() == "None")
+				if (str == "None")
 				{
+					setCellStaus(i, stepColumn, true);
+
 					DataGridViewCell cell = dataGridView1.Rows[i].Cells[columnStepName] as DataGridViewCell;
 					cell.ReadOnly = true;
 					cell.Style.BackColor = Color.Lavender;
@@ -916,7 +963,6 @@ namespace LocalPLC.motion
 					cell.ReadOnly = true;
 					cell.Style.BackColor = Color.Lavender;
 
-
 					cell = dataGridView1.Rows[i].Cells[columnNextStepName] as DataGridViewCell;
 					cell.ReadOnly = true;
 					cell.Style.BackColor = Color.Lavender;
@@ -936,6 +982,8 @@ namespace LocalPLC.motion
 				else if(str == Type.MC_MoveAbsolute.ToString()
 					|| str == Type.MC_Relative.ToString())
                 {
+					setCellStaus(i, stepColumn, true);
+
 					if (str == Type.MC_MoveAbsolute.ToString())
 					{
 						//位置
@@ -968,6 +1016,54 @@ namespace LocalPLC.motion
 					setCellStaus(i, delayColumn, false);
 					setCellStaus(i, noteColumn, false);
 				}
+				else if(str == Type.MC_SetPosition.ToString())
+                {
+					setCellStaus(i, stepColumn, true);
+					setCellStaus(i, posColumn, false);
+					setCellStaus(i, disColumn, true);
+					setCellStaus(i, speedColumn, true);
+					setCellStaus(i, accColumn, true);
+					setCellStaus(i, decColumn, true);
+					setCellStaus(i, jerkColumn, true);
+					setCellStaus(i, nextStepColumn, false);
+					setCellStaus(i, eventColumn, true);
+					setCellStaus(i, delayColumn, false);
+					setCellStaus(i, noteColumn, false);
+				}
+				else if(str == Type.MC_MoveVelocity.ToString())
+                {
+					setCellStaus(i, stepColumn, true);
+					setCellStaus(i, posColumn, true);
+					setCellStaus(i, disColumn, true);
+					setCellStaus(i, speedColumn, false);
+					setCellStaus(i, accColumn, false);
+					setCellStaus(i, decColumn, false);
+					setCellStaus(i, jerkColumn, false);
+					setCellStaus(i, nextStepColumn, false);
+					setCellStaus(i, eventColumn, true);
+					setCellStaus(i, delayColumn, false);
+					setCellStaus(i, noteColumn, false);
+				}
+				else if(str == Type.MC_Halt.ToString())
+                {
+					setCellStaus(i, stepColumn, true);
+					setCellStaus(i, posColumn, true);
+					setCellStaus(i, disColumn, true);
+					setCellStaus(i, speedColumn, true);
+					setCellStaus(i, accColumn, true);
+					//减速度
+					setCellStaus(i, decColumn, false);
+					//Jerk
+					setCellStaus(i, jerkColumn, false);
+					//下一步
+					setCellStaus(i, nextStepColumn, false);
+					//事件变量
+					setCellStaus(i, eventColumn, true);
+					//延时时间
+					setCellStaus(i, delayColumn, false);
+					//note
+					setCellStaus(i, noteColumn, false);
+				}
 
 			}
 
@@ -976,13 +1072,16 @@ namespace LocalPLC.motion
         private void button_valid_Click(object sender, EventArgs e)
         {
 			getDataFromUI();
-
+			button_valid.Enabled = false;
+			button_cancel.Enabled = false;
 		}
 
         private void button_cancel_Click(object sender, EventArgs e)
         {
-
-        }
+			refreshData();
+			button_valid.Enabled = false;
+			button_cancel.Enabled = false;
+		}
 
 		private void getDataFromUI()
         {
@@ -1002,6 +1101,7 @@ namespace LocalPLC.motion
 				step.jerk = dr[columnJerkName].ToString();
 				step.nextStep = dr[columnNextStepName].ToString();
 				step.eventVar = dr[columnEventVarName].ToString();
+				step.delay = dr[delayColumn].ToString();
 				step.note = dr[columnNoteName].ToString();
 
 				stepList.Add(step);
@@ -1009,5 +1109,46 @@ namespace LocalPLC.motion
 
 		}
 
-	}
+		private void refreshData()
+		{
+			var stepList = data.stepList;
+			dtData.Clear();
+			foreach(var step in stepList)
+            {
+				DataRow drData = dtData.NewRow();
+				drData[stepColumn] = step.step;
+				drData[typeColumn] = step.type;
+				drData[posColumn] = step.pos;
+				drData[disColumn] = step.dis;
+				drData[speedColumn] = step.speed;
+				drData[accColumn] = step.acc;
+				drData[decColumn] = step.dec;
+				drData[jerkColumn] = step.jerk;
+				drData[nextStepColumn] = step.nextStep;
+				drData[eventColumn] = step.eventVar;
+				drData[delayColumn] = step.delay;
+				drData[noteColumn] = step.note;
+			}
+
+			this.dataGridView1.DataSource = dtData;
+		}
+
+		private void UserControlCommandTable_Load(object sender, EventArgs e)
+        {
+			foreach (DataGridViewColumn column in dataGridView1.Columns)
+			{
+				column.SortMode = DataGridViewColumnSortMode.NotSortable;
+
+				dataGridView1.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;  //设置列标题不换行
+				dataGridView1.Columns[typeColumn].Width = 150;
+				dataGridView1.Columns[nextStepColumn].Width = 150;
+			}
+
+			//禁止用户改变DataGridView1の所有行的行高
+			dataGridView1.AllowUserToResizeRows = false;
+
+			//button_valid.Enabled = false;
+			//button_cancel.Enabled = false;
+		}
+    }
 }

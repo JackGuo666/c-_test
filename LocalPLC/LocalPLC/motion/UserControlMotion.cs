@@ -420,7 +420,7 @@ namespace LocalPLC.motion
                     elemCommand.SetAttribute("nextstep", step.nextStep);
                     elemCommand.SetAttribute("jerk", step.jerk);
                     elemCommand.SetAttribute("eventvar", step.eventVar);
-                    elemCommand.SetAttribute("delay", step.eventVar);
+                    elemCommand.SetAttribute("delay", step.delay);
                     elemCommand.SetAttribute("note", step.note);
 
                     elemChild.AppendChild(elemCommand);
