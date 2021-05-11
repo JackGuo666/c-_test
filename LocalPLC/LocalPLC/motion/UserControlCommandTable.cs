@@ -360,6 +360,8 @@ namespace LocalPLC.motion
 			e.Handled = true;
 		}
 
+
+
 		Panel p;
 		private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -432,7 +434,8 @@ namespace LocalPLC.motion
 				//((ComboBox)e.Control).SelectedIndexChanged +=
 				//	new EventHandler(comboBox_SelectedIndexChanged);
 			}
-			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnNoteName)
+			else if(this.dataGridView1.CurrentCell.OwningColumn.Name == columnNoteName
+				|| this.dataGridView1.CurrentCell.OwningColumn.Name == columnEventVarName)
             {
 				TextBox control = (TextBox)e.Control;
 				richTextBox.Text = control.Text;
@@ -453,7 +456,8 @@ namespace LocalPLC.motion
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnSpeedName ||
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnAccName ||
 				this.dataGridView1.CurrentCell.OwningColumn.Name == columnDecName ||
-				this.dataGridView1.CurrentCell.OwningColumn.Name == columnJerkName)
+				this.dataGridView1.CurrentCell.OwningColumn.Name == columnJerkName ||
+				this.dataGridView1.CurrentCell.OwningColumn.Index == delayColumn)
             {
 				TextBox control = (TextBox)e.Control;
 				control.KeyPress -= new KeyPressEventHandler(control_KeyPress);
@@ -729,9 +733,9 @@ namespace LocalPLC.motion
 				}
 				else if(str == "Blending previous" || str == "Blending next")
                 {
-					setCellValue(columnEventVarName, "", true);
-					setCellValue(columnDelayName, "", true);
-				}
+                    setCellValue(columnEventVarName, "", true);
+                    setCellValue(columnDelayName, "", true);
+                }
 				else if(str == "Probe input event" || str == "SW event")
                 {
 					setCellValue(columnEventVarName, "", false);
@@ -821,7 +825,8 @@ namespace LocalPLC.motion
 				}
 
 			}
-			else if (this.dataGridView1.CurrentCell.OwningColumn.Index == noteColumn)
+			else if (this.dataGridView1.CurrentCell.OwningColumn.Index == noteColumn
+				|| this.dataGridView1.CurrentCell.OwningColumn.Index == eventColumn)
             {
 				if (p != null)
 				{
@@ -921,8 +926,165 @@ namespace LocalPLC.motion
 			}
 
 		}
+
+		void setTableCellStatus()
+        {
+			for (int i = 0; i < dataGridView1.RowCount; i++)
+			{
+				var str = dataGridView1.Rows[i].Cells[columnTypeName].Value.ToString();
+				if (str == "None")
+				{
+					setCellStaus(i, stepColumn, true);
+
+					DataGridViewCell cell = dataGridView1.Rows[i].Cells[columnStepName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnPosName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnDisName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnSpeedName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnAccName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnDecName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnJerkName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnNextStepName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnEventVarName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnDelayName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+
+					cell = dataGridView1.Rows[i].Cells[columnNoteName] as DataGridViewCell;
+					cell.ReadOnly = true;
+					cell.Style.BackColor = Color.Lavender;
+				}
+				else if (str == Type.MC_MoveAbsolute.ToString()
+					|| str == Type.MC_Relative.ToString())
+				{
+					setCellStaus(i, stepColumn, true);
+
+					if (str == Type.MC_MoveAbsolute.ToString())
+					{
+						//位置
+						setCellStaus(i, posColumn, false);
+
+						//距离
+						setCellStaus(i, disColumn, true);
+					}
+					else if (str == Type.MC_Relative.ToString())
+					{
+						//位置
+						setCellStaus(i, posColumn, true);
+						//距离
+						setCellStaus(i, disColumn, false);
+					}
+
+					//速度
+					setCellStaus(i, speedColumn, false);
+					//加速度
+					setCellStaus(i, accColumn, false);
+					//减速度
+					setCellStaus(i, decColumn, false);
+					//Jerk
+					setCellStaus(i, jerkColumn, false);
+					//下一步
+					setCellStaus(i, nextStepColumn, false);
+					//事件变量
+					setCellStaus(i, eventColumn, true);
+					//延时时间
+					setCellStaus(i, delayColumn, false);
+					setCellStaus(i, noteColumn, false);
+
+					str = dataGridView1.Rows[i].Cells[columnNextStepName].Value.ToString();
+					if (str == "Blending previous")
+					{
+						setCellStaus(i, eventColumn, true);
+						setCellStaus(i, delayColumn, true);
+					}
+				}
+				else if (str == Type.MC_SetPosition.ToString())
+				{
+					setCellStaus(i, stepColumn, true);
+					setCellStaus(i, posColumn, false);
+					setCellStaus(i, disColumn, true);
+					setCellStaus(i, speedColumn, true);
+					setCellStaus(i, accColumn, true);
+					setCellStaus(i, decColumn, true);
+					setCellStaus(i, jerkColumn, true);
+					setCellStaus(i, nextStepColumn, false);
+					setCellStaus(i, eventColumn, true);
+					setCellStaus(i, delayColumn, false);
+					setCellStaus(i, noteColumn, false);
+				}
+				else if (str == Type.MC_MoveVelocity.ToString())
+				{
+					setCellStaus(i, stepColumn, true);
+					setCellStaus(i, posColumn, true);
+					setCellStaus(i, disColumn, true);
+					setCellStaus(i, speedColumn, false);
+					setCellStaus(i, accColumn, false);
+					setCellStaus(i, decColumn, false);
+					setCellStaus(i, jerkColumn, false);
+					setCellStaus(i, nextStepColumn, false);
+					setCellStaus(i, eventColumn, true);
+					setCellStaus(i, delayColumn, false);
+					setCellStaus(i, noteColumn, false);
+				}
+				else if (str == Type.MC_Halt.ToString())
+				{
+					setCellStaus(i, stepColumn, true);
+					setCellStaus(i, posColumn, true);
+					setCellStaus(i, disColumn, true);
+					setCellStaus(i, speedColumn, true);
+					setCellStaus(i, accColumn, true);
+					//减速度
+					setCellStaus(i, decColumn, false);
+					//Jerk
+					setCellStaus(i, jerkColumn, false);
+					//下一步
+					setCellStaus(i, nextStepColumn, false);
+					//事件变量
+					setCellStaus(i, eventColumn, true);
+					//延时时间
+					setCellStaus(i, delayColumn, false);
+					//note
+					setCellStaus(i, noteColumn, false);
+				}
+				else
+				{
+
+				}
+
+
+			}
+		}
+
         private void dataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
+			return;
+
 			if(e.RowIndex < 0)
             {
 				return;
@@ -1015,6 +1177,13 @@ namespace LocalPLC.motion
 					//延时时间
 					setCellStaus(i, delayColumn, false);
 					setCellStaus(i, noteColumn, false);
+
+					str = dataGridView1.Rows[i].Cells[columnNextStepName].Value.ToString();
+					if (str == "Blending previous")
+					{
+						setCellStaus(i, eventColumn, true);
+						setCellStaus(i, delayColumn, true);
+					}
 				}
 				else if(str == Type.MC_SetPosition.ToString())
                 {
@@ -1064,6 +1233,11 @@ namespace LocalPLC.motion
 					//note
 					setCellStaus(i, noteColumn, false);
 				}
+				else
+                {
+
+                }
+
 
 			}
 
@@ -1071,7 +1245,11 @@ namespace LocalPLC.motion
 
         private void button_valid_Click(object sender, EventArgs e)
         {
-			getDataFromUI();
+			if(!getDataFromUI())
+            {
+				return;
+            }
+
 			button_valid.Enabled = false;
 			button_cancel.Enabled = false;
 		}
@@ -1083,13 +1261,42 @@ namespace LocalPLC.motion
 			button_cancel.Enabled = false;
 		}
 
-		private void getDataFromUI()
+		private bool getDataFromUI()
         {
+			bool ret = true;
+			int noneIndex = 0;
+			for (int i = 0; i < dtData.Rows.Count; i++)
+			{
+				var dr = dtData.Rows[i];
+				var type = dr[typeColumn].ToString();
+				if (type == Type.None.ToString())
+				{
+					if (i + 1 < dtData.Rows.Count)
+					{
+						dr = dtData.Rows[i + 1];
+						type = dr[typeColumn].ToString();
+						if (type != Type.None.ToString())
+						{
+							ret = false;
+						}
+					}
+				}
+
+				if (!ret)
+				{
+					string str = "步骤之间不可以有空步骤!";
+					utility.PrintError(str);
+
+					return ret;
+				}
+
+			}
+
 			var stepList = data.stepList;
 			stepList.Clear();
 			int row = 0;
 			foreach (DataRow dr in dtData.Rows)
-            {
+			{
 				Step step = new Step();
 				step.step = dr[columnStepName].ToString();
 				step.type = dr[columnTypeName].ToString();
@@ -1107,6 +1314,7 @@ namespace LocalPLC.motion
 				stepList.Add(step);
 			}
 
+			return ret;
 		}
 
 		private void refreshData()
@@ -1128,9 +1336,13 @@ namespace LocalPLC.motion
 				drData[eventColumn] = step.eventVar;
 				drData[delayColumn] = step.delay;
 				drData[noteColumn] = step.note;
+
+				dtData.Rows.Add(drData);
 			}
 
 			this.dataGridView1.DataSource = dtData;
+
+			setTableCellStatus();
 		}
 
 		private void UserControlCommandTable_Load(object sender, EventArgs e)
@@ -1147,8 +1359,41 @@ namespace LocalPLC.motion
 			//禁止用户改变DataGridView1の所有行的行高
 			dataGridView1.AllowUserToResizeRows = false;
 
-			//button_valid.Enabled = false;
-			//button_cancel.Enabled = false;
+			setTableCellStatus();
+			button_valid.Enabled = false;
+			button_cancel.Enabled = false;
 		}
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+			var row = e.RowIndex;
+			var column = e.ColumnIndex;
+			if(row < 0 || column < 0)
+            {
+				return;
+            }
+
+			var cell = dtData.Rows[row][column].ToString();
+			var stepList = data.stepList;
+			if(column == typeColumn)
+            {
+				if (cell != stepList[row].type)
+                {
+					button_valid.Enabled = true;
+					button_cancel.Enabled = true;
+				}
+			}
+			else if(column == posColumn)
+            {
+				if (cell != stepList[row].pos)
+				{
+					button_valid.Enabled = true;
+					button_cancel.Enabled = true;
+				}
+			}
+
+
+
+        }
     }
 }
