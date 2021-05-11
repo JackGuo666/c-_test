@@ -715,6 +715,7 @@ namespace LocalPLC.Base
                             if(this.dataGridView1.CurrentCell.ColumnIndex == columnVarIndex ||
                     this.dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex)
                 {
+                    text_Temp.Visible = false;
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
 
