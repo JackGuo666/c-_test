@@ -193,6 +193,9 @@
     <Compile Include="Base\xml\ClassParseBaseXml.cs" />
     <Compile Include="Base\xml\DataManageBase.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="custom\RichTextBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="empty.cs">
       <SubType>UserControl</SubType>
     </Compile>

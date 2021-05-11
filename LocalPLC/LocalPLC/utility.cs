@@ -613,6 +613,7 @@ namespace LocalPLC
                             //add by gw in 20210201 for添加DI变量
                             if(name == "Base_DI")
                             {
+                                ttt.ReadOnly = false;
                                 //删除变量组下的变量
                                 foreach (Variable variable in ttt.Variables)
                                 {
@@ -645,10 +646,13 @@ namespace LocalPLC
                                                     di.note, "", di.address);
                                     resetvariable.SetAttribute(20, di.channelName);
                                 }
+
+                                ttt.ReadOnly = true;
                             }
 
                             if(name == "Hsc")
                             {
+                                ttt.ReadOnly = false;
                                 //删除变量组下的变量
                                 foreach (Variable variable in ttt.Variables)
                                 {
@@ -669,10 +673,13 @@ namespace LocalPLC
 
                                     i++;
                                 }
+
+                                ttt.ReadOnly = true;
                             }
 
                             if(name == "Base_DO")
                             {
+                                ttt.ReadOnly = false;
                                 //删除变量组下的变量
                                 foreach (Variable variable in ttt.Variables)
                                 {
@@ -702,6 +709,8 @@ namespace LocalPLC
                                                     dout.note, "", dout.address);
                                     resetvariable.SetAttribute(20, dout.channelName);
                                 }
+
+                                ttt.ReadOnly = true;
                             }
                         }
 

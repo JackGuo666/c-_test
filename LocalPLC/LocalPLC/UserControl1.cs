@@ -82,7 +82,7 @@ namespace LocalPLC
                 TreeNode axis = new TreeNode("轴", 1, 1);
                 axis.Tag = "AXIS";
                 tnRet.Nodes.Add(axis);
-                motion.getTreeNode(axis);
+                motion.getAxisTreeNode(axis);
 
                 //添加轴对象
                 TreeNode addAxis = new TreeNode("添加轴对象", 2, 2);
@@ -93,6 +93,7 @@ namespace LocalPLC
                 TreeNode commandTable = new TreeNode("命令表", 1, 1);
                 commandTable.Tag = "COMMANDTABLE";
                 tnRet.Nodes.Add(commandTable);
+                motion.getCommandTreeNode(commandTable);
                 //添加命令表对象
                 TreeNode addCommandTable = new TreeNode("添加命令表对象", 2, 2);
                 addCommandTable.Tag = "ADDCOMMANDTABLE";
@@ -466,6 +467,7 @@ namespace LocalPLC
 
                     //根据xml创建运控轴分支
                     motion.createAxisTree();
+                    motion.createCommandTableTree();
 
                     ModbusWindow_.Controls.Clear();
 
@@ -477,6 +479,7 @@ namespace LocalPLC
                     string type = UC.loadControler();
                     UC.createControler(/*"LocalPLC24P"*/ type);
                     motion.createAxisTree();
+                    motion.createCommandTableTree();
                     multiprogApp.WorkspaceManager.SwitchTo(1);
                     return;
                 }
@@ -1408,8 +1411,25 @@ namespace LocalPLC
 
 
                 string name = e.Node.Text.ToString();
+
+
                 if (e.Node.Tag != null)
                 {
+                    var typeName = e.Node.Tag.GetType().Name;
+                    if(typeName == "CommandTable")
+                    {
+                        var commandTable = e.Node.Tag as CommandTable;
+                        //添加命令表
+                        UserControlCommandTable para = new UserControlCommandTable();
+                        //var para = motion.commandPara;
+                        para.initData(e.Node);
+                        
+                        para.Show();
+                        ModbusWindow_.Controls.Clear();
+                        para.Dock = DockStyle.Fill;
+                        ModbusWindow_.Controls.Add(para);
+                    }
+
                     //动态创建节点
                     if (e.Node.Tag.ToString() == "SERIAL_LINE")
                     {
@@ -1532,15 +1552,15 @@ namespace LocalPLC
                         para.Dock = DockStyle.None;
                         ModbusWindow_.Controls.Add(para);
                     }
-                    else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
-                    {
-                        //添加命令表
-                        UserControlCommandTable para = new UserControlCommandTable();
-                        para.Show();
-                        ModbusWindow_.Controls.Clear();
-                        para.Dock = DockStyle.Fill;
-                        ModbusWindow_.Controls.Add(para);
-                    }
+                    //else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
+                    //{
+                    //    //添加命令表
+                    //    UserControlCommandTable para = new UserControlCommandTable();
+                    //    para.Show();
+                    //    ModbusWindow_.Controls.Clear();
+                    //    para.Dock = DockStyle.Fill;
+                    //    ModbusWindow_.Controls.Add(para);
+                    //}
 
                 }
 
@@ -2160,7 +2180,7 @@ namespace LocalPLC
 
         void IAdeVariableObserver2.BeforeChange(AdeObjectType ObjectType, Variable OldVariable, ref Variable NewVariable, ref bool Cancel)
         {
-            
+            //Cancel = true;
         }
 
         void IAdeVariableObserver2.AfterChange(AdeObjectType ObjectType, Variable OldVariable, ref Variable NewVariable)
@@ -2411,7 +2431,7 @@ namespace LocalPLC
                 axis.Tag = axisData;
                 motion.motionDataManage.axisList.Add(axisData);
                 //key刷新
-                motion.refreshNodeKey(motion.motionDataManage.axisList);
+                motion.refreshAxisNodeKey(motion.motionDataManage.axisList);
 
                 TreeNode basePara = null;
                 TreeNode motionMotionPara = null;
@@ -2419,7 +2439,7 @@ namespace LocalPLC
                 //basePara.Tag = axisData.axisBase;
 
                 createNode(ref motionMotionPara, "运动参数", "MOTION_MOTION_PARA", axis, 5);
-                //motionMotionPara.Tag = axisData.axisMotionPara;
+                //motionMotionPara.Tag = axisData.axisMotionPara;   
 
                 TreeNode motionPulseEquivalent = null;
                 TreeNode motionLimitSignal = null;
@@ -2437,9 +2457,15 @@ namespace LocalPLC
                 var motionNode = e.Node.Parent;
                 TreeNode command  = null;
                 LocalPLC.motion.CommandTable commandTable = new CommandTable();
+                string name = "命令表1";
+                name = motion.addCommandName();
+                createNode(ref command, name, "MOTION_COMMAND_TABLE", motionNode, 3);
+                commandTable.name = name;
+                command.Tag = commandTable;
                 motion.motionDataManage.commandTableList.Add(commandTable);
-                createNode(ref command, "命令表1", "MOTION_COMMAND_TABLE", motionNode, 3);
-
+                //key刷新
+                motion.refreshCommandNodeKey(motion.motionDataManage.commandTableList);
+                utility.PrintInfo(motion.motionDataManage.commandTableList.Count.ToString());
             }
         }
 
