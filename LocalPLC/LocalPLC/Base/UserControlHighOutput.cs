@@ -254,6 +254,10 @@ namespace LocalPLC.Base
                     dtData.Rows[row][columnTypeIndex] = typeDescDic[type];
                     dtData.Rows[row][columnUsedIndex] = UserControlBase.dataManage.hspList[e.RowIndex].used;
                 }
+
+
+                //数据刷新到DI DO datarow里,动态更新
+                UserControl1.UC.refreshDOUserBaseUI();
             }
         }
 
