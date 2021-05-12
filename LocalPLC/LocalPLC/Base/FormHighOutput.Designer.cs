@@ -52,6 +52,8 @@
             this.label_diretion = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox_direction = new System.Windows.Forms.ComboBox();
+            this.button_cancel = new System.Windows.Forms.Button();
+            this.button_valid = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -285,12 +287,34 @@
             this.comboBox_direction.Size = new System.Drawing.Size(85, 26);
             this.comboBox_direction.TabIndex = 3;
             // 
+            // button_cancel
+            // 
+            this.button_cancel.Location = new System.Drawing.Point(642, 500);
+            this.button_cancel.Name = "button_cancel";
+            this.button_cancel.Size = new System.Drawing.Size(101, 40);
+            this.button_cancel.TabIndex = 9;
+            this.button_cancel.Text = "取消";
+            this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
+            // 
+            // button_valid
+            // 
+            this.button_valid.Location = new System.Drawing.Point(519, 500);
+            this.button_valid.Name = "button_valid";
+            this.button_valid.Size = new System.Drawing.Size(101, 40);
+            this.button_valid.TabIndex = 10;
+            this.button_valid.Text = "应用";
+            this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
+            // 
             // FormHighOutput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 492);
+            this.ClientSize = new System.Drawing.Size(800, 552);
+            this.Controls.Add(this.button_cancel);
+            this.Controls.Add(this.button_valid);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
@@ -299,6 +323,7 @@
             this.Name = "FormHighOutput";
             this.Text = "FormHighOutput";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormHighOutput_FormClosing);
+            this.Load += new System.EventHandler(this.FormHighOutput_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -338,5 +363,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboBox_pulse_pto;
+        private System.Windows.Forms.Button button_cancel;
+        private System.Windows.Forms.Button button_valid;
     }
 }

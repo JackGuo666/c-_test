@@ -286,7 +286,7 @@ namespace LocalPLC.Base.xml
         public bool doubleWord = false;
 
         //PTO
-        public int outputMode = 1;         //0-CW/CCW 1-PULSE_DIC 2-AB_DIRECTION
+        public int outputMode = 0;         //0-PULSE_DIC 1-CW/CCW 2-AB_DIRECTION
 
         public int type = 0;    //0-未配置 1-PLS 2-PWM 3-Frequency 4-PTO
 
@@ -370,6 +370,35 @@ namespace LocalPLC.Base.xml
             }
 
             return count;
+        }
+
+        public DOData getDoData(string channelName)
+        {
+            foreach (var dout in doList)
+            {
+                if (channelName == dout.channelName)
+                {
+                    return dout;
+                }
+            }
+
+            return null;
+        }
+
+        public bool setDoutUsed(string channelName, bool used)
+        {
+            bool ret = false;
+            foreach (var dout in doList)
+            {
+                if (channelName == dout.channelName)
+                {
+                    dout.used = used;
+                    ret = true;
+                    return ret;
+                }
+            }
+
+            return ret;
         }
 
         public bool checkVarNameDI(string name, string channel)
