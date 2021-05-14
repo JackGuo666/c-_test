@@ -139,6 +139,7 @@
             // comboBox_hardDownLimitLevel
             // 
             this.comboBox_hardDownLimitLevel.FormattingEnabled = true;
+            this.comboBox_hardDownLimitLevel.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardDownLimitLevel.Location = new System.Drawing.Point(549, 101);
             this.comboBox_hardDownLimitLevel.Name = "comboBox_hardDownLimitLevel";
             this.comboBox_hardDownLimitLevel.Size = new System.Drawing.Size(141, 26);
@@ -149,6 +150,7 @@
             // comboBox_hardUpLimitLevel
             // 
             this.comboBox_hardUpLimitLevel.FormattingEnabled = true;
+            this.comboBox_hardUpLimitLevel.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardUpLimitLevel.Location = new System.Drawing.Point(549, 64);
             this.comboBox_hardUpLimitLevel.Name = "comboBox_hardUpLimitLevel";
             this.comboBox_hardUpLimitLevel.Size = new System.Drawing.Size(141, 26);
@@ -159,6 +161,7 @@
             // comboBox_hardDownLimitInput
             // 
             this.comboBox_hardDownLimitInput.FormattingEnabled = true;
+            this.comboBox_hardDownLimitInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardDownLimitInput.Location = new System.Drawing.Point(209, 101);
             this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
             this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
@@ -169,6 +172,7 @@
             // comboBox_hardUpLimitInput
             // 
             this.comboBox_hardUpLimitInput.FormattingEnabled = true;
+            this.comboBox_hardUpLimitInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardUpLimitInput.Location = new System.Drawing.Point(209, 64);
             this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
             this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
@@ -556,6 +560,7 @@
             // comboBox_ZPulseSignal
             // 
             this.comboBox_ZPulseSignal.FormattingEnabled = true;
+            this.comboBox_ZPulseSignal.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_ZPulseSignal.Location = new System.Drawing.Point(210, 61);
             this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
             this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
@@ -566,6 +571,7 @@
             // comboBox_BackOriginal
             // 
             this.comboBox_BackOriginal.FormattingEnabled = true;
+            this.comboBox_BackOriginal.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_BackOriginal.Location = new System.Drawing.Point(210, 22);
             this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
             this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
@@ -576,6 +582,7 @@
             // comboBox_BackOriginalSelectLevel
             // 
             this.comboBox_BackOriginalSelectLevel.FormattingEnabled = true;
+            this.comboBox_BackOriginalSelectLevel.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_BackOriginalSelectLevel.Location = new System.Drawing.Point(548, 27);
             this.comboBox_BackOriginalSelectLevel.Name = "comboBox_BackOriginalSelectLevel";
             this.comboBox_BackOriginalSelectLevel.Size = new System.Drawing.Size(141, 26);

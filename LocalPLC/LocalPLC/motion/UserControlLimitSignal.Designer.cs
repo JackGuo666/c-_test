@@ -96,6 +96,7 @@
             // comboBox_hardDownLimitSelectLevel
             // 
             this.comboBox_hardDownLimitSelectLevel.FormattingEnabled = true;
+            this.comboBox_hardDownLimitSelectLevel.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardDownLimitSelectLevel.Location = new System.Drawing.Point(637, 117);
             this.comboBox_hardDownLimitSelectLevel.Name = "comboBox_hardDownLimitSelectLevel";
             this.comboBox_hardDownLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
@@ -105,6 +106,7 @@
             // comboBox_hardUpLimitSelectLevel
             // 
             this.comboBox_hardUpLimitSelectLevel.FormattingEnabled = true;
+            this.comboBox_hardUpLimitSelectLevel.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardUpLimitSelectLevel.Location = new System.Drawing.Point(637, 80);
             this.comboBox_hardUpLimitSelectLevel.Name = "comboBox_hardUpLimitSelectLevel";
             this.comboBox_hardUpLimitSelectLevel.Size = new System.Drawing.Size(141, 26);
@@ -114,6 +116,7 @@
             // comboBox_hardDownLimitInput
             // 
             this.comboBox_hardDownLimitInput.FormattingEnabled = true;
+            this.comboBox_hardDownLimitInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardDownLimitInput.Location = new System.Drawing.Point(297, 117);
             this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
             this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
@@ -124,6 +127,7 @@
             // comboBox_hardUpLimitInput
             // 
             this.comboBox_hardUpLimitInput.FormattingEnabled = true;
+            this.comboBox_hardUpLimitInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardUpLimitInput.Location = new System.Drawing.Point(297, 80);
             this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
             this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);

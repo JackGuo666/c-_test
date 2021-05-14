@@ -133,6 +133,7 @@
             // comboBox_StopBit
             // 
             this.comboBox_StopBit.FormattingEnabled = true;
+            this.comboBox_StopBit.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_StopBit.Location = new System.Drawing.Point(243, 253);
             this.comboBox_StopBit.Name = "comboBox_StopBit";
             this.comboBox_StopBit.Size = new System.Drawing.Size(122, 26);
@@ -152,6 +153,7 @@
             // comboBox_Databit
             // 
             this.comboBox_Databit.FormattingEnabled = true;
+            this.comboBox_Databit.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Databit.Location = new System.Drawing.Point(243, 209);
             this.comboBox_Databit.Name = "comboBox_Databit";
             this.comboBox_Databit.Size = new System.Drawing.Size(122, 26);
@@ -162,6 +164,7 @@
             // comboBox_Parity
             // 
             this.comboBox_Parity.FormattingEnabled = true;
+            this.comboBox_Parity.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Parity.Location = new System.Drawing.Point(243, 167);
             this.comboBox_Parity.Name = "comboBox_Parity";
             this.comboBox_Parity.Size = new System.Drawing.Size(122, 26);
@@ -181,6 +184,7 @@
             // comboBox_Baud
             // 
             this.comboBox_Baud.FormattingEnabled = true;
+            this.comboBox_Baud.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Baud.Location = new System.Drawing.Point(243, 118);
             this.comboBox_Baud.Name = "comboBox_Baud";
             this.comboBox_Baud.Size = new System.Drawing.Size(122, 26);
@@ -236,6 +240,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox1.Location = new System.Drawing.Point(326, 354);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(95, 26);

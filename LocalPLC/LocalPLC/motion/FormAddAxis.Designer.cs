@@ -62,6 +62,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox1.Location = new System.Drawing.Point(206, 50);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(141, 26);
@@ -71,6 +72,7 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox2.Location = new System.Drawing.Point(206, 82);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(141, 26);

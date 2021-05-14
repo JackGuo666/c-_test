@@ -82,6 +82,7 @@
             // comboBox_ZPulseSignal
             // 
             this.comboBox_ZPulseSignal.FormattingEnabled = true;
+            this.comboBox_ZPulseSignal.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_ZPulseSignal.Location = new System.Drawing.Point(293, 72);
             this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
             this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
@@ -92,6 +93,7 @@
             // comboBox_BackOriginal
             // 
             this.comboBox_BackOriginal.FormattingEnabled = true;
+            this.comboBox_BackOriginal.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_BackOriginal.Location = new System.Drawing.Point(293, 38);
             this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
             this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
@@ -102,6 +104,7 @@
             // comboBox_BackOriginalSelectLevel
             // 
             this.comboBox_BackOriginalSelectLevel.FormattingEnabled = true;
+            this.comboBox_BackOriginalSelectLevel.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_BackOriginalSelectLevel.Location = new System.Drawing.Point(632, 38);
             this.comboBox_BackOriginalSelectLevel.Name = "comboBox_BackOriginalSelectLevel";
             this.comboBox_BackOriginalSelectLevel.Size = new System.Drawing.Size(141, 26);

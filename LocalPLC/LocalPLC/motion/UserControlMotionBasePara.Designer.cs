@@ -130,6 +130,7 @@
             // comboBox_HardwareInterface
             // 
             this.comboBox_HardwareInterface.FormattingEnabled = true;
+            this.comboBox_HardwareInterface.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_HardwareInterface.Location = new System.Drawing.Point(495, 155);
             this.comboBox_HardwareInterface.Name = "comboBox_HardwareInterface";
             this.comboBox_HardwareInterface.Size = new System.Drawing.Size(121, 26);
@@ -149,6 +150,7 @@
             // comboBox_MeasureUnit
             // 
             this.comboBox_MeasureUnit.FormattingEnabled = true;
+            this.comboBox_MeasureUnit.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_MeasureUnit.Location = new System.Drawing.Point(177, 159);
             this.comboBox_MeasureUnit.Name = "comboBox_MeasureUnit";
             this.comboBox_MeasureUnit.Size = new System.Drawing.Size(121, 26);
@@ -171,6 +173,7 @@
             // comboBox_AxisType
             // 
             this.comboBox_AxisType.FormattingEnabled = true;
+            this.comboBox_AxisType.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_AxisType.Location = new System.Drawing.Point(495, 101);
             this.comboBox_AxisType.Name = "comboBox_AxisType";
             this.comboBox_AxisType.Size = new System.Drawing.Size(121, 26);
