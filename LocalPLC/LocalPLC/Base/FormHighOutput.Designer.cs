@@ -73,16 +73,18 @@
             // comboBox_outputType
             // 
             this.comboBox_outputType.FormattingEnabled = true;
+            this.comboBox_outputType.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_outputType.Location = new System.Drawing.Point(170, 30);
             this.comboBox_outputType.Name = "comboBox_outputType";
             this.comboBox_outputType.Size = new System.Drawing.Size(133, 26);
             this.comboBox_outputType.TabIndex = 3;
             this.comboBox_outputType.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
+            this.comboBox_outputType.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_outputType_KeyPress);
             // 
             // comboBox_pulse
             // 
             this.comboBox_pulse.FormattingEnabled = true;
-            this.comboBox_pulse.Location = new System.Drawing.Point(506, 30);
+            this.comboBox_pulse.Location = new System.Drawing.Point(522, 30);
             this.comboBox_pulse.Name = "comboBox_pulse";
             this.comboBox_pulse.Size = new System.Drawing.Size(85, 26);
             this.comboBox_pulse.TabIndex = 3;
@@ -145,6 +147,8 @@
             this.textBox_preset.Name = "textBox_preset";
             this.textBox_preset.Size = new System.Drawing.Size(121, 28);
             this.textBox_preset.TabIndex = 5;
+            this.textBox_preset.TextChanged += new System.EventHandler(this.textBox_preset_TextChanged);
+            this.textBox_preset.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_preset_KeyPress);
             // 
             // label4
             // 
@@ -167,11 +171,15 @@
             // comboBox_timeBase
             // 
             this.comboBox_timeBase.FormattingEnabled = true;
+            this.comboBox_timeBase.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_timeBase.Location = new System.Drawing.Point(114, 28);
             this.comboBox_timeBase.Name = "comboBox_timeBase";
             this.comboBox_timeBase.Size = new System.Drawing.Size(93, 26);
             this.comboBox_timeBase.TabIndex = 3;
             this.comboBox_timeBase.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
+            this.comboBox_timeBase.TextChanged += new System.EventHandler(this.comboBox_timeBase_TextChanged);
+            this.comboBox_timeBase.KeyDown += new System.Windows.Forms.KeyEventHandler(this.comboBox_timeBase_KeyDown);
+            this.comboBox_timeBase.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_timeBase_KeyPress);
             // 
             // panel4
             // 
@@ -247,7 +255,7 @@
             // comboBox_pulse_pto
             // 
             this.comboBox_pulse_pto.FormattingEnabled = true;
-            this.comboBox_pulse_pto.Location = new System.Drawing.Point(506, 19);
+            this.comboBox_pulse_pto.Location = new System.Drawing.Point(522, 19);
             this.comboBox_pulse_pto.Name = "comboBox_pulse_pto";
             this.comboBox_pulse_pto.Size = new System.Drawing.Size(85, 26);
             this.comboBox_pulse_pto.TabIndex = 7;
@@ -255,11 +263,13 @@
             // comboBox_outputMode
             // 
             this.comboBox_outputMode.FormattingEnabled = true;
+            this.comboBox_outputMode.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_outputMode.Location = new System.Drawing.Point(170, 71);
             this.comboBox_outputMode.Name = "comboBox_outputMode";
             this.comboBox_outputMode.Size = new System.Drawing.Size(133, 26);
             this.comboBox_outputMode.TabIndex = 3;
-            this.comboBox_outputMode.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged_1);
+            this.comboBox_outputMode.SelectedIndexChanged += new System.EventHandler(this.comboBox_OutputMode_SelectedIndexChanged);
+            this.comboBox_outputMode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_outputMode_KeyPress);
             // 
             // label_diretion
             // 
@@ -282,10 +292,12 @@
             // comboBox_direction
             // 
             this.comboBox_direction.FormattingEnabled = true;
-            this.comboBox_direction.Location = new System.Drawing.Point(506, 69);
+            this.comboBox_direction.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.comboBox_direction.Location = new System.Drawing.Point(522, 71);
             this.comboBox_direction.Name = "comboBox_direction";
             this.comboBox_direction.Size = new System.Drawing.Size(85, 26);
             this.comboBox_direction.TabIndex = 3;
+            this.comboBox_direction.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_direction_KeyPress);
             // 
             // button_cancel
             // 

@@ -8,11 +8,114 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LocalPLC.Base.xml;
+using System.Windows.Forms.VisualStyles;
 
 namespace LocalPLC.Base
 {
     public partial class UserControlHighOutput : UserControl
     {
+
+        public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
+        {
+            public DataGridViewDisableButtonColumn()
+            {
+                this.CellTemplate = new DataGridViewDisableButtonCell();
+            }
+        }
+
+        public class DataGridViewDisableButtonCell : DataGridViewButtonCell
+        {
+            private bool enabledValue;
+            public bool Enabled
+            {
+                get
+                {
+                    return enabledValue;
+                }
+                set
+                {
+                    enabledValue = value;
+                }
+            }
+
+            // Override the Clone method so that the Enabled property is copied.
+            public override object Clone()
+            {
+                DataGridViewDisableButtonCell cell =
+                    (DataGridViewDisableButtonCell)base.Clone();
+                cell.Enabled = this.Enabled;
+                return cell;
+            }
+
+            // By default, enable the button cell.
+            public DataGridViewDisableButtonCell()
+            {
+                this.enabledValue = true;
+            }
+
+            protected override void Paint(Graphics graphics,
+                Rectangle clipBounds, Rectangle cellBounds, int rowIndex,
+                DataGridViewElementStates elementState, object value,
+                object formattedValue, string errorText,
+                DataGridViewCellStyle cellStyle,
+                DataGridViewAdvancedBorderStyle advancedBorderStyle,
+                DataGridViewPaintParts paintParts)
+            {
+                // The button cell is disabled, so paint the border,
+                // background, and disabled button for the cell.
+                if (!this.enabledValue)
+                {
+                    // Draw the cell background, if specified.
+                    if ((paintParts & DataGridViewPaintParts.Background) ==
+                        DataGridViewPaintParts.Background)
+                    {
+                        SolidBrush cellBackground =
+                            new SolidBrush(cellStyle.BackColor);
+                        graphics.FillRectangle(cellBackground, cellBounds);
+                        cellBackground.Dispose();
+                    }
+
+                    // Draw the cell borders, if specified.
+                    if ((paintParts & DataGridViewPaintParts.Border) ==
+                        DataGridViewPaintParts.Border)
+                    {
+                        PaintBorder(graphics, clipBounds, cellBounds, cellStyle,
+                            advancedBorderStyle);
+                    }
+
+                    // Calculate the area in which to draw the button.
+                    Rectangle buttonArea = cellBounds;
+                    Rectangle buttonAdjustment =
+                        this.BorderWidths(advancedBorderStyle);
+                    buttonArea.X += buttonAdjustment.X;
+                    buttonArea.Y += buttonAdjustment.Y;
+                    buttonArea.Height -= buttonAdjustment.Height;
+                    buttonArea.Width -= buttonAdjustment.Width;
+
+                    // Draw the disabled button.
+                    ButtonRenderer.DrawButton(graphics, buttonArea,
+                        PushButtonState.Disabled);
+
+
+                    // Draw the disabled button text.
+                    if (this.FormattedValue is String)
+                    {
+                        TextRenderer.DrawText(graphics,
+                            (string)this.FormattedValue,
+                            this.DataGridView.Font,
+                            buttonArea, SystemColors.GrayText);
+                    }
+                }
+                else
+                {
+                    // The button cell is enabled, so let the base class
+                    // handle the painting.
+                    base.Paint(graphics, clipBounds, cellBounds, rowIndex,
+                        elementState, value, formattedValue, errorText,
+                        cellStyle, advancedBorderStyle, paintParts);
+                }
+            }
+        }
         public enum TYPE { NOTUSED, PLS, PWM, FREQUENCY, PTO}
         public UserControlHighOutput()
         {
@@ -199,7 +302,7 @@ namespace LocalPLC.Base
 
             this.dataGridView1.DataSource = dtData;
 
-            DataGridViewButtonColumn uninstallButtonColumn = new DataGridViewButtonColumn();
+            DataGridViewDisableButtonColumn uninstallButtonColumn = new DataGridViewDisableButtonColumn();
             uninstallButtonColumn.Name = "配置";
             uninstallButtonColumn.Text = "...";
 
@@ -239,6 +342,14 @@ namespace LocalPLC.Base
         {
             if (e.ColumnIndex == dataGridView1.Columns["配置"].Index && e.RowIndex >= 0)
             {
+                if (dataGridView1.CurrentCell is DataGridViewDisableButtonCell)
+                {
+                    if (((DataGridViewDisableButtonCell)dataGridView1.CurrentCell).Enabled == false)
+                    {
+                        return;
+                    }
+                }
+
                 //Do something with your button.
                 FormHighOutput color = new FormHighOutput(typeDescDic, UserControlBase.dataManage.hspList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
@@ -255,9 +366,104 @@ namespace LocalPLC.Base
                     dtData.Rows[row][columnUsedIndex] = UserControlBase.dataManage.hspList[e.RowIndex].used;
                 }
 
+                refreshHSPConfigButton();
 
                 //数据刷新到DI DO datarow里,动态更新
                 UserControl1.UC.refreshDOUserBaseUI();
+            }
+        }
+
+        void setButtonEnable(bool enable, int column, int row)
+        {
+            //DI00使用，HSC4不可以配置
+            DataGridViewDisableButtonColumn button = (DataGridViewDisableButtonColumn)dataGridView1.Columns[0];
+            DataGridViewButtonCell vCell = (DataGridViewButtonCell)dataGridView1[column, row];
+            if (vCell is DataGridViewDisableButtonCell)
+            {
+                ((DataGridViewDisableButtonCell)vCell).Enabled = enable;
+                
+                dataGridView1.Invalidate();
+            }
+        }
+
+        void refreshHSPConfigButton()
+        {
+            foreach (var dout in UserControlBase.dataManage.doList)
+            {
+                //dout.used
+                if (dout.channelName == "DO00")
+                {
+                    if(dout.used)
+                    {
+                        if(dout.hspUsed != "HSP0")
+                        {
+                            setButtonEnable(false, 0, 0);
+                        }
+                    }
+                    else
+                    {
+                        if(dout.hspUsed == "")
+                        {
+                            setButtonEnable(true, 0, 0);
+                        }
+                    }
+
+                }
+                else if(dout.channelName == "DO01")
+                {
+                    if(dout.used)
+                    {
+                        if(dout.hspUsed != "HSP1")
+                        {
+                            setButtonEnable(false, 0, 1);
+                        }
+                    }
+                    else
+                    {
+                        if(dout.hspUsed == "")
+                        {
+                            setButtonEnable(true, 0, 1);
+                        }
+                    }
+
+
+                }
+                else if(dout.channelName == "DO02")
+                {
+                    if(dout.used)
+                    {
+                        if(dout.hspUsed != "HSP2")
+                        {
+                            setButtonEnable(false, 0, 2);
+                        }
+                    }
+                    else
+                    {
+                        if(dout.hspUsed == "")
+                        {
+                            setButtonEnable(true, 0, 2);
+                        }
+                    }
+
+                }
+                else if(dout.channelName == "DO03")
+                {
+                    if(dout.used)
+                    {
+                        if(dout.hspUsed != "HSP3")
+                        {
+                            setButtonEnable(false, 0, 3);
+                        }
+                    }
+                    else
+                    {
+                        if(dout.hspUsed == "")
+                        {
+                            setButtonEnable(true, 0, 3);
+                        }
+                    }
+
+                }
             }
         }
 
@@ -357,12 +563,22 @@ namespace LocalPLC.Base
         private void button1_Click(object sender, EventArgs e)
         {
             getDataFromUI();
+            button1.Enabled = false;
+            button2.Enabled = false;
         }
 
 
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
+            button1.Enabled = false;
+            button2.Enabled = false;
+        }
+
+        private void UserControlHighOutput_Load(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            button2.Enabled = false;
         }
     }
 }

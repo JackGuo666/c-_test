@@ -97,6 +97,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "UserControlHighOutput";
             this.Size = new System.Drawing.Size(838, 458);
+            this.Load += new System.EventHandler(this.UserControlHighOutput_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

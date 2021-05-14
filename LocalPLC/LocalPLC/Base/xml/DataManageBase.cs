@@ -168,6 +168,8 @@ namespace LocalPLC.Base.xml
         public string channelName = "";
         public string address = "";
         public string note = "";
+
+        public string hspUsed = "";
     }
 
 
@@ -385,13 +387,22 @@ namespace LocalPLC.Base.xml
             return null;
         }
 
-        public bool setDoutUsed(string channelName, bool used)
+        public bool setDoutUsed(string channelName, bool used, string hspName)
         {
             bool ret = false;
             foreach (var dout in doList)
             {
                 if (channelName == dout.channelName)
                 {
+                    if(used)
+                    {
+                        dout.hspUsed = hspName;
+                    }
+                    else
+                    {
+                        dout.hspUsed = "";
+                    }
+
                     dout.used = used;
                     ret = true;
                     return ret;

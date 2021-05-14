@@ -25,6 +25,7 @@ namespace LocalPLC.Base
         int panel1Height = 0;
         Dictionary<int, string> timeBaseDic = new Dictionary<int, string>();
         Dictionary<int, string> outputPluseDic = new Dictionary<int, string>();
+        Dictionary<int, string> outputPluseOnlyPulseDic = new Dictionary<int, string>();
         enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
         enum OutputMode { PULSE_DIC, CW_CCW, AB_DIRECTION}
         public FormHighOutput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSPData hspData)
@@ -50,13 +51,16 @@ namespace LocalPLC.Base
             outputPluseDic.Add((int)OutputMode.CW_CCW, "CW / CCW");
             outputPluseDic.Add((int)OutputMode.AB_DIRECTION, "正交输出");
 
+
+            outputPluseOnlyPulseDic.Clear();
+            outputPluseOnlyPulseDic.Add((int)OutputMode.PULSE_DIC, "脉冲 / 方向");
+
             this.Text = hspData.name;
 
             typeDescDic_ = typeDescDic;
             hspData_ = hspData;
             hspType_ = hspData.type;
            
-
             foreach (var elem in typeDescDic)
             {
                 comboBox_outputType.Items.Add(elem.Value);
@@ -68,10 +72,23 @@ namespace LocalPLC.Base
                 comboBox_timeBase.Items.Add(elemTimeBase.Value);
             }
 
-            foreach(var outputMode in outputPluseDic)
+
+            if (hspData_.name == "HSP0" || hspData_.name == "HSP2")
             {
-                comboBox_outputMode.Items.Add(outputMode.Value);
+                foreach (var outputMode in outputPluseDic)
+                {
+                    comboBox_outputMode.Items.Add(outputMode.Value);
+                }
             }
+            else
+            {
+                foreach (var outputMode in outputPluseOnlyPulseDic)
+                {
+                    comboBox_outputMode.Items.Add(outputMode.Value);
+                }
+            }
+
+
 
             //comboBox3.Items.Add("未配置");
             //comboBox3.Items.Add("PLS");
@@ -149,6 +166,42 @@ namespace LocalPLC.Base
             this.comboBox_outputMode.Size = new System.Drawing.Size(comboBox_outputType.Width, comboBox_outputType.Height);
             this.comboBox_outputMode.TabIndex = 3;
             panel1.Controls.Add(comboBox_outputMode);
+
+            if (hspData_.name == "HSP2")
+            {
+                foreach (var dout in UserControlBase.dataManage.doList)
+                {
+                    if (dout.channelName == "DO03")
+                    {
+                        if (dout.used && dout.hspUsed != hspData_.name)
+                        {
+                            this.comboBox_outputMode.Items.Clear();
+                            foreach (var outputModeOnlyPulse in outputPluseOnlyPulseDic)
+                            {
+                                comboBox_outputMode.Items.Add(outputModeOnlyPulse.Value);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(hspData_.name == "HSP0")
+            {
+                foreach (var dout in UserControlBase.dataManage.doList)
+                {
+                    if(dout.channelName == "DO01")
+                    {
+                        if (dout.used && dout.hspUsed != hspData_.name)
+                        {
+                            this.comboBox_outputMode.Items.Clear();
+                            foreach (var outputModeOnlyPulse in outputPluseOnlyPulseDic)
+                            {
+                                comboBox_outputMode.Items.Add(outputModeOnlyPulse.Value);
+                            }
+                        }
+                    }
+                }
+            }
+
             comboBox_outputMode.SelectedIndex = (int)OutputMode.PULSE_DIC;
 
 
@@ -335,8 +388,57 @@ namespace LocalPLC.Base
 
         }
 
+        private void comboBox_OutputMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int currentIndex = this.comboBox_outputMode.SelectedIndex;
+            if (currentIndex < 0) return;
+            if(currentIndex == (int)OutputMode.PULSE_DIC)
+            {
+                comboBox_direction.Enabled = true;
+                label_pulse.Text = "脉冲";
+                label_diretion.Text = "方向";
+            }
+            else if(currentIndex == (int)OutputMode.CW_CCW)
+            {
+                if(hspData_.name == "HSP0")
+                {
+                    comboBox_direction.Enabled = false;
+                    comboBox_direction.SelectedItem = "DO01";
+                    label_pulse.Text = "顺时针";
+                    label_diretion.Text = "逆时针";
+                }
+                else if(hspData_.name == "HSP2")
+                {
+                    comboBox_direction.Enabled = false;
+                    comboBox_direction.SelectedItem = "DO03";
+                    label_pulse.Text = "顺时针";
+                    label_diretion.Text = "逆时针";
+                }
+            }
+            else if(currentIndex == (int)OutputMode.AB_DIRECTION)
+            {
+                if (hspData_.name == "HSP0")
+                {
+                    comboBox_direction.Enabled = false;
+                    comboBox_direction.SelectedItem = "DO01";
+                    label_pulse.Text = "脉冲A";
+                    label_diretion.Text = "脉冲B";
+                }
+                else if (hspData_.name == "HSP2")
+                {
+                    comboBox_direction.Enabled = false;
+                    comboBox_direction.SelectedItem = "DO03";
+                    label_pulse.Text = "脉冲A";
+                    label_diretion.Text = "脉冲B";
+                }
+            }
+            
+        }
+
         private void FormHighOutput_FormClosing(object sender, FormClosingEventArgs e)
         {
+            return;
+
             //e.Cancel = true;
 
             if(comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.NOTUSED)
@@ -538,9 +640,11 @@ namespace LocalPLC.Base
                 hspData_.type = comboBox_outputType.SelectedIndex;
                 hspData_.used = false;
                 //设置为未选
-                UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, false);
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false);
+                UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, false, hspData_.name);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
                 hspData_.directionPort = "";
+                hspData_.directionPort = "";
+                hspData_.outputMode = -1;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PLS)
             {
@@ -551,7 +655,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
                 }
                 else
                 {
@@ -559,9 +663,10 @@ namespace LocalPLC.Base
                     comboBox_pulse.Focus();
                 }
 
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
                 hspData_.directionPort = "";
                 hspData_.used = true;
+                hspData_.outputMode = -1;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PWM)
             {
@@ -571,7 +676,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
                 }
                 else
                 {
@@ -579,9 +684,10 @@ namespace LocalPLC.Base
                     comboBox_pulse.Focus();
                 }
 
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
                 hspData_.directionPort = "";
                 hspData_.used = true;
+                hspData_.outputMode = -1;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.FREQUENCY)
             {
@@ -589,7 +695,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
                 }
                 else
                 {
@@ -598,9 +704,10 @@ namespace LocalPLC.Base
                 }
 
                 int.TryParse(textBox_frequency.Text, out hspData_.signalFrequency);
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
                 hspData_.directionPort = "";
                 hspData_.used = true;
+                hspData_.outputMode = -1;
             }
             else if (comboBox_outputType.SelectedIndex == (int)UserControlHighOutput.TYPE.PTO)
             {
@@ -609,7 +716,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
                 }
                 else
                 {
@@ -620,9 +727,9 @@ namespace LocalPLC.Base
                 if (comboBox_direction.SelectedItem != null)
                 {
                     //把上一次的方向端口设置为未选
-                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
                     hspData_.directionPort = comboBox_direction.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, true);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, true, hspData_.name);
                 }
                 else
                 {
@@ -647,6 +754,59 @@ namespace LocalPLC.Base
         private void button_cancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void comboBox_outputType_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_timeBase_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_outputMode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_direction_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void textBox_preset_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar))//如果不是输入数字就不让输入
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void comboBox_timeBase_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void comboBox_timeBase_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBox_preset_TextChanged(object sender, EventArgs e)
+        {
+            var value = textBox_preset.Text;
+            int ret = -1;
+            bool flag = int.TryParse(value, out ret);
+            if(!flag)
+            {
+                textBox_preset.BackColor = Color.Red;
+            }
+            else
+            {
+                textBox_preset.BackColor = Color.White;
+            }
         }
     }
 }
