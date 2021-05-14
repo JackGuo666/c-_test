@@ -121,6 +121,7 @@
             // comboBox_Type
             // 
             this.comboBox_Type.FormattingEnabled = true;
+            this.comboBox_Type.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Type.Location = new System.Drawing.Point(109, 44);
             this.comboBox_Type.Name = "comboBox_Type";
             this.comboBox_Type.Size = new System.Drawing.Size(143, 26);
@@ -405,6 +406,7 @@
             // comboBox_trigger1
             // 
             this.comboBox_trigger1.FormattingEnabled = true;
+            this.comboBox_trigger1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_trigger1.Location = new System.Drawing.Point(646, 185);
             this.comboBox_trigger1.Name = "comboBox_trigger1";
             this.comboBox_trigger1.Size = new System.Drawing.Size(111, 26);
@@ -415,6 +417,7 @@
             // comboBox_trigger0
             // 
             this.comboBox_trigger0.FormattingEnabled = true;
+            this.comboBox_trigger0.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_trigger0.Location = new System.Drawing.Point(646, 130);
             this.comboBox_trigger0.Name = "comboBox_trigger0";
             this.comboBox_trigger0.Size = new System.Drawing.Size(111, 26);
@@ -573,6 +576,7 @@
             // 
             this.comboBox_inputmode.BackColor = System.Drawing.Color.White;
             this.comboBox_inputmode.FormattingEnabled = true;
+            this.comboBox_inputmode.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_inputmode.Location = new System.Drawing.Point(590, 44);
             this.comboBox_inputmode.Name = "comboBox_inputmode";
             this.comboBox_inputmode.Size = new System.Drawing.Size(141, 26);
