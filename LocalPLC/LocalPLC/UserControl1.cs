@@ -297,14 +297,14 @@ namespace LocalPLC
             multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, AdeApplicationProperty.adeApOnlineOn);
 
 
-            multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, SafeArrayOfObjectTypeProject);
+            //multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, SafeArrayOfObjectTypeProject);
 
             //监视extension command menu multiprogApp.AdviseFrameworkExtension2("LocalPLC.CONTROLBAR.PROGID", this, this);
         }
 
         public void BeforePropertyChange(object Object, AdeObjectType ObjectType, int PropertyId, object OldValue, object NewValue, ref bool Cancel)
         {
-
+            //AdeApplicationProperty.adeApOnlineOn
         }
         public void AfterPropertyChange(object Object, AdeObjectType ObjectType, int PropertyId, object OldValue, object NewValue)
         {
@@ -1423,7 +1423,6 @@ namespace LocalPLC
                         UserControlCommandTable para = new UserControlCommandTable();
                         //var para = motion.commandPara;
                         para.initData(e.Node);
-                        
                         para.Show();
                         ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.Fill;
