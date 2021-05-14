@@ -28,6 +28,7 @@ namespace LocalPLC.Base
         Dictionary<int, string> outputPluseOnlyPulseDic = new Dictionary<int, string>();
         enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
         enum OutputMode { PULSE_DIC, CW_CCW, AB_DIRECTION}
+        ToolTip tip = new ToolTip();
         public FormHighOutput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSPData hspData)
         {
             InitializeComponent();
@@ -299,6 +300,9 @@ namespace LocalPLC.Base
                 this.Controls.Remove(panel3);
                 this.Controls.Remove(panel4);
                 this.Controls.Remove(panel5);
+
+                button_valid.Enabled = true;
+                button_cancel.Enabled = true;
             }
             else
             {
@@ -325,6 +329,8 @@ namespace LocalPLC.Base
                     //this.panel2.Controls.Clear();
                     //pto.Dock = DockStyle.Fill;
                     //this.panel2.Controls.Add(pto);
+                    button_valid.Enabled = true;
+                    button_cancel.Enabled = true;
                 }
                 else if (currentIndex == 2)
                 {
@@ -347,6 +353,9 @@ namespace LocalPLC.Base
                     //this.panel2.Controls.Clear();
                     //pwm.Dock = DockStyle.Fill;
                     //this.panel2.Controls.Add(pwm);
+
+                    button_valid.Enabled = true;
+                    button_cancel.Enabled = true;
                 }
                 else if (currentIndex == 3)
                 {
@@ -365,6 +374,9 @@ namespace LocalPLC.Base
                     //this.panel2.Controls.Clear();
                     //freaGen.Dock = DockStyle.Fill;
                     //this.panel2.Controls.Add(freaGen);
+
+                    button_valid.Enabled = true;
+                    button_cancel.Enabled = true;
                 }
                 else if(currentIndex == 4)
                 {
@@ -376,6 +388,9 @@ namespace LocalPLC.Base
                     panel2.Location = posRegular;
                     setPtoUserControl();
                     this.Controls.Add(panel2);
+
+                    button_valid.Enabled = true;
+                    button_cancel.Enabled = true;
                 }
             }
 
@@ -627,10 +642,15 @@ namespace LocalPLC.Base
 
             }
 
-
             //方向
             comboBox_direction.SelectedItem = hspData_.directionPort;
             comboBox_outputMode.SelectedIndex = hspData_.outputMode;
+
+            //tip设置
+            tip.AutoPopDelay = 10000;
+            tip.InitialDelay = 500;
+            tip.ReshowDelay = 500;
+            tip.ShowAlways = true;
         }
 
         void getDataFromUI()
@@ -802,11 +822,135 @@ namespace LocalPLC.Base
             if(!flag)
             {
                 textBox_preset.BackColor = Color.Red;
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+                tip.SetToolTip(textBox_preset, "输入值必须为整数!");
             }
             else
             {
-                textBox_preset.BackColor = Color.White;
+                if(comboBox_timeBase.SelectedIndex == (int)TimeBase.ZEROPOINTONE)
+                {
+                    //10000-20000
+                    if(ret < 1 || ret > 20000)
+                    {
+                        textBox_preset.BackColor = Color.Red;
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
+                        tip.SetToolTip(textBox_preset, "预设值范围: 1 - 20000");
+                    }
+                    else
+                    {
+                        textBox_preset.BackColor = Color.White;
+                        tip.SetToolTip(textBox_preset, "");
+                        button_valid.Enabled = true;
+                        button_cancel.Enabled = true;
+                    }
+
+                }
+                else if(comboBox_timeBase.SelectedIndex == (int)TimeBase.ONE)
+                {
+                    //1 - 2000
+                    if(ret < 1 || ret > 2000)
+                    {
+                        textBox_preset.BackColor = Color.Red;
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
+                        tip.SetToolTip(textBox_preset, "预设值范围: 1 - 2000");
+                    }
+                    else
+                    {
+                        textBox_preset.BackColor = Color.White;
+                        tip.SetToolTip(textBox_preset, "");
+                        button_valid.Enabled = true;
+                        button_cancel.Enabled = true;
+                    }
+                }
+                else if(comboBox_timeBase.SelectedIndex == (int)TimeBase.TEN)
+                {
+                    //1 - 200
+                    if( ret < 1 || ret > 200)
+                    {
+                        textBox_preset.BackColor = Color.Red;
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
+                        tip.SetToolTip(textBox_preset, "预设值范围: 1 - 200");
+                    }
+                    else
+                    {
+                        textBox_preset.BackColor = Color.White;
+                        tip.SetToolTip(textBox_preset, "");
+                        button_valid.Enabled = true;
+                        button_cancel.Enabled = true;
+                    }
+                }
+                else if(comboBox_timeBase.SelectedIndex == (int)TimeBase.ONETHOUSAND)
+                {
+                    //1 - 2
+                    if (ret < 1 || ret > 2)
+                    {
+                        textBox_preset.BackColor = Color.Red;
+                        button_valid.Enabled = false;
+                        button_cancel.Enabled = true;
+                        tip.SetToolTip(textBox_preset, "预设值范围: 1 - 2");
+                    }
+                    else
+                    {
+                        textBox_preset.BackColor = Color.White;
+                        tip.SetToolTip(textBox_preset, "");
+                        button_valid.Enabled = true;
+                        button_cancel.Enabled = true;
+                    }
+                }
+                else
+                {
+
+                }
+
+                //textBox_preset.BackColor = Color.White;
+
+
             }
+        }
+
+        private void textBox_frequency_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 8 && !Char.IsDigit(e.KeyChar))//如果不是输入数字就不让输入
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_frequency_TextChanged(object sender, EventArgs e)
+        {
+            var value = textBox_frequency.Text;
+            int ret = -1;
+            bool flag = int.TryParse(value, out ret);
+            if (flag)
+            {
+                // 0 - 10000
+                if (ret < 0 || ret > 10000)
+                {
+                    textBox_frequency.BackColor = Color.Red;
+                    button_valid.Enabled = false;
+                    button_cancel.Enabled = true;
+                    tip.SetToolTip(textBox_frequency, "频率值范围: 0 - 100000");
+                }
+                else
+                {
+                    textBox_frequency.BackColor = Color.White;
+                    tip.SetToolTip(textBox_frequency, "");
+                    button_valid.Enabled = true;
+                    button_cancel.Enabled = true;
+                }
+            }
+            else
+            {
+                textBox_frequency.BackColor = Color.Red;
+                button_valid.Enabled = false;
+                button_cancel.Enabled = true;
+                tip.SetToolTip(textBox_frequency, "输入值必须为整数!");
+            }
+            
         }
     }
 }

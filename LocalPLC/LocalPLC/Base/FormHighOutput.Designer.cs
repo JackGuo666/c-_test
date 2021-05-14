@@ -172,7 +172,7 @@
             // 
             this.comboBox_timeBase.FormattingEnabled = true;
             this.comboBox_timeBase.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.comboBox_timeBase.Location = new System.Drawing.Point(114, 28);
+            this.comboBox_timeBase.Location = new System.Drawing.Point(114, 23);
             this.comboBox_timeBase.Name = "comboBox_timeBase";
             this.comboBox_timeBase.Size = new System.Drawing.Size(93, 26);
             this.comboBox_timeBase.TabIndex = 3;
@@ -197,6 +197,8 @@
             this.textBox_frequency.Name = "textBox_frequency";
             this.textBox_frequency.Size = new System.Drawing.Size(121, 28);
             this.textBox_frequency.TabIndex = 5;
+            this.textBox_frequency.TextChanged += new System.EventHandler(this.textBox_frequency_TextChanged);
+            this.textBox_frequency.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_frequency_KeyPress);
             // 
             // label5
             // 
@@ -264,7 +266,7 @@
             // 
             this.comboBox_outputMode.FormattingEnabled = true;
             this.comboBox_outputMode.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.comboBox_outputMode.Location = new System.Drawing.Point(170, 71);
+            this.comboBox_outputMode.Location = new System.Drawing.Point(170, 66);
             this.comboBox_outputMode.Name = "comboBox_outputMode";
             this.comboBox_outputMode.Size = new System.Drawing.Size(133, 26);
             this.comboBox_outputMode.TabIndex = 3;
