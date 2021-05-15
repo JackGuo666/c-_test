@@ -143,6 +143,7 @@ namespace LocalPLC.Base
             text_Temp.WordWrap = false;
             text_Temp.ScrollBars = RichTextBoxScrollBars.None;
             text_Temp.MaxLength = 30;
+            this.dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
 
             dataGridView1.Controls.Add(text_Temp);
 
@@ -707,7 +708,7 @@ namespace LocalPLC.Base
             dataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.Lavender;
 
 
-            //dataGridView1.Columns[columnVarIndex].ReadOnly = true;
+            dataGridView1.Columns[columnVarIndex].ReadOnly = true;
             dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
             dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
         }
@@ -968,10 +969,17 @@ namespace LocalPLC.Base
             var address = dataGridView1.Rows[row].Cells[columnAddressIndex + 1].Value.ToString();
             ////其他模块判断
             bool ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, address);
+            Color color = Color.Red;
+            if(!ret)
+            {
+                color = Color.White;
+            }
             //if(ret)
             {
-                dataGridView1.Rows[row].Cells[columnVarIndex + 1].Style.BackColor = Color.Red;
-                dataGridView1.Rows[row].Cells[columnVarIndex + 1].Style.SelectionBackColor = Color.Red;
+                //dataGridView1.Rows[row].Cells[columnVarIndex + 1].Style.BackColor = color;
+                //dataGridView1.Rows[row].Cells[columnVarIndex + 1].Style.SelectionBackColor = color;
+                dataGridView1.CurrentCell.Style.BackColor = color;
+                dataGridView1.CurrentCell.Style.SelectionBackColor = color;
 
                 return true;
             }
@@ -1174,7 +1182,7 @@ namespace LocalPLC.Base
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            var row = e.RowIndex;
+           var row = e.RowIndex;
             var column = e.ColumnIndex;
             if (row < 0 || column < 0)
             {
