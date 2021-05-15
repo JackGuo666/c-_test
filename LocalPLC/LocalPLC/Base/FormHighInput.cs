@@ -157,7 +157,8 @@ namespace LocalPLC.Base
                 }
             }
 
-            this.Text = hscData_.name;
+            //gw
+            this.Text = hscData_.address;
             //双字
             checkBox_doubleWord.Checked = hscData_.doubleWord;
             textBox_presetValue.Text = hscData_.preset.ToString();
@@ -252,7 +253,7 @@ namespace LocalPLC.Base
 
         void initComboType(Dictionary<int, string> typeDescDic)
         {
-            if (hscData_.name == "HSC0")
+            if (hscData_.address == "HSC0")
             {
                 foreach (var di in diData_)
                 {
@@ -270,7 +271,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hscData_.name == "HSC1")
+            else if (hscData_.address == "HSC1")
             {
                 foreach (var di in diData_)
                 {
@@ -288,7 +289,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hscData_.name == "HSC2")
+            else if (hscData_.address == "HSC2")
             {
                 foreach (var di in diData_)
                 {
@@ -306,7 +307,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hscData_.name == "HSC3")
+            else if (hscData_.address == "HSC3")
             {
                 foreach (var di in diData_)
                 {
@@ -324,8 +325,8 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hscData_.name == "HSC4" || hscData_.name == "HSC5" ||
-                hscData_.name == "HSC6" || hscData_.name == "HSC7")
+            else if (hscData_.address == "HSC4" || hscData_.address == "HSC5" ||
+                hscData_.address == "HSC6" || hscData_.address == "HSC7")
             {
                 //HSC4没有双相
                 addTypeNotDoublePulseCombo(typeDescDic);
@@ -550,7 +551,7 @@ namespace LocalPLC.Base
 
                 if (currentIndex == 1)
                 {
-                    setHSCPortSinglePulse(hscData_.name);
+                    setHSCPortSinglePulse(hscData_.address);
 
 
                     //单脉冲计数
@@ -595,7 +596,7 @@ namespace LocalPLC.Base
                     //label_pulse.Text = "脉冲输入:";
                     //comboBox_inputmode.Text = "脉冲/脉冲";
 
-                    setHSCPortDoublePulse(hscData_.name);
+                    setHSCPortDoublePulse(hscData_.address);
 
 
                     groupBox2.Visible = true;
@@ -623,7 +624,7 @@ namespace LocalPLC.Base
                 }
                 else if (currentIndex == /*3*/ (int)UserControlHighIn.TYPE.FREQUENCY)
                 {
-                    setHSCPortFrequecy(hscData_.name);
+                    setHSCPortFrequecy(hscData_.address);
                     //hscData_.pulseFrequencyChecked;
                     //hscData_.pulseFrequencyInputPort;
 
@@ -738,7 +739,7 @@ namespace LocalPLC.Base
                         }
                         else
                         {
-                            port.hscUsed = hscData_.name;
+                            port.hscUsed = hscData_.address;
                         }
 
                         ret = true;
@@ -1106,7 +1107,7 @@ namespace LocalPLC.Base
             {
                 if (di.channelName == textBox_presetPort.Text)
                 {
-                    if (di.hscUsed != hscData_.name)
+                    if (di.hscUsed != hscData_.address)
                     {
                         if (di.used)
                         {
@@ -1125,7 +1126,7 @@ namespace LocalPLC.Base
             {
                 if (di.channelName == textBox_capturePort.Text)
                 {
-                    if (di.hscUsed != hscData_.name)
+                    if (di.hscUsed != hscData_.address)
                     {
                         if (di.used)
                         {

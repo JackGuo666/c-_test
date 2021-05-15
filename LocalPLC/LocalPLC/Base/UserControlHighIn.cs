@@ -613,6 +613,7 @@ namespace LocalPLC.Base
             {
                 if (dataGridView1.CurrentCell.ColumnIndex == columnNoteIndex + 1)
                 {
+                    text_Temp.Visible = false;
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
 
@@ -633,6 +634,7 @@ namespace LocalPLC.Base
                 }
                 else if(dataGridView1.CurrentCell.ColumnIndex == columnVarIndex + 1)
                 {
+                    text_Temp.Visible = false;
                     Rectangle rect = dataGridView1.GetCellDisplayRectangle(dataGridView1.CurrentCell.ColumnIndex, dataGridView1.CurrentCell.RowIndex, false);
                     string varName = dataGridView1.CurrentCell.Value.ToString();
 
@@ -849,7 +851,8 @@ namespace LocalPLC.Base
                         //判断其他模块
                         if (ret == false)
                         {
-                            ret = UserControl1.UC.getReDataManager().checkVarNameDO(name, channel);
+                            ret = UserControl1.UC.getReDataManager().checkVarNameDO(name, channel) ||
+                                UserControl1.UC.getReDataManager().checkVarNameDI(name, channel);
                         }
 
 
@@ -1023,11 +1026,6 @@ namespace LocalPLC.Base
                 setCellColor(Color.Red, string.Format("{0} 格式无效", dataGridView1.CurrentCell.Value.ToString()));
                 return;
             }
-            else if(checkVarCurUI(dataGridView1.CurrentCell.Value.ToString(), dataGridView1.CurrentCell.RowIndex))
-            {
-                setCellColor(Color.Red, string.Format("{0} 格式无效", dataGridView1.CurrentCell.Value.ToString()));
-                return;
-            }
             else
             {
                 //当前输入有效
@@ -1094,7 +1092,8 @@ namespace LocalPLC.Base
                     else
                     {
                         //其他模块判断
-                        ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, address);
+                        ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, address)
+                            || UserControl1.UC.getReDataManager().checkVarNameDI(curUiVarName, address);
                         if (ret)
                         {
                             dataGridView1.Rows[i].Cells[columnVarIndex + 1].Style.BackColor = Color.Red;
@@ -1182,7 +1181,7 @@ namespace LocalPLC.Base
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-           var row = e.RowIndex;
+            var row = e.RowIndex;
             var column = e.ColumnIndex;
             if (row < 0 || column < 0)
             {
@@ -1192,6 +1191,11 @@ namespace LocalPLC.Base
             if(column == columnVarIndex + 1)
             {
                 checkTextInput();
+            }
+            else if (column == columnNoteIndex + 1)
+            {
+                //注释
+                setButtonEnable(true);
             }
         }
     }
