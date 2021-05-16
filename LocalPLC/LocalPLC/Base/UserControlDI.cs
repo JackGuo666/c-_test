@@ -415,7 +415,8 @@ namespace LocalPLC.Base
                         //判断其他模块
                         if(ret == false)
                         {
-                            ret = UserControl1.UC.getReDataManager().checkVarNameDO(name, channel);
+                            ret = UserControl1.UC.getReDataManager().checkVarNameDO(name, channel)
+                                || UserControl1.UC.getReDataManager().checkVarNameHsc(name, channel);
                         }
 
 
@@ -595,7 +596,8 @@ namespace LocalPLC.Base
                     else
                     {
                         //其他模块判断
-                        ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, channel);
+                        ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, channel)
+                            || UserControl1.UC.getReDataManager().checkVarNameHsc(curUiVarName, channel);
                         if (ret)
                         {
                             dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.Red;

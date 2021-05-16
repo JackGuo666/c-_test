@@ -387,6 +387,31 @@ namespace LocalPLC.Base.xml
             return null;
         }
 
+        public bool setDinUsed(string channelName, bool used, string hscName)
+        {
+            bool ret = false;
+            foreach (var din in diList)
+            {
+                if (channelName == din.channelName)
+                {
+                    if (used)
+                    {
+                        din.hscUsed = hscName;
+                    }
+                    else
+                    {
+                        din.hscUsed = "";
+                    }
+
+                    din.used = used;
+                    ret = true;
+                    return ret;
+                }
+            }
+
+            return ret;
+        }
+
         public bool setDoutUsed(string channelName, bool used, string hspName)
         {
             bool ret = false;
@@ -435,6 +460,24 @@ namespace LocalPLC.Base.xml
                 if (channel != dout.channelName)
                 {
                     if (dout.varName == name)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+
+        public bool checkVarNameHsc(string name, string channel)
+        {
+            foreach (var hsc in hscList)
+            {
+                if (channel != hsc.address)
+                {
+                    if (hsc.name == name)
                     {
                         return true;
                     }

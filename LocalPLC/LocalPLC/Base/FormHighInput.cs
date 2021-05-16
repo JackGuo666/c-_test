@@ -226,6 +226,21 @@ namespace LocalPLC.Base
 
         #region
 
+        void addTypeNotSingleDoublePulseCombo(Dictionary<int, string> typeDescDic)
+        {
+            foreach (var elem in typeDescDic)
+            {
+                if (elem.Key != (int)UserControlHighIn.TYPE.DOUBLEPULSE &&
+                    elem.Key != (int)UserControlHighIn.TYPE.SINGLEPULSE)
+                {
+                    ComboboxItem comboItem = new ComboboxItem();
+                    comboItem.Text = elem.Value;
+                    comboItem.Value = elem.Key;
+                    comboBox_Type.Items.Add(comboItem);
+                }
+            }
+        }
+
         void addTypeNotDoublePulseCombo(Dictionary<int, string> typeDescDic)
         {
             foreach (var elem in typeDescDic)
@@ -329,7 +344,8 @@ namespace LocalPLC.Base
                 hscData_.address == "HSC6" || hscData_.address == "HSC7")
             {
                 //HSC4没有双相
-                addTypeNotDoublePulseCombo(typeDescDic);
+                //addTypeNotDoublePulseCombo(typeDescDic);
+                addTypeNotSingleDoublePulseCombo(typeDescDic);
             }
         }
         #endregion
@@ -834,6 +850,35 @@ namespace LocalPLC.Base
             return true;
         }
 
+        void resetLastOpe()
+        {
+            if (hscData_.type == (int)UserControlHighIn.TYPE.FREQUENCY)
+            {
+                //频率计
+                UserControlBase.dataManage.setDinUsed(hscData_.pulseFrequencyInputPort, false, hscData_.name);
+            }
+            else if(hscData_.type == (int)UserControlHighIn.TYPE.DOUBLEPULSE)
+            {
+                //脉冲
+                UserControlBase.dataManage.setDinUsed(hscData_.pulsePort, false, hscData_.name);
+                //方向
+                UserControlBase.dataManage.setDinUsed(hscData_.dirPort, false, hscData_.name);
+                if(hscData_.captureChecked)
+                {
+                    UserControlBase.dataManage.setDinUsed(hscData_.capturePort, false, hscData_.name);
+                }
+
+                if(hscData_.presetChecked)
+                {
+                    UserControlBase.dataManage.setDinUsed(hscData_.presetPort, false, hscData_.name);
+                }
+            }
+            else if(hscData_.type == (int)UserControlHighIn.TYPE.SINGLEPULSE)
+            {
+                //单相
+                UserControlBase.dataManage.setDinUsed(hscData_.pulsePort, false, hscData_.name);
+            }
+        }
 
         void getDataFromUI()
         {
@@ -850,8 +895,19 @@ namespace LocalPLC.Base
 
             if (currentIndex == (int)UserControlHighIn.TYPE.NOTUSED)
             {
+                //if (hscData_.type == (int)UserControlHighIn.TYPE.FREQUENCY)
+                //{
+                //    //频率计
+                //    UserControlBase.dataManage.setDinUsed(hscData_.pulseFrequencyInputPort, false, hscData_.name);
+                //}
+
+                resetLastOpe();
+
                 hscData_.type = comboBox_Type.SelectedIndex;
                 hscData_.used = false;
+
+
+
                 //输入模式
                 hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
                 hscData_.opr_mode = "";
@@ -884,6 +940,8 @@ namespace LocalPLC.Base
             }
             else if (currentIndex == (int)UserControlHighIn.TYPE.SINGLEPULSE)
             {
+                resetLastOpe();
+
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
                 hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
@@ -908,7 +966,7 @@ namespace LocalPLC.Base
                 hscData_.captureChecked = checkBox_caputre.Checked;
 
                 hscData_.pulsePort = textBox_pulseInputPort.Text;
-                hscData_.dirPort = textBox_dirInputPort.Text;
+                hscData_.dirPort = /*textBox_dirInputPort.Text*/ "";
 
                 //if (comboBox_presetPort.SelectedItem != null)
                 //{
@@ -1039,6 +1097,11 @@ namespace LocalPLC.Base
             }
             else if (currentIndex == (int)UserControlHighIn.TYPE.FREQUENCY)
             {
+                resetLastOpe();
+
+
+
+
                 hscData_.type = /*comboBox_Type.SelectedIndex*/ currentIndex;
                 hscData_.used = true;
                 hscData_.inputMode = (int)INPUTMODE.PULSE_DIR;
@@ -1064,6 +1127,7 @@ namespace LocalPLC.Base
                 checkBaseDIUse(hscData_.pulseFrequencyChecked, hscData_.pulseFrequencyInputPort);
 
                 hscData_.dirChecked = false;
+                hscData_.dirPort = "";
                 //方向端口是否判断
                 bool flag = getPulseDirIsJudge(hscData_.dirChecked, hscData_.dirPort);
                 if (flag)
