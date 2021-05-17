@@ -106,13 +106,13 @@ namespace LocalPLC.Base
             inputDic.Add((int)INPUTMODE.INTEGRAL_4, "积分 X4");
 
 
-            foreach (var input in inputDic)
-            {
-                comboBox_inputmode.Items.Add(input.Value);
-            }
+            //foreach (var input in inputDic)
+            //{
+            //    comboBox_inputmode.Items.Add(input.Value);
+            //}
 
-            ////输入模式
-            comboBox_inputmode.SelectedIndex = hscData_.inputMode;
+            //////输入模式
+            //comboBox_inputmode.SelectedIndex = hscData_.inputMode;
 
             triggerDic.Clear();
             triggerDic.Add((int)TRIGGER.NOTUSED, "未使用");
@@ -156,6 +156,14 @@ namespace LocalPLC.Base
                     comboBox_Type.SelectedItem = typeItem;
                 }
             }
+
+            foreach (var input in inputDic)
+            {
+                comboBox_inputmode.Items.Add(input.Value);
+            }
+
+            ////输入模式
+            comboBox_inputmode.SelectedIndex = hscData_.inputMode;
 
             //gw
             this.Text = hscData_.address;
@@ -231,7 +239,7 @@ namespace LocalPLC.Base
             foreach (var elem in typeDescDic)
             {
                 if (elem.Key != (int)UserControlHighIn.TYPE.DOUBLEPULSE &&
-                    elem.Key != (int)UserControlHighIn.TYPE.SINGLEPULSE)
+                    elem.Key != (int)UserControlHighIn.TYPE.FREQUENCY)
                 {
                     ComboboxItem comboItem = new ComboboxItem();
                     comboItem.Text = elem.Value;
