@@ -712,7 +712,9 @@ namespace LocalPLC.Base
 
             dataGridView1.Columns[columnVarIndex].ReadOnly = true;
             dataGridView1.Columns[columnAddressIndex].ReadOnly = true;
+            dataGridView1.Columns[columnAddressIndex].DefaultCellStyle.BackColor = Color.Lavender;
             dataGridView1.Columns[columnTypeIndex].ReadOnly = true;
+            dataGridView1.Columns[columnTypeIndex].DefaultCellStyle.BackColor = Color.Lavender;
         }
 
         private void UserControlHighIn_Load(object sender, EventArgs e)

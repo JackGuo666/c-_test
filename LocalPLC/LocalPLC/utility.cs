@@ -668,7 +668,7 @@ namespace LocalPLC
                                     {
                                         string initValue = LocalPLC.Base.UserControlBase.dataManage.getHscVarInitValue(hsc, i);
                                         var hscVariable = ttt.Variables.Create(hsc.name, "HSC_REF_t", AdeVariableBlockType.adeVarBlockVarGlobal,
-                                                    "hsc变量", initValue);
+                                                    hsc.note, initValue);
                                     }
 
                                     i++;
