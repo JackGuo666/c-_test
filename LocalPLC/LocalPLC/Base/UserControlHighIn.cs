@@ -128,6 +128,8 @@ namespace LocalPLC.Base
         {
             InitializeComponent();
 
+            Pub.CRichTestBoxMenu richMenu = new Pub.CRichTestBoxMenu(text_Temp, dataGridView1);
+
             init = true;
 
             typeDescDic.Clear();
@@ -943,7 +945,7 @@ namespace LocalPLC.Base
         {
             for (int i = 0; i < dataGridView1.RowCount; i++)
             {
-                if (dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor == Color.Red)
+                if (dataGridView1.Rows[i].Cells[columnVarIndex + 1].Style.BackColor == Color.Red)
                 {
                     return false;
                 }
