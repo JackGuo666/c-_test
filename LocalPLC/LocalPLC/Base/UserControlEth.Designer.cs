@@ -159,6 +159,7 @@
             this.ipAddressControl_sntpaddr.TabIndex = 6;
             this.ipAddressControl_sntpaddr.Text = "...";
             this.ipAddressControl_sntpaddr.TextChanged += new System.EventHandler(this.ipAddressControl_sntpaddr_TextChanged);
+            this.ipAddressControl_sntpaddr.Validated += new System.EventHandler(this.ipAddressControl_sntpaddr_Validated);
             // 
             // ipAddressControl_gateway
             // 
@@ -176,6 +177,7 @@
             this.ipAddressControl_gateway.TabIndex = 6;
             this.ipAddressControl_gateway.Text = "...";
             this.ipAddressControl_gateway.TextChanged += new System.EventHandler(this.ipAddressControl_gateway_TextChanged);
+            this.ipAddressControl_gateway.Validated += new System.EventHandler(this.ipAddressControl_gateway_Validated);
             // 
             // ipAddressControl_maskaddr
             // 
@@ -193,6 +195,7 @@
             this.ipAddressControl_maskaddr.TabIndex = 6;
             this.ipAddressControl_maskaddr.Text = "...";
             this.ipAddressControl_maskaddr.TextChanged += new System.EventHandler(this.ipAddressControl_maskaddr_TextChanged);
+            this.ipAddressControl_maskaddr.Validated += new System.EventHandler(this.ipAddressControl_maskaddr_Validated);
             // 
             // ipAddressControl_ipaddr
             // 
@@ -210,6 +213,7 @@
             this.ipAddressControl_ipaddr.TabIndex = 6;
             this.ipAddressControl_ipaddr.Text = "...";
             this.ipAddressControl_ipaddr.TextChanged += new System.EventHandler(this.ipAddressControl_ipaddr_TextChanged);
+            this.ipAddressControl_ipaddr.Validated += new System.EventHandler(this.ipAddressControl_ipaddr_Validated);
             // 
             // textBox_eth
             // 

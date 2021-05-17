@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlDI : UserControl
+    public partial class UserControlDI : UserControl, IGetModifyFlag
     {
 
         Dictionary<int, string> sexDic = new Dictionary<int, string>();
@@ -33,6 +33,47 @@ namespace LocalPLC.Base
         public delegate void setTreeNodeStatusEventHandler(string s1, Color color);
         setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
         #endregion
+
+
+
+        #region 
+        bool modifiedFlag = false;
+
+        void setModifgFlag(bool flag)
+        {
+            modifiedFlag = flag;
+        }
+
+        //接口实现
+        public bool getModifyFlag()
+        {
+            if(!checkDataGridView())
+            {
+                // 不保存
+                button2_Click(null, null);
+                return false;
+            }
+
+            if (modifiedFlag)
+            {
+                if (MessageBox.Show("是否保存修改数据?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // 保存
+                    button1_Click_1(null, null);
+                }
+                else
+                {
+                    // 不保存
+                    button2_Click(null, null);
+                }
+            }
+
+            return modifiedFlag;
+        }
+
+        #endregion
+
+
         public void initData()
         {
             setButtonEnable(false);
@@ -662,6 +703,7 @@ namespace LocalPLC.Base
 
 
                 dataGridView1.CurrentCell.Value = text_Temp.Text;
+                setModifgFlag(true);
             }
         }
 
@@ -1016,6 +1058,7 @@ namespace LocalPLC.Base
             getDataFromUI();
 
             setButtonEnable(false);
+            setModifgFlag(false);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1024,6 +1067,7 @@ namespace LocalPLC.Base
             setCellColor(Color.White, "");
             setButtonEnable(false);
             setTreeNodeStatusDelegate(ConstVariable.DI, Color.White);
+            setModifgFlag(false);
         }
 
         void setButtonEnable(bool enable)
@@ -1109,7 +1153,7 @@ namespace LocalPLC.Base
 
                     }
                     setButtonEnable(true);
-
+                    setModifgFlag(true);
 
 //                    setTreeNodeStatusDelegate(ConstVariable.DI, Color.Red);
                 }

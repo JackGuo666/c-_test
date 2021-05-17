@@ -31,6 +31,8 @@ namespace LocalPLC.Base
 
         void refreshDIData();
         void refreshDOData();
+
+        void getModifyFlag();
     }
 
     public partial class LocalPLC24P : UserControl, IWeapon
@@ -49,6 +51,12 @@ namespace LocalPLC.Base
         public void Fire()
         {
             setDIInfo("DI");
+        }
+
+        public void getModifyFlag()
+        {
+            di.getModifyFlag();
+
         }
         #endregion
 

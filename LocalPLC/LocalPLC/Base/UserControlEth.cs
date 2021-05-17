@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using LocalPLC.Base.xml;
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlEth : UserControl
+    public partial class UserControlEth : UserControl, IGetModifyFlag
     {
         public ETHERNETData ethernetValueData_ = null;
         bool configured_ = false;
@@ -74,6 +75,46 @@ namespace LocalPLC.Base
 
             initDone = true;
         }
+
+        #region
+        //接口
+        bool modifiedFlag = false;
+
+        void setModifgFlag(bool flag)
+        {
+            modifiedFlag = flag;
+        }
+
+        //接口实现
+        public bool getModifyFlag()
+        {
+            if(!checkValudIP())
+            {
+                // 不保存
+                button_cancel_Click(null, null);
+                return false;
+            }
+
+            if (modifiedFlag)
+            {
+                if (MessageBox.Show("是否保存修改数据?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // 保存
+                    button_valid_Click(null, null);
+                }
+                else
+                {
+                    // 不保存
+                    button_cancel_Click(null, null);
+                }
+            }
+
+            return modifiedFlag;
+        }
+
+
+        #endregion
+
 
         enum EthernetMode { FIXED, DHCP };
         public bool getDataFromUI()
@@ -333,6 +374,7 @@ namespace LocalPLC.Base
                 if(initDone)
                 {
                     setButtonEnable(true);
+                    setModifgFlag(true);
                 }
             }
         }
@@ -344,6 +386,7 @@ namespace LocalPLC.Base
                 if(initDone)
                 {
                     setButtonEnable(true);
+                    setModifgFlag(true);
                 }
             }
         }
@@ -362,6 +405,7 @@ namespace LocalPLC.Base
 
                     
                    setButtonEnable(true);
+                    setModifgFlag(true);
                 }
             }
         }
@@ -373,6 +417,7 @@ namespace LocalPLC.Base
                 if (initDone)
                 {
                     setButtonEnable(true);
+                    setModifgFlag(true);
                 }
             }
         }
@@ -382,6 +427,7 @@ namespace LocalPLC.Base
             if(initDone)
             {
                 setButtonEnable(true);
+                setModifgFlag(true);
             }
         }
 
@@ -390,13 +436,19 @@ namespace LocalPLC.Base
             if (initDone)
             {
                 setButtonEnable(true);
+                setModifgFlag(true);
             }
         }
 
         private void button_valid_Click(object sender, EventArgs e)
         {
+            if (!getDataFromUI())
+            {
+                return;
+            }
+
             setButtonEnable(false);
-            getDataFromUI();
+
 
             utility.setDebugIP(ipAddressControl_ipaddr.IPAddress.ToString());
 
@@ -413,8 +465,73 @@ namespace LocalPLC.Base
             if(initDone)
             {
                 setButtonEnable(true);
+                setModifgFlag(true);
             }
 
+        }
+
+        private void ipAddressControl_maskaddr_Validated(object sender, EventArgs e)
+        {
+            //System.Net.IPAddress ip;
+            //if (!System.Net.IPAddress.TryParse(ipAddressControl_maskaddr.Text.ToString(), out ip))
+            //{
+            //    MessageBox.Show("IP地址无效");
+            //}
+        }
+
+        bool checkValudIP()
+        {
+            System.Net.IPAddress ip;
+
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_ipaddr.Text.ToString(), out ip))
+            {
+                return false;
+            }
+
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_maskaddr.Text.ToString(), out ip))
+            {
+                return false;
+            }
+
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_gateway.Text.ToString(), out ip))
+            {
+                return false;
+            }
+
+            if (!System.Net.IPAddress.TryParse(ipAddressControl_sntpaddr.Text.ToString(), out ip))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ipAddressControl_ipaddr_Validated(object sender, EventArgs e)
+        {
+            //System.Net.IPAddress ip;
+
+            //if (!System.Net.IPAddress.TryParse(ipAddressControl_ipaddr.Text.ToString(), out ip))
+            //{
+            //    MessageBox.Show("IP地址无效");
+            //}
+        }
+
+        private void ipAddressControl_gateway_Validated(object sender, EventArgs e)
+        {
+            //System.Net.IPAddress ip;
+            //if (!System.Net.IPAddress.TryParse(ipAddressControl_gateway.Text.ToString(), out ip))
+            //{
+            //    MessageBox.Show("IP地址无效");
+            //}
+        }
+
+        private void ipAddressControl_sntpaddr_Validated(object sender, EventArgs e)
+        {
+            //System.Net.IPAddress ip;
+            //if (!System.Net.IPAddress.TryParse(ipAddressControl_sntpaddr.Text.ToString(), out ip))
+            //{
+            //    MessageBox.Show("IP地址无效");
+            //}
         }
     }
 }

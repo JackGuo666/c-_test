@@ -14,7 +14,7 @@ using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlBase : UserControl, ICheckVarName
+    public partial class UserControlBase : UserControl, ICheckVarName, IGetModifyFlag
     {
         public List<UserControl> PlcTypeArr = new List<UserControl>();
         LocalPLC24P curPlcType = null;
@@ -34,6 +34,26 @@ namespace LocalPLC.Base
             InitializeComponent();
 
         }
+
+        #region
+        //接口
+        bool modifyFlag = false;
+        public bool getModifyFlag()
+        {
+            foreach(var control in splitContainer2.Panel2.Controls)
+            {
+                IGetModifyFlag getModify = control as IGetModifyFlag;
+                if(getModify != null)
+                {
+                    getModify.getModifyFlag();
+                }
+            }
+
+            //curWeaponType.getModifyFlag();
+
+            return false;
+        }
+        #endregion
 
         public void getDataManager(ref DataManageBase retDataManageBase)
         {

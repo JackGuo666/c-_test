@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using LocalPLC.Base.xml;
-using LocalPLC.Base;
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlCom : UserControl
+    public partial class UserControlCom : UserControl, IGetModifyFlag
     {
         public SERIALData serialValueData_ = null;
         bool configured_ = false;
@@ -85,7 +85,43 @@ namespace LocalPLC.Base
             setButtonEnable(false);
         }
 
-        private void setDataToUI()
+
+        #region
+        //接口
+        bool modifiedFlag = false;
+        void setModifgFlag(bool flag)
+        {
+            modifiedFlag = flag;
+        }
+
+        //接口实现
+        public bool getModifyFlag()
+        {
+            //if (!checkDataGridView())
+            //{
+
+            //}
+
+            if (modifiedFlag)
+            {
+                if (MessageBox.Show("是否保存修改数据?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // 保存
+                    button_valid_Click(null, null);
+                }
+                else
+                {
+                    // 不保存
+                    button_cancel_Click(null, null);
+                }
+            }
+
+            return modifiedFlag;
+        }
+
+            #endregion
+
+            private void setDataToUI()
         {
             textBox_Com.Text = com_;
 
@@ -579,6 +615,7 @@ namespace LocalPLC.Base
             if (initDone)
             {
                 setButtonEnable(true);
+                setModifgFlag(true);
             }
         }
 
@@ -628,6 +665,7 @@ namespace LocalPLC.Base
             if (initDone)
             {
                 setButtonEnable(true);
+                setModifgFlag(true);
             }
         }
 
@@ -655,6 +693,7 @@ namespace LocalPLC.Base
         {
             getDataFromUI();
             setButtonEnable(false);
+            setModifgFlag(false);
         }
 
         private void comboBox_Baud_SelectedIndexChanged(object sender, EventArgs e)
@@ -664,6 +703,7 @@ namespace LocalPLC.Base
                 if (initDone)
                 {
                     setButtonEnable(true);
+                    setModifgFlag(true);
                 }
             }
         }
@@ -672,6 +712,7 @@ namespace LocalPLC.Base
         {
             setDataToUI();
             setButtonEnable(false);
+            setModifgFlag(false);
         }
 
         private void comboBox_Parity_SelectedIndexChanged(object sender, EventArgs e)
@@ -684,6 +725,7 @@ namespace LocalPLC.Base
                     if(initDone)
                     {
                         setButtonEnable(true);
+                        setModifgFlag(true);
                     }
 
                 }
@@ -702,6 +744,7 @@ namespace LocalPLC.Base
                     if (initDone)
                     {
                         setButtonEnable(true);
+                        setModifgFlag(true);
                     }
                 }
             }
@@ -727,6 +770,7 @@ namespace LocalPLC.Base
                         }
 
                         setButtonEnable(true);
+                        setModifgFlag(true);
                     }
                     else
                     {
@@ -754,6 +798,7 @@ namespace LocalPLC.Base
                     if(initDone)
                     {
                         setButtonEnable(true);
+                        setModifgFlag(true);
                     }
                 }
             }

@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlDO : UserControl
+    public partial class UserControlDO : UserControl, IGetModifyFlag
     {
         public UserControlDO(string name)
         {
@@ -59,7 +60,45 @@ namespace LocalPLC.Base
         const int columnNoteIndex = 4;
         const int columnUsedIndex = 0;
 
-        public void refreshData()
+        #region
+        //接口
+        bool modifiedFlag = false;
+        void setModifgFlag(bool flag)
+        {
+            modifiedFlag = flag;
+        }
+
+        public bool getModifyFlag()
+        {
+            if(!checkDataGridView())
+            {
+                //不保存
+                button2_Click(null, null);
+                return false;
+            }
+
+            if (modifiedFlag)
+            {
+                if (MessageBox.Show("是否保存修改数据?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // 保存
+                    button1_Click_1(null, null);
+                }
+                else
+                {
+                    // 不保存
+                    button2_Click(null, null);
+                }
+            }
+
+            return modifiedFlag;
+        }
+
+            #endregion
+
+
+
+            public void refreshData()
         {
             dtData.Clear();
             foreach(var doData in UserControlBase.dataManage.doList)
@@ -616,6 +655,7 @@ namespace LocalPLC.Base
                 //checkTextInput();
 
                 dataGridView1.CurrentCell.Value = text_Temp.Text;
+                setModifgFlag(true);
             }
         }
 
@@ -773,12 +813,14 @@ namespace LocalPLC.Base
             getDataFromUI();
             //utility.PrintInfo("DO数据生效!");
             setButtonEnable(false);
+            setModifgFlag(false);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             refreshData();
             setButtonEnable(false);
+            setModifgFlag(false);
         }
 
         void setButtonEnable(bool enable)
