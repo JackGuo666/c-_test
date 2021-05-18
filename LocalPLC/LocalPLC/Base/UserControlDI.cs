@@ -30,7 +30,7 @@ namespace LocalPLC.Base
 
         #region 
         //代理
-        public delegate void setTreeNodeStatusEventHandler(string s1, Color color);
+        public delegate void setTreeNodeStatusEventHandler(string s1, string name);
         setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
         #endregion
 
@@ -42,6 +42,10 @@ namespace LocalPLC.Base
         void setModifgFlag(bool flag)
         {
             modifiedFlag = flag;
+            if(flag)
+            {
+                //setTreeNodeStatusDelegate(ConstVariable.DI, ConstVariable.DI);
+            }
         }
 
         //接口实现
@@ -1059,6 +1063,7 @@ namespace LocalPLC.Base
 
             setButtonEnable(false);
             setModifgFlag(false);
+            setTreeNodeStatusDelegate(ConstVariable.DI, ConstVariable.DI);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -1066,7 +1071,7 @@ namespace LocalPLC.Base
             refreshData();
             setCellColor(Color.White, "");
             setButtonEnable(false);
-            setTreeNodeStatusDelegate(ConstVariable.DI, Color.White);
+            //setTreeNodeStatusDelegate(ConstVariable.DI, Color.White);
             setModifgFlag(false);
         }
 

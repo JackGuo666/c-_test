@@ -29,9 +29,13 @@ namespace LocalPLC.Base
         string DATABIE_DISENABLE = "0";
         string DATABIE_ENABLE = "1";
         enum TERMINALRESIS { HAS_RS232, HAS_RS485, HAS_BOTH}
-        public UserControlCom(string com, SERIALData serialValueData, bool configured = false)
+        public UserControlCom(UserControlBase ub, string com, SERIALData serialValueData, bool configured = false)
         {
             InitializeComponent();
+
+            UserControl1 us = ub.parent_ as UserControl1;
+
+            setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeComEthNodeStats);
             serialValueData_ = serialValueData;
             //串口名
             com_ = com;
@@ -86,12 +90,22 @@ namespace LocalPLC.Base
         }
 
 
+        #region 
+        //代理
+        public delegate void setTreeNodeStatusEventHandler(string tag, string name);
+        setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
+        #endregion
+
         #region
         //接口
         bool modifiedFlag = false;
         void setModifgFlag(bool flag)
         {
             modifiedFlag = flag;
+            if(flag)
+            {
+                //setTreeNodeStatusDelegate("SERIAL_LINE", com_);
+            }
         }
 
         //接口实现
@@ -694,6 +708,7 @@ namespace LocalPLC.Base
             getDataFromUI();
             setButtonEnable(false);
             setModifgFlag(false);
+            setTreeNodeStatusDelegate("SERIAL_LINE", com_);
         }
 
         private void comboBox_Baud_SelectedIndexChanged(object sender, EventArgs e)

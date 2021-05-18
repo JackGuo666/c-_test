@@ -13,9 +13,18 @@ namespace LocalPLC.Base
 {
     public partial class UserControlDO : UserControl, IGetModifyFlag
     {
-        public UserControlDO(string name)
+        #region 
+        //代理
+        public delegate void setTreeNodeStatusEventHandler(string s1, string name);
+        setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
+        #endregion
+
+        public UserControlDO(/*string name, */UserControl1 us)
         {
             InitializeComponent();
+
+            setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeNodeStatus);
+
             this.dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             text_Temp.MaxLength = 30;
 
@@ -66,6 +75,10 @@ namespace LocalPLC.Base
         void setModifgFlag(bool flag)
         {
             modifiedFlag = flag;
+            if(flag)
+            {
+                //setTreeNodeStatusDelegate(ConstVariable.DO, ConstVariable.DO);
+            }
         }
 
         public bool getModifyFlag()
@@ -814,6 +827,7 @@ namespace LocalPLC.Base
             //utility.PrintInfo("DO数据生效!");
             setButtonEnable(false);
             setModifgFlag(false);
+            setTreeNodeStatusDelegate(ConstVariable.DO, ConstVariable.DO);
         }
 
         private void button2_Click(object sender, EventArgs e)

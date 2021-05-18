@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using LocalPLC.Base;
 using LocalPLC.motion;
+using LocalPLC.Interface;
 
 namespace LocalPLC
 {
@@ -190,6 +191,27 @@ namespace LocalPLC
             return tnRet;
         }
 
+
+        private TreeNode FindNodeByTagAndName(TreeNode tnParent, string strValue, string strTagName)
+        {
+            if (tnParent == null || tnParent.Tag == null) return null;
+            if (tnParent.Text.Trim(new char[] {'*'}) == strValue && tnParent.Tag.ToString() == strTagName)
+            { 
+                return tnParent;
+            }
+
+            TreeNode tnRet = null;
+            foreach (TreeNode tn in tnParent.Nodes)
+            {
+                tnRet = FindNodeByTagAndName(tn, strValue, strTagName);
+                if (tnRet != null)
+                {
+                    break;
+                }
+            }
+            return tnRet;
+        }
+
         private TreeNode FindNode(TreeNode tnParent, string strValue, bool select = true)
         {
             if (tnParent == null) return null;
@@ -258,7 +280,7 @@ namespace LocalPLC
             return modified;
         }
 
-        public void setTreeNodeStatus(string name, Color color)
+        public void setTreeNodeStatus(string tag, string name)
         {
             //SelectTreeView(treeView1, s1);
             //treeView1.Focus();
@@ -266,12 +288,37 @@ namespace LocalPLC
             TreeNode tnRet = null;
             foreach (TreeNode tn in treeView1.Nodes)
             {
-                tnRet = FindNode(tn, name, false);
+                tnRet = FindeNodeByTag(tn, tag);
                 
                 if (tnRet != null)
                 {
-                    tnRet.BackColor = color;
-                    break;
+                    //tnRet.BackColor = color;
+                    if(!tnRet.Text.Contains("*") && tnRet.Text.Trim(new char[1] {'*'}) == name)
+                    {
+                        tnRet.Text += "*";
+                    }
+
+                    //break;
+                }
+            }
+        }
+
+        public void setTreeComEthNodeStats(string tag, string name)
+        {
+            TreeNode tnRet = null;
+
+            foreach (TreeNode tn in treeView1.Nodes)
+            {
+                tnRet = FindNodeByTagAndName(tn, name, tag);
+                if (tnRet != null)
+                {
+                    //tnRet.BackColor = color;
+                    if (!tnRet.Text.Contains("*"))
+                    {
+                        tnRet.Text += "*";
+                    }
+
+                    //break;
                 }
             }
         }
@@ -502,240 +549,245 @@ namespace LocalPLC
 
         }
       
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if(!multiprogApp.IsProjectOpen())
-            {
-                MessageBox.Show("请先打开工程!");
-                return;
-            }
+        
+  //      private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+  //      {
+  //          if(!multiprogApp.IsProjectOpen())
+  //          {
+  //              MessageBox.Show("请先打开工程!");
+  //              return;
+  //          }
 
-            string name = e.Node.Text.ToString();
-            if(e.Node.Tag != null)
-            {
-                //动态创建节点
-                if(e.Node.Tag.ToString() == "SERIAL_LINE")
-                {
-                    if (!ModbusWindow_.Controls.Contains(UC))
-                    {
-                        UC.Show();
-                        ModbusWindow_.Controls.Clear();
-                        UC.Dock = DockStyle.Fill;
-                        ////UC.Size = new Size(472, 336);
-                        ModbusWindow_.Controls.Add(UC);
-                    }
-                    //显示串口信息
-                    UC.setCOMShow(name);
-                }
-                else if(e.Node.Tag.ToString() == "ETHERNET")
-                {
-                    if (!ModbusWindow_.Controls.Contains(UC))
-                    {
-                        UC.Show();
-                        ModbusWindow_.Controls.Clear();
-                        UC.Dock = DockStyle.Fill;
-                        ////UC.Size = new Size(472, 336);
-                        ModbusWindow_.Controls.Add(UC);
-                    }
-                    UC.setETHShow(name);
-                }
-            }
+  //          string name = e.Node.Text.ToString();
+  //          if(e.Node.Tag != null)
+  //          {
+  //              //动态创建节点
+  //              if(e.Node.Tag.ToString() == "SERIAL_LINE")
+  //              {
+  //                  //getConfigModifyFlag();
+  //                  if (!ModbusWindow_.Controls.Contains(UC))
+  //                  {
+  //                      UC.Show();
+  //                      ModbusWindow_.Controls.Clear();
+  //                      UC.Dock = DockStyle.Fill;
+  //                      ////UC.Size = new Size(472, 336);
+  //                      ModbusWindow_.Controls.Add(UC);
+  //                  }
+  //                  //显示串口信息
+  //                  name = name.TrimEnd(new char[] { '*' });
+  //                  UC.setCOMShow(name);
+  //              }
+  //              else if(e.Node.Tag.ToString() == "ETHERNET")
+  //              {
+  //                  if (!ModbusWindow_.Controls.Contains(UC))
+  //                  {
+  //                      UC.Show();
+  //                      ModbusWindow_.Controls.Clear();
+  //                      UC.Dock = DockStyle.Fill;
+  //                      ////UC.Size = new Size(472, 336);
+  //                      ModbusWindow_.Controls.Add(UC);
+  //                  }
 
-            if (name == "Modbus")
-            {
-                //e1.Show();
-                //ModbusWindow_.Controls.Clear();
-                //ModbusWindow_.Controls.Add(e1);
+  //                  name = name.TrimEnd(new char[] { '*' });
+  //                  UC.setETHShow(name);
+  //              }
+  //          }
 
-
-            }
-            //else if (name == "MobusTCP-Client")
-            //{
-            //    if(mct == null)
-            //    {
-            //        //测试函数 暂定位置
-            //        saveXml();
-            //        return;
-            //    }
+  //          if (name == "Modbus")
+  //          {
+  //              //e1.Show();
+  //              //ModbusWindow_.Controls.Clear();
+  //              //ModbusWindow_.Controls.Add(e1);
 
 
-            //    saveXml();
+  //          }
+  //          //else if (name == "MobusTCP-Client")
+  //          //{
+  //          //    if(mct == null)
+  //          //    {
+  //          //        //测试函数 暂定位置
+  //          //        saveXml();
+  //          //        return;
+  //          //    }
 
-            //    e1.Show();
-            //    ModbusWindow_.Controls.Clear();
-            //    ModbusWindow_.Controls.Add(e1);
 
-            //}
-            else if (name == "ModbusTCP-Client")
-			{
-                if (mct == null)
-                {
-                    //测试函数 暂定位置
-                    //=======gw注释====
-                    //saveXml();
-                    //================
-                    return;
-                }
+  //          //    saveXml();
 
-                mci.initForm();
-                //=======gw注释====
-                //saveXml();
-                //================
-                mci.Show();			
-				ModbusWindow_.Controls.Clear();
-				ModbusWindow_.Controls.Add(mci);
-			}
-			else if(name == "ModbusRTU-Master")
-            {
+  //          //    e1.Show();
+  //          //    ModbusWindow_.Controls.Clear();
+  //          //    ModbusWindow_.Controls.Add(e1);
+
+  //          //}
+  //          else if (name == "ModbusTCP-Client")
+		//	{
+  //              if (mct == null)
+  //              {
+  //                  //测试函数 暂定位置
+  //                  //=======gw注释====
+  //                  //saveXml();
+  //                  //================
+  //                  return;
+  //              }
+
+  //              mci.initForm();
+  //              //=======gw注释====
+  //              //saveXml();
+  //              //================
+  //              mci.Show();			
+		//		ModbusWindow_.Controls.Clear();
+		//		ModbusWindow_.Controls.Add(mci);
+		//	}
+		//	else if(name == "ModbusRTU-Master")
+  //          {
                 
-                if(modmaster == null)
-                {
-                    return;
-                }
+  //              if(modmaster == null)
+  //              {
+  //                  return;
+  //              }
 
-                //刷新master地址
-                modmaster.masterManage.getMasterStartAddr();
-                modmaster.masterManage.refresh();
+  //              //刷新master地址
+  //              modmaster.masterManage.getMasterStartAddr();
+  //              modmaster.masterManage.refresh();
 
-                modmaster.initForm();
-                //=======gw注释========
-                //saveXml();
-                //====================
-                modmaster.Show();
-                ModbusWindow_.Controls.Clear();
-                modmaster.Dock = DockStyle.Fill;
-                ModbusWindow_.Controls.Add(modmaster);
-            }
-            else if (name == "Modbus-Server")
-		{
-                if (msi == null)
-                {
-                    return;
-                }
-                msi.initForm();
-                //======gw注释=====
-                //saveXml();
-                //================
-                msi.Show();
-					   ModbusWindow_.Controls.Clear();
-		               ModbusWindow_.Controls.Add(msi);
-		}
+  //              modmaster.initForm();
+  //              //=======gw注释========
+  //              //saveXml();
+  //              //====================
+  //              modmaster.Show();
+  //              ModbusWindow_.Controls.Clear();
+  //              modmaster.Dock = DockStyle.Fill;
+  //              ModbusWindow_.Controls.Add(modmaster);
+  //          }
+  //          else if (name == "Modbus-Server")
+		//{
+  //              if (msi == null)
+  //              {
+  //                  return;
+  //              }
+  //              msi.initForm();
+  //              //======gw注释=====
+  //              //saveXml();
+  //              //================
+  //              msi.Show();
+		//			   ModbusWindow_.Controls.Clear();
+		//               ModbusWindow_.Controls.Add(msi);
+		//}
 			
-			else if(name == "ModbusRTU-Slave")
-		{
-                if (modslave == null)
-                {
-                    return;
-                }
-                modslave.initForm();
-                //======gw注释=======
-                //saveXml();
-                //==================
-                modslave.Show(); 
-						ModbusWindow_.Controls.Clear();
-                modslave.Dock = DockStyle.Fill;
-                ModbusWindow_.Controls.Add(modslave);
-		}
-        else if(name == "基本配置")
-            {
-                UC.Show();
-                ModbusWindow_.Controls.Clear();
-                UC.Dock = DockStyle.Fill;
-                ////UC.Size = new Size(472, 336);
-                ModbusWindow_.Controls.Add(UC);
-            }
-			else if(name == ConstVariable.DO)
-            {
-                if(!ModbusWindow_.Controls.Contains(UC))
-                {
-                    UC.Show();
-                    ModbusWindow_.Controls.Clear();
-                    UC.Dock = DockStyle.Fill;
-                    ////UC.Size = new Size(472, 336);
-                    ModbusWindow_.Controls.Add(UC);
-                }
+		//	else if(name == "ModbusRTU-Slave")
+		//{
+  //              if (modslave == null)
+  //              {
+  //                  return;
+  //              }
+  //              modslave.initForm();
+  //              //======gw注释=======
+  //              //saveXml();
+  //              //==================
+  //              modslave.Show(); 
+		//				ModbusWindow_.Controls.Clear();
+  //              modslave.Dock = DockStyle.Fill;
+  //              ModbusWindow_.Controls.Add(modslave);
+		//}
+  //      else if(name == "基本配置")
+  //          {
+  //              UC.Show();
+  //              ModbusWindow_.Controls.Clear();
+  //              UC.Dock = DockStyle.Fill;
+  //              ////UC.Size = new Size(472, 336);
+  //              ModbusWindow_.Controls.Add(UC);
+  //          }
+		//	else if(name == ConstVariable.DO)
+  //          {
+  //              if(!ModbusWindow_.Controls.Contains(UC))
+  //              {
+  //                  UC.Show();
+  //                  ModbusWindow_.Controls.Clear();
+  //                  UC.Dock = DockStyle.Fill;
+  //                  ////UC.Size = new Size(472, 336);
+  //                  ModbusWindow_.Controls.Add(UC);
+  //              }
 
-                UC.setDOShow(name);
-            }
-            else if(name == ConstVariable.DI)
-            {
-                if (!ModbusWindow_.Controls.Contains(UC))
-                {
-                    UC.Show();
-                    ModbusWindow_.Controls.Clear();
-                    UC.Dock = DockStyle.Fill;
-                    ////UC.Size = new Size(472, 336);
-                    ModbusWindow_.Controls.Add(UC);
-                }
+  //              UC.setDOShow(name);
+  //          }
+  //          else if(name == ConstVariable.DI)
+  //          {
+  //              if (!ModbusWindow_.Controls.Contains(UC))
+  //              {
+  //                  UC.Show();
+  //                  ModbusWindow_.Controls.Clear();
+  //                  UC.Dock = DockStyle.Fill;
+  //                  ////UC.Size = new Size(472, 336);
+  //                  ModbusWindow_.Controls.Add(UC);
+  //              }
 
-                UC.setDIShow(name);
-            }
-            else if(name == "本体COM1")
-            {
-                UC.setCOMShow(name);
-            }
-            else if(name == "本体ETH1")
-            {
-                UC.setETHShow(name);
-            }
-            else if(name == "高速计数器")
-            {
-                if (!ModbusWindow_.Controls.Contains(UC))
-                {
-                    UC.Show();
-                    ModbusWindow_.Controls.Clear();
-                    UC.Dock = DockStyle.Fill;
-                    ////UC.Size = new Size(472, 336);
-                    ModbusWindow_.Controls.Add(UC);
-                }
+  //              UC.setDIShow(name);
+  //          }
+  //          else if(name == "本体COM1")
+  //          {
+  //              UC.setCOMShow(name);
+  //          }
+  //          else if(name == "本体ETH1")
+  //          {
+  //              UC.setETHShow(name);
+  //          }
+  //          else if(name == "高速计数器")
+  //          {
+  //              if (!ModbusWindow_.Controls.Contains(UC))
+  //              {
+  //                  UC.Show();
+  //                  ModbusWindow_.Controls.Clear();
+  //                  UC.Dock = DockStyle.Fill;
+  //                  ////UC.Size = new Size(472, 336);
+  //                  ModbusWindow_.Controls.Add(UC);
+  //              }
 
-                UC.setHighInput(name);
-            }
-            else if(name == "高速输出")
-            {
+  //              UC.setHighInput(name);
+  //          }
+  //          else if(name == "高速输出")
+  //          {
 
-                if (!ModbusWindow_.Controls.Contains(UC))
-                {
-                    UC.Show();
-                    ModbusWindow_.Controls.Clear();
-                    UC.Dock = DockStyle.Fill;
-                    ////UC.Size = new Size(472, 336);
-                    ModbusWindow_.Controls.Add(UC);
-                }
+  //              if (!ModbusWindow_.Controls.Contains(UC))
+  //              {
+  //                  UC.Show();
+  //                  ModbusWindow_.Controls.Clear();
+  //                  UC.Dock = DockStyle.Fill;
+  //                  ////UC.Size = new Size(472, 336);
+  //                  ModbusWindow_.Controls.Add(UC);
+  //              }
 
-                UC.setHighOutput(name);
-            }
-            else if(name == "正交编码器")
-            {
-                UC.setQuadShow(name);
-            }
-            else if(name == "双相脉冲计数")
-            {
-                UC.setBiDirPulseShow(name);
-            }
-            else if(name == "单脉冲计数")
-            {
-                UC.setSinglePulseShow(name);
-            }
-            else if(name == "PTO")
-            {
-                UC.setPTOShow(name);
-            }
-            else if(name == "PWM")
-            {
-                UC.setPWMShow(name);
-            }
-            else if(name == "AI")
-            {
-                //暂时
-                UC.setExtendAIShow(name);
-            }
-            else if(name == "AO")
-            {
-                UC.setExtendAOShow(name);
-            }
+  //              UC.setHighOutput(name);
+  //          }
+  //          else if(name == "正交编码器")
+  //          {
+  //              UC.setQuadShow(name);
+  //          }
+  //          else if(name == "双相脉冲计数")
+  //          {
+  //              UC.setBiDirPulseShow(name);
+  //          }
+  //          else if(name == "单脉冲计数")
+  //          {
+  //              UC.setSinglePulseShow(name);
+  //          }
+  //          else if(name == "PTO")
+  //          {
+  //              UC.setPTOShow(name);
+  //          }
+  //          else if(name == "PWM")
+  //          {
+  //              UC.setPWMShow(name);
+  //          }
+  //          else if(name == "AI")
+  //          {
+  //              //暂时
+  //              UC.setExtendAIShow(name);
+  //          }
+  //          else if(name == "AO")
+  //          {
+  //              UC.setExtendAOShow(name);
+  //          }
             
-    }
+  //  }
         //public void getbasedata(ref LocalPLC.Base.xml.DataManageBase data)
         //{
         //    basedata = data;
@@ -1397,6 +1449,21 @@ namespace LocalPLC
         {        
 
 		}
+
+        void judgeIsSave()
+        {
+            foreach (var control in ModbusWindow_.Controls)
+            {
+                var test = control.ToString();
+                UserControlDI di = control as UserControlDI;
+                IGetModifyFlag getModify = control as IGetModifyFlag;
+                if (getModify != null)
+                {
+                    bool modify = getModify.getModifyFlag();
+                }
+            }
+        }
+
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right)
@@ -1432,6 +1499,7 @@ namespace LocalPLC
                     //动态创建节点
                     if (e.Node.Tag.ToString() == "SERIAL_LINE")
                     {
+                        judgeIsSave();
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
                             UC.Show();
@@ -1441,10 +1509,12 @@ namespace LocalPLC
                             ModbusWindow_.Controls.Add(UC);
                         }
                         //显示串口信息
+                        name = name.TrimEnd(new char[] { '*' });
                         UC.setCOMShow(name);
                     }
                     else if (e.Node.Tag.ToString() == "ETHERNET")
                     {
+                        judgeIsSave();
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
                             UC.Show();
@@ -1453,7 +1523,12 @@ namespace LocalPLC
                             ////UC.Size = new Size(472, 336);
                             ModbusWindow_.Controls.Add(UC);
                         }
+                        name = name.TrimEnd(new char[] { '*' });
                         UC.setETHShow(name);
+                    }
+                    else if(e.Node.Tag.ToString() == "CONFIG")
+                    {
+                        judgeIsSave();
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BASE_PARA")
                     {
@@ -1550,6 +1625,37 @@ namespace LocalPLC
                         ModbusWindow_.Controls.Clear();
                         para.Dock = DockStyle.None;
                         ModbusWindow_.Controls.Add(para);
+                    }
+
+                    else if (e.Node.Tag.ToString() == ConstVariable.DI)
+                    {
+                        judgeIsSave();
+
+                        if (!ModbusWindow_.Controls.Contains(UC))
+                        {
+                            UC.Show();
+                            ModbusWindow_.Controls.Clear();
+                            UC.Dock = DockStyle.Fill;
+                            ////UC.Size = new Size(472, 336);
+                            ModbusWindow_.Controls.Add(UC);
+                        }
+
+                        UC.setDIShow(name);
+                    }
+                    else if (e.Node.Tag.ToString() == ConstVariable.DO)
+                    {
+                        judgeIsSave();
+
+                        if (!ModbusWindow_.Controls.Contains(UC))
+                        {
+                            UC.Show();
+                            ModbusWindow_.Controls.Clear();
+                            UC.Dock = DockStyle.Fill;
+                            ////UC.Size = new Size(472, 336);
+                            ModbusWindow_.Controls.Add(UC);
+                        }
+
+                        UC.setDOShow(name);
                     }
                     //else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
                     //{
@@ -1666,32 +1772,8 @@ namespace LocalPLC
                     ////UC.Size = new Size(472, 336);
                     ModbusWindow_.Controls.Add(UC);
                 }
-                else if (name == ConstVariable.DO)
-                {
-                    if (!ModbusWindow_.Controls.Contains(UC))
-                    {
-                        UC.Show();
-                        ModbusWindow_.Controls.Clear();
-                        UC.Dock = DockStyle.Fill;
-                        ////UC.Size = new Size(472, 336);
-                        ModbusWindow_.Controls.Add(UC);
-                    }
 
-                    UC.setDOShow(name);
-                }
-                else if (name == ConstVariable.DI)
-                {
-                    if (!ModbusWindow_.Controls.Contains(UC))
-                    {
-                        UC.Show();
-                        ModbusWindow_.Controls.Clear();
-                        UC.Dock = DockStyle.Fill;
-                        ////UC.Size = new Size(472, 336);
-                        ModbusWindow_.Controls.Add(UC);
-                    }
 
-                    UC.setDIShow(name);
-                }
                 else if (name == "本体COM1")
                 {
                     UC.setCOMShow(name);
@@ -1764,6 +1846,8 @@ namespace LocalPLC
 
             if(e.Node.Tag == "CONFIG")
             {
+                judgeIsSave();
+
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
 

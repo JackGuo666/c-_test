@@ -18,9 +18,13 @@ namespace LocalPLC.Base
         bool configured_ = false;
         string etherName = "";
         bool initDone = false;
-        public UserControlEth(string name, ETHERNETData ethernetValueData, bool configured = false)
+        public UserControlEth(UserControlBase ub, string name, ETHERNETData ethernetValueData, bool configured = false)
         {
             InitializeComponent();
+
+            UserControl1 us = ub.parent_ as UserControl1;
+            setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeComEthNodeStats);
+
             ethernetValueData_ = ethernetValueData;
             configured_ = configured;
             etherName = name;
@@ -75,6 +79,12 @@ namespace LocalPLC.Base
 
             initDone = true;
         }
+
+        #region 
+        //代理
+        public delegate void setTreeNodeStatusEventHandler(string tag, string name);
+        setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
+        #endregion
 
         #region
         //接口
@@ -448,7 +458,8 @@ namespace LocalPLC.Base
             }
 
             setButtonEnable(false);
-
+            setModifgFlag(false);
+            setTreeNodeStatusDelegate("ETHERNET", etherName);
 
             utility.setDebugIP(ipAddressControl_ipaddr.IPAddress.ToString());
 
@@ -458,6 +469,7 @@ namespace LocalPLC.Base
         {
             refreshData();
             setButtonEnable(false);
+            setModifgFlag(false);
         }
 
         private void checkBox_SNTP_CheckedChanged(object sender, EventArgs e)

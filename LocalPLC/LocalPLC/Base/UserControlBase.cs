@@ -693,7 +693,7 @@ namespace LocalPLC.Base
                     data.terminalResis = elem.terminalResis;
                     data.databitEnable = elem.databitEnable;
 
-                    UserControlCom com = new UserControlCom(elem.baseName, data, false);
+                    UserControlCom com = new UserControlCom(this, elem.baseName, data, false);
                     comDic.Add(elem.baseName, com);
                     dataManage.serialDic.Add(elem.baseName, data);
                 }
@@ -708,7 +708,7 @@ namespace LocalPLC.Base
             foreach (var elem in dataManage.serialDic)
             {
 
-                 UserControlCom com = new UserControlCom(elem.Key, elem.Value, !dataManage.newControlerFlag);
+                 UserControlCom com = new UserControlCom(this, elem.Key, elem.Value, !dataManage.newControlerFlag);
                  comDic.Add(elem.Key, com);
 
             }
@@ -724,7 +724,7 @@ namespace LocalPLC.Base
                 {
                     ETHERNETData data = new ETHERNETData();
                     data.name = elem.baseName;
-                    UserControlEth eth = new UserControlEth(elem.baseName, data, dataManage.newControlerFlag);
+                    UserControlEth eth = new UserControlEth(this, elem.baseName, data, dataManage.newControlerFlag);
                     ethDic.Add(elem.baseName, eth);
                     UserControlBase.dataManage.ethernetDic.Add(elem.baseName, data);
                 }
@@ -738,7 +738,7 @@ namespace LocalPLC.Base
 
             foreach (var elem in dataManage.ethernetDic)
             {
-                UserControlEth eth = new UserControlEth(elem.Key, elem.Value, dataManage.newControlerFlag);
+                UserControlEth eth = new UserControlEth(this, elem.Key, elem.Value, dataManage.newControlerFlag);
                  ethDic.Add(elem.Key, eth);
             }
         }

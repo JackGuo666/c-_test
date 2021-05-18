@@ -83,6 +83,7 @@ namespace LocalPLC.Base
                 myDelegate = new DoSomethingEventHandler(us1.DoSomething);
 
                 di = new UserControlDI(us1);
+                dout =  new UserControlDO(/*null, */ us1);
 
                 // Create the ToolTip and associate with the Form container.
                 ToolTip toolTip1 = new ToolTip();
@@ -640,7 +641,7 @@ namespace LocalPLC.Base
         }
 
         //显示DO信息
-        private UserControlDO dout = new UserControlDO(null);
+        private UserControlDO dout = null;
         private void pictest1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
 

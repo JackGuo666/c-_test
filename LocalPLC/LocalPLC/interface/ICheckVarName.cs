@@ -10,4 +10,15 @@ namespace LocalPLC.Interface
     {
         bool checkVarName(String varName);
     }
+
+    interface IGetModifyFlag
+    {
+         bool getModifyFlag();
+    }
+
+}
+
+namespace LocalPLC.AbstractControlInterface
+{
+
 }
