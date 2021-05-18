@@ -58,6 +58,7 @@ namespace LocalPLC
         public static LocalPLC.motion.UserControlMotion motion = new UserControlMotion();
 
         static GroupBox ModbusWindow_ = null;
+        static TreeView treeView1_ = null;
         private void UserControl1_Load(object sender, EventArgs e)
         {
             e1 = new empty();
@@ -119,6 +120,8 @@ namespace LocalPLC
             motion.getParent(this);
             motion.getTreeView(treeView1);
 
+            treeView1_ = treeView1;
+
             return;
         }
 
@@ -154,26 +157,46 @@ namespace LocalPLC
         /// <param name="tv">TreeView</param>
         /// <param name="tnc">tc=tv.Nodes</param>
         /// <param name="nds">node.Text</param>
-        private void FindEvery(TreeView tv, TreeNodeCollection tnc, string nds)
+        private void clearSymbol(TreeView tv, TreeNodeCollection tnc)
         {
             if (tnc.Count != 0)
             {
                 for (int i = 0; i < tnc.Count; i++)
                 {
-                    if (tnc[i].Text == nds)
-                    {
-                        tv.SelectedNode = tnc[i];
-                        tv.SelectedNode.Expand();//展开找到的节点
-                        //tv.SelectedNode.BackColor = System.Drawing.Color.LightGray;//谁知道在Node失去选中状态时，如何取消掉这个BackColor的，请留言评论
-                        return;//找到一个就返回，没有return则继续查找 直到遍历所有节点
-                    }
+                    tnc[i].Text = tnc[i].Text.TrimEnd(new char[] { '*' });
+                    //{
+                    //    //tv.SelectedNode = tnc[i];
+                    //    //tv.SelectedNode.Expand();//展开找到的节点
+                    //    ////tv.SelectedNode.BackColor = System.Drawing.Color.LightGray;//谁知道在Node失去选中状态时，如何取消掉这个BackColor的，请留言评论
+                    //    //return;//找到一个就返回，没有return则继续查找 直到遍历所有节点
+                    //}
 
-                    System.Diagnostics.Debug.WriteLine(tnc[i].Text);
+                    //System.Diagnostics.Debug.WriteLine(tnc[i].Text);
 
-                    FindEvery(tv, tnc[i].Nodes, nds);
+                    clearSymbol(tv, tnc[i].Nodes);
                 }
             }
         }
+
+        private bool checkSymbol(TreeView tv, TreeNodeCollection tnc)
+        {
+            if (tnc.Count != 0)
+            {
+                for (int i = 0; i < tnc.Count; i++)
+                {
+                    if(tnc[i].Text.Contains("*"))
+                    {
+                        return true;
+                    }
+
+                    return checkSymbol(tv, tnc[i].Nodes);
+                }
+            }
+
+            return false;
+        }
+
+
 
         private TreeNode FindeNodeByTag(TreeNode tnParent, string strTag)
         {
@@ -237,7 +260,7 @@ namespace LocalPLC
 
 
         //接受代理传来参数的方法
-        public void DoSomething(string s1)
+        public void DoSomething(string s1, string tagName)
         {
             //SelectTreeView(treeView1, s1);
             treeView1.Focus();
@@ -245,9 +268,13 @@ namespace LocalPLC
             TreeNode tnRet = null;
             foreach (TreeNode tn in treeView1.Nodes)
             {
-                tnRet = FindNode(tn, s1);
+                tnRet = FindNodeByTagAndName(tn, s1, tagName);
                 if (tnRet != null)
-                    return;
+                {
+                    treeView1.SelectedNode = tnRet;
+                    break;
+                }
+  
             }
         }
 
@@ -286,7 +313,7 @@ namespace LocalPLC
             //treeView1.Focus();
             //FindEvery(treeView1, treeView1.Nodes, s1);
             TreeNode tnRet = null;
-            foreach (TreeNode tn in treeView1.Nodes)
+            foreach (TreeNode tn in treeView1_.Nodes)
             {
                 tnRet = FindeNodeByTag(tn, tag);
                 
@@ -307,7 +334,7 @@ namespace LocalPLC
         {
             TreeNode tnRet = null;
 
-            foreach (TreeNode tn in treeView1.Nodes)
+            foreach (TreeNode tn in treeView1_.Nodes)
             {
                 tnRet = FindNodeByTagAndName(tn, name, tag);
                 if (tnRet != null)
@@ -358,6 +385,12 @@ namespace LocalPLC
 
         }
 
+
+        public void theout(object source, System.Timers.ElapsedEventArgs e)
+        {
+            multiprogApp.WorkspaceManager.SwitchTo(1);
+        }
+
         public void OnSaveSubtree(object Object, AdeObjectType ObjectType, AdeConfirmRule ConfirmSave, ref bool Saved)
         {
             if(multiprogApp != null && multiprogApp.ActiveProject != null)
@@ -367,6 +400,21 @@ namespace LocalPLC
                 {
 
                 }*/
+
+                TreeView tree = (UC.parent_ as UserControl1).treeView1;
+                bool ret = checkSymbol(tree, tree.Nodes);
+                if(ret && multiprogApp.WorkspaceManager.CurrentWorkspace == 1 && ConfirmSave != AdeConfirmRule.adeCrConfirm)
+                {
+                    MessageBox.Show("配置修改，需要操作生成配置文件!");
+                    System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
+
+                    t.Elapsed += new System.Timers.ElapsedEventHandler(theout);//到达时间的时候执行事件；
+
+                    t.AutoReset = false;//设置是执行一次（false）还是一直执行(true)；
+
+                    t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
+                }
+
                 saveXml();
             }
         }
@@ -1640,6 +1688,7 @@ namespace LocalPLC
                             ModbusWindow_.Controls.Add(UC);
                         }
 
+                        name = name.TrimEnd(new char[] { '*' });
                         UC.setDIShow(name);
                     }
                     else if (e.Node.Tag.ToString() == ConstVariable.DO)
@@ -1655,6 +1704,7 @@ namespace LocalPLC
                             ModbusWindow_.Controls.Add(UC);
                         }
 
+                        name = name.TrimEnd(new char[] { '*' });
                         UC.setDOShow(name);
                     }
                     //else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
@@ -1911,6 +1961,7 @@ namespace LocalPLC
 
                 ModbusWindow_.Controls.Clear();
 
+                clearSymbol(treeView1, treeView1.Nodes);
                 multiprogApp.ActiveProject.Save();
                 multiprogApp.ActiveProject.Close();
                 multiprogApp.OpenProject(projectName, AdeConfirmRule.adeCrNotConfirm);

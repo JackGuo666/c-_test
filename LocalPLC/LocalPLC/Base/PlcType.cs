@@ -42,7 +42,7 @@ namespace LocalPLC.Base
 
         Dictionary<string, pictest> picArray = new Dictionary<string, pictest>();
         private SplitContainer split = null;
-        public delegate void DoSomethingEventHandler(string s1);
+        public delegate void DoSomethingEventHandler(string s1, string tagName);
         DoSomethingEventHandler myDelegate = null;
         //从base xml读取内容
         DataManageBase dataManage_ = null;
@@ -652,7 +652,7 @@ namespace LocalPLC.Base
                 split.Panel2.Controls.Add(dout);
             }
 
-            myDelegate(ConstVariable.DO);
+            myDelegate(ConstVariable.DO, ConstVariable.DO);
         }
 
 
@@ -665,7 +665,7 @@ namespace LocalPLC.Base
                 split.Panel2.Controls.Add(di);
             }
 
-            myDelegate(ConstVariable.DI);
+            myDelegate(ConstVariable.DI, ConstVariable.DI);
         }
 
         //显示串口信息
@@ -685,7 +685,7 @@ namespace LocalPLC.Base
                 }
 
                 //从配置文件读取的值
-                myDelegate(pic.Tag.ToString());
+                myDelegate(pic.Tag.ToString(), "SERIAL_LINE");
             }
         }
 
@@ -703,7 +703,7 @@ namespace LocalPLC.Base
             }
 
             //从配置文件读取的值
-            myDelegate(pic.Tag.ToString());
+            myDelegate(pic.Tag.ToString(), "ETHERNET");
         }
     }
 }
