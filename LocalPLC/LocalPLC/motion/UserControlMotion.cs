@@ -400,7 +400,7 @@ namespace LocalPLC.motion
 
             XmlElement elemCommandTable = doc.CreateElement("commandtable");
             elem.AppendChild(elemCommandTable);
-            utility.PrintInfo(motionDataManage.commandTableList.Count.ToString());
+            //utility.PrintInfo(motionDataManage.commandTableList.Count.ToString());
             foreach(var command in motionDataManage.commandTableList)
             {
                 XmlElement elemChild = doc.CreateElement("commandtableelem");
