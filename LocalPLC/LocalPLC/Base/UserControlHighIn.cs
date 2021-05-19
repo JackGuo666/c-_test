@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlHighIn : UserControl
+    public partial class UserControlHighIn : UserControl, IGetModifyFlag
     {
         public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
         {
@@ -124,9 +125,11 @@ namespace LocalPLC.Base
         System.Text.RegularExpressions.Regex regStr = new System.Text.RegularExpressions.Regex(@"^[\w]{1,32}$");
         System.Text.RegularExpressions.Regex regStrNote = new System.Text.RegularExpressions.Regex(@"^(.{0,32})$");
         ToolTip tip = new ToolTip();
-        public UserControlHighIn()
+        public UserControlHighIn(UserControl1 us)
         {
             InitializeComponent();
+
+            setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeNodeStatus);
 
             Pub.CRichTestBoxMenu richMenu = new Pub.CRichTestBoxMenu(text_Temp, dataGridView1);
 
@@ -168,8 +171,57 @@ namespace LocalPLC.Base
             button_cancel.Enabled = false;
         }
 
-        # region
-        DataTable dtData = null;
+        #region 
+        //代理
+        public delegate void setTreeNodeStatusEventHandler(string tag, string name);
+        setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
+        #endregion
+
+        #region
+        bool modifiedFlag = false;
+        void setModifgFlag(bool flag)
+        {
+            modifiedFlag = flag;
+            if (flag)
+            {
+                setTreeNodeStatusDelegate("HSC", "高速计数器");
+            }
+        }
+
+        //接口实现
+        public bool getModifyFlag()
+        {
+            if (!checkDataGridView())
+            {
+                // 不保存
+                button2_Click(null, null);
+                return false;
+            }
+
+            if (modifiedFlag)
+            {
+                if (MessageBox.Show("是否保存修改数据?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // 保存
+                    button1_Click(null, null);
+                }
+                else
+                {
+                    // 不保存
+                    button2_Click(null, null);
+                }
+            }
+
+            return modifiedFlag;
+        }
+
+
+            #endregion
+
+
+
+            #region
+            DataTable dtData = null;
         const int columnUsedIndex = 0;
         const int columnVarIndex = 1;
         const int columnAddressIndex = 2;
@@ -557,7 +609,11 @@ namespace LocalPLC.Base
                 //Do something with your button. 
                  FormHighInput color = new FormHighInput(typeDescDic, UserControlBase.dataManage.hscList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
-                color.ShowDialog();
+
+                if (color.ShowDialog() == DialogResult.Yes)
+                {
+                    setModifgFlag(true);
+                }
 
 
                 var row = e.RowIndex;
@@ -1162,7 +1218,7 @@ namespace LocalPLC.Base
                 if (!buttonStatus)
                 {
                     //数据没有重复
-
+                    setModifgFlag(true);
                     setButtonEnable(true);
                 }
 
@@ -1179,6 +1235,7 @@ namespace LocalPLC.Base
                 else
                 {
                     setCellColor(Color.White, "");
+                    setModifgFlag(true);
                 }
             }
         }
@@ -1200,6 +1257,7 @@ namespace LocalPLC.Base
             {
                 //注释
                 setButtonEnable(true);
+                setModifgFlag(true);
             }
         }
     }

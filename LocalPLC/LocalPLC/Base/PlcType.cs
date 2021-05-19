@@ -84,6 +84,7 @@ namespace LocalPLC.Base
 
                 di = new UserControlDI(us1);
                 dout =  new UserControlDO(/*null, */ us1);
+                hi = new UserControlHighIn(us1);
 
                 // Create the ToolTip and associate with the Form container.
                 ToolTip toolTip1 = new ToolTip();
@@ -531,7 +532,7 @@ namespace LocalPLC.Base
         }
 
 
-        UserControlHighIn hi = new UserControlHighIn();
+        UserControlHighIn hi = /*new UserControlHighIn()*/ null;
         public void setHighInputInfo(string name)
         {
 

@@ -44,7 +44,7 @@ namespace LocalPLC.Base
             modifiedFlag = flag;
             if(flag)
             {
-                //setTreeNodeStatusDelegate(ConstVariable.DI, ConstVariable.DI);
+                setTreeNodeStatusDelegate(ConstVariable.DI, ConstVariable.DI);
             }
         }
 
