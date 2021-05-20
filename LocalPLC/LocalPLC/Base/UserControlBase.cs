@@ -615,7 +615,7 @@ namespace LocalPLC.Base
         private TreeNode FindNode(TreeNode tnParent, string strValue)
         {
             if (tnParent == null) return null;
-            if (tnParent.Text == strValue) return tnParent;
+            if (tnParent.Text.Trim(new char[] { '*'}) == strValue) return tnParent;
 
             TreeNode tnRet = null;
             foreach (TreeNode tn in tnParent.Nodes)

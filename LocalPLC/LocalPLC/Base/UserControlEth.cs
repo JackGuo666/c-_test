@@ -93,6 +93,14 @@ namespace LocalPLC.Base
         void setModifgFlag(bool flag)
         {
             modifiedFlag = flag;
+            if(flag)
+            {
+                if (flag)
+                {
+                    setTreeNodeStatusDelegate("ETHERNET", etherName);
+                    setTreeNodeStatusDelegate("COMMUNICATION_LINE", "通信线路");
+                }
+            }
         }
 
         //接口实现

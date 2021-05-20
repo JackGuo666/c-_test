@@ -27,6 +27,7 @@ namespace LocalPLC
     [Guid("4D23925D-E5C1-40A8-9D69-AAD815FDCECE")]
     [ProgId("LocalPLC.CONTROLBAR.PROGID")]
     public partial class UserControl1 : UserControl, IAdeAddIn, IAdeProjectObserver, IAdeCompileExtension, IAdeVariableObserver2, IAdeSaveObserver, IAdePropertyObserver
+        , IAdeDataTypeObserver, IAdeUpDownloadObserver
     {
         public UserControl1()
         {
@@ -35,6 +36,26 @@ namespace LocalPLC
             this.treeView1.ContextMenuStrip = null;
 
             i++;
+        }
+
+        public void OnDataTypesUpdated()
+        {
+            
+        }
+
+
+
+
+        public void BeforeLoad(AdeLoadDirection Direction, AdeUpDownloadType DownloadType, object NewObject, ref bool Cancel)
+        {
+            bool retsu = false;
+            checkSymbol(treeView1_, treeView1_.Nodes, ref retsu);
+            if (retsu)
+            {
+                MessageBox.Show("配置修改，需要手动操作生成配置文件。");
+
+                Cancel = true;
+            }
         }
 
         public static ADELib.Application multiprogApp = null;
@@ -178,7 +199,7 @@ namespace LocalPLC
             }
         }
 
-        private bool checkSymbol(TreeView tv, TreeNodeCollection tnc)
+        private void checkSymbol(TreeView tv, TreeNodeCollection tnc, ref bool retsult)
         {
             if (tnc.Count != 0)
             {
@@ -186,14 +207,15 @@ namespace LocalPLC
                 {
                     if(tnc[i].Text.Contains("*"))
                     {
-                        return true;
+                        retsult = true;
+                        return;
                     }
 
-                    return checkSymbol(tv, tnc[i].Nodes);
+                    checkSymbol(tv, tnc[i].Nodes, ref retsult);
+
+
                 }
             }
-
-            return false;
         }
 
 
@@ -238,7 +260,7 @@ namespace LocalPLC
         private TreeNode FindNode(TreeNode tnParent, string strValue, bool select = true)
         {
             if (tnParent == null) return null;
-            if (tnParent.Text == strValue) return tnParent;
+            if (tnParent.Text.Trim(new char[] { '*' }) == strValue) return tnParent;
 
             TreeNode tnRet = null;
             foreach (TreeNode tn in tnParent.Nodes)
@@ -370,6 +392,7 @@ namespace LocalPLC
             //multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtProject, AdeObjectType.adePpCurrentLocale)
             multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, AdeApplicationProperty.adeApOnlineOn);
 
+            multiprogApp.AdviseDataTypeObserver(this);
 
             //multiprogApp.AdvisePropertyObserver(this, AdeObjectType.adeOtApplication, SafeArrayOfObjectTypeProject);
 
@@ -402,17 +425,22 @@ namespace LocalPLC
                 }*/
 
                 TreeView tree = (UC.parent_ as UserControl1).treeView1;
-                bool ret = checkSymbol(tree, tree.Nodes);
+                bool ret = false;
+                checkSymbol(tree, tree.Nodes, ref ret);
+                utility.PrintInfo(string.Format("{0}", ret));
                 if(ret && multiprogApp.WorkspaceManager.CurrentWorkspace == 1 && ConfirmSave != AdeConfirmRule.adeCrConfirm)
                 {
-                    MessageBox.Show("配置修改，需要操作生成配置文件!");
-                    System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
+                    //MessageBox.Show("配置修改，需要操作生成配置文件!");
+                    if (MessageBox.Show("配置修改，需要手动操作生成配置文件。是否自动跳转到总线配置空间?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
 
-                    t.Elapsed += new System.Timers.ElapsedEventHandler(theout);//到达时间的时候执行事件；
+                        t.Elapsed += new System.Timers.ElapsedEventHandler(theout);//到达时间的时候执行事件；
 
-                    t.AutoReset = false;//设置是执行一次（false）还是一直执行(true)；
+                        t.AutoReset = false;//设置是执行一次（false）还是一直执行(true)；
 
-                    t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
+                        t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
+                    }
                 }
 
                 saveXml();
@@ -1707,6 +1735,22 @@ namespace LocalPLC
                         name = name.TrimEnd(new char[] { '*' });
                         UC.setDOShow(name);
                     }
+                    else if (e.Node.Tag.ToString() == "HSC")
+                    {
+                        judgeIsSave();
+
+                        if (!ModbusWindow_.Controls.Contains(UC))
+                        {
+                            UC.Show();
+                            ModbusWindow_.Controls.Clear();
+                            UC.Dock = DockStyle.Fill;
+                            ////UC.Size = new Size(472, 336);
+                            ModbusWindow_.Controls.Add(UC);
+                        }
+
+                        name = name.TrimEnd(new char[] { '*' });
+                        UC.setHighInput(name);
+                    }
                     //else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
                     //{
                     //    //添加命令表
@@ -1832,19 +1876,7 @@ namespace LocalPLC
                 {
                     UC.setETHShow(name);
                 }
-                else if (name == "高速计数器")
-                {
-                    if (!ModbusWindow_.Controls.Contains(UC))
-                    {
-                        UC.Show();
-                        ModbusWindow_.Controls.Clear();
-                        UC.Dock = DockStyle.Fill;
-                        ////UC.Size = new Size(472, 336);
-                        ModbusWindow_.Controls.Add(UC);
-                    }
 
-                    UC.setHighInput(name);
-                }
                 else if (name == "高速输出")
                 {
 
@@ -1940,6 +1972,7 @@ namespace LocalPLC
 
         }
 
+        static bool startGenerate = false;
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool isready = true;
@@ -1961,7 +1994,7 @@ namespace LocalPLC
 
                 ModbusWindow_.Controls.Clear();
 
-                clearSymbol(treeView1, treeView1.Nodes);
+                //clearSymbol(treeView1, treeView1.Nodes);
                 multiprogApp.ActiveProject.Save();
                 multiprogApp.ActiveProject.Close();
                 multiprogApp.OpenProject(projectName, AdeConfirmRule.adeCrNotConfirm);
@@ -1994,6 +2027,7 @@ namespace LocalPLC
                 UC.refreshUserBaseUI();
                 try
                 {
+                    startGenerate = true;
                     multiprogApp.ActiveProject.Compile(AdeCompileType.adeCtBuild);
                 }
                 catch
@@ -2004,6 +2038,16 @@ namespace LocalPLC
 
                 saveXml();
                 saveJson();
+
+                if(!startGenerate)
+                {
+                    clearSymbol(treeView1, treeView1.Nodes);
+                }
+                else
+                {
+                    startGenerate = false;
+                }
+
             }
             //else
             //{
@@ -2016,6 +2060,11 @@ namespace LocalPLC
         
         void IAdeCompileExtension.OnCompile(object Object, AdeCompileType CompileType, ref bool Errors)
         {
+            var str = Object.ToString();
+            if(CompileType == AdeCompileType.adeCtBuild)
+            {
+                startGenerate = false;
+            }
             if (!multiprogApp.IsProjectOpen() || msi.serverDataManager.listServer.Count == 0)
             {
                 return;

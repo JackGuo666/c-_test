@@ -104,7 +104,8 @@ namespace LocalPLC.Base
             modifiedFlag = flag;
             if(flag)
             {
-                //setTreeNodeStatusDelegate("SERIAL_LINE", com_);
+                setTreeNodeStatusDelegate("SERIAL_LINE", com_);
+                setTreeNodeStatusDelegate("COMMUNICATION_LINE", "通信线路");
             }
         }
 
