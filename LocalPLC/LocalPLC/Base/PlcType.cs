@@ -656,8 +656,32 @@ namespace LocalPLC.Base
             myDelegate(ConstVariable.DO, ConstVariable.DO);
         }
 
+        private void pictest1_Click(object sender, EventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(dout))
+            {
+                split.Panel2.Controls.Clear();
+                dout.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(dout);
+            }
+
+            myDelegate(ConstVariable.DO, ConstVariable.DO);
+        }
+
 
         private void pictest2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!split.Panel2.Controls.Contains(di))
+            {
+                split.Panel2.Controls.Clear();
+                di.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(di);
+            }
+
+            myDelegate(ConstVariable.DI, ConstVariable.DI);
+        }
+
+        private void pictest2_Click(object sender, EventArgs e)
         {
             if (!split.Panel2.Controls.Contains(di))
             {
@@ -690,9 +714,62 @@ namespace LocalPLC.Base
             }
         }
 
+        private void Serial_Line_1_Click(object sender, EventArgs e)
+        {
+            pictest pic = (pictest)sender;
+
+            if (userBase_.comDic.ContainsKey(pic.Tag.ToString()))
+            {
+                var com = userBase_.comDic[pic.Tag.ToString()];
+                if (!split.Panel2.Controls.Contains(com))
+                {
+                    split.Panel2.Controls.Clear();
+                    com.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(com);
+                }
+
+                //从配置文件读取的值
+                myDelegate(pic.Tag.ToString(), "SERIAL_LINE");
+            }
+        }
+
+        private void Serial_Line_2_Click(object sender, EventArgs e)
+        {
+            pictest pic = (pictest)sender;
+
+            if (userBase_.comDic.ContainsKey(pic.Tag.ToString()))
+            {
+                var com = userBase_.comDic[pic.Tag.ToString()];
+                if (!split.Panel2.Controls.Contains(com))
+                {
+                    split.Panel2.Controls.Clear();
+                    com.Dock = DockStyle.Fill;
+                    split.Panel2.Controls.Add(com);
+                }
+
+                //从配置文件读取的值
+                myDelegate(pic.Tag.ToString(), "SERIAL_LINE");
+            }
+        }
+
         //网口信息
         //UserControlEth eth = new UserControlEth(null);
         private void pictest4_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            pictest pic = (pictest)sender;
+            if (userBase_.ethDic.ContainsKey(pic.Tag.ToString()))
+            {
+                var eth = userBase_.ethDic[pic.Tag.ToString()];
+                split.Panel2.Controls.Clear();
+                eth.Dock = DockStyle.Fill;
+                split.Panel2.Controls.Add(eth);
+            }
+
+            //从配置文件读取的值
+            myDelegate(pic.Tag.ToString(), "ETHERNET");
+        }
+
+        private void Ethernet_1_Click(object sender, EventArgs e)
         {
             pictest pic = (pictest)sender;
             if (userBase_.ethDic.ContainsKey(pic.Tag.ToString()))

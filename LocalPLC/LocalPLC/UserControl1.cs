@@ -427,7 +427,7 @@ namespace LocalPLC
                 TreeView tree = (UC.parent_ as UserControl1).treeView1;
                 bool ret = false;
                 checkSymbol(tree, tree.Nodes, ref ret);
-                utility.PrintInfo(string.Format("{0}", ret));
+                //utility.PrintInfo(string.Format("ts{0}", ret));
                 if(ret && multiprogApp.WorkspaceManager.CurrentWorkspace == 1 && ConfirmSave != AdeConfirmRule.adeCrConfirm)
                 {
                     //MessageBox.Show("配置修改，需要操作生成配置文件!");

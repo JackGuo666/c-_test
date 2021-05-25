@@ -790,6 +790,7 @@ namespace LocalPLC.Base
             text_Temp.Hide();
             dataGridView1.CurrentCell = null;
             getDataFromUI();
+            setModifgFlag(false);
             button_valid.Enabled = false;
             button_cancel.Enabled = false;
         }

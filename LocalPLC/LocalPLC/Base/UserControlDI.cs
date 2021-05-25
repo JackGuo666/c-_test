@@ -337,9 +337,49 @@ namespace LocalPLC.Base
         //    dataGridView1.DataSource = dt;
         //}
 
+        private void OnPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.Control)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
+
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                try
+                {
+                    Clipboard.Clear();
+                    Clipboard.SetText(text_Temp.SelectedText.Trim());
+                }
+                catch (Exception ex)
+                {
+                    // log
+                }
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                if(dataGridView1.CurrentCell != null)
+                {
+                    dataGridView1.CurrentCell.Value = Clipboard.GetText();
+                    //text_Temp.Paste();
+                    //text_Temp.Text = Clipboard.GetText();
+                }
+
+                //PasteData();
+            }
+        }
+
         public UserControlDI(UserControl1 us)
         {
             InitializeComponent();
+
+            //text_Temp.PreviewKeyDown += OnPreviewKeyDown;
+            //text_Temp.KeyDown += OnKeyDown;
 
             setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeNodeStatus);
 
@@ -429,7 +469,7 @@ namespace LocalPLC.Base
                     {
                         dataGridView1.CurrentCell.Style.BackColor = Color.Red;
                         dataGridView1.CurrentCell.Style.SelectionBackColor = Color.Red;
-                        setCellColor(Color.Red, string.Format("{0}第一个字符不可以为数", text_Temp.Text));
+                        setCellColor(Color.Red, string.Format("{0} 第一个字符不可以为数字!", text_Temp.Text));
 
                         text_Temp.Focus();
                         text_Temp.SelectionStart = text_Temp.TextLength;
@@ -461,7 +501,7 @@ namespace LocalPLC.Base
                         if(ret == false)
                         {
                             ret = UserControl1.UC.getReDataManager().checkVarNameDO(name, channel)
-                                || UserControl1.UC.getReDataManager().checkVarNameHsc(name, channel);
+                                || UserControl1.UC.getReDataManager().checkVarNameHsc(name, /*channel*/ "");
                         }
 
 
@@ -531,13 +571,14 @@ namespace LocalPLC.Base
         }
 
 
-        bool checkVarNameStrValid(string name, int row)
+        bool checkVarNameStrValid(string name, int row, out string temp)
         {
             if (!regStr.IsMatch(name))
             {
                 dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
                 dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
 
+                temp = string.Format("{0} 格式无效", dataGridView1.Rows[row].Cells[columnVarIndex].Value.ToString());
 
                 return true;
             }
@@ -549,11 +590,14 @@ namespace LocalPLC.Base
                     dataGridView1.Rows[row].Cells[columnVarIndex].Style.BackColor = Color.Red;
                     dataGridView1.Rows[row].Cells[columnVarIndex].Style.SelectionBackColor = Color.Red;
 
+                    temp = string.Format("{0} 格式无效,第一个字符不可以为数字!", dataGridView1.Rows[row].Cells[columnVarIndex].Value.ToString());
+
                     return true;
                 }
                 else
                 {
                     //setCellColor(Color.White, "");
+                    temp = "";
 
                     return false;
                 }
@@ -581,11 +625,18 @@ namespace LocalPLC.Base
                 return;
             }
 
+
             //先判断当前字符串格式是否有效
             //判断输入是否有效
-            if(checkVarNameStrValid(dataGridView1.CurrentCell.Value.ToString(), dataGridView1.CurrentCell.RowIndex))
+            string temp = "";
+            if(checkVarNameStrValid(dataGridView1.CurrentCell.Value.ToString(), dataGridView1.CurrentCell.RowIndex, out temp))
             {
-                setCellColor(Color.Red, string.Format("{0} 格式无效", dataGridView1.CurrentCell.Value.ToString()));
+                setCellColor(Color.Red, temp);
+                if(dataGridView1.CurrentCell.Value.ToString().Length != 0)
+                {
+                    MessageBox.Show(temp);
+                }
+
                 return;
             }
             else
@@ -617,7 +668,8 @@ namespace LocalPLC.Base
                     }
 
                     //判断不是currentcell字段字符是否有效
-                    if (checkVarNameStrValid(curUiVarName, i))
+                    string tmp = "";
+                    if (checkVarNameStrValid(curUiVarName, i, out tmp))
                     {
                         i++;
                         continue;
@@ -642,7 +694,7 @@ namespace LocalPLC.Base
                     {
                         //其他模块判断
                         ret = UserControl1.UC.getReDataManager().checkVarNameDO(curUiVarName, channel)
-                            || UserControl1.UC.getReDataManager().checkVarNameHsc(curUiVarName, channel);
+                            || UserControl1.UC.getReDataManager().checkVarNameHsc(curUiVarName, /*channel*/ "");
                         if (ret)
                         {
                             dataGridView1.Rows[i].Cells[columnVarIndex].Style.BackColor = Color.Red;
@@ -699,6 +751,11 @@ namespace LocalPLC.Base
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            if(dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
+
             if(dataGridView1.CurrentCell.Value.ToString() != text_Temp.Text)
             {
                 //

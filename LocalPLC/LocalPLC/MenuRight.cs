@@ -25,15 +25,62 @@ namespace Pub
         public CRichTestBoxMenu()
         {
             init();
+
+            richTextBox.PreviewKeyDown += OnPreviewKeyDown;
+            richTextBox.KeyDown += OnKeyDown;
         }
+
+        private void OnPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.Control)
+            {
+                e.IsInputKey = true;
+            }
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                try
+                {
+                    Clipboard.Clear();
+                    Clipboard.SetText(richTextBox.SelectedText.Trim());
+                }
+                catch (Exception ex)
+                {
+                    // log
+                }
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                if (dataGridView1.CurrentCell != null)
+                {
+                    //dataGridView1.CurrentCell.Value = Clipboard.GetText();
+                    //text_Temp.Paste();
+                    //text_Temp.Text = Clipboard.GetText();
+                    PasteData();
+                    //richTextBox.Paste();
+                }
+
+                //PasteData();
+            }
+        }
+
+
 
         public CRichTestBoxMenu(RichTextBox rchTBox, DataGridView dataGridView)
         {
             richTextBox = rchTBox;
             dataGridView1 = dataGridView;
             richTextBox.ContextMenuStrip = richMenu;
+
+            richTextBox.PreviewKeyDown += OnPreviewKeyDown;
+            richTextBox.KeyDown += OnKeyDown;
+
             init();
         }
+
 
         public void init()
         {
@@ -49,7 +96,7 @@ namespace Pub
             CMcut.Click += CMcut_Click;
             CMdel.Click += CMdel_Click;
             CMcancle.Click += CMcancle_Click;
-            CMpaste.Click += CMpaste_Click;
+            //CMpaste.Click += CMpaste_Click;
             CMselectall.Click += CMselectall_Click;
             CMpastemul.Click += CMpastemul_Click;
 
@@ -83,11 +130,13 @@ namespace Pub
 
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
             {
-                this.CMpaste.Enabled = true;
+                //this.CMpaste.Enabled = true;
+                CMpastemul.Enabled = true;
             }
             else
             {
-                this.CMpaste.Enabled = false;
+                //this.CMpaste.Enabled = false;
+                CMpastemul.Enabled = false;
             }
 
             if (richTextBox.Text != "")
@@ -134,6 +183,11 @@ namespace Pub
         {
             try
             {
+                if(dataGridView1.CurrentRow == null)
+                {
+                    return;
+                }
+
 
 
                 string clipboardText = Clipboard.GetText(); //获取剪贴板中的内容

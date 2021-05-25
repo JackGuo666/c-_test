@@ -65,6 +65,7 @@
             this.Ethernet_1.Size = new System.Drawing.Size(76, 46);
             this.Ethernet_1.TabIndex = 6;
             this.Ethernet_1.TabStop = false;
+            this.Ethernet_1.Click += new System.EventHandler(this.Ethernet_1_Click);
             this.Ethernet_1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest4_MouseDoubleClick);
             // 
             // Serial_Line_2
@@ -76,6 +77,7 @@
             this.Serial_Line_2.Size = new System.Drawing.Size(52, 30);
             this.Serial_Line_2.TabIndex = 5;
             this.Serial_Line_2.TabStop = false;
+            this.Serial_Line_2.Click += new System.EventHandler(this.Serial_Line_2_Click);
             this.Serial_Line_2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
             // 
             // Serial_Line_1
@@ -87,6 +89,7 @@
             this.Serial_Line_1.Size = new System.Drawing.Size(34, 46);
             this.Serial_Line_1.TabIndex = 5;
             this.Serial_Line_1.TabStop = false;
+            this.Serial_Line_1.Click += new System.EventHandler(this.Serial_Line_1_Click);
             this.Serial_Line_1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest3_MouseDoubleClick);
             // 
             // pictest2
@@ -98,6 +101,7 @@
             this.pictest2.Size = new System.Drawing.Size(289, 30);
             this.pictest2.TabIndex = 4;
             this.pictest2.TabStop = false;
+            this.pictest2.Click += new System.EventHandler(this.pictest2_Click);
             this.pictest2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest2_MouseDoubleClick);
             // 
             // pictest1
@@ -109,6 +113,7 @@
             this.pictest1.Size = new System.Drawing.Size(265, 30);
             this.pictest1.TabIndex = 3;
             this.pictest1.TabStop = false;
+            this.pictest1.Click += new System.EventHandler(this.pictest1_Click);
             this.pictest1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest1_MouseDoubleClick);
             // 
             // LocalPLC24P

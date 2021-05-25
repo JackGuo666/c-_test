@@ -443,7 +443,7 @@ namespace LocalPLC.Base.xml
             {
                 if (channel != di.channelName)
                 {
-                    if (di.varName == name)
+                    if (di.varName.ToUpper() == name.ToUpper())
                     {
                         return true;
                     }
@@ -459,7 +459,7 @@ namespace LocalPLC.Base.xml
             {
                 if (channel != dout.channelName)
                 {
-                    if (dout.varName == name)
+                    if (dout.varName.ToUpper() == name.ToUpper())
                     {
                         return true;
                     }
@@ -477,7 +477,7 @@ namespace LocalPLC.Base.xml
             {
                 if (channel != hsc.address)
                 {
-                    if (hsc.name == name)
+                    if (hsc.name.ToUpper() == name.ToUpper())
                     {
                         return true;
                     }

@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("DI", 2, 2);
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("DO", 3, 3);
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("高速计数器", 4, 4);
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("高速输入", 4, 4);
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("高速输出", 8, 8);
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("通信线路", 11, 11);
             System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("基本配置", 1, 1, new System.Windows.Forms.TreeNode[] {
@@ -129,10 +129,10 @@
             treeNode2.Tag = "DO";
             treeNode2.Text = "DO";
             treeNode3.ImageIndex = 4;
-            treeNode3.Name = "高速计数器";
+            treeNode3.Name = "高速输入";
             treeNode3.SelectedImageIndex = 4;
             treeNode3.Tag = "HSC";
-            treeNode3.Text = "高速计数器";
+            treeNode3.Text = "高速输入";
             treeNode4.ImageIndex = 8;
             treeNode4.Name = "高速输出";
             treeNode4.SelectedImageIndex = 8;
