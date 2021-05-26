@@ -85,8 +85,8 @@ namespace Pub
         public void init()
         {
             richMenu.Items.Add(CMcopy);
-            richMenu.Items.Add(CMcut);
-            richMenu.Items.Add(CMdel);
+            //richMenu.Items.Add(CMcut);
+            //richMenu.Items.Add(CMdel);
             //richMenu.Items.Add(CMcancle);
             //richMenu.Items.Add(CMpaste);
             //richMenu.Items.Add(CMselectall);

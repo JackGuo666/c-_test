@@ -292,13 +292,13 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.testToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 34);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 34);
             // 
             // testToolStripMenuItem
             // 
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(188, 30);
-            this.testToolStripMenuItem.Text = "生成配置文件";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(152, 30);
+            this.testToolStripMenuItem.Text = "硬件编译";
             this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // imageList1

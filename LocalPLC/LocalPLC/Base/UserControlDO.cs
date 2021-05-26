@@ -52,6 +52,8 @@ namespace LocalPLC.Base
             //禁止用户改变DataGridView1の所有行的行高  
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.Columns[columnVarIndex].Width = 200;
+            dataGridView1.Columns[columnUsedIndex].Width += 10;
+
             //dataGridView1.Columns[2].ReadOnly = true;
             dataGridView1.Columns[dataGridView1.ColumnCount - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
@@ -226,7 +228,7 @@ namespace LocalPLC.Base
         {
             //view绑定datatable
             dtData = new DataTable();
-            dtData.Columns.Add("已使用", typeof(bool));
+            dtData.Columns.Add("高速已使用", typeof(bool));
             dtData.Columns.Add("变量名");
             dtData.Columns.Add("通道名");
             dtData.Columns.Add("地址");
@@ -673,6 +675,11 @@ namespace LocalPLC.Base
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            if(dataGridView1.CurrentCell == null)
+            {
+                return;
+            }
+
             if (dataGridView1.CurrentCell.Value.ToString() != text_Temp.Text)
             {
                 //

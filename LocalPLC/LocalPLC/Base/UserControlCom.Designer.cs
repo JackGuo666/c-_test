@@ -132,6 +132,7 @@
             // 
             // comboBox_StopBit
             // 
+            this.comboBox_StopBit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_StopBit.FormattingEnabled = true;
             this.comboBox_StopBit.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_StopBit.Location = new System.Drawing.Point(243, 253);
@@ -152,6 +153,7 @@
             // 
             // comboBox_Databit
             // 
+            this.comboBox_Databit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Databit.FormattingEnabled = true;
             this.comboBox_Databit.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Databit.Location = new System.Drawing.Point(243, 209);
@@ -163,6 +165,7 @@
             // 
             // comboBox_Parity
             // 
+            this.comboBox_Parity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Parity.FormattingEnabled = true;
             this.comboBox_Parity.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Parity.Location = new System.Drawing.Point(243, 167);
@@ -183,6 +186,7 @@
             // 
             // comboBox_Baud
             // 
+            this.comboBox_Baud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Baud.FormattingEnabled = true;
             this.comboBox_Baud.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Baud.Location = new System.Drawing.Point(243, 118);
@@ -239,6 +243,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox1.Location = new System.Drawing.Point(326, 354);

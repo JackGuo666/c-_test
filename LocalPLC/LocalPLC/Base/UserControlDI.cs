@@ -243,7 +243,7 @@ namespace LocalPLC.Base
         {
             //view绑定datatable
             //DataTable dtData = new DataTable();
-            dtData.Columns.Add("已使用", typeof(bool));
+            dtData.Columns.Add("高速已使用", typeof(bool));
             dtData.Columns.Add("变量名");
             var temp = dtData.Columns.Add("滤波(ms)");
             //temp.MaxLength = 4;
@@ -416,7 +416,7 @@ namespace LocalPLC.Base
 
             //最后一列自动填充表格
             dataGridView1.Columns[columnVarIndex].Width = 200;
-
+            dataGridView1.Columns[columnUsed].Width += 10;
 
 
             //禁止用户改变DataGridView1の所有行的行高  

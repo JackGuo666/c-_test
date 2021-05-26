@@ -1552,6 +1552,7 @@ namespace LocalPLC
                 }
 
 
+                judgeIsSave();
 
                 string name = e.Node.Text.ToString();
 
@@ -1751,6 +1752,22 @@ namespace LocalPLC
                         name = name.TrimEnd(new char[] { '*' });
                         UC.setHighInput(name);
                     }
+
+                    else if (e.Node.Tag.ToString() == "HSP")
+                    {
+                        judgeIsSave();
+
+                        if (!ModbusWindow_.Controls.Contains(UC))
+                        {
+                            UC.Show();
+                            ModbusWindow_.Controls.Clear();
+                            UC.Dock = DockStyle.Fill;
+                            ////UC.Size = new Size(472, 336);
+                            ModbusWindow_.Controls.Add(UC);
+                        }
+
+                        UC.setHighOutput(name);
+                    }
                     //else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
                     //{
                     //    //添加命令表
@@ -1877,20 +1894,7 @@ namespace LocalPLC
                     UC.setETHShow(name);
                 }
 
-                else if (name == "高速输出")
-                {
-
-                    if (!ModbusWindow_.Controls.Contains(UC))
-                    {
-                        UC.Show();
-                        ModbusWindow_.Controls.Clear();
-                        UC.Dock = DockStyle.Fill;
-                        ////UC.Size = new Size(472, 336);
-                        ModbusWindow_.Controls.Add(UC);
-                    }
-
-                    UC.setHighOutput(name);
-                }
+                
                 else if (name == "正交编码器")
                 {
                     UC.setQuadShow(name);
@@ -1928,16 +1932,20 @@ namespace LocalPLC
 
             if(e.Node.Tag == "CONFIG")
             {
-                judgeIsSave();
-
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
 
+                judgeIsSave();
+
+
+
                 if (CurrentNode != null)//判断你点的是不是一个节点
                 {
-                    CurrentNode.ContextMenuStrip = contextMenuStrip1;
+                    //CurrentNode.ContextMenuStrip = contextMenuStrip1;
+                    treeView1.SelectedNode = CurrentNode;
                     string name = treeView1.SelectedNode.Text.ToString();//存储节点的文本
                     treeView1.SelectedNode = CurrentNode;//选中这个节点
+                    contextMenuStrip1.Show((Control)sender, e.X, e.Y);
                 }
             }
 
