@@ -200,6 +200,7 @@ namespace LocalPLC.Base
                 doData.address = address;
                 string note = e.GetAttribute("note");
                 doData.note = note;
+                doData.hspUsed = e.GetAttribute("hspused");
 
                 UserControlBase.dataManage.doList.Add(doData);
 
@@ -393,6 +394,7 @@ namespace LocalPLC.Base
                 elem_dout.SetAttribute("channelname", dout.channelName.ToString());
                 elem_dout.SetAttribute("address", dout.address);
                 elem_dout.SetAttribute("note", dout.note);
+                elem_dout.SetAttribute("hspused", dout.hspUsed);
 
                 elemDO.AppendChild(elem_dout);
             }

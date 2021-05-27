@@ -579,6 +579,8 @@ namespace LocalPLC.Base
         {
             button1.Enabled = false;
             button2.Enabled = false;
+
+            refreshHSPConfigButton();
         }
     }
 }
