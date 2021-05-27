@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using LocalPLC.Base.xml;
 using System.Windows.Forms.VisualStyles;
+using LocalPLC.Interface;
 
 namespace LocalPLC.Base
 {
-    public partial class UserControlHighOutput : UserControl
+    public partial class UserControlHighOutput : UserControl, IGetModifyFlag
     {
 
         public class DataGridViewDisableButtonColumn : DataGridViewButtonColumn
@@ -117,9 +118,11 @@ namespace LocalPLC.Base
             }
         }
         public enum TYPE { NOTUSED, PLS, PWM, FREQUENCY, PTO}
-        public UserControlHighOutput()
+        public UserControlHighOutput(UserControl1 us)
         {
             InitializeComponent();
+
+            setTreeNodeStatusDelegate = new setTreeNodeStatusEventHandler(us.setTreeNodeStatus);
 
             typeDescDic.Clear();
 
@@ -167,6 +170,80 @@ namespace LocalPLC.Base
         Dictionary<int, string> typeDescDic = new Dictionary<int, string>();
         #endregion
 
+        #region
+        //代理
+        public delegate void setTreeNodeStatusEventHandler(string tag, string name);
+        setTreeNodeStatusEventHandler setTreeNodeStatusDelegate = null;
+        #endregion
+
+        #region
+        bool modifiedFlag = false;
+        void setModifgFlag(bool flag)
+        {
+            modifiedFlag = flag;
+            if (flag)
+            {
+                setTreeNodeStatusDelegate("HSP", "高速输出");
+            }
+        }
+
+        //接口实现
+        public bool getModifyFlag()
+        {
+            if (!checkDataGridView())
+            {
+                // 不保存
+                button2_Click(null, null);
+                return false;
+            }
+
+            if (modifiedFlag)
+            {
+                if (MessageBox.Show("是否保存修改数据?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    // 保存
+                    button1_Click(null, null);
+                }
+                else
+                {
+                    // 不保存
+                    button2_Click(null, null);
+                }
+            }
+
+            return modifiedFlag;
+        }
+
+        bool checkDataGridView()
+        {
+            for (int i = 0; i < dataGridView1.RowCount; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[columnVarIndex + 1].Style.BackColor == Color.Red)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        void setButtonEnable(bool enable)
+        {
+            if (enable)
+            {
+                bool ret = checkDataGridView();
+                button1.Enabled = ret;
+            }
+            else
+            {
+                button1.Enabled = enable;
+            }
+
+            button2.Enabled = enable;
+
+        }
+
+        #endregion
 
         public void initData()
         {
@@ -562,6 +639,9 @@ namespace LocalPLC.Base
 
         private void button1_Click(object sender, EventArgs e)
         {
+            text_Temp.Hide();
+            dataGridView1.CurrentCell = null;
+            setModifgFlag(false);
             getDataFromUI();
             button1.Enabled = false;
             button2.Enabled = false;
