@@ -423,6 +423,7 @@ namespace LocalPLC
                 {
 
                 }*/
+                judgeIsSave();
 
                 TreeView tree = (UC.parent_ as UserControl1).treeView1;
                 bool ret = false;
