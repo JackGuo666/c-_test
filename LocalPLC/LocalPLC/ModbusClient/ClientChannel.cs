@@ -906,6 +906,7 @@ namespace LocalPLC.ModbusClient
                     dataGridView2.Rows[e.RowIndex].Cells["长度"].Value = 1;
                     dataGridView2.Rows[e.RowIndex].Cells["长度"].ReadOnly = true;
                     dataGridView2.Rows[e.RowIndex].Cells["长度"].Style.BackColor = Color.Gainsboro;
+                    //dataGridView2.Rows[e.RowIndex].Cells[2].Value = 1;
                 }
                 else
                 {
@@ -944,7 +945,7 @@ namespace LocalPLC.ModbusClient
                 if (Convert.ToInt32(str) != 0 && Convert.ToInt32(str) != 1)
                 { 
                     MessageBox.Show("请选择手动或者自动");
-                    dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
+                    //dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
                 }
                 else
                 { 
@@ -992,8 +993,9 @@ namespace LocalPLC.ModbusClient
                     if(value < 0 || value > 9999)
                     {
                         MessageBox.Show("超出偏移范围0-9999,");
-                        dataGridView2.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = 0;
+                        
                     }
+                    //dataGridView2.Rows[e.RowIndex].Cells["功能码"].Value = 0;
                 }
                 catch
                 {

@@ -10,19 +10,27 @@ using System.Xml;
 using ADELib;
 using Newtonsoft.Json;
 using System.IO;
+using LocalPLC.ModbusServer;
 
 namespace LocalPLC.ModbusClient
 {
     public partial class Clientindex : UserControl
     {
+        public DataManager serverDataManager = null;
         public ModbusClientManage clientManage = new ModbusClientManage();
+        public ModbusMaster.ModbusMasterManage mastermanager = null;
+        public ModbusMaster.ModbusMasterData masterdata = null;
         LocalPLC.Base.xml.DataManageBase baseData = null;
+        public static ModbusMaster.modbusmastermain master { get; set; } = new ModbusMaster.modbusmastermain();
         public Clientindex()
         {
             InitializeComponent();
+            serverDataManager = DataManager.GetInstance();
+            mastermanager = ModbusMaster.ModbusMasterManage.GetInstance();
+            masterdata = ModbusMaster.ModbusMasterManage.GetInstance1();
             //dataGridView1.AllowUserToAddRows = false;
             //this.dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-           
+
         }
 
         public void deleteTableRow()
@@ -95,6 +103,7 @@ namespace LocalPLC.ModbusClient
                 int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
                 int.TryParse(e.GetAttribute("clientstartaddr"), out data.clientstartaddr);
+                bool.TryParse(e.GetAttribute("isready"), out data.isready);
                 //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
                 //读取device数据
                 XmlNodeList nodeDeviceList = childNode.ChildNodes;//创建当前子设备节点下的所有子节点集合
@@ -182,6 +191,7 @@ namespace LocalPLC.ModbusClient
                 elem1_m.SetAttribute("transformmode", data.transformMode.ToString());
                 elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
                 elem1_m.SetAttribute("clientstartaddr", data.clientstartaddr.ToString());
+                elem1_m.SetAttribute("isready", data.isready.ToString());
                 //create devices
                 for (int j = 0; j < data.modbusDeviceList.Count; j++)//循环添加每个设备的各参数值至xml
                 {
@@ -363,6 +373,40 @@ namespace LocalPLC.ModbusClient
         {
             ID
         };
+        public void refreshaddr()
+        {
+            if (serverDataManager.listServer.Count != 0)
+            {
+                ModbusServerData data = serverDataManager.listServer.ElementAt(0);
+                data.serverstartaddr = utility.modbusAddr + UserControl1.mci.clientManage.modbusClientList.Count * utility.modbusMudule;
+            }
+                mastermanager.masterStartAddr = mastermanager.getMasterStartAddr();
+                //masterdata.curMasterStartAddr = mastermanager.masterStartAddr;
+                //masterdata.refreshAddr();
+                master.getmastermain(ref mastermanager);
+           
+                for (int i = 0; i < mastermanager.modbusMastrList.Count; i++)
+                {
+                    for (int j = 0; j < mastermanager.modbusMastrList[i].modbusDeviceList.Count; j++)
+                    {
+                        //masterdata.modbusDeviceList[i].ID = j;
+                        if (j>0)
+                        {
+                            mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = mastermanager.modbusMastrList[i].modbusDeviceList[j - 1].curDeviceAddr + mastermanager.modbusMastrList[i].modbusDeviceList[j - 1].curDeviceLength;
+                        }
+                        else if (i>0 && j==0)
+                        {
+                            mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = mastermanager.modbusMastrList[i-1].modbusDeviceList[mastermanager.modbusMastrList[i - 1].modbusDeviceList.Count-1].curDeviceAddr 
+                                + mastermanager.modbusMastrList[i - 1].modbusDeviceList[mastermanager.modbusMastrList[i - 1].modbusDeviceList.Count-1].curDeviceLength;
+                        }
+                        else if (i == 0 && j==0)
+                        {
+                            mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = mastermanager.masterStartAddr;
+                        }
+                    }
+                }
+            
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             UserControl1.UC.getDataManager(ref baseData);
@@ -399,10 +443,11 @@ namespace LocalPLC.ModbusClient
                 //dataGridView1.Rows[i].Cells[columnConfig].Value = "..."/* + i.ToString()*/;
                 //data.device = new DeviceData();
                 data.clientstartaddr = 10000 + 1000 * i;
+                data.isready = false;
                 clientManage.modbusClientList.Add(data);
             }
-            
-            
+
+            refreshaddr();
         }
         public void refreshID()
         {
@@ -438,6 +483,7 @@ namespace LocalPLC.ModbusClient
                         clientManage.modbusClientList.RemoveAt(index);
                     }
                     refreshID();
+                    refreshaddr();
                 }
             }
             catch

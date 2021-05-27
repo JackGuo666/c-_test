@@ -447,15 +447,15 @@ namespace LocalPLC.ModbusMaster
                 {
                     for (int j = 0; j < mastermanage.modbusMastrList[i].modbusDeviceList.Count; j++)
                     {
-                        if(str == mastermanage.modbusMastrList[i].modbusDeviceList[j].resetVaraible &&(i != MID || j != e.RowIndex))
+                        if(str == mastermanage.modbusMastrList[i].modbusDeviceList[j].resetVaraible &&(i != MID || j != e.RowIndex) && str!="")
                         {
                             flag++;
                         }
                         
                         for(int k =0;k< mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count;k++)
                         {
-                            if (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger || 
-                                str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error && j != e.RowIndex)
+                            if ((str != "" )&& (str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].trigger || 
+                                str == mastermanage.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].error && j != e.RowIndex ))
                             {
                                 flag++;
                             }
@@ -755,6 +755,7 @@ namespace LocalPLC.ModbusMaster
 
 
                 }
+            masterData_.isready = true;
             this.Close();
         }
 

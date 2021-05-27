@@ -19,6 +19,8 @@ namespace LocalPLC.ModbusServer
     {
         public DataManager serverDataManager = null;
         public static DataManager serverdatamanage1 = null;
+        public ModbusMaster.ModbusMasterManage mastermanager = null;
+        public static ModbusMaster.modbusmastermain master { get; set; } = new ModbusMaster.modbusmastermain();
         public ServerIndex()
         {
             InitializeComponent();
@@ -119,6 +121,60 @@ namespace LocalPLC.ModbusServer
         }
 
         //DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+        public void refreshaddr()
+        {
+            master.getmastermain(ref mastermanager);
+            mastermanager.masterStartAddr = mastermanager.getMasterStartAddr();
+            //masterdata.curMasterStartAddr = mastermanager.masterStartAddr;
+            //masterdata.refreshAddr();
+            master.getmastermain(ref mastermanager);
+           
+            for (int i = 0; i < mastermanager.modbusMastrList.Count; i++)
+            {
+                for (int j = 0; j < mastermanager.modbusMastrList[i].modbusDeviceList.Count; j++)
+                {
+                    //masterdata.modbusDeviceList[i].ID = j;
+                    if (j > 0)
+                    {
+                        mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = mastermanager.modbusMastrList[i].modbusDeviceList[j - 1].curDeviceAddr + mastermanager.modbusMastrList[i].modbusDeviceList[j - 1].curDeviceLength;
+                    }
+                    else if (i > 0 && j == 0)
+                    {
+                        mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = mastermanager.modbusMastrList[i - 1].modbusDeviceList[mastermanager.modbusMastrList[i - 1].modbusDeviceList.Count - 1].curDeviceAddr
+                            + mastermanager.modbusMastrList[i - 1].modbusDeviceList[mastermanager.modbusMastrList[i - 1].modbusDeviceList.Count - 1].curDeviceLength;
+                    }
+                    else if (i == 0 && j == 0)
+                    {
+                        mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = mastermanager.masterStartAddr;
+                    }
+                    mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[0].curChannelAddr = mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr + 1;
+                    if (mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count > 1)
+                    {
+                        for (int k = 1; k < mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count; k++)
+                        {
+                            mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].curChannelAddr = mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k - 1].curChannelAddr
+                                + mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k - 1].curChannelLength;
+                        }
+                    }
+                }
+            }
+            if (serverDataManager.listServer.Count == 0)
+            {
+                mastermanager.masterStartAddr -= 2000;
+                for (int i = 0; i < mastermanager.modbusMastrList.Count; i++)
+                {
+                    for (int j = 0; j < mastermanager.modbusMastrList[i].modbusDeviceList.Count; j++)
+                    {
+                        mastermanager.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr -= 2000;
+                        for(int k =0;k< mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList.Count;k++)
+                        {
+                            mastermanager.modbusMastrList[i].modbusDeviceList[j].modbusChannelList[k].curChannelAddr -= 2000;
+                        }
+                    }
+                }
+            }
+
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             //int rowcount = dataGridView1.RowCount;
@@ -158,9 +214,12 @@ namespace LocalPLC.ModbusServer
                 {
                     serverDataManager.TCPnum++;
                 }
+                data.dataDevice_.isready = false;
                 serverDataManager.listServer.Add(data);
                 serverdatamanage1 = serverDataManager;
+                refreshaddr();
             }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -182,6 +241,7 @@ namespace LocalPLC.ModbusServer
                 serverDataManager.listServer.RemoveAt(index);
                 serverdatamanage1 = serverDataManager;
             }
+            refreshaddr();
         }
         
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -15,12 +15,13 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Text.RegularExpressions;
 using LocalPLC.Base;
+using LocalPLC.ModbusServer;
 
 namespace LocalPLC.ModbusMaster
 {
     public partial class modbusmastermain : UserControl
     {
-
+        public DataManager serverDataManager = null;
         private int masterStartAddr = 0;
         private string columnConfig = "配置";
         private string columnDetail = "详细信息";
@@ -76,6 +77,7 @@ namespace LocalPLC.ModbusMaster
                 int.TryParse(e.GetAttribute("transformmode"), out data.transformMode);
                 int.TryParse(e.GetAttribute("responsetimeout"), out data.responseTimeout);
                 int.TryParse(e.GetAttribute("packet_interval"), out data.packet_interval);
+                bool.TryParse(e.GetAttribute("isready"), out data.isready);
                 //data.transformChannel = int.TryParse(eChild.GetAttribute("transformchannel"));
                 //读取device数据
                 XmlNodeList nodeDeviceList = childNode.ChildNodes;//创建当前子设备节点下的所有子节点集合
@@ -164,6 +166,7 @@ namespace LocalPLC.ModbusMaster
                 elem1_m.SetAttribute("transformmode", data.transformMode.ToString());
                 elem1_m.SetAttribute("responsetimeout", data.responseTimeout.ToString());
                 elem1_m.SetAttribute("packet_interval", data.packet_interval.ToString());
+                elem1_m.SetAttribute("isready", data.isready.ToString());
                 //create devices
                 for (int j = 0; j < data.modbusDeviceList.Count; j ++)//循环添加每个设备的各参数值至xml
                 {
@@ -513,7 +516,8 @@ namespace LocalPLC.ModbusMaster
 
                 //utility.addIOGroups();
                 mastermanege1 = masterManage;
-                
+                data.isready = false;
+                //refreshaddr();
             }
         }
 
@@ -745,6 +749,29 @@ namespace LocalPLC.ModbusMaster
             }
         }
 
+        public void refreshaddr()
+        {
+            for (int i = 0; i < masterManage.modbusMastrList.Count; i++)
+            {
+                for (int j = 0; j < masterManage.modbusMastrList[i].modbusDeviceList.Count; j++)
+                {
+                    //masterdata.modbusDeviceList[i].ID = j;
+                    if (j > 0)
+                    {
+                        masterManage.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = masterManage.modbusMastrList[i].modbusDeviceList[j - 1].curDeviceAddr + masterManage.modbusMastrList[i].modbusDeviceList[j - 1].curDeviceLength;
+                    }
+                    else if (i > 0 && j == 0)
+                    {
+                        masterManage.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = masterManage.modbusMastrList[i - 1].modbusDeviceList[masterManage.modbusMastrList[i - 1].modbusDeviceList.Count - 1].curDeviceAddr
+                            + masterManage.modbusMastrList[i - 1].modbusDeviceList[masterManage.modbusMastrList[i - 1].modbusDeviceList.Count - 1].curDeviceLength;
+                    }
+                    else if (i == 0 && j == 0)
+                    {
+                        masterManage.modbusMastrList[i].modbusDeviceList[j].curDeviceAddr = masterManage.masterStartAddr;
+                    }
+                }
+            }
+        }
         private void button_delete_Click(object sender, EventArgs e)
         {
             try
@@ -768,6 +795,8 @@ namespace LocalPLC.ModbusMaster
                     masterManage.modbusMastrList.RemoveAt(index);
                 }
                 mastermanege1 = masterManage;
+                //refreshaddr();
+                
             }
             catch
             {
@@ -953,6 +982,7 @@ namespace LocalPLC.ModbusMaster
         public int responseTimeout = 1000;  //ms
         public int transformMode;
         public int packet_interval;
+        public bool isready;
         public List<DeviceData> modbusDeviceList = new List<DeviceData>();
         public ModbusMasterData()
         {
@@ -1008,21 +1038,37 @@ namespace LocalPLC.ModbusMaster
     public class ModbusMasterManage
     {
         public int masterStartAddr = 0;
-        public ModbusMasterData curMasterData = null;
+        public static ModbusMasterData curMasterData = null;
+        private static ModbusMasterManage instance = null;
         public List<ModbusMasterData> modbusMastrList { get; set; } = new List<ModbusMasterData>();
 
         public ModbusMasterManage()
         {
 
         }
-
+        public static ModbusMasterManage GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = modbusmastermain.mastermanege1;
+            }
+            return instance;
+        }
+        public static ModbusMasterData GetInstance1()
+        {
+            if (curMasterData == null)
+            {
+                curMasterData = new ModbusMasterData();
+            }
+            return curMasterData;
+        }
         public int getMasterStartAddr()
         {
             int clientCount = UserControl1.mci.clientManage.modbusClientList.Count;
             int serverCount = UserControl1.msi.serverDataManager.listServer.Count;
-
-            masterStartAddr = (clientCount + 1) * utility.modbusMudule + utility.modbusAddr;
-
+            
+                masterStartAddr = (clientCount + 1) * utility.modbusMudule + utility.modbusAddr;
+            
             //刷新list每项的首地址
             for (int i = 0; i < modbusMastrList.Count; i++)
             {
