@@ -907,6 +907,7 @@ namespace LocalPLC.ModbusClient
             if (comboBox1.SelectedIndex == -1)
             {
                 MessageBox.Show("传输通道未配置！");
+                data_.isready = false;
                 return;
             }
             int flag1 = 0;
@@ -920,6 +921,7 @@ namespace LocalPLC.ModbusClient
             if (flag1 > 0)
             {
                 MessageBox.Show("还有设备名称，端口号和IP地址未填写");
+                data_.isready = false;
                 return;
             }
             else
@@ -939,6 +941,7 @@ namespace LocalPLC.ModbusClient
                     data_.modbusDeviceList[i].resetVaraible = dataGridView1.Rows[i].Cells[8].Value.ToString();
                 }
             }
+            data_.isready = true;
             this.Close();
         }
     }

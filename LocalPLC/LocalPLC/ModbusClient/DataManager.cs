@@ -50,6 +50,7 @@ namespace LocalPLC.ModbusClient
         public int devstartaddr;
         public int devlength = 1;
         public string [] resetkey = new string[2];
+       
         public List<ChannelData> modbusChannelList/* { get; set; }*/ = new List<ChannelData>();
     }
     public class ModbusClientData
@@ -61,6 +62,7 @@ namespace LocalPLC.ModbusClient
         public string transformChannel;
         public int responseTimeout = 1000;  //ms
         public int transformMode;
+        public bool isready;
         public List<DeviceData> modbusDeviceList { get; set; } = new List<DeviceData>();
         public ModbusClientData()
         {

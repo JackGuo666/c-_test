@@ -1717,7 +1717,7 @@ namespace LocalPLC.ModbusServer
                 }
                 else
                 {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
+                    MessageBox.Show("保持寄存器起始地址超出范围");
                     textBox6.Text = dataManager.listServer[0].dataDevice_.holdingIoAddrStart;
                 }
             }
@@ -1741,7 +1741,7 @@ namespace LocalPLC.ModbusServer
                 }
                 else
                 {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
+                    MessageBox.Show("离散寄存器起始地址超出范围");
                     textBox7.Text = dataManager.listServer[0].dataDevice_.decreteIoAddrStart;
                 }
             }
@@ -1765,7 +1765,7 @@ namespace LocalPLC.ModbusServer
                 }
                 else
                 {
-                    MessageBox.Show("线圈寄存器起始地址超出范围");
+                    MessageBox.Show("状态寄存器起始地址超出范围");
                     textBox8.Text = dataManager.listServer[0].dataDevice_.statusIoAddrStart;
                 }
             }

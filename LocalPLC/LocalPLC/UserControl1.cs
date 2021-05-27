@@ -1990,6 +1990,23 @@ namespace LocalPLC
                 if(msi.serverDataManager.listServer[i].dataDevice_.isready == false)
                 {
                     isready = false;
+                    utility.PrintError("server配置存在问题，请检查");
+                }
+            }
+            for (int i = 0; i < mci.clientManage.modbusClientList.Count; i++)
+            {
+                if (mci.clientManage.modbusClientList[i].isready == false)
+                {
+                    isready = false;
+                    utility.PrintError("client"+i.ToString()+"配置存在问题，请检查");
+                }
+            }
+            for (int i = 0; i < modmaster.masterManage.modbusMastrList.Count; i++)
+            {
+                if (modmaster.masterManage.modbusMastrList[i].isready == false)
+                {
+                    isready = false;
+                    utility.PrintError("master"+i.ToString()+"配置存在问题，请检查");
                 }
             }
             if (multiprogApp.IsProjectOpen() && isready == true)
@@ -2010,7 +2027,7 @@ namespace LocalPLC
             }
             else
             {
-                utility.PrintError("server配置存在问题，请检查");
+                //utility.PrintError("server配置存在问题，请检查");
 
             }
 
