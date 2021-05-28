@@ -52,7 +52,7 @@ namespace LocalPLC
             checkSymbol(treeView1_, treeView1_.Nodes, ref retsu);
             if (retsu)
             {
-                MessageBox.Show("配置修改，需要手动操作生成配置文件。");
+                MessageBox.Show("配置修改，需要手动操作硬件编译。");
 
                 Cancel = true;
             }
@@ -432,7 +432,7 @@ namespace LocalPLC
                 if(ret && multiprogApp.WorkspaceManager.CurrentWorkspace == 1 && ConfirmSave != AdeConfirmRule.adeCrConfirm)
                 {
                     //MessageBox.Show("配置修改，需要操作生成配置文件!");
-                    if (MessageBox.Show("配置修改，需要手动操作生成配置文件。是否自动跳转到总线配置空间?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show("配置修改，需要手动操作硬件编译。是否自动跳转到总线配置空间?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
                         System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
 
