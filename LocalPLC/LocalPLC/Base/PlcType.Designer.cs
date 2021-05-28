@@ -34,6 +34,8 @@
             this.Serial_Line_1 = new LocalPLC.Base.pictest();
             this.pictest2 = new LocalPLC.Base.pictest();
             this.pictest1 = new LocalPLC.Base.pictest();
+            this.本体扩展1 = new System.Windows.Forms.Button();
+            this.本体扩展2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Ethernet_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Serial_Line_2)).BeginInit();
@@ -116,11 +118,31 @@
             this.pictest1.Click += new System.EventHandler(this.pictest1_Click);
             this.pictest1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictest1_MouseDoubleClick);
             // 
+            // 本体扩展1
+            // 
+            this.本体扩展1.Location = new System.Drawing.Point(203, 107);
+            this.本体扩展1.Name = "本体扩展1";
+            this.本体扩展1.Size = new System.Drawing.Size(99, 73);
+            this.本体扩展1.TabIndex = 7;
+            this.本体扩展1.Text = "本体扩展1";
+            this.本体扩展1.UseVisualStyleBackColor = true;
+            // 
+            // 本体扩展2
+            // 
+            this.本体扩展2.Location = new System.Drawing.Point(308, 107);
+            this.本体扩展2.Name = "本体扩展2";
+            this.本体扩展2.Size = new System.Drawing.Size(99, 73);
+            this.本体扩展2.TabIndex = 7;
+            this.本体扩展2.Text = "本体扩展2";
+            this.本体扩展2.UseVisualStyleBackColor = true;
+            // 
             // LocalPLC24P
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Controls.Add(this.本体扩展2);
+            this.Controls.Add(this.本体扩展1);
             this.Controls.Add(this.Ethernet_1);
             this.Controls.Add(this.Serial_Line_2);
             this.Controls.Add(this.Serial_Line_1);
@@ -147,5 +169,7 @@
         private pictest Serial_Line_1;
         private pictest Ethernet_1;
         private pictest Serial_Line_2;
+        private System.Windows.Forms.Button 本体扩展1;
+        private System.Windows.Forms.Button 本体扩展2;
     }
 }
