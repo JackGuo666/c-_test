@@ -1577,7 +1577,7 @@ namespace LocalPLC
                     //动态创建节点
                     if (e.Node.Tag.ToString() == "SERIAL_LINE")
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
                             UC.Show();
@@ -1592,7 +1592,7 @@ namespace LocalPLC
                     }
                     else if (e.Node.Tag.ToString() == "ETHERNET")
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
                             UC.Show();
@@ -1606,7 +1606,7 @@ namespace LocalPLC
                     }
                     else if(e.Node.Tag.ToString() == "CONFIG")
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BASE_PARA")
                     {
@@ -1707,7 +1707,7 @@ namespace LocalPLC
 
                     else if (e.Node.Tag.ToString() == ConstVariable.DI)
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
 
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
@@ -1723,7 +1723,7 @@ namespace LocalPLC
                     }
                     else if (e.Node.Tag.ToString() == ConstVariable.DO)
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
 
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
@@ -1739,7 +1739,7 @@ namespace LocalPLC
                     }
                     else if (e.Node.Tag.ToString() == "HSC")
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
 
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
@@ -1756,7 +1756,7 @@ namespace LocalPLC
 
                     else if (e.Node.Tag.ToString() == "HSP")
                     {
-                        judgeIsSave();
+                        //judgeIsSave();
 
                         if (!ModbusWindow_.Controls.Contains(UC))
                         {
