@@ -471,9 +471,9 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.textBox_pulsePerRevolutionMotor);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(1, 1);
+            this.groupBox2.Location = new System.Drawing.Point(1, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(934, 100);
+            this.groupBox2.Size = new System.Drawing.Size(934, 98);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "脉冲当量";
@@ -650,11 +650,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBox6);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Controls.Add(this.groupBox5);
-            this.panel1.Controls.Add(this.groupBox4);
             this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(945, 651);
@@ -670,6 +670,8 @@
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlMotionPara";
             this.Size = new System.Drawing.Size(954, 691);
+            this.Load += new System.EventHandler(this.UserControlMotionPara_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.UserControlMotionPara_Paint);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);

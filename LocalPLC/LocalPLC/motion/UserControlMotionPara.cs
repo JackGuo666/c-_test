@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace LocalPLC.motion
 {
-    
+
     #region
 
 
     #endregion
+
+    #region
+
+    #endregion
+
 
 
     public partial class UserControlMotionPara : UserControl
@@ -33,6 +38,30 @@ namespace LocalPLC.motion
 
 
         #region
+
+        //闪烁
+        //protected override void WndProc(ref Message m)
+        //{
+        //    if (m.Msg == 0x0014) // 禁掉清除背景消息
+        //        return;
+        //    base.WndProc(ref m);
+        //}
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            //这里写重绘代码
+
+        }
 
         void initPulseEquient()
         {
@@ -160,6 +189,15 @@ namespace LocalPLC.motion
         {
             InitializeComponent();
 
+            SetStyle(
+                     ControlStyles.OptimizedDoubleBuffer
+                     | ControlStyles.ResizeRedraw
+                     | ControlStyles.Selectable
+                     | ControlStyles.AllPaintingInWmPaint
+                     | ControlStyles.UserPaint
+                     | ControlStyles.SupportsTransparentBackColor,
+                     true);
+            this.DoubleBuffered = true;
 
             tip.AutoPopDelay = 5000;
             tip.InitialDelay = 500;
@@ -993,6 +1031,19 @@ namespace LocalPLC.motion
         {
             button_valid.Enabled = true;
             button_cancel.Enabled = true;
+        }
+
+        private void UserControlMotionPara_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void UserControlMotionPara_Load(object sender, EventArgs e)
+        {
+            //解决闪烁
+            //this.DoubleBuffered = true;
+            //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
     }
 }
