@@ -559,7 +559,7 @@ namespace LocalPLC.Base
             path += "\\LocalPLC\\controler.xml";
 
             XmlDocument xDoc = new XmlDocument();
-            this.treeView1.Nodes.Clear();
+            //this.treeView1.Nodes.Clear();
             string returnType = "";
             if (File.Exists(path))
             {
@@ -581,7 +581,7 @@ namespace LocalPLC.Base
                         returnType = name;
                     }
 
-                    this.treeView1.Nodes.Add(name);
+                    //this.treeView1.Nodes.Add(name);
                 }
             }
 
