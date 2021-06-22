@@ -20,6 +20,12 @@ using Newtonsoft.Json.Linq;
 using LocalPLC.Base;
 using LocalPLC.motion;
 using LocalPLC.Interface;
+using DebugLib;
+using DebugLib.Protocols;
+using System.Net;
+using System.Net.Sockets;
+using JsonSerializerAndDeSerializer;
+using LocalPLC.Debug;
 
 namespace LocalPLC
 {
@@ -29,13 +35,59 @@ namespace LocalPLC
     public partial class UserControl1 : UserControl, IAdeAddIn, IAdeProjectObserver, IAdeCompileExtension, IAdeVariableObserver2, IAdeSaveObserver, IAdePropertyObserver
         , IAdeDataTypeObserver, IAdeUpDownloadObserver
     {
+        static void IncommingData(byte[] data, int len)
+        {
+            string str = System.Text.Encoding.Default.GetString(data);
+            Console.WriteLine(str);
+        }
+
+        static void OutgoingDataToUi(ReciveModel model)
+        {
+
+        }
+
+        static void OutgoingData(byte[] data)
+        {
+
+        }
+
+
         public UserControl1()
         {
             InitializeComponent();
 
             this.treeView1.ContextMenuStrip = null;
-
             i++;
+
+
+            //Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            //_socket.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 502));
+            //ICommClient _portClient = _socket.GetClient();
+            //DebugClient _driver = new DebugClient(new DebugTcpCodec()) { };
+            //_driver.OutgoingData += OutgoingData;
+            //_driver.IncommingData += IncommingData;
+
+            //while (true)
+            //{
+            //    //Console.ReadKey();
+            //    var command = new DebugCommand(DebugCommand.CommandScan, "") { TransId = 0 };
+            //    var result = _driver.ExecuteGeneric(_portClient, command);
+            //}
+
+
+            //Socket _socket_;
+            //_socket_ = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            //_socket_.Bind(new IPEndPoint(IPAddress.Any, 503));
+            ////create a server driver
+            //var udpServer = new DebugServer(new DebugTcpCodec()) { Address = 1 };
+            //udpServer.OutgoingData += OutgoingData;
+            //udpServer.IncommingData += IncommingData;
+            //udpServer.OutgoingDataToUi += OutgoingDataToUi;
+            ////listen for an incoming request
+            //ICommServer _listener = _socket_.GetUdpListener(udpServer);
+            //_listener.ServeCommand += null;
+            //_listener.Start();
+
         }
 
         public void OnDataTypesUpdated()
@@ -77,6 +129,7 @@ namespace LocalPLC
         public static UserControlBase UC { get; set; } = new UserControlBase();
 
         public static LocalPLC.motion.UserControlMotion motion = new UserControlMotion();
+        public static  UserControlDebug ucDebug { get; set; } = new UserControlDebug();
 
         static GroupBox ModbusWindow_ = null;
         static TreeView treeView1_ = null;
@@ -382,6 +435,7 @@ namespace LocalPLC
             object[] SafeArrayOfObjectType = new object[1];
             SafeArrayOfObjectType[0] = AdeObjectType.adeOtResource;
             multiprogApp.AdviseVariableObserver2(this, (int)AdeVariableAction.adeVaChange, SafeArrayOfObjectType);
+            multiprogApp.AdviseVariableObserver2(this, (int)AdeVariableAction.adeVaDelete, SafeArrayOfObjectType);
 
             multiprogApp.AdviseCompileExtension(this, AdeObjectType.adeOtProject);
 
@@ -460,13 +514,42 @@ namespace LocalPLC
 
         void IAdeAddIn.OnStartupComplete(ref Array Custom)
         {
-          
+            //复位标志
+            if(utility.ReadResetFile())
+            {
+                string path = @"C:\ProgramData\PHOENIX CONTACT Software\MULTIPROG Express\5_51_689";
+                //如果文件夹存在
+                if (Directory.Exists(path))
+                {
+                    try
+                    {
+                        string targetFolderPath = path + @"\user.cfg";//目标文件夹路径
+                        string sourceFolderPath = path + @"\user_backup.cfg";//源文件夹路径
+
+                        try
+                        {
+                            File.Copy(sourceFolderPath, targetFolderPath, true);//复制覆盖同名文件
+                            utility.WriteResetFile("0");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("执行失败：" + ex.Message);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("获取源文件内文件列表失败：" + ex.Message);
+                    }
+                }
+            }
+
+
         }
 
         void IAdeAddIn.OnBeginShutdown(ref Array Custom)
         {
             multiprogApp.UnadviseProjectObserver(adviceProjectCookie);
-
+            ucDebug.unInit();
         }
 
         void IAdeProjectObserver.BeforeProjectOpen(string Name, ref bool Cancel)
@@ -492,12 +575,18 @@ namespace LocalPLC
             string localPLCType = "";
             try
             {
+                clearSymbol(treeView1_, treeView1_.Nodes);
+                string build = "";
                 if (File.Exists(path))
                 {
                     xDoc.Load(path);
 
                     //根节点
                     XmlNode node = xDoc.SelectSingleNode("root");
+                    XmlElement eRoot = (XmlElement)node;
+                    build = eRoot.GetAttribute("build");
+
+
                     XmlNodeList nodeList = node.ChildNodes;
                     foreach (XmlNode xn in nodeList)
                     {
@@ -594,16 +683,26 @@ namespace LocalPLC
                     motion.createCommandTableTree();
 
                     ModbusWindow_.Controls.Clear();
-
+                    if (build == "0")
+                    {
+                        treeView1_.TopNode.Text += "*";
+                    }
                     multiprogApp.WorkspaceManager.SwitchTo(1);
                 }
                 else
                 {
+
+
+
+
+
                     //新建工程加载默认控制器
                     string type = UC.loadControler();
                     UC.createControler(/*"LocalPLC24P"*/ type);
                     motion.createAxisTree();
                     motion.createCommandTableTree();
+
+                    treeView1_.TopNode.Text += "*";
                     multiprogApp.WorkspaceManager.SwitchTo(1);
                     return;
                 }
@@ -1435,6 +1534,17 @@ namespace LocalPLC
 
             //创建根节点
             XmlElement elemRoot = xDoc.CreateElement("root");
+            bool ret = false;
+            checkSymbol(treeView1_, treeView1_.Nodes, ref ret);
+            if(ret)
+            {
+                elemRoot.SetAttribute("build", "0");
+            }
+            else
+            {
+                elemRoot.SetAttribute("build", "1");
+            }
+
             xDoc.AppendChild(elemRoot);
             XmlElement elem = xDoc.CreateElement("modbus");
             elemRoot.AppendChild(elem);
@@ -1646,7 +1756,7 @@ namespace LocalPLC
                         UserControlPulseEquivalent para = new UserControlPulseEquivalent(e.Node.Parent);
                         para.Show();
                         ModbusWindow_.Controls.Clear();
-                        para.Dock = DockStyle.None;
+                        para.Dock = DockStyle.Fill;
                         ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_LIMIT_SIGNAL")
@@ -1674,7 +1784,7 @@ namespace LocalPLC
                         UserControlDynamicPara para = new UserControlDynamicPara(e.Node.Parent);
                         para.Show();
                         ModbusWindow_.Controls.Clear();
-                        para.Dock = DockStyle.None;
+                        para.Dock = DockStyle.Fill;
                         ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_BACK_ORIGIN")
@@ -1688,7 +1798,7 @@ namespace LocalPLC
                         UserControlBackOrigin para = new UserControlBackOrigin(e.Node.Parent);
                         para.Show();
                         ModbusWindow_.Controls.Clear();
-                        para.Dock = DockStyle.None;
+                        para.Dock = DockStyle.Fill;
                         ModbusWindow_.Controls.Add(para);
                     }
                     else if(e.Node.Tag.ToString() == "MOTION_REVERSE_COMPENSATION")
@@ -1701,7 +1811,7 @@ namespace LocalPLC
                         UserControlReverseCompensation para = new UserControlReverseCompensation(e.Node.Parent);
                         para.Show();
                         ModbusWindow_.Controls.Clear();
-                        para.Dock = DockStyle.None;
+                        para.Dock = DockStyle.Fill;
                         ModbusWindow_.Controls.Add(para);
                     }
 
@@ -1768,6 +1878,14 @@ namespace LocalPLC
                         }
 
                         UC.setHighOutput(name);
+                    }
+                    else if(e.Node.Tag.ToString() == "DEBUGASSIANT")
+                    {
+                        ModbusWindow_.Controls.Clear();
+
+                        ucDebug.ucDebugIP.Dock = DockStyle.Fill;
+                        ////UC.Size = new Size(472, 336);
+                        ModbusWindow_.Controls.Add(ucDebug.ucDebugIP);
                     }
                     //else if(e.Node.Tag.ToString() == "MOTION_COMMAND_TABLE")
                     //{
@@ -2375,7 +2493,9 @@ namespace LocalPLC
 
         void IAdeVariableObserver2.BeforeDelete(AdeObjectType ObjectType, Variable Variable, ref bool Cancel)
         {
-            throw new NotImplementedException();
+            //Cancel = true;
+
+            //throw new NotImplementedException();
         }
         private static int adviceProjectCookie1 = 0;
 
@@ -2384,7 +2504,7 @@ namespace LocalPLC
         void IAdeVariableObserver2.AfterDelete(AdeObjectType ObjectType, Variable Variable)
         {
             //multiprogApp = Application as ADELib.Application;
-            adviceProjectCookie1 = multiprogApp.AdviseVariableObserver2(this,4);
+            //adviceProjectCookie1 = multiprogApp.AdviseVariableObserver2(this,4);
         }
 
         void IAdeVariableObserver2.BeforeChange(AdeObjectType ObjectType, Variable OldVariable, ref Variable NewVariable, ref bool Cancel)
@@ -2685,6 +2805,19 @@ namespace LocalPLC
             var axisDeleteData = axisDeleteNode.Tag as Axis;
             motion.deleteAxisData(axisDeleteData);
             axisDeleteNode.Remove();
+        }
+
+        private void ModbusWindow_ControlAdded(object sender, ControlEventArgs e)
+        {
+            if(ModbusWindow_.Contains(ucDebug.ucDebugIP))
+            {
+                ucDebug.ucDebugIP.startTimer();
+            }
+            else
+            {
+                ucDebug.ucDebugIP.stopTimer();
+            }
+
         }
     }
 

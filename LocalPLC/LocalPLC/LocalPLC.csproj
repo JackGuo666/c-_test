@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
+    <OutputPath>C:\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,12 +39,19 @@
     <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConsoleApp_udp_server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MULTIPROG CSP\ConsoleApp_udp_server.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.ADELib">
       <HintPath>..\..\..\OneDrive_1_2020-4-7\Automation Toolkit M5.50\AutomationInterface\Interop.ADELib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="IPAddressControlLib">
       <HintPath>..\packages\IPAddressControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -53,8 +60,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -196,6 +205,19 @@
     <Compile Include="custom\RichTextBoxEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Debug\FormSetIP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Debug\FormSetIP.Designer.cs">
+      <DependentUpon>FormSetIP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Debug\UserControlDebug.cs" />
+    <Compile Include="Debug\UserControlDebugIP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Debug\UserControlDebugIP.Designer.cs">
+      <DependentUpon>UserControlDebugIP.cs</DependentUpon>
+    </Compile>
     <Compile Include="empty.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -203,6 +225,13 @@
       <DependentUpon>empty.cs</DependentUpon>
     </Compile>
     <Compile Include="interface\ICheckVarName.cs" />
+    <Compile Include="loadingscreen\FormSimpleLoading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="loadingscreen\FormSimpleLoading.Designer.cs">
+      <DependentUpon>FormSimpleLoading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="loadingscreen\SplashScreenManager.cs" />
     <Compile Include="MenuRight.cs" />
     <Compile Include="ModbusClient\ClientChannel.cs">
       <SubType>Form</SubType>
@@ -350,6 +379,7 @@
     <None Include="LocalPLC.CFG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -413,8 +443,17 @@
     <EmbeddedResource Include="Base\UserControlSinglePulse.resx">
       <DependentUpon>UserControlSinglePulse.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Debug\FormSetIP.resx">
+      <DependentUpon>FormSetIP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Debug\UserControlDebugIP.resx">
+      <DependentUpon>UserControlDebugIP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="empty.resx">
       <DependentUpon>empty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="loadingscreen\FormSimpleLoading.resx">
+      <DependentUpon>FormSimpleLoading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ModbusClient\ClientChannel.resx">
       <DependentUpon>ClientChannel.cs</DependentUpon>
@@ -489,6 +528,7 @@
     <AdditionalFiles Include="..\.sonarlint\aaaaaaaaaa\CSharp\SonarLint.xml">
       <Link>SonarLint.xml</Link>
     </AdditionalFiles>
+    <Content Include="pic\loading3.gif" />
     <Content Include="pic\LocalPLC24P.png" />
     <Content Include="Properties\Interop.ADELib.dll" />
   </ItemGroup>

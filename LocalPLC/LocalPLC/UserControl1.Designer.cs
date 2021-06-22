@@ -80,18 +80,20 @@
             treeNode25});
             System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("canopen", 25, 25);
             System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("运动控制", 26, 26);
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("modbus工具", 28, 28);
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("canopen工具", 29, 29);
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("shell工具", 27, 27, new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("调试助手");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("modbus工具", 28, 28);
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("canopen工具", 29, 29);
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("shell工具", 27, 27, new System.Windows.Forms.TreeNode[] {
             treeNode29,
-            treeNode30});
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("配置", 0, 0, new System.Windows.Forms.TreeNode[] {
+            treeNode30,
+            treeNode31});
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("配置", 0, 0, new System.Windows.Forms.TreeNode[] {
             treeNode6,
             treeNode10,
             treeNode26,
             treeNode27,
             treeNode28,
-            treeNode31});
+            treeNode32});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControl1));
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -258,28 +260,31 @@
             treeNode28.SelectedImageIndex = 26;
             treeNode28.Tag = "MOTION_CONTROL";
             treeNode28.Text = "运动控制";
-            treeNode29.ImageIndex = 28;
-            treeNode29.Name = "节点1";
-            treeNode29.SelectedImageIndex = 28;
-            treeNode29.Tag = "SHELL_MODBUS";
-            treeNode29.Text = "modbus工具";
-            treeNode30.ImageIndex = 29;
-            treeNode30.Name = "节点2";
-            treeNode30.SelectedImageIndex = 29;
-            treeNode30.Tag = "SHELL_CANOPEN";
-            treeNode30.Text = "canopen工具";
-            treeNode31.ImageIndex = 27;
-            treeNode31.Name = "节点0";
-            treeNode31.SelectedImageIndex = 27;
-            treeNode31.Tag = "SHELL";
-            treeNode31.Text = "shell工具";
-            treeNode32.ImageIndex = 0;
-            treeNode32.Name = "配置";
-            treeNode32.SelectedImageIndex = 0;
-            treeNode32.Tag = "CONFIG";
-            treeNode32.Text = "配置";
+            treeNode29.Name = "DebugAssiant";
+            treeNode29.Tag = "DEBUGASSIANT";
+            treeNode29.Text = "调试助手";
+            treeNode30.ImageIndex = 28;
+            treeNode30.Name = "节点1";
+            treeNode30.SelectedImageIndex = 28;
+            treeNode30.Tag = "SHELL_MODBUS";
+            treeNode30.Text = "modbus工具";
+            treeNode31.ImageIndex = 29;
+            treeNode31.Name = "节点2";
+            treeNode31.SelectedImageIndex = 29;
+            treeNode31.Tag = "SHELL_CANOPEN";
+            treeNode31.Text = "canopen工具";
+            treeNode32.ImageIndex = 27;
+            treeNode32.Name = "节点0";
+            treeNode32.SelectedImageIndex = 27;
+            treeNode32.Tag = "SHELL";
+            treeNode32.Text = "shell工具";
+            treeNode33.ImageIndex = 0;
+            treeNode33.Name = "配置";
+            treeNode33.SelectedImageIndex = 0;
+            treeNode33.Tag = "CONFIG";
+            treeNode33.Text = "配置";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode32});
+            treeNode33});
             this.treeView1.SelectedImageIndex = 0;
             this.treeView1.Size = new System.Drawing.Size(388, 750);
             this.treeView1.TabIndex = 6;
@@ -347,7 +352,7 @@
             this.ModbusWindow.Size = new System.Drawing.Size(1111, 750);
             this.ModbusWindow.TabIndex = 7;
             this.ModbusWindow.TabStop = false;
-            this.ModbusWindow.Text = "配置";
+            this.ModbusWindow.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.ModbusWindow_ControlAdded);
             // 
             // contextMenuStrip2
             // 

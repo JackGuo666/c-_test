@@ -63,6 +63,16 @@ namespace LocalPLC.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap loading3 {
+            get {
+                object obj = ResourceManager.GetObject("loading3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap LocalPLC24P {
             get {
                 object obj = ResourceManager.GetObject("LocalPLC24P", resourceCulture);

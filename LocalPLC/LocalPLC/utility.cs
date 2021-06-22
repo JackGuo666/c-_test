@@ -6,6 +6,8 @@ using ADELib;
 using LocalPLC.ModbusMaster;
 using System.IO;
 using System.Xml;
+using log4net;
+using System.Reflection;
 
 namespace LocalPLC
 {
@@ -20,7 +22,23 @@ namespace LocalPLC
 }
 
 namespace LocalPLC
-{    enum ArrayDataType{ DataBit, DataWord}
+{    
+    enum ArrayDataType{ DataBit, DataWord}
+
+    /// <summary>
+    /// 日志服务
+    /// </summary>
+    public class LoggerService
+    {
+        #region Fields and Properties
+        public static ILog Log { get; } = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static LoggerService()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
+        #endregion
+    }
+
 
     class SplicedDataType
     {
@@ -1216,6 +1234,58 @@ namespace LocalPLC
                     }
                 }
             }
+        }
+
+
+
+        public static void WriteResetFile(string value)
+        {
+            if (UserControl1.multiprogApp == null)
+            {
+                return;
+            }
+
+            try
+            {
+                string str = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                string filepath = str + "\\reset";   //要上传的文件夹的路径
+                Random myrdn = new Random(); //产生随机数
+                                             //文件名称是用户名_时间随机数，放在filepath文件夹中
+                string filename = filepath;
+
+                FileStream fs = File.Create(filename);  //创建文件
+                fs.Close();
+                StreamWriter sw = new StreamWriter(filename);  //创建写入流
+                sw.Write(value);
+
+                sw.Flush();
+                sw.Close();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+        public static bool ReadResetFile()
+        {
+            if (UserControl1.multiprogApp == null)
+            {
+                return false;
+            }
+
+            string str = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            string filepath = str + "\\reset";   //要上传的文件夹的路径
+            string text = System.IO.File.ReadAllText(filepath);
+            if(text == "1")
+            {
+
+
+                return true;
+            }
+
+            return false;
         }
 
         //日志接口
