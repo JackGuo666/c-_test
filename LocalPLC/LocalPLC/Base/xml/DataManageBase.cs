@@ -213,6 +213,7 @@ namespace LocalPLC.Base.xml
         //SNTP服务器
         public int checkSNTP = 0;
         public string sntpServerIp = "0.0.0.0";
+        public Int64 timestamp = 0;
     }
 
     public class HSPConfigData

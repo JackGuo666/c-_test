@@ -217,7 +217,9 @@ namespace LocalPLC.Base
                 ethernetValueData_.checkSNTP = 0;
             }
 
-            
+            //时间戳
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            ethernetValueData_.timestamp = Convert.ToInt64(ts.TotalSeconds);
 
 
             return true;

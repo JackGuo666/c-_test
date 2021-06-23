@@ -264,6 +264,9 @@ namespace LocalPLC.Base
                 string strCheckSNTP = e.GetAttribute("checksntp");
                 int.TryParse(strCheckSNTP, out ethernetData.checkSNTP);
                 ethernetData.sntpServerIp = e.GetAttribute("sntpserverip");
+                //读取时间戳
+                string strTimestamp = e.GetAttribute("timestamp");
+                Int64.TryParse(strTimestamp, out ethernetData.timestamp);
 
                 dataManage.ethernetDic.Add(ethernetData.name, ethernetData);
             }
@@ -447,6 +450,7 @@ namespace LocalPLC.Base
                     ethernetChild.SetAttribute("gatewayaddress", dataManage.ethernetDic[etherUI.Key].gatewayAddress.ToString());
                     ethernetChild.SetAttribute("checksntp", dataManage.ethernetDic[etherUI.Key].checkSNTP.ToString());
                     ethernetChild.SetAttribute("sntpserverip", dataManage.ethernetDic[etherUI.Key].sntpServerIp.ToString());
+                    ethernetChild.SetAttribute("timestamp", dataManage.ethernetDic[etherUI.Key].timestamp.ToString());
 
                     elemEthnet.AppendChild(ethernetChild);
                 }
@@ -559,7 +563,7 @@ namespace LocalPLC.Base
             path += "\\LocalPLC\\controler.xml";
 
             XmlDocument xDoc = new XmlDocument();
-            //this.treeView1.Nodes.Clear();
+            this.treeView1.Nodes.Clear();
             string returnType = "";
             if (File.Exists(path))
             {
@@ -581,7 +585,7 @@ namespace LocalPLC.Base
                         returnType = name;
                     }
 
-                    //this.treeView1.Nodes.Add(name);
+                    this.treeView1.Nodes.Add(name);
                 }
             }
 
