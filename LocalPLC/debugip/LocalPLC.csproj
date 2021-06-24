@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FECCE9FE-910D-40C1-9B05-E3B00E1417BA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LocalPLC</RootNamespace>
+    <AssemblyName>LocalPLC</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+    <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
+    <SonarQubeExclude>True</SonarQubeExclude>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>C:\Program Files %28x86%29\MULTIPROG CSP\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>..\.sonarlint\aaaaaaaaaacsharp.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ConsoleApp_udp_server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MULTIPROG CSP\ConsoleApp_udp_server.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.ADELib">
+      <HintPath>..\..\..\OneDrive_1_2020-4-7\Automation Toolkit M5.50\AutomationInterface\Interop.ADELib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="IPAddressControlLib">
+      <HintPath>..\packages\IPAddressControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\packages\zedgraph_dll_v515\zedgraph_dll_v515\zedgraph_dll_v5.1.5\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\FormHighInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\FormHighInput.Designer.cs">
+      <DependentUpon>FormHighInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\FormHighOutput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\FormHighOutput.Designer.cs">
+      <DependentUpon>FormHighOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\pictest.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Base\PlcType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\PlcType.Designer.cs">
+      <DependentUpon>PlcType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControl1Pwm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControl1Pwm.Designer.cs">
+      <DependentUpon>UserControl1Pwm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlBase.Designer.cs">
+      <DependentUpon>UserControlBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlBidirPulse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlBidirPulse.Designer.cs">
+      <DependentUpon>UserControlBidirPulse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlCom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlCom.Designer.cs">
+      <DependentUpon>UserControlCom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlDevice.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlDevice.Designer.cs">
+      <DependentUpon>UserControlDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlDI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlDI.Designer.cs">
+      <DependentUpon>UserControlDI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlDO.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlDO.Designer.cs">
+      <DependentUpon>UserControlDO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlEth.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlEth.Designer.cs">
+      <DependentUpon>UserControlEth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlExtendAI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlExtendAI.Designer.cs">
+      <DependentUpon>UserControlExtendAI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlExtendAO.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlExtendAO.Designer.cs">
+      <DependentUpon>UserControlExtendAO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlFreaGen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlFreaGen.Designer.cs">
+      <DependentUpon>UserControlFreaGen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlHighIn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlHighIn.Designer.cs">
+      <DependentUpon>UserControlHighIn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlHighOutput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlHighOutput.Designer.cs">
+      <DependentUpon>UserControlHighOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlPLS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlPLS.Designer.cs">
+      <DependentUpon>UserControlPLS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlPto.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlPto.Designer.cs">
+      <DependentUpon>UserControlPto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlquad.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlquad.Designer.cs">
+      <DependentUpon>UserControlquad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\UserControlSinglePulse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Base\UserControlSinglePulse.Designer.cs">
+      <DependentUpon>UserControlSinglePulse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Base\xml\ClassParseBaseXml.cs" />
+    <Compile Include="Base\xml\DataManageBase.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="custom\RichTextBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="debugip\UserControlDebugIP.cs" />
+    <Compile Include="debugip\UserControlDebugIP.designer.cs">
+      <DependentUpon>UserControlDebugIP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="empty.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="empty.Designer.cs">
+      <DependentUpon>empty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSetIP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSetIP.Designer.cs" />
+    <Compile Include="interface\ICheckVarName.cs" />
+    <Compile Include="MenuRight.cs" />
+    <Compile Include="ModbusClient\ClientChannel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusClient\ClientChannel.Designer.cs">
+      <DependentUpon>ClientChannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusClient\Clientindex.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusClient\Clientindex.Designer.cs">
+      <DependentUpon>Clientindex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusClient\DataManager.cs" />
+    <Compile Include="ModbusClient\modbusclient.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusClient\modbusclient.Designer.cs">
+      <DependentUpon>modbusclient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusClient\modbusclient1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusClient\modbusclient1.Designer.cs">
+      <DependentUpon>modbusclient1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusServer\DataManager.cs" />
+    <Compile Include="ModbusServer\modbusserver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusServer\modbusserver.Designer.cs">
+      <DependentUpon>modbusserver.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusServer\ServerIndex.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusServer\ServerIndex.Designer.cs">
+      <DependentUpon>ServerIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmasterchannel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmasterchannel.Designer.cs">
+      <DependentUpon>modbusmasterchannel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmasterform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmasterform.Designer.cs">
+      <DependentUpon>modbusmasterform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmastermain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusMaster\modbusmastermain.Designer.cs">
+      <DependentUpon>modbusmastermain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusSlave\DataManager.cs" />
+    <Compile Include="ModbusSlave\modbusslaveform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModbusSlave\modbusslaveform.Designer.cs">
+      <DependentUpon>modbusslaveform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusSlave\modbusslavemain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModbusSlave\modbusslavemain.Designer.cs">
+      <DependentUpon>modbusslavemain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\DataManageMotion.cs" />
+    <Compile Include="motion\FormAddAxis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="motion\FormAddAxis.Designer.cs">
+      <DependentUpon>FormAddAxis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlBackOrigin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlBackOrigin.Designer.cs">
+      <DependentUpon>UserControlBackOrigin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlCommandTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlCommandTable.Designer.cs">
+      <DependentUpon>UserControlCommandTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlDynamicPara.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlDynamicPara.Designer.cs">
+      <DependentUpon>UserControlDynamicPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlLimitSignal.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlLimitSignal.Designer.cs">
+      <DependentUpon>UserControlLimitSignal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlMotion.cs" />
+    <Compile Include="motion\UserControlMotionBasePara.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlMotionBasePara.Designer.cs">
+      <DependentUpon>UserControlMotionBasePara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlMotionPara.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlMotionPara.Designer.cs">
+      <DependentUpon>UserControlMotionPara.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlPulseEquivalent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlPulseEquivalent.Designer.cs">
+      <DependentUpon>UserControlPulseEquivalent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="motion\UserControlReverseCompensation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="motion\UserControlReverseCompensation.Designer.cs">
+      <DependentUpon>UserControlReverseCompensation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl1.Designer.cs">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlDebug.cs" />
+    <Compile Include="utility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.sonarlint\aaaaaaaaaacsharp.ruleset">
+      <Link>aaaaaaaaaacsharp.ruleset</Link>
+    </None>
+    <None Include="LocalPLC.CFG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Base\FormHighInput.resx">
+      <DependentUpon>FormHighInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\FormHighOutput.resx">
+      <DependentUpon>FormHighOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\PlcType.resx">
+      <DependentUpon>PlcType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControl1Pwm.resx">
+      <DependentUpon>UserControl1Pwm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlBase.resx">
+      <DependentUpon>UserControlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlBidirPulse.resx">
+      <DependentUpon>UserControlBidirPulse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlCom.resx">
+      <DependentUpon>UserControlCom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlDevice.resx">
+      <DependentUpon>UserControlDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlDI.resx">
+      <DependentUpon>UserControlDI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlDO.resx">
+      <DependentUpon>UserControlDO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlEth.resx">
+      <DependentUpon>UserControlEth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlExtendAI.resx">
+      <DependentUpon>UserControlExtendAI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlExtendAO.resx">
+      <DependentUpon>UserControlExtendAO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlFreaGen.resx">
+      <DependentUpon>UserControlFreaGen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlHighIn.resx">
+      <DependentUpon>UserControlHighIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlHighOutput.resx">
+      <DependentUpon>UserControlHighOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlPLS.resx">
+      <DependentUpon>UserControlPLS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlPto.resx">
+      <DependentUpon>UserControlPto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlquad.resx">
+      <DependentUpon>UserControlquad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Base\UserControlSinglePulse.resx">
+      <DependentUpon>UserControlSinglePulse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="debugip\UserControlDebugIP.resx">
+      <DependentUpon>UserControlDebugIP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="empty.resx">
+      <DependentUpon>empty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSetIP.resx" />
+    <EmbeddedResource Include="ModbusClient\ClientChannel.resx">
+      <DependentUpon>ClientChannel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusClient\Clientindex.resx">
+      <DependentUpon>Clientindex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusClient\modbusclient.resx">
+      <DependentUpon>modbusclient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusClient\modbusclient1.resx">
+      <DependentUpon>modbusclient1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusServer\modbusserver.resx">
+      <DependentUpon>modbusserver.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusServer\ServerIndex.resx">
+      <DependentUpon>ServerIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusMaster\modbusmasterchannel.resx">
+      <DependentUpon>modbusmasterchannel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusMaster\modbusmasterform.resx">
+      <DependentUpon>modbusmasterform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusMaster\modbusmastermain.resx">
+      <DependentUpon>modbusmastermain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusSlave\modbusslaveform.resx">
+      <DependentUpon>modbusslaveform.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModbusSlave\modbusslavemain.resx">
+      <DependentUpon>modbusslavemain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\FormAddAxis.resx">
+      <DependentUpon>FormAddAxis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlBackOrigin.resx">
+      <DependentUpon>UserControlBackOrigin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlCommandTable.resx">
+      <DependentUpon>UserControlCommandTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlDynamicPara.resx">
+      <DependentUpon>UserControlDynamicPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlLimitSignal.resx">
+      <DependentUpon>UserControlLimitSignal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlMotionBasePara.resx">
+      <DependentUpon>UserControlMotionBasePara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlMotionPara.resx">
+      <DependentUpon>UserControlMotionPara.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlPulseEquivalent.resx">
+      <DependentUpon>UserControlPulseEquivalent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="motion\UserControlReverseCompensation.resx">
+      <DependentUpon>UserControlReverseCompensation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl1.resx">
+      <DependentUpon>UserControl1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pic\TM221C16R.jpg" />
+    <AdditionalFiles Include="..\.sonarlint\aaaaaaaaaa\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
+    <Content Include="pic\LocalPLC24P.png" />
+    <Content Include="Properties\Interop.ADELib.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

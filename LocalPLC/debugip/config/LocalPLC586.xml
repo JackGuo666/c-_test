@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DeviceDescription>
+  <Types namespace="localTypes">
+    <BitfieldType basetype="std:WORD" name="INPUTS_TM221C16U">
+      <Component identifier="Bit0" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI0">I0</VisibleName>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI1">I1</VisibleName>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI2">I2</VisibleName>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI3">I3</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI4">I4</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI5">I5</VisibleName>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI6">I6</VisibleName>
+      </Component>
+      <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="DI7">I7</VisibleName>
+      </Component>
+    </BitfieldType>
+	<BitfieldType basetype="std:BYTE" name="OUTPUTS_TM221C16U">
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO0">Q0</VisibleName>
+      </Component>
+      <Component identifier="Bit1" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO1">Q1</VisibleName>
+      </Component>
+      <Component identifier="Bit2" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO2">Q2</VisibleName>
+      </Component>
+      <Component identifier="Bit3" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO3">Q3</VisibleName>
+      </Component>
+      <Component identifier="Bit4" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO4">Q4</VisibleName>
+      </Component>
+      <Component identifier="Bit5" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO5">Q5</VisibleName>
+      </Component>
+      <Component identifier="Bit6" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO6">Q6</VisibleName>
+      </Component>
+	  <Component identifier="Bit7" type="std:BOOL">
+        <Default />
+        <VisibleName name="DO7">Q7</VisibleName>
+      </Component>
+    </BitfieldType>
+	
+	<EnumType basetype="std:DWORD" name="SerialBus.EnumBauds">
+      <Enum identifier="E_1200">
+        <Value>1200</Value>
+        <VisibleName name="localStrings:Name">1200</VisibleName>
+      </Enum>
+      <Enum identifier="E_2400">
+        <Value>2400</Value>
+        <VisibleName name="localStrings:Name">2400</VisibleName>
+      </Enum>
+      <Enum identifier="E_4800">
+        <Value>4800</Value>
+        <VisibleName name="localStrings:Name">4800</VisibleName>
+      </Enum>
+      <Enum identifier="E_9600">
+        <Value>9600</Value>
+        <VisibleName name="localStrings:Name">9600</VisibleName>
+      </Enum>
+      <Enum identifier="E_19200">
+        <Value>19200</Value>
+        <VisibleName name="localStrings:Name">19200</VisibleName>
+      </Enum>
+      <Enum identifier="E_38400">
+        <Value>38400</Value>
+        <VisibleName name="localStrings:Name">38400</VisibleName>
+      </Enum>
+      <Enum identifier="E_57600">
+        <Value>57600</Value>
+        <VisibleName name="localStrings:Name">57600</VisibleName>
+      </Enum>
+      <Enum identifier="E_115200">
+        <Value>115200</Value>
+        <VisibleName name="localStrings:Name">115200</VisibleName>
+      </Enum>
+    </EnumType>
+	
+	
+	<!--type奇偶校验字段类型 combobox-->
+    <EnumType basetype="std:BYTE" name="SerialBus.EnumParity">
+      <Enum identifier="None">
+        <Value>0</Value>
+        <VisibleName name="localStrings:SerialBus.EnumParity.None">None</VisibleName>
+      </Enum>
+      <Enum identifier="Odd">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.EnumParity.Odd">Odd</VisibleName>
+      </Enum>
+      <Enum identifier="Even">
+        <Value>2</Value>
+        <VisibleName name="localStrings:SerialBus.EnumParity.Even">Even</VisibleName>
+      </Enum>
+    </EnumType>
+	
+	<EnumType basetype="std:BYTE" name="SerialBus.Rs485">
+      <Enum identifier="RS232">
+        <Value>0</Value>
+        <VisibleName name="localStrings:SerialBus.Rs485.rs232">RS232</VisibleName>
+      </Enum>
+      <Enum identifier="RS485">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.Rs485.rs485">RS485</VisibleName>
+      </Enum>
+    </EnumType>
+	
+	
+	<!--极化电阻-->
+	<EnumType basetype="std:BYTE" name="SerialBus.ModPol">
+      <Enum identifier="No">
+        <Value>0</Value>
+        <VisibleName name="localStrings:SerialBus.ModPol.no">No</VisibleName>
+      </Enum>
+	  <Enum identifier="Yes">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.ModPol.no">4.7Ω</VisibleName>
+      </Enum>
+    </EnumType>
+	
+	
+	<!--数据位-->
+	<EnumType basetype="std:BYTE" name="SerialBus.EnumData">
+      <Enum identifier="Data_7">
+        <Value>7</Value>
+        <VisibleName name="localStrings:SerialBus.EnumData.DataSeven">7</VisibleName>
+      </Enum>
+      <Enum identifier="Data_8">
+        <Value>8</Value>
+        <VisibleName name="localStrings:SerialBus.EnumData.DataEight">8</VisibleName>
+      </Enum>
+    </EnumType>
+	
+
+	<EnumType basetype="std:BYTE" name="SerialBus.EnumStopBit">
+      <Enum identifier="StopBit_1">
+        <Value>1</Value>
+        <VisibleName name="localStrings:SerialBus.EnumStopBit.StopBit_1">1</VisibleName>
+      </Enum>
+      <Enum identifier="StopBit_2">
+        <Value>2</Value>
+        <VisibleName name="localStrings:SerialBus.EnumStopBit.StopBit_2">2</VisibleName>
+      </Enum>
+    </EnumType>
+	
+	<StructType name="SerialBus">
+      <Component identifier="Bauds" type="localTypes:SerialBus.EnumBauds"><!--type波特率字段类型 combobox-->
+        <Default>19200</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Baudrate">Baudrate</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Baudrate">Baud rate</Description>
+        <Custom>
+          <LateConfiguration>Serial Line Baud Rate in bit/s</LateConfiguration>
+        </Custom>
+      </Component>
+      <!--Parity : 0, 1, 2-->
+      <Component identifier="Parity" type="localTypes:SerialBus.EnumParity">
+        <Default>2</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Parity">Parity</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Parity">Parity</Description>
+        <Custom>
+          <LateConfiguration>Serial Line Parity (0=None, 1=Odd, 2=Even)</LateConfiguration>
+        </Custom>
+      </Component>
+      <!--rs485 : 232, 485-->
+      <Component identifier="RSprotocol" type="localTypes:SerialBus.Rs485">
+        <Default>1</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Rs485">Medium</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Rs485">Physical medium</Description>
+      </Component>
+      <!--ModPol : No, Yes-->
+      <Component identifier="ModPol" type="localTypes:SerialBus.ModPol">
+        <Default>1</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.ModPol">Polarization</VisibleName>
+        <Description name="localStrings:SerialBus.Description.ModPol">Polarization and termination resistors</Description>
+      </Component>
+      <Component identifier="DataFormat" type="localTypes:SerialBus.EnumData">
+        <Default>8</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.Data">Data bits</VisibleName>
+        <Description name="localStrings:SerialBus.Description.Data">Data bits</Description>
+        <Custom>
+          <LateConfiguration>Serial Line Data bits (7 or 8)</LateConfiguration>
+        </Custom>
+      </Component>
+      <!--Stop : 1, 2-->
+      <Component identifier="StopBit" type="localTypes:SerialBus.EnumStopBit">
+        <Default>1</Default>
+        <VisibleName name="localStrings:SerialBus.VisibleName.StopBit">Stop bits</VisibleName>
+        <Description name="localStrings:SerialBus.Description.StopBit">Stop bits</Description>
+        <Custom>
+          <LateConfiguration>Serial Line Stop bits (1 or 2)</LateConfiguration>
+        </Custom>
+      </Component>
+    </StructType>
+	<StructType name="EthernetConfig">
+	  <Component identifier="IPConfigMode" type="localTypes:Ethernet.bool">
+        <Default>0</Default>
+        <VisibleName name="localStrings.IPConfigMode">IPConfigMode</VisibleName>
+        <Description name="localStrings.IPConfigMode">IPConfigMode</Description>
+        <Custom>
+          <LateConfiguration>IP Config Mode</LateConfiguration>
+        </Custom>
+      </Component>
+	  <Component identifier="IPAddress" type="localTypes:Ethernet.string">
+        <Default>0.0.0.0</Default>
+        <VisibleName name="localStrings.IPAddress">IPAddress</VisibleName>
+        <Description name="localStrings.IPAddress">IPAddress</Description>
+        <Custom>
+          <LateConfiguration>IP Address</LateConfiguration>
+        </Custom>
+      </Component>
+	  <Component identifier="MaskAddress" type="localTypes:Ethernet.string">
+        <Default>0.0.0.0</Default>
+        <VisibleName name="localStrings.IPAddress">MaskAddress</VisibleName>
+        <Description name="localStrings.IPAddress">MaskAddress</Description>
+        <Custom>
+          <LateConfiguration>Mask Address</LateConfiguration>
+        </Custom>
+      </Component>
+	  <Component identifier="GatewayAddress" type="localTypes:Ethernet.string">
+        <Default>0.0.0.0</Default>
+        <VisibleName name="localStrings.IPAddress">GatewayAddress</VisibleName>
+        <Description name="localStrings.IPAddress">GatewayAddress</Description>
+        <Custom>
+          <LateConfiguration>Gateway Address</LateConfiguration>
+        </Custom>
+      </Component>
+	  <Component identifier="SNTP" type="localTypes:Ethernet.bool">
+        <Default>0</Default>
+        <VisibleName name="localStrings.SNTP">SNTP</VisibleName>
+        <Description name="localStrings.SNTP">SNTP</Description>
+        <Custom>
+          <LateConfiguration>SNTP</LateConfiguration>
+        </Custom>
+      </Component>
+	  <Component identifier="SNTPIPAddress" type="localTypes:Ethernet.string">
+        <Default>0.0.0.0</Default>
+        <VisibleName name="localStrings.SNTP">SNTPIPAddress</VisibleName>
+        <Description name="localStrings.SNTP">SNTPIPAddress</Description>
+        <Custom>
+          <LateConfiguration>SNTP IP Address</LateConfiguration>
+        </Custom>
+      </Component>
+	</StructType>
+  </Types>
+
+  <Strings namespace="localStrings">
+    <Language lang="zh-CHS">
+          <String identifier="TM221C16U.DeviceDescription">TM221C16U（螺钉）
+9 路数字量输入，7 漏极路晶体管输出 (0.5 A)，2 路模拟量输入，1 个串行线路端口，带有可插拔端子块的 24 Vdc 一体型控制器。</String>
+      <String identifier="TM221C16U.Expansion">扩展总线</String>
+      <String identifier="TM221C16U.ParameterSectionNameInputs">Inputs</String>
+      <String identifier="TM221C16U.ParameterSectionNameOutputs">Outputs</String>
+      <String identifier="TM221C16U.ParameterSectionNameHSC">HSC</String>
+      <String identifier="TM221C16U.ParameterSectionNamePTO">HSP_FUNC</String>
+      <String identifier="OutputKey">7 漏极晶体管</String>
+      <String identifier="ModuleTypeKey">Compact 24Vdc</String>
+      <String identifier="PowerSupplyKey">24 Vdc</String>
+      <String identifier="CommPortsKey">1 SL</String>
+    </Language >
+  </Strings>
+
+  <Files namespace="localFiles">
+  </Files>
+
+  <Device>
+    <DeviceIdentification>
+      <Type>0</Type><!--设备类型 0 is controller  1 is 扩展模块 -->
+      <!--Schneider Id:"101a" - M2xx Id:"07xx"-->
+      <Id>101a 0796</Id>
+      <Version>1.1.0</Version>
+	  <IOAddress start="8001" end="10000" />
+    </DeviceIdentification>
+
+    <DeviceInfo VendorId="0x101a">
+      <Name name="local:dummy">LocalPLC586</Name>
+      <Description name="localStrings:TM221C16U.DeviceDescription">TM221C16U description... bis</Description>
+      <Vendor name="localStrings:DeviceInfo.Vendor">Phonex Contact</Vendor>
+      <!--树形根节点型号名称-->
+      <DefaultInstanceName name="localStrings:DeviceInfo.DefaultInstanceName">MyController</DefaultInstanceName>
+
+      <Connector connectorId="1" hostpath="-1" interface="MSD.M2XX" moduleType="45000" role="parent" explicit="false">
+        <Module basename="HSC">
+          <LocalModuleId>HSC_FUNC</LocalModuleId>
+        </Module>
+        <Module basename="HSP">
+          <LocalModuleId>HSP_FUNC</LocalModuleId>
+        </Module>
+        <Module basename="DI">
+          <LocalModuleId>DIG_IN</LocalModuleId>
+        </Module>
+        <Module basename="DQ">
+          <LocalModuleId>DIG_OUT</LocalModuleId>
+        </Module>
+        <Module basename="AI">
+          <LocalModuleId>ANA_IN</LocalModuleId>
+        </Module>
+        <Module basename="Serial_Line_1">
+          <LocalModuleId>SERIAL_LINE</LocalModuleId>
+        </Module>
+		<Module basename="Serial_Line_2">
+          <LocalModuleId>SERIAL_LINE</LocalModuleId>
+        </Module>
+        <Module basename="Ethernet_1">
+          <LocalModuleId>ETHERNET</LocalModuleId>
+        </Module>
+        <Module basename="Cartridge_1">
+          <LocalModuleId>CARTRIDGE</LocalModuleId>
+        </Module>
+        <Module basename="Cartridge_1">
+          <LocalModuleId>CARTRIDGE</LocalModuleId>
+        </Module>
+      </Connector>
+
+    </DeviceInfo >
+  </Device>
+
+  <Modules>
+    <Module>
+      <ModuleId>DIG_IN</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:DIG_IN.DeviceInfo.Name">Digital Inputs</Name>
+        <Description name="localStrings:DIG_IN.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Phonex Contact</Vendor>
+      </DeviceInfo>
+      <Connector connectorId="1">
+            <Name name="localStrings:TM221CE40U.ParameterSectionNameInputs">Inputs</Name>
+            <Parameter ParameterId="34560" type="localTypes:INPUTS_TM221C16U" ParameterName="IW0"></Parameter>
+      </Connector>
+
+    </Module>
+
+    <Module>
+      <ModuleId>DIG_OUT</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:DIG_OUT.DeviceInfo.Name">Digital Outputs</Name>
+        <Description name="localStrings:DIG_OUT.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Phonex Contact</Vendor>
+      </DeviceInfo>
+      <Connector connectorId="1">
+            <Name name="localStrings:TM221C16U.ParameterSectionNameOutputs">Outputs</Name>
+            <Parameter ParameterId="34592" type="localTypes:OUTPUTS_TM221C16U" ParameterName="QB0"></Parameter>
+      </Connector>
+
+    </Module>
+	
+	<Module>
+	  <ModuleId>SERIAL_LINE</ModuleId>
+	  <DeviceInfo>
+        <Name name="localStrings:CANOpen.DeviceInfo.Name">Serial line</Name>
+        <Description name="localStrings:CANOpen.DeviceInfo.Description">...</Description>
+        <Vendor name="local:dummy">Phonex Contact</Vendor>
+      </DeviceInfo>
+	  <Connector connectorId="1">
+            <Parameter ParameterId="10000" type="localTypes:SerialBus" ParameterName="Serial Line Configuration"></Parameter>
+      </Connector>
+	</Module>
+	
+	
+	<Module>
+	  <ModuleId>ETHERNET</ModuleId>
+	  <DeviceInfo>
+        <Name name="localStrings:ETHERNET.DeviceInfo.Name">Ethernet Network</Name>
+        <Description name="localStrings:ETHERNET.DeviceInfo.Description">...</Description>
+        <Vendor name="local:dummy">Phonex Contact</Vendor>
+      </DeviceInfo>
+	  <Connector connectorId="1">
+		  <Name name="localStrings:NONE">Ethernet</Name>
+          <Parameter ParameterId="1" type="localTypes:EthernetConfig" ParameterName="IPConfigMode">
+            <Custom>
+              <LateConfiguration>IP configuration mode: 0:FIXED 1:DHCP</LateConfiguration>
+            </Custom>
+          </Parameter>	
+      </Connector>
+	  
+	  
+	</Module>
+	
+	<Module>
+	  <!--高速输入-->
+	  <ModuleId>HSC_FUNC</ModuleId>
+	  <DeviceInfo>
+        <Name name="localStrings:HSC_FUNC.DeviceInfo.Name">High Speed Counter</Name>
+        <Description name="localStrings:HSC_FUNC.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Schneider Electric</Vendor>
+      </DeviceInfo>
+	  <Connector connectorId="3">
+			<Name name="localStrings:TM221C16U.ParameterSectionNameHSC">HSC</Name>
+            <Parameter ParameterId="40000" type="localTypes:TM221CE40U.HSC" ParameterName="HSC00">
+            </Parameter>
+            <Parameter ParameterId="40001" type="localTypes:TM221CE40U.HSC" ParameterName="HSC01">
+            </Parameter>
+            <Parameter ParameterId="40002" type="localTypes:TM221CE40U.HSC" ParameterName="HSC02">
+            </Parameter>
+            <Parameter ParameterId="40003" type="localTypes:TM221CE40U.HSC" ParameterName="HSC03">
+            </Parameter>
+
+      </Connector>
+	</Module>
+	
+	<Module>
+      <ModuleId>HSP_FUNC</ModuleId>
+      <DeviceInfo>
+        <Name name="localStrings:HSP_FUNC.DeviceInfo.Name">Pulse Train Output</Name>
+        <Description name="localStrings:HSP_FUNC.DeviceInfo.Description" />
+        <Vendor name="local:dummy">Phonex</Vendor>
+
+      </DeviceInfo>
+      <Connector connectorId="3" hostpath="-1" interface="MSD.M2XX" moduleType="45002" role="child" explicit="false">
+			<Name name="localStrings:TM221C16U.ParameterSectionNameHSP">HSP</Name>
+            <Parameter ParameterId="40000" type="localTypes:TM221CE40U.HSP" ParameterName="HSP00">
+            </Parameter>
+            <Parameter ParameterId="40001" type="localTypes:TM221CE40U.HSP" ParameterName="HSP01">
+            </Parameter>
+            <Parameter ParameterId="40002" type="localTypes:TM221CE40U.HSP" ParameterName="HSP02">
+            </Parameter>
+            <Parameter ParameterId="40003" type="localTypes:TM221CE40U.HSP" ParameterName="HSP03">
+            </Parameter>
+
+      </Connector>
+    </Module>
+	
+  </Modules>
+  
+
+</DeviceDescription>
