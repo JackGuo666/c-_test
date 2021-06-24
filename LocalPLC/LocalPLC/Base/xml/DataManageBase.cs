@@ -375,6 +375,21 @@ namespace LocalPLC.Base.xml
             return count;
         }
 
+
+        public int getUsedHspCount()
+        {
+            int count = 0;
+            foreach (var hsp in hspList)
+            {
+                if (hsp.used)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
         public DOData getDoData(string channelName)
         {
             foreach (var dout in doList)

@@ -43,7 +43,7 @@ namespace LocalPLC.loadingscreen
             while (!LoadingForm.IsHandleCreated) {}
             // 把显示窗体放到最前面
             LoadingForm.Invoke(new MethodInvoker(()=> {
-                LoadingForm.BringToFront();//放在前端显示
+                //LoadingForm.BringToFront();//放在前端显示
                 LoadingForm.Activate(); //当前窗体是LoadingForm
             }));
 

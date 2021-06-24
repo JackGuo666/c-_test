@@ -103,6 +103,8 @@ namespace LocalPLC.Debug
             model.subnet_mask = ipAddressControl_maskaddr.Text;
             model.gateway = ipAddressControl_gateway.Text;
             model.dev_mac = model_.dev_mac;
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            model.timestamp = Convert.ToInt64(ts.TotalSeconds);
 
             foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
             {

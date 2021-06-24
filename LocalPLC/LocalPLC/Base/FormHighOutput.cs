@@ -26,7 +26,7 @@ namespace LocalPLC.Base
         Dictionary<int, string> timeBaseDic = new Dictionary<int, string>();
         Dictionary<int, string> outputPluseDic = new Dictionary<int, string>();
         Dictionary<int, string> outputPluseOnlyPulseDic = new Dictionary<int, string>();
-        enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
+        public enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
         enum OutputMode { PULSE_DIC, CW_CCW, AB_DIRECTION}
         ToolTip tip = new ToolTip();
         public FormHighOutput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSPData hspData)
@@ -74,7 +74,7 @@ namespace LocalPLC.Base
             }
 
 
-            if (hspData_.name == "HSP0" || hspData_.name == "HSP2")
+            if (hspData_.address == "HSP0" || hspData_.address == "HSP2")
             {
                 foreach (var outputMode in outputPluseDic)
                 {
@@ -168,13 +168,13 @@ namespace LocalPLC.Base
             this.comboBox_outputMode.TabIndex = 3;
             panel1.Controls.Add(comboBox_outputMode);
 
-            if (hspData_.name == "HSP2")
+            if (hspData_.address == "HSP2")
             {
                 foreach (var dout in UserControlBase.dataManage.doList)
                 {
                     if (dout.channelName == "DO03")
                     {
-                        if (dout.used && dout.hspUsed != hspData_.name)
+                        if (dout.used && dout.hspUsed != hspData_.address)
                         {
                             this.comboBox_outputMode.Items.Clear();
                             foreach (var outputModeOnlyPulse in outputPluseOnlyPulseDic)
@@ -185,13 +185,13 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if(hspData_.name == "HSP0")
+            else if(hspData_.address == "HSP0")
             {
                 foreach (var dout in UserControlBase.dataManage.doList)
                 {
                     if(dout.channelName == "DO01")
                     {
-                        if (dout.used && dout.hspUsed != hspData_.name)
+                        if (dout.used && dout.hspUsed != hspData_.address)
                         {
                             this.comboBox_outputMode.Items.Clear();
                             foreach (var outputModeOnlyPulse in outputPluseOnlyPulseDic)
@@ -231,19 +231,19 @@ namespace LocalPLC.Base
 
             string channelName = "";
             //方向初始化值
-            if(hspData_.name == "HSP0")
+            if(hspData_.address == "HSP0")
             {
                 channelName = "DO04";
             }
-            else if(hspData_.name == "HSP1")
+            else if(hspData_.address == "HSP1")
             {
                 channelName = "DO05";
             }
-            else if(hspData_.name == "HSP2")
+            else if(hspData_.address == "HSP2")
             {
                 channelName = "DO06";
             }
-            else if(hspData_.name == "HSP3")
+            else if(hspData_.address == "HSP3")
             {
                 channelName = "DO07";
             }
@@ -415,14 +415,14 @@ namespace LocalPLC.Base
             }
             else if(currentIndex == (int)OutputMode.CW_CCW)
             {
-                if(hspData_.name == "HSP0")
+                if(hspData_.address == "HSP0")
                 {
                     comboBox_direction.Enabled = false;
                     comboBox_direction.SelectedItem = "DO01";
                     label_pulse.Text = "顺时针";
                     label_diretion.Text = "逆时针";
                 }
-                else if(hspData_.name == "HSP2")
+                else if(hspData_.address == "HSP2")
                 {
                     comboBox_direction.Enabled = false;
                     comboBox_direction.SelectedItem = "DO03";
@@ -432,14 +432,14 @@ namespace LocalPLC.Base
             }
             else if(currentIndex == (int)OutputMode.AB_DIRECTION)
             {
-                if (hspData_.name == "HSP0")
+                if (hspData_.address == "HSP0")
                 {
                     comboBox_direction.Enabled = false;
                     comboBox_direction.SelectedItem = "DO01";
                     label_pulse.Text = "脉冲A";
                     label_diretion.Text = "脉冲B";
                 }
-                else if (hspData_.name == "HSP2")
+                else if (hspData_.address == "HSP2")
                 {
                     comboBox_direction.Enabled = false;
                     comboBox_direction.SelectedItem = "DO03";
@@ -557,7 +557,7 @@ namespace LocalPLC.Base
             //脉冲
             comboBox_pulse.SelectedItem = hspData_.pulsePort;
             comboBox_direction.Items.Add(direction);
-            if (hspData_.name == "HSP0")
+            if (hspData_.address == "HSP0")
             {
                 comboBox_pulse.Items.Add("DO00");
                 comboBox_pulse.SelectedIndex = 0;
@@ -577,7 +577,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hspData_.name == "HSP1")
+            else if (hspData_.address == "HSP1")
             {
                 comboBox_pulse.Items.Add("DO01");
                 comboBox_pulse.SelectedIndex = 0;
@@ -597,7 +597,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hspData_.name == "HSP2")
+            else if (hspData_.address == "HSP2")
             {
                 comboBox_pulse.Items.Add("DO02");
                 comboBox_pulse.SelectedIndex = 0;
@@ -617,7 +617,7 @@ namespace LocalPLC.Base
                     }
                 }
             }
-            else if (hspData_.name == "HSP3")
+            else if (hspData_.address == "HSP3")
             {
                 comboBox_pulse.Items.Add("DO03");
                 comboBox_pulse.SelectedIndex = 0;
@@ -660,8 +660,8 @@ namespace LocalPLC.Base
                 hspData_.type = comboBox_outputType.SelectedIndex;
                 hspData_.used = false;
                 //设置为未选
-                UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, false, hspData_.name);
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
+                UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, false, hspData_.address);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.address);
                 hspData_.directionPort = "";
                 hspData_.directionPort = "";
                 hspData_.outputMode = -1;
@@ -675,7 +675,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.address);
                 }
                 else
                 {
@@ -683,7 +683,7 @@ namespace LocalPLC.Base
                     comboBox_pulse.Focus();
                 }
 
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.address);
                 hspData_.directionPort = "";
                 hspData_.used = true;
                 hspData_.outputMode = -1;
@@ -696,7 +696,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.address);
                 }
                 else
                 {
@@ -704,7 +704,7 @@ namespace LocalPLC.Base
                     comboBox_pulse.Focus();
                 }
 
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.address);
                 hspData_.directionPort = "";
                 hspData_.used = true;
                 hspData_.outputMode = -1;
@@ -715,7 +715,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.address);
                 }
                 else
                 {
@@ -724,7 +724,7 @@ namespace LocalPLC.Base
                 }
 
                 int.TryParse(textBox_frequency.Text, out hspData_.signalFrequency);
-                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
+                UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.address);
                 hspData_.directionPort = "";
                 hspData_.used = true;
                 hspData_.outputMode = -1;
@@ -736,7 +736,7 @@ namespace LocalPLC.Base
                 if (comboBox_pulse.SelectedItem != null)
                 {
                     hspData_.pulsePort = comboBox_pulse.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.name);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.pulsePort, true, hspData_.address);
                 }
                 else
                 {
@@ -747,9 +747,9 @@ namespace LocalPLC.Base
                 if (comboBox_direction.SelectedItem != null)
                 {
                     //把上一次的方向端口设置为未选
-                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.name);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, false, hspData_.address);
                     hspData_.directionPort = comboBox_direction.SelectedItem.ToString();
-                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, true, hspData_.name);
+                    UserControlBase.dataManage.setDoutUsed(hspData_.directionPort, true, hspData_.address);
                 }
                 else
                 {

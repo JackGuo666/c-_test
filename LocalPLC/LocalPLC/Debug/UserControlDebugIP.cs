@@ -16,7 +16,7 @@ namespace LocalPLC.Debug
 {
     public partial class UserControlDebugIP : UserControl
     {
-        enum COLUMN_NAME {IP, MAC, SUBMASK, GATEWAY, DEVID,  FIRMVER, DHCP, ACK, FILCKER/*, PERSIST*/}
+        enum COLUMN_NAME {IP, SUBMASK, GATEWAY, MAC, DEVID,  FIRMVER, DHCP, ACK, FILCKER/*, PERSIST*/}
         Timer scanDevTimer = null;
 
         public UserControlDebugIP()
@@ -37,7 +37,7 @@ namespace LocalPLC.Debug
         {
             //测试定时器
             scanDevTimer = new Timer(); //新建一个Timer对象
-            scanDevTimer.Interval = 1000;//设定多少秒后行动，单位是毫秒
+            scanDevTimer.Interval = 30000;//设定多少秒后行动，单位是毫秒
             scanDevTimer.Tick += new EventHandler(scanDeviceTimer);//到时所有执行的动作
             scanDevTimer.Stop();//启动计时
         }
@@ -111,9 +111,12 @@ namespace LocalPLC.Debug
             model.ip = "";
             model.subnet_mask = "";
             model.gateway = "";
+
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            model.timestamp = Convert.ToInt64(ts.TotalSeconds);
             //model.persist = false;
 
-            foreach(var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+            foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
             {
                 var command = new DebugCommand(model) { };
                 var result = driver.Key.ExecuteGeneric(driver.Value, command);
@@ -196,6 +199,8 @@ namespace LocalPLC.Debug
             model.ip = "";
             model.subnet_mask = "";
             model.gateway = "";
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            model.timestamp = Convert.ToInt64(ts.TotalSeconds);
             //model.persist = false;
             foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
             {
@@ -235,6 +240,8 @@ namespace LocalPLC.Debug
             model.ip = ip;
             model.subnet_mask = subnetMask;
             model.gateway = gateway;
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            model.timestamp = Convert.ToInt64(ts.TotalSeconds);
 
 
             foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
@@ -256,7 +263,7 @@ namespace LocalPLC.Debug
             }
 
             FormSimpleLoading loadingfrm = new FormSimpleLoading(this);
-            loadingfrm.StartPosition = FormStartPosition.CenterScreen;
+            //loadingfrm.StartPosition = FormStartPosition.CenterScreen;
             //将Loaing窗口，注入到 SplashScreenManager 来管理
             SplashScreenManager loading = new SplashScreenManager(loadingfrm);
             loading.ShowLoading();
@@ -331,17 +338,32 @@ namespace LocalPLC.Debug
         }
 
 
+        /// <summary>
+        /// 时间戳Timestamp转换成日期
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        private DateTime GetDateTime(long timeStamp)
+        {
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = ((long)timeStamp * 10000000);
+            TimeSpan toNow = new TimeSpan(lTime);
+            DateTime targetDt = dtStart.Add(toNow);
+            return targetDt;
+        }
+
         private bool addRowCheck(ReciveModel model)
         {
             var count = dataGridView1.Rows.Count;
 
+            var dateTime =  GetDateTime(model.timestamp).ToString();
 
             bool isAdd = true;
 
             for (int i = 0; i < count; i++)
                 {
                     var row = dataGridView1.Rows[i];
-                    if (model.dev_mac == row.Cells[1].Value.ToString())
+                    if (model.dev_mac == row.Cells[(int)COLUMN_NAME.MAC].Value.ToString())
                     {
                         row.Cells[(int)COLUMN_NAME.IP].Value = model.ip;
                         row.Cells[(int)COLUMN_NAME.MAC].Value = model.dev_mac;
@@ -363,8 +385,8 @@ namespace LocalPLC.Debug
         private void PopulateDataGridView(ReciveModel model)
         {
 
-            string[] row0 = { model.ip, model.dev_mac, model.subnet_mask,
-            model.gateway, model.dev_id, model.firm_ver, model.dhcp.ToString(), model.ack, false.ToString(),  false.ToString()};
+            string[] row0 = { model.ip, model.subnet_mask,
+            model.gateway, model.dev_mac, model.dev_id, model.firm_ver, model.dhcp.ToString(), model.ack, false.ToString(),  false.ToString()};
 
 
             dataGridView1.Rows.Add(row0);

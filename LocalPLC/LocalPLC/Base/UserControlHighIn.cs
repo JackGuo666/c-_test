@@ -614,7 +614,7 @@ namespace LocalPLC.Base
                 {
                     setModifgFlag(true);
 
-                    button1_Click(null, null);
+                    //button1_Click(null, null);
                 }
 
 

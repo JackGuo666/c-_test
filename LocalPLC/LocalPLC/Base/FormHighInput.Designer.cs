@@ -120,6 +120,7 @@
             // 
             // comboBox_Type
             // 
+            this.comboBox_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Type.FormattingEnabled = true;
             this.comboBox_Type.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_Type.Location = new System.Drawing.Point(109, 44);
@@ -560,6 +561,7 @@
             this.checkBox_doubleWord.TabIndex = 0;
             this.checkBox_doubleWord.Text = "双字";
             this.checkBox_doubleWord.UseVisualStyleBackColor = true;
+            this.checkBox_doubleWord.Visible = false;
             this.checkBox_doubleWord.CheckedChanged += new System.EventHandler(this.checkBox_doubleWord_CheckedChanged);
             // 
             // groupBox1
@@ -577,6 +579,7 @@
             // comboBox_inputmode
             // 
             this.comboBox_inputmode.BackColor = System.Drawing.Color.White;
+            this.comboBox_inputmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_inputmode.FormattingEnabled = true;
             this.comboBox_inputmode.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_inputmode.Location = new System.Drawing.Point(590, 44);

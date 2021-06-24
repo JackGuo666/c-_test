@@ -398,6 +398,11 @@ namespace LocalPLC
                     if(!tnRet.Text.Contains("*") && tnRet.Text.Trim(new char[1] {'*'}) == name)
                     {
                         tnRet.Text += "*";
+                        if(!treeView1_.TopNode.Text.Contains("*"))
+                        {
+                            treeView1_.TopNode.Text += "*";
+                        }
+                        
                     }
 
                     //break;
@@ -485,17 +490,17 @@ namespace LocalPLC
                 //utility.PrintInfo(string.Format("ts{0}", ret));
                 if(ret && multiprogApp.WorkspaceManager.CurrentWorkspace == 1 && ConfirmSave != AdeConfirmRule.adeCrConfirm)
                 {
-                    //MessageBox.Show("配置修改，需要操作生成配置文件!");
-                    if (MessageBox.Show("配置修改，需要手动操作硬件编译。是否自动跳转到总线配置空间?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
+                    ////MessageBox.Show("配置修改，需要操作生成配置文件!");
+                    //if (MessageBox.Show("配置修改，需要手动操作硬件编译。是否自动跳转到总线配置空间?", "提示", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    //{
+                    //    System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
 
-                        t.Elapsed += new System.Timers.ElapsedEventHandler(theout);//到达时间的时候执行事件；
+                    //    t.Elapsed += new System.Timers.ElapsedEventHandler(theout);//到达时间的时候执行事件；
 
-                        t.AutoReset = false;//设置是执行一次（false）还是一直执行(true)；
+                    //    t.AutoReset = false;//设置是执行一次（false）还是一直执行(true)；
 
-                        t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
-                    }
+                    //    t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
+                    //}
                 }
 
                 saveXml();
@@ -1093,6 +1098,9 @@ namespace LocalPLC
                 { writer.WriteValue(false); }
                 else if (baseData.ethernetDic[ethname].checkSNTP == 1)
                 { writer.WriteValue(true); }
+                //Add timestamp
+                writer.WritePropertyName("timestamp");
+                writer.WriteValue(baseData.ethernetDic[ethname].timestamp.ToString());
 
                 writer.WriteEndObject(); //} 网口portcfg 数组下节点1
             }
@@ -1196,8 +1204,6 @@ namespace LocalPLC
                 
                 writer.WriteEndObject(); //} HSC下的conf数组下节点3单路脉冲计数模式2
             }
-            
-
 
 
             //writer.WriteStartArray(); //[ grp_member 高速脉冲输入数组
@@ -1234,26 +1240,152 @@ namespace LocalPLC
             writer.WriteEndObject();//} HSC节点
 
 
+
+
             //PTO高速脉冲输出组
-            writer.WritePropertyName("PTO");
+            writer.WritePropertyName("hsp");
             writer.WriteStartObject(); //{ PTO节点
             writer.WritePropertyName("grp_total");
-            writer.WriteValue(1);
+            int grpHspCount = baseData.getUsedHspCount();
+            writer.WriteValue(grpHspCount);
             writer.WritePropertyName("conf");
             writer.WriteStartArray(); //[ PTO下conf数组
-            writer.WriteStartObject(); //{ PTO conf数组下节点组合脉冲输入模式
-            writer.WritePropertyName("opr_mode");
-            writer.WriteValue("grouped");
-            writer.WritePropertyName("output_mode");
-            writer.WriteValue("quad");
-            writer.WritePropertyName("grp_no");
-            writer.WriteValue(0);
-            writer.WritePropertyName("grp_member");
-            writer.WriteStartArray(); //[ grp_member 单路脉冲计数组
-            writer.WriteValue("DO00");
-            writer.WriteValue("DO01");
-            writer.WriteEndArray(); //] grp_member 单路脉冲计数组
-            writer.WriteEndObject(); //} PTO conf数组下节点组合脉冲输入模式
+
+
+            foreach (var hsp in baseData.hspList)
+            {
+                if(hsp.used == false)
+                {
+                    continue;
+                }
+
+                writer.WriteStartObject(); //{ HSC下的conf数组下节点1组合输入模式
+
+                writer.WritePropertyName("grp_no");
+                writer.WriteValue(hsp.address.ToLower());
+                writer.WritePropertyName("opr_mode");
+                if(hsp.type == (int)UserControlHighOutput.TYPE.PLS)
+                {
+                    //pulse
+                    writer.WriteValue("pulse");
+
+                    //有double word
+                    writer.WritePropertyName("double_word");
+                    writer.WriteValue(hsp.doubleWord);
+                    //有time base
+                    writer.WritePropertyName("time_base");
+                    if(hsp.timeBase == (int)FormHighOutput.TimeBase.ZEROPOINTONE)
+                    {
+                        writer.WriteValue("0.1");
+                    }
+                    else if(hsp.timeBase == (int)FormHighOutput.TimeBase.ONE)
+                    {
+                        writer.WriteValue("1");
+                    }
+                    else if(hsp.timeBase == (int)FormHighOutput.TimeBase.TEN)
+                    {
+                        writer.WriteValue("10");
+                    }
+                    else if(hsp.timeBase == (int)FormHighOutput.TimeBase.ONETHOUSAND)
+                    {
+                        writer.WriteValue("1000");
+                    }
+                    //有预设值
+                    writer.WritePropertyName("default_value");
+                    writer.WriteValue(hsp.preset.ToString());
+                    //无frequency
+                    writer.WritePropertyName("frequency");
+                    writer.WriteValue("1000");
+                    //无output_mdoe
+                    writer.WritePropertyName("output_mdoe");
+                    writer.WriteValue("");
+                    //
+                    writer.WritePropertyName("pluseA");
+                    writer.WriteValue(hsp.pulsePort);
+                    writer.WritePropertyName("pluseB");
+                    writer.WriteValue("");
+
+                }
+                else if(hsp.type == (int)UserControlHighOutput.TYPE.PWM)
+                {
+                    //pwm
+                    writer.WriteValue("pwm");
+                    //无double word
+                    writer.WritePropertyName("double_word");
+                    writer.WriteValue(false);
+                    //有time base
+                    writer.WritePropertyName("time_base");
+                    if (hsp.timeBase == (int)FormHighOutput.TimeBase.ZEROPOINTONE)
+                    {
+                        writer.WriteValue("0.1");
+                    }
+                    else if (hsp.timeBase == (int)FormHighOutput.TimeBase.ONE)
+                    {
+                        writer.WriteValue("1");
+                    }
+                    else if (hsp.timeBase == (int)FormHighOutput.TimeBase.TEN)
+                    {
+                        writer.WriteValue("10");
+                    }
+                    else if (hsp.timeBase == (int)FormHighOutput.TimeBase.ONETHOUSAND)
+                    {
+                        writer.WriteValue("1000");
+                    }
+                    //有预设值
+                    writer.WritePropertyName("default_value");
+                    writer.WriteValue(hsp.preset.ToString());
+                    //无frequency
+                    writer.WritePropertyName("frequency");
+                    writer.WriteValue("1000");
+                    //无output_mdoe
+                    writer.WritePropertyName("output_mdoe");
+                    writer.WriteValue("");
+                    //
+                    writer.WritePropertyName("pluseA");
+                    writer.WriteValue(hsp.pulsePort);
+                    writer.WritePropertyName("pluseB");
+                    writer.WriteValue("");
+                }
+                else if(hsp.type == (int)UserControlHighOutput.TYPE.FREQUENCY)
+                {
+                    //frequency
+                    writer.WriteValue("frequency");
+                    //无double word
+                    writer.WritePropertyName("double_word");
+                    writer.WriteValue(false);
+                    //无time base
+                    writer.WritePropertyName("time_base");
+                    writer.WriteValue(1);
+
+
+                }
+                else if(hsp.type == (int)UserControlHighOutput.TYPE.PTO)
+                {
+                    //pto
+                    writer.WriteValue("pto");
+
+
+                }
+
+
+
+                writer.WriteEndObject(); //} HSC下的conf数组下节点3单路脉冲计数模式2
+            }
+
+
+            //    writer.WriteStartObject(); //{ PTO conf数组下节点组合脉冲输入模式
+            //writer.WritePropertyName("opr_mode");
+            //writer.WriteValue("grouped");
+            //writer.WritePropertyName("output_mode");
+            //writer.WriteValue("quad");
+            //writer.WritePropertyName("grp_no");
+            //writer.WriteValue(0);
+            //writer.WritePropertyName("grp_member");
+            //writer.WriteStartArray(); //[ grp_member 单路脉冲计数组
+            //writer.WriteValue("DO00");
+            //writer.WriteValue("DO01");
+            //writer.WriteEndArray(); //] grp_member 单路脉冲计数组
+            //writer.WriteEndObject(); //} PTO conf数组下节点组合脉冲输入模式
             writer.WriteEndArray(); //]PTO下conf数组
             writer.WriteEndObject(); //} PTO节点
             //==========================================================
@@ -2102,6 +2234,11 @@ namespace LocalPLC
         static bool startGenerate = false;
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(!multiprogApp.IsProjectOpen())
+            {
+                return;
+            }
+
             bool isready = true;
             for(int i =0;i< msi.serverDataManager.listServer.Count;i++)
             {
