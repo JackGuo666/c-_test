@@ -519,34 +519,34 @@ namespace LocalPLC
 
         void IAdeAddIn.OnStartupComplete(ref Array Custom)
         {
-            //复位标志
-            if(utility.ReadResetFile())
-            {
-                string path = @"C:\ProgramData\PHOENIX CONTACT Software\MULTIPROG Express\5_51_689";
-                //如果文件夹存在
-                if (Directory.Exists(path))
-                {
-                    try
-                    {
-                        string targetFolderPath = path + @"\user.cfg";//目标文件夹路径
-                        string sourceFolderPath = path + @"\user_backup.cfg";//源文件夹路径
+            ////复位标志
+            //if(utility.ReadResetFile())
+            //{
+            //    string path = @"C:\ProgramData\PHOENIX CONTACT Software\MULTIPROG Express\5_51_689";
+            //    //如果文件夹存在
+            //    if (Directory.Exists(path))
+            //    {
+            //        try
+            //        {
+            //            string targetFolderPath = path + @"\user.cfg";//目标文件夹路径
+            //            string sourceFolderPath = path + @"\user_backup.cfg";//源文件夹路径
 
-                        try
-                        {
-                            File.Copy(sourceFolderPath, targetFolderPath, true);//复制覆盖同名文件
-                            utility.WriteResetFile("0");
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("执行失败：" + ex.Message);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("获取源文件内文件列表失败：" + ex.Message);
-                    }
-                }
-            }
+            //            try
+            //            {
+            //                File.Copy(sourceFolderPath, targetFolderPath, true);//复制覆盖同名文件
+            //                utility.WriteResetFile("0");
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                MessageBox.Show("执行失败：" + ex.Message);
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show("获取源文件内文件列表失败：" + ex.Message);
+            //        }
+            //    }
+            //}
 
 
         }
