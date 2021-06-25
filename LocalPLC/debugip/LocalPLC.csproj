@@ -210,10 +210,10 @@
     <Compile Include="empty.Designer.cs">
       <DependentUpon>empty.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSetIP.cs">
+    <Compile Include="debugip\FormSetIP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSetIP.Designer.cs" />
+    <Compile Include="debugip\FormSetIP.Designer.cs" />
     <Compile Include="interface\ICheckVarName.cs" />
     <Compile Include="MenuRight.cs" />
     <Compile Include="ModbusClient\ClientChannel.cs">
@@ -353,7 +353,7 @@
     <Compile Include="UserControl1.Designer.cs">
       <DependentUpon>UserControl1.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControlDebug.cs" />
+    <Compile Include="debugip\UserControlDebug.cs" />
     <Compile Include="utility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -432,7 +432,7 @@
     <EmbeddedResource Include="empty.resx">
       <DependentUpon>empty.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSetIP.resx" />
+    <EmbeddedResource Include="debugip\FormSetIP.resx" />
     <EmbeddedResource Include="ModbusClient\ClientChannel.resx">
       <DependentUpon>ClientChannel.cs</DependentUpon>
     </EmbeddedResource>
