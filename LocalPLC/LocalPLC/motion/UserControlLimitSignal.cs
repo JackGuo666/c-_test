@@ -64,6 +64,23 @@ namespace LocalPLC.motion
             checkBox_softLimit_CheckedChanged(null, null);
             textBox_softUpLimitOffset.Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
             textBox_softDownLimitOffset.Text = data.axisMotionPara.limitSignal.softDownLimitOffset.ToString();
+
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_softuplimitpos.Text = "mm";
+                label_softdownlimitpos.Text = "mm";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_softuplimitpos.Text = "°";
+                label_softdownlimitpos.Text = "°";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_softuplimitpos.Text = "pulse";
+                label_softdownlimitpos.Text = "pulse";
+            }
         }
         #endregion
 

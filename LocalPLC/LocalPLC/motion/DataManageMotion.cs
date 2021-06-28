@@ -41,15 +41,15 @@ namespace LocalPLC.motion
     public class DynamicPara
     {
         //最大速度
-        public UInt32 maxSpeed = 1;
+        public UInt32 maxSpeed = 100000;
         //加速度
-        public UInt32 acceleratedSpeed = 1;
+        public UInt32 acceleratedSpeed = 100000;
         //减速度
-        public UInt32 decelerationSpeed = 1;
+        public UInt32 decelerationSpeed = 100000;
         //跃度Jerk
         public UInt32 jerk = 1;
         //急停减速度
-        public UInt32 emeStopDeceleration = 1;
+        public UInt32 emeStopDeceleration = 5000;
     }
 
     public class BackOriginal

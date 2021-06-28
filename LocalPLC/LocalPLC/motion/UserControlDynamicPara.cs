@@ -31,6 +31,31 @@ namespace LocalPLC.motion
             textBox_Jerk.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
             //急停减速度
             textBox_EmeStopDeceSpeed.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_MaxSpeed.Text = "mm/s";
+                label_MaxAccSpeed.Text = "mm/s²";
+                label_MaxDecSpeed.Text = "mm/s²";
+                label_JerkSpeed.Text = "mm/s³";
+                label_EmergyDecSpeed.Text = "mm/s²";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_MaxSpeed.Text = "°/s";
+                label_MaxAccSpeed.Text = "°/s²";
+                label_MaxDecSpeed.Text = "°/s²";
+                label_JerkSpeed.Text = "°/s³";
+                label_EmergyDecSpeed.Text = "°/s²";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_MaxSpeed.Text = "pulse/s";
+                label_MaxAccSpeed.Text = "pulse/s²";
+                label_MaxDecSpeed.Text = "pulse/s²";
+                label_JerkSpeed.Text = "pulse/s³";
+                label_EmergyDecSpeed.Text = "pulse/s²";
+            }
         }
         #endregion
 

@@ -88,6 +88,7 @@
             this.comboBox_pulse.Name = "comboBox_pulse";
             this.comboBox_pulse.Size = new System.Drawing.Size(85, 26);
             this.comboBox_pulse.TabIndex = 3;
+            this.comboBox_pulse.SelectedIndexChanged += new System.EventHandler(this.comboBox_pulse_SelectedIndexChanged);
             // 
             // label_pulse
             // 
@@ -128,6 +129,7 @@
             this.checkBox_doubleWord.TabIndex = 0;
             this.checkBox_doubleWord.Text = "双字";
             this.checkBox_doubleWord.UseVisualStyleBackColor = true;
+            this.checkBox_doubleWord.CheckedChanged += new System.EventHandler(this.checkBox_doubleWord_CheckedChanged);
             // 
             // panel3
             // 

@@ -26,6 +26,20 @@ namespace LocalPLC.motion
         {
             textBox1.Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
             textBox2.Text = data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString();
+            if(data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_loadunit.Text = "mm";
+            }
+            else if(data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_loadunit.Text = "°";
+            }
+            else if(data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_loadunit.Text = "pulse";
+            }
+            
+
         }
         #endregion
 

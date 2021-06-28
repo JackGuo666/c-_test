@@ -32,7 +32,7 @@
             this.textBox_pulsePerRevolutionMotor = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox_offsetPerReolutionMotor = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.label_PayloadOffset = new System.Windows.Forms.Label();
             this.comboBox_hardDownLimitLevel = new System.Windows.Forms.ComboBox();
             this.comboBox_hardUpLimitLevel = new System.Windows.Forms.ComboBox();
             this.comboBox_hardDownLimitInput = new System.Windows.Forms.ComboBox();
@@ -40,9 +40,9 @@
             this.textBox_SoftDownLimitOffset = new System.Windows.Forms.TextBox();
             this.textBox_softUpLimitOffset = new System.Windows.Forms.TextBox();
             this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label_SoftDownLimitPos = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.label_SoftUpLimitPos = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -56,17 +56,17 @@
             this.textBox_DecelerationSpeed = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.textBox_AcceleratedSpeed = new System.Windows.Forms.TextBox();
-            this.label23 = new System.Windows.Forms.Label();
+            this.label_EmergyDecSpeed = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.label_Jerk = new System.Windows.Forms.Label();
             this.textBox_MaxSpeed = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
+            this.label_MaxDecSpeed = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.label_MaxAccSpeed = new System.Windows.Forms.Label();
+            this.label_MaxSpeed = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.textBox_ReverseCompensation = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
+            this.label_ReverseCompesation = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -127,14 +127,14 @@
             this.textBox_offsetPerReolutionMotor.TextChanged += new System.EventHandler(this.textBox_offsetPerReolutionMotor_TextChanged);
             this.textBox_offsetPerReolutionMotor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
-            // label3
+            // label_PayloadOffset
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(365, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 18);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "mm";
+            this.label_PayloadOffset.AutoSize = true;
+            this.label_PayloadOffset.Location = new System.Drawing.Point(365, 67);
+            this.label_PayloadOffset.Name = "label_PayloadOffset";
+            this.label_PayloadOffset.Size = new System.Drawing.Size(26, 18);
+            this.label_PayloadOffset.TabIndex = 0;
+            this.label_PayloadOffset.Text = "mm";
             // 
             // comboBox_hardDownLimitLevel
             // 
@@ -211,14 +211,14 @@
             this.checkBox_softLimit.UseVisualStyleBackColor = true;
             this.checkBox_softLimit.CheckedChanged += new System.EventHandler(this.checkBox_softLimit_CheckedChanged);
             // 
-            // label12
+            // label_SoftDownLimitPos
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(355, 212);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(26, 18);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "mm";
+            this.label_SoftDownLimitPos.AutoSize = true;
+            this.label_SoftDownLimitPos.Location = new System.Drawing.Point(355, 212);
+            this.label_SoftDownLimitPos.Name = "label_SoftDownLimitPos";
+            this.label_SoftDownLimitPos.Size = new System.Drawing.Size(26, 18);
+            this.label_SoftDownLimitPos.TabIndex = 0;
+            this.label_SoftDownLimitPos.Text = "mm";
             // 
             // checkBox1
             // 
@@ -231,14 +231,14 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // label8
+            // label_SoftUpLimitPos
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(355, 182);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(26, 18);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "mm";
+            this.label_SoftUpLimitPos.AutoSize = true;
+            this.label_SoftUpLimitPos.Location = new System.Drawing.Point(355, 182);
+            this.label_SoftUpLimitPos.Name = "label_SoftUpLimitPos";
+            this.label_SoftUpLimitPos.Size = new System.Drawing.Size(26, 18);
+            this.label_SoftUpLimitPos.TabIndex = 0;
+            this.label_SoftUpLimitPos.Text = "mm";
             // 
             // label14
             // 
@@ -347,9 +347,9 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(6, 89);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(62, 18);
+            this.label20.Size = new System.Drawing.Size(98, 18);
             this.label20.TabIndex = 0;
-            this.label20.Text = "减速度";
+            this.label20.Text = "最大减速度";
             // 
             // textBox_AcceleratedSpeed
             // 
@@ -361,32 +361,32 @@
             this.textBox_AcceleratedSpeed.TextChanged += new System.EventHandler(this.textBox_AcceleratedSpeed_TextChanged);
             this.textBox_AcceleratedSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_AcceleratedSpeed_KeyPress);
             // 
-            // label23
+            // label_EmergyDecSpeed
             // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(356, 151);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(53, 18);
-            this.label23.TabIndex = 0;
-            this.label23.Text = "mm/s²";
+            this.label_EmergyDecSpeed.AutoSize = true;
+            this.label_EmergyDecSpeed.Location = new System.Drawing.Point(356, 151);
+            this.label_EmergyDecSpeed.Name = "label_EmergyDecSpeed";
+            this.label_EmergyDecSpeed.Size = new System.Drawing.Size(53, 18);
+            this.label_EmergyDecSpeed.TabIndex = 0;
+            this.label_EmergyDecSpeed.Text = "mm/s²";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(6, 58);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(62, 18);
+            this.label18.Size = new System.Drawing.Size(98, 18);
             this.label18.TabIndex = 0;
-            this.label18.Text = "加速度";
+            this.label18.Text = "最大加速度";
             // 
-            // label21
+            // label_Jerk
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(356, 120);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(53, 18);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "mm/s³";
+            this.label_Jerk.AutoSize = true;
+            this.label_Jerk.Location = new System.Drawing.Point(356, 120);
+            this.label_Jerk.Name = "label_Jerk";
+            this.label_Jerk.Size = new System.Drawing.Size(53, 18);
+            this.label_Jerk.TabIndex = 0;
+            this.label_Jerk.Text = "mm/s³";
             // 
             // textBox_MaxSpeed
             // 
@@ -398,14 +398,14 @@
             this.textBox_MaxSpeed.TextChanged += new System.EventHandler(this.textBox_MaxSpeed_TextChanged);
             this.textBox_MaxSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
-            // label19
+            // label_MaxDecSpeed
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(356, 89);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(53, 18);
-            this.label19.TabIndex = 0;
-            this.label19.Text = "mm/s²";
+            this.label_MaxDecSpeed.AutoSize = true;
+            this.label_MaxDecSpeed.Location = new System.Drawing.Point(356, 89);
+            this.label_MaxDecSpeed.Name = "label_MaxDecSpeed";
+            this.label_MaxDecSpeed.Size = new System.Drawing.Size(53, 18);
+            this.label_MaxDecSpeed.TabIndex = 0;
+            this.label_MaxDecSpeed.Text = "mm/s²";
             // 
             // label5
             // 
@@ -416,23 +416,23 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "最大速度";
             // 
-            // label17
+            // label_MaxAccSpeed
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(356, 58);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(53, 18);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "mm/s²";
+            this.label_MaxAccSpeed.AutoSize = true;
+            this.label_MaxAccSpeed.Location = new System.Drawing.Point(356, 58);
+            this.label_MaxAccSpeed.Name = "label_MaxAccSpeed";
+            this.label_MaxAccSpeed.Size = new System.Drawing.Size(53, 18);
+            this.label_MaxAccSpeed.TabIndex = 0;
+            this.label_MaxAccSpeed.Text = "mm/s²";
             // 
-            // label16
+            // label_MaxSpeed
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(356, 27);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(44, 18);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "mm/s";
+            this.label_MaxSpeed.AutoSize = true;
+            this.label_MaxSpeed.Location = new System.Drawing.Point(356, 27);
+            this.label_MaxSpeed.Name = "label_MaxSpeed";
+            this.label_MaxSpeed.Size = new System.Drawing.Size(44, 18);
+            this.label_MaxSpeed.TabIndex = 0;
+            this.label_MaxSpeed.Text = "mm/s";
             // 
             // label33
             // 
@@ -453,14 +453,14 @@
             this.textBox_ReverseCompensation.TextChanged += new System.EventHandler(this.textBox_ReverseCompensation_TextChanged);
             this.textBox_ReverseCompensation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_pulsePerRevolutionMotor_KeyPress);
             // 
-            // label34
+            // label_ReverseCompesation
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(356, 20);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(26, 18);
-            this.label34.TabIndex = 0;
-            this.label34.Text = "mm";
+            this.label_ReverseCompesation.AutoSize = true;
+            this.label_ReverseCompesation.Location = new System.Drawing.Point(356, 20);
+            this.label_ReverseCompesation.Name = "label_ReverseCompesation";
+            this.label_ReverseCompesation.Size = new System.Drawing.Size(26, 18);
+            this.label_ReverseCompesation.TabIndex = 0;
+            this.label_ReverseCompesation.Text = "mm";
             // 
             // groupBox2
             // 
@@ -468,7 +468,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.textBox_offsetPerReolutionMotor);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label_PayloadOffset);
             this.groupBox2.Controls.Add(this.textBox_pulsePerRevolutionMotor);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(1, 3);
@@ -495,12 +495,12 @@
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox_softLimit);
             this.groupBox3.Controls.Add(this.label14);
-            this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.label_SoftDownLimitPos);
+            this.groupBox3.Controls.Add(this.label_SoftUpLimitPos);
             this.groupBox3.Controls.Add(this.checkBox1);
             this.groupBox3.Location = new System.Drawing.Point(4, 107);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(931, 174);
+            this.groupBox3.Size = new System.Drawing.Size(931, 256);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "限位信号";
@@ -512,19 +512,19 @@
             this.groupBox4.Controls.Add(this.textBox_EmeStopDeceSpeed);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label24);
-            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.label_MaxSpeed);
             this.groupBox4.Controls.Add(this.textBox_Jerk);
             this.groupBox4.Controls.Add(this.label22);
-            this.groupBox4.Controls.Add(this.label17);
+            this.groupBox4.Controls.Add(this.label_MaxAccSpeed);
             this.groupBox4.Controls.Add(this.textBox_DecelerationSpeed);
-            this.groupBox4.Controls.Add(this.label19);
+            this.groupBox4.Controls.Add(this.label_MaxDecSpeed);
             this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Controls.Add(this.textBox_MaxSpeed);
             this.groupBox4.Controls.Add(this.textBox_AcceleratedSpeed);
-            this.groupBox4.Controls.Add(this.label21);
-            this.groupBox4.Controls.Add(this.label23);
+            this.groupBox4.Controls.Add(this.label_Jerk);
+            this.groupBox4.Controls.Add(this.label_EmergyDecSpeed);
             this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Location = new System.Drawing.Point(4, 289);
+            this.groupBox4.Location = new System.Drawing.Point(4, 369);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(931, 183);
             this.groupBox4.TabIndex = 9;
@@ -541,7 +541,7 @@
             this.groupBox5.Controls.Add(this.comboBox_BackOriginalSelectLevel);
             this.groupBox5.Controls.Add(this.label26);
             this.groupBox5.Controls.Add(this.label30);
-            this.groupBox5.Location = new System.Drawing.Point(5, 478);
+            this.groupBox5.Location = new System.Drawing.Point(5, 558);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(930, 101);
             this.groupBox5.TabIndex = 10;
@@ -614,8 +614,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox6.Controls.Add(this.textBox_ReverseCompensation);
             this.groupBox6.Controls.Add(this.label33);
-            this.groupBox6.Controls.Add(this.label34);
-            this.groupBox6.Location = new System.Drawing.Point(5, 585);
+            this.groupBox6.Controls.Add(this.label_ReverseCompesation);
+            this.groupBox6.Location = new System.Drawing.Point(5, 665);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(930, 55);
             this.groupBox6.TabIndex = 11;
@@ -657,7 +657,7 @@
             this.panel1.Controls.Add(this.groupBox5);
             this.panel1.Location = new System.Drawing.Point(3, 44);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(945, 651);
+            this.panel1.Size = new System.Drawing.Size(945, 772);
             this.panel1.TabIndex = 12;
             // 
             // UserControlMotionPara
@@ -669,7 +669,7 @@
             this.Controls.Add(this.button_cancel);
             this.Controls.Add(this.button_valid);
             this.Name = "UserControlMotionPara";
-            this.Size = new System.Drawing.Size(954, 691);
+            this.Size = new System.Drawing.Size(954, 812);
             this.Load += new System.EventHandler(this.UserControlMotionPara_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.UserControlMotionPara_Paint);
             this.groupBox2.ResumeLayout(false);
@@ -690,12 +690,12 @@
         #endregion
         private System.Windows.Forms.TextBox textBox_offsetPerReolutionMotor;
         private System.Windows.Forms.TextBox textBox_pulsePerRevolutionMotor;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label_PayloadOffset;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox_softUpLimitOffset;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label_SoftUpLimitPos;
         private System.Windows.Forms.ComboBox comboBox_hardDownLimitInput;
         private System.Windows.Forms.ComboBox comboBox_hardUpLimitInput;
         private System.Windows.Forms.CheckBox checkBox_softLimit;
@@ -705,7 +705,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox comboBox_hardDownLimitLevel;
         private System.Windows.Forms.TextBox textBox_SoftDownLimitOffset;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label_SoftDownLimitPos;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox textBox_EmeStopDeceSpeed;
@@ -715,17 +715,17 @@
         private System.Windows.Forms.TextBox textBox_DecelerationSpeed;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox textBox_AcceleratedSpeed;
-        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label_EmergyDecSpeed;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label_Jerk;
         private System.Windows.Forms.TextBox textBox_MaxSpeed;
-        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label_MaxDecSpeed;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label_MaxAccSpeed;
+        private System.Windows.Forms.Label label_MaxSpeed;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.TextBox textBox_ReverseCompensation;
-        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label_ReverseCompesation;
         private System.Windows.Forms.ComboBox comboBox_hardUpLimitLevel;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;

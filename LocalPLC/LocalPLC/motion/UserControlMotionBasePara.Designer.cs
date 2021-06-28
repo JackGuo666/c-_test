@@ -57,6 +57,7 @@
             this.button_cancel.TabIndex = 21;
             this.button_cancel.Text = "取消";
             this.button_cancel.UseVisualStyleBackColor = true;
+            this.button_cancel.Click += new System.EventHandler(this.button_cancel_Click);
             // 
             // button_valid
             // 
@@ -67,6 +68,7 @@
             this.button_valid.TabIndex = 20;
             this.button_valid.Text = "应用";
             this.button_valid.UseVisualStyleBackColor = true;
+            this.button_valid.Click += new System.EventHandler(this.button_valid_Click);
             // 
             // pictureBox1
             // 
@@ -98,12 +100,14 @@
             // 
             // comboBox_HardwareInterface
             // 
+            this.comboBox_HardwareInterface.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_HardwareInterface.FormattingEnabled = true;
             this.comboBox_HardwareInterface.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_HardwareInterface.Location = new System.Drawing.Point(487, 134);
             this.comboBox_HardwareInterface.Name = "comboBox_HardwareInterface";
             this.comboBox_HardwareInterface.Size = new System.Drawing.Size(121, 26);
             this.comboBox_HardwareInterface.TabIndex = 16;
+            this.comboBox_HardwareInterface.SelectedIndexChanged += new System.EventHandler(this.comboBox_HardwareInterface_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -122,6 +126,7 @@
             this.comboBox_MeasureUnit.Name = "comboBox_MeasureUnit";
             this.comboBox_MeasureUnit.Size = new System.Drawing.Size(121, 26);
             this.comboBox_MeasureUnit.TabIndex = 17;
+            this.comboBox_MeasureUnit.SelectedIndexChanged += new System.EventHandler(this.comboBox_MeasureUnit_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -134,6 +139,7 @@
             // 
             // comboBox_AxisType
             // 
+            this.comboBox_AxisType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_AxisType.FormattingEnabled = true;
             this.comboBox_AxisType.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_AxisType.Location = new System.Drawing.Point(487, 80);
@@ -193,6 +199,7 @@
             this.richTextBox_AxisName.TabIndex = 15;
             this.richTextBox_AxisName.Text = "";
             this.richTextBox_AxisName.WordWrap = false;
+            this.richTextBox_AxisName.TextChanged += new System.EventHandler(this.richTextBox_AxisName_TextChanged);
             // 
             // label2
             // 
@@ -235,6 +242,7 @@
             this.Controls.Add(this.label1);
             this.Name = "UserControlMotionBasePara";
             this.Size = new System.Drawing.Size(1010, 641);
+            this.Click += new System.EventHandler(this.button_valid_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

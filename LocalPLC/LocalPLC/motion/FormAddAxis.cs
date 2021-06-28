@@ -13,13 +13,14 @@ namespace LocalPLC.motion
     public partial class FormAddAxis : Form
     {
         #region
-        //枚举
-        enum AXISTYPE { PULSE_AXIS, BUS_AXIS }
+        //枚举 总线轴 虚拟轴 脉冲轴
+        enum AXISTYPE { BUS_AXIS, VERTUAL_AXIS, PULSE_AXIS}
         Dictionary<int, string> axisTypeDescDic = new Dictionary<int, string>();
         List<string> list_ = new List<string>();
 
         public string axisKey = "";
         public string hardwareinterface = "";
+        public int axisType = (int)AXISTYPE.BUS_AXIS;
         #endregion
 
 
@@ -33,8 +34,11 @@ namespace LocalPLC.motion
             {
                 if (hsp.used && hsp.type == (int)LocalPLC.Base.UserControlHighOutput.TYPE.PTO)
                 {
-                    //
-                    list.Add(hsp.name);
+                    if(!hsp.usedAxis)
+                    {
+                        //
+                        list.Add(hsp.address);
+                    }
                 }
             }
         }
@@ -51,8 +55,10 @@ namespace LocalPLC.motion
 
 
             axisTypeDescDic.Clear();
-            axisTypeDescDic.Add(((int)AXISTYPE.PULSE_AXIS), "脉冲轴");
             axisTypeDescDic.Add(((int)AXISTYPE.BUS_AXIS), "总线轴(CANOpen)");
+            axisTypeDescDic.Add(((int)AXISTYPE.VERTUAL_AXIS), "虚拟轴");
+            axisTypeDescDic.Add(((int)AXISTYPE.PULSE_AXIS), "脉冲轴");
+
 
             foreach (var axis in axisTypeDescDic)
             {
@@ -74,13 +80,18 @@ namespace LocalPLC.motion
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            if(comboBox1.SelectedIndex >= 0)
+            //脉冲轴判断轴对象
+            if(comboBox1.SelectedIndex == ((int)AXISTYPE.PULSE_AXIS))
             {
-               if (list_.Count == 0 || comboBox2.SelectedIndex < 0)
+               if (list_.Count == 0)
                {
                    MessageBox.Show(string.Format("请配置高速输出模块配置PTO轴!"));
                    return;
+                }
+               else if (comboBox2.SelectedIndex < 0)
+                {
+                    MessageBox.Show(string.Format("请选择轴对象!"));
+                    return;
                 }
 
                 axisKey = comboBox2.Text;
@@ -88,11 +99,28 @@ namespace LocalPLC.motion
 
                 hardwareinterface = comboBox2.Text;
 
-                this.DialogResult = DialogResult.OK;
-            }
-            else if (comboBox1.SelectedIndex < 0)
-            {
+                LocalPLC.Base.xml.DataManageBase dataManage = null;
+                UserControl1.UC.getDataManager(ref dataManage);
 
+                foreach (var hsp in dataManage.hspList)
+                {
+                    if(hsp.address == axisKey)
+                    {
+                        hsp.usedAxis = true;
+                    }
+                }
+
+                axisType = ((int)AXISTYPE.PULSE_AXIS);
+                    this.DialogResult = DialogResult.OK;
+                
+            }
+            else
+            {
+                axisKey = comboBox2.Text;
+                hardwareinterface = comboBox2.Text;
+
+                axisType = comboBox1.SelectedIndex;
+                this.DialogResult = DialogResult.OK;
             }
         }
 
@@ -103,11 +131,29 @@ namespace LocalPLC.motion
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedIndex == 0)
+            if(comboBox1.SelectedIndex == ((int)AXISTYPE.BUS_AXIS))
+            {
+                //轴对象无效
+                comboBox2.Enabled = false;
+            }
+            else if(comboBox1.SelectedIndex == ((int)AXISTYPE.VERTUAL_AXIS))
+            {
+                comboBox2.Enabled = false;
+            }
+            else if(comboBox1.SelectedIndex == ((int)AXISTYPE.PULSE_AXIS))
+            {
+
+                comboBox2.Enabled = true;
+            }
+        }
+
+        private void FormAddAxis_Load(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex == ((int)AXISTYPE.PULSE_AXIS))
             {
                 comboBox2.Enabled = true;
             }
-            else if(comboBox1.SelectedIndex == 1)
+            else
             {
                 comboBox2.Enabled = false;
             }

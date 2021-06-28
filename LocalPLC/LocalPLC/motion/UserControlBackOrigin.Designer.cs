@@ -35,9 +35,7 @@
             this.comboBox_BackOriginal = new System.Windows.Forms.ComboBox();
             this.comboBox_BackOriginalSelectLevel = new System.Windows.Forms.ComboBox();
             this.label30 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.button_cancel = new System.Windows.Forms.Button();
             this.button_valid = new System.Windows.Forms.Button();
@@ -52,9 +50,7 @@
             this.panel4.Controls.Add(this.comboBox_BackOriginal);
             this.panel4.Controls.Add(this.comboBox_BackOriginalSelectLevel);
             this.panel4.Controls.Add(this.label30);
-            this.panel4.Controls.Add(this.label29);
             this.panel4.Controls.Add(this.label26);
-            this.panel4.Controls.Add(this.label27);
             this.panel4.Controls.Add(this.label28);
             this.panel4.Location = new System.Drawing.Point(6, 41);
             this.panel4.Name = "panel4";
@@ -121,15 +117,6 @@
             this.label30.TabIndex = 0;
             this.label30.Text = "Z脉冲信号";
             // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(440, 75);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(26, 18);
-            this.label29.TabIndex = 0;
-            this.label29.Text = "mm";
-            // 
             // label26
             // 
             this.label26.AutoSize = true;
@@ -138,15 +125,6 @@
             this.label26.Size = new System.Drawing.Size(116, 18);
             this.label26.TabIndex = 0;
             this.label26.Text = "原点输入信号";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(440, 41);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(26, 18);
-            this.label27.TabIndex = 0;
-            this.label27.Text = "mm";
             // 
             // label28
             // 
@@ -202,9 +180,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ComboBox comboBox_BackOriginalSelectLevel;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.ComboBox comboBox_ZPulseSignal;
         private System.Windows.Forms.ComboBox comboBox_BackOriginal;

@@ -294,6 +294,8 @@ namespace LocalPLC.Base
                 hspData.pulsePort = e.GetAttribute("pulseport");
                 hspData.directionPort = e.GetAttribute("directionport");
                 hspData.note = e.GetAttribute("note");
+                //轴对象使用
+                bool.TryParse(e.GetAttribute("usedaxis"), out hspData.usedAxis);
 
                 dataManage.hspList.Add(hspData);
             }
@@ -526,8 +528,6 @@ namespace LocalPLC.Base
                 hspChild.SetAttribute("address", hsp.address);
                 hspChild.SetAttribute("type", hsp.type.ToString());
 
-
-
                 //PWM
                 hspChild.SetAttribute("timebase", hsp.timeBase.ToString());
                 hspChild.SetAttribute("preset", hsp.preset.ToString());
@@ -539,9 +539,8 @@ namespace LocalPLC.Base
                 hspChild.SetAttribute("outputmode", hsp.outputMode.ToString());
                 hspChild.SetAttribute("pulseport", hsp.pulsePort.ToString());
                 hspChild.SetAttribute("directionport", hsp.directionPort.ToString());
-
-
                 hspChild.SetAttribute("note", hsp.note);
+                hspChild.SetAttribute("usedaxis", hsp.usedAxis.ToString());
 
                 elemHSP.AppendChild(hspChild);
             }

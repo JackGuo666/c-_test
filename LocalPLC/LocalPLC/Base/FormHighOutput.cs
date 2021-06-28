@@ -27,7 +27,7 @@ namespace LocalPLC.Base
         Dictionary<int, string> outputPluseDic = new Dictionary<int, string>();
         Dictionary<int, string> outputPluseOnlyPulseDic = new Dictionary<int, string>();
         public enum TimeBase { ZEROPOINTONE, ONE, TEN, ONETHOUSAND}
-        enum OutputMode { PULSE_DIC, CW_CCW, AB_DIRECTION}
+        public enum OutputMode { PULSE_DIC, CW_CCW, AB_DIRECTION}
         ToolTip tip = new ToolTip();
         public FormHighOutput(Dictionary<int, string> typeDescDic, LocalPLC.Base.xml.HSPData hspData)
         {
@@ -127,10 +127,11 @@ namespace LocalPLC.Base
             //输出模式
             comboBox_outputMode.SelectedIndex = hspData.outputMode;
 
-            
 
 
 
+            button_valid.Enabled = false;
+            button_cancel.Enabled = false;
         }
 
         void deletePtoUserControl()
@@ -400,7 +401,7 @@ namespace LocalPLC.Base
 
         private void comboBox3_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
+            setButtonEnable(true);
         }
 
         private void comboBox_OutputMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -651,6 +652,8 @@ namespace LocalPLC.Base
             tip.InitialDelay = 500;
             tip.ReshowDelay = 500;
             tip.ShowAlways = true;
+
+            setButtonEnable(false);
         }
 
         void getDataFromUI()
@@ -764,6 +767,12 @@ namespace LocalPLC.Base
             }
         }
 
+        void setButtonEnable(bool enable)
+        {
+            button_valid.Enabled = enable;
+            button_cancel.Enabled = enable;
+        }
+
         private void button_valid_Click(object sender, EventArgs e)
         {
             getDataFromUI();
@@ -825,6 +834,7 @@ namespace LocalPLC.Base
                 button_valid.Enabled = false;
                 button_cancel.Enabled = true;
                 tip.SetToolTip(textBox_preset, "输入值必须为整数!");
+                setButtonEnable(false);
             }
             else
             {
@@ -928,7 +938,7 @@ namespace LocalPLC.Base
             if (flag)
             {
                 // 0 - 10000
-                if (ret < 0 || ret > 10000)
+                if (ret < 0 || ret > 100000)
                 {
                     textBox_frequency.BackColor = Color.Red;
                     button_valid.Enabled = false;
@@ -951,6 +961,16 @@ namespace LocalPLC.Base
                 tip.SetToolTip(textBox_frequency, "输入值必须为整数!");
             }
             
+        }
+
+        private void comboBox_pulse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            setButtonEnable(true);
+        }
+
+        private void checkBox_doubleWord_CheckedChanged(object sender, EventArgs e)
+        {
+            setButtonEnable(true);
         }
     }
 }

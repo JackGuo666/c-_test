@@ -37,9 +37,9 @@
             this.textBox_softDownLimitOffset = new System.Windows.Forms.TextBox();
             this.textBox_softUpLimitOffset = new System.Windows.Forms.TextBox();
             this.checkBox_softLimit = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label_softdownlimitpos = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.label_softuplimitpos = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.软件下限位位置 = new System.Windows.Forms.Label();
@@ -65,9 +65,9 @@
             this.panel2.Controls.Add(this.textBox_softDownLimitOffset);
             this.panel2.Controls.Add(this.textBox_softUpLimitOffset);
             this.panel2.Controls.Add(this.checkBox_softLimit);
-            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.label_softdownlimitpos);
             this.panel2.Controls.Add(this.checkBox1);
-            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.label_softuplimitpos);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.软件下限位位置);
@@ -166,14 +166,14 @@
             this.checkBox_softLimit.UseVisualStyleBackColor = true;
             this.checkBox_softLimit.CheckedChanged += new System.EventHandler(this.checkBox_softLimit_CheckedChanged);
             // 
-            // label12
+            // label_softdownlimitpos
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(443, 228);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(26, 18);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "mm";
+            this.label_softdownlimitpos.AutoSize = true;
+            this.label_softdownlimitpos.Location = new System.Drawing.Point(443, 228);
+            this.label_softdownlimitpos.Name = "label_softdownlimitpos";
+            this.label_softdownlimitpos.Size = new System.Drawing.Size(26, 18);
+            this.label_softdownlimitpos.TabIndex = 0;
+            this.label_softdownlimitpos.Text = "mm";
             // 
             // checkBox1
             // 
@@ -186,14 +186,14 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // label8
+            // label_softuplimitpos
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(443, 198);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(26, 18);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "mm";
+            this.label_softuplimitpos.AutoSize = true;
+            this.label_softuplimitpos.Location = new System.Drawing.Point(443, 198);
+            this.label_softuplimitpos.Name = "label_softuplimitpos";
+            this.label_softuplimitpos.Size = new System.Drawing.Size(26, 18);
+            this.label_softuplimitpos.TabIndex = 0;
+            this.label_softuplimitpos.Text = "mm";
             // 
             // label6
             // 
@@ -310,9 +310,9 @@
         private System.Windows.Forms.TextBox textBox_softDownLimitOffset;
         private System.Windows.Forms.TextBox textBox_softUpLimitOffset;
         private System.Windows.Forms.CheckBox checkBox_softLimit;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label_softdownlimitpos;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label_softuplimitpos;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label 软件下限位位置;

@@ -1350,20 +1350,66 @@ namespace LocalPLC
                 {
                     //frequency
                     writer.WriteValue("frequency");
+
                     //无double word
                     writer.WritePropertyName("double_word");
                     writer.WriteValue(false);
                     //无time base
                     writer.WritePropertyName("time_base");
                     writer.WriteValue(1);
-
-
+                    //无预设值
+                    writer.WritePropertyName("default_value");
+                    writer.WriteValue("1");
+                    //有frequency
+                    writer.WritePropertyName("frequency");
+                    writer.WriteValue(hsp.signalFrequency);
+                    //无output_mdoe
+                    writer.WritePropertyName("output_mdoe");
+                    writer.WriteValue("");
+                    writer.WritePropertyName("pluseA");
+                    writer.WriteValue(hsp.pulsePort);
+                    writer.WritePropertyName("pluseB");
+                    writer.WriteValue("");
                 }
                 else if(hsp.type == (int)UserControlHighOutput.TYPE.PTO)
                 {
                     //pto
                     writer.WriteValue("pto");
+                    //无double word
+                    writer.WritePropertyName("double_word");
+                    writer.WriteValue(false);
+                    //无time base
+                    writer.WritePropertyName("time_base");
+                    writer.WriteValue(1);
+                    //无预设值
+                    writer.WritePropertyName("default_value");
+                    writer.WriteValue("1");
+                    //无frequency
+                    writer.WritePropertyName("frequency");
+                    writer.WriteValue("1000");
+                    //无output_mdoe
+                    writer.WritePropertyName("output_mdoe");
+                    if(hsp.outputMode == (int)FormHighOutput.OutputMode.PULSE_DIC)
+                    {
+                        writer.WriteValue("pulse_dir");
+                    }
+                    else if(hsp.outputMode == (int)FormHighOutput.OutputMode.CW_CCW)
+                    {
+                        writer.WriteValue("cw_ccw");
+                    }
+                    else if(hsp.outputMode == (int)FormHighOutput.OutputMode.AB_DIRECTION)
+                    {
+                        writer.WriteValue("ab_direction");
+                    }
+                    else
+                    {
+                        writer.WriteValue("");
+                    }
 
+                    writer.WritePropertyName("pluseA");
+                    writer.WriteValue(hsp.pulsePort);
+                    writer.WritePropertyName("pluseB");
+                    writer.WriteValue(hsp.directionPort);
 
                 }
 
@@ -2888,6 +2934,8 @@ namespace LocalPLC
                 LocalPLC.motion.Axis axisData = new Axis();
                 axisData.axisKey = form.axisKey;
                 axisData.axisBasePara.hardwareInterface = form.hardwareinterface;
+                //轴类型
+                axisData.axisBasePara.axisType = form.axisType;
                 string name = "轴1";
                 name = motion.addAxisName();
                 createNode(ref axis, name, "MOTION_AXIS", motionNode, 3);

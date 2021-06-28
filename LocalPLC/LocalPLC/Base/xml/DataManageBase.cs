@@ -294,6 +294,8 @@ namespace LocalPLC.Base.xml
         public int type = 0;    //0-未配置 1-PLS 2-PWM 3-Frequency 4-PTO
 
         public string note = "";
+
+        public bool usedAxis = false;
     }
 
     public class DataManageBase

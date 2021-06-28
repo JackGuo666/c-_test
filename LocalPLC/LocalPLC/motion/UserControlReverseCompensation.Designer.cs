@@ -32,7 +32,7 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.textBox_ReverseCompensation = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
+            this.label_Unit = new System.Windows.Forms.Label();
             this.button_cancel = new System.Windows.Forms.Button();
             this.button_valid = new System.Windows.Forms.Button();
             this.panel5.SuspendLayout();
@@ -43,7 +43,7 @@
             this.panel5.Controls.Add(this.label33);
             this.panel5.Controls.Add(this.label31);
             this.panel5.Controls.Add(this.textBox_ReverseCompensation);
-            this.panel5.Controls.Add(this.label34);
+            this.panel5.Controls.Add(this.label_Unit);
             this.panel5.Location = new System.Drawing.Point(3, 44);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(741, 94);
@@ -77,14 +77,14 @@
             this.textBox_ReverseCompensation.TextChanged += new System.EventHandler(this.textBox_ReverseCompensation_TextChanged);
             this.textBox_ReverseCompensation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_ReverseCompensation_KeyPress);
             // 
-            // label34
+            // label_Unit
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(455, 56);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(26, 18);
-            this.label34.TabIndex = 0;
-            this.label34.Text = "mm";
+            this.label_Unit.AutoSize = true;
+            this.label_Unit.Location = new System.Drawing.Point(455, 56);
+            this.label_Unit.Name = "label_Unit";
+            this.label_Unit.Size = new System.Drawing.Size(26, 18);
+            this.label_Unit.TabIndex = 0;
+            this.label_Unit.Text = "mm";
             // 
             // button_cancel
             // 
@@ -130,7 +130,7 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox textBox_ReverseCompensation;
-        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label_Unit;
         private System.Windows.Forms.Button button_cancel;
         private System.Windows.Forms.Button button_valid;
     }

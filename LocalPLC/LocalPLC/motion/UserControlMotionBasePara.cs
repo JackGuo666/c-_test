@@ -24,11 +24,11 @@ namespace LocalPLC.motion
 
         #region
         //枚举
-        enum AXISTYPE { PULSE_AXIS, BUS_AXIS}
+        enum AXISTYPE { BUS_AXIS, VIRTUAL_AXIS, PULSE_AXIS}
         Dictionary<int, string> axisTypeDescDic = new Dictionary<int, string>();
 
 
-        enum MEASUREUNIT { MM, ANGLE, PULSE}
+        public enum MEASUREUNIT { MM, ANGLE, PULSE}
         Dictionary<int, string> axisMeaUnitDescDic = new Dictionary<int, string>();
 
         enum OutputMode { CW_CCW, PULSE_DIC, AB_DIRECTION }
@@ -96,8 +96,10 @@ namespace LocalPLC.motion
         void initDic()
         {
             axisTypeDescDic.Clear();
-            axisTypeDescDic.Add(((int)AXISTYPE.PULSE_AXIS), "脉冲轴");
             axisTypeDescDic.Add(((int)AXISTYPE.BUS_AXIS), "总线轴(CANOpen)");
+            axisTypeDescDic.Add(((int)AXISTYPE.VIRTUAL_AXIS), "虚拟轴");
+            axisTypeDescDic.Add(((int)AXISTYPE.PULSE_AXIS), "脉冲轴");
+
 
 
             axisMeaUnitDescDic.Clear();
@@ -439,6 +441,8 @@ namespace LocalPLC.motion
             {
                 setEnableButton(true, button_valid);
                 setEnableButton(true, button_cancel);
+
+
             }
         }
     }

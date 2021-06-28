@@ -61,6 +61,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox1.Location = new System.Drawing.Point(206, 50);
@@ -71,6 +72,7 @@
             // 
             // comboBox2
             // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox2.Location = new System.Drawing.Point(206, 82);
@@ -94,7 +96,7 @@
             this.label_PtoAxis.Name = "label_PtoAxis";
             this.label_PtoAxis.Size = new System.Drawing.Size(62, 18);
             this.label_PtoAxis.TabIndex = 2;
-            this.label_PtoAxis.Text = "轴类型";
+            this.label_PtoAxis.Text = "轴对象";
             // 
             // FormAddAxis
             // 
@@ -112,6 +114,7 @@
             this.Controls.Add(this.button1);
             this.Name = "FormAddAxis";
             this.Text = "轴添加";
+            this.Load += new System.EventHandler(this.FormAddAxis_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

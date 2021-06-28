@@ -67,6 +67,19 @@ namespace LocalPLC.motion
         {
             textBox_pulsePerRevolutionMotor.Text = data.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor.ToString();
             textBox_offsetPerReolutionMotor.Text = data.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor.ToString();
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_PayloadOffset.Text = "mm";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_PayloadOffset.Text = "°";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_PayloadOffset.Text = "pulse";
+            }
         }
 
         void initLimitSignal()
@@ -132,6 +145,24 @@ namespace LocalPLC.motion
 
             textBox_softUpLimitOffset.Text = data.axisMotionPara.limitSignal.softUpLimitInputOffset.ToString();
             textBox_SoftDownLimitOffset.Text = data.axisMotionPara.limitSignal.softDownLimitOffset.ToString();
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_SoftUpLimitPos.Text = "mm";
+                label_SoftDownLimitPos.Text = "mm";
+
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_SoftUpLimitPos.Text = "°";
+                label_SoftDownLimitPos.Text = "°";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_SoftUpLimitPos.Text = "pulse";
+                label_SoftDownLimitPos.Text = "pulse";
+            }
+
         }
 
         void initDynamic()
@@ -146,6 +177,31 @@ namespace LocalPLC.motion
             textBox_Jerk.Text = data.axisMotionPara.dynamicPara.jerk.ToString();
             //急停减速度
             textBox_EmeStopDeceSpeed.Text = data.axisMotionPara.dynamicPara.emeStopDeceleration.ToString();
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_MaxSpeed.Text = "mm";
+                label_MaxAccSpeed.Text = "mm";
+                label_MaxDecSpeed.Text = "mm";
+                label_Jerk.Text = "mm";
+                label_EmergyDecSpeed.Text = "mm";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_MaxSpeed.Text = "°";
+                label_MaxAccSpeed.Text = "°";
+                label_MaxDecSpeed.Text = "°";
+                label_Jerk.Text = "°";
+                label_EmergyDecSpeed.Text = "°";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_MaxSpeed.Text = "pulse";
+                label_MaxAccSpeed.Text = "pulse";
+                label_MaxDecSpeed.Text = "pulse";
+                label_Jerk.Text = "pulse";
+                label_EmergyDecSpeed.Text = "pulse";
+            }
         }
 
         void initBackOriginal()
@@ -179,9 +235,23 @@ namespace LocalPLC.motion
         }
 
 
-        void reverseCompensation()
+        void initReverseCompensation()
         {
             textBox_ReverseCompensation.Text = data.axisMotionPara.reverseCompensation.reverseCompensation.ToString();
+
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_ReverseCompesation.Text = "mm";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_ReverseCompesation.Text = "°";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_ReverseCompesation.Text = "pulse";
+            }
         }
         #endregion
 
@@ -224,7 +294,7 @@ namespace LocalPLC.motion
             init = false;
             initDynamic();
             initBackOriginal();
-            reverseCompensation();
+            initReverseCompensation();
 
             button_valid.Enabled = false;
             button_cancel.Enabled = false;

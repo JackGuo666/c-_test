@@ -19,9 +19,22 @@ namespace LocalPLC.motion
         #endregion
 
         #region
-        void reverseCompensation()
+        void initReverseCompensation()
         {
             textBox_ReverseCompensation.Text = data.axisMotionPara.reverseCompensation.reverseCompensation.ToString();
+
+            if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.MM)
+            {
+                label_Unit.Text = "mm";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.ANGLE)
+            {
+                label_Unit.Text = "°";
+            }
+            else if (data.axisBasePara.meaUnit == (int)UserControlMotionBasePara.MEASUREUNIT.PULSE)
+            {
+                label_Unit.Text = "pulse";
+            }
         }
 
         #endregion
@@ -40,7 +53,7 @@ namespace LocalPLC.motion
             data = node.Parent.Tag as Axis;
             node_ = node;
 
-            reverseCompensation();
+            initReverseCompensation();
 
             tip.AutoPopDelay = 5000;
             tip.InitialDelay = 500;
