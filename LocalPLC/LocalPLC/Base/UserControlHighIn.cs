@@ -613,6 +613,7 @@ namespace LocalPLC.Base
                 if (color.ShowDialog() == DialogResult.Yes)
                 {
                     setModifgFlag(true);
+                    setModifgFlag(false);
 
                     //button1_Click(null, null);
                 }

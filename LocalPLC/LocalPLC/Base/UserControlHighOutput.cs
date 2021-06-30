@@ -451,7 +451,13 @@ namespace LocalPLC.Base
                 //Do something with your button.
                 FormHighOutput color = new FormHighOutput(typeDescDic, UserControlBase.dataManage.hspList[e.RowIndex]);
                 color.StartPosition = FormStartPosition.CenterScreen;
-                color.ShowDialog();
+                if (color.ShowDialog() == DialogResult.Yes)
+                {
+                    setModifgFlag(true);
+                    setModifgFlag(false);
+
+                    //button1_Click(null, null);
+                }
 
                 var row = e.RowIndex;
                 var col = e.ColumnIndex;
@@ -466,8 +472,8 @@ namespace LocalPLC.Base
 
                 refreshHSPConfigButton();
 
-                ////数据刷新到DI DO datarow里,动态更新
-                //UserControl1.UC.refreshDOUserBaseUI();
+                //数据刷新到DI DO datarow里,动态更新
+                UserControl1.UC.refreshDOUserBaseUI();
             }
         }
 

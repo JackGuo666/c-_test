@@ -776,7 +776,6 @@ namespace LocalPLC.Base
         private void button_valid_Click(object sender, EventArgs e)
         {
             getDataFromUI();
-
             Close();
         }
 

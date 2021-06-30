@@ -182,6 +182,8 @@ namespace LocalPLC.Base.xml
         public string address = "";
         public string note = "";
         public string hscUsed = "";
+
+        public string motionUsed = "";  // limit限位信号
     }
 
     public class SERIALData
