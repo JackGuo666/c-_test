@@ -35,6 +35,9 @@ namespace LocalPLC.motion
         public bool softLimitChecked = false;
         public int softUpLimitInputOffset = 2147483647;
         public int softDownLimitOffset = -2147483648;
+
+        public Dictionary<string, bool> dicUsed = new Dictionary<string, bool>();
+
     }
 
 

@@ -20,8 +20,6 @@ namespace LocalPLC.motion
 
     #endregion
 
-
-
     public partial class UserControlMotionPara : UserControl
     {
 
@@ -107,14 +105,19 @@ namespace LocalPLC.motion
             comboBox_hardUpLimitInput.Items.Clear();
             foreach (var di in dataManage.diList)
             {
-                if(!di.used)
+                //if(!di.used)
                 {
-                    comboBox_hardUpLimitInput.Items.Add(di.channelName);
-                    comboBox_hardDownLimitInput.Items.Add(di.channelName);
+                    ComboboxItem item = new ComboboxItem();
+                    item.Value = di.channelName;
+                    item.Text = di.channelName;
+                    item.Used = di.used;
+                    comboBox_hardUpLimitInput.Items.Add(item);
+                    comboBox_hardDownLimitInput.Items.Add(item);
                 }
             }
 
             comboBox_hardUpLimitInput.Text = data.axisMotionPara.limitSignal.hardUpLimitInput;
+            comboBox_hardUpLimitInput.Tag = data.axisMotionPara.limitSignal.hardUpLimitInput;
             comboBox_hardDownLimitInput.Text = data.axisMotionPara.limitSignal.hardDownLimitInput;
 
             levelDic.Clear();
@@ -1073,16 +1076,218 @@ namespace LocalPLC.motion
             button_cancel.Enabled = true;
         }
 
+        void addItemCombo(ComboBox item)
+        {
+            item.Items.Clear();
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+            foreach (var di in dataManage.diList)
+            {
+                if(!di.used || di.channelName == item.Text)
+                {
+                    item.Items.Add(di.channelName);
+                }
+            }
+        }
+
+        bool IsItemDisabled(string port, string tag, string key)
+        {
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+
+            bool ret = false;
+            LocalPLC.Base.xml.DIData diTemp = null;
+            foreach (var di in dataManage.diList)
+            {
+                if(di.channelName == port)
+                {
+                    //被高速输出占用
+                    if (di.hscUsed != "")
+                    {
+                        ret = true;
+                    }
+
+                    if(di.motionUsed != "")
+                    {
+                        ret = true;                                                                                                                                                                             
+                    }
+                }
+
+                //if(tag == di.channelName && di.hscUsed == "")
+                //{
+                //    //pre选择di端口(motion占用)，需要清空
+                //    di.motionUsed = "";
+                //    di.used = false;
+                //}
+            }
+
+            return ret;
+        }
+
+        void setUsedInMotion(string port, string tag, string key, ComboboxItem curItem, ComboboxItem preItem)
+        {
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+            foreach (var di in dataManage.diList)
+            {
+                if (di.channelName == port)
+                {
+                    //新设置端口
+                    di.motionUsed = "harduplimitinput";
+                    di.used = true;
+                    if(di.hscUsed != "")
+                    {
+
+                    }
+                    curItem.Used = true;
+                }
+
+                if(di.channelName == tag)
+                {
+                    di.motionUsed = "";
+                    di.used = false;
+                    preItem.Used = false;
+                }
+            }
+        }
+
         private void comboBox_hardUpLimitInput_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBox_hardUpLimitInput.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            if (comboBox_hardUpLimitInput.Tag.ToString() == comboBox_hardUpLimitInput.Text)
+            {
+                return;
+            }
+
+            var used = IsItemDisabled(comboBox_hardUpLimitInput.Text, comboBox_hardUpLimitInput.Tag.ToString(),
+                "harduplimitinput");
+
+            if (used)
+            {
+                comboBox_hardUpLimitInput.SelectedIndex = -1;
+                comboBox_hardUpLimitInput.Tag = "";
+            }
+            else
+            {
+                ComboboxItem temp = null;
+                foreach(var item in comboBox_hardUpLimitInput.Items)
+                {
+                    if((item as ComboboxItem).Text == comboBox_hardUpLimitInput.Tag.ToString())
+                    {
+                        temp = item as ComboboxItem;
+                    }
+                }
+
+                setUsedInMotion(comboBox_hardUpLimitInput.Text, comboBox_hardUpLimitInput.Tag.ToString(), "harduplimitinput"
+                    , comboBox_hardUpLimitInput.SelectedItem as ComboboxItem, temp);
+                comboBox_hardUpLimitInput.Tag = comboBox_hardUpLimitInput.Text;
+                //
+                
+
+            }
+            return;
+
+
+            button_valid.Enabled = true;
+            button_cancel.Enabled = true;
+            var diName = comboBox_hardUpLimitInput.Text;
+            var cur = comboBox_hardUpLimitInput.Tag.ToString();
+            if (cur != diName)
+            {
+                addItemCombo(comboBox_hardUpLimitInput);
+            }
+            else
+            {
+                return;
+            }
+
+            //LocalPLC.Base.xml.DataManageBase dataManage = null;
+            //LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+
+            //if(cur != diName)
+            //{
+            //    foreach (var di in dataManage.diList)
+            //    {
+            //        if (di.channelName == diName)
+            //        {
+            //            di.used = true;
+            //            //当前值修改
+            //            comboBox_hardUpLimitInput.Tag = diName;
+            //            comboBox_hardUpLimitInput.Text = diName;
+            //        }
+                    
+
+            //        if(cur == di.channelName)
+            //        {
+            //            //前一个值使用标志设置为false
+            //            di.used = false;
+
+            //        }
+            //    }
+            //}
+        }
+        private void comboBox_hardUpLimitInput_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+
+            var used = dataManage.diList[e.Index].used;
+            var item = comboBox_hardUpLimitInput.Items[e.Index] as ComboboxItem;
+            //本体不判断
+            if (item.Used && item.Text != comboBox_hardUpLimitInput.Text)
+            {
+                e.Graphics.DrawString(comboBox_hardUpLimitInput.Items[e.Index].ToString(), ComboBox.DefaultFont, Brushes.LightGray, e.Bounds);
+            }
+            else
+            {
+                e.DrawBackground();
+                e.Graphics.DrawString(comboBox_hardUpLimitInput.Items[e.Index].ToString(), ComboBox.DefaultFont, Brushes.Black, e.Bounds);
+                e.DrawFocusRectangle();
+            }
+        }
+        private void comboBox_hardDownLimitInput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboBox_hardDownLimitInput.SelectedIndex < 0)
+            {
+                return;
+            }
+
+
             button_valid.Enabled = true;
             button_cancel.Enabled = true;
         }
-
-        private void comboBox_hardDownLimitInput_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox_hardDownLimitInput_DrawItem(object sender, DrawItemEventArgs e)
         {
-            button_valid.Enabled = true;
-            button_cancel.Enabled = true;
+            if (e.Index < 0)
+            {
+                return;
+            }
+
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+
+            var used = dataManage.diList[e.Index].used;
+            var item = comboBox_hardDownLimitInput.Items[e.Index] as ComboboxItem;
+            //本体不判断
+            if (item.Used && item.Text != comboBox_hardDownLimitInput.Text)
+            {
+                e.Graphics.DrawString(comboBox_hardDownLimitInput.Items[e.Index].ToString(), ComboBox.DefaultFont, Brushes.LightGray, e.Bounds);
+            }
+            else
+            {
+                e.DrawBackground();
+                e.Graphics.DrawString(comboBox_hardDownLimitInput.Items[e.Index].ToString(), ComboBox.DefaultFont, Brushes.Black, e.Bounds);
+                e.DrawFocusRectangle();
+            }
         }
 
         private void comboBox_BackOriginal_SelectedIndexChanged(object sender, EventArgs e)
@@ -1114,6 +1319,24 @@ namespace LocalPLC.motion
             //this.DoubleBuffered = true;
             //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
+        }
+
+        Font myFont = new Font("Aerial", 10, FontStyle.Underline | FontStyle.Regular);
+        Font myFont2 = new Font("Aerial", 10, FontStyle.Italic | FontStyle.Strikeout);
+
+
+    }
+
+    public class ComboboxItem
+    {
+        public string Text { get; set; }
+        public object Value { get; set; }
+
+        public bool Used { get; set; }
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

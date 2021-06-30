@@ -160,23 +160,27 @@
             // 
             // comboBox_hardDownLimitInput
             // 
+            this.comboBox_hardDownLimitInput.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBox_hardDownLimitInput.FormattingEnabled = true;
             this.comboBox_hardDownLimitInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardDownLimitInput.Location = new System.Drawing.Point(209, 101);
             this.comboBox_hardDownLimitInput.Name = "comboBox_hardDownLimitInput";
-            this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardDownLimitInput.Size = new System.Drawing.Size(141, 29);
             this.comboBox_hardDownLimitInput.TabIndex = 3;
+            this.comboBox_hardDownLimitInput.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox_hardDownLimitInput_DrawItem);
             this.comboBox_hardDownLimitInput.SelectedIndexChanged += new System.EventHandler(this.comboBox_hardDownLimitInput_SelectedIndexChanged);
             this.comboBox_hardDownLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
             // comboBox_hardUpLimitInput
             // 
+            this.comboBox_hardUpLimitInput.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBox_hardUpLimitInput.FormattingEnabled = true;
             this.comboBox_hardUpLimitInput.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_hardUpLimitInput.Location = new System.Drawing.Point(209, 64);
             this.comboBox_hardUpLimitInput.Name = "comboBox_hardUpLimitInput";
-            this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_hardUpLimitInput.Size = new System.Drawing.Size(141, 29);
             this.comboBox_hardUpLimitInput.TabIndex = 3;
+            this.comboBox_hardUpLimitInput.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox_hardUpLimitInput_DrawItem);
             this.comboBox_hardUpLimitInput.SelectedIndexChanged += new System.EventHandler(this.comboBox_hardUpLimitInput_SelectedIndexChanged);
             this.comboBox_hardUpLimitInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_hardUpLimitInput_KeyPress);
             // 
