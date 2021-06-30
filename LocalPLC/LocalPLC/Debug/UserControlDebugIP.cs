@@ -102,6 +102,7 @@ namespace LocalPLC.Debug
 
             //var row = dataGridView1.CurrentRow.Index;
 
+            dataGridView1.Rows.Clear();
 
 
             SendModel model = new SendModel();
