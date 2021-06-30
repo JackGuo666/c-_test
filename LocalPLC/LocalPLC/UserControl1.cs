@@ -519,6 +519,7 @@ namespace LocalPLC
 
         void IAdeAddIn.OnStartupComplete(ref Array Custom)
         {
+            LoggerService.Log.Debug("start success!");
             ////复位标志
             //if(utility.ReadResetFile())
             //{
@@ -561,7 +562,7 @@ namespace LocalPLC
         {
             if (Name.Contains("UNTITLED"))
             {
-                MessageBox.Show("新建工程，请修改默认工程名!");
+                //MessageBox.Show("新建工程，请修改默认工程名!");
             }
         }
 

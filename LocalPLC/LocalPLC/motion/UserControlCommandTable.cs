@@ -1362,6 +1362,15 @@ namespace LocalPLC.motion
 			setTableCellStatus();
 			button_valid.Enabled = false;
 			button_cancel.Enabled = false;
+
+			SetStyle(
+					 ControlStyles.OptimizedDoubleBuffer
+					 | ControlStyles.ResizeRedraw
+					 | ControlStyles.Selectable
+					 | ControlStyles.AllPaintingInWmPaint
+					 | ControlStyles.UserPaint
+					 | ControlStyles.SupportsTransparentBackColor,
+					 true);
 		}
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)

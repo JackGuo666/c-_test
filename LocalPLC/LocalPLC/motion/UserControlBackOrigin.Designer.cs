@@ -77,23 +77,27 @@
             // 
             // comboBox_ZPulseSignal
             // 
+            this.comboBox_ZPulseSignal.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBox_ZPulseSignal.FormattingEnabled = true;
             this.comboBox_ZPulseSignal.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_ZPulseSignal.Location = new System.Drawing.Point(293, 72);
             this.comboBox_ZPulseSignal.Name = "comboBox_ZPulseSignal";
-            this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_ZPulseSignal.Size = new System.Drawing.Size(141, 29);
             this.comboBox_ZPulseSignal.TabIndex = 3;
+            this.comboBox_ZPulseSignal.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox_ZPulseSignal_DrawItem);
             this.comboBox_ZPulseSignal.SelectedIndexChanged += new System.EventHandler(this.comboBox_ZPulseSignal_SelectedIndexChanged);
             this.comboBox_ZPulseSignal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_ZPulseSignal_KeyPress);
             // 
             // comboBox_BackOriginal
             // 
+            this.comboBox_BackOriginal.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.comboBox_BackOriginal.FormattingEnabled = true;
             this.comboBox_BackOriginal.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.comboBox_BackOriginal.Location = new System.Drawing.Point(293, 38);
             this.comboBox_BackOriginal.Name = "comboBox_BackOriginal";
-            this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 26);
+            this.comboBox_BackOriginal.Size = new System.Drawing.Size(141, 29);
             this.comboBox_BackOriginal.TabIndex = 3;
+            this.comboBox_BackOriginal.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.comboBox_BackOriginal_DrawItem);
             this.comboBox_BackOriginal.SelectedIndexChanged += new System.EventHandler(this.comboBox_BackOriginal_SelectedIndexChanged);
             this.comboBox_BackOriginal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_BackOriginal_KeyPress);
             // 
