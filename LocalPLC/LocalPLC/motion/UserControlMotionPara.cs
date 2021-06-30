@@ -108,11 +108,19 @@ namespace LocalPLC.motion
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
             comboBox_hardUpLimitInput.Items.Clear();
             comboBox_hardDownLimitInput.Items.Clear();
+
+            ComboboxItem item = new ComboboxItem();
+            item.Value = "未配置";
+            item.Text = "未配置";
+            item.Used = false;
+            comboBox_hardUpLimitInput.Items.Add(item);
+            comboBox_hardDownLimitInput.Items.Add(item);
+
             foreach (var di in dataManage.diList)
             {
                 //if(!di.used)
                 {
-                    ComboboxItem item = new ComboboxItem();
+                    item = new ComboboxItem();
                     item.Value = di.channelName;
                     item.Text = di.channelName;
                     item.Used = di.used;
@@ -1230,15 +1238,22 @@ namespace LocalPLC.motion
         }
         private void comboBox_hardUpLimitInput_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0)
+            if (e.Index <= 0)
             {
+                if(e.Index == 0)
+                {
+                    e.DrawBackground();
+                    e.Graphics.DrawString(comboBox_hardUpLimitInput.Items[e.Index].ToString(), ComboBox.DefaultFont, Brushes.Black, e.Bounds);
+                    e.DrawFocusRectangle();
+                }
+
                 return;
             }
 
             LocalPLC.Base.xml.DataManageBase dataManage = null;
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
 
-            var used = dataManage.diList[e.Index].used;
+            var used = dataManage.diList[e.Index - 1].used;
             var item = comboBox_hardUpLimitInput.Items[e.Index] as ComboboxItem;
             //本体不判断
             if (item.Used && item.Text != comboBox_hardUpLimitInput.Text)
@@ -1310,12 +1325,19 @@ namespace LocalPLC.motion
         {
             LocalPLC.Base.xml.DataManageBase dataManage = null;
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
-            if (e.Index < 0 || e.Index >= dataManage.diList.Count)
+            if (e.Index <= 0)
             {
+                if(e.Index == 0)
+                {
+                    e.DrawBackground();
+                    e.Graphics.DrawString(comboBox_hardDownLimitInput.Items[e.Index].ToString(), ComboBox.DefaultFont, Brushes.Black, e.Bounds);
+                    e.DrawFocusRectangle();
+                }
+
                 return;
             }
 
-            var used = dataManage.diList[e.Index].used;
+            var used = dataManage.diList[e.Index - 1].used;
             var item = comboBox_hardDownLimitInput.Items[e.Index] as ComboboxItem;
             //本体不判断
             if (item.Used && item.Text != comboBox_hardDownLimitInput.Text)
