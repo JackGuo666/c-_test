@@ -31,6 +31,10 @@ namespace LocalPLC.motion
         enum TypeLevel { HIGH_LEVEL, LOW_LEVEL}
 
         Dictionary<int, string> levelDic = new Dictionary<int, string>();
+
+        //DI使用的key
+        const string hardUpLimitInputKey = "harduplimitinput";
+        const string hardDownLimitInputKey = "harddownlimitinput";
         #endregion
 
 
@@ -103,6 +107,7 @@ namespace LocalPLC.motion
             LocalPLC.Base.xml.DataManageBase dataManage = null;
             LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
             comboBox_hardUpLimitInput.Items.Clear();
+            comboBox_hardDownLimitInput.Items.Clear();
             foreach (var di in dataManage.diList)
             {
                 //if(!di.used)
@@ -119,6 +124,7 @@ namespace LocalPLC.motion
             comboBox_hardUpLimitInput.Text = data.axisMotionPara.limitSignal.hardUpLimitInput;
             comboBox_hardUpLimitInput.Tag = data.axisMotionPara.limitSignal.hardUpLimitInput;
             comboBox_hardDownLimitInput.Text = data.axisMotionPara.limitSignal.hardDownLimitInput;
+            comboBox_hardDownLimitInput.Tag = data.axisMotionPara.limitSignal.hardDownLimitInput;
 
             levelDic.Clear();
             levelDic.Add((int)TypeLevel.HIGH_LEVEL, "高电平有效");
@@ -215,15 +221,23 @@ namespace LocalPLC.motion
             comboBox_ZPulseSignal.Items.Clear();
             foreach (var di in dataManage.diList)
             {
-                if (!di.used)
+                //if (!di.used)
                 {
-                    comboBox_BackOriginal.Items.Add(di.channelName);
-                    comboBox_ZPulseSignal.Items.Add(di.channelName);
+                    ComboboxItem item = new ComboboxItem();
+                    item.Value = di.channelName;
+                    item.Text = di.channelName;
+                    item.Used = di.used;
+                    comboBox_BackOriginal.Items.Add(item);
+                    comboBox_ZPulseSignal.Items.Add(item);
                 }
             }
 
             comboBox_BackOriginal.Text = data.axisMotionPara.backOriginal.orginInputSignal;
+            //保存上一次值
+            comboBox_BackOriginal.Tag = data.axisMotionPara.backOriginal.orginInputSignal;
             comboBox_ZPulseSignal.Text = data.axisMotionPara.backOriginal.ZPulseSignal;
+            //保存上一次值
+            comboBox_ZPulseSignal.Tag = data.axisMotionPara.backOriginal.ZPulseSignal;
 
             levelDic.Clear();
             levelDic.Add((int)TypeLevel.HIGH_LEVEL, "高电平有效");
@@ -437,6 +451,10 @@ namespace LocalPLC.motion
             setDataFromUI();
             setEnableButton(false, button_valid);
             setEnableButton(false, button_cancel);
+
+
+
+            UserControl1.UC.refreshDIUserBaseUI();
         }
 
         private void textBox_pulsePerRevolutionMotor_KeyPress(object sender, KeyPressEventArgs e)
@@ -1133,7 +1151,8 @@ namespace LocalPLC.motion
                 if (di.channelName == port)
                 {
                     //新设置端口
-                    di.motionUsed = "harduplimitinput";
+                    di.motionUsed = key;
+                    di.note = di.motionUsed;
                     di.used = true;
                     if(di.hscUsed != "")
                     {
@@ -1145,8 +1164,13 @@ namespace LocalPLC.motion
                 if(di.channelName == tag)
                 {
                     di.motionUsed = "";
+                    di.note = di.motionUsed;
                     di.used = false;
-                    preItem.Used = false;
+                    if(preItem != null)
+                    {
+                        preItem.Used = false;
+                    }
+
                 }
             }
         }
@@ -1164,11 +1188,23 @@ namespace LocalPLC.motion
             }
 
             var used = IsItemDisabled(comboBox_hardUpLimitInput.Text, comboBox_hardUpLimitInput.Tag.ToString(),
-                "harduplimitinput");
+                hardUpLimitInputKey);
 
             if (used)
             {
+                ComboboxItem temp = null;
+                foreach (var item in comboBox_hardUpLimitInput.Items)
+                {
+                    if ((item as ComboboxItem).Text == comboBox_hardUpLimitInput.Tag.ToString())
+                    {
+                        temp = item as ComboboxItem;
+                    }
+                }
+
                 comboBox_hardUpLimitInput.SelectedIndex = -1;
+                //清除上一次DI端口状态
+                setUsedInMotion("", comboBox_hardUpLimitInput.Tag.ToString(), hardUpLimitInputKey
+    , comboBox_hardUpLimitInput.SelectedItem as ComboboxItem, temp);
                 comboBox_hardUpLimitInput.Tag = "";
             }
             else
@@ -1186,49 +1222,11 @@ namespace LocalPLC.motion
                     , comboBox_hardUpLimitInput.SelectedItem as ComboboxItem, temp);
                 comboBox_hardUpLimitInput.Tag = comboBox_hardUpLimitInput.Text;
                 //
-                
 
-            }
-            return;
-
-
-            button_valid.Enabled = true;
-            button_cancel.Enabled = true;
-            var diName = comboBox_hardUpLimitInput.Text;
-            var cur = comboBox_hardUpLimitInput.Tag.ToString();
-            if (cur != diName)
-            {
-                addItemCombo(comboBox_hardUpLimitInput);
-            }
-            else
-            {
-                return;
+                //数据刷新到DI DO datarow里,动态更新
+                UserControl1.UC.refreshDIUserBaseUI();
             }
 
-            //LocalPLC.Base.xml.DataManageBase dataManage = null;
-            //LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
-
-            //if(cur != diName)
-            //{
-            //    foreach (var di in dataManage.diList)
-            //    {
-            //        if (di.channelName == diName)
-            //        {
-            //            di.used = true;
-            //            //当前值修改
-            //            comboBox_hardUpLimitInput.Tag = diName;
-            //            comboBox_hardUpLimitInput.Text = diName;
-            //        }
-                    
-
-            //        if(cur == di.channelName)
-            //        {
-            //            //前一个值使用标志设置为false
-            //            di.used = false;
-
-            //        }
-            //    }
-            //}
         }
         private void comboBox_hardUpLimitInput_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -1256,24 +1254,66 @@ namespace LocalPLC.motion
         }
         private void comboBox_hardDownLimitInput_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox_hardDownLimitInput.SelectedIndex < 0)
+            if (comboBox_hardDownLimitInput.SelectedIndex < 0)
             {
                 return;
             }
 
+            if (comboBox_hardDownLimitInput.Tag.ToString() == comboBox_hardDownLimitInput.Text)
+            {
+                return;
+            }
+
+            var used = IsItemDisabled(comboBox_hardDownLimitInput.Text, comboBox_hardDownLimitInput.Tag.ToString(),
+                hardDownLimitInputKey);
+
+            if (used)
+            {
+                ComboboxItem temp = null;
+                foreach (var item in comboBox_hardDownLimitInput.Items)
+                {
+                    if ((item as ComboboxItem).Text == comboBox_hardDownLimitInput.Tag.ToString())
+                    {
+                        temp = item as ComboboxItem;
+                    }
+                }
+
+                comboBox_hardDownLimitInput.SelectedIndex = -1;
+                //清除上一次DI端口状态
+                setUsedInMotion("", comboBox_hardDownLimitInput.Tag.ToString(), hardDownLimitInputKey
+    , comboBox_hardDownLimitInput.SelectedItem as ComboboxItem, temp);
+                comboBox_hardDownLimitInput.Tag = "";
+            }
+            else
+            {
+                ComboboxItem temp = null;
+                foreach (var item in comboBox_hardDownLimitInput.Items)
+                {
+                    if ((item as ComboboxItem).Text == comboBox_hardDownLimitInput.Tag.ToString())
+                    {
+                        temp = item as ComboboxItem;
+                    }
+                }
+
+                setUsedInMotion(comboBox_hardDownLimitInput.Text, comboBox_hardDownLimitInput.Tag.ToString(), "harduplimitinput"
+                    , comboBox_hardDownLimitInput.SelectedItem as ComboboxItem, temp);
+                comboBox_hardDownLimitInput.Tag = comboBox_hardDownLimitInput.Text;
+                //
+
+
+            }
 
             button_valid.Enabled = true;
             button_cancel.Enabled = true;
         }
         private void comboBox_hardDownLimitInput_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0)
+            LocalPLC.Base.xml.DataManageBase dataManage = null;
+            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
+            if (e.Index < 0 || e.Index >= dataManage.diList.Count)
             {
                 return;
             }
-
-            LocalPLC.Base.xml.DataManageBase dataManage = null;
-            LocalPLC.UserControl1.UC.getDataManager(ref dataManage);
 
             var used = dataManage.diList[e.Index].used;
             var item = comboBox_hardDownLimitInput.Items[e.Index] as ComboboxItem;
