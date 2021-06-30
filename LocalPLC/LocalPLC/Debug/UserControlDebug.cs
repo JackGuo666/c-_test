@@ -38,11 +38,12 @@ namespace LocalPLC.Debug
             //unInit();
         }
 
-        void initClient()
+        public void initClient()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
             string ipaddr = "";
             var iep1 = new IPEndPoint(IPAddress.Broadcast, DebugPort.PortDevice);
+            driverDic.Clear();
             foreach (var ip in host.AddressList)
             {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
@@ -50,7 +51,7 @@ namespace LocalPLC.Debug
                     Socket socket2 = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                     soketClientList.Add(socket2);
 
-                    var iep2 = new IPEndPoint(ip, 21327);
+                    var iep2 = new IPEndPoint(ip, 22222);
                     socket2.Bind(iep2);
                     byte[] test2 = Encoding.Unicode.GetBytes("test");
                     socket2.SetSocketOption(SocketOptionLevel.Socket,

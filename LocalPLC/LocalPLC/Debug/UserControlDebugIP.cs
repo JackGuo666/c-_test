@@ -103,7 +103,7 @@ namespace LocalPLC.Debug
             //var row = dataGridView1.CurrentRow.Index;
 
             dataGridView1.Rows.Clear();
-
+            button3.Text = "启动闪烁LED灯";
 
             SendModel model = new SendModel();
             model.cmd = DebugCommand.CommandScan;
@@ -117,11 +117,28 @@ namespace LocalPLC.Debug
             model.timestamp = Convert.ToInt64(ts.TotalSeconds);
             //model.persist = false;
 
-            foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+            try
             {
-                var command = new DebugCommand(model) { };
-                var result = driver.Key.ExecuteGeneric(driver.Value, command);
+                bool error = false;
+                foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+                {
+                    var command = new DebugCommand(model) { };
+                    var result = driver.Key.ExecuteGeneric(driver.Value, command);
+                    LoggerService.Log.Info(model.cmd + model.dev_mac + " ret:" + result.Status.ToString());
+                    if (result.Status == DebugLib.CommResponse.Critical)
+                    {
+                        error = true;
+                    }
+                }
+
+                LocalPLC.UserControl1.ucDebug.initClient();
+
             }
+            catch(Exception except)
+            {
+                LoggerService.Log.Fatal(model.cmd, except);
+            }
+
 
 
         }
@@ -182,7 +199,7 @@ namespace LocalPLC.Debug
             string flicker = dataGridView1.CurrentRow.Cells[(int)COLUMN_NAME.FILCKER].Value.ToString();
 
             SendModel model = new SendModel();
-            if(flicker.ToUpper() == "false".ToUpper())
+            if(button3.Text == "启动闪烁LED灯")
             {
                 model.cmd = DebugCommand.CommandFlickerOn;
                 button3.Text = "取消闪烁LED灯";
@@ -203,11 +220,28 @@ namespace LocalPLC.Debug
             TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             model.timestamp = Convert.ToInt64(ts.TotalSeconds);
             //model.persist = false;
-            foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+
+            try
             {
-                var command = new DebugCommand(model) { };
-                var result = driver.Key.ExecuteGeneric(driver.Value, command);
+                bool error = false;
+                foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+                {
+                    var command = new DebugCommand(model) { };
+                    var result = driver.Key.ExecuteGeneric(driver.Value, command);
+
+                    if (result.Status == DebugLib.CommResponse.Critical)
+                    {
+                        error = true;
+                    }
+
+                    LoggerService.Log.Info(model.cmd + model.dev_mac + " ret:" + result.Status.ToString());
+                }
             }
+            catch(Exception except)
+            {
+                LoggerService.Log.Fatal(model.cmd + model.dev_mac, except);
+            }
+
         }
 
 
@@ -244,12 +278,25 @@ namespace LocalPLC.Debug
             TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             model.timestamp = Convert.ToInt64(ts.TotalSeconds);
 
-
-            foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+            try
             {
-                var command = new DebugCommand(model) { };
-                var result = driver.Key.ExecuteGeneric(driver.Value, command);
+                bool error = false;
+                foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
+                {
+                    var command = new DebugCommand(model) { };
+                    var result = driver.Key.ExecuteGeneric(driver.Value, command);
+                    if (result.Status == DebugLib.CommResponse.Critical)
+                    {
+                        error = true;
+                    }
+                    LoggerService.Log.Info(model.cmd + model.dev_mac + " ret:" + result.Status.ToString()); 
+                }
             }
+            catch(Exception except)
+            {
+                LoggerService.Log.Fatal(model.cmd + model.dev_mac, except);
+            }
+
 
         }
 
