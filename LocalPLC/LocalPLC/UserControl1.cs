@@ -1665,6 +1665,10 @@ namespace LocalPLC
 
             //=====================================
             writer.WriteEndObject();//} modbus大括号右边
+
+            //motion
+            motion.saveJson(writer);
+
             writer.WriteEndObject();//}json数据大括号右边
             //writer.WriteEndObject(); //} 总节点
             string str = "myconfig.json";
