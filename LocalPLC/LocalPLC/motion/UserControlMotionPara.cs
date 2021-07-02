@@ -1336,7 +1336,7 @@ namespace LocalPLC.motion
                     }
                 }
 
-                setUsedInMotion(comboBox_hardDownLimitInput.Text, comboBox_hardDownLimitInput.Tag.ToString(), "harduplimitinput"
+                setUsedInMotion(comboBox_hardDownLimitInput.Text, comboBox_hardDownLimitInput.Tag.ToString(), hardDownLimitInputKey
                     , comboBox_hardDownLimitInput.SelectedItem as ComboboxItem, temp);
                 comboBox_hardDownLimitInput.Tag = comboBox_hardDownLimitInput.Text;
                 //

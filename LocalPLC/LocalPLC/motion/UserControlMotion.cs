@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace LocalPLC.motion
 {
@@ -512,6 +513,223 @@ namespace LocalPLC.motion
             TreeNode addCommandTable = new TreeNode("添加命令表对象", 2, 2);
             addCommandTable.Tag = "ADDCOMMANDTABLE";
             commandNode_.Nodes.Add(addCommandTable);
+        }
+        #endregion
+
+
+        # region json
+        public void saveJson(JsonTextWriter writer)
+        {
+            if(motionDataManage.axisList.Count > 0)
+            {
+                writer.WritePropertyName("motion");
+                writer.WriteStartObject();//添加{  节点
+
+                writer.WritePropertyName("grp_total");
+                writer.WriteValue(motionDataManage.axisList.Count);
+
+
+                writer.WritePropertyName("axis_conf");
+                writer.WriteStartArray(); //[ 数组
+
+
+                int i = 0;
+                foreach (var axis in motionDataManage.axisList)
+                {
+                    //============开始============
+                    writer.WriteStartObject();//添加{  节点
+                    writer.WritePropertyName("axis_id");
+                    writer.WriteValue(i); 
+                    writer.WritePropertyName("axis_object");
+                    writer.WriteValue(axis.axisBasePara.hardwareInterface.ToLower());
+                    writer.WritePropertyName("axis_name");
+                    writer.WriteValue(axis.name);
+
+
+
+                    writer.WritePropertyName("basic_para_cfg");
+                    writer.WriteStartObject();//添加{  节点
+                    /* 轴类型:0,总线轴; 1,虚拟轴; 2,脉冲轴 */
+                    writer.WritePropertyName("axis_type");
+                    writer.WriteValue(axis.axisBasePara.axisType);
+                    /* 组合脉冲输出组号，对应实际的硬件资源   有问题?*/
+                    writer.WritePropertyName("pluse_grp_no");
+                    writer.WriteValue(i);
+                    /* 测量单位:0, mm; 1, °; 2, plus */
+                    writer.WritePropertyName("measure_unit");
+                    writer.WriteValue(axis.axisBasePara.meaUnit);
+                    /*循环周期*/
+                    writer.WritePropertyName("cycle_time");
+                    writer.WriteValue(1);
+                    /*单元名字*/
+                    writer.WritePropertyName("unit_name");
+                    writer.WriteValue("tbd");
+                    /* 电机逻辑位置指令模值*/
+                    writer.WritePropertyName("pos_logic_modval");
+                    writer.WriteValue(0);
+                    /* 激活轴：true, 激活轴； false, 不激活轴*/
+                    writer.WritePropertyName("axis_enahle");
+                    writer.WriteValue(true);
+                    /* 轴运行模式：0, FIFO轴； 1: 实时轴*/
+                    writer.WritePropertyName("axis_mode");
+                    writer.WriteValue(0);
+                    /* 轴表格补偿模式使能： 0，不使能；非0值，使能, 且为补偿用的表格ID号*/
+                    writer.WritePropertyName("table_com");
+                    writer.WriteValue(0);
+                    /*轴输入信号类型：1，从本地IO上读取输入信息；2.从伺服的pdo中读取信息；3从总线上挂载的IO模块上读取输入信息 */
+                    writer.WritePropertyName("axisInput_type");
+                    writer.WriteValue(0);
+                    /*轴正零位输入信号索引 目前正负零位信号实际是一个*/
+                    writer.WritePropertyName("pos_home_input_idx");
+                    writer.WriteValue("DI00");
+                    /*轴负零位输入信号索引 目前正负零位信号实际是一个*/
+                    writer.WritePropertyName("neg_home_input_idx");
+                    writer.WriteValue("DI00");
+                    /*轴正限位输入信号索引 */
+                    writer.WritePropertyName("pos_limit_input_idx");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.hardUpLimitInput);
+                    /*轴负限位输入信号索引 */
+                    writer.WritePropertyName("neg_limit_input_idx");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.hardDownLimitInput);
+
+                    /*轴的Z脉冲索引 */
+                    writer.WritePropertyName("z_pluse_idx");
+                    writer.WriteValue(axis.axisMotionPara.backOriginal.orginInputSignal);
+                    /* 硬件限位使能*/
+                    writer.WritePropertyName("hard_limit_enable");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.hardLimitChecked);
+                    /* 软件限位使能*/
+                    writer.WritePropertyName("soft_limit_enable");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.softLimitChecked);
+                    /* 原点输入信号使能*/
+                    writer.WritePropertyName("zero_signal_enable");
+                    writer.WriteValue(false);
+                    ///* 检测伺服报警信号使能*/
+                    writer.WritePropertyName("servo_alarm_signal_enable");
+                    writer.WriteValue(false);
+                    /* 电机极性*/
+                    writer.WritePropertyName("reverse_dir");
+                    writer.WriteValue(0);
+                    /* 轴正向限位信号极性*/
+                    writer.WritePropertyName("pos_limit_signal_lev");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.hardUpLimitInputLevel);
+                    /* 轴负向限位信号极性*/
+                    writer.WritePropertyName("neg_limit_signal_lev");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.hardDownLimitInputLevel);
+                    /* 正零位信号极性*/
+                    writer.WritePropertyName("pos_zero_signal_lev");
+                    writer.WriteValue(0);
+                    /* 负零位信号极性*/
+                    writer.WritePropertyName("neg_zero_signal_lev");
+                    writer.WriteValue(0);
+                    /* 调试信息输出*/
+                    writer.WritePropertyName("debug_out");
+                    writer.WriteValue(false);
+                    /* 错误信息输出*/
+                    writer.WritePropertyName("error_out");
+                    writer.WriteValue(false);
+
+                    writer.WriteEndObject();//添加}  节点
+
+
+                    //kinematic_para_cfg
+                    writer.WritePropertyName("kinematic_para_cfg");
+                    writer.WriteStartObject();//添加{  节点
+
+                    /*脉冲当量*/
+                    writer.WritePropertyName("pulse_equivalent");
+                    writer.WriteValue(axis.axisMotionPara.pulseEquivalent.pulsePerRevolutionMotor);
+                    /*电机每转的负载位移*/
+                    writer.WritePropertyName("displace_per_rev");
+                    writer.WriteValue(axis.axisMotionPara.pulseEquivalent.offsetPerReolutionMotor);
+                    /* 最大速度*/
+                    writer.WritePropertyName("velo_maximum");
+                    writer.WriteValue(axis.axisMotionPara.dynamicPara.maxSpeed);
+                    /* 高速*/
+                    writer.WritePropertyName("velol_fast");
+                    writer.WriteValue(0);
+                    /*加速度*/
+                    writer.WritePropertyName("ace");
+                    writer.WriteValue(axis.axisMotionPara.dynamicPara.acceleratedSpeed);
+                    /*减速度*/
+                    writer.WritePropertyName("dec");
+                    writer.WriteValue(axis.axisMotionPara.dynamicPara.decelerationSpeed);
+                    /*跃度*/
+                    writer.WritePropertyName("jerk");
+                    writer.WriteValue(axis.axisMotionPara.dynamicPara.jerk);
+                    /* 急停减速度*/
+                    writer.WritePropertyName("estop_dec");
+                    writer.WriteValue(axis.axisMotionPara.dynamicPara.emeStopDeceleration);
+                    /* 反向间隙补偿*/
+                    writer.WritePropertyName("backlash_compensation");
+                    writer.WriteValue(axis.axisMotionPara.reverseCompensation.reverseCompensation);
+                    /* 电机控制时间*/
+                    writer.WritePropertyName("mot_cntrl_time");
+                    writer.WriteValue(0);
+                    /* 正向软限位*/
+                    writer.WritePropertyName("puls_dist_pos");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.softUpLimitInputOffset);
+                    /* 负向软限位*/
+                    writer.WritePropertyName("puls_dist_neg");
+                    writer.WriteValue(axis.axisMotionPara.limitSignal.softDownLimitOffset);
+                    /*延时*/
+                    writer.WritePropertyName("delay");
+                    writer.WriteValue(0);
+                    /* 回零过程中寻找零位参考点的速度*/
+                    writer.WritePropertyName("velo_ref_search");
+                    writer.WriteValue(0);
+                    /* 回零过程中寻找同步脉冲的速度*/
+                    writer.WritePropertyName("velo_sync_search");
+                    writer.WriteValue(0);
+                    /* JOG模式中的低速度 */
+                    writer.WritePropertyName("velo_slow_manual");
+                    writer.WriteValue(0);
+                    /* JOG模式中的高速度 */
+                    writer.WritePropertyName("velol_fast_manual");
+                    writer.WriteValue(0);
+                    /*保留*/
+                    writer.WritePropertyName("override_type");
+                    writer.WriteValue("tbd");
+                    /*保留*/
+                    writer.WritePropertyName("velo_jump_factor");
+                    writer.WriteValue(0);
+                    /*保留*/
+                    writer.WritePropertyName("reduction_feedback");
+                    writer.WriteValue("tbd");
+                    /*保留*/
+                    writer.WritePropertyName("tolerance_ball_auxaxis");
+                    writer.WriteValue("0");
+                    /*保留*/
+                    writer.WritePropertyName("max_pos_deviation_auxaxis");
+                    writer.WriteValue(0);
+                    /*保留*/
+                    writer.WritePropertyName("fast_acc");
+                    writer.WriteValue(0);
+                    /*保留*/
+                    writer.WritePropertyName("fast_dcc");
+                    writer.WriteValue(0);
+                    /*保留*/
+                    writer.WritePropertyName("fast_jerk");
+                    writer.WriteValue(0);
+
+                    writer.WriteEndObject();//添加}  节点
+
+
+
+                    //============结束============
+                    writer.WriteEndObject();//添加}  节点
+
+
+                    i++;
+                }
+
+                writer.WriteEndArray(); //] 数组
+
+
+                writer.WriteEndObject(); // }
+            }
+
+
         }
         #endregion
     }
