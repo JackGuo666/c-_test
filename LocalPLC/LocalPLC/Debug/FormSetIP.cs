@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using JsonSerializerAndDeSerializer;
 using DebugLib.Protocols;
+using DebugLib;
 
 namespace LocalPLC.Debug
 {
@@ -106,10 +107,21 @@ namespace LocalPLC.Debug
             TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             model.timestamp = Convert.ToInt64(ts.TotalSeconds);
 
+            bool error = false;
             foreach (var driver in LocalPLC.UserControl1.ucDebug.driverDic)
             {
                 var command = new DebugCommand(model) { };
                 var result = driver.Key.ExecuteGeneric(driver.Value, command);
+
+                if(result.Status == DebugLib.CommResponse.Critical)
+                {
+                    error = true;
+                }
+            }
+
+            if(error)
+            {
+                   MessageBox.Show("IP地址修改出现问题，请重新启动multiprog!");
             }
 
             model_ = model;
