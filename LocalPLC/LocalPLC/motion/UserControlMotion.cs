@@ -568,7 +568,7 @@ namespace LocalPLC.motion
                     writer.WritePropertyName("pos_logic_modval");
                     writer.WriteValue(0);
                     /* 激活轴：true, 激活轴； false, 不激活轴*/
-                    writer.WritePropertyName("axis_enahle");
+                    writer.WritePropertyName("axis_enable");
                     writer.WriteValue(true);
                     /* 轴运行模式：0, FIFO轴； 1: 实时轴*/
                     writer.WritePropertyName("axis_mode");
