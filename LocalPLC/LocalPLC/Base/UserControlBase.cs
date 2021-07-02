@@ -174,6 +174,8 @@ namespace LocalPLC.Base
                 diData.note = note;
                 string hscUsed = e.GetAttribute("hscused");
                 diData.hscUsed = hscUsed;
+                string motionUsed = e.GetAttribute("motionused");
+                diData.motionUsed = motionUsed;
 
 
                 UserControlBase.dataManage.diList.Add(diData);
@@ -384,6 +386,7 @@ namespace LocalPLC.Base
                 elem_di.SetAttribute("address", di.address);
                 elem_di.SetAttribute("note", di.note);
                 elem_di.SetAttribute("hscused", di.hscUsed);
+                elem_di.SetAttribute("motionused", di.motionUsed);
 
                 elemDI.AppendChild(elem_di);
             }
