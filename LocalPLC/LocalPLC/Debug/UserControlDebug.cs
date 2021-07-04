@@ -38,14 +38,23 @@ namespace LocalPLC.Debug
             //unInit();
         }
 
+
+
         public void initClient()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
             string ipaddr = "";
             var iep1 = new IPEndPoint(IPAddress.Broadcast, DebugPort.PortDevice);
             driverDic.Clear();
+            soketClientList.Clear();
+            driverDic.Clear();
             foreach (var ip in host.AddressList)
             {
+                if(ip.ToString() == "127.0.0.1")
+                {
+                    continue;
+                }
+
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     Socket socket2 = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -64,8 +73,8 @@ SocketOptionName.Broadcast, 1);
                     _driver.OutgoingData += null;
                     _driver.IncommingData += null;
 
-                    var command = new DebugCommand("scan", "AB.CD.EF.GH") {  };
-                    var result = _driver.ExecuteGeneric(_portClient, command);
+                    //var command = new DebugCommand("scan", "AB.CD.EF.GH") {  };
+                    //var result = _driver.ExecuteGeneric(_portClient, command);
 
                     //socket2.SendTo(test2, iep1);
                 }
@@ -98,6 +107,57 @@ SocketOptionName.Broadcast, 1);
                 }
             }
         }
+
+        public void unitClientSoket()
+        {
+            if (soketClientList.Count > 0)
+            {
+                foreach (var soket in soketClientList)
+                {
+                    if (soket != null)
+                    {
+                        soket.Close();
+                        soket.Dispose();
+                    }
+                }
+
+                soketClientList.Clear();
+            }
+
+
+        }
+
+        public void checkNetCount()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            int count = 0;
+            foreach(var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
+                {
+                    count++;
+                }
+            }
+
+            if(count != driverList.Count)
+            {
+                if (soketClientList.Count > 0)
+                {
+                    foreach (var soket in soketClientList)
+                    {
+                        if (soket != null)
+                        {
+                            soket.Close();
+                            soket.Dispose();
+                        }
+                    }
+                }
+
+                driverList.Clear();
+                initClient();
+            }
+        }
+
 
         #region
         Socket _socket = null;
