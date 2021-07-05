@@ -123,6 +123,10 @@ namespace LocalPLC.Debug
             {
                    MessageBox.Show("IP地址修改出现问题，请重新启动multiprog!");
             }
+            else
+            {
+                MessageBox.Show("IP地址修改成功，请重新启动设备生效修改ip配置!");
+            }
 
             model_ = model;
 

@@ -19,6 +19,7 @@ namespace LocalPLC.Debug
     public partial class UserControlDebugIP : UserControl
     {
         enum COLUMN_NAME {STATUS, IP, SUBMASK, GATEWAY, MAC, DEVID,  FIRMVER, DHCP, ACK, FILCKER/*, PERSIST*/}
+        enum STATUS { NORMAL, REPEAT, SAMEPROJECTIP, PINGOK}
         Timer scanDevTimer = null;
 
         public DataTable GetTable()
@@ -94,6 +95,8 @@ namespace LocalPLC.Debug
                 if(addRowCheck(model))
                 {
                     PopulateDataGridView(model);
+                    //判断重复ip
+                    checkRepetitionIP();
                 }
             }
         }
@@ -215,7 +218,7 @@ namespace LocalPLC.Debug
             var result = setIpFrom.ShowDialog();
             if(result == DialogResult.OK)
             {
-
+                button4_Click(null, null);
             }
 
             startTimer();
@@ -227,6 +230,13 @@ namespace LocalPLC.Debug
             if (dataGridView1.CurrentRow == null)
             {
                 return;
+            }
+            else
+            {
+                if(dataGridView1.Rows[dataGridView1.CurrentRow.Index].Selected == false)
+                {
+                    return;
+                }
             }
 
             stopTimer();
@@ -397,6 +407,8 @@ namespace LocalPLC.Debug
                     loading.CloseWaitForm();
                     //MessageBox.Show(sbuilder.ToString());
 
+                    dataGridView1.CurrentRow.Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.PINGOK;
+
                 }
                 else if (reply.Status == IPStatus.TimedOut)
                 {
@@ -405,7 +417,7 @@ namespace LocalPLC.Debug
                     loading.CloseWaitForm();
                     dataGridView1.CurrentRow.DefaultCellStyle.BackColor = Color.YellowGreen;
                     dataGridView1.SelectedRows[dataGridView1.CurrentRow.Index].DefaultCellStyle.BackColor = Color.YellowGreen;
-
+                    dataGridView1.CurrentRow.Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.REPEAT; //红色
                 }
                 else
                 {
@@ -423,7 +435,7 @@ namespace LocalPLC.Debug
 
         private void SetupDataGridView()
         {
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;  //设置列标题不换行
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnCount = 10;
@@ -503,17 +515,59 @@ namespace LocalPLC.Debug
         private void PopulateDataGridView(ReciveModel model)
         {
 
-            string[] row0 = { "0", model.ip, model.subnet_mask,
+            string[] row0 = { STATUS.NORMAL.ToString(), model.ip, model.subnet_mask,
             model.gateway, model.dev_mac, model.dev_id, model.firm_ver, model.dhcp.ToString(), model.ack, false.ToString(),  false.ToString()};
 
 
             dataGridView1.Rows.Add(row0);
 
+            dataGridView1.Rows[0].Selected = false;/////////////////////////////默认不选择第一行，既默认不选择任何行，除非用户鼠标点击，使dataGridView2获得鼠标焦点
+
+        }
+
+        void checkRepetitionIP()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                DataGridViewRow row = dataGridView1.Rows[i];
+                var ip = row.Cells[(int)COLUMN_NAME.IP].Value.ToString();
+                for (int j = i + 1; j < dataGridView1.Rows.Count; j++)
+                {
+                    var ipTemp = dataGridView1.Rows[j].Cells[(int)COLUMN_NAME.IP].Value.ToString();
+                    if (ip == ipTemp)
+                    {
+                        dataGridView1.Rows[i].Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.REPEAT.ToString();
+                        dataGridView1.Rows[i + 1].Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.REPEAT.ToString();
+                    }
+                }
+            }
+
+            //判断和工程ip是否相同
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                var ip = dataGridView1.Rows[i].Cells[(int)COLUMN_NAME.IP].Value.ToString();
+                var status = dataGridView1.Rows[i].Cells[(int)COLUMN_NAME.STATUS].Value.ToString();
+                if(status != STATUS.REPEAT.ToString())
+                {
+                    LocalPLC.Base.xml.DataManageBase retDataManageBase = null;
+                    UserControl1.UC.getDataManager(ref retDataManageBase);
+                    if (retDataManageBase != null)
+                    {
+                        foreach (var ethernet in retDataManageBase.ethernetDic)
+                        {
+                            if(ethernet.Value.ipAddress == ip)
+                            {
+                                dataGridView1.Rows[i].Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.SAMEPROJECTIP.ToString();
+                            }
+                        }
+
+                    }
+                }
+            }
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            
         }
 
         private static System.Drawing.Image resizeImage(System.Drawing.Image imgToResize, Size size)
@@ -553,6 +607,7 @@ namespace LocalPLC.Debug
         {
                 if (e.RowIndex > -1 && e.ColumnIndex > -1)
                 {
+                    String desc = null;
                     // This image control use to place over cell with the help of drawImage function.  
                     Image imgForGridCell = null;
                     // Check the column where we need to place the image.  
@@ -560,45 +615,63 @@ namespace LocalPLC.Debug
                     {
                         // Check the data of cell of column ImageName  
                         // On the bases of cell data, we will get the specific image from ImageList control.  
-                        if (e.Value.ToString().Equals("0"))
+                        if (e.Value.ToString().Equals(STATUS.NORMAL.ToString()))
                         {
                         // Getting image from ImageList control "imageListOfMembers" and assiging it to image control "imgForGridCell"  
-                        imgForGridCell = Properties.Resources.client;
+                        imgForGridCell = imageList1.Images[(int)STATUS.NORMAL];
 
                         }
-                        else if(e.Value.ToString().Equals("PankajImg")) {
-                            imgForGridCell = Properties.Resources.LocalPLC24P;
-                        }
-                        else if(e.Value.ToString().Equals("ManojImg")) {
-                            imgForGridCell = Properties.Resources.loading3;
-                        }
-                        else if(e.Value.ToString().Equals("DigVijayImg")) {
-                            imgForGridCell = Properties.Resources.loading3;
-                        }
-                        else if(e.Value.ToString().Equals("SumitImg")) {
-                            imgForGridCell = Properties.Resources.loading3;
-                        }
-                        else if(e.Value.ToString().Equals("VarunImg")) {
-                            imgForGridCell = Properties.Resources.loading3;
-                        }
-                        if (imgForGridCell != null)
-                        {
-                            SolidBrush gridBrush = new SolidBrush(dataGridView1.GridColor);
-                            Pen gridLinePen = new Pen(gridBrush);
-                            SolidBrush backColorBrush = new SolidBrush(e.CellStyle.BackColor);
-                            e.Graphics.FillRectangle(backColorBrush, e.CellBounds);
-                            // Draw lines over cell  
-                            e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
-                            e.Graphics.DrawLine(gridLinePen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
-                        // Draw the image over cell at specific location.  
-                        Size size = new Size(e.CellBounds.Width, e.CellBounds.Height);
-                         var newImage = resizeImage(imgForGridCell, size);
-                            e.Graphics.DrawImage(newImage, e.CellBounds.Location);
-                        dataGridView1.Rows[e.RowIndex].Cells["Status"].ReadOnly = true; // make cell readonly so below text will not dispaly on double click over cell.  
-                        }
-                        e.Handled = true;
+                    else if(e.Value.ToString().Equals(STATUS.REPEAT.ToString()))
+                    {
+                            imgForGridCell = imageList1.Images[(int)STATUS.REPEAT];
+                    }
+                    else if(e.Value.ToString().Equals(STATUS.PINGOK.ToString()))
+                    {
+                            imgForGridCell = imageList1.Images[(int)STATUS.PINGOK];
+                    }
+                    else if(e.Value.ToString().Equals(STATUS.SAMEPROJECTIP.ToString()))
+                    {
+                        imgForGridCell = imageList1.Images[(int)STATUS.SAMEPROJECTIP];
+                        desc = "和工程ip一致!";
+                    }
+
+                    if (imgForGridCell != null)
+                    {
+                        SolidBrush gridBrush = new SolidBrush(dataGridView1.GridColor);
+                        Pen gridLinePen = new Pen(gridBrush);
+                        SolidBrush backColorBrush = new SolidBrush(e.CellStyle.BackColor);
+                        e.Graphics.FillRectangle(backColorBrush, e.CellBounds);
+                        // Draw lines over cell
+                        e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
+                        e.Graphics.DrawLine(gridLinePen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
+                        // Draw the image over cell at specific location.
+                        Size size = new Size(e.CellBounds.Width + 20, e.CellBounds.Height);
+                        var newImage = resizeImage(imgForGridCell, size);
+                        e.Graphics.DrawImage(newImage, e.CellBounds.Location);
+                        dataGridView1.Rows[e.RowIndex].Cells["Status"].ReadOnly = true; // make cell readonly so below text will not dispaly on double click over cell.
+                        dataGridView1.Rows[e.RowIndex].Cells["Status"].ToolTipText = desc;
+                    }
+                    e.Handled = true;
                     }
             }
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if(this.dataGridView1.CurrentRow != null)
+            {
+                var status = this.dataGridView1.CurrentRow.Cells[(int)COLUMN_NAME.STATUS].Value.ToString();
+                if (STATUS.REPEAT.ToString() == status)
+                {
+                    button5.Enabled = false;
+                }
+                else
+                {
+                    button5.Enabled = true;
+                }
+            }
+            
+            
         }
     }
 }

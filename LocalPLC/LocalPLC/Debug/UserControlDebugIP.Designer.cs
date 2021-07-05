@@ -103,6 +103,7 @@
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView1_CellFormatting);
             this.dataGridView1.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dataGridView1_CellPainting);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // button4
             // 
@@ -118,7 +119,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(780, 3);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(124, 31);
+            this.button5.Size = new System.Drawing.Size(151, 31);
             this.button5.TabIndex = 0;
             this.button5.Text = "测试对端状态";
             this.button5.UseVisualStyleBackColor = true;
@@ -128,7 +129,10 @@
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "base_config.ico");
+            this.imageList1.Images.SetKeyName(0, "yellowlight.png");
+            this.imageList1.Images.SetKeyName(1, "redlight.png");
+            this.imageList1.Images.SetKeyName(2, "greenlight.png");
+            this.imageList1.Images.SetKeyName(3, "bluelight.jpg");
             // 
             // UserControlDebugIP
             // 
