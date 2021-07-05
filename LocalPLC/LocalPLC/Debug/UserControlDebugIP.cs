@@ -184,6 +184,14 @@ namespace LocalPLC.Debug
             {
                 return;
             }
+            else
+            {
+                if (dataGridView1.Rows[dataGridView1.CurrentRow.Index].Selected == false)
+                {
+                    return;
+                }
+            }
+
 
             stopTimer();
 
@@ -307,6 +315,13 @@ namespace LocalPLC.Debug
             {
                 return;
             }
+            else
+            {
+                if (dataGridView1.Rows[dataGridView1.CurrentRow.Index].Selected == false)
+                {
+                    return;
+                }
+            }
 
 
             stopTimer();
@@ -375,6 +390,13 @@ namespace LocalPLC.Debug
             {
                 return;
             }
+            else
+            {
+                if (dataGridView1.Rows[dataGridView1.CurrentRow.Index].Selected == false)
+                {
+                    return;
+                }
+            }
 
 
             stopTimer();
@@ -435,7 +457,7 @@ namespace LocalPLC.Debug
 
         private void SetupDataGridView()
         {
-            //dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.False;  //设置列标题不换行
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnCount = 10;
@@ -443,7 +465,7 @@ namespace LocalPLC.Debug
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersVisible = false;
 
-            dataGridView1.Columns[(int)COLUMN_NAME.STATUS].Name = "Status";
+            dataGridView1.Columns[(int)COLUMN_NAME.STATUS].Name = "运行状态";
             dataGridView1.Columns[(int)COLUMN_NAME.IP].Name = "IP";
             dataGridView1.Columns[(int)COLUMN_NAME.MAC].Name = "Mac";
             dataGridView1.Columns[(int)COLUMN_NAME.SUBMASK].Name = "子网掩码";
@@ -611,7 +633,7 @@ namespace LocalPLC.Debug
                     // This image control use to place over cell with the help of drawImage function.  
                     Image imgForGridCell = null;
                     // Check the column where we need to place the image.  
-                    if (dataGridView1.Columns[e.ColumnIndex].Name.Contains("Status"))
+                    if (dataGridView1.Columns[e.ColumnIndex].Name.Contains("运行状态"))
                     {
                         // Check the data of cell of column ImageName  
                         // On the bases of cell data, we will get the specific image from ImageList control.  
@@ -645,11 +667,11 @@ namespace LocalPLC.Debug
                         e.Graphics.DrawLine(gridLinePen, e.CellBounds.Left, e.CellBounds.Bottom - 1, e.CellBounds.Right - 1, e.CellBounds.Bottom - 1);
                         e.Graphics.DrawLine(gridLinePen, e.CellBounds.Right - 1, e.CellBounds.Top, e.CellBounds.Right - 1, e.CellBounds.Bottom);
                         // Draw the image over cell at specific location.
-                        Size size = new Size(e.CellBounds.Width + 20, e.CellBounds.Height);
+                        Size size = new Size(e.CellBounds.Width, e.CellBounds.Height);
                         var newImage = resizeImage(imgForGridCell, size);
                         e.Graphics.DrawImage(newImage, e.CellBounds.Location);
-                        dataGridView1.Rows[e.RowIndex].Cells["Status"].ReadOnly = true; // make cell readonly so below text will not dispaly on double click over cell.
-                        dataGridView1.Rows[e.RowIndex].Cells["Status"].ToolTipText = desc;
+                        dataGridView1.Rows[e.RowIndex].Cells["运行状态"].ReadOnly = true; // make cell readonly so below text will not dispaly on double click over cell.
+                        dataGridView1.Rows[e.RowIndex].Cells["运行状态"].ToolTipText = desc;
                     }
                     e.Handled = true;
                     }
