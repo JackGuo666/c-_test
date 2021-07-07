@@ -85,6 +85,12 @@ namespace LocalPLC.Debug
         }
         protected void AppendLog(ReciveModel model)
         {
+            //if(model.cmd == DebugCommand.CommandRestart)
+            //{
+            //    return;
+            //}
+
+
             if (InvokeRequired)
             {
                 BeginInvoke(new AppendDevInofDelegate(AppendLog), new object[] { model });
@@ -95,6 +101,11 @@ namespace LocalPLC.Debug
                 if(addRowCheck(model))
                 {
                     PopulateDataGridView(model);
+                    //判断重复ip
+                    checkRepetitionIP();
+                }
+                else
+                {
                     //判断重复ip
                     checkRepetitionIP();
                 }
@@ -227,9 +238,26 @@ namespace LocalPLC.Debug
             if(result == DialogResult.OK)
             {
                 button4_Click(null, null);
+
+                dataGridView1.Rows.Clear();
+
+                FormSimpleLoading loadingfrm = new FormSimpleLoading(this);
+                //loadingfrm.StartPosition = FormStartPosition.CenterScreen;
+                //将Loaing窗口，注入到 SplashScreenManager 来管理
+                SplashScreenManager loading = new SplashScreenManager(loadingfrm);
+                loading.ShowLoading();
+                for(int i = 0; i < 5; i++)
+                {
+                    System.Threading.Thread.Sleep(1000); //毫秒
+                }
+                loading.CloseWaitForm();
+
             }
 
             startTimer();
+
+
+            button1_Click(null, null);
         }
 
 
@@ -444,12 +472,22 @@ namespace LocalPLC.Debug
                 else
                 {
                     Console.WriteLine("失败");
-
+                    loading.CloseWaitForm();
                     //MessageBox.Show("失败");
+                    dataGridView1.CurrentRow.DefaultCellStyle.BackColor = Color.YellowGreen;
+                    dataGridView1.SelectedRows[dataGridView1.CurrentRow.Index].DefaultCellStyle.BackColor = Color.YellowGreen;
+                    dataGridView1.CurrentRow.Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.REPEAT; //红色
                 }
             }
-            catch (Exception)
-            { /*可选处理异常*/ }
+            catch (Exception except)
+            {
+                /*可选处理异常*/
+                dataGridView1.CurrentRow.DefaultCellStyle.BackColor = Color.YellowGreen;
+                dataGridView1.SelectedRows[dataGridView1.CurrentRow.Index].DefaultCellStyle.BackColor = Color.YellowGreen;
+                dataGridView1.CurrentRow.Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.REPEAT; //红色
+                loading.CloseWaitForm();
+                LoggerService.Log.Error("", except);
+            }
             finally {/* loading.CloseWaitForm();*/ }
 
             startTimer();
@@ -580,6 +618,10 @@ namespace LocalPLC.Debug
                             if(ethernet.Value.ipAddress == ip)
                             {
                                 dataGridView1.Rows[i].Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.SAMEPROJECTIP.ToString();
+                            }
+                            else
+                            {
+                                dataGridView1.Rows[i].Cells[(int)COLUMN_NAME.STATUS].Value = STATUS.NORMAL.ToString();
                             }
                         }
 

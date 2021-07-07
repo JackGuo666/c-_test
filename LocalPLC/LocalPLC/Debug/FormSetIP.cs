@@ -125,7 +125,7 @@ namespace LocalPLC.Debug
             }
             else
             {
-                MessageBox.Show("IP地址修改成功，请重新启动设备生效修改ip配置!");
+                MessageBox.Show("IP地址修改成功，正在重新启动设备生效修改ip配置!");
             }
 
             model_ = model;
@@ -139,9 +139,17 @@ namespace LocalPLC.Debug
             Close();
         }
 
+
+
+
         private void radioButton_dhcp_CheckedChanged(object sender, EventArgs e)
         {
-
+            if(radioButton_dhcp.Checked)
+            {
+                ipAddressControl_ipaddr.Enabled = false;
+                ipAddressControl_maskaddr.Enabled = false;
+                ipAddressControl_gateway.Enabled = false;
+            }
         }
 
         private void FormSetIP_Load(object sender, EventArgs e)
@@ -162,6 +170,20 @@ namespace LocalPLC.Debug
             ipAddressControl_gateway.Text = model_.gateway;
 
             //checkBox1.Checked = model_.persist;
+        }
+
+        private void radioButton_fixed_CheckedChanged(object sender, EventArgs e)
+        {
+            if(radioButton_fixed.Checked)
+            {
+                ipAddressControl_ipaddr.Enabled = true;
+                ipAddressControl_maskaddr.Enabled = true;
+                ipAddressControl_gateway.Enabled = true;
+
+                ipAddressControl_ipaddr.Text = "192.168.1.10";
+                ipAddressControl_maskaddr.Text = "255.255.255.0";
+                ipAddressControl_gateway.Text = "192.168.1.1";
+            }
         }
     }
 }

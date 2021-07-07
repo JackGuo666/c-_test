@@ -77,6 +77,7 @@
             this.radioButton_fixed.TabStop = true;
             this.radioButton_fixed.Text = "固定IP地址";
             this.radioButton_fixed.UseVisualStyleBackColor = true;
+            this.radioButton_fixed.CheckedChanged += new System.EventHandler(this.radioButton_fixed_CheckedChanged);
             // 
             // radioButton_dhcp
             // 
