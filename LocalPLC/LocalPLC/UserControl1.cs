@@ -423,6 +423,10 @@ namespace LocalPLC
                     if (!tnRet.Text.Contains("*"))
                     {
                         tnRet.Text += "*";
+                        if (!treeView1_.TopNode.Text.Contains("*"))
+                        {
+                            treeView1_.TopNode.Text += "*";
+                        }
                     }
 
                     //break;
