@@ -378,7 +378,9 @@
     <None Include="LocalPLC.CFG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -527,6 +529,8 @@
     <AdditionalFiles Include="..\.sonarlint\aaaaaaaaaa\CSharp\SonarLint.xml">
       <Link>SonarLint.xml</Link>
     </AdditionalFiles>
+    <Content Include="pic\base_config.ico" />
+    <None Include="pic\client.png" />
     <Content Include="pic\loading3.gif" />
     <Content Include="pic\LocalPLC24P.png" />
     <Content Include="Properties\Interop.ADELib.dll" />
