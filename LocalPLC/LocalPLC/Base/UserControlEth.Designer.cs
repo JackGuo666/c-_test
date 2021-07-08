@@ -81,6 +81,7 @@
             this.checkBox_SNTP.TabIndex = 10;
             this.checkBox_SNTP.Text = "SNTP";
             this.checkBox_SNTP.UseVisualStyleBackColor = true;
+            this.checkBox_SNTP.Visible = false;
             this.checkBox_SNTP.CheckedChanged += new System.EventHandler(this.checkBox_SNTP_CheckedChanged);
             // 
             // label4
@@ -91,6 +92,7 @@
             this.label4.Size = new System.Drawing.Size(134, 18);
             this.label4.TabIndex = 9;
             this.label4.Text = "SNTP_server_ip";
+            this.label4.Visible = false;
             // 
             // label5
             // 
@@ -158,6 +160,7 @@
             this.ipAddressControl_sntpaddr.Size = new System.Drawing.Size(246, 28);
             this.ipAddressControl_sntpaddr.TabIndex = 6;
             this.ipAddressControl_sntpaddr.Text = "...";
+            this.ipAddressControl_sntpaddr.Visible = false;
             this.ipAddressControl_sntpaddr.TextChanged += new System.EventHandler(this.ipAddressControl_sntpaddr_TextChanged);
             this.ipAddressControl_sntpaddr.Validated += new System.EventHandler(this.ipAddressControl_sntpaddr_Validated);
             // 
