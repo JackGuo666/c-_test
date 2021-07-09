@@ -1105,7 +1105,7 @@ namespace LocalPLC
                 { writer.WriteValue(true); }
                 //Add timestamp
                 writer.WritePropertyName("timestamp");
-                writer.WriteValue(baseData.ethernetDic[ethname].timestamp.ToString());
+                writer.WriteValue(baseData.ethernetDic[ethname].timestamp);
 
                 writer.WriteEndObject(); //} 网口portcfg 数组下节点1
             }
