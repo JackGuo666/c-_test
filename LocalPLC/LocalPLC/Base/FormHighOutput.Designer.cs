@@ -301,6 +301,7 @@
             this.comboBox_direction.Name = "comboBox_direction";
             this.comboBox_direction.Size = new System.Drawing.Size(85, 26);
             this.comboBox_direction.TabIndex = 3;
+            this.comboBox_direction.SelectedIndexChanged += new System.EventHandler(this.comboBox_direction_SelectedIndexChanged);
             this.comboBox_direction.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox_direction_KeyPress);
             // 
             // button_cancel

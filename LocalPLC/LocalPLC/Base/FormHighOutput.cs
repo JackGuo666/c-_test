@@ -448,7 +448,8 @@ namespace LocalPLC.Base
                     label_diretion.Text = "脉冲B";
                 }
             }
-            
+
+            setButtonEnable(true);
         }
 
         private void FormHighOutput_FormClosing(object sender, FormClosingEventArgs e)
@@ -968,6 +969,12 @@ namespace LocalPLC.Base
         }
 
         private void checkBox_doubleWord_CheckedChanged(object sender, EventArgs e)
+        {
+            setButtonEnable(true);
+        }
+
+
+        private void comboBox_direction_SelectedIndexChanged(object sender, EventArgs e)
         {
             setButtonEnable(true);
         }
